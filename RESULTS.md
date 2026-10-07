@@ -381,3 +381,231 @@ every generation repeats exactly, and the rows gain the fields below.
    neighbour count does as well.
 3. **Order of runs.** Run the 10 full-model seeds first and the controls after, since cost is driven by how many
    runs find bounded bodies.
+
+## 2026-10-07 — Pilot preparation: two-stage selection, no flank input, hex and square8 as equal arms
+The three open decisions above are settled (approved by the user): (1) two-stage selection, (2) the gene network loses
+its flank_best input, (3) hex and square8 run as equal arms of 10 seeds each, and the controls run later.
+
+**1. Two-stage selection.** Every generation, all 256 genomes live the 3 shared lives as before. The top 64 by that mean
+(the shortlist) then live 4 more fresh lives, shared by the shortlist, and the 32 parents are the shortlist's top 32 by
+the mean over all 7 lives. That is +256 lives per generation (+33%). Settings `evolve.recheck_k: 64`,
+`recheck_lives: 4`, `recheck_key: all` (configs/life.yaml).
+- **Recheck off.** With `recheck_k` or `recheck_lives` set to 0, the loop is f2142c8's loop exactly. f2142c8's
+  evolve.py and the new one, both run on this tree with the recheck off, give bitwise identical runs: 5 smoke
+  settings, life_bell for 3 generations, and the legacy loop under sex and asex.
+  `test_recheck_off_is_the_one_stage_loop` pins recheck_k = 0 against recheck_lives = 0.
+- One-stage runs do not reproduce f2142c8's own trajectories, because ABI 2 (part 2) shortened the genome from 809
+  to 793 slots, which changes every random genome draw. For life_smoke over 3 generations, best F is 0.03228 /
+  0.03175 / 0.03248 at f2142c8 and 0.02989 / 0.02997 / 0.03407 now.
+- **The study.** I replayed selection on measured genome × life F matrices of real populations (128-256 lives per
+  genome, 4000 replicates per generation, true F on held-out lives). "Regret" is the true mean F of the true top 32
+  minus that of the 32 chosen; rr is the share of one-stage regret a scheme removes. One-stage selection chose
+  parents of true F +0.0643 where the true top 32 had +0.0729 (body populations), and +0.610 vs +0.668 (R25-sized
+  populations); on the lone-pump plateau every scheme is within 0.0003. Files: `results/selection_study/`. Its
+  README.md lists the data, the exact commands and what is kept only locally. The full grid is in report_all.txt and
+  the scripts are in scripts/. The forward runs' data is in data/, and `tests/test_selection_study.py` recomputes
+  the counts below from it.
+
+| scheme (K shortlist, L2 extra lives) | extra lives | rr escape / bodies / big | mean rr | ΔF bodies (SE) | ΔF big (SE) |
+|---|---|---|---|---|---|
+| one-stage (3 lives) | 0 | 0 / 0 / 0 | 0 | 0 | 0 |
+| 4 lives for everyone | +33% | .22 / .13 / .14 | .16 | +.0012 (.0001) | +.009 (.001) |
+| K128 L2, mean of all lives | +33% | .40 / .22 / .26 | .29 | +.0019 (.0001) | +.017 (.002) |
+| **K64 L4, mean of all 7 lives (chosen)** | +33% | .51 / .29 / .35 | .38 | +.0025 (.0001) | +.023 (.002) |
+| K64 L4, recheck lives only | +33% | .55 / .31 / .38 | .41 | +.0026 (.0001) | +.025 (.002) |
+| K48 L5, recheck lives only | +31% | .56 / .27 / .42 | .42 | +.0023 (.0001) | +.027 (.003) |
+| K64 L6, mean of all lives | +50% | .56 / .34 / .39 | .43 | +.0029 (.0001) | +.026 (.003) |
+
+- **Why the all-lives key, not the slightly better recheck-only key, and what it costs.** The only plateau escape
+  seen (hex seed 0, generation 12, ABI 1) went through a 2-cell body slightly *below* a lone cell (+0.0291 vs
+  +0.0328) that survived on lucky lives. Forward runs from that state ("mostly bodies": at least half of the final 32
+  parents end with 1.5 cells or more; Fisher p against one-stage selection):
+
+  | from the escape state | one-stage | chosen key (all 7 lives) | recheck lives only |
+  |---|---|---|---|
+  | 20 generations, 48 runs: parents mostly bodies | 20 | 12 (p 0.13) | 5 (p 0.001) |
+  | 50 generations, 24 runs: parents mostly bodies | 19 | 12 (p 0.07) | 5 (p < 0.001) |
+  | 50 generations, 24 runs: parents beat the lone cell | 13 | 12 (p 1) | 5 (p 0.036) |
+  | 50 generations: mean true F of the parents | +0.0420 | +0.0418 | +0.0358 |
+
+  - The chosen key keeps the escape route much more open than the recheck-only key. It still cuts the runs that
+    keep bodies to about 0.6 of one-stage selection's (not significant at 24-48 runs) and gains no F by 50
+    generations. The recheck stops lucky genomes from winning, and some lucky genomes are small bodies.
+  - A reviewer's check on the pilot config agrees, weakly (life_bell, hex seeds 0-5, 60 generations, no forks).
+    With the recheck, the population held a dividing genome in 4-9 of the 60 generations on every seed. Without it,
+    the count was 3-6 on 5 seeds, but 59 on seed 2 (rerun here: the same 59, and 7 with the recheck). In every run
+    the parents' median size was 1 cell at every fifth generation.
+  - In the body regime both keys beat one-stage selection by the same +0.0032 after 20 generations (SE 0.0016 and
+    0.0022, 8 replicates). +50% buys only about 12% more regret removal, so I stayed at +33%.
+- **Caveats.** The study ran under ABI 1 on one escaping lineage plus seeded populations. Escapes were rare: 1 of 49
+  one-stage runs (hex seeds 0-18, square8 seeds 0-29, 60-150 generations). The real picks sat at the 0.64 percentile
+  of the replayed one-stage distribution (z about 2), so the replay may overstate one-stage loss a little.
+
+**2. No flank_best gene input (kernel ABI 2).** The gene network has 22 inputs and the genome 793 slots
+(LIFE_ABI.md 15.32). Placement keeps its genetic φ·flank(e) term, and program mode keeps its flank gate as a hand-built
+reference. R25-v1's GRN genome now gates division on n_view ≥ D − 1.
+- **Neutral for founders.** Every ABI-1 founder had zero flank weights. The census's own 2048 founder draws per
+  lattice, run under the ABI-1 kernel and (flank column dropped) under ABI 2, give bitwise equal ledgers in all
+  8192 lives (hex and square8, T = 512 and 1024).
+- **Gates** (docs/LIFE_GATES.md): 10 of 11 pass, the same verdicts as before. A rerun on the integrated tree
+  reproduced gates.json leaf for leaf (501 s, 4 threads, 0.47 GB). A rerun after the review (458 s) reproduced every
+  number; only three notes changed (G9, G10, S8). Re-registered rows:
+  - G9: GRN genome (n_view gate) +0.690 ± 0.032 vs program +0.697 ± 0.033 at 91 cells (z −0.15, n 288).
+  - G10, GRN: flank placement +0.754 ± 0.042 vs random placement +0.638 ± 0.029 (paired z 2.8). G10 still fails
+    only on the program-mode placement term (+0.057 ± 0.037, z 1.5).
+  - S8, GRN genome on square8: +0.978 ± 0.073 vs program +1.151 ± 0.063 (unpaired z −1.79, passes; paired
+    −0.173 ± 0.080, z −2.2).
+  - G6, GRN genome: income per cell 32.6e-3 → 1.36e-3 with spikes cut at T/2.
+- **Not equivalent on square8** (review; `results/flank_square8/`, LIFE_GATES.md S8). G10's evidence came from hex
+  only. On square8, R25-v1's genome gated on n_view ≥ 7 (ABI 2) is below its ABI-1 twin gated on flank_best at every
+  size. The comparison is paired on the same 288 fresh lives per size:
+
+  | square8 cells | 49 | 81 | 121 | 169 |
+  |---|---|---|---|---|
+  | n_view gate minus flank_best gate (SE) | −0.013 (0.010) | −0.051 (0.020) | −0.081 (0.052) | −0.165 (0.065) |
+  | z | −1.3 | −2.5 | −1.6 | −2.5 |
+
+  - F* is +1.015 vs +1.096 (−7%). Gates at n_view ≥ 5 or ≥ 6 do no better (144 lives).
+  - On hex the same pair is equal (|z| < 1 at 61, 91 and 127 cells), which reproduces G10.
+  - So the square8 arm evolves without a cue that the hand-built genome needs there. The code is unchanged; this
+    is for the user to weigh ("Before launching").
+
+**3. Census after the change** (`scripts/life_census.py`, 2048 genomes per lattice, seed 0; outputs/life_census_abi2/).
+The founder distribution is unchanged within sampling noise. The new draw length gives different random genomes,
+so the numbers move by noise only (the lives themselves are bitwise neutral, above).
+
+| T = 1024 | hex ABI 1 (4096) | hex ABI 2 (2048) | square8 ABI 1 | square8 ABI 2 |
+|---|---|---|---|---|
+| lone cell / lone pump | 46.1% / 13.4% | 46.4% / 12.6% | 46.1% / 13.4% | 46.4% / 12.6% |
+| bounded body (with spike traffic) | 11.2% (6.2%) | 10.5% (5.3%) | 10.2% (5.6%) | 9.3% (4.6%) |
+| trips the N_max guard | 42.6% | 43.1% | 43.7% | 44.3% |
+| F ≥ 0.02 / beats the best lone cell | 3.9% / 0% | 3.4% / 0% | 3.9% / 0% | 3.5% / 0% |
+| n_end q10 / q50 / q90 | 1 / 18 / 1050 | 1 / 25.5 / 1051 | 1 / 21 / 1054 | 1 / 31.5 / 1054 |
+| best F (all lone cells) | +0.0317 | +0.0319 | +0.0317 | +0.0319 |
+
+- Every share moves by |z| ≤ 1.7 at both horizons, except zygote tonic 50.5% → 47.7% (z −2.1, one of about 40
+  comparisons).
+- The top 16 re-measured on 64 fresh lives: 13 sit within 0.0006 of their census F. Three are latent dividers: one
+  census-lone genome divides on most fresh lives (−0.119, n_end 19), and two others re-measure 0.004 and 0.020
+  lower. So the mean census F over the mean fresh F is 1.56, up from 1.01. This comes from the draw, not the change.
+
+**4. Smoke evolution with the new selection** (configs/life_bell.yaml and life_bell_square8.yaml, seed 0,
+60 generations, 3 threads, both at once while the gates ran; another user job held load 7-12).
+
+| arm | best on 64 fresh final lives | cells | spike reliance | valid at gen 0 / 30 / 59 | parents changed by the recheck | s per generation |
+|---|---|---|---|---|---|---|
+| hex | +0.03279 ± 0.00001 | 1 | 0 | 0.0321 / 0.0326 / 0.0328 | 9.2 of 32 (0-25) | 0.44 |
+| square8 | +0.03279 ± 0.00001 | 1 | 0 | 0.0321 / 0.0326 / 0.0328 | 9.2 of 32 (0-25) | 0.43 |
+
+- **Both arms stayed lone pumps,** at the best lone cell's level (G1: +0.03281). From generation 5 on, not one of
+  the 256 genomes per generation divided (56 of 60 generations had no dividing genome at all).
+- **The recheck reshuffles lone pumps.** It changed 9 of 32 parents per generation, but the parents' F on the 4
+  recheck lives differs from their 3-life F by a median 6e-5. It cannot create bodies. It stops lucky genomes from
+  winning, and in the forward runs (part 1) those included small bodies that one-stage selection kept.
+- **The two arms ran the same trajectory.** population.json is identical at generation 59, and every curve field
+  except timing and population shares matches. A lone cell's life does not depend on the lattice, and the arms share
+  seeds. So hex seed s and square8 seed s stay the same run until one of them selects a body: the arms are paired.
+- **Time.** Runs take 45-46 s: setup and founders 9 s, generations 0-1 10-12 s, then 0.44 s per generation
+  (recheck about 22% of it; valid and fork rounds every 10). Peak memory 0.30 GB.
+- **Body regime** (`scripts/life_bench.py`, R25-v1 + timer population, 3 threads, one job). Rerun after the review
+  with 8 generations (6 plain), load 3-6:
+  - A plain generation takes 17.2 s on hex and 23.0 s on square8 (medians). The population's kernel time plus the
+    recheck's, summed within each generation, account for all of it (median 17.2 and 23.0 s).
+  - Summed over the 6 generations, the recheck adds 31% (hex) and 28% (square8) to the population's kernel time.
+    The study's event count predicted +38-47%.
+  - Within single generations the recheck adds 13-131%. Its cost follows the shortlist's bodies, not the
+    population's: in generation 2, a recheck life cost about 4 times a population life, while the population
+    averaged 24 live cells.
+  - Correction: the first run of this bench (6 generations, load 7-14) was reported as "25.3 s = 19.5 s population
+    kernel + 7.8 s recheck". Those were three separate medians that do not add up (19.5 + 7.8 = 27.3). The bench now
+    keeps per-generation times. Its populations live bitwise the same lives in every run; only the times differ
+    between the two runs (hex 25.3 → 17.2 s, square8 19.9 → 23.0 s), so single bench timings differ by up to 1.5
+    times between runs.
+
+**5. Pilot plumbing and time.** `PILOT_ROOT=… PILOT_SEEDS=0,1 PILOT_GENERATIONS=2 scripts/run_life_pilot.sh` ran 4
+runs (3 jobs × 3 threads) and the aggregate in 38 s, all into the scratch root. Every row carries git_rev, git_dirty
+and recheck K64 L4 all; evals = 1024 + 2 × (256 + 85.33); the summary groups by selection and lists the revision.
+After the review the dry run took 45 s (peak memory 0.31 GB). A hedge dry run into the same root
+(`PILOT_SEEDS=20 … scripts/run_life_pilot.sh evolve.recheck_k=0`) added 2 one-stage runs (evals 1024 + 2 × 256),
+and the summary listed them as separate one-stage groups next to the two-stage ones, with the new `bodies_kept` and
+`body_losses` columns.
+- **Estimate for 20 runs × 500 generations** (10,000 generations, 3 jobs × 3 threads):
+  - **About 0.5 h if every run stays on the plateau,** as both smoke arms did here and 48 of 49 study runs did.
+    That is about 4 min per run.
+  - **R25-sized bodies cost about 7 machine-seconds per generation** with the recheck: the earlier 5.3-5.6 s,
+    times 1.28-1.31. That factor is approximate, since one generation's factor ranged from 1.13 to 2.31. That would
+    be about 19-20 h if every generation had them.
+  - **In general, hours ≈ 0.5 + 20 f,** where f is the share of generations spent at R25-sized bodies. For
+    f = 0.1-0.25, about 2.5-5.5 h.
+  - These figures assume the machine is otherwise idle. Under today's outside load (6-12), allow up to 1.5-2 times
+    as long.
+
+**Integration fixes** (both changes together): stale "ABI v1: 809 slots" and "flank count" comments in the configs.
+`sweep.py --out/--logs` and `PILOT_ROOT` / `PILOT_SEEDS` / `PILOT_GENERATIONS` make a dry run possible; the defaults
+are unchanged. `life_bench.py` reports the recheck time. The design doc gained dated notes (EVALUATION PROTOCOL,
+rules 10 and 22). LIFE_GATES.md had one rounding slip (G5 default F(169) is −0.24).
+
+**Checks.** ruff clean. Fast suite 359 passed; slow suite 57 passed. Gates 10 of 11 as before. The legacy tick pipeline
+(local_smoke under sex, asex and ladder) is byte-identical to the f2142c8 snapshot; results rows differ only in wall_s.
+
+**Review fixes (same day).** A review raised 7 findings, and all 7 reproduced. Each fix has a test, except the two
+that are wording only (2 and 7), whose facts existing tests already pin.
+1. *The recheck halves body escapes* (medium). Reproduced from the stored forward runs. One count differs a little:
+   runs whose parents' median size is above 2 cells are 18 vs 11; the review's 17 vs 9 uses a 2.5-cell cut. Part 1,
+   part 4 and "Before launching" now give the body numbers next to the beat-the-lone-cell numbers. Two-stage runs
+   now record the bodies the recheck kept and dropped (rows, results.jsonl and the summary). The selection choice
+   goes back to the user. Tests: `test_recheck_rows_count_the_bodies_it_keeps_and_drops`, the aggregate test, and
+   `tests/test_selection_study.py`.
+2. *"Checked bitwise against f2142c8"* (low). Reproduced. Reworded in part 1 and re-checked: f2142c8's loop and
+   the new one, run on this tree, are identical in 8 of 8 cases.
+3. *The study could not be rerun from the repo* (low). The forward runs' data and inputs are now in
+   `results/selection_study/data/` (0.7 MB). Its README gives the exact commands. The other 24 MB are kept locally in
+   `outputs/selection_study/`. The final F the review could not reproduce was not a script change: the stored rows
+   used `--final_lives 32` (the default is 64). With that flag, the saved scripts reproduce stored rows bitwise.
+   I checked rows from every stored file except the first parts of two split 50-generation runs (README).
+4. *Lines over 120 characters* (low). Reproduced (160 and 122 characters). Both are split, together with an older
+   125-character line in the same print. `tests/test_style.py` pins each file's count of long lines, all from
+   f2142c8 or earlier, so no file can gain one; ruff ignores E501.
+5. *The bench breakdown did not add up* (low). Reproduced (19.54 + 7.79 > 25.30). The bench now keeps per-generation
+   times and ratios. The rerun's numbers are in part 4 and the estimate in part 5. Test:
+   `test_bench_takes_the_recheck_share_within_each_generation`.
+6. *The n_view gate is weaker on square8* (medium). Reproduced bitwise: the per-life arrays equal the review's, and
+   so does the threshold check. The equivalence is now qualified as hex-only in LIFE_ABI.md 15.32, the design's
+   rule-10 note, `handbuilt.r25_genome`, LIFE_GATES.md (G9, G10, S8, item 14) and the G9, G10 and S8 notes in
+   `scripts/life_gates.py`. The evidence is in `results/flank_square8/`. No model code changed. Test:
+   `test_square8_n_view_gate_against_the_abi1_flank_gate` (slow).
+7. *345 mutable entries in the design doc* (low). Reproduced (337 under ABI 2). The rule-10 note now says so.
+
+Checks after the review fixes:
+- ruff clean.
+- Fast suite: 365 passed, including 6 new tests. Slow suite: 58 passed, including 1 new test (2 min 6 s, 0.50 GB).
+- Gates: 10 of 11 pass, every number reproduced (458 s, 4 threads, 0.47 GB).
+- With the recheck off, f2142c8's loop and this one still match bitwise in 8 of 8 cases.
+- The legacy tick pipeline is still byte-identical (local_smoke under sex, asex and ladder): results rows differ
+  only in wall_s.
+- The pilot dry run and a one-stage hedge dry run both work (part 5).
+
+**Before launching.**
+- **Commit first.** The tree is dirty, and every row records that.
+- **Expect few bodies; two-stage selection makes them rarer.** Escapes were rare in the study, and in the smoke runs
+  children stopped dividing altogether by generation 5. The pre-registered kill criterion (8 or more of 10 seeds at
+  1-2 cells after 500 generations) is a real possibility, and the recheck makes it likelier. From the one observed
+  escape, it cut the runs that kept bodies from 19/24 to 12/24 (p 0.07) and gained no F by 50 generations (part 1).
+  - Every two-stage run now records what the recheck did to bodies, so a failure can be attributed. Each generation
+    row gives `recheck_bodies_onestage` (bodies among the parents one-stage selection would have chosen) and
+    `recheck_bodies` (bodies among the chosen parents), both measured on the generation's lives.
+  - results.jsonl gives their totals and `recheck_body_losses`, the generations where the recheck dropped every such
+    body. The summary table gives `bodies_kept` and `body_losses` per arm.
+- **Two decisions for the user before launch** (both were approved before these measurements):
+  1. Selection. Options: keep K64 L4 `all` in all 20 runs, as approved; or switch every run to one-stage selection
+     (append `evolve.recheck_k=0` to the pilot command); or hedge by adding one-stage runs on other seeds after the
+     main pilot, e.g. `PILOT_SEEDS=20,21,22,23,24 scripts/run_life_pilot.sh evolve.recheck_k=0` (10 runs, both
+     arms). The hedge runs land in the same outputs/life_pilot, and the summary lists them as a separate one-stage
+     group.
+  2. The flank_best input on square8. The G10-style square8 check the review asked for is done (part 2: 288 lives
+     per size, 49-169 cells): without the input, the hand-built genome loses 7% of F* there and nothing on hex.
+     Options: accept that for the square8 arm (evolution may find another gate); or restore the input for both arms
+     (a kernel change, a new ABI and a gate rerun).
+- **Paired arms.** With shared seeds, the two arms are not independent until one diverges. For independent lineages,
+  give square8 other seeds (for example 10-19).
+- **ABI-1 outputs** (outputs/life_smoke40, life_census, life_reference) cannot be loaded or resumed under ABI 2.

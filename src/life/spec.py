@@ -13,7 +13,7 @@ import numpy as np
 
 from src import lattice as _lat
 
-ABI_VERSION = 1
+ABI_VERSION = 2  # 2: the GRN input flank_best/2 was removed (LIFE_ABI.md 15.32)
 
 # ---------------------------------------------------------------------------------------------------------- dims
 G_MAX = 16  # gene slots
@@ -22,7 +22,7 @@ M = 2  # morphogens
 C = 2  # spike channels
 S = 0  # receptor modalities (v1)
 P = 21  # phenotype knobs
-NIN = G_MAX + 7  # regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, flank_best/2
+NIN = G_MAX + 6  # regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D
 
 P_MAX = 3.0  # tick-interval bound used by the D_m decode (1.5 x the reference P0 = 2)
 CHEM_SHIP_MAX = 0.9  # a tick never ships more than this fraction of its morphogen
@@ -244,7 +244,7 @@ def _slices(flds) -> dict[str, tuple[int, int]]:
 
 
 GENOME_SLICES = _slices(GENOME_FIELDS)
-GENOME_SIZE = max(b for _, b in GENOME_SLICES.values())  # 809
+GENOME_SIZE = max(b for _, b in GENOME_SLICES.values())  # 793
 PACKED_NAMES = dict(W="W", b="b", lam="lam", s0="g0", Q="Q", act="act", A="A", a0="a0", Dm="Dm", km="km")
 
 
@@ -257,7 +257,7 @@ def genome_view(params, name: str) -> np.ndarray:
 
 
 def pack_genomes(params, kind: str = "hex") -> np.ndarray:
-    """Raw float32 genomes ``[B, 809]`` -> the kernel's float64 genome table ``[B, 809]`` (same offsets).
+    """Raw float32 genomes ``[B, 793]`` -> the kernel's float64 genome table ``[B, 793]`` (same offsets).
 
     Decodes lam -> lambda, s0 -> g0 = sigma(s0), act -> 0/1, Dm and km -> rates; zeroes every row, column and entry
     that belongs to an inactive gene slot, so inactive genes stay exactly 0 whether or not the kernel skips them.
@@ -372,7 +372,7 @@ FLAGS = dict(contacts_off=1 << 0, chem_off=1 << 1, apoptosis_off=1 << 2, divisio
              genes_blind=1 << 5, identity_clamp=1 << 6, pheno_fixed=1 << 7, lockstep=1 << 8, program_mode=1 << 9,
              integer_twin=1 << 10)
 BASE_ONLY_FLAGS = FLAGS["lockstep"] | FLAGS["program_mode"] | FLAGS["integer_twin"]
-UNSUPPORTED_FLAGS = FLAGS["integer_twin"]  # reserved in ABI v1
+UNSUPPORTED_FLAGS = FLAGS["integer_twin"]  # reserved (rejected by every ABI so far)
 
 
 def flags(*names: str) -> int:
@@ -452,7 +452,7 @@ PRESETS = {
     "bell_v1": World(),
     # v1.5 changes reporting only (no oracle cap anywhere; n_end must sit near the genome's own argmax)
     "bell_v1_5": World(name="bell_v1_5", stage="v1.5"),
-    # later stages: parameters recorded here, not implemented by ABI v1 (pack_world refuses them)
+    # later stages: parameters recorded here, not implemented by the kernel yet (pack_world refuses them)
     "bell_v2": World(name="bell_v2", stage="v2", implemented=False, kill_rate=1 / 500),
     "bell_v3": World(name="bell_v3", stage="v3", implemented=False, drift_tau=200.0),
 }

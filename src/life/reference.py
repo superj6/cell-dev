@@ -662,11 +662,11 @@ class _Life:
             if self.program:
                 c.timer = c.timer + self.p_timer_step
             else:
-                ttr = c.th[KTTR]
+                ttr = c.th[KTTR]  # no flank_best input since ABI 2 (LIFE_ABI.md 15.32): fb serves the program gate
                 x = list(c.g) + [c.m[0] / (1.0 + c.m[0]), c.m[1] / (1.0 + c.m[1]), c.f / ttr, c.r0 / ttr,
-                                 c.r1 / ttr, n_view / D, fb / 2.0]
+                                 c.r1 / ttr, n_view / D]
                 if self.flag("genes_blind", t):
-                    for j in range(18, 23):
+                    for j in range(18, spec.NIN):
                         x[j] = 0.0
                 s = []
                 for k in range(spec.G_MAX):
@@ -1140,7 +1140,7 @@ def _check_world(wv) -> None:
 
 def run_life(world_vec, lat, unit, *, genome_table=None, program=None, init=None, seeds=(0, 0, 0, 0),
              raster_cap: int = 0, fate_cap: int = 0, records: bool = False) -> LifeResult:
-    """One life from kernel-format inputs: world float64 [41], lattice tables (4.3), a packed genome row [809]
+    """One life from kernel-format inputs: world float64 [41], lattice tables (4.3), a packed genome row [793]
     (GRN mode) or a program row [119] (program mode), an initial body [(a, b, row)] (None = one zygote at (0, 0)),
     and the four seeds (life, tie, order, relabel salt)."""
     _check_world(world_vec)
@@ -1154,7 +1154,7 @@ def run_life(world_vec, lat, unit, *, genome_table=None, program=None, init=None
     if prog_mode and np.asarray(program).shape != (spec.PROGRAM_SIZE,):
         raise ArgError(-1, "program rows have 119 entries")
     if not prog_mode and np.asarray(genome_table).shape != (spec.GENOME_SIZE,):
-        raise ArgError(-1, "packed genome rows have 809 entries")
+        raise ArgError(-1, f"packed genome rows have {spec.GENOME_SIZE} entries")
     if not np.all(np.isfinite(np.asarray(program if prog_mode else genome_table, dtype=np.float64))):
         raise ArgError(-1, "a table row holds NaN or infinity")
     cells = [(0, 0, -1)] if not init else [(int(a), int(b), int(r)) for a, b, r in init]
@@ -1169,7 +1169,7 @@ def run_life(world_vec, lat, unit, *, genome_table=None, program=None, init=None
 def run(w: spec.World, *, genome=None, genome_table=None, program=None, cells=None, rows=None, seed: int = 0,
         tie_seed: int = 0, order_seed: int = 0, salt: int = 0, raster_cap: int = 4096, fate_cap: int = 4096,
         records: bool = False) -> LifeResult:
-    """Convenience wrapper: a ``spec.World``, a raw float32 genome [809] (or its packed table) or a program
+    """Convenience wrapper: a ``spec.World``, a raw float32 genome [793] (or its packed table) or a program
     (``spec.pack_program``, which switches on ``program_mode``), and an optional explicit initial body."""
     if program is not None:
         w = replace(w, flags=w.flags | _F["program_mode"])

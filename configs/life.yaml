@@ -8,7 +8,7 @@ lattice:
   kind: hex                     # life fabric: hex | square4 | square8 (sparse and unbounded; radius/contact unused)
 
 genome:
-  life: {genes_max: 16, genes_init: 8, morph: 2, channels: 2, stim: 0, pheno: 21}   # kernel ABI v1: 809 slots
+  life: {genes_max: 16, genes_init: 8, morph: 2, channels: 2, stim: 0, pheno: 21}   # kernel ABI 2: 793 slots
   init_scale: 1.0               # scales every init std (knob priors: src/genome.py LIFE_KNOB_INIT)
   knob_init: null               # optional {knob: [a0 mean, a0 std, A-row std]} overrides of the priors
 
@@ -16,7 +16,8 @@ life:
   world: bell_v1                # spec.PRESETS: bell_v1 | bell_v1_5
   control: full                 # label of the condition in results rows and sweep directories
   T: 1024
-  lives: 3                      # lives per genome per generation (fresh every generation, shared within it)
+  lives: 3                      # lives per genome per generation (fresh every generation, shared within it;
+                                # the shortlist's recheck lives are more lives of the same draw: evolve.recheck_*)
   founder_T: 512                # founder sampling: each random genome lives once for founder_T
   founder_lives: 1
   flags: []                     # base kernel flags for the whole life (spec.FLAGS), e.g. [contacts_off]
@@ -57,6 +58,10 @@ evolve:
   mu: 32
   lam: 224
   generations: 500
+  recheck_k: 64                 # two-stage selection: the top 64 on the generation's lives (the shortlist) ...
+  recheck_lives: 4              # ... live 4 more fresh lives, shared by the shortlist; either 0 = one stage
+  recheck_key: all              # parents = top mu of the shortlist by the mean over all 3 + 4 lives (all) or
+                                # over the recheck lives only (recheck); +33% lives per generation
   founders: 8
   init_samples: 1024
   max_init_samples: 8192

@@ -1,0 +1,5 @@
+# The full model on the square lattice with diagonal contacts (D = 8): the second of the two equal pilot arms with
+# life_bell.yaml (hex). A full arm, not a control: control stays "full" and only the lattice changes.
+extends: life_bell.yaml
+lattice: {kind: square8}
+logging: {output_dir: outputs/life_bell_square8}

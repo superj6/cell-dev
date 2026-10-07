@@ -9,7 +9,7 @@ rule), and the remaining global parameters. Genes regulate each other through th
 input travels with the gene being regulated, as cis-regulatory DNA does.
 
 Two layouts share this machinery: kind ``types`` (``Dims``, the legacy tick pipeline above) and kind ``life``
-(``LifeDims``, ``LifeLayout``: the 809-slot one-life genome of docs/ONE_LIFE_DESIGN.md, laid out exactly as
+(``LifeDims``, ``LifeLayout``: the 793-slot one-life genome of docs/ONE_LIFE_DESIGN.md, laid out exactly as
 ``src/life/spec.py`` packs it for the kernel). ``make_layout`` picks the class by ``dims.kind``.
 """
 from __future__ import annotations
@@ -165,9 +165,9 @@ class Layout:
 
 @dataclass(frozen=True)
 class LifeDims:
-    """Dims of the one-life genome. The defaults (stim 0) are the kernel's 809-slot table. ``stim`` > 0 describes a
-    padded later-stage layout (receptor-trace inputs appended to W, receptor gain rows appended to A and a0) that ABI v1
-    cannot run yet; ``LifeLayout.pad`` embeds a genome into it neutrally."""
+    """Dims of the one-life genome. The defaults (stim 0) are the kernel's 793-slot table (ABI 2). ``stim`` > 0
+    describes a padded later-stage layout (receptor-trace inputs appended to W, receptor gain rows appended to A and
+    a0) that the kernel cannot run yet; ``LifeLayout.pad`` embeds a genome into it neutrally."""
 
     genes_max: int = 16  # spec.G_MAX (LifeLayout checks every v1 dimension against src/life/spec.py)
     genes_init: int = 8  # spec.G_INIT
@@ -182,8 +182,8 @@ class LifeDims:
         return self.genes_max
 
     @property
-    def grn_inputs(self) -> int:  # g, m/(1+m)[M], own trace, received traces[C], n_view/D, flank_best/2, receptors[S]
-        return self.genes_max + self.morph + 1 + self.channels + 2 + self.stim
+    def grn_inputs(self) -> int:  # g, m/(1+m)[M], own trace, received traces[C], n_view/D, receptors[S]
+        return self.genes_max + self.morph + 1 + self.channels + 1 + self.stim
 
     @property
     def readout(self) -> int:  # the phenotype knobs, then one receptor gain row per modality
@@ -262,7 +262,7 @@ class LifeLayout(Layout):
         if bad:
             raise KeyError(f"unknown knobs in knob_init: {sorted(bad)}")
         G, NIN = dims.genes_max, dims.grn_inputs
-        view_cols = (G + dims.morph + 1 + dims.channels, G + dims.morph + 2 + dims.channels)  # n_view/D, flank_best/2
+        view_col = G + dims.morph + 1 + dims.channels  # n_view/D (ABI 2 has no flank_best input)
         self.slices = {}
         units, blocks, stds, means, sigmas, genes, srcs = [], [], [], [], [], [], []
         offset = 0
@@ -287,7 +287,7 @@ class LifeLayout(Layout):
             src = torch.full(f.shape, -1)
             if f.name == "W":
                 src[:, :G] = torch.arange(G)  # entries fed by gene j are mutable only while j is active
-                std[:, list(view_cols)] = 0.0  # homogeneous founders: n_view and flank start with no weight
+                std[:, view_col] = 0.0  # homogeneous founders: n_view starts with no weight
                 std[:, NIN - dims.stim:] = 0.0  # receptor inputs of a padded layout start silent
             if f.name in ("A", "a0"):
                 for r in range(dims.readout):
@@ -320,10 +320,22 @@ class LifeLayout(Layout):
 
     @property
     def runnable(self) -> bool:
-        """True for the kernel's own layout (ABI v1: no receptor modalities)."""
+        """True for the kernel's own layout (no receptor modalities yet)."""
         from src.life import spec
 
         return self.dims.stim == spec.S
+
+    def from_dict(self, d: dict) -> torch.Tensor:
+        """``Layout.from_dict`` with a shape check per field. A genome saved under ABI 1 has the same dims but a
+        ``W`` of 23 columns (its last one read flank_best, removed in ABI 2: LIFE_ABI.md 15.32); it is refused rather
+        than loaded with every later field shifted."""
+        for f in self.fields:
+            got = tuple(torch.tensor(d[f.name]).shape)
+            if got != tuple(f.shape):
+                old = f.name == "W" and got == (f.shape[0], f.shape[1] + 1)
+                raise ValueError(f"saved field {f.name} has shape {got}, this layout needs {tuple(f.shape)}"
+                                 + (" (an ABI 1 genome with the flank_best input; it cannot be loaded)" if old else ""))
+        return super().from_dict(d)
 
     # ------------------------------------------------------------------------------------------- masks and init
     def active(self, params: torch.Tensor) -> torch.Tensor:
@@ -339,7 +351,7 @@ class LifeLayout(Layout):
 
     def random(self, n: int, gen: torch.Generator, scale: float = 1.0) -> torch.Tensor:
         """Founder candidates: the first ``genes_init`` slots active, every entry of a spare slot 0, the knob priors of
-        ``LIFE_KNOB_INIT`` (stds times ``scale``) and zero weights from n_view and flank (homogeneous founders)."""
+        ``LIFE_KNOB_INIT`` (stds times ``scale``) and zero weights from n_view (homogeneous founders)."""
         x = torch.randn(n, self.size, generator=gen) * self.init_std * scale + self.init_mean
         a, b, _ = self.slices["act"]
         x[:, a:b] = (torch.arange(self.dims.genes_max) < self.dims.genes_init).float()
@@ -502,7 +514,7 @@ class LifeLayout(Layout):
 
     # ------------------------------------------------------------------------------------------------ kernel
     def pack(self, params: torch.Tensor, kind: str = "hex"):
-        """Raw genomes -> the kernel's float64 genome table ``[B, 809]`` (``spec.pack_genomes``)."""
+        """Raw genomes -> the kernel's float64 genome table ``[B, 793]`` (``spec.pack_genomes``)."""
         from src.life import spec
 
         if not self.runnable:

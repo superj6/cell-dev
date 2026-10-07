@@ -1,5 +1,7 @@
-# BELL-1 v1 selection run (design: EVALUATION PROTOCOL): (32 + 224), 8 founders, crossover by gene unit, 500
-# generations, 3 lives per genome per generation. Controls extend this file and change one thing each.
+# BELL-1 v1 selection run, the full model on hex (design: EVALUATION PROTOCOL): (32 + 224), 8 founders, crossover by
+# gene unit, 500 generations, 3 lives per genome per generation, then two-stage selection (life.yaml evolve.recheck_*:
+# the top 64 live 4 more shared lives and the parents are the top 32 by the mean over all 7). One of the two equal
+# pilot arms with life_bell_square8.yaml. Controls extend this file and change one thing each.
 extends: life.yaml
 life: {world: bell_v1, control: full}
 logging: {output_dir: outputs/life_bell}

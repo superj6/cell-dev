@@ -1,6 +1,7 @@
 # Control: seeded start. The population descends from the hand-built R25-v1 GRN genome with its lineage timer
-# (uncapped R25-v1 has no stop rule and trips the N_max guard by t ~ 350). Tests whether the landscape around the
-# hand design is climbable; never the main result (design: CONTROLS).
+# (uncapped R25-v1 has no stop rule and trips the N_max guard by t ~ 350); since ABI 2 that genome's rate gate reads
+# n_view (handbuilt.r25_genome). Tests whether the landscape around the hand design is climbable; never the main
+# result (design: CONTROLS).
 extends: life_bell.yaml
 life: {control: seeded}
 evolve: {seed_genome: r25_v1_timer}

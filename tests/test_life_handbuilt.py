@@ -109,11 +109,11 @@ def test_r25_genome_decodes_the_program_rows_in_every_settled_state():
     assert set(states) >= {"alone", "juvenile_closed", "juvenile_open", "contact_closed", "contact_open"}
     assert all(not v["mismatches"] for v in states.values()), states
     g = hb.R25_V1_GRN.genome
-    assert g.dtype == np.float32 and g.size == spec.GENOME_SIZE == 809
+    assert g.dtype == np.float32 and g.size == spec.GENOME_SIZE == 793
     gt = hb.R25_V1_GRN.table("hex")[0]
     assert list(np.nonzero(spec.genome_view(gt, "act"))[0]) == [0, 1, 2, 3, 4]
     lam = spec.genome_view(gt, "lam")
-    assert lam[hb.GENE_JUVENILE] == 1 / 16 and lam[hb.GENE_CONTACT] == lam[hb.GENE_FLANK] == lam[hb.GENE_ECHO] == 0.5
+    assert lam[hb.GENE_JUVENILE] == 1 / 16 and lam[hb.GENE_CONTACT] == lam[hb.GENE_GATE] == lam[hb.GENE_ECHO] == 0.5
     assert lam[hb.GENE_RESET] == 0.5 and spec.genome_view(gt, "Q")[hb.GENE_RESET] == -1.0
     assert "mother_after_claim" in states
     # the design's minimal form (no echo) is exact only once settled: its first contact tick is still mid-switch
@@ -135,16 +135,21 @@ def test_r25_genome_keeps_a_newborn_silent_for_exactly_ten_ticks():
 
 
 def test_r25_genome_gates_and_timer_variants():
-    for gate in ("flank", "n_view", None):
+    for gate in ("n_view", None):
         gt = spec.pack_genomes(hb.r25_genome(gate=gate)[None])[0]
         assert np.all(np.isfinite(gt))
-    with pytest.raises(ValueError):
-        hb.r25_genome(gate="rim")
-    # the n_view gate opens at n_view >= D - 1: input n_view / D through W = 20 D, b = 30 - 20 D
-    W = spec.genome_view(hb.r25_genome(gate="n_view", D=8), "W")
-    b = spec.genome_view(hb.r25_genome(gate="n_view", D=8), "b")
-    p = [b[hb.GENE_FLANK] + W[hb.GENE_FLANK, spec.G_MAX + 5] * n / 8 for n in range(9)]
-    assert [x > 0 for x in p] == [False] * 7 + [True] * 2
+    assert np.array_equal(hb.r25_genome(), hb.r25_genome(gate="n_view"))
+    assert hb.R25_V1_GRN.genome.size == spec.GENOME_SIZE
+    for gate in ("flank", "rim"):  # ABI 2: the gene network has no flank_best input (LIFE_ABI.md 15.32)
+        with pytest.raises(ValueError):
+            hb.r25_genome(gate=gate)
+    # the gate opens at n_view >= D - 1: input n_view / D (the last GRN input) through W = 20 D, b = 30 - 20 D
+    for D in (6, 8):
+        W = spec.genome_view(hb.r25_genome(D=D), "W")
+        b = spec.genome_view(hb.r25_genome(D=D), "b")
+        assert np.count_nonzero(W[hb.GENE_GATE]) == 1 and W[hb.GENE_GATE, spec.NIN - 1] == 20.0 * D
+        p = [b[hb.GENE_GATE] + W[hb.GENE_GATE, spec.NIN - 1] * n / D for n in range(D + 1)]
+        assert [x > 0 for x in p] == [False] * (D - 1) + [True] * 2
     timed = spec.genome_view(hb.r25_genome(timer=2.0), "A")[K["p_div"], hb.GENE_TIMER]
     assert timed == -2.0
     assert spec.genome_view(hb.r25_genome(placement=False), "a0")[K["phi"]] == 0.0

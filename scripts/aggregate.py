@@ -3,9 +3,14 @@
     python scripts/aggregate.py outputs/memory_sweep [outputs/other_sweep ...] --out results/memory_sweep
 
 Rows are mode-aware. Legacy (``mode: trials``) rows give summary.csv / summary.md as before. Life rows
-(``mode: life``) are grouped by world, control, lattice and breeding into summary_life.csv, and their table is
-appended to summary.md: F of the best genome on fresh lives, size (n_end, n_peak), income and cost rates, extinction
-rate, reliance on spikes (income lost when spikes are undelivered from T/2) and evaluations to skill.
+(``mode: life``) are grouped by world, control, lattice, breeding and selection scheme (``one-stage``, or
+``recheck K64 L4 all`` for two-stage selection) into summary_life.csv, and their table is appended to summary.md: F
+of the best genome on fresh lives, size (n_end, n_peak), income and cost rates, extinction rate, reliance on spikes
+(income lost when spikes are undelivered from T/2), evaluations to skill and ``git``, the code revisions the group's
+runs started from (short hashes, ``+dirty`` if any ran from a dirty tree, ``?`` for rows that predate the field).
+Two-stage groups also report what the recheck did to bodies over all their runs and generations: ``bodies_kept``,
+the bodies among the chosen parents over those among the parents one-stage selection would have chosen, and
+``body_losses``, the generations where the recheck dropped every such body (empty for one-stage groups).
 
 Every life F, valid and held-out score is measured under base physics, whatever the selection lives were (the
 envelope control changes selection only), so conditions compare like for like; ``F_envelope`` is the same final lives
@@ -34,7 +39,23 @@ def load(dirs):
     return pd.DataFrame(rows), pd.DataFrame(curves)
 
 
-LIFE_KEYS = ["sweep", "world", "control", "lattice", "breeding"]
+LIFE_KEYS = ["sweep", "world", "control", "lattice", "breeding", "selection"]
+
+
+def selection(row) -> str:
+    """The selection scheme of a life results row (rows without recheck fields are one-stage)."""
+    k = row.get("recheck_k")
+    if k is None or k != k or not k:  # missing, NaN or 0
+        return "one-stage"
+    return f"recheck K{int(k)} L{int(row['recheck_lives'])} {row['recheck_key']}"
+
+
+def git_label(row) -> str:
+    """Short revision of a results row, ``+dirty`` if the tree was dirty, ``?`` without the field."""
+    rev = row.get("git_rev")
+    if not isinstance(rev, str):
+        return "?"
+    return rev[:7] + ("+dirty" if row.get("git_dirty") is True else "")
 
 
 def _median_censored(df, keys):
@@ -51,15 +72,21 @@ def _table(summary) -> str:
 
 
 def life_summary(df):
-    """One row per life condition (world, control, lattice, breeding) over its seeds: medians unless noted."""
+    """One row per life condition (world, control, lattice, breeding, selection) over its seeds: medians unless
+    noted."""
     for col, default in (("control", "full"), ("msg_reliance", float("nan")), ("evals_to_skill", float("nan")),
                          ("F_envelope", float("nan")), ("death_lift", float("nan")),
-                         ("selection_physics", None)):
+                         ("selection_physics", None), ("recheck_bodies", float("nan")),
+                         ("recheck_bodies_onestage", float("nan")), ("recheck_body_losses", float("nan"))):
         if col not in df:
             df[col] = default
     df = df.assign(control=df["control"].fillna("full"), msg_reliance=df["msg_reliance"].astype(float),
                    evals_to_skill=df["evals_to_skill"].astype(float), F_envelope=df["F_envelope"].astype(float),
-                   death_lift=df["death_lift"].astype(float))
+                   death_lift=df["death_lift"].astype(float), recheck_bodies=df["recheck_bodies"].astype(float),
+                   recheck_bodies_onestage=df["recheck_bodies_onestage"].astype(float),
+                   recheck_body_losses=df["recheck_body_losses"].astype(float))
+    df = df.assign(selection=[selection(r) for r in df.to_dict("records")],
+                   git=[git_label(r) for r in df.to_dict("records")])
     old = (df["control"] == "envelope") & df["selection_physics"].isna()
     if old.any():
         raise ValueError(f"{int(old.sum())} envelope-control rows predate base-physics final lives (their F, valid "
@@ -72,10 +99,14 @@ def life_summary(df):
              income_per_cell=("income_per_cell", "median"), extinction=("extinction_rate", "median"),
              msg_reliance=("msg_reliance", "median"), F_envelope=("F_envelope", "median"),
              death_lift=("death_lift", "median"), reached=("evals_to_skill", "count"),
-             evals_to_skill=("evals_to_skill", "median"))
+             evals_to_skill=("evals_to_skill", "median"), git=("git", lambda x: ",".join(sorted(set(x)))),
+             bodies_kept=("recheck_bodies", lambda x: x.sum(min_count=1)),
+             onestage=("recheck_bodies_onestage", lambda x: x.sum(min_count=1)),
+             body_losses=("recheck_body_losses", lambda x: x.sum(min_count=1)))
         .reset_index()
     )
     summary["evals_to_skill"] = _median_censored(df, LIFE_KEYS)
+    summary["bodies_kept"] = summary["bodies_kept"] / summary.pop("onestage")  # NaN when one-stage or no bodies
     return summary
 
 

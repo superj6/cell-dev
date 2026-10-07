@@ -7,12 +7,15 @@ run, appended), best_genome.json, and growth / activity GIFs of the best organis
 
 With ``mode: life`` (configs/life*.yaml) the run also writes lineage.jsonl, clones.jsonl and population.json, and its
 results row describes the best genome's lives on fresh seeds (F, size, income, extinction, counterfactual forks)
-instead of trial scores and knockouts.
+instead of trial scores and knockouts. It also records the code the run started from (``git_rev``, ``git_dirty``) and
+the selection scheme (``recheck_k``, ``recheck_lives``, ``recheck_key``) with what the recheck did to bodies
+(``recheck_bodies``, ``recheck_bodies_onestage``, ``recheck_body_losses``: ``src.evolve.recheck_bodies``).
 """
 from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import time
 from pathlib import Path
 
@@ -21,7 +24,7 @@ from omegaconf import OmegaConf
 
 from src.cells import decode_cells, run_cells
 from src.common import load_config, log_event
-from src.evolve import evolve, run_mode
+from src.evolve import evolve, recheck_bodies, recheck_plan, run_mode
 from src.measure import knockouts
 from src.render import activity_gif, development_gif
 
@@ -99,6 +102,20 @@ def main(cfg) -> Path:
 
 # ======================================================================================================== mode: life
 FORK_FINAL_TIMES = (0.5,)  # design G6: spikes undelivered from T/2
+REPO = Path(__file__).resolve().parents[1]
+
+
+def git_state(root: Path = REPO) -> dict:
+    """The code a run uses: ``git_rev`` (HEAD) and ``git_dirty`` (tracked changes or untracked files that .gitignore
+    does not cover); both None outside a git checkout or without git."""
+    def git(*args) -> str:  # --no-optional-locks: never writes the index, so concurrent runs and git commands are safe
+        return subprocess.run(["git", "--no-optional-locks", "-C", str(root), *args], capture_output=True, text=True,
+                              check=True, timeout=60).stdout
+
+    try:
+        return {"git_rev": git("rev-parse", "HEAD").strip(), "git_dirty": bool(git("status", "--porcelain").strip())}
+    except (OSError, subprocess.SubprocessError):
+        return {"git_rev": None, "git_dirty": None}
 
 
 class GenomeOrganism:
@@ -336,6 +353,7 @@ def main_life(cfg) -> Path:
     out = Path(cfg.logging.output_dir)
     out.mkdir(parents=True, exist_ok=True)
     OmegaConf.save(cfg, out / "config.yaml")
+    git = git_state()  # at the start: the code that is loaded
     t0 = time.time()
     with open(out / "curves.jsonl", "w") as curves_fh:
         def log(row):
@@ -350,10 +368,12 @@ def main_life(cfg) -> Path:
     save_population(r, out / "population.json")
     t1 = time.time()
     fin = final_life(cfg, r)
-    lc = cfg.life
+    lc, e = cfg.life, cfg.evolve
+    k, lives, key = recheck_plan(e, int(e.mu), int(e.mu) + int(e.lam))
     row = {"name": out.name, "mode": "life", "control": str(lc.get("control", "full")), "world": str(lc.world),
-           "lattice": str(cfg.lattice.kind), "breeding": str(cfg.evolve.breeding), "seed": int(cfg.seed),
+           "lattice": str(cfg.lattice.kind), "breeding": str(cfg.evolve.breeding), "seed": int(cfg.seed), **git,
            "selection_physics": "envelope" if r["evaluator"].envelope.get("enabled", False) else "base",
+           "recheck_k": k, "recheck_lives": lives, "recheck_key": key if k else None, **recheck_bodies(r["curves"]),
            "evals": r["evals"], "wall_s": round(wall, 1), "final_s": round(time.time() - t1, 1),
            "generations": len(r["curves"]), "founders_sampled": r["founders"]["sampled"],
            "valid_score": r["valid"], "heldout_score": r["heldout"], **fin,

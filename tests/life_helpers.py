@@ -51,11 +51,18 @@ def r25(p_div_lo: float = 1 / 16, chem: bool = False, **contact_extra) -> np.nda
 BUSY = r25(chem=True, p_die=2.0 ** -6, sec0=0.3, sec1=0.1, pol0=1.0, a0=0.5, chi=0.5)
 
 
+def abi1_draw(rng, scale: float) -> np.ndarray:
+    """``GENOME_SIZE`` normals drawn as under ABI 1, whose W had one more column (flank_best / 2, removed in ABI 2:
+    LIFE_ABI.md 15.32): that column is dropped, so a seed gives the test genome it gave before, minus that input."""
+    G, NIN = spec.G_MAX, spec.NIN
+    g = (rng.normal(0, 1, spec.GENOME_SIZE + G) * scale).astype(np.float32)
+    return np.concatenate([g[:G * (NIN + 1)].reshape(G, NIN + 1)[:, :NIN].reshape(-1), g[G * (NIN + 1):]])
+
+
 def grn_genome(seed: int = 6) -> np.ndarray:
     """A raw float32 8-gene genome whose readout is biased to be tonic, inhibitory, emitting, contractile,
     dividing and dying, with random regulation, chemistry and directional gain."""
-    rng = np.random.default_rng(seed)
-    g = (rng.normal(0, 1, spec.GENOME_SIZE) * 0.7).astype(np.float32)
+    g = abi1_draw(np.random.default_rng(seed), 0.7)
     act = spec.genome_view(g, "act")
     act[:] = 0.0
     act[:8] = 1.0

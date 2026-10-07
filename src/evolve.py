@@ -11,7 +11,9 @@ founders sampled on the new rung, so crossover can hybridize the old lineage wit
 ``mode: life`` (docs/ONE_LIFE_DESIGN.md) runs the same founder sampling, fill and (mu+lambda) loop on one-life
 genomes (``LifeLayout``) scored by ``src.life.evaluate.LifeEvaluator``: every generation draws fresh life seeds shared
 by the whole population (common random numbers), parents are re-evaluated with their children, and the run writes
-lineage.jsonl (parents, unit masks, mutation ops, the slot registry) and counterfactual forks (clones.jsonl).
+lineage.jsonl (parents, unit masks, mutation ops, the slot registry) and counterfactual forks (clones.jsonl). With
+two-stage selection (``evolve.recheck_k`` > 0 and ``evolve.recheck_lives`` > 0) the top ``recheck_k`` genomes on the
+generation's lives live ``recheck_lives`` more fresh shared lives before the parents are chosen (``recheck``).
 """
 from __future__ import annotations
 
@@ -19,9 +21,10 @@ import itertools
 import json
 import time
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
+import numpy as np
 import torch
 from omegaconf import OmegaConf
 
@@ -210,7 +213,9 @@ class Lineage:
     default) or every child (``all``) with their parent ids, unit mask (bit u set = unit u from parent a; null under
     mutation only) and mutation ops, the surviving ids and fitness, the breeds (founder of each parent-a chain), the
     slot registry (per gene slot: how many survivors carry each innovation id there) and the mean pairwise genome
-    distance. ``clones`` rows go to clones.jsonl.
+    distance. Under two-stage selection a ``recheck`` entry adds the recheck seeds, the key, the shortlist's ids with
+    their F on the generation's lives and on the recheck lives, and how many parents the recheck changed; the
+    survivors' fitness is then their mean over all their lives. ``clones`` rows go to clones.jsonl.
     """
 
     def __init__(self, out: Path | None, mode: str = "survivors"):
@@ -290,6 +295,88 @@ def clone_summary(rows: list[dict]) -> dict:
     return {k: sum(v) / len(v) for k, v in groups.items()}
 
 
+RECHECK_KEYS = ("all", "recheck")
+BODY_CELLS = 1.5  # a body: mean end size over the generation's lives >= 1.5 cells (the selection study's definition)
+
+
+def recheck_plan(e, mu: int, n: int) -> tuple[int, int, str]:
+    """Two-stage selection settings from ``evolve``: (shortlist size, recheck lives, key), with shortlist size 0 when
+    ``recheck_k`` or ``recheck_lives`` is 0 (off). The shortlist is capped at the ``n`` genomes of a generation and
+    must hold at least ``mu``. ``recheck_key``: ``all`` ranks the shortlist by the mean over the generation's lives and
+    the recheck lives, ``recheck`` by the recheck lives only."""
+    k, lives = int(e.get("recheck_k", 0) or 0), int(e.get("recheck_lives", 0) or 0)
+    key = str(e.get("recheck_key", "all"))
+    if key not in RECHECK_KEYS:
+        raise ValueError(f"evolve.recheck_key must be one of {RECHECK_KEYS}, got {key!r}")
+    if k < 0 or lives < 0:
+        raise ValueError(f"evolve.recheck_k and recheck_lives must be >= 0, got {k} and {lives}")
+    if k == 0 or lives == 0:
+        return 0, 0, key
+    if k < mu:
+        raise ValueError(f"evolve.recheck_k = {k}: the shortlist must hold at least mu = {mu} genomes (or 0: off)")
+    return min(k, n), lives, key
+
+
+def recheck_draw(ev, g: int, base: int, lives: int):
+    """The recheck lives of generation ``g``: lives ``base`` to ``base + lives - 1`` of the generation's own draw,
+    whose first ``base`` lives every genome lived. So they are fresh every generation, shared by the shortlist
+    (common random numbers), disjoint from the generation's lives and from every founder, valid, held-out, final and
+    clone life (other purposes), and under the envelope control they get envelope physics like any selection life."""
+    full = ev.draw("gen", g, lives=base + lives)
+    return replace(full, seeds=full.seeds[base:], worlds=full.worlds[base:])
+
+
+def rows(e: Eval, idx: torch.Tensor) -> Eval:
+    """The evaluation of genomes ``idx`` only, in that order (same class)."""
+    return type(e)(*[getattr(e, f)[idx] for f in e.__dataclass_fields__])
+
+
+def pooled(a: Eval, b: Eval) -> Eval:
+    """One evaluation of the same genomes on the lives of ``a`` and then those of ``b``: ``trial_scores`` joined,
+    fitness the mean of the per-life F (bitwise what a single evaluation on all those lives gives) and every other
+    statistic the lives-weighted mean of the two."""
+    La, Lb = a.trial_scores.shape[1], b.trial_scores.shape[1]
+    ts = np.concatenate([a.trial_scores.numpy(), b.trial_scores.numpy()], axis=1)
+    out = {f: (La * getattr(a, f) + Lb * getattr(b, f)) / (La + Lb) for f in a.__dataclass_fields__
+           if f not in ("trial_scores", "fitness")}
+    return type(a)(**out, trial_scores=torch.from_numpy(ts), fitness=torch.from_numpy(ts.mean(axis=1)))
+
+
+def recheck(ev, everyone: torch.Tensor, res: Eval, g: int, mu: int, k: int, lives: int, key: str) -> dict:
+    """Two-stage selection of generation ``g``. ``res`` holds every genome on the generation's lives; the top ``k`` by
+    that mean (the shortlist, ties by index) live ``lives`` more lives (``recheck_draw``), and the ``mu`` parents are
+    the top of the shortlist by ``key`` (``all``: the mean over all its lives; ``recheck``: the recheck lives only;
+    ties keep shortlist order). Returns the parents' indices ``order``, their evaluation on all their lives ``chosen``
+    (rank order), the ``shortlist``, the recheck ``draw`` and its evaluation ``res`` (shortlist order), ``pick`` (the
+    parents' places in the shortlist), ``changed`` (parents the generation's lives alone would not have chosen) and
+    the kernel time ``t``."""
+    ranked = res.fitness.argsort(descending=True, stable=True)
+    short = ranked[:k]
+    draw = recheck_draw(ev, g, res.trial_scores.shape[1], lives)
+    t0 = time.perf_counter()
+    rres = ev(everyone[short], draw)
+    t = time.perf_counter() - t0
+    both = pooled(rows(res, short), rres)
+    pick = (both.fitness if key == "all" else rres.fitness).argsort(descending=True, stable=True)[:mu]
+    order = short[pick]
+    changed = mu - len(set(order.tolist()) & set(ranked[:mu].tolist()))
+    return dict(order=order, chosen=rows(both, pick), shortlist=short, draw=draw, res=rres, pick=pick, changed=changed,
+                t=t)
+
+
+def recheck_bodies(curves: list[dict]) -> dict:
+    """What the recheck did to bodies over a run (``evolve_life`` rows), for its results row: the bodies among the
+    chosen parents and among those one-stage selection would have chosen, summed over generations, and
+    ``recheck_body_losses``, the generations where the recheck dropped every body one-stage selection would have
+    kept. All None for a one-stage run."""
+    rc = [c for c in curves if "recheck_bodies" in c]
+    if not rc:
+        return dict(recheck_bodies=None, recheck_bodies_onestage=None, recheck_body_losses=None)
+    return dict(recheck_bodies=sum(c["recheck_bodies"] for c in rc),
+                recheck_bodies_onestage=sum(c["recheck_bodies_onestage"] for c in rc),
+                recheck_body_losses=sum(c["recheck_bodies_onestage"] > 0 and c["recheck_bodies"] == 0 for c in rc))
+
+
 def seed_genome(cfg, layout) -> torch.Tensor:
     """The founder of a seeded run (``evolve.seed_genome``), as one raw genome ``[1, size]``: ``r25_v1`` (the hand-built
     R25-v1 written as a GRN genome, gate G9; uncapped it grows until the N_max guard), ``r25_v1_timer`` (the same with
@@ -315,7 +402,18 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     """(mu+lambda) evolution of one-life genomes (module docstring); the loop mirrors ``evolve``. With
     ``evolve.seed_genome`` the population descends from that one genome instead of sampled founders (seeded control).
     Each generation row carries its wall time ``t_gen``, the population's kernel time ``t_eval`` (seconds) and the
-    population's shares of invalid lives and of ledger-check failures (``pop_invalid``, ``pop_mismatch``)."""
+    population's shares of invalid lives and of ledger-check failures (``pop_invalid``, ``pop_mismatch``).
+
+    Two-stage selection (``recheck``; off when ``evolve.recheck_k`` or ``recheck_lives`` is 0, which is the one-stage
+    loop exactly): the parents are chosen from the shortlist on more lives, and their row statistics, lineage fitness
+    and returned fitness are their means over all their lives (the population shares ``pop_*`` and the children's
+    lineage fitness stay those of the generation's lives). The rows add ``recheck_k`` (shortlist size),
+    ``recheck_changed``, ``recheck_F`` and ``recheck_F_base`` (the parents' mean F on the recheck lives and on the
+    generation's lives), ``recheck_invalid`` and ``t_recheck``. ``evals`` counts genome evaluations on the
+    generation's L lives, so a recheck of K genomes on L2 lives adds K * L2 / L. ``recheck_bodies`` and
+    ``recheck_bodies_onestage`` count the bodies (``BODY_CELLS``) among the chosen parents and among the parents that
+    one-stage selection would have chosen, both on the generation's lives: what the recheck did to multi-cell
+    genomes, so a run that stays at 1-2 cells can tell whether the recheck dropped its bodies."""
     from src.life import clones
 
     torch.set_num_threads(int(cfg.threads))
@@ -323,6 +421,7 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     _, layout, _, ev = setup(cfg)
     e, lc, cc = cfg.evolve, cfg.life, cfg.get("clones") or {}
     mu, lam, G = int(e.mu), int(e.lam), layout.dims.genes_max
+    k_re, l_re, key_re = recheck_plan(e, mu, mu + lam)
     lin = Lineage(out, str(cfg.logging.get("lineage", "survivors")))
     mut_kw = dict(dup_rate=float(e.get("dup_rate", 0.0)), del_rate=float(e.get("del_rate", 0.0)),
                   split=bool(e.get("dup_split", False)), scale_n_mut=bool(e.get("n_mut_scale", True)))
@@ -350,7 +449,12 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     clones_every = int(cc.get("every", 0) or 0)
     times = [float(x) for x in cc.get("times", [0.25, 0.5, 0.75])]
     conds = [str(x) for x in cc.get("conditions", clones.CONDITIONS)]
-    curves, valid, heldout, res, order = [], None, None, None, None
+    curves, valid, heldout, chosen = [], None, None, None
+    rc_lives = 0  # recheck lives so far: evals counts them as rc_lives / L genome evaluations
+
+    def counted():
+        return evals + rc_lives / int(lc.lives) if rc_lives else evals
+
     n_gen = int(e.generations)
     for g in range(n_gen):
         t_start = time.perf_counter()
@@ -382,11 +486,15 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
         t_ev = time.perf_counter() - t_ev
         evals += everyone.shape[0]
         order = res.fitness.argsort(descending=True, stable=True)[:mu]
+        chosen, rc, onestage = rows(res, order), None, order  # the parents' evaluation, in rank order
+        if k_re:
+            rc = recheck(ev, everyone, res, g, mu, k_re, l_re, key_re)
+            order, chosen = rc["order"], rc["chosen"]
+            rc_lives += len(rc["shortlist"]) * l_re
         pa_ids, pb_ids = ids[ia], (None if ib is None else ids[ib])
         pop, ids, breeds, origins = everyone[order], all_ids[order], all_breeds[order], all_origins[order]
-        best = int(order[0])
-        row = {"gen": g, "evals": evals, **res.take(best), "mean_score": float(res.score[order].mean()),
-               "mean_fitness": float(res.fitness[order].mean()), "median_n_cells": float(res.n_cells[order].median()),
+        row = {"gen": g, "evals": counted(), **chosen.take(0), "mean_score": float(chosen.score.mean()),
+               "mean_fitness": float(chosen.fitness.mean()), "median_n_cells": float(chosen.n_cells.median()),
                "best_id": int(ids[0]), "best_breed": int(breeds[0]), "breeds": int(breeds.unique().numel()),
                "pop_guard": float(res.guard.mean()), "pop_lone": float((res.n_peak <= 1).double().mean()),
                "pop_body": float(res.body.mean()), "pop_invalid": float(res.invalid.mean()),
@@ -394,6 +502,16 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
         if row["pop_mismatch"] > 0:  # a kernel fault: the lives were scored as invalid, and the run says so
             log({"event": "ledger_mismatch", "generation": g,  # not "gen": curves.jsonl takes rows with "gen"
                  "lives": round(row["pop_mismatch"] * everyone.shape[0] * draw.n)})
+        if rc is not None:
+            rres = rc["res"]
+            row.update(recheck_k=len(rc["shortlist"]), recheck_changed=rc["changed"],
+                       recheck_F=float(rres.fitness[rc["pick"]].mean()),
+                       recheck_F_base=float(res.fitness[order].mean()), recheck_invalid=float(rres.invalid.mean()),
+                       recheck_bodies=int((res.n_cells[order] >= BODY_CELLS).sum()),
+                       recheck_bodies_onestage=int((res.n_cells[onestage] >= BODY_CELLS).sum()))
+            if rres.mismatch.sum() > 0:
+                log({"event": "ledger_mismatch", "generation": g, "recheck": True,
+                     "lives": round(float(rres.mismatch.sum()) * l_re)})
         final = g == n_gen - 1
         if g % int(e.heldout_every) == 0 or final:
             valid = float(ev(pop[:1], ev.draw("valid", g, lives=int(lc.valid_lives))).fitness[0])
@@ -413,21 +531,30 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
             row["clones"] = clone_summary(frows)
             row["msg_reliance_best"] = clones.reliance([r for r in frows if r["rank"] == 0])
         row.update(t_gen=round(time.perf_counter() - t_start, 4), t_eval=round(t_ev, 4))
+        if rc is not None:
+            row["t_recheck"] = round(rc["t"], 4)
         curves.append(row)
         log(row)
         kept = [int(i) - mu for i in order.tolist() if int(i) >= mu]
         logged = range(lam) if lin.mode == "all" else kept
-        lin.write({"gen": g, "seeds": [int(s) for s in draw.seeds],
-                   "children": [{"id": int(kid_ids[j]), "pa": int(pa_ids[j]),
-                                 "pb": None if pb_ids is None else int(pb_ids[j]),
-                                 "mask": None if masks is None else mask_bits(masks[j]), "ops": ops[j],
-                                 "fitness": float(res.fitness[mu + j]), "kept": j in kept} for j in logged],
-                   "survivors": [int(i) for i in ids.tolist()], "fitness": [float(res.fitness[i]) for i in order],
-                   "breeds": {str(b): n for b, n in sorted(Counter(breeds.tolist()).items())},
-                   "registry": registry(origins), "n_active": float(layout.active(pop).sum(1).double().mean()),
-                   "distance": float(torch.pdist(pop.double()).mean()) if mu > 1 else 0.0})
+        lrow = {"gen": g, "seeds": [int(s) for s in draw.seeds],
+                "children": [{"id": int(kid_ids[j]), "pa": int(pa_ids[j]),
+                              "pb": None if pb_ids is None else int(pb_ids[j]),
+                              "mask": None if masks is None else mask_bits(masks[j]), "ops": ops[j],
+                              "fitness": float(res.fitness[mu + j]), "kept": j in kept} for j in logged],
+                "survivors": [int(i) for i in ids.tolist()], "fitness": [float(x) for x in chosen.fitness],
+                "breeds": {str(b): n for b, n in sorted(Counter(breeds.tolist()).items())},
+                "registry": registry(origins), "n_active": float(layout.active(pop).sum(1).double().mean()),
+                "distance": float(torch.pdist(pop.double()).mean()) if mu > 1 else 0.0}
+        if rc is not None:  # children's fitness above is on the generation's lives; survivors' on all their lives
+            short = rc["shortlist"]
+            lrow["recheck"] = {"seeds": [int(s) for s in rc["draw"].seeds], "key": key_re,
+                               "ids": [int(all_ids[i]) for i in short],
+                               "F_base": [float(res.fitness[i]) for i in short],
+                               "F_recheck": [float(x) for x in rc["res"].fitness], "changed": rc["changed"]}
+        lin.write(lrow)
     lin.close()
-    fitness = None if res is None else res.fitness[order]
+    fitness = None if chosen is None else chosen.fitness
     return {"best": pop[0], "population": pop, "ids": ids, "breeds": breeds, "origins": origins, "fitness": fitness,
-            "curves": curves, "evals": evals, "valid": valid, "heldout": heldout, "rung": None, "founders": info,
+            "curves": curves, "evals": counted(), "valid": valid, "heldout": heldout, "rung": None, "founders": info,
             "lattice": None, "layout": layout, "task": None, "evaluator": ev}

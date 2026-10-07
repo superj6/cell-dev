@@ -1,18 +1,21 @@
 """Life mode of the evolution harness (docs/ONE_LIFE_DESIGN.md, Code plan migration step 4): the LifeEvaluator, its
-common random numbers, founder sampling, the smoke run's outputs and lineage, and the control configs."""
+common random numbers, founder sampling, the smoke run's outputs and lineage, the control configs, two-stage selection
+(evolve.recheck_*), the pilot arms and sweep, and the git revision in results rows."""
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
 import pytest
 import torch
 
+from src import evolve as evo
 from src.common import load_config
-from src.evolve import Eval, run_mode, sample_founders, setup
+from src.evolve import Eval, evolve_life, recheck, recheck_draw, recheck_plan, run_mode, sample_founders, setup
 from src.genome import Layout, LifeDims, LifeLayout
 from src.life import spec
 from src.life.evaluate import LifeDraw, LifeEval, LifeEvaluator
-from src.run import main
+from src.run import git_state, main
 
 ROOT = Path(__file__).resolve().parents[1]
 SMOKE = str(ROOT / "configs/life_smoke.yaml")
@@ -334,3 +337,306 @@ def test_aggregate_reports_the_envelope_column_and_refuses_pre_fix_envelope_rows
     with pytest.raises(ValueError, match="envelope physics"):
         life_summary(pd.DataFrame([dict(row, control="envelope")]))  # written before the fix
     assert len(life_summary(pd.DataFrame([dict(row, control="full")]))) == 1  # older rows of other conditions are fine
+
+
+# ------------------------------------------------------------------------------------------ two-stage selection
+RECHECK = ("evolve.recheck_k=8", "evolve.recheck_lives=3")  # smoke scale: 16 genomes, 2 generation lives
+
+
+def test_recheck_plan_reads_and_checks_the_settings():
+    e = _cfg().evolve
+    assert recheck_plan(e, 4, 16) == (0, 0, "all")  # life_smoke: off
+    bell = load_config(str(ROOT / "configs/life_bell.yaml")).evolve
+    assert recheck_plan(bell, 32, 256) == (64, 4, "all")  # the chosen scheme (B1 K64 L4)
+    assert recheck_plan(_cfg(*RECHECK).evolve, 4, 16) == (8, 3, "all")
+    assert recheck_plan(_cfg("evolve.recheck_k=8", "evolve.recheck_lives=0").evolve, 4, 16)[0] == 0
+    assert recheck_plan(_cfg("evolve.recheck_k=99", "evolve.recheck_lives=2").evolve, 4, 16) == (16, 2, "all")
+    assert recheck_plan(_cfg(*RECHECK, "evolve.recheck_key=recheck").evolve, 4, 16)[2] == "recheck"
+    for bad in (["evolve.recheck_k=3", "evolve.recheck_lives=2"], [*RECHECK, "evolve.recheck_key=B1"],
+                ["evolve.recheck_k=8", "evolve.recheck_lives=-1"]):
+        with pytest.raises(ValueError):
+            recheck_plan(_cfg(*bad).evolve, 4, 16)
+
+
+def test_recheck_lives_are_fresh_shared_and_disjoint():
+    for extra in ([], ["envelope.enabled=true"]):
+        ev = LifeEvaluator(_cfg(*extra), LAY)
+        L, L2 = ev.lives, 4
+        r0, r1 = recheck_draw(ev, 0, L, L2), recheck_draw(ev, 1, L, L2)
+        assert r0.n == L2 and len(set(r0.seeds)) == L2 and r0 == recheck_draw(ev, 0, L, L2)
+        full = ev.draw("gen", 0, lives=L + L2)  # the generation's own draw continued
+        assert r0.seeds == full.seeds[L:] and r0.worlds == full.worlds[L:] and full.seeds[:L] == ev.draw("gen", 0).seeds
+        assert not set(r0.seeds) & set(r1.seeds)  # fresh every generation
+        others = set()
+        for g in range(3):
+            others |= set(ev.draw("gen", g).seeds)
+        for purpose in ("founders", "valid", "final", "clones", "sizecurve", "census"):
+            for i in range(3):
+                others |= set(ev.draw(purpose, i, lives=64).seeds)
+        others |= set(ev.draw("heldout", 0, lives=4, overrides=list(_cfg().life.heldout)).seeds)
+        assert not (set(r0.seeds) | set(r1.seeds)) & others
+        if extra:  # selection lives: the envelope's noise physics, fresh per life
+            assert all(w != ev.world() for w in r0.worlds) and len({w.delay_sd for w in r0.worlds}) == L2
+
+
+class _Spy:
+    """A LifeEvaluator that records (genomes, draw) of every call."""
+
+    def __init__(self, ev):
+        self.ev, self.calls, self.lives = ev, [], ev.lives
+
+    def draw(self, *a, **k):
+        return self.ev.draw(*a, **k)
+
+    def __call__(self, params, draw):
+        self.calls.append((params.clone(), draw))
+        return self.ev(params, draw)
+
+
+def test_recheck_ranks_the_shortlist_on_all_its_lives():
+    ev = _Spy(LifeEvaluator(_cfg(), LAY))
+    x = _pop(24, seed=5)
+    g, mu, k, L2 = 7, 6, 12, 3
+    res = ev(x, ev.draw("gen", g))
+    ev.calls.clear()
+    out = recheck(ev, x, res, g, mu, k, L2, "all")
+    short = res.fitness.argsort(descending=True, stable=True)[:k]
+    assert torch.equal(out["shortlist"], short)
+    assert len(ev.calls) == 1  # one evaluation: the whole shortlist on one shared draw
+    params, draw = ev.calls[0]
+    assert torch.equal(params, x[short]) and draw == recheck_draw(ev, g, 2, L2) == out["draw"]
+    # the key is the mean over all 2 + 3 lives: bitwise one evaluation of the shortlist on the generation's 5 lives
+    whole = ev.ev(x[short], ev.draw("gen", g, lives=2 + L2))
+    assert torch.equal(whole.fitness[out["pick"]], out["chosen"].fitness)
+    assert torch.equal(whole.trial_scores[out["pick"]], out["chosen"].trial_scores)
+    for f in ("score", "energy", "n_cells", "n_peak", "body", "guard"):
+        assert torch.allclose(getattr(whole, f)[out["pick"]], getattr(out["chosen"], f), rtol=1e-12, atol=1e-15)
+    expect = whole.fitness.argsort(descending=True, stable=True)[:mu]
+    assert torch.equal(out["order"], short[expect]) and torch.equal(out["pick"], expect)
+    assert out["changed"] == mu - len(set(out["order"].tolist()) & set(short[:mu].tolist()))
+    alone = recheck(ev, x, res, g, mu, k, L2, "recheck")  # the recheck lives only
+    assert torch.equal(alone["order"], short[alone["res"].fitness.argsort(descending=True, stable=True)[:mu]])
+    assert torch.equal(alone["res"].fitness, out["res"].fitness)
+
+
+class _Lives:
+    """Stub evaluator: every genome scores its entry 0 on lives 0-2 of a generation and its entry 1 on later lives."""
+
+    lives = 3
+
+    def draw(self, purpose, index, lives=None):
+        n = self.lives if lives is None else lives
+        return LifeDraw(tuple(range(n)), (None,) * n)
+
+    def __call__(self, params, draw):
+        ts = torch.stack([params[:, 0 if s < 3 else 1].double() for s in draw.seeds], 1)
+        z = torch.zeros(params.shape[0], dtype=torch.float64)
+        return Eval(fitness=ts.mean(1), score=z, energy=z, n_cells=z, spikes=z, divisions=z, trial_scores=ts)
+
+
+def test_recheck_picks_parents_by_the_chosen_key():
+    # genome: (F on the generation's lives, F on the recheck lives)
+    x = torch.tensor([[0.5, 5.0], [0.7, 0.1], [0.9, 0.4], [0.2, 9.0], [0.6, 0.45], [0.8, 0.7], [0.3, 0.0],
+                      [0.4, 0.0]])
+    ev = _Lives()
+    res = ev(x, ev.draw("gen", 0))
+    out = recheck(ev, x, res, 0, 2, 4, 4, "all")
+    assert out["shortlist"].tolist() == [2, 5, 1, 4]  # genomes 0 and 3 recheck best but are not shortlisted
+    assert out["order"].tolist() == [5, 2] and out["changed"] == 0  # (3 F + 4 F') / 7: 0.743, 0.614, 0.514, 0.357
+    assert torch.allclose(out["chosen"].fitness, torch.tensor([2.4 + 2.8, 2.7 + 1.6], dtype=torch.float64) / 7)
+    only = recheck(ev, x, res, 0, 2, 4, 4, "recheck")
+    assert only["order"].tolist() == [5, 4] and only["changed"] == 1  # F' alone: 0.7, 0.45, 0.4, 0.1
+    tied = x.clone()
+    tied[:, 1] = 0.3
+    t = recheck(ev, tied, ev(tied, ev.draw("gen", 0)), 0, 2, 4, 4, "recheck")
+    assert t["order"].tolist() == [2, 5] and t["changed"] == 0  # ties keep the shortlist (generation-lives) order
+
+
+def test_pooled_matches_one_evaluation_on_all_the_lives():
+    ev = LifeEvaluator(_cfg(), LAY)
+    x = _pop(10, seed=6)
+    a, b = ev(x, ev.draw("gen", 3)), ev(x, recheck_draw(ev, 3, 2, 4))
+    whole = ev(x, ev.draw("gen", 3, lives=6))
+    p = evo.pooled(a, b)
+    assert isinstance(p, LifeEval) and torch.equal(p.fitness, whole.fitness)
+    assert torch.equal(p.trial_scores, whole.trial_scores)
+    for f in LifeEval.KEYS:
+        assert torch.allclose(getattr(p, f), getattr(whole, f), rtol=1e-12, atol=1e-15), f
+    idx = torch.tensor([4, 0, 7])
+    assert all(torch.equal(getattr(evo.rows(a, idx), f), getattr(a, f)[idx]) for f in LifeEval.__dataclass_fields__)
+
+
+def _no_times(curves):
+    return [{k: v for k, v in r.items() if k not in ("t_gen", "t_eval")} for r in curves]
+
+
+def test_recheck_off_is_the_one_stage_loop(tmp_path, monkeypatch):
+    def never(*a, **k):
+        raise AssertionError("the recheck ran while off")
+
+    monkeypatch.setattr(evo, "recheck", never)
+    runs = []
+    for name, extra in (("k0", []), ("lives0", ["evolve.recheck_k=8", "evolve.recheck_lives=0"])):
+        out = tmp_path / name
+        out.mkdir()
+        log = []
+        r = evolve_life(_cfg("clones.every=0", "evolve.generations=4", *extra), log=log.append, out=out)
+        runs.append((r, _no_times(r["curves"]), (out / "lineage.jsonl").read_text(), log))
+    (r, curves, lineage, log), other = runs[0], runs[1]
+    assert curves == other[1] and lineage == other[2] and torch.equal(r["population"], other[0]["population"])
+    assert torch.equal(r["fitness"], other[0]["fitness"]) and r["evals"] == other[0]["evals"]
+    # the one-stage semantics: no recheck fields, integer evals (genomes x generations), and the survivors are the
+    # generation's top 4 with their F on the generation's lives, as the children's rows give it
+    founders = log[0]["sampled"]
+    assert r["evals"] == founders + 4 * 16 and isinstance(r["evals"], int)
+    gens = [json.loads(line) for line in lineage.splitlines()][1:]
+    for g, (row, lrow) in enumerate(zip(curves, gens)):
+        assert not [k for k in row if "recheck" in k] and "recheck" not in lrow
+        assert row["evals"] == founders + (g + 1) * 16 and isinstance(row["evals"], int)
+        fit = lrow["fitness"]
+        assert fit == sorted(fit, reverse=True) and row["fitness"] == fit[0]
+        assert row["mean_fitness"] == float(torch.tensor(fit, dtype=torch.float64).mean())
+        kids = {c["id"]: c["fitness"] for c in lrow["children"]}
+        assert all(kids[i] == f for i, f in zip(lrow["survivors"], fit) if i in kids)
+    assert torch.equal(r["fitness"], torch.tensor(gens[-1]["fitness"], dtype=torch.float64))
+
+
+@pytest.fixture(scope="module")
+def smoke_recheck(tmp_path_factory):
+    out = tmp_path_factory.mktemp("life_smoke_recheck")
+    results = main(_cfg(f"logging.output_dir={out}", *RECHECK))
+    return out, json.loads(results.read_text().splitlines()[-1])
+
+
+def test_recheck_run_counts_its_lives_and_logs_them(smoke_recheck):
+    out, row = smoke_recheck
+    curves = [json.loads(line) for line in (out / "curves.jsonl").read_text().splitlines()]
+    gens = [json.loads(line) for line in (out / "lineage.jsonl").read_text().splitlines()][1:]
+    per_gen = 16 + 8 * 3 / 2  # 16 genomes on 2 lives, then 8 on 3 more: 12 genome evaluations of 2 lives
+    assert row["evals"] == row["founders_sampled"] + 3 * per_gen
+    assert [c["evals"] for c in curves] == [row["founders_sampled"] + (g + 1) * per_gen for g in range(3)]
+    assert (row["recheck_k"], row["recheck_lives"], row["recheck_key"]) == (8, 3, "all")
+    ev = LifeEvaluator(_cfg(), LAY)
+    seen = set(row["final_seeds"])
+    for g, (c, lrow) in enumerate(zip(curves, gens)):
+        rc = lrow["recheck"]
+        assert c["recheck_k"] == 8 == len(rc["ids"]) == len(rc["F_recheck"]) and 0 <= c["recheck_changed"] <= 4
+        assert c["recheck_changed"] == rc["changed"] and c["recheck_invalid"] == 0 and c["t_recheck"] >= 0
+        assert rc["F_base"] == sorted(rc["F_base"], reverse=True) and rc["key"] == "all"
+        assert tuple(rc["seeds"]) == recheck_draw(ev, g, 2, 3).seeds and not set(rc["seeds"]) & set(lrow["seeds"])
+        assert not set(rc["seeds"]) & seen  # fresh: no earlier generation or recheck life, no final life
+        seen |= set(rc["seeds"]) | set(lrow["seeds"])
+        # survivors: the shortlist's top 4 by the mean over all 5 lives, logged as that mean
+        mean5 = {i: (2 * fb + 3 * fr) / 5 for i, fb, fr in zip(rc["ids"], rc["F_base"], rc["F_recheck"])}
+        assert set(lrow["survivors"]) <= set(rc["ids"])
+        assert lrow["survivors"] == sorted(rc["ids"], key=lambda i: -mean5[i])[:4]
+        assert np.allclose(lrow["fitness"], [mean5[i] for i in lrow["survivors"]], rtol=0, atol=1e-15)
+        assert c["fitness"] == lrow["fitness"][0] and abs(c["mean_fitness"] - np.mean(lrow["fitness"])) < 1e-15
+        recheck_F = [rc["F_recheck"][rc["ids"].index(i)] for i in lrow["survivors"]]
+        base_F = [rc["F_base"][rc["ids"].index(i)] for i in lrow["survivors"]]
+        assert abs(c["recheck_F"] - np.mean(recheck_F)) < 1e-15 and abs(c["recheck_F_base"] - np.mean(base_F)) < 1e-15
+        top4 = set(rc["ids"][:4])
+        assert c["recheck_changed"] == 4 - len(top4 & set(lrow["survivors"]))
+
+
+def test_recheck_rows_count_the_bodies_it_keeps_and_drops(monkeypatch):
+    """Review fix (the recheck halves body escapes in the selection study): every two-stage row says how many bodies
+    one-stage selection would have made parents and how many the recheck did, so a run stuck at 1-2 cells can be
+    attributed. A seeded population grows bodies, so the counts are not trivially 0."""
+    seen, real = [], evo.recheck
+
+    def spy(ev, everyone, res, *a):
+        rc = real(ev, everyone, res, *a)
+        seen.append((res, rc))
+        return rc
+
+    monkeypatch.setattr(evo, "recheck", spy)
+    r = evolve_life(_cfg(*RECHECK, "evolve.seed_genome=r25_v1_timer", "clones.every=0"), log=lambda row: None)
+    assert len(seen) == len(r["curves"]) == 3
+    total = 0
+    for c, (res, rc) in zip(r["curves"], seen):
+        body = res.n_cells >= evo.BODY_CELLS
+        onestage = res.fitness.argsort(descending=True, stable=True)[:4]
+        assert c["recheck_bodies"] == int(body[rc["order"]].sum()) and 0 <= c["recheck_bodies"] <= 4
+        assert c["recheck_bodies_onestage"] == int(body[onestage].sum())
+        total += c["recheck_bodies_onestage"]
+    assert total > 0
+    assert evo.recheck_bodies(r["curves"]) == dict(
+        recheck_bodies=sum(c["recheck_bodies"] for c in r["curves"]), recheck_bodies_onestage=total,
+        recheck_body_losses=sum(c["recheck_bodies_onestage"] > 0 and c["recheck_bodies"] == 0 for c in r["curves"]))
+    # totals and losses: a loss is a generation where the recheck dropped every body one-stage selection kept
+    rows = [dict(recheck_bodies=b, recheck_bodies_onestage=o) for b, o in ((0, 2), (1, 3), (0, 0), (2, 1), (0, 1))]
+    assert evo.recheck_bodies(rows) == dict(recheck_bodies=3, recheck_bodies_onestage=7, recheck_body_losses=2)
+    assert evo.recheck_bodies([{"gen": 0}]) == dict(recheck_bodies=None, recheck_bodies_onestage=None,
+                                                    recheck_body_losses=None)
+
+
+def test_results_rows_carry_the_git_revision(smoke, smoke_recheck):
+    state = git_state()
+    for _, row in (smoke, smoke_recheck):
+        assert row["git_rev"] == state["git_rev"] and row["git_dirty"] == state["git_dirty"]
+    if state["git_rev"] is not None:
+        assert len(state["git_rev"]) == 40 and isinstance(state["git_dirty"], bool)
+    assert smoke[1]["recheck_k"] == 0 and smoke[1]["recheck_key"] is None
+    assert smoke[1]["recheck_bodies"] is None and smoke[1]["recheck_body_losses"] is None  # one-stage: nothing
+    curves = [json.loads(line) for line in (smoke_recheck[0] / "curves.jsonl").read_text().splitlines()]
+    assert {k: smoke_recheck[1][k] for k in evo.recheck_bodies(curves)} == evo.recheck_bodies(curves)
+    assert git_state(Path("/")) == {"git_rev": None, "git_dirty": None}
+
+
+# ------------------------------------------------------------------------------------------------ pilot arms
+def test_pilot_arms_differ_only_in_the_lattice():
+    hexa = load_config(str(ROOT / "configs/life_bell.yaml"))
+    sq8 = load_config(str(ROOT / "configs/life_bell_square8.yaml"))
+    assert (hexa.lattice.kind, sq8.lattice.kind) == ("hex", "square8")
+    assert hexa.life.control == sq8.life.control == "full"  # a full arm, not a control
+    a, b = load_config(str(ROOT / "configs/life_bell.yaml"), ["lattice.kind=square8"]), sq8
+    a.logging.output_dir, a.extends = b.logging.output_dir, b.extends
+    assert a == b
+    assert (hexa.evolve.recheck_k, hexa.evolve.recheck_lives, hexa.evolve.recheck_key) == (64, 4, "all")
+    assert hexa.evolve.generations == 500 and hexa.evolve.mu == 32 and hexa.evolve.lam == 224
+    assert int(hexa.threads) <= 4
+
+
+def test_sweep_interleaves_arms_and_the_pilot_script_runs_both():
+    from scripts.sweep import matrix
+
+    arms = [(c, load_config(str(ROOT / c))) for c in ("configs/life_bell.yaml", "configs/life_bell_square8.yaml")]
+    runs = matrix(arms, None, None, ["0", "1"])
+    assert [r["run"] for r in runs] == ["full_hex_sex_s0", "full_square8_sex_s0", "full_hex_sex_s1",
+                                        "full_square8_sex_s1"]
+    assert [r["config"] for r in runs[:2]] == ["configs/life_bell.yaml", "configs/life_bell_square8.yaml"]
+    legacy = [("configs/local_smoke.yaml", load_config(str(ROOT / "configs/local_smoke.yaml")))]
+    assert [r["run"] for r in matrix(legacy, "hex,square8", "sex", ["0", "1"])] == [
+        "hex_sex_s0", "hex_sex_s1", "square8_sex_s0", "square8_sex_s1"]  # one arm: the order of before
+    with pytest.raises(ValueError, match="share an output directory"):
+        matrix([arms[0], arms[0]], None, None, ["0"])
+    script = (ROOT / "scripts/run_life_pilot.sh").read_text()
+    for part in ("--config configs/life_bell.yaml,configs/life_bell_square8.yaml", "PILOT_SEEDS:-0,1,2,3,4,5,6,7,8,9",
+                 "--jobs 3 --threads 3", "PILOT_GENERATIONS:-500", "NAME=life_pilot", "scripts/sweep.py",
+                 '--out "${ROOT}outputs" --logs "${ROOT}logs"', 'evolve.generations="$GENERATIONS"'):
+        assert part in script, part  # defaults: 10 seeds x 500 generations into outputs/, logs/ and results/
+    assert subprocess.run(["bash", "-n", str(ROOT / "scripts/run_life_pilot.sh")]).returncode == 0
+
+
+def test_aggregate_groups_by_selection_and_reports_git():
+    import pandas as pd
+
+    from scripts.aggregate import life_summary
+
+    row = dict(sweep="s", world="bell_v1", lattice="hex", breeding="sex", seed=0, F=0.03, valid_score=0.03,
+               heldout_score=0.02, n_cells=1.0, n_peak=1.0, income=0.05, energy=0.02, income_per_cell=0.05,
+               extinction_rate=0.0, msg_reliance=0.0, evals_to_skill=None, control="full", selection_physics="base")
+    two = dict(recheck_k=64, recheck_lives=4, recheck_key="all")
+    out = life_summary(pd.DataFrame([dict(row, git_rev="a" * 40, git_dirty=False, **two),
+                                     dict(row, seed=1, git_rev="b" * 40, git_dirty=True, **two),
+                                     dict(row, seed=2)]))  # a row from before the fields: one-stage, git unknown
+    assert list(out["selection"]) == ["one-stage", "recheck K64 L4 all"] and list(out["runs"]) == [1, 2]
+    assert list(out["git"]) == ["?", "aaaaaaa,bbbbbbb+dirty"]
+    assert np.isnan(out["bodies_kept"][0]) and np.isnan(out["body_losses"][0])  # rows without the body fields
+    bodies = [dict(recheck_bodies=3, recheck_bodies_onestage=10, recheck_body_losses=2),
+              dict(recheck_bodies=2, recheck_bodies_onestage=0, recheck_body_losses=0)]
+    out = life_summary(pd.DataFrame([dict(row, **two, **bodies[0]), dict(row, seed=1, **two, **bodies[1]),
+                                     dict(row, seed=2, recheck_k=0, recheck_bodies=None)]))
+    assert list(out["bodies_kept"])[1] == 0.5 and list(out["body_losses"])[1] == 2  # (3 + 2) / (10 + 0), 2 + 0
+    assert np.isnan(out["bodies_kept"][0]) and np.isnan(out["body_losses"][0])  # one-stage

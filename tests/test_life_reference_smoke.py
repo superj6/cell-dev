@@ -6,6 +6,7 @@ import pytest
 
 from src.life import reference as ref
 from src.life import spec
+from tests.life_helpers import abi1_draw
 
 L = spec.L
 ALONE = spec.theta(b=1.875, tau_m=8, t_ref=2, kappa=1)  # the best lone cell (design gate G1)
@@ -26,9 +27,9 @@ BUSY = _r25(p_die=2.0 ** -6, sec0=0.3, sec1=0.1, pol0=1.0, a0=0.5, chi=0.5)
 
 
 def _genome(seed: int = 6) -> np.ndarray:
-    """A random 8-gene genome with a readout biased to be tonic, inhibitory, emitting, contractile and dividing."""
-    rng = np.random.default_rng(seed)
-    g = (rng.normal(0, 1, spec.GENOME_SIZE) * 0.7).astype(np.float32)
+    """A random 8-gene genome with a readout biased to be tonic, inhibitory, emitting, contractile and dividing
+    (drawn as under ABI 1, minus the removed flank_best column: ``life_helpers.abi1_draw``)."""
+    g = abi1_draw(np.random.default_rng(seed), 0.7)
     a, b = spec.GENOME_SLICES["act"]
     g[a:b] = 0.0
     g[a:a + 8] = 1.0

@@ -122,13 +122,15 @@ def test_gene_decodes():
 
 
 def test_genome_layout():
-    assert spec.GENOME_SIZE == 809 and spec.NIN == 23
+    # ABI 2: inputs g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D; flank_best/2 was removed (LIFE_ABI.md 15.32)
+    assert spec.ABI_VERSION == 2 and spec.GENOME_SIZE == 793 and spec.NIN == 22
     off = 0
     for f in spec.GENOME_FIELDS:
         a, b = spec.GENOME_SLICES[f.name]
         assert a == off and b - a == math.prod(f.shape)
         off = b
-    assert spec.GENOME_SLICES["A"] == (448, 784) and spec.GENOME_SLICES["km"] == (807, 809)
+    assert spec.GENOME_SLICES["W"] == (0, 352) and spec.GENOME_SLICES["b"] == (352, 368)
+    assert spec.GENOME_SLICES["A"] == (432, 768) and spec.GENOME_SLICES["km"] == (791, 793)
 
 
 def _random_genome(rng, n_active=8):
@@ -143,7 +145,7 @@ def test_pack_genomes_decodes_and_masks_inactive_slots():
     rng = np.random.default_rng(1)
     raw = np.stack([_random_genome(rng), _random_genome(rng, 3)])
     gt = spec.pack_genomes(raw, "hex")
-    assert gt.dtype == np.float64 and gt.flags.c_contiguous and gt.shape == (2, 809)
+    assert gt.dtype == np.float64 and gt.flags.c_contiguous and gt.shape == (2, 793)
     assert not np.any(np.signbit(gt) & (gt == 0))  # no -0.0
     for r, n_act in ((0, 8), (1, 3)):
         act = spec.genome_view(gt[r], "act")
@@ -307,3 +309,7 @@ def test_document_tables_match_spec():
     assert [int(x) for x in sizes.groups()] == list(spec.SIZES.values())[1:]
     assert list(spec.SIZES) == ["abi", "genome", "program", "world", "ledger", "hashes", "knobs", "max_init",
                                 "fate_i", "fate_f"]
+    table = DOC.split("### 4.4 Genome table", 1)[1].split("###", 1)[0]  # the genome fields, shapes and offsets
+    rows = re.findall(r"^\| (\w+) \| ([\[\]\d]+) \| (\d+) \|", table, flags=re.M)
+    assert {n: int(o) for n, _, o in rows} == {n: a for n, (a, _) in spec.GENOME_SLICES.items()}
+    assert {n: sh for n, sh, _ in rows} == {f.name: "".join(f"[{k}]" for k in f.shape) for f in spec.GENOME_FIELDS}

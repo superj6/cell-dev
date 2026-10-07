@@ -485,6 +485,7 @@ START SMALL
 
 EVALUATION PROTOCOL (BELL v1)
 - 3 lives per genome per generation.
+  - Note (2026-10-07, approved by the user before the pilot): two-stage selection. Every genome still lives the generation's 3 shared lives. The top 64 by that mean (the shortlist) then live 4 more fresh lives, shared by the shortlist (more lives of the same generation draw), and the 32 parents are the top 32 of the shortlist by the mean over all 7 lives. Cost: +256 lives per generation (+33%). Why: near the lone-pump plateau, 3-life selection favoured lucky high-variance bodies (in the 40-generation smoke, seed 0's top genome re-measured below a lone cell while its rank-3 genome beat it, z 5). A replay study on measured genome × life matrices chose this key over ranking by the 4 recheck lives alone: it removes about 0.38 of one-stage selection's regret, and it keeps the one observed plateau escape route (a 2-cell body slightly below a lone cell) more open than the recheck-only key. It does not keep it as open as one-stage selection. Over 50 generations from that state (24 runs each), runs whose parents were mostly bodies numbered 19 under one-stage selection, 12 under this key (Fisher p 0.07) and 5 under the recheck-only key. Runs whose parents beat a lone cell numbered 13, 12 and 5, and the mean true F after 50 generations was the same under one-stage selection and this key (+0.0420 vs +0.0418). So the recheck trades body escapes for fewer lucky picks. The user approved two-stage selection before this trade-off was measured (RESULTS.md, Pilot preparation, "Before launching"); each run's rows record the bodies one-stage selection would have kept and those the recheck kept (recheck_bodies_onestage, recheck_bodies). Settings: evolve.recheck_k, recheck_lives and recheck_key in configs/life.yaml.
 - Life seeds are fresh every generation and shared within it. Frozen physics is keyed by coordinates, so these are true common random numbers.
 - Parents are re-evaluated every generation.
 - Selection: (μ + λ) = (32 + 224); 8 founders; crossover by gene unit; at least 500 generations; at least 10 seeds (the prototype's per-seed success rate was about 1/4 to 1/3).
@@ -684,6 +685,7 @@ Substrate
    Why: some regulatory chemistry must exist; only its form is fixed. It stays continuous so slow genes do not freeze.
 10. GRN inputs: genes, morphogen content, activity traces (genome-set τ_tr), live-contact fraction, and flank_best.
    Why: these are the only bridges from events and neighbourhood to genes. flank_best is the one local geometric cue the layered-growth algorithm needs (BELL D4); gating on n_view alone is about 23% weaker.
+   Note (2026-10-07, approved by the user before the pilot): flank_best is removed from the GRN inputs (kernel ABI 2, LIFE_ABI.md 15.32). Gate G10 measured on 144 fresh lives on hex that, with flank placement kept, gating on n_view does as well as gating on flank_best (F* +0.754 vs +0.753, paired −0.001 ± 0.013); the "23% weaker" holds only when flank placement is dropped too. On square8 it does not hold: there the hand-built genome gated on n_view is 7% below its flank_best-gated twin (F* +1.015 vs +1.096; paired z −2.5 at 81 and 169 cells; no n_view threshold closes the gap; LIFE_GATES.md S8). This was measured after the approval. The inputs are now genes, morphogen content, activity traces and the live-contact fraction: 22 inputs and a 793-slot genome. The placement term φ·flank(e) of rule 13 stays, as a genetic knob evolution can zero. This note overrides every other mention of flank_best as a gene input in this document (TICK step 3, Genome, Timescales, Identity, the R25-v1 genome sketch, the genes-blind control, and the founder bullet of EVALUATION PROTOCOL), every 809-slot genome size becomes 793, NIN = 23 becomes 22, and the about 345 entries mutable at initialization become 337.
 11. A phenotype readout θ = decode(A·g + a0) onto 21 fixed knobs with fixed grids.
    Why: the knobs are what a cell can physically do. Quantization is hardware realism, and it closed the continuous-parameter clock cheats found on jump.
 12. Fate knobs are per-tick probabilities (p_div and p_die on a log2 grid), drawn by event hash.
@@ -710,6 +712,7 @@ Accounting, world and selection (outside the organism)
    Why: measurable, with partial credit, no size term, and guards that cannot be gamed.
 22. T = 1024, 3 lives per evaluation, (μ+λ) with crossover outside the world.
    Why: the horizon does not limit size (n* is the same at T = 512, 1024 and 2048), and 3 lives control noise.
+   Note (2026-10-07): plus a recheck of the top 64 on 4 more lives before the parents are chosen (EVALUATION PROTOCOL).
 
 Simulator only (invisible to cells, tested)
 - heap vs window scheduler;

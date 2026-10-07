@@ -1,4 +1,4 @@
-// One-life event kernel, ABI v1. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
+// One-life event kernel, ABI v2. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
 //
 // One continuous, clockless life per genome (GRN mode) or phenotype program (program mode) on a sparse, unbounded
 // lattice fabric (or a dense disk). Sites process their own events in time-ordered batches (6.2); every cross-site
@@ -13,12 +13,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ABI_VERSION 1
+#define ABI_VERSION 2
 #define NG 16          // gene slots
-#define NIN 23         // regulatory inputs
+#define NIN 22         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D
 #define NK 21          // phenotype knobs
 #define DMAX 8         // largest lattice degree
-#define GENOME_SIZE 809
+#define GENOME_SIZE 793
 #define PROGRAM_SIZE 119
 #define WORLD_SIZE 41
 #define LEDGER_SIZE 35
@@ -38,8 +38,8 @@
 enum { K_W0, K_W1, K_B, K_TAUM, K_TREF, K_EMIT0, K_EMIT1, K_DELTA, K_KAPPA, K_PDIV, K_ASYM, K_PDIE, K_PHI, K_SEC0,
        K_SEC1, K_POL0, K_POL1, K_TAUTR, K_A0, K_A1, K_CHI };
 // packed genome offsets (4.4)
-enum { GO_W = 0, GO_B = 368, GO_LAM = 384, GO_G0 = 400, GO_Q = 416, GO_ACT = 432, GO_A = 448, GO_A0 = 784,
-       GO_DM = 805, GO_KM = 807 };
+enum { GO_W = 0, GO_B = 352, GO_LAM = 368, GO_G0 = 384, GO_Q = 400, GO_ACT = 416, GO_A = 432, GO_A0 = 768,
+       GO_DM = 789, GO_KM = 791 };
 // program table (4.5)
 enum { PR_JUV = 105, PR_NVRIM, PR_ZYGROW, PR_FLANKGATE, PR_PDIVLO, PR_KGROW, PR_TIMERSTEP, PR_PRUNE, PR_KKEEP,
        PR_KDIE, PR_DM0, PR_DM1, PR_KM0, PR_KM1 };
@@ -707,7 +707,7 @@ static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7
   if (r) { r->u1 = X->uid; r->x[0] = X->t_prev; r->x[1] = sp0 + sp1; }
   if (t >= c->t_open_abs) c->c_ticks++;
   c->events++;
-  // 3. view and inputs
+  // 3. view and inputs (flank[e] serves placement in step 8; fbest only the program-mode gate of 7.5)
   traces_to(X, t);
   int nv = 0, any_empty = 0, fbest = 0, flank[DMAX];
   for (int d = 0; d < D; d++) nv += X->view[d] != 0;
@@ -728,8 +728,8 @@ static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7
       x[16] = X->m[0] / (1.0 + X->m[0]); x[17] = X->m[1] / (1.0 + X->m[1]);
       const double ttr = X->th[K_TAUTR];
       x[18] = X->f / ttr; x[19] = X->r[0] / ttr; x[20] = X->r[1] / ttr;
-      x[21] = (double)nv / (double)D; x[22] = (double)fbest / 2.0;
-      if (fl & F_GENES_BLIND) x[18] = x[19] = x[20] = x[21] = x[22] = 0.0;
+      x[21] = (double)nv / (double)D;  // flank_best is not a gene input (ABI 2, LIFE_ABI.md 15.32)
+      if (fl & F_GENES_BLIND) x[18] = x[19] = x[20] = x[21] = 0.0;
       const double *W = c->gt + GO_W, *bb = c->gt + GO_B, *lam = c->gt + GO_LAM;
       for (int k = 0; k < NG; k++) {
         if (lam[k] == 0.0) { s[k] = 0.0; continue; }  // g + 0 * (s - g) == g exactly: skip the row
@@ -1537,7 +1537,7 @@ double life_normal(uint64_t seed, uint64_t stream, int32_t n, const uint64_t *ke
 
 void life_decode(const double y[21], double theta[21]) { decode(y, theta); }
 
-void life_readout(const double gt[809], const double g[16], double y[21]) { readout(gt, g, y); }
+void life_readout(const double gt[793], const double g[16], double y[21]) { readout(gt, g, y); }
 
 static int row_finite(const double *row, int n) {
   for (int i = 0; i < n; i++) if (!isfinite(row[i])) return 0;

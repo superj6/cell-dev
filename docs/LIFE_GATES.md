@@ -11,6 +11,24 @@ verdict, and one plain-language line.
   LIFE_ABI.md 15.31) touches no gate, and every measured number is bitwise the same as in the first run
   (`life_01933c8d622b0dea.so`). What changed: the G3 port check's reference and threshold (G3), G2's scope note, and
   the statement of G10's grn_layer criterion.
+- **ABI 2 rerun (2026-10-07, later the same day).** The gene network lost its flank_best input (LIFE_ABI.md 15.32),
+  and R25-v1's GRN genome now gates division on n_view ≥ 5 with flank placement kept. Kernel library
+  `life_613ca64c40377cf9.so`, ABI 2; `python scripts/life_gates.py --threads 4`, 1115 s on 4 threads on a shared
+  machine, peak memory 0.47 GB.
+  - Every program-mode number is unchanged: G1, G2, G3, G4, G5 and G8 are identical in gates.json leaf for leaf, and
+    so are G6's program rows, G10's program-mode D4 and D5, and S8's program curve and re-tuning screen.
+  - Re-measured: G9, G10's GRN block and grn_layer, S8's GRN genome, G6's GRN rows and G7's scope. The ABI-1 values
+    of the old genome are kept in each gate's `abi1` entry and below.
+  - R25-v1's new genome and its random-placement variant had zero flank weights under ABI 1 too, so they live bitwise
+    as before: G10 reproduces their ABI-1 F* to every digit (+0.754151 and +0.638136).
+- **Rerun on the integrated tree (2026-10-07, with two-stage selection added to evolution).**
+  `python scripts/life_gates.py --threads 4` on the tree that carries both pre-pilot changes reproduced gates.json leaf
+  for leaf; only run times and metadata differ (501 s on 4 threads, peak memory 0.47 GB). One rounding slip in this
+  document was fixed: G5's default F(169) is −0.24 (−0.2446), not −0.25.
+- **Rerun after the review (2026-10-07).** `python scripts/life_gates.py --threads 4` (458 s on 4 threads, peak
+  memory 0.47 GB) reproduced every number in gates.json. Only run times, the date and three notes changed: the G9
+  and G10 notes now say that the n_view gate matched the flank_best gate on hex, and S8 gained a note with the
+  paired square8 comparison against the ABI-1 flank_best genome (S8 below; `results/flank_square8/`).
 - Pinned by `tests/test_life_gates.py` (slow): each test recomputes part of its gate, asserts the stored numbers
   exactly, and re-judges the stored measurements to reproduce the stored verdicts.
 - **Result: 10 of 11 pass. G10 fails on one check:** the flank placement term of layered growth (design D4) adds
@@ -51,8 +69,8 @@ verdict, and one plain-language line.
 | G6 | spikes undelivered from T/2 collapse income | income per cell 31.9e-3 → 1.41e-3 (4.4%; n 144) | PASS |
 | G7 | income per cell ≤ the lone-cell rate | largest body life 49.6e-3, against 54.0e-3 for the best lone life (31,392 body lives) | PASS |
 | G8 | closed-form lumen vs Euler ≤ 0.1%; bitwise invariance | largest error 0.024%; threads and window scheduler bitwise | PASS |
-| G9 | R25-v1 as a GRN genome within 2 SE of the program at 91 | GRN +0.698 ± 0.030 vs program +0.697 ± 0.033, z +0.04 (n 288) | PASS |
-| G10 | D4 and D5 re-measured; GRN layer | D5 holds (z 8.9); flank gate beats the n_view gate (z 2.9); placement term +0.057 ± 0.037 (z 1.5) | **FAIL** |
+| G9 | R25-v1 as a GRN genome within 2 SE of the program at 91 | GRN (n_view gate) +0.690 ± 0.032 vs program +0.697 ± 0.033, z −0.15 (n 288) | PASS |
+| G10 | D4 and D5 re-measured; GRN layer | D5 holds (z 8.9); GRN: flank placement beats random placement (z 2.8); program: placement term +0.057 ± 0.037 (z 1.5) | **FAIL** |
 | S8 | square8 size curve measured, n* interior | n* = 121, F* = +1.151 ± 0.063, flat top 81-121; F(289) −1.12 (n 144) | PASS |
 
 ## G1. Best lone cell
@@ -194,7 +212,7 @@ verdict, and one plain-language line.
 
 | condition | 91 | 169 | 271 | 397 | 547 | n* |
 |---|---|---|---|---|---|---|
-| default | +0.69 ± 0.10 | −0.25 ± 0.22 | −2.45 ± 0.28 | −5.41 ± 0.28 | −8.40 ± 0.29 | 91 |
+| default | +0.69 ± 0.10 | −0.24 ± 0.22 | −2.45 ± 0.28 | −5.41 ± 0.28 | −8.40 ± 0.29 | 91 |
 | no frozen heterogeneity | +1.89 ± 0.08 | +3.26 ± 0.14 | +4.54 ± 0.25 | +5.43 ± 0.49 | +5.20 ± 0.91 | 397 (flat to 547) |
 | lockstep | +1.92 ± 0.12 | +3.14 ± 0.24 | +4.20 ± 0.47 | +4.75 ± 0.81 | +4.87 ± 1.13 | 547 (flat 169-547) |
 
@@ -212,7 +230,8 @@ verdict, and one plain-language line.
 - **Registered.** 35e-3 → 1.0e-3.
 - **Measured.**
   - R25-v1: 31.9e-3 → 1.41e-3 (4.4%); window F +0.897 ± 0.066 → −1.947 ± 0.003.
-  - The GRN genome: 32.6e-3 → 1.36e-3 (4.2%).
+  - The GRN genome (ABI 2, n_view gate): 32.6e-3 → 1.36e-3 (4.2%); window F +0.962 ± 0.057 → −1.951 ± 0.003. The
+    ABI-1 genome (flank_best gate) gave the same to the digits shown (32.57e-3 → 1.36e-3).
 - **Verdict.** PASS.
 - **In plain words.** If the cells stop hearing each other halfway through life, the pumping stops almost at once,
   so the beat is held together by messages on every beat.
@@ -224,7 +243,8 @@ verdict, and one plain-language line.
     of any lone life on G1's fresh lives (54.0e-3);
   - means_below_lone: every point's mean is at most the best lone phenotype's mean rate (53.8e-3).
 - **Scope.** All bodies of G2-G6, G9, G10 and S8, plus the bursting body B at 37, 91 and 169 cells, including G6's
-  [T/2, T] windows: 215 points, 31,392 lives.
+  [T/2, T] windows: 212 points, 30,960 lives (ABI 1: 215 points and 31,392 lives; G10's GRN block now has two
+  genomes, not three). The measured values below are unchanged.
 - **Registered.** ≤ 54e-3.
 - **Measured.**
   - Largest body life: 49.6e-3 (R25-v1 without LBT, 3 cells).
@@ -257,39 +277,49 @@ verdict, and one plain-language line.
     for 36).
   - phenotypes: in every settled gene state the genome decodes exactly the program's row on every knob a program row
     uses.
-- **The genome** (`handbuilt.r25_genome`, a raw float32 809-slot genome, run through `spec.pack_genomes` in GRN
+- **The genome** (`handbuilt.r25_genome`, a raw float32 793-slot genome, run through `spec.pack_genomes` in GRN
   mode). Five active genes:
   - contact (λ 1/2): on when n_view ≥ 1. Its partition is Q −1, so a daughter starts alone.
   - juvenile (λ 1/16, Q +1): a daughter starts at 1, and the gene silences emission for exactly her first 10 own
     ticks.
-  - flank gate (λ 1/2, Q −1): on when flank_best = 2. It switches p_div between 1/2 and 1/16.
+  - rim gate (λ 1/2, Q −1): on when n_view ≥ 5, read from the live-contact fraction n_view / 6. It switches p_div
+    between 1/2 and 1/16. Placement keeps the flank term (φ 2).
   - contact echo (λ 1/2): a one-tick-delayed copy of the contact gene. The readout uses 2·contact − echo, which
     makes the switch from alone to contact exact at the first tick that sees a contact.
   - division reset (λ 1/2, Q −1): cancels the gate gene's forced opening in a mother after a claim.
+- **ABI 2 (2026-10-07).** The gene network has no flank_best input any more (LIFE_ABI.md 15.32). Under ABI 1 the
+  gate gene read flank_best = 2, exactly like the program's gate. Now it reads n_view, the variant G10 measured as
+  good as the flank_best gate in GRN mode (F* +0.754 vs +0.753). The program R25-v1 still gates on flank_best: program
+  mode keeps that rule as a hand-built reference. So G9 now compares two equivalent growth rules, not one rule
+  written two ways.
 - **Registered.** Within 2 SE over 36 lives at cap 91.
 - **Measured** (288 fresh lives, the same lives as G3):
 
-| N | program | GRN genome | z | paired ΔF |
-|---|---|---|---|---|
-| 37 | +0.566 ± 0.008 | +0.563 ± 0.008 | −0.22 | −0.003 ± 0.008 |
-| 91 | +0.697 ± 0.033 | +0.698 ± 0.030 | +0.04 | +0.002 ± 0.029 |
-| 169 | −0.220 ± 0.088 | −0.174 ± 0.083 | +0.37 | +0.045 ± 0.072 |
+| N | program | GRN genome (ABI 2, n_view gate) | z | paired ΔF | ABI 1 genome (flank_best gate), z |
+|---|---|---|---|---|---|
+| 37 | +0.566 ± 0.008 | +0.564 ± 0.008 | −0.17 | −0.002 ± 0.008 | +0.563 ± 0.008, −0.22 |
+| 91 | +0.697 ± 0.033 | +0.690 ± 0.032 | −0.15 | −0.007 ± 0.031 | +0.698 ± 0.030, +0.04 |
+| 169 | −0.220 ± 0.088 | −0.207 ± 0.084 | +0.11 | +0.013 ± 0.070 | −0.174 ± 0.083, +0.37 |
 
 - **Every settled state** (alone, juvenile or adult with the gate open or closed, first contact tick, a mother just
   after a claim) decodes exactly the program row.
-- **The design's minimal 3-gene sketch** (no echo, no reset) scores +0.668 ± 0.054 at 91 (144 lives; z −0.59
-  against the program).
+- **The design's minimal 3-gene sketch** (no echo, no reset) scores +0.652 ± 0.058 at 91 (144 lives; z −0.78
+  against the program). With the ABI-1 flank_best gate it scored +0.668 ± 0.054 (z −0.59).
 - **Verdict.** PASS.
 - **In plain words.** The hand-built heart can be written in the same gene language evolution searches, and it
-  scores the same. So the target is reachable in principle.
+  scores the same. Its growth gate now counts live neighbours instead of reading a special "flank" signal, and it
+  still matches the hand-built program. So the target is reachable in principle.
 
 ## G10. D4 (flank placement and gate), D5 (refined t_ref grid), and the GRN layer
 
 - **Criteria.**
   - d4_layered: R25-v1's layered growth (flank placement plus the flank-best rate gate) beats placement only, gate
     only and neither by more than 2 paired SE in F* (program mode).
-  - d4_flank_gate: in GRN mode, the flank-best gate with flank placement beats the registered alternative by more
-    than 2 paired SE. The alternative is an n_view ≥ 5 gate with random placement, the prototype's dir 4.
+  - d4_grn_placement (ABI 2; under ABI 1 this was d4_flank_gate): in GRN mode, R25-v1's genome (n_view ≥ 5 gate,
+    flank placement) beats the registered alternative by more than 2 paired SE. The alternative is the same n_view
+    ≥ 5 gate with random placement, the prototype's dir 4. Since ABI 2 has no flank_best input, the two differ only
+    in the placement term. ABI 1's d4_flank_gate compared a flank_best-gated genome with that alternative instead
+    (passed, z 2.9).
   - d5_refined: R25-v1 (t_ref 2.5) beats the best phenotype on the old t_ref grid (0.5, 1, 2, 4) by more than 2
     paired SE in F*. The best old-grid phenotype is chosen by a screen at 91 cells on screen seeds.
   - grn_layer: a lone GRN cell with a constant readout is bitwise identical to the program-mode lone cell, and the
@@ -307,26 +337,37 @@ verdict, and one plain-language line.
     | neither (random, p 1/2) | 37 | +0.334 ± 0.038 | +0.380 ± 0.043 (8.7) |
 
   - **D4, GRN mode** (F* over 61-127):
-    - flank gate: +0.753 ± 0.040 (n* 91);
-    - n_view gate with random placement: +0.638 ± 0.029, 15% weaker, ΔF +0.115 ± 0.040, z 2.9;
-    - n_view gate with flank placement: +0.754 ± 0.042, ΔF −0.001 ± 0.013.
+    - ABI 2: R25-v1's genome (n_view gate, flank placement): +0.754 ± 0.042 (n* 91, flat top 61-91);
+    - ABI 2: n_view gate with random placement: +0.638 ± 0.029 (n* 61), 15% weaker, ΔF +0.116 ± 0.041, z 2.8;
+    - both are bitwise the lives ABI 1 gave the same two genomes (their F* agree to every digit);
+    - ABI 1 only (kept in `d4_grn.abi1`): the flank_best gate with flank placement, +0.753 ± 0.040 (n* 91). The
+      n_view gate with flank placement differed from it by −0.001 ± 0.013 (paired), and with random placement by
+      −0.115 ± 0.040 (z 2.9). This is the evidence for removing the flank_best input.
   - **D5:**
     - The screen (96 coupled rows at 91 cells) picks C1 (b 1.125, τ 1, t_ref 2, w0 −0.75) as the best old-grid
       phenotype, the same one the design registered, and R25-v1 itself as the best refined one.
     - C1 scores +0.481 ± 0.026 (n* 61), against R25-v1's +0.713: ΔF +0.233 ± 0.026, z 8.9.
     - t_ref sweep of R25-v1 at 91 cells: −1.74, −1.77, −1.79, +0.05, **+0.71**, −0.34, −0.36 and −1.63 for t_ref
       0.5 to 4.
-  - **GRN layer:** the lone GRN cell is bitwise the program cell; G9's z are −0.22, +0.04 and +0.37.
+  - **GRN layer:** the lone GRN cell is bitwise the program cell; G9's z are −0.17, −0.15 and +0.11 (ABI 1: −0.22,
+    +0.04 and +0.37).
 - **Verdict.** **FAIL**, on d4_layered only:
   - The rate gate is what matters: without it the body loses +0.24 (z 7.1).
   - The flank term in placement adds only +0.057 ± 0.037, which 144 lives do not resolve.
-  - The registered n_view comparison holds (15% weaker, z 2.9), but only because it also removes flank placement.
-    With flank placement kept, the n_view ≥ 5 gate is exactly as good as the flank-best gate. So the 19th GRN input
-    (flank_best / 2) is not needed for layered growth when n_view is available.
+  - The registered n_view comparison held under ABI 1 (15% weaker, z 2.9), but only because it also removes flank
+    placement. With flank placement kept, the n_view ≥ 5 gate is exactly as good as the flank-best gate on hex. So on
+    hex the GRN input flank_best / 2 was not needed for layered growth when n_view is available. ABI 2 removed it
+    (LIFE_ABI.md 15.32) and kept the placement term φ·flank(e). On square8 the n_view gate is weaker (S8).
+  - Under ABI 2 the GRN check isolates that placement term: with the n_view gate, flank placement beats random
+    placement by +0.116 ± 0.041 (z 2.8). In program mode, with the flank_best gate, the same term adds only
+    +0.057 ± 0.037 (z 1.5). Placement seems to matter more when the rate gate cannot see flanks; the two numbers
+    come from different gates and are not a paired comparison.
   - D5 holds strongly: t_ref 2.5 is a sharp optimum, and the refinement of the grid is needed.
 - **In plain words.** Refining the refractory-time grid was right. Of the two parts of "layered growth", slowing
-  division at the rim matters a lot. Choosing the most enclosed empty spot adds a little that I could not confirm,
-  and the special "flank" input to the genes could be replaced by the plain neighbour count.
+  division at the rim matters a lot. Choosing the most enclosed empty spot adds a little in the hand-built program
+  that I could not confirm, but clearly helps the gene version. The special "flank" input to the genes was replaced
+  by the plain neighbour count, which works as well on hex. On the square grid with diagonal contacts it works
+  less well (S8).
 
 ## S8. The square8 size curve
 
@@ -348,10 +389,36 @@ verdict, and one plain-language line.
 - **Re-tuning.** The screen's best variant (b 1.25, w0 −0.75, δ 2, t_ref 2.5, gate on) scores +1.072 at 121 on the
   fresh lives, ΔF −0.079 ± 0.056 against R25-v1. No hex-tuned parameter in the screen needed re-tuning; the screen's
   apparent gain was a winner's curse.
-- **The GRN genome** (D = 8) at 121: +1.109 ± 0.068, z −0.45 against the program.
+- **The GRN genome** (D = 8; ABI 2, rate gate at n_view ≥ 7) at 121: +0.978 ± 0.073, z −1.79 against the program
+  (the reported check, unpaired, passes). Paired on the same lives it is −0.173 ± 0.080 (z −2.18; computed
+  separately, not stored in gates.json). On 144 screen lives the same genome is only −0.035 ± 0.074 below the
+  program, and gates at n_view ≥ 5 or ≥ 6 give −0.077 ± 0.097 and +0.026 ± 0.065: no threshold is clearly better,
+  and the fresh-life shortfall is not reproduced. Unresolved; the genome is not re-tuned. ABI 1's flank_best-gated
+  genome scored +1.109 ± 0.068 (z −0.45).
+- **The GRN genome without the flank_best input** (review, 2026-10-07; `results/flank_square8/`, pinned by
+  `test_square8_n_view_gate_against_the_abi1_flank_gate`). G10's evidence for removing the input came from hex only.
+  Here is the same pair on square8: R25-v1's genome gated on n_view ≥ 7 (ABI 2), against its ABI-1 twin gated on
+  flank_best, both with flank placement. Paired on the same 288 fresh lives per size (the program's lives are
+  bitwise equal in both trees):
+
+  | N | 49 | 81 | 121 | 169 |
+  |---|---|---|---|---|
+  | flank_best gate (ABI 1) | +0.791 | +1.056 | **+1.096** | +0.893 |
+  | n_view gate (ABI 2) | +0.777 | +1.006 | **+1.015** | +0.727 |
+  | paired difference (SE) | −0.013 (0.010) | −0.051 (0.020) | −0.081 (0.052) | −0.165 (0.065) |
+  | z | −1.3 | −2.5 | −1.6 | −2.5 |
+
+  - F* drops by 7%, and the n_view genome is lower at every size. On hex the same pair is equal (|z| < 1 at 61, 91
+    and 127 cells), as G10 found.
+  - Gates at n_view ≥ 5, 6 and 7 (144 lives) are all below the flank_best gate at 81, 121 and 169 cells, by
+    −0.02 to −0.47.
+  - So on square8 the removal costs the hand-built genome F. This matters for the square8 pilot arm, not only for a
+    seeded control: there, evolution must find layered growth without the cue that the hand-built genome needs. The
+    kernel is unchanged; whether the square8 arm should keep flank_best is the user's decision.
 - **Verdict.** PASS.
 - **In plain words.** On the square grid with diagonal contacts, the same heart grows bigger (about 121 cells) and
-  earns about 60% more than on hex. The hex settings work there as they are.
+  earns about 60% more than on hex. The hex settings work there as they are. The gene version of the heart lost
+  about 7% there when its special "flank" input was removed; on hex it lost nothing.
 
 ## Deviations from the design, and choices it left open
 
@@ -381,7 +448,10 @@ verdict, and one plain-language line.
    - The genome has 5 genes. Two of them (contact echo, division reset) go beyond the design's 3-gene sketch.
    - They were chosen on exploration seeds, because the sketch's gate gene, forced open in a mother by its
      partition, made the GRN body divide too fast after each claim (−0.06 at 91 on exploration lives).
-   - The sketch itself is reported (+0.668 ± 0.054 at 91, within 2 SE).
+   - The sketch itself is reported (+0.652 ± 0.058 at 91 under ABI 2, within 2 SE; +0.668 ± 0.054 under ABI 1).
+   - Since ABI 2 the genome's rate gate reads n_view, not flank_best (LIFE_ABI.md 15.32), while the program still
+     gates on flank_best. G9 therefore compares two growth rules that G10 measured as equally good on hex, not one
+     rule written twice.
    - One known difference remains: a juvenile mother becomes adult at her first division (Q +1, as the design
      specifies). The program keeps her silent until her own tick 10.
 10. **G10.**
@@ -400,3 +470,14 @@ verdict, and one plain-language line.
     - The integer twin and tests T7-T10 (G8 note; T6 runs in float since the integration step).
     - The optional lineage-timer gene of G9, for uncapped size control: built (`r25_genome(timer=...)`), not
       measured.
+14. **ABI 2: the gene network's flank_best input was removed (2026-10-07, approved by the user before the pilot).**
+    - Why: under ABI 1, G10 measured an n_view gate with flank placement as good as the flank_best gate in GRN mode
+      on hex (+0.754 vs +0.753, paired −0.001 ± 0.013). The dedicated input was a hand-coded rule that n_view already
+      covers on hex. Details and the neutrality check: LIFE_ABI.md 15.32.
+    - Not on square8 (review, 2026-10-07): there the n_view-gated genome is below its flank_best-gated ABI-1 twin at
+      every size (F* −7%; z −2.5 at 81 and 169 cells), and no n_view threshold closes the gap (S8).
+    - What was re-measured: G9, G10's GRN block and grn_layer, S8's GRN genome, G6's GRN rows and G7's scope. Every
+      program-mode number is unchanged (G1-G5 and G8 identical leaf for leaf in gates.json).
+    - What changed in the criteria: G10's d4_flank_gate became d4_grn_placement, because its flank_best-gated genome
+      can no longer be built. The ABI-1 measurements are kept in gates.json (`abi1` entries) and in
+      `scripts/life_gates.py` (`ABI1`).

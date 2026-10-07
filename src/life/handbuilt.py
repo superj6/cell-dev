@@ -10,8 +10,10 @@ Provenance. The ladder, B and the ``/bell3`` variants copy the configurations of
 t_ref 2.6, PACE8's b, and the low division rate 0.5 x 0.1 = 0.05 (program rows accept off-grid values). R25-v1 itself
 is the design's on-grid version, whose flank gate switches p_div between 1/2 and 1/16 (both on the p_div grid).
 
-``r25_genome`` writes R25-v1 as a raw 809-slot GRN genome (``GrnOrganism``), the form evolution searches; gate G9
-compares it with the program.
+``r25_genome`` writes R25-v1 as a raw 793-slot GRN genome (``GrnOrganism``), the form evolution searches; gate G9
+compares it with the program. The gene network has no flank_best input (ABI 2, LIFE_ABI.md 15.32), so the genome's
+rate gate reads the live-contact fraction n_view / D where the program's reads flank_best; placement keeps the flank
+term (phi 2) in both.
 """
 from __future__ import annotations
 
@@ -155,9 +157,9 @@ def lone_grid() -> tuple[list[tuple[float, float, float, float]], np.ndarray]:
 # ---------------------------------------------------------------------------------------------- GRN genomes
 @dataclass(frozen=True, eq=False)
 class GrnOrganism:
-    """A GRN-mode organism: a raw float32 genome [809] (``spec.GENOME_FIELDS``), packed per lattice at run time."""
+    """A GRN-mode organism: a raw float32 genome [793] (``spec.GENOME_FIELDS``), packed per lattice at run time."""
     name: str
-    genome: np.ndarray  # float32 [809]
+    genome: np.ndarray  # float32 [793]
     flags: int = 0
     about: str = ""
 
@@ -176,13 +178,14 @@ class GrnOrganism:
 
 
 # R25-v1 written as a GRN genome (gate G9). Genes (all others inactive):
-GENE_CONTACT, GENE_JUVENILE, GENE_FLANK, GENE_ECHO, GENE_RESET, GENE_TIMER = 0, 1, 2, 3, 4, 5
+GENE_CONTACT, GENE_JUVENILE, GENE_GATE, GENE_ECHO, GENE_RESET, GENE_TIMER = 0, 1, 2, 3, 4, 5
 LAM_X = {2: -3.0, 16: 0.0, 128: 4.0}  # raw rate-class value for lambda = 1/2, 1/16, 1/128 (spec.decode_lambda)
 
 
-def r25_genome(gate: str | None = "flank", echo: bool = True, reset: bool = True, timer: float = 0.0, contact=None,
+def r25_genome(gate: str | None = "n_view", echo: bool = True, reset: bool = True, timer: float = 0.0, contact=None,
                D: int = 6, placement: bool = True) -> np.ndarray:
-    """R25-v1 as a raw float32 GRN genome; gate G9 scores it against the program ``R25_V1``.
+    """R25-v1 as a raw float32 GRN genome; gate G9 scores it against the program ``R25_V1``. The program gates
+    division on flank_best (a program-mode feature, LIFE_ABI.md 7.5); this genome gates it on n_view (gene 2).
 
     Genes (lambda per own tick; Q is the division partition, daughter g + asym Q, mother g - asym Q, asym ~ 1):
     - 0 contact (1/2): target 1 iff n_view >= 1; Q -1, so a daughter starts alone, as the program's newborn does.
@@ -193,13 +196,17 @@ def r25_genome(gate: str | None = "flank", echo: bool = True, reset: bool = True
     - 1 juvenile (1/16): decays to 0; Q +1, so a daughter starts at 1 and a mother drops to 0. Emission needs
       C - g1 > 0.492, i.e. g1 < 0.508: (15/16)^10 = 0.524 and (15/16)^11 = 0.492, so a newborn stays silent for exactly
       its first 10 own ticks (the program's juv_ticks 10). The zygote starts at g1 = 1 too.
-    - 2 gate (1/2): target 1 iff flank_best = 2 (``gate="flank"``, the design's layered growth) or iff
-      n_view >= D - 1 (``gate="n_view"``, the alternative of D4); Q -1. p_div = 2^(round(4 + 3 g2) - 8): 1/16
-      closed, 1/2 open, 1/4 or 1/8 for the one or two ticks of a transition. ``gate=None``: always open (p_div 1/2).
+    - 2 gate (1/2): target 1 iff n_view >= D - 1, read from the live-contact fraction n_view / D; Q -1. With flank
+      placement (phi 2) this layered growth scored as well as a flank_best-gated genome on hex (G10 under ABI 1: F*
+      +0.754 vs +0.753), but not on square8 (D = 8: F* +1.015 vs +1.096, paired -0.05 at 81 and -0.17 at 169 cells,
+      z -2.5 each; no n_view threshold closes the gap; LIFE_GATES.md S8). The gene network has had no flank_best
+      input since ABI 2.
+      p_div = 2^(round(4 + 3 g2) - 8): 1/16 closed, 1/2 open, 1/4 or 1/8 for the one or two ticks of a transition.
+      ``gate=None``: always open (p_div 1/2).
     - 4 division reset (1/2), only if ``reset``: target 0; Q -1, so it is 1 in a mother after a claim, 0 in the
       daughter. The gate reads g2 - g4: Q -1 forces the mother's g2 to 1, and g4 cancels exactly that, so after a
       division the mother's gate behaves as if reset to closed (without it she divides at 1/4 at her next tick
-      whatever her flanks, which the program never does).
+      whatever her contacts, which the program never does).
     - 5 lineage timer (1/128), only if ``timer`` > 0: rises toward 1 and is inherited (Q 0); p_div steps down and
       reaches 0 once timer x g5 > 1.625 (uncapped size control, the design's optional gene).
     Readout (y = a0 + A g; decoded on the v1 grid): b 1.875 - 0.75 C, tau_m 8 -> 1 and t_ref 2 -> 2.5 (alone ->
@@ -212,8 +219,8 @@ def r25_genome(gate: str | None = "flank", echo: bool = True, reset: bool = True
     g = np.zeros(spec.GENOME_SIZE, dtype=np.float64)
     W, b, lam, s0, Q, act = (spec.genome_view(g, n) for n in ("W", "b", "lam", "s0", "Q", "act"))
     A, a0, Dm, km = (spec.genome_view(g, n) for n in ("A", "a0", "Dm", "km"))
-    Kc, Kj, Kg, Ke, Kr, Kt = GENE_CONTACT, GENE_JUVENILE, GENE_FLANK, GENE_ECHO, GENE_RESET, GENE_TIMER
-    X_NVIEW, X_FLANK = spec.G_MAX + 5, spec.G_MAX + 6  # inputs n_view / D and flank_best / 2
+    Kc, Kj, Kg, Ke, Kr, Kt = GENE_CONTACT, GENE_JUVENILE, GENE_GATE, GENE_ECHO, GENE_RESET, GENE_TIMER
+    X_NVIEW = spec.G_MAX + 5  # input n_view / D
     lam[:] = LAM_X[2]
     s0[:] = -12.0
     act[[Kc, Kj, Kg]] = 1.0
@@ -221,14 +228,12 @@ def r25_genome(gate: str | None = "flank", echo: bool = True, reset: bool = True
     b[Kc] = -10.0
     Q[Kc] = -1.0
     b[Kj], lam[Kj], s0[Kj], Q[Kj] = -12.0, LAM_X[16], 12.0, 1.0
-    if gate == "flank":
-        W[Kg, X_FLANK], b[Kg] = 40.0, -30.0  # flank_best 2 -> +10, 1 -> -10
-    elif gate == "n_view":
+    if gate == "n_view":
         W[Kg, X_NVIEW], b[Kg] = 20.0 * D, 30.0 - 20.0 * D  # n_view D - 1 -> +10, D - 2 -> -10
     elif gate is None:
         b[Kg], s0[Kg] = 30.0, 12.0
-    else:
-        raise ValueError(f"unknown gate {gate!r}")
+    else:  # "flank" was the flank_best gate of ABI 1; that input no longer exists
+        raise ValueError(f"unknown gate {gate!r} (the gene network has no flank_best input since ABI 2)")
     Q[Kg] = -1.0 if gate is not None else 0.0
     if echo:
         act[Ke] = 1.0
@@ -276,7 +281,8 @@ def r25_genome(gate: str | None = "flank", echo: bool = True, reset: bool = True
     return g.astype(np.float32)
 
 
-R25_V1_GRN = GrnOrganism("R25-v1/GRN", r25_genome(), about="R25-v1 written as a GRN genome (gate G9)")
+R25_V1_GRN = GrnOrganism("R25-v1/GRN", r25_genome(),
+                         about="R25-v1 written as a GRN genome (gate G9): n_view >= 5 rate gate, flank placement")
 
 
 def constant_genome(row) -> np.ndarray:
@@ -317,7 +323,7 @@ def constant_genome(row) -> np.ndarray:
 def r25_genome_states(organism: GrnOrganism | None = None, program: Organism | None = None) -> dict:
     """The R25-v1 genome's decoded phenotype in each settled gene state against the program row it stands for.
 
-    States (contact, juvenile, gate, echo, reset genes): alone; juvenile or adult with the flank gate closed or open;
+    States (contact, juvenile, gate, echo, reset genes): alone; juvenile or adult with the rate gate closed or open;
     the first tick that sees a contact (contact gene 1/2, echo still 0), where the echo makes the switch exact; and a
     mother right after her claim (gate and reset genes both forced to 1: closed).
     Knobs that program rows do not use (asym, sec0, sec1, tau_tr) are not compared. Returns, per state, the program
@@ -341,7 +347,7 @@ def r25_genome_states(organism: GrnOrganism | None = None, program: Organism | N
     out = {}
     for name, (genes, rname, pdiv) in states.items():
         g = np.zeros(spec.G_MAX)
-        for k, x in zip((GENE_CONTACT, GENE_JUVENILE, GENE_FLANK, GENE_ECHO, GENE_RESET), genes):
+        for k, x in zip((GENE_CONTACT, GENE_JUVENILE, GENE_GATE, GENE_ECHO, GENE_RESET), genes):
             g[k] = x
         th = spec.phenotype(gt, g)
         want = rows[rname].copy()

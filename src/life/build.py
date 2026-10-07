@@ -186,7 +186,7 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
         threads: int = 1, raster_cap: int = 0, fate_cap: int = 0) -> Lives:
     """Run ``n`` lives. ``worlds``: a ``spec.World`` (or a list, one per life). ``seeds``: life seeds or rows of 4.
 
-    ``genomes`` is a packed genome table ``[G, 809]`` (``spec.pack_genomes``), ``programs`` a program table
+    ``genomes`` is a packed genome table ``[G, 793]`` (``spec.pack_genomes``), ``programs`` a program table
     ``[P, 119]`` or ``[119]`` (``spec.pack_program``); the two may have different row counts. ``genome_of[i]`` picks
     the row of life i in the table its mode uses (program mode: ``programs``, else ``genomes``). By default a life uses
     row i of a table with ``n`` rows and row 0 of a one-row table; any other table needs an explicit ``genome_of``.

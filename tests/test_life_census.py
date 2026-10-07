@@ -62,6 +62,21 @@ def test_bench_reports_generation_and_kernel_times():
     b = life_bench.loop_bench(SMOKE, 2, 3, life_bench.POPULATIONS["r25"], ["clones.every=2", "evolve.heldout_every=2"])
     assert b["generations"] == 3 and b["founders_sampled"] == 0 and b["t_gen_plain"] > 0
     assert len(b["body_mean"]) == 3 and b["genomes"] == 16
+    assert b["plain_gens"] == [1] and b["t_gen"] == [b["t_gen_plain"]] and b["t_recheck"] == [0.0]  # one-stage
+
+
+def test_bench_takes_the_recheck_share_within_each_generation():
+    """Review fix: the recheck's cost is a per-generation ratio, and the parts come from the same generations
+    (separate medians of the parts gave 19.5 + 7.8 s for a 25.3 s generation)."""
+    rows = [dict(gen=0, t_gen=9.0, t_eval=1.0, valid=0.1),  # a valid round: not plain
+            dict(gen=1, t_gen=30.0, t_eval=20.0, t_recheck=8.0), dict(gen=2, t_gen=12.0, t_eval=8.0, t_recheck=4.0),
+            dict(gen=3, t_gen=26.0, t_eval=19.0, t_recheck=6.0), dict(gen=4, t_gen=40.0, t_eval=30.0, t_recheck=9.0)]
+    p = life_bench.plain_times(rows)
+    assert p["plain_gens"] == [1, 2, 3, 4] and p["t_eval"] == [20.0, 8.0, 19.0, 30.0]
+    assert p["t_gen_plain"] == 28.0 and p["t_kernel_plain"] == (25.0 + 28.0) / 2
+    assert p["recheck_ratio"] == (6 / 19 + 0.4) / 2 and p["recheck_ratio_range"] == [0.3, 0.5]  # 0.4, 0.5, 6/19, 0.3
+    assert p["recheck_ratio_total"] == 27.0 / 77.0
+    assert life_bench.plain_times(rows[:1])["plain_gens"] == []
 
 
 def test_sweep_axes_follow_the_life_config():

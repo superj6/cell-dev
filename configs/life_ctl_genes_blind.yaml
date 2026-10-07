@@ -1,4 +1,4 @@
-# Control: genes blind. No activity traces, contact fraction or flank count reach the gene network.
+# Control: genes blind. No activity traces or live-contact fraction reach the gene network (ABI 2 has no flank input).
 extends: life_bell.yaml
 life: {control: genes_blind, flags: [genes_blind]}
 logging: {output_dir: outputs/life_ctl_genes_blind}

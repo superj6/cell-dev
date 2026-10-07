@@ -114,7 +114,8 @@ def test_grn_genome_lives_agree_across_schedulers():
     assert np.all(_conservation_error(ref) < 1e-12) and not ref.status("ledger_mismatch").any()
     kinds, f = ref.fates(0)
     born = kinds[:, 0] == 1
-    assert np.array_equal(f[born][0, 2:], gt[0, 400:416])  # the zygote starts from g0 = sigma(s0)
+    s0 = slice(*spec.GENOME_SLICES["s0"])
+    assert np.array_equal(f[born][0, 2:], gt[0, s0])  # the zygote starts from g0 = sigma(s0)
     win = build.run(replace(w, window_h=0.25), [[s, 0, 4, 1] for s in (7, 8, 9)], genomes=gt, fate_cap=256)
     assert _same(ref, win)
 

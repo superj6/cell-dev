@@ -1,4 +1,4 @@
-# One-life kernel ABI and event semantics (ABI v1)
+# One-life kernel ABI and event semantics (ABI 2)
 
 This document is the contract between the C event kernel (`src/life/kernel.c`), the Python reference
 (`src/life/reference.py`) and the harness (`src/life/spec.py` and its callers). It fixes the array layouts, inputs,
@@ -13,11 +13,17 @@ by replay, and the robustness-panel perturbations listed in section 7.9. The int
 features are reserved (section 13). Section 15 lists every place where this contract makes a choice that the design
 left open, or deviates from its pseudo-code, and why.
 
-Revisions (ABI v1 is not yet frozen): cross-check round 1 (2026-10-07) made TICK step 1 set `inc[slot]` only from
-the slot's current contact (7.4, 15.9), made a panel KILL charge the killed cell's last interval (7.9, 15.26), and
-recorded 15.27. The kernel and the reference implement both. Migration step 3 (2026-10-07) fixed the Python
-mirror of sigma for readouts below about -709.78 (section 2: the reference raised OverflowError where the kernel
-returns 0); the kernel is unchanged.
+Revisions (not yet frozen). ABI numbers count changes of this contract. They are not the design's stages (v1-v7):
+ABI 1 and ABI 2 both implement stage v1.
+- **ABI 2** (2026-10-07, approved before the pilot) removes the gene-network input `flank_best / 2`: x has 22
+  entries (7.4 step 3), W is `[16][22]` and the genome has 793 slots (4.4), and `genes_blind` zeroes `x[18..21]`
+  (12). Placement keeps `phi * flank(e)`, and program mode keeps its `flank_gate`. Why: section 15.32. A genome whose
+  flank weights are 0 lives bitwise as it did under ABI 1.
+- ABI 1: cross-check round 1 (2026-10-07) made TICK step 1 set `inc[slot]` only from the slot's current contact
+  (7.4, 15.9), made a panel KILL charge the killed cell's last interval (7.9, 15.26), and recorded 15.27. The kernel
+  and the reference implement both. Migration step 3 (2026-10-07) fixed the Python mirror of sigma for readouts
+  below about -709.78 (section 2: the reference raised OverflowError where the kernel returns 0); the kernel is
+  unchanged.
 
 Contents:
 1. Overview of the computation
@@ -141,14 +147,14 @@ the first run.
 ### 4.2 Entry points
 ```c
 int32_t life_abi_version(void);
-void    life_sizes(int32_t out[10]);   // abi, genome 809, program 119, world 41, ledger 35, hashes 4, knobs 21,
+void    life_sizes(int32_t out[10]);   // abi, genome 793, program 119, world 41, ledger 35, hashes 4, knobs 21,
                                        // max_init 64, fate_i 6, fate_f 18   (spec.SIZES, in this order)
 int32_t life_run(
     int32_t n_lives, int32_t threads,
     const int32_t *lat,          // [2 + 6*D]   lattice table (4.3)
     const double  *unit,         // [D][2]      unit vectors (4.3)
     int32_t n_genomes,           // G           rows of the genome table
-    const double  *genomes,      // [G][809]    packed genome tables (4.4); may be NULL if every life is program mode
+    const double  *genomes,      // [G][793]    packed genome tables (4.4); may be NULL if every life is program mode
     int32_t n_programs,          // P           rows of the program table
     const double  *programs,     // [P][119]    program tables (4.5); may be NULL if no life is program mode
     const int32_t *genome_of,    // [n_lives]   row of the table each life's mode uses (programs or genomes)
@@ -179,7 +185,7 @@ Test exports (used by `tests/test_life_*` to compare the C functions with `spec.
 uint64_t life_hash64(uint64_t seed, uint64_t stream, int32_t n, const uint64_t *keys);
 double   life_normal(uint64_t seed, uint64_t stream, int32_t n, const uint64_t *keys);
 void     life_decode(const double y[21], double theta[21]);           // section 8
-void     life_readout(const double gt[809], const double g[16], double y[21]);
+void     life_readout(const double gt[793], const double g[16], double y[21]);
 ```
 
 ### 4.3 Lattice table
@@ -198,22 +204,23 @@ void     life_readout(const double gt[809], const double g[16], double y[21]);
   `y = b*sqrt(3)/2`; square8 diagonals normalized). Both implementations read these numbers. Neither recomputes them.
 
 ### 4.4 Genome table (GRN mode)
-The raw genome is float32 `[809]` with these fields (`spec.GENOME_FIELDS`; offsets `spec.GENOME_SLICES`):
+The raw genome is float32 `[793]` with these fields (`spec.GENOME_FIELDS`; offsets `spec.GENOME_SLICES`). W's 22
+columns weigh the 22 inputs x of 7.4 step 3, in that order (ABI 1 had a 23rd, flank_best / 2: 15.32).
 
 | field | shape | offset | raw meaning | packed (float64) value |
 |---|---|---|---|---|
-| W | [16][23] | 0 | regulation weights, row = regulated gene | row k and column k (k < 16) zeroed if gene k is inactive |
-| b | [16] | 368 | basal expression | 0 if inactive |
-| lam | [16] | 384 | rate class x | `lambda = 2^-(1 + clip(rint(x + 3), 0, 6))`, 0 if inactive |
-| s0 | [16] | 400 | maternal state x | `g0 = sigma(x)`, 0 if inactive |
-| Q | [16] | 416 | partition vector | 0 if inactive |
-| act | [16] | 432 | active bit | `1.0 if x > 0.5 else 0.0` |
-| A | [21][16] | 448 | readout, column = gene | column k zeroed if inactive |
-| a0 | [21] | 784 | readout bias | unchanged |
-| Dm | [2] | 805 | packet-rate x | `D_m = (0.9 * sigma(x)) / (D * P_MAX)`, `P_MAX = 3.0`, D = lattice degree |
-| km | [2] | 807 | decay x | `k_m = 0.005 + 0.3 * sigma(x)` |
+| W | [16][22] | 0 | regulation weights, row = regulated gene | row k and column k (k < 16) zeroed if gene k is inactive |
+| b | [16] | 352 | basal expression | 0 if inactive |
+| lam | [16] | 368 | rate class x | `lambda = 2^-(1 + clip(rint(x + 3), 0, 6))`, 0 if inactive |
+| s0 | [16] | 384 | maternal state x | `g0 = sigma(x)`, 0 if inactive |
+| Q | [16] | 400 | partition vector | 0 if inactive |
+| act | [16] | 416 | active bit | `1.0 if x > 0.5 else 0.0` |
+| A | [21][16] | 432 | readout, column = gene | column k zeroed if inactive |
+| a0 | [21] | 768 | readout bias | unchanged |
+| Dm | [2] | 789 | packet-rate x | `D_m = (0.9 * sigma(x)) / (D * P_MAX)`, `P_MAX = 3.0`, D = lattice degree |
+| km | [2] | 791 | decay x | `k_m = 0.005 + 0.3 * sigma(x)` |
 
-`spec.pack_genomes(params, kind)` produces the packed table, float64 `[G][809]` with the same offsets, and turns
+`spec.pack_genomes(params, kind)` produces the packed table, float64 `[G][793]` with the same offsets, and turns
 every `-0.0` into `+0.0`. The kernel never reads the raw genome. The packed table holds no NaN or infinity:
 `pack_genomes` raises `ValueError` for a raw genome that holds one, and `life_run` returns -1 for a packed row that
 holds one (a NaN readout would otherwise index the knob tables of section 8 out of range). An
@@ -276,7 +283,7 @@ relative to `t0`.
 | 34 | kill_frac | 0 | panel: fraction killed at kill_t |
 | 35 | stuck_t | -1 | (rel) panel: the occupant of (stuck_a, stuck_b) becomes stuck-firing (< 0 = off) |
 | 36-37 | stuck_a, stuck_b | 0 | panel: stuck site |
-| 38-40 | kill_rate, wound_rate, drift_tau | 0 | reserved (v2, v3); must be 0 in ABI v1 |
+| 38-40 | kill_rate, wound_rate, drift_tau | 0 | reserved (stages v2, v3); must be 0 in ABI 1 and 2 |
 
 The lattice kind is a property of the call (the lattice table), not of the world vector.
 
@@ -544,13 +551,13 @@ An emit knob counts as on when it is nonzero (decoded values are exactly 0 or 1;
    ticks += 1 (counted)
 3. traces to t
    n_view = #{d : view[d] != EMPTY}
-   flank(e) = [view[prev[e]] != EMPTY] + [view[next[e]] != EMPTY]
-   flank_best = max over e with view[e] == EMPTY of flank(e); 0 if no slot is empty
+   flank(e) = [view[prev[e]] != EMPTY] + [view[next[e]] != EMPTY]                  # placement, step 8
+   flank_best = max over e with view[e] == EMPTY of flank(e); 0 if no slot is empty   # program mode only (7.5)
    x[0..15] = g;  x[16+i] = m[i] / (1.0 + m[i]);  x[18] = f / theta_prev.tau_tr;  x[19+c] = r[c] / theta_prev.tau_tr
-   x[21] = (double) n_view / (double) D;  x[22] = (double) flank_best / 2.0
-   if F(genes_blind): x[18..22] = 0.0
+   x[21] = (double) n_view / (double) D                              # ABI 2: no flank_best input (15.32)
+   if F(genes_blind): x[18..21] = 0.0
 4. if not (F(identity_clamp) or F(freeze)):
-       for k = 0..15: p = b[k]; for j = 0..22: p = p + W[k][j] * x[j];  s[k] = sigma(p)
+       for k = 0..15: p = b[k]; for j = 0..21: p = p + W[k][j] * x[j];  s[k] = sigma(p)
        for k = 0..15: g[k] = g[k] + lam[k] * (s[k] - g[k])          # every s[k] from the same, old x
 5. if t >= t_r:
        v_a = q10(vnow(t)); t_a = t                                   # with theta_prev
@@ -921,12 +928,12 @@ message created before `t_fork` is delivered normally after it.
 | 2 | apoptosis_off | no deaths in TICK step 6 (p_die and prune) |
 | 3 | division_off | no claims |
 | 4 | freeze | no gene update, no phenotype or w_eff update, no division, no death (the membrane is still re-anchored at ticks) |
-| 5 | genes_blind | x[18..22] = 0 (no traces, n_view or flank reach the genes) |
+| 5 | genes_blind | x[18..21] = 0 (no traces or n_view reach the genes; ABI 1 also zeroed x[22], flank_best) |
 | 6 | identity_clamp | g frozen: no gene update, and no partition at division (a daughter starts with her mother's g, and the mother keeps hers; 15.31) |
 | 7 | pheno_fixed | theta is decoded at birth only (w_eff is still recomputed) |
 | 8 | lockstep | base only: every d_c = d0, delays without jitter (jit and tick_jit treated as 0), no tau or clock mismatch, first ticks on the grid `t0 + j P0` |
 | 9 | program_mode | base only: section 7.5 |
-| 10 | integer_twin | base only; reserved, rejected in ABI v1 |
+| 10 | integer_twin | base only; reserved, rejected in ABI 1 and 2 |
 
 Under `lockstep` the kernel ignores `delay_sd`, `jit`, `tau_mis`, `clock_sd` and `tick_jit`.
 
@@ -1090,3 +1097,44 @@ All of them should be read by the user.
     with its mother's. A claim made before the fork carries the partition it was made with (flags are tested at the
     batch time, section 12). Program mode is unchanged (its claims carry the timer, which the flag already freezes).
     Test: `test_identity_clamp_freezes_g_through_divisions`.
+
+32. **No flank_best input to the gene network (ABI 2, 2026-10-07; approved by the user before the pilot).** The
+    design lists `flank_best / 2` among the GRN inputs (TICK step 3; Genome, REGULATION; hard-coded rule 10, whose
+    reason is that "gating on n_view alone is about 23% weaker"). Gate G10 re-measured that under ABI 1 on fresh lives
+    (144 per point, F* over 61-127 cells, LIFE_GATES.md):
+    - R25-v1's genome with a flank_best gate and flank placement: +0.753 ± 0.040;
+    - the same genome gated on n_view >= 5 instead (the live-contact fraction, already an input), flank placement
+      kept: +0.754 ± 0.042, paired difference −0.001 ± 0.013;
+    - the registered weakness (15% here, z 2.9) appears only when flank placement is removed too (n_view gate with
+      random placement, the prototype's dir 4: +0.638 ± 0.029).
+
+    So on hex the dedicated input duplicated what n_view already gives the genes, and it was a hand-coded rule; the
+    user's goal is to keep only the fixed rules that are needed. ABI 2 therefore:
+    - removes `x[22] = flank_best / 2`: x has 22 entries, W is `[16][22]`, the genome has 793 slots (every field
+      after W moves down by 16), `genes_blind` zeroes `x[18..21]`, and `ABI_VERSION`, `life_abi_version()` and
+      `life_sizes()` report 2 and 793;
+    - keeps the placement term `phi * flank(e)` of TICK step 8. It is a genetic knob (phi, row 12, 0 at
+      initialization) that evolution can zero;
+    - keeps program mode's `flank_gate` (7.5), which the hand-built references use. Program mode is a measurement
+      tool, not the organism model, and every program-mode gate is numerically unchanged;
+    - rewrites R25-v1's GRN genome (`handbuilt.r25_genome`, gate G9) to gate on n_view >= D - 1 with flank placement:
+      G10's +0.754 variant. The re-measured G9, G10 and S8 (and the GRN rows of G6 and G7) are in LIFE_GATES.md.
+
+    Neutrality: an ABI-1 genome whose flank weights are 0 (every founder starts that way) lives bitwise as before
+    once that W column is dropped. This was checked against the ABI-1 kernel on 24 fresh lives per case: R25-v1's
+    n_view-gated genomes (caps 37 and 91, uncapped, with the lineage timer, square8 with D = 8) and 6 random genomes,
+    238 output arrays (ledger, hashes, raster, fate logs), all equal. A genome with nonzero flank weights has no
+    neutral conversion: `LifeLayout.from_dict` refuses an ABI-1 save (W with 23 columns) instead of loading it with
+    every later field shifted.
+
+    **Hex only (review, 2026-10-07).** G10 ran on hex. On square8 (D = 8), where the same genome gates at
+    n_view >= 7, the removal costs the hand-built genome F. Paired against its ABI-1 twin gated on flank_best, on the
+    same 288 fresh lives per size (`results/flank_square8/`):
+    - n_view gate minus flank_best gate: -0.013 ± 0.010, -0.051 ± 0.020, -0.081 ± 0.052 and -0.165 ± 0.065 at 49,
+      81, 121 and 169 cells (z -1.3, -2.5, -1.6, -2.5);
+    - F* drops from +1.096 to +1.015 (-7%), both at 121 cells;
+    - gates at n_view >= 5, 6 and 7 all stay below the flank_best gate at 81, 121 and 169 cells (144 lives);
+    - on hex the same pair is equal (|z| < 1 at 61, 91 and 127 cells), as G10 found.
+
+    The kernel and the pilot were left unchanged: the user approved the removal on the hex evidence and decides whether
+    the square8 arm keeps it (LIFE_GATES.md S8).

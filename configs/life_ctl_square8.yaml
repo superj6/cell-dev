@@ -1,4 +1,5 @@
-# Control: the square lattice with diagonal contacts (D = 8) instead of hex.
+# Control: the square lattice with diagonal contacts (D = 8) instead of hex. Superseded for the pilot by the full arm
+# life_bell_square8.yaml (the same model, labelled control "full"); kept for older sweeps and the control tests.
 extends: life_bell.yaml
 lattice: {kind: square8}
 life: {control: square8}

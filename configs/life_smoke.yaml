@@ -15,5 +15,5 @@ life:
   size_curve_lives: 2
 clones: {every: 1, top: 2, times: [0.5], lives: 1}
 evolve: {mu: 4, lam: 12, generations: 3, founders: 2, init_samples: 64, max_init_samples: 128, heldout_every: 1,
-         batch: 16}
+         batch: 16, recheck_k: 0}   # one-stage selection here; tests turn the recheck on (evolve.recheck_k=8)
 logging: {output_dir: outputs/life_smoke}

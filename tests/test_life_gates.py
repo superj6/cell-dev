@@ -6,6 +6,7 @@ import copy
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from scripts import life_gates as lg
@@ -191,13 +192,17 @@ def test_g9_r25_v1_genome_matches_the_program_at_91_cells():
     if stored is not None:
         _same(q, stored["points"]["91"]["grn"])
         _same(p, stored["points"]["91"]["program"])
-        assert stored["genome"]["slots"] == spec.GENOME_SIZE
+        assert stored["genome"]["slots"] == spec.GENOME_SIZE == 793 and stored["genome"]["genes"]["2"] == "rim gate"
+        assert stored["abi1"]["gate"] == "flank_best = 2"  # the ABI-1 genome's numbers are kept for the record
         _rejudge("G9", stored)
 
 
 def test_g10_d4_d5_and_the_grn_layer_are_pinned():
     stored = _stored("G10")
-    nv = lg.d4_grn()["n_view gate, random placement"]
+    grn = lg.d4_grn()
+    assert list(grn) == ["n_view gate, flank placement", "n_view gate, random placement"]
+    assert grn["n_view gate, flank placement"] is hb.R25_V1_GRN
+    nv = grn["n_view gate, random placement"]
     p = lg.points(lg.curve(nv, (91,), lg.LIVES))[91]
     sweep2 = analysis.point(lg.lives(lg.tref_sweep()[2.0], 91, lg.LIVES))
     if stored is not None:
@@ -205,6 +210,17 @@ def test_g10_d4_d5_and_the_grn_layer_are_pinned():
         _same(sweep2, stored["d5"]["t_ref_sweep_91"]["2.0"])
         assert stored["grn_layer"]["lone_grn_bitwise_program"]
         _rejudge("G10", stored)
+
+
+def test_abi2_grn_genomes_live_as_their_abi1_twins():
+    """ABI 2 dropped the flank_best input (LIFE_ABI.md 15.32). R25-v1's genome now gates on n_view; it and its
+    random-placement variant had zero flank weights under ABI 1 too, so on the same 144 fresh lives they reproduce
+    the F* that G10 measured for them under ABI 1 (stored in ``life_gates.ABI1`` to 6 decimals)."""
+    rec = lg.ABI1["G10"]["d4_grn"]
+    for name, org in lg.d4_grn().items():
+        F, se, n_star, _ = rec[name]
+        p = lg.points(lg.curve(org, (n_star,), lg.LIVES))[n_star]
+        assert abs(p["mean"] - F) < 1e-6 and abs(p["se"] - se) < 1e-6, (name, p["mean"], F)
 
 
 def test_s8_square8_size_curve_is_measured_and_bounded():
@@ -215,3 +231,24 @@ def test_s8_square8_size_curve_is_measured_and_bounded():
     if stored is not None:
         _same(p, stored["r25_v1"]["curve"][str(N)])
         _rejudge("S8", stored)
+
+
+def test_square8_n_view_gate_against_the_abi1_flank_gate():
+    """Review of ABI 2: G10 found the n_view gate as good as the removed flank_best gate on hex, but on square8 R25-v1's
+    n_view-gated genome is lower at every size (results/flank_square8/). The ABI-1 side cannot be built any more, so
+    its per-life F is stored; the ABI-2 side is re-measured at 81 cells (288 lives) and must match bitwise."""
+    z = np.load(Path(__file__).resolve().parents[1] / "results" / "flank_square8" / "pair.npz")
+    org = hb.GrnOrganism("R25-v1 genome, square8", hb.r25_genome(D=8))
+    assert np.array_equal(lg.lives(org, 81, 288, lattice="square8")["F"], z["abi2/grn/81"])
+    assert np.array_equal(z["abi1/prog/81"], z["abi2/prog/81"])  # the same lives in both trees
+    diff = {}
+    for N in (49, 81, 121, 169):
+        d = z[f"abi2/grn/{N}"] - z[f"abi1/grn/{N}"]
+        se = d.std(ddof=1) / np.sqrt(d.size)
+        diff[N] = (round(float(d.mean()), 3), round(float(d.mean() / se), 1))
+    assert diff == {49: (-0.013, -1.3), 81: (-0.051, -2.5), 121: (-0.081, -1.6), 169: (-0.165, -2.5)}
+    f_star = [max(float(z[f"{abi}/grn/{N}"].mean()) for N in (49, 81, 121, 169)) for abi in ("abi1", "abi2")]
+    assert [round(f, 3) for f in f_star] == [1.096, 1.015]
+    for N in (61, 91, 127):  # on hex the two gates are equal (G10): |z| < 1
+        d = z[f"abi2/grn_hex/{N}"] - z[f"abi1/grn_hex/{N}"]
+        assert abs(d.mean()) < d.std(ddof=1) / np.sqrt(d.size)

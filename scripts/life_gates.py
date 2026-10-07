@@ -85,6 +85,22 @@ PROTOTYPE = dict(
         gaussian={37: (0.562211, 0.001772), 91: (0.726345, 0.007904), 169: (-0.002715, 0.019520)}),
 )
 
+# ABI 1 (kernel life_6ed6129a0071cbfe.so, gates.json of 2026-10-07): the gene network had a flank_best / 2 input and
+# R25-v1's genome gated division on it (flank_best = 2). ABI 2 removed that input (LIFE_ABI.md 15.32), so these GRN
+# measurements cannot be rerun; they are kept as the evidence for the removal. Same fresh lives as every gate.
+ABI1 = dict(
+    kernel="life_6ed6129a0071cbfe.so",
+    G9=dict(lives=288, gate="flank_best = 2", points={  # (GRN mean, SE, z against the program)
+        37: (0.563413, 0.007876, -0.224), 91: (0.698449, 0.030079, 0.036), 169: (-0.174481, 0.082596, 0.373)},
+        minimal_91=(0.667873, 0.054242, -0.592)),
+    G10=dict(lives=144, d4_grn={  # F* (over 61-127), its SE, n*, and the paired step from the flank-gate genome
+        "flank gate, flank placement": (0.752900, 0.040351, 91, None),
+        "n_view gate, random placement": (0.638136, 0.029417, 61, (0.114765, 0.039875, 2.878)),
+        "n_view gate, flank placement": (0.754151, 0.042269, 91, (-0.001250, 0.012737, -0.098))}),
+    S8=dict(lives=144, N=121, grn=(1.109347, 0.067881, -0.452)),
+    G6=dict(income_per_cell_e3=(32.570, 1.358), ratio=0.0417),
+)
+
 # ------------------------------------------------------------------------------------------------ protocol
 LIVES = 144  # fresh lives per point (the re-registration rule: at least 144)
 LIVES_R25 = 288  # the reference curve R25-v1 (G3), and G9 against it
@@ -609,7 +625,9 @@ def gate_g6(threads: int = 4, n: int = LIVES, cap: int = 91) -> dict:
                criteria=(f"collapse: in the window [T/2, T], income per cell of the contacts_off fork is at most "
                          f"{G6_COLLAPSE:g} x the intact twin's, for R25-v1 and for its GRN genome."),
                notes=["Forks are replays (LIFE_ABI.md 12): the same life with fork_flags = contacts_off from T/2 and "
-                      "t_open = T/2; the twin has t_open = T/2 only. Costs are still charged in the fork."])
+                      "t_open = T/2; the twin has t_open = T/2 only. Costs are still charged in the fork.",
+                      "The GRN genome is the n_view-gated one of ABI 2 (G9); abi1 keeps the flank_best-gated "
+                      "genome's numbers."], abi1=ABI1["G6"])
     return judge_g6(out)
 
 
@@ -629,7 +647,7 @@ G9_SIZES = (37, 91, 169)
 
 
 def gate_g9(threads: int = 4, n: int = LIVES_R25) -> dict:
-    """R25-v1 written as a GRN genome, through the real 809-slot path (spec.pack_genomes), against the program."""
+    """R25-v1 written as a GRN genome, through the real 793-slot path (spec.pack_genomes), against the program."""
     _THREADS[0] = threads
     prog = curve(hb.R25_V1, G9_SIZES, n)
     grn = curve(hb.R25_V1_GRN, G9_SIZES, n)
@@ -642,18 +660,23 @@ def gate_g9(threads: int = 4, n: int = LIVES_R25) -> dict:
     act = [int(k) for k in np.nonzero(spec.genome_view(gt, "act"))[0]]
     out = dict(registered=REGISTERED["G9"], lives=n, sizes=list(G9_SIZES), points=pts,
                genome=dict(slots=int(hb.R25_V1_GRN.genome.size), active_genes=act,
-                           genes={hb.GENE_CONTACT: "contact", hb.GENE_JUVENILE: "juvenile", hb.GENE_FLANK: "flank gate",
+                           genes={hb.GENE_CONTACT: "contact", hb.GENE_JUVENILE: "juvenile", hb.GENE_GATE: "rim gate",
                                   hb.GENE_ECHO: "contact echo", hb.GENE_RESET: "division reset"},
                            path="handbuilt.r25_genome -> spec.pack_genomes -> build.run (GRN mode)"),
                minimal=dict(about=g9_minimal().about, lives=LIVES, at_91=analysis.point(mini),
                             z_vs_program=analysis.z_diff(analysis.point(mini), analysis.point(prog91)),
                             paired=analysis.paired(mini["F"], prog91["F"])),
-               phenotypes=hb.r25_genome_states(),
+               phenotypes=hb.r25_genome_states(), abi1=ABI1["G9"],
                criteria=(f"within_2se: at the oracle cap 91, |F_GRN - F_program| <= {Z:g} combined SE over {n} fresh "
                          "lives (the design asks 36); phenotypes: in every settled gene state the genome decodes "
-                         "exactly the program row on every knob a program row uses (p_div after the flank gate). "
+                         "exactly the program row on every knob a program row uses (p_div after the rate gate). "
                          "37 and 169 cells are reported (G10 uses them)."),
-               notes=["Genes beyond the design's sketch (contact, juvenile, flank gate): a contact echo makes the "
+               notes=["ABI 2 (LIFE_ABI.md 15.32): the gene network has no flank_best input, so the genome's rate "
+                      "gate (gene 2) opens at n_view >= 5 (from the live-contact fraction), where the program's opens "
+                      "at flank_best = 2; both place daughters by flank (phi 2). G10 measured this n_view gate as "
+                      "good as a flank_best gate in GRN mode under ABI 1, on hex; on square8 it is weaker (S8 notes). "
+                      "The ABI-1 genome (flank_best gate) is kept in abi1.",
+                      "Genes beyond the design's sketch (contact, juvenile, rate gate): a contact echo makes the "
                       "alone-to-contact switch exact at the first tick that sees a contact, and a division reset "
                       "undoes the gate gene's forced opening in a mother (partition Q -1). Both were chosen on "
                       "exploration seeds 8.2e6 + s, not on the gate's lives.",
@@ -684,13 +707,12 @@ def d4_variants() -> dict[str, hb.Organism]:
 
 
 def d4_grn() -> dict[str, hb.GrnOrganism]:
-    return {"flank gate": hb.R25_V1_GRN,
+    """GRN-mode D4 (ABI 2): R25-v1's genome (n_view gate, flank placement) and the registered alternative (n_view
+    gate, random placement: the prototype's dir 4). The flank_best-gated genome of ABI 1 is in ``ABI1``."""
+    return {"n_view gate, flank placement": hb.R25_V1_GRN,
             "n_view gate, random placement": hb.GrnOrganism(
-                "R25-v1/GRN n_view-gate random", hb.r25_genome(gate="n_view", placement=False),
-                about="gate opens at n_view >= 5, phi 0: the prototype's dir 4, as registered for D4"),
-            "n_view gate, flank placement": hb.GrnOrganism(
-                "R25-v1/GRN n_view-gate", hb.r25_genome(gate="n_view"),
-                about="gate opens at n_view >= 5, phi 2: the gate input alone swapped")}
+                "R25-v1/GRN n_view-gate random", hb.r25_genome(placement=False),
+                about="gate opens at n_view >= 5, phi 0: the prototype's dir 4, as registered for D4")}
 
 
 def contact_row(b: float, tau_m: float, t_ref: float, w0: float, delta: float = 2.0) -> np.ndarray:
@@ -759,7 +781,7 @@ def gate_g10(threads: int = 4, n: int = LIVES) -> dict:
 
     d4 = block(d4_variants(), SIZES_D4)
     d4g = block(d4_grn(), SIZES_D5)
-    fl, nv = d4g["flank gate"], d4g["n_view gate, random placement"]
+    ref, nv = d4g["n_view gate, flank placement"], d4g["n_view gate, random placement"]
     d5 = block(d5_variants(), SIZES_D5)
     sweep = {r: analysis.point(lives(o, 91, n)) for r, o in tref_sweep().items()}
     # GRN layer: a lone cell in GRN mode (constant readout) is bitwise the program-mode lone cell
@@ -772,16 +794,17 @@ def gate_g10(threads: int = 4, n: int = LIVES) -> dict:
     g9pts = {N: dict(z=analysis.z_diff(analysis.point(lives(hb.R25_V1_GRN, N, LIVES_R25)),
                                        analysis.point(lives(hb.R25_V1, N, LIVES_R25)))) for N in G9_SIZES}
     out = dict(registered=REGISTERED["G10"], lives=n,
-               d4_program=d4, d4_grn=dict(rows=d4g, nview_shortfall=1.0 - nv["F_star"] / fl["F_star"],
-                                          nview_flank_placement_shortfall=1.0 - d4g["n_view gate, flank placement"][
-                                              "F_star"] / fl["F_star"]),
+               d4_program=d4, d4_grn=dict(rows=d4g, random_placement_shortfall=1.0 - nv["F_star"] / ref["F_star"],
+                                          abi1=ABI1["G10"]),
                d5=dict(screen={k: v for k, v in d5_screen().items() if k != "organisms"}, variants=d5,
                        t_ref_sweep_91=sweep),
                grn_layer=dict(lone_grn_bitwise_program=lone_bitwise, g3_grn_z=g9pts),
                criteria=(f"d4_layered: R25-v1's layered growth (flank placement + flank gate) beats placement only, "
-                         f"gate only and neither by more than {Z:g} paired SE in F* (program mode); d4_flank_gate: "
-                         "in GRN mode the flank-best gate with flank placement beats the registered alternative, an "
-                         "n_view >= 5 gate with random placement (the prototype's dir 4), by more than 2 paired SE; "
+                         f"gate only and neither by more than {Z:g} paired SE in F* (program mode); d4_grn_placement: "
+                         "in GRN mode R25-v1's genome (n_view >= 5 gate, flank placement) beats the registered "
+                         "alternative, the same gate with random placement (the prototype's dir 4), by more than 2 "
+                         "paired SE (since ABI 2 the gene network has no flank_best input, so the two differ only in "
+                         "the placement term); "
                          "d5_refined: R25-v1 (t_ref 2.5) beats the best old-grid phenotype (t_ref in 0.5, 1, 2, 4; "
                          "chosen by a screen at 91 cells on screen seeds) by more than 2 paired SE in F*; grn_layer: a "
                          "lone GRN cell is bitwise the program lone cell (G1), and R25-v1's GRN genome is within 2 SE "
@@ -789,10 +812,13 @@ def gate_g10(threads: int = 4, n: int = LIVES) -> dict:
                          "GRN mode."),
                notes=["D4's registered '23% weaker' is task_bell e5: AOFF dir 4 (n_view < 5 slows division, random "
                       "placement) +0.699 vs dir 3 (flank gate and flank placement) +0.905 at 91 cells, on the lucky "
-                      "registration lives. Here the same comparison runs through genes (nview_shortfall); the n_view "
-                      "gate with flank placement isolates the gate input (nview_flank_placement_shortfall, reported). "
-                      "The first run of this gate compared only the latter; it was corrected to the registered "
-                      "definition, and both are kept.",
+                      "registration lives. Under ABI 1 the comparison ran through genes against a flank_best-gated "
+                      "genome (+0.753): dir 4 was 15% weaker (z 2.9), but an n_view gate with flank placement was as "
+                      "good on hex (+0.754, paired -0.001 +- 0.013; on square8 it is not: S8 notes). ABI 2 therefore "
+                      "removed the flank_best input "
+                      "(LIFE_ABI.md 15.32), made the n_view-gated genome R25-v1's genome, and kept the phi flank(e) "
+                      "placement term; abi1 keeps those measurements. Under ABI 2 the comparison isolates placement "
+                      "(random_placement_shortfall).",
                       "D5's registered 0.693 vs 0.928 were both measured on the lucky 91-cell registration lives."])
     return judge_g10(out)
 
@@ -804,7 +830,7 @@ def judge_g10(g: dict) -> dict:
     old = d5["screen best old grid"]
     g["checks"] = dict(
         d4_layered=bool(all(v["vs_first"]["z"] > Z for k, v in d4.items() if k != first)),
-        d4_flank_gate=bool(g["d4_grn"]["rows"]["n_view gate, random placement"]["vs_first"]["z"] > Z),
+        d4_grn_placement=bool(g["d4_grn"]["rows"]["n_view gate, random placement"]["vs_first"]["z"] > Z),
         d5_refined=bool(old["vs_first"]["z"] > Z),
         grn_layer=bool(g["grn_layer"]["lone_grn_bitwise_program"]
                        and all(abs(v["z"]) <= Z for v in g["grn_layer"]["g3_grn_z"].values())))
@@ -849,7 +875,8 @@ def gate_s8(threads: int = 4, n: int = LIVES) -> dict:
     tuned = curve(scr["organism"], SIZES_S8, n, **S8)
     b0, b1 = best(cur), best(tuned)
     hexb = best(r25_curve())
-    sq_grn = hb.GrnOrganism("R25-v1/GRN sq8", hb.r25_genome(D=8), about="R25-v1 genome with n_view weights for D 8")
+    sq_grn = hb.GrnOrganism("R25-v1/GRN sq8", hb.r25_genome(D=8),
+                            about="R25-v1 genome with n_view weights for D 8 (rate gate at n_view >= 7)")
     g_at = lives(sq_grn, b0["n_star"], n, **S8)
     out = dict(registered=REGISTERED["S8"], lattice="square8", lives=n, sizes=list(SIZES_S8),
                r25_v1=dict(curve=points(cur), **b0),
@@ -857,7 +884,8 @@ def gate_s8(threads: int = 4, n: int = LIVES) -> dict:
                             curve=points(tuned), **b1,
                             vs_r25_v1=analysis.paired(tuned[b1["n_star"]]["F"], cur[b0["n_star"]]["F"])),
                hex_r25_v1=dict(n_star=hexb["n_star"], F_star=hexb["F_star"], se=hexb["se"]),
-               grn_at_n_star=dict(organism=sq_grn.name, N=b0["n_star"], point=analysis.point(g_at),
+               grn_at_n_star=dict(organism=sq_grn.name, about=sq_grn.about, N=b0["n_star"], abi1=ABI1["S8"],
+                                  point=analysis.point(g_at),
                                   z_vs_program=analysis.z_diff(analysis.point(g_at),
                                                                analysis.point(cur[b0["n_star"]]))),
                criteria=("bounded: R25-v1 as built for hex has an interior n* on square8 (not the largest size, and "
@@ -865,7 +893,12 @@ def gate_s8(threads: int = 4, n: int = LIVES) -> dict:
                notes=["On square8 a cell has 8 contacts (4 edge, 4 diagonal), cyclic flanks are the angular "
                       "neighbours, and complete bodies are squares (2r + 1)^2.",
                       "The screen varies b, w0, delta and t_ref of the coupled row and the flank gate at 121 cells on "
-                      "16 screen lives; the best is then measured on the fresh lives."])
+                      "16 screen lives; the best is then measured on the fresh lives.",
+                      "The GRN genome against its ABI-1 twin gated on flank_best (paired, 288 fresh lives per size, "
+                      "results/flank_square8/): n_view gate minus flank_best gate -0.013 +- 0.010, -0.051 +- 0.020, "
+                      "-0.081 +- 0.052 and -0.165 +- 0.065 at 49, 81, 121 and 169 cells (z -1.3, -2.5, -1.6, -2.5); "
+                      "F* +1.015 vs +1.096 (-7%). No n_view threshold (>= 5, 6, 7) closes the gap. On hex the same "
+                      "pair is equal (G10). So on square8 the removed input cost the hand-built genome F."])
     return judge_s8(out)
 
 

@@ -158,7 +158,7 @@ class LifeEvaluator:
 
     # ------------------------------------------------------------------------------------------------- runs
     def table(self, params) -> np.ndarray:
-        """Packed kernel genome table ``[B, 809]`` of raw genomes (a tensor or an array)."""
+        """Packed kernel genome table ``[B, 793]`` of raw genomes (a tensor or an array)."""
         if isinstance(params, torch.Tensor):
             return self.layout.pack(params, self.kind)
         return spec.pack_genomes(np.asarray(params, dtype=np.float32).reshape(-1, spec.GENOME_SIZE), self.kind)

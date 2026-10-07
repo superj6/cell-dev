@@ -1,4 +1,4 @@
-"""The life genome layout (src/genome.py, kind life): agreement with the kernel's 809-slot table, crossover by whole
+"""The life genome layout (src/genome.py, kind life): agreement with the kernel's 793-slot table, crossover by whole
 units with returned masks, the active-gene mask in mutation, exactly neutral duplication through the kernel,
 deletion, neutral padding, save/load and decode ranges (docs/ONE_LIFE_DESIGN.md, Genome; LIFE_ABI.md 4.4)."""
 import json
@@ -14,7 +14,7 @@ from tests.life_helpers import bits, same
 
 LAY = LifeLayout(LifeDims())
 G = spec.G_MAX
-VIEW_COLS = (G + 5, G + 6)  # W columns fed by n_view / D and flank_best / 2
+VIEW_COL = G + 5  # the W column fed by n_view / D (the last input: ABI 2 has no flank_best / 2)
 
 
 def _gen(seed: int = 0) -> torch.Generator:
@@ -46,7 +46,8 @@ def _lives(params: torch.Tensor, seeds=(3, 4)) -> build.Lives:
 
 # ---------------------------------------------------------------------------------------------------- layout
 def test_life_layout_is_the_kernel_table():
-    assert LAY.size == spec.GENOME_SIZE == 809 and LAY.n_units == G + 1
+    assert LAY.size == spec.GENOME_SIZE == 793 and LAY.n_units == G + 1
+    assert LAY.slices["W"][2] == (G, G + 6) and VIEW_COL == spec.NIN - 1
     assert {k: v[:2] for k, v in LAY.slices.items()} == spec.GENOME_SLICES
     assert [(f.name, tuple(f.shape), f.block, f.unit) for f in LAY.fields] == \
         [(f.name, tuple(f.shape), f.block, f.unit) for f in spec.GENOME_FIELDS]
@@ -77,9 +78,10 @@ def test_founders_start_homogeneous_with_eight_active_genes():
     assert (W[:, 8:, :] == 0).all() and (W[:, :, 8:G] == 0).all() and (A[:, :, 8:] == 0).all()
     for name in ("b", "lam", "s0", "Q"):
         assert (LAY.view(x, name)[:, 8:] == 0).all(), name
-    assert (W[:, :, list(VIEW_COLS)] == 0).all()  # homogeneous founders
-    assert (LAY.mutable(x).sum(1) == 8 * 15 + 4 * 8 + 21 * 8 + 21 + 4).all()  # design: about 345 mutable entries
-    assert W[:, :8, :8].abs().min() > 0 and W[:, :8, G:VIEW_COLS[0]].abs().min() > 0  # every other input weighs
+    assert (W[:, :, VIEW_COL] == 0).all()  # homogeneous founders
+    # 14 inputs per active row (8 genes, 6 others): 337 mutable entries (345 in ABI 1, which had the flank input)
+    assert (LAY.mutable(x).sum(1) == 8 * 14 + 4 * 8 + 21 * 8 + 21 + 4).all()
+    assert W[:, :8, :8].abs().min() > 0 and W[:, :8, G:VIEW_COL].abs().min() > 0  # every other input weighs
     th = LAY.zygote_phenotype(x)
     for knob in ("p_die", "phi", "a0", "a1", "chi"):  # start exactly at their neutral value in every founder
         assert np.all(th[:, spec.K[knob]] == 0.0), knob
@@ -172,13 +174,13 @@ def test_duplication_is_exactly_neutral_through_the_kernel(growers):
 
 
 def test_duplicating_a_gene_of_the_r25_genome_leaves_its_life_unchanged():
-    """R25-v1 written as a GRN genome (handbuilt.r25_genome, gate G9): copying its contact, juvenile or gate gene
+    """R25-v1 written as a GRN genome (handbuilt.r25_genome, gate G9): copying its contact, juvenile or rate-gate gene
     into a spare slot changes no ledger column, hash, spike or fate record of its life."""
     x = torch.from_numpy(hb.r25_genome())
     base = _lives(x)
     assert base["n_end"].min() >= 30 and base["income"].min() > 0
     spare = (~LAY.active(x)).nonzero()[:, 0].tolist()
-    for src, dst in ((hb.GENE_CONTACT, spare[0]), (hb.GENE_JUVENILE, spare[-1]), (hb.GENE_FLANK, spare[3])):
+    for src, dst in ((hb.GENE_CONTACT, spare[0]), (hb.GENE_JUVENILE, spare[-1]), (hb.GENE_GATE, spare[3])):
         life = _lives(LAY.duplicate(x, src, dst))
         assert np.array_equal(bits(base.ledger), bits(life.ledger)) and np.array_equal(base.hashes, life.hashes)
         for i in range(2):
@@ -307,8 +309,11 @@ def test_pad_is_neutral():
     for f in LAY.fields:  # every v1 entry keeps its (row, column) place; every new entry is 0
         new = v5.view(p, f.name)
         old = LAY.view(x, f.name)
-        assert torch.equal(new[(..., *[slice(0, n) for n in f.shape])], old), f.name
-        assert new.abs().sum() == old.abs().sum(), f.name
+        keep = (..., *[slice(0, n) for n in f.shape])
+        assert torch.equal(new[keep], old), f.name
+        rest = torch.ones_like(new, dtype=torch.bool)
+        rest[keep] = False
+        assert not new[rest].any(), f.name
     assert torch.equal(v5.active(p), LAY.active(x))
     assert torch.equal(v5.view(p, "W")[:, :, spec.NIN], torch.zeros(4, G))  # the receptor input has no weight
     assert torch.equal(v5.view(p, "a0")[:, spec.P], torch.zeros(4))  # its gain row decodes to 0
@@ -316,7 +321,7 @@ def test_pad_is_neutral():
     with pytest.raises(ValueError):
         v5.pad(p, LAY)  # padding never drops fields
     with pytest.raises(ValueError):
-        v5.pack(p)  # ABI v1 cannot run receptor genomes
+        v5.pack(p)  # the kernel cannot run receptor genomes yet
 
 
 def test_save_and_load_round_trip(tmp_path):
@@ -329,3 +334,20 @@ def test_save_and_load_round_trip(tmp_path):
     assert isinstance(lay, LifeLayout) and lay.dims == LifeDims()
     assert np.array_equal(bits(x.numpy().astype(np.float64)), bits(y.numpy().astype(np.float64)))
     assert np.array_equal(bits(LAY.pack(x[None])), bits(lay.pack(y[None])))
+
+
+def test_an_abi1_genome_is_refused_on_load(tmp_path):
+    """ABI 1 saved the same dims with a 23-column W (its last column read flank_best, removed in ABI 2): loading it
+    must fail loudly, not shift every later field by 16 entries."""
+    x = LAY.random(1, _gen(14))[0]
+    LAY.save(x, tmp_path / "g.json")
+    payload = json.loads((tmp_path / "g.json").read_text())
+    payload["params"]["W"] = [row + [0.0] for row in payload["params"]["W"]]
+    (tmp_path / "old.json").write_text(json.dumps(payload))
+    with pytest.raises(ValueError, match="ABI 1"):
+        Layout.load(tmp_path / "old.json")
+    payload["params"]["A"] = payload["params"]["A"][:-1]  # any other misshapen field is refused too
+    payload["params"]["W"] = [row[:-1] for row in payload["params"]["W"]]
+    (tmp_path / "bad.json").write_text(json.dumps(payload))
+    with pytest.raises(ValueError, match="saved field A"):
+        Layout.load(tmp_path / "bad.json")

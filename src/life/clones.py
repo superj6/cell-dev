@@ -47,7 +47,7 @@ def _stats(x: np.ndarray) -> tuple[float, float]:
 
 def run_forks(table: np.ndarray, base: spec.World, seeds, times, conditions=CONDITIONS, *, kind: str | None = None,
               threads: int = 1) -> list[dict]:
-    """Forks of every genome (packed table rows ``[G, 809]``) at every time (fractions of T) under every condition,
+    """Forks of every genome (packed table rows ``[G, 793]``) at every time (fractions of T) under every condition,
     each paired with its twin on the same life seeds. All lives run in one kernel batch.
 
     Returns one row per (genome, time, condition): the twin's and the fork's mean income rate, income per cell
