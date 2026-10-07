@@ -1,0 +1,4 @@
+# Control: no apoptosis for the whole life. Measures what death buys.
+extends: life_bell.yaml
+life: {control: apoptosis_off, flags: [apoptosis_off]}
+logging: {output_dir: outputs/life_ctl_apoptosis_off}

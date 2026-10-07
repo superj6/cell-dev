@@ -1,0 +1,19 @@
+# Tiny life-mode run for tests and quick checks (well under a minute).
+extends: life.yaml
+life:
+  T: 128
+  lives: 2
+  founder_T: 64
+  valid_lives: 2
+  heldout_lives: 1
+  heldout: [{th: 0.5}]
+  final_lives: 4
+  final_top: 2
+  final_fork_lives: 2
+  phase_lives: 2
+  size_curve: [3]
+  size_curve_lives: 2
+clones: {every: 1, top: 2, times: [0.5], lives: 1}
+evolve: {mu: 4, lam: 12, generations: 3, founders: 2, init_samples: 64, max_init_samples: 128, heldout_every: 1,
+         batch: 16}
+logging: {output_dir: outputs/life_smoke}

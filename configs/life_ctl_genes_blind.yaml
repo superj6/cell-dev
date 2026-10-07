@@ -1,0 +1,4 @@
+# Control: genes blind. No activity traces, contact fraction or flank count reach the gene network.
+extends: life_bell.yaml
+life: {control: genes_blind, flags: [genes_blind]}
+logging: {output_dir: outputs/life_ctl_genes_blind}

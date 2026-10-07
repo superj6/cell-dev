@@ -1,0 +1,8 @@
+# Control: noise envelope on. Every selection life (generations, founder batches) draws its noise physics from the
+# envelope ranges in life.yaml (shared within a generation, fresh across generations), so selection sees robustness.
+# Valid, held-out and final lives use base physics, as in every other condition; every condition's results row also
+# reports F_envelope, its best genome on the same final lives under envelope physics.
+extends: life_bell.yaml
+life: {control: envelope}
+envelope: {enabled: true}
+logging: {output_dir: outputs/life_ctl_envelope}

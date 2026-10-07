@@ -1,0 +1,5 @@
+# Control: spikes are never delivered (contacts_off for the whole life; contact events are still charged).
+# Expected: it stays a lone cell (design G2).
+extends: life_bell.yaml
+life: {control: messages_off, flags: [contacts_off]}
+logging: {output_dir: outputs/life_ctl_messages_off}

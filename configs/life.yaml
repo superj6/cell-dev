@@ -1,0 +1,79 @@
+# One continuous, clockless life per genome (docs/ONE_LIFE_DESIGN.md; kernel contract docs/LIFE_ABI.md).
+# Base of every life config. The legacy sections of base.yaml (develop, cells, task, costs) are unused in this mode.
+extends: base.yaml
+mode: life                      # trials (legacy tick pipeline) | life
+threads: 4                      # OpenMP threads of the kernel per process (results do not depend on it)
+
+lattice:
+  kind: hex                     # life fabric: hex | square4 | square8 (sparse and unbounded; radius/contact unused)
+
+genome:
+  life: {genes_max: 16, genes_init: 8, morph: 2, channels: 2, stim: 0, pheno: 21}   # kernel ABI v1: 809 slots
+  init_scale: 1.0               # scales every init std (knob priors: src/genome.py LIFE_KNOB_INIT)
+  knob_init: null               # optional {knob: [a0 mean, a0 std, A-row std]} overrides of the priors
+
+life:
+  world: bell_v1                # spec.PRESETS: bell_v1 | bell_v1_5
+  control: full                 # label of the condition in results rows and sweep directories
+  T: 1024
+  lives: 3                      # lives per genome per generation (fresh every generation, shared within it)
+  founder_T: 512                # founder sampling: each random genome lives once for founder_T
+  founder_lives: 1
+  flags: []                     # base kernel flags for the whole life (spec.FLAGS), e.g. [contacts_off]
+  freeze_frac: null             # freeze-after-growth control: genes, phenotype, division and death freeze at this * T
+  t_open: 0.0                   # ledger opening time (F divides by T - t_open)
+  valid_lives: 16               # best genome on fresh lives every evolve.heldout_every generations ("valid")
+  heldout_lives: 4              # ... and on held-out physics, per entry of heldout ("heldout")
+  heldout: [{th: 0.5}, {th: 0.7}, {tau_R: 4.0}, {tau_R: 12.0}, {tau_e: 1.0}]
+  skill_at: 0.3                 # evals_to_skill: first valid F at or above this (GA winners re-measured at ~0.35)
+  final_lives: 64               # final evaluation: best and top genomes on fresh lives
+  final_top: 8
+  final_fork_lives: 16          # counterfactual forks of the best at T/2
+  phase_lives: 16               # beat synchrony of the best (Kuramoto R, local order, trap flag) over the last T/8
+  size_curve: [7, 19, 37, 61, 91, 127]   # the best genome's own size curve under the oracle cap (measurement only)
+  size_curve_lives: 16
+
+world: {}                       # overrides of spec.World fields (physics, guards, panel perturbations)
+costs_life: {}                  # overrides of the per-action costs (c_live, c_spike, c_tw, c_msg, c_div, c_sec)
+
+envelope:                       # noise envelope: each selection life draws its noise physics from these ranges;
+  enabled: false                # judged lives stay base (F_envelope uses the ranges whether or not this is on)
+  delay_sd: [0.1, 0.3]          # (the robustness panel's ranges: mismatch x1-3, jitter to 30%, clocks to 20%, ...)
+  tau_mis: [0.05, 0.15]
+  jit: [0.1, 0.3]
+  clock_sd: [0.05, 0.2]
+  drop_p: [0.0, 0.1]
+  noise_rate: [0.0, 0.15]
+
+clones:                         # counterfactual forks of running lives (clones.jsonl), on copies of the life
+  every: 10                     # generations; 0 = off
+  top: 8                        # the top genomes, plus each surviving breed's best
+  times: [0.25, 0.5, 0.75]      # fork times as fractions of T
+  conditions: [contacts_off, chem_off, apoptosis_off, division_off, identity_clamp, freeze]
+  lives: 3
+
+evolve:
+  breeding: sex                 # sex (crossover by gene unit) | asex (mutation only)
+  mu: 32
+  lam: 224
+  generations: 500
+  founders: 8
+  init_samples: 1024
+  max_init_samples: 8192
+  min_founder_score: 0.02       # founders must reach F >= 0.02 (actual pumping)
+  founder_key: fitness          # what min_founder_score applies to: fitness (F) | score (income rate)
+  n_mut: 2
+  n_mut_scale: true             # n_mut scales with active genes / genes_init (2 at 8 active genes)
+  p_cell: 0.5                   # chance the mutated block is the phenotype readout (A, a0) rather than regulation
+  dup_rate: 0.0                 # gene duplication per child (migration step 6: 0.02)
+  del_rate: 0.0                 # gene deletion per child (migration step 6: 0.01)
+  dup_split: false              # false: the copy starts silent (bitwise neutral); true: halve outgoing weights
+  seed_genome: null             # seeded control: r25_v1 | r25_v1_timer | path of a best_genome.json (null: founders)
+  seed_timer: 1.125             # r25_v1_timer: lineage-timer weight on p_div (scripts/life_reference.py: best)
+  heldout_every: 10
+  batch: 256                    # genomes per kernel call
+
+logging:
+  output_dir: outputs/life
+  gif: false
+  lineage: survivors            # lineage.jsonl children: survivors (kept by selection) | all

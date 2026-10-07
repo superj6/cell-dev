@@ -473,6 +473,7 @@ DEATH AND THE WHOLE-BODY GUARD
 - Compute guards, which cells cannot sense:
   - The life ends at N_max = 1024 live cells or 5M events.
   - The remaining time is charged as c_live·N_max·(T − t_g) with zero income, so tripping a guard is always worse than staying below it.
+  - Correction (2026-10-07, LIFE_ABI.md 15.28): this holds only for bodies that lose less than c_live·N_max per unit below the guard. The charge bounds a tripped life's loss (about −20 for an early trip) but does not dominate costlier bodies, such as about 1000 seizing cells.
 
 START SMALL
 - A lone zygote pumps on its own: +0.033 (income 54e-3, costs about 21e-3 per unit).
@@ -515,6 +516,7 @@ The full engine must reproduce these before any selection run. Prototype values 
 - G2. Best messages-off body ≤ lone cell at every N ≥ 2: −0.004, −0.035 and −0.137 at N = 2, 3 and 7, and zero income at N ≥ 19. A 50-generation GA with messages off stays a lone cell.
 - G3. R25-v1 size curve over 36 lives as listed above, with n* = 91.
 - G4. Ablation order, as [n*, F*]: R25-v1 [91, 0.928] > no listen-before-talk [61, 0.573] > naive growth [37, 0.384] > flood from the zygote [3, 0.046] > no messages [1, 0.033].
+  - Correction (2026-10-07, docs/LIFE_GATES.md): G1, G3 and G4 above come from 36 prototype lives per point whose frozen physics was keyed to the seed, so every 91-cell registration shared the same 36 favourable bodies. Re-registered on 144-288 fresh kernel lives: G1 +0.0328 (b 1.625, τ 4, t_ref 4; the pump above scores +0.0326); G3 n* = 61, flat to 91, F* = +0.711 ± 0.017 (F(91) = +0.697 ± 0.033); G4 R25-v1 [61, 0.713] > no listen-before-talk [37, 0.530] > naive growth [37, 0.398] > flood [3, 0.044] > no messages [1, 0.033]. The order holds. The values above are kept for the record (outputs/life_gates/gates.json).
 - G5. Removing frozen heterogeneity removes the size bound.
 - G6. With spikes undelivered from T/2, income per cell falls from 35e-3 to 1.0e-3.
 - G7. Income per cell ≤ 54e-3 everywhere.
@@ -770,7 +772,7 @@ LOOPHOLES OPENED BY ONE CONTINUOUS LIFE, AND HOW EACH IS BLOCKED OR MEASURED
    - Dying relaxed cells could bump the pressure. A replacement costs c_div = 0.5, more than a cell's best income per beat (about 0.35). Income within 2 units of deaths is logged, and apoptosis-off forks measure the effect.
    - A body could cut its losses by going extinct. This is allowed, but it never beats a lone pump; the founder bar F ≥ 0.02 excludes it as a foothold; the extinction rate is logged.
    - Claims racing into a dying site follow the left-limit rule (T11).
-9. Guard gaming (overgrowing to end a life early). The remaining time is charged as N_max cells with zero income.
+9. Guard gaming (overgrowing to end a life early). The remaining time is charged as N_max cells with zero income. This bounds the loss but does not make tripping worse for a body that loses more than c_live·N_max per unit (LIFE_ABI.md 15.28).
 10. The fabric wall as a size cue. The fabric is sparse and unbounded, frozen physics is keyed by coordinates, and T12 checks it.
 11. Chemistry bypass. Morphogen packets are legitimate local signalling but slow (about 2 units per hop). Chemistry-off forks are reported separately, and claims about spike messaging use contacts-off forks only.
 12. A leaky messages-off control (audit residual). "Contacts off" now drops arrivals before any effect on v or on traces. Morphogen packets and occupancy notices get their own forks.

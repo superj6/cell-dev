@@ -1,0 +1,6 @@
+# Control: freeze-after-growth. At T/4 genes, phenotype, division and death freeze (the membrane keeps running).
+# Measures what ongoing development buys. Its counterfactual forks run only at T/4 (the kernel has one fork slot).
+extends: life_bell.yaml
+life: {control: freeze, freeze_frac: 0.25}
+clones: {times: [0.25]}
+logging: {output_dir: outputs/life_ctl_freeze}

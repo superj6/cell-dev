@@ -1,6 +1,16 @@
 """Aggregate sweep results into a markdown table, a CSV and learning curves (valid solid, held-out dashed).
 
     python scripts/aggregate.py outputs/memory_sweep [outputs/other_sweep ...] --out results/memory_sweep
+
+Rows are mode-aware. Legacy (``mode: trials``) rows give summary.csv / summary.md as before. Life rows
+(``mode: life``) are grouped by world, control, lattice and breeding into summary_life.csv, and their table is
+appended to summary.md: F of the best genome on fresh lives, size (n_end, n_peak), income and cost rates, extinction
+rate, reliance on spikes (income lost when spikes are undelivered from T/2) and evaluations to skill.
+
+Every life F, valid and held-out score is measured under base physics, whatever the selection lives were (the
+envelope control changes selection only), so conditions compare like for like; ``F_envelope`` is the same final lives
+under envelope physics for every condition (robustness). Rows written before that rule (no ``selection_physics``
+field) are refused for the envelope control, whose F was then measured under envelope physics.
 """
 from __future__ import annotations
 
@@ -24,6 +34,51 @@ def load(dirs):
     return pd.DataFrame(rows), pd.DataFrame(curves)
 
 
+LIFE_KEYS = ["sweep", "world", "control", "lattice", "breeding"]
+
+
+def _median_censored(df, keys):
+    """Median evaluations to skill with runs that never got there counted as +inf (censored, not dropped)."""
+    censored = df.assign(evals_to_skill=df["evals_to_skill"].fillna(float("inf")))
+    return censored.groupby(keys)["evals_to_skill"].median().reset_index(drop=True)
+
+
+def _table(summary) -> str:
+    try:
+        return summary.to_markdown(index=False, floatfmt=".3g")
+    except ImportError:  # tabulate not installed
+        return summary.to_string(index=False, float_format=lambda x: f"{x:.3g}")
+
+
+def life_summary(df):
+    """One row per life condition (world, control, lattice, breeding) over its seeds: medians unless noted."""
+    for col, default in (("control", "full"), ("msg_reliance", float("nan")), ("evals_to_skill", float("nan")),
+                         ("F_envelope", float("nan")), ("death_lift", float("nan")),
+                         ("selection_physics", None)):
+        if col not in df:
+            df[col] = default
+    df = df.assign(control=df["control"].fillna("full"), msg_reliance=df["msg_reliance"].astype(float),
+                   evals_to_skill=df["evals_to_skill"].astype(float), F_envelope=df["F_envelope"].astype(float),
+                   death_lift=df["death_lift"].astype(float))
+    old = (df["control"] == "envelope") & df["selection_physics"].isna()
+    if old.any():
+        raise ValueError(f"{int(old.sum())} envelope-control rows predate base-physics final lives (their F, valid "
+                         "and held-out scores were measured under envelope physics): rerun them")
+    summary = (
+        df.groupby(LIFE_KEYS)
+        .agg(runs=("seed", "count"), F=("F", "median"), F_mean=("F", "mean"), F_best=("F", "max"),
+             valid=("valid_score", "median"), heldout=("heldout_score", "median"), cells=("n_cells", "median"),
+             n_peak=("n_peak", "median"), income=("income", "median"), energy=("energy", "median"),
+             income_per_cell=("income_per_cell", "median"), extinction=("extinction_rate", "median"),
+             msg_reliance=("msg_reliance", "median"), F_envelope=("F_envelope", "median"),
+             death_lift=("death_lift", "median"), reached=("evals_to_skill", "count"),
+             evals_to_skill=("evals_to_skill", "median"))
+        .reset_index()
+    )
+    summary["evals_to_skill"] = _median_censored(df, LIFE_KEYS)
+    return summary
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("dirs", nargs="+")
@@ -36,22 +91,27 @@ def main():
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     df.to_csv(out / "results.csv", index=False)
-    summary = (
-        df.groupby(["sweep", "task", "lattice", "breeding"])
-        .agg(runs=("seed", "count"), valid=("valid_score", "median"), heldout=("heldout_score", "median"),
-             no_messages=("heldout_no_messages", "median"), shuffled=("heldout_shuffled_types", "median"),
-             cells=("n_cells", "median"), energy=("energy", "median"), rung=("rung", "median"),
-             reached=("evals_to_skill", "count"), evals_to_skill=("evals_to_skill", "median"))
-        .reset_index()
-    )
-    censored = df.assign(evals_to_skill=df["evals_to_skill"].fillna(float("inf")))
-    summary["evals_to_skill"] = (censored.groupby(["sweep", "task", "lattice", "breeding"])["evals_to_skill"].median()
-                                 .reset_index(drop=True))
-    summary.to_csv(out / "summary.csv", index=False)
-    try:
-        table = summary.to_markdown(index=False, floatfmt=".3g")
-    except ImportError:  # tabulate not installed
-        table = summary.to_string(index=False, float_format=lambda x: f"{x:.3g}")
+    is_life = (df["mode"] == "life") if "mode" in df else pd.Series(False, index=df.index)
+    tables = []
+    trials = df[~is_life]
+    if len(trials):
+        trials = trials.reset_index(drop=True)
+        summary = (
+            trials.groupby(["sweep", "task", "lattice", "breeding"])
+            .agg(runs=("seed", "count"), valid=("valid_score", "median"), heldout=("heldout_score", "median"),
+                 no_messages=("heldout_no_messages", "median"), shuffled=("heldout_shuffled_types", "median"),
+                 cells=("n_cells", "median"), energy=("energy", "median"), rung=("rung", "median"),
+                 reached=("evals_to_skill", "count"), evals_to_skill=("evals_to_skill", "median"))
+            .reset_index()
+        )
+        summary["evals_to_skill"] = _median_censored(trials, ["sweep", "task", "lattice", "breeding"])
+        summary.to_csv(out / "summary.csv", index=False)
+        tables.append(_table(summary))
+    if is_life.any():
+        life = life_summary(df[is_life].reset_index(drop=True))
+        life.to_csv(out / "summary_life.csv", index=False)
+        tables.append(("## life\n\n" if tables else "") + _table(life))
+    table = "\n\n".join(tables)
     (out / "summary.md").write_text(table + "\n")
     print(table)
     try:
@@ -67,7 +127,10 @@ def main():
             line, = ax.plot(med.index, med["valid"].values, label=f"{group} valid")
             ax.plot(med.index, med["heldout"].values, ls="--", color=line.get_color(), label=f"{group} held-out")
         ax.set_xlabel("evaluations")
-        ax.set_ylabel("score of the best genome (median over seeds)")
+        ylabel = "score of the best genome (median over seeds)"
+        if is_life.all():
+            ylabel = "F of the best genome on fresh lives (median over seeds)"
+        ax.set_ylabel(ylabel)
         ax.grid(alpha=0.3)
         ax.legend(fontsize=8)
         fig.tight_layout()

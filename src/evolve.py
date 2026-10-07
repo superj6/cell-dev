@@ -7,16 +7,27 @@ the children. Every ``heldout_every`` generations the best genome is scored on f
 and on held-out trials from wider ranges ("heldout": generalization). On the ladder the run moves up a rung once the
 valid score reaches ``advance_at``; with ``immigrants`` > 0 that share of the population is then replaced by new
 founders sampled on the new rung, so crossover can hybridize the old lineage with breeds that have a foothold there.
+
+``mode: life`` (docs/ONE_LIFE_DESIGN.md) runs the same founder sampling, fill and (mu+lambda) loop on one-life
+genomes (``LifeLayout``) scored by ``src.life.evaluate.LifeEvaluator``: every generation draws fresh life seeds shared
+by the whole population (common random numbers), parents are re-evaluated with their children, and the run writes
+lineage.jsonl (parents, unit masks, mutation ops, the slot registry) and counterfactual forks (clones.jsonl).
 """
 from __future__ import annotations
 
+import itertools
+import json
+import time
+from collections import Counter
 from dataclasses import dataclass
+from pathlib import Path
 
 import torch
+from omegaconf import OmegaConf
 
 from src.cells import decode_cells, run_cells
 from src.develop import Tissue, develop
-from src.genome import Dims, Layout
+from src.genome import Dims, Layout, make_dims, make_layout
 from src.lattice import Lattice, build_lattice
 from src.tasks import Ladder, build_task
 from src.tasks.base import Trials, direction_score
@@ -72,26 +83,47 @@ class Evaluator:
                     divisions=tissue.divisions.float(), trial_scores=s)
 
 
+def run_mode(cfg) -> str:
+    """``trials`` (the legacy tick pipeline, the default) or ``life`` (one continuous life per genome)."""
+    mode = str(cfg.get("mode", "trials"))
+    if mode not in ("trials", "life"):
+        raise ValueError(f"unknown mode {mode!r} (trials | life)")
+    return mode
+
+
 def setup(cfg):
+    if run_mode(cfg) == "life":  # no lattice disk and no task: the world and the fabric live in the kernel
+        from src.life.evaluate import LifeEvaluator
+
+        dims = make_dims({**OmegaConf.to_container(cfg.genome.life, resolve=True), "kind": "life"})
+        knob_init = cfg.genome.get("knob_init")
+        layout = make_layout(dims, knob_init=None if knob_init is None else OmegaConf.to_container(knob_init))
+        return None, layout, None, LifeEvaluator(cfg, layout)
     lattice = build_lattice(cfg.lattice.kind, cfg.lattice.radius, cfg.lattice.contact)
     layout = Layout(Dims(**cfg.genome.dims))
     task = build_task(cfg.task.name, cfg.task.length, cfg.task.start, cfg.task.keep_earlier, cfg.task.get("rungs"))
     return lattice, layout, task, Evaluator(cfg, lattice, layout)
 
 
-def sample_founders(cfg, ev: Evaluator, layout: Layout, sample, gen: torch.Generator) -> tuple[torch.Tensor, int, dict]:
+def sample_founders(cfg, ev: Evaluator, layout: Layout, sample, gen: torch.Generator,
+                    collect: list | None = None) -> tuple[torch.Tensor, int, dict]:
     """Random genomes in batches until one of them actually scores (a dead single cell has nothing to climb from), up
     to ``max_init_samples``. Returns the fittest ``founders`` with scorers ranked first, the evaluations used, and a
-    summary. ``sample(gen)`` draws the trials to score them on."""
+    summary. ``sample(gen)`` draws the trials to score them on. ``evolve.founder_key`` picks what must reach
+    ``min_founder_score``: ``score`` (default) or ``fitness`` (life mode: F >= 0.02). ``collect`` receives every
+    batch's evaluation (for the life census)."""
     e = cfg.evolve
     min_score = float(e.get("min_founder_score", 0.0))
+    key = str(e.get("founder_key", "score"))
     pool, fits, scores, evals = [], [], [], 0
     while True:
         cands = layout.random(int(e.init_samples), gen, float(cfg.genome.init_scale))
         res = ev(cands, sample(gen))
+        if collect is not None:
+            collect.append(res)
         pool.append(cands)
         fits.append(res.fitness)
-        scores.append(res.score)
+        scores.append(getattr(res, key))
         evals += cands.shape[0]
         if float(torch.cat(scores).max()) >= min_score or evals >= int(e.get("max_init_samples", evals)):
             break
@@ -102,17 +134,23 @@ def sample_founders(cfg, ev: Evaluator, layout: Layout, sample, gen: torch.Gener
     founders = pool[ranked[: min(int(e.founders), len(ranked))]]
     info = {"sampled": evals, "best_fitness": float(fits.max()), "best_score": float(scores.max()),
             "scoring_founders": int(min(int(scorer.sum()), founders.shape[0]))}
+    if key != "score":
+        info["founder_key"] = key
     return founders, evals, info
 
 
-def fill(founders: torch.Tensor, n: int, layout: Layout, gen: torch.Generator, e) -> torch.Tensor:
-    """n individuals: each founder once, then mutated copies of the founders in turn."""
+def fill(founders: torch.Tensor, n: int, layout: Layout, gen: torch.Generator, e, ops: list | None = None) -> torch.Tensor:
+    """n individuals: each founder once, then mutated copies of the founders in turn (``ops`` receives the life
+    layout's mutation records of the copies)."""
     pop = founders[torch.arange(n) % founders.shape[0]].clone()
-    pop[founders.shape[0]:] = layout.mutate(pop[founders.shape[0]:], gen, int(e.n_mut), float(e.p_cell))
+    kw = {} if ops is None else {"ops": ops}
+    pop[founders.shape[0]:] = layout.mutate(pop[founders.shape[0]:], gen, int(e.n_mut), float(e.p_cell), **kw)
     return pop
 
 
-def evolve(cfg, log=print) -> dict:
+def evolve(cfg, log=print, out: Path | None = None) -> dict:
+    if run_mode(cfg) == "life":
+        return evolve_life(cfg, log, out)
     torch.set_num_threads(int(cfg.threads))
     gen = torch.Generator().manual_seed(int(cfg.seed))
     valid_gen = torch.Generator().manual_seed(int(cfg.seed) + 5_000)  # fresh trials from the training distribution
@@ -162,3 +200,234 @@ def evolve(cfg, log=print) -> dict:
         log(row)
     return {"best": pop[0], "population": pop, "curves": curves, "evals": evals, "valid": valid, "heldout": heldout,
             "rung": task.rung_id, "lattice": lattice, "layout": layout, "task": task, "evaluator": ev}
+
+
+# ======================================================================================================== mode: life
+class Lineage:
+    """Writes lineage.jsonl: a founders row, then one row per generation.
+
+    Each generation row holds the life seeds, the children kept by selection (``logging.lineage: survivors``, the
+    default) or every child (``all``) with their parent ids, unit mask (bit u set = unit u from parent a; null under
+    mutation only) and mutation ops, the surviving ids and fitness, the breeds (founder of each parent-a chain), the
+    slot registry (per gene slot: how many survivors carry each innovation id there) and the mean pairwise genome
+    distance. ``clones`` rows go to clones.jsonl.
+    """
+
+    def __init__(self, out: Path | None, mode: str = "survivors"):
+        if mode not in ("survivors", "all"):
+            raise ValueError(f"logging.lineage must be survivors or all, got {mode!r}")
+        self.mode = mode
+        self.fh = open(out / "lineage.jsonl", "w") if out is not None else None
+        self.clones_fh = open(out / "clones.jsonl", "w") if out is not None else None
+
+    @staticmethod
+    def _dump(fh, row: dict) -> None:
+        if fh is not None:
+            fh.write(json.dumps(row) + "\n")
+            fh.flush()
+
+    def write(self, row: dict) -> None:
+        self._dump(self.fh, row)
+
+    def clones(self, rows: list[dict]) -> None:
+        for r in rows:
+            self._dump(self.clones_fh, r)
+
+    def close(self) -> None:
+        for fh in (self.fh, self.clones_fh):
+            if fh is not None:
+                fh.close()
+
+
+def mask_bits(row: torch.Tensor) -> int:
+    """A unit mask row as an int (bit u = unit u came from parent a)."""
+    return sum(1 << u for u, b in enumerate(row.tolist()) if b)
+
+
+def registry(origins: torch.Tensor) -> dict:
+    """Slot registry of a population: gene slot -> {innovation id: carriers} over active slots (origin >= 0)."""
+    out = {}
+    for k in range(origins.shape[1]):
+        c = Counter(int(x) for x in origins[:, k].tolist() if x >= 0)
+        if c:
+            out[str(k)] = {str(i): n for i, n in sorted(c.items())}
+    return out
+
+
+def life_census(evals: list, min_F: float) -> dict:
+    """Founder-sample census: share reaching the founder bar, lone non-dividing cells, extinct and guard-tripped lives,
+    and quantiles of the final size and F."""
+    F = torch.cat([r.fitness for r in evals])
+    n = torch.cat([r.n_cells for r in evals])
+    div = torch.cat([r.divisions for r in evals])
+    q = torch.tensor([0.1, 0.5, 0.9], dtype=torch.float64)
+    return {"census_F_ge_min": float((F >= min_F).double().mean()),
+            "census_lone": float(((n == 1) & (div == 0)).double().mean()),
+            "census_extinct": float(torch.cat([r.extinct for r in evals]).mean()),
+            "census_guard": float(torch.cat([r.guard for r in evals]).mean()),
+            "census_n_end_q": [float(x) for x in torch.quantile(n.double(), q)],
+            "census_F_q": [float(x) for x in torch.quantile(F.double(), q)]}
+
+
+def clone_targets(breeds: torch.Tensor, top: int) -> list[int]:
+    """Ranks of a fitness-sorted population to fork: the top ``top`` and each other breed's best (design: the top 8
+    genomes and each surviving breed's best)."""
+    sel = list(range(min(top, len(breeds))))
+    seen = {int(breeds[i]) for i in sel}
+    for i, b in enumerate(breeds.tolist()):
+        if b not in seen:
+            seen.add(b)
+            sel.append(i)
+    return sel
+
+
+def clone_summary(rows: list[dict]) -> dict:
+    """Mean paired income-rate change per ``condition@fraction`` over the forked genomes (skipped forks left out)."""
+    groups: dict[str, list[float]] = {}
+    for r in rows:
+        if "skipped" not in r:
+            groups.setdefault(f"{r['condition']}@{r['frac']:g}", []).append(r["d_income"])
+    return {k: sum(v) / len(v) for k, v in groups.items()}
+
+
+def seed_genome(cfg, layout) -> torch.Tensor:
+    """The founder of a seeded run (``evolve.seed_genome``), as one raw genome ``[1, size]``: ``r25_v1`` (the hand-built
+    R25-v1 written as a GRN genome, gate G9; uncapped it grows until the N_max guard), ``r25_v1_timer`` (the same with
+    its lineage-timer gene at ``evolve.seed_timer``, default 1.125, a local stop rule), or the path of a saved genome
+    (``best_genome.json``). Design control: "the population starts from the R25-v1 genome"; never the main result."""
+    from src.lattice import offsets
+    from src.life import handbuilt as hb
+
+    name = str(cfg.evolve.seed_genome)
+    D = len(offsets(str(cfg.lattice.kind)))
+    if name == "r25_v1":
+        g = torch.from_numpy(hb.r25_genome(D=D))
+    elif name == "r25_v1_timer":
+        g = torch.from_numpy(hb.r25_genome(timer=float(cfg.evolve.get("seed_timer", 1.125)), D=D))
+    else:
+        saved_layout, g = Layout.load(name)
+        if saved_layout.size != layout.size or getattr(saved_layout.dims, "kind", None) != "life":
+            raise ValueError(f"{name}: not a life genome of this layout")
+    return g.reshape(1, -1).to(torch.float32)
+
+
+def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
+    """(mu+lambda) evolution of one-life genomes (module docstring); the loop mirrors ``evolve``. With
+    ``evolve.seed_genome`` the population descends from that one genome instead of sampled founders (seeded control).
+    Each generation row carries its wall time ``t_gen``, the population's kernel time ``t_eval`` (seconds) and the
+    population's shares of invalid lives and of ledger-check failures (``pop_invalid``, ``pop_mismatch``)."""
+    from src.life import clones
+
+    torch.set_num_threads(int(cfg.threads))
+    gen = torch.Generator().manual_seed(int(cfg.seed))
+    _, layout, _, ev = setup(cfg)
+    e, lc, cc = cfg.evolve, cfg.life, cfg.get("clones") or {}
+    mu, lam, G = int(e.mu), int(e.lam), layout.dims.genes_max
+    lin = Lineage(out, str(cfg.logging.get("lineage", "survivors")))
+    mut_kw = dict(dup_rate=float(e.get("dup_rate", 0.0)), del_rate=float(e.get("del_rate", 0.0)),
+                  split=bool(e.get("dup_split", False)), scale_n_mut=bool(e.get("n_mut_scale", True)))
+
+    if e.get("seed_genome"):
+        founders, evals, info = seed_genome(cfg, layout), 0, {"sampled": 0, "seeded": str(e.seed_genome)}
+    else:
+        batches, sampled = itertools.count(), []
+        sample = lambda g: ev.draw("founders", next(batches), int(lc.founder_lives), float(lc.founder_T))  # noqa: E731
+        founders, evals, info = sample_founders(cfg, ev, layout, sample, gen, collect=sampled)
+        info.update(life_census(sampled, float(e.get("min_founder_score", 0.0))))
+    nf = founders.shape[0]
+    fill_ops = []
+    pop = fill(founders, mu, layout, gen, e, ops=fill_ops)
+    ids = torch.arange(mu)
+    breeds = ids % nf
+    slot = torch.arange(G)[None, :]
+    origins = torch.where(layout.active(pop), breeds[:, None] * G + slot, torch.tensor(-1))  # innovation ids
+    next_id, next_innov = mu, nf * G
+    log({"event": "founders", **info})
+    lin.write({"event": "founders", **info, "ids": list(range(nf)),
+               "copies": [{"id": int(i), "parent": int(i % nf), "ops": fill_ops[i - nf]} for i in range(nf, mu)]})
+
+    heldout_list = list(lc.get("heldout") or [])
+    clones_every = int(cc.get("every", 0) or 0)
+    times = [float(x) for x in cc.get("times", [0.25, 0.5, 0.75])]
+    conds = [str(x) for x in cc.get("conditions", clones.CONDITIONS)]
+    curves, valid, heldout, res, order = [], None, None, None, None
+    n_gen = int(e.generations)
+    for g in range(n_gen):
+        t_start = time.perf_counter()
+        draw = ev.draw("gen", g)
+        ia = torch.randint(mu, (lam,), generator=gen)
+        if e.breeding == "sex":
+            ib = torch.randint(mu, (lam,), generator=gen)
+            kids, masks = layout.crossover(pop[ia], pop[ib], gen, masks=True)
+            kid_origins = torch.where(masks[:, :G], origins[ia], origins[ib])
+        else:
+            ib, masks = None, None
+            kids, kid_origins = pop[ia].clone(), origins[ia].clone()
+        ops = []
+        kids = layout.mutate(kids, gen, int(e.n_mut), float(e.p_cell), ops=ops, slot_use=layout.active(pop).sum(0),
+                             **mut_kw)
+        for j, op in enumerate(ops):  # structural ops change the slot origins: a duplicate is a new innovation
+            if "dup" in op:
+                kid_origins[j, op["dup"][1]] = next_innov
+                next_innov += 1
+            if "del" in op:
+                kid_origins[j, op["del"]] = -1
+        kid_ids = torch.arange(next_id, next_id + lam)
+        next_id += lam
+        everyone = torch.cat([pop, kids])
+        all_ids, all_breeds = torch.cat([ids, kid_ids]), torch.cat([breeds, breeds[ia]])
+        all_origins = torch.cat([origins, kid_origins])
+        t_ev = time.perf_counter()
+        res = ev(everyone, draw)
+        t_ev = time.perf_counter() - t_ev
+        evals += everyone.shape[0]
+        order = res.fitness.argsort(descending=True, stable=True)[:mu]
+        pa_ids, pb_ids = ids[ia], (None if ib is None else ids[ib])
+        pop, ids, breeds, origins = everyone[order], all_ids[order], all_breeds[order], all_origins[order]
+        best = int(order[0])
+        row = {"gen": g, "evals": evals, **res.take(best), "mean_score": float(res.score[order].mean()),
+               "mean_fitness": float(res.fitness[order].mean()), "median_n_cells": float(res.n_cells[order].median()),
+               "best_id": int(ids[0]), "best_breed": int(breeds[0]), "breeds": int(breeds.unique().numel()),
+               "pop_guard": float(res.guard.mean()), "pop_lone": float((res.n_peak <= 1).double().mean()),
+               "pop_body": float(res.body.mean()), "pop_invalid": float(res.invalid.mean()),
+               "pop_mismatch": float(res.mismatch.mean())}
+        if row["pop_mismatch"] > 0:  # a kernel fault: the lives were scored as invalid, and the run says so
+            log({"event": "ledger_mismatch", "generation": g,  # not "gen": curves.jsonl takes rows with "gen"
+                 "lives": round(row["pop_mismatch"] * everyone.shape[0] * draw.n)})
+        final = g == n_gen - 1
+        if g % int(e.heldout_every) == 0 or final:
+            valid = float(ev(pop[:1], ev.draw("valid", g, lives=int(lc.valid_lives))).fitness[0])
+            if heldout_list:
+                hd = ev.draw("heldout", g, lives=int(lc.heldout_lives), overrides=heldout_list)
+                heldout = float(ev(pop[:1], hd).fitness[0])
+            row.update(valid=valid, heldout=heldout)
+        if clones_every and (g % clones_every == 0 or final):
+            sel = clone_targets(breeds, int(cc.get("top", 8)))
+            seeds = ev.draw("clones", g, lives=int(cc.get("lives", 3))).seeds
+            frows = clones.run_forks(ev.table(pop[sel]), ev.world(), seeds, times, conds, kind=ev.kind,
+                                     threads=ev.threads)
+            for r in frows:
+                r.update(gen=g, id=int(ids[sel[r["genome"]]]), breed=int(breeds[sel[r["genome"]]]),
+                         rank=sel[r.pop("genome")])
+            lin.clones(frows)
+            row["clones"] = clone_summary(frows)
+            row["msg_reliance_best"] = clones.reliance([r for r in frows if r["rank"] == 0])
+        row.update(t_gen=round(time.perf_counter() - t_start, 4), t_eval=round(t_ev, 4))
+        curves.append(row)
+        log(row)
+        kept = [int(i) - mu for i in order.tolist() if int(i) >= mu]
+        logged = range(lam) if lin.mode == "all" else kept
+        lin.write({"gen": g, "seeds": [int(s) for s in draw.seeds],
+                   "children": [{"id": int(kid_ids[j]), "pa": int(pa_ids[j]),
+                                 "pb": None if pb_ids is None else int(pb_ids[j]),
+                                 "mask": None if masks is None else mask_bits(masks[j]), "ops": ops[j],
+                                 "fitness": float(res.fitness[mu + j]), "kept": j in kept} for j in logged],
+                   "survivors": [int(i) for i in ids.tolist()], "fitness": [float(res.fitness[i]) for i in order],
+                   "breeds": {str(b): n for b, n in sorted(Counter(breeds.tolist()).items())},
+                   "registry": registry(origins), "n_active": float(layout.active(pop).sum(1).double().mean()),
+                   "distance": float(torch.pdist(pop.double()).mean()) if mu > 1 else 0.0})
+    lin.close()
+    fitness = None if res is None else res.fitness[order]
+    return {"best": pop[0], "population": pop, "ids": ids, "breeds": breeds, "origins": origins, "fitness": fitness,
+            "curves": curves, "evals": evals, "valid": valid, "heldout": heldout, "rung": None, "founders": info,
+            "lattice": None, "layout": layout, "task": None, "evaluator": ev}

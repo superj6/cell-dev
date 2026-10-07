@@ -1,0 +1,5 @@
+# Control: mutation only (no crossover).
+extends: life_bell.yaml
+life: {control: asex}
+evolve: {breeding: asex}
+logging: {output_dir: outputs/life_ctl_asex}

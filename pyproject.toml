@@ -17,7 +17,8 @@ include = ["src*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q -m 'not slow'"
+markers = ["slow: long whole-life tests and gates, deselected by default (run with -m slow)"]
 
 [tool.ruff]
 line-length = 120

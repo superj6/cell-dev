@@ -1,0 +1,5 @@
+# Control: the square lattice with diagonal contacts (D = 8) instead of hex.
+extends: life_bell.yaml
+lattice: {kind: square8}
+life: {control: square8}
+logging: {output_dir: outputs/life_ctl_square8}

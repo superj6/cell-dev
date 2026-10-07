@@ -90,3 +90,89 @@ def build_lattice(kind: str = "hex", radius: int = 9, contact: str = "uniform") 
     if kind in ("square4", "square8"):
         return square_lattice(radius, int(kind[-1]), contact)
     raise ValueError(f"unknown lattice kind {kind!r} (hex | square4 | square8)")
+
+
+# Sparse-fabric helpers for the one-life kernel (docs/LIFE_ABI.md). Slots keep each kind's native order above;
+# ``cyclic_order`` gives the angular order that flank counts and the chiral term need.
+_OFFSETS = {"hex": _HEX_AXIAL, "square4": _SQUARE4, "square8": _SQUARE8}
+_SQRT3_2 = math.sqrt(3) / 2
+
+
+def offsets(kind: str) -> list[tuple[int, int]]:
+    """Neighbour offsets of ``kind`` in its own integer coordinates, in the native slot order."""
+    if kind not in _OFFSETS:
+        raise ValueError(f"unknown lattice kind {kind!r} (hex | square4 | square8)")
+    return list(_OFFSETS[kind])
+
+
+def to_xy(kind: str, a: int, b: int) -> tuple[float, float]:
+    """Position of integer coordinates (a, b) in the plane (unit spacing between edge neighbours)."""
+    if kind == "hex":
+        return (a + b / 2, b * _SQRT3_2)
+    offsets(kind)
+    return (float(a), float(b))
+
+
+def unit_vectors(kind: str) -> list[tuple[float, float]]:
+    """Unit vector from a site towards each slot's neighbour (square8 diagonals normalized)."""
+    out = []
+    for da, db in offsets(kind):
+        x, y = to_xy(kind, da, db)
+        n = math.hypot(x, y)
+        out.append((x, y) if abs(n - 1.0) < 1e-12 else (x / n, y / n))
+    return out
+
+
+def back_slots(kind: str) -> list[int]:
+    """``back[d]``: the slot of the neighbour that points back at us, found by lookup (not ``(d + D/2) % D``)."""
+    off = offsets(kind)
+    return [off.index((-da, -db)) for da, db in off]
+
+
+def cyclic_order(kind: str) -> list[int]:
+    """Slots sorted by angle, counter-clockwise from +x."""
+    ang = [math.atan2(y, x) % (2 * math.pi) for x, y in unit_vectors(kind)]
+    return sorted(range(len(ang)), key=lambda d: ang[d])
+
+
+def cyclic_neighbours(kind: str) -> list[tuple[int, int]]:
+    """Per slot ``(prev, next)``: the angularly adjacent slots clockwise and counter-clockwise."""
+    cyc = cyclic_order(kind)
+    D = len(cyc)
+    out = [(0, 0)] * D
+    for i, d in enumerate(cyc):
+        out[d] = (cyc[(i - 1) % D], cyc[(i + 1) % D])
+    return out
+
+
+def rotation_steps(kind: str) -> int:
+    """Number of rotations in the lattice's rotation group (60 degrees on hex, 90 degrees on square lattices)."""
+    offsets(kind)
+    return 6 if kind == "hex" else 4
+
+
+def rotate(kind: str, a: int, b: int, k: int = 1) -> tuple[int, int]:
+    """Rotate coordinates counter-clockwise by ``k`` elementary steps (60 degrees on hex, 90 on square)."""
+    for _ in range(k % rotation_steps(kind)):
+        a, b = (-b, a + b) if kind == "hex" else (-b, a)
+    return a, b
+
+
+def mirror(kind: str, a: int, b: int) -> tuple[int, int]:
+    """Reflect coordinates across the x axis (y -> -y)."""
+    offsets(kind)
+    return (a + b, -b) if kind == "hex" else (a, -b)
+
+
+def slot_map(kind: str, fn) -> list[int]:
+    """Slot permutation ``p`` induced by a coordinate map: ``offsets[p[d]] == fn(*offsets[d])``."""
+    off = offsets(kind)
+    return [off.index(tuple(fn(da, db))) for da, db in off]
+
+
+def in_disk(kind: str, a: int, b: int, radius: int) -> bool:
+    """Whether (a, b) belongs to the dense disk fabric of ``radius`` (the same sites ``build_lattice`` makes)."""
+    if kind == "hex":
+        return max(abs(a), abs(b), abs(a + b)) <= radius
+    offsets(kind)
+    return a * a + b * b <= (radius + 0.5) ** 2
