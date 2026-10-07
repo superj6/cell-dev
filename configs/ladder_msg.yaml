@@ -1,0 +1,10 @@
+# Message-centric ladder: every rung needs information to travel between cells.
+extends: base.yaml
+task:
+  name: ladder
+  rungs: [withdraw, context, jump, memory]
+evolve:
+  generations: 800
+  advance_at: 0.7               # hand-built message organisms reach about 0.7-0.85 on these rungs
+  immigrants: 0.5               # half the population is replaced by new founders on each new rung
+logging: {output_dir: outputs/ladder_msg}

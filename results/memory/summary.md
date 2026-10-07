@@ -1,0 +1,9 @@
+        sweep   task lattice breeding  runs  valid  heldout  no_messages  shuffled  cells  energy  rung  reached  evals_to_skill
+ memory_fixed memory     hex      sex     3  0.858    0.878            0     0.878     61  0.0824     2        0             inf
+memory_random memory     hex      sex     3  0.879    0.809            0     0.801    113   0.135     2        0             inf
+ memory_sweep memory     hex     asex     3   0.96    0.853            0     0.503     94   0.112     2        3         6.4e+03
+ memory_sweep memory     hex      sex     3  0.926    0.823            0     0.823     80  0.0955     2        3        3.84e+03
+ memory_sweep memory square4     asex     3  0.934    0.708            0     0.703     88  0.0945     2        3         6.4e+03
+ memory_sweep memory square4      sex     3  0.908     0.83            0     0.736     83  0.0898     2        3         6.4e+03
+ memory_sweep memory square8     asex     3  0.876    0.598            0     0.503    101   0.117     2        0             inf
+ memory_sweep memory square8      sex     3   0.88    0.786            0     0.786     97   0.101     2        1             inf

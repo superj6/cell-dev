@@ -1,0 +1,7 @@
+extends: base.yaml
+threads: 4
+lattice: {radius: 4}
+develop: {steps: 8}
+task: {trials: 6, heldout_trials: 6}
+evolve: {mu: 4, lam: 12, generations: 3, init_samples: 32, heldout_every: 1, batch: 16}
+logging: {output_dir: outputs/local_smoke, gif: false}

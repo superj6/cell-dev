@@ -1,0 +1,62 @@
+# Single source of truth. Every other config `extends` this one.
+seed: 0
+threads: 8                      # 8 is fastest on this laptop (CPUs 12-13 are slow cores)
+
+lattice:
+  kind: hex                     # hex | square4 | square8
+  radius: 9                     # hex: 271 sites; square disks of radius 9 are a similar size
+  contact: uniform              # uniform | inverse_distance (corner contacts count less)
+
+genome:
+  dims: {genes: 8, morph: 2, types: 4, channels: 2, stim: 2}
+  init_scale: 1.0
+
+develop:
+  mode: grow                    # grow | fixed (baseline: pre-made disk, one type, only the cell rule evolves)
+  fixed_radius: 4               # fixed mode: disk radius (hex: 61 cells)
+  steps: 24
+  rate: 0.5                     # GRN leak toward the new expression level per step
+  min_cycle: 2                  # steps a cell waits after dividing before it may divide again
+  substeps: 4                   # morphogen diffusion substeps per development step
+  secretion: 0.5
+  jitter_seed: ${seed}          # tie-break jitter: fixed within a run, varies across seeds, independent of the batch
+
+cells:
+  quantize: true                # weights in 1/8 steps over [-2, 2]; leak a power of two
+  messages: true                # false = cells never hear their neighbours (no-message control)
+
+task:
+  name: light                   # light | brightness | memory | motion | flicker | ladder
+  length: 4.0                   # light field: sites per e-fold
+  rungs: [light, brightness, memory, motion, flicker]   # ladder: rung order (any task names)
+  start: 0                      # ladder: first rung
+  keep_earlier: 0.25            # ladder: share of trials from earlier rungs
+  trials: 12                    # per evaluation (balanced over the 12 training directions)
+  heldout_trials: 48
+  min_spikes: 1.0               # a trial with fewer spikes in its window scores 0
+  score: lateral                # lateral (how decisively firing sits on the target side) | cos
+
+costs:                          # subtracted from the task score
+  live: 0.001                   # per cell
+  spike: 0.002                  # per spike per tick (whole tissue)
+  divide: 0.0                   # per division during development
+
+evolve:
+  breeding: sex                 # sex (two-parent crossover) | asex (mutation only)
+  mu: 32
+  lam: 224
+  generations: 300
+  founders: 8                   # population descends from the fittest random genomes ("breeds"); crossing them is cross-breeding
+  init_samples: 1024            # random genomes per founder-sampling batch
+  min_founder_score: 0.05       # keep sampling batches until some genome scores this much (a dead start cannot climb)
+  max_init_samples: 8192
+  n_mut: 2                      # entries mutated per child, all inside one block (grn or cell)
+  p_cell: 0.5                   # chance the mutated block is the cell rule
+  heldout_every: 10
+  immigrants: 0.0               # ladder: share of the population replaced by new founders at each advance
+  advance_at: 0.9               # ladder: valid score (fresh training-distribution trials) needed to move up a rung
+  batch: 256
+
+logging:
+  output_dir: outputs/default
+  gif: true
