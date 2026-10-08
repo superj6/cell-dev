@@ -99,6 +99,8 @@ def _declare(lib) -> None:
     lib.life_run.argtypes = [
         _i32, _i32, _P(_i32), _P(_f64), _i32, _P(_f64), _i32, _P(_f64), _P(_i32), _P(_i32), _P(_i32), _P(_f64),
         _P(_u64), _P(_f64), _P(_u64), _i64, _P(_f64), _P(_u64), _P(_i64), _i64, _P(_i64), _P(_f64), _P(_i64)]
+    lib.life_filled_footprint.restype = _i64
+    lib.life_filled_footprint.argtypes = [_i32, _i64, _P(_i32), _P(_i32)]
 
 
 def load():
@@ -192,6 +194,16 @@ def blob_place(seed: int, blob: int, q: int, x: float, y: float, r_min: float, r
 
 def receptor_next(seed: int, uid: int, j: int, t_prev: float, lam_max: float) -> float:
     return float(load().life_receptor_next(seed & spec.MASK64, uid & spec.MASK64, j & spec.MASK64, t_prev, lam_max))
+
+
+def filled_footprint(cols, kind: str = "hexprism") -> int:
+    """The kernel's filled footprint of the columns ``cols`` (``spec.filled_footprint``, LIFE_ABI.md 9.7.2)."""
+    ab = np.ascontiguousarray(np.array(list(cols), dtype=np.int32).reshape(-1, 2).T)
+    out = int(load().life_filled_footprint(KERNEL.LATTICE_CODES[kind] % 3, ab.shape[1], _ptr(ab[0], _i32),
+                                           _ptr(ab[1], _i32)))
+    if out < 0:
+        raise MemoryError("life_filled_footprint: allocation failure")
+    return out
 
 
 # ------------------------------------------------------------------------------------- ABI 2 at the boundary

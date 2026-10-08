@@ -727,3 +727,418 @@ designs no behaviour; hand-built bodies stay references and gates only):
   9% above the prototype's at equal prices (unexplained). Footless bodies are no longer ported to the prototype.
 - Before launching: commit (the tree is dirty), then `scripts/run_catch_pilot.sh` runs 30 runs (two unseeded arms
   and the seeded arm, 10 seeds each).
+
+## 2026-10-08 — Pre-pilot: drag fix (RT-T1), life-length draw (GB11), SPECK gates in the kernel, smokes, pilot matrix
+Everything between BODY-1 v1 and the pilot launch, in one section: the S1 red team's drag loophole closed in the kernel
+(part 1); gate GB11 read from smoke runs, which switched on the per-generation life length (part 2); SPECK, the S1
+candidate, tested in the real kernel (part 3); smoke runs with both changes (part 4); the pilot's run matrix and time
+estimate (part 5); a review of this work, whose two findings were both reproduced (part 6); and the decisions taken
+before launch, with the pilot's pre-registered criteria (part 10).
+
+**In brief.**
+- **Drag** now counts the filled footprint (holes counted). Bodies hollow in every plane lose their drag discount (the
+  1-wide hollow ring 3: −0.504 F in catch_v1); every body that never encloses a tile lives bitwise as before, and the
+  CATCH and BELL gates are unchanged leaf for leaf. Residual (review finding 2): a one-column slit to the outside
+  reopens the discount (+0.18 F on a thick hollow body). Recorded, not closed: closing it would re-price many grown
+  bodies, so it is the user's decision.
+- **GB11:** evolved CATCH bodies were still growing at T in 89-98% of their lives, so each generation now draws its
+  life length from 768, 1024 and 1536 in every CATCH and SPECK config (judged lives stay at 1024).
+- **SPECK** (sigma 0.6, R_cap 500) passes A1-A4 in the kernel (GS1-GS4), and GS5 (the router as a GRN genome) passes.
+  GS6 failed at c_miss 2 (a blind slow presser beat the lone zygote, though not the sensing clicker), so the SPECK
+  presets now price a miss at 10, v1's ratio; there GS1-GS6 all pass (part 10). Caveats: the
+  router's lead reverses at message delay d0 2. The valley-free growth path starts from the full ring-3 reflex. From
+  the best tuned reflex, the sense-hollow ring 3, every path measured first falls by 0.22-0.44 F (z −2.0 to −4.0 on
+  two seed sets; review finding 1, now reported by GS3).
+- **Smokes:** unseeded v1 stayed at 2-cell clickers for 150 generations, and one seed lost its clicker. The seeded v1
+  arm grew to 203 cells but is still below ring 1. SPECK seeded reached the ring-1 level in 40 generations.
+- **Pilot matrix:** the default `v1_l4:10 v1_l2:3 v1_seeded:3:300` takes 3 / 6 / 21 h on 2 jobs (low / central /
+  high). With the SPECK arms (`speck_l4:6 speck_seeded:3:300`) it takes 8 / 13 / 35 h.
+- **Decided before launch** (part 10, under the user's standing approval of minor tweaks): SPECK at c_miss 10, the
+  SPECK arms run, the slit residual stays recorded, and the matrix is 29 runs on 4 jobs x 3 threads, with SPECK's
+  criteria pre-registered.
+
+### 1. Drag from the filled footprint (RT-T1)
+The S1 red team found a drag loophole in the prototype. Drag counted footprint cells, so a hollow body kept its size
+but shed drag (28% for its hollow ring 3), and "hollow" competed with lateral routing for the wrong reason. Fixed in
+the kernel, the reference and spec (docs/LIFE_ABI.md 9.7.2 and tweak 15.61): `gamma = n_fill^0.5`, where n_fill is the
+projected footprint (the columns occupied in any plane) plus every tile it encloses (a free tile with no path of
+edge-sharing free tiles to infinity). It is world physics, computed by the accountant from occupancy; no cell reads it.
+
+**What moved** (paired lives, 4,096 per point, seeds 16,000,000 + s, the hand-built column reflex; the HEAD kernel
+8395c12 against this one; differences are paired):
+
+| world | body | cells | columns / filled | F before | F after | after − before | minus full ring 3, before → after |
+|---|---|---|---|---|---|---|---|
+| catch_v1 | full ring 3 | 74 | 37 / 37 | +3.863 ± 0.009 | bitwise the same | 0 | — |
+| catch_v1 | hollow ring 3: centre + ring 3, both planes | 38 | 19 / 37 | +0.387 ± 0.005 | −0.117 ± 0.004 | −0.504 ± 0.005 | −3.477 → −3.980 |
+| catch_v1 | thick hollow: centre + rings 2-3 | 62 | 31 / 37 | +1.978 ± 0.007 | +1.821 ± 0.007 | −0.157 ± 0.008 | −1.885 → −2.043 |
+| catch_v1 | sense-hollow ring 3 (the prototype's; act disk full) | 56 | 37 / 37 | +4.312 ± 0.009 | bitwise the same | 0 | +0.449 ± 0.011 both |
+| SPECK | full ring 3 | 74 | 37 / 37 | +5.047 ± 0.029 | bitwise the same | 0 | — |
+| SPECK | hollow ring 3 | 38 | 19 / 37 | +0.689 ± 0.013 | +0.332 ± 0.012 | −0.358 ± 0.012 | −4.358 → −4.716 |
+| SPECK | thick hollow | 62 | 31 / 37 | +0.409 ± 0.014 | +0.265 ± 0.013 | −0.144 ± 0.016 | −4.639 → −4.783 |
+| SPECK | sense-hollow ring 3 | 56 | 37 / 37 | +5.406 ± 0.029 | bitwise the same | 0 | +0.358 ± 0.034 both |
+
+SPECK = catch_v1 with sigma 0.6 and R_cap 500. The hollow ring 3's speed fell 0.148 → 0.106 (catch_v1) and
+0.099 → 0.071 (SPECK), the factor sqrt(19 / 37) = 0.717.
+- **In this kernel the prototype's hollow body had already lost its drag discount** to tweak 11 of BODY-1 v1 (15.59:
+  the full act disk counts), so it is bitwise unchanged. Its lead over the full ring 3 is all cost: 18 fewer sense
+  cells save 0.450 per unit (catch_v1) and 0.389 (SPECK), and income is equal within 1 SE. That is cell economy,
+  which the world should keep, not drag. In the red team's prototype run (n 768) the same law moved its tuned hollow
+  reflex from +0.69 above its tuned ring 3 to −0.56 below.
+- **The loophole left here was bodies hollow in every plane.** Their drag discount was worth +0.50 F (catch_v1) and
+  +0.36 F (SPECK) to the 1-wide ring, and is gone. With the column reflex none of these bodies beat the full ring 3
+  before or after (an act ring's inner rim pulls toward the hole). A slit to the outside reopens part of it (part 6).
+- Random GRN growers (a diagnostic of 40 dividing and dying genomes, 3 lives each): 17 of 120 lives changed, every
+  one a life that enclosed a tile while the dot was pulled; 10 others enclosed tiles only while still (or with a
+  residual force below an ulp of X) and stayed bitwise.
+- **Kernel verified.** Bodies that never enclose a tile live bitwise as before: golden `all` hashes of the old kernel
+  for 9 bodies (full disks, hidden stacks, a lopsided body, islands, turnover, three footless drifters, a footless ring
+  that grows a foot, a square prism), 3 lives each. Kernel = reference bitwise on hole-forming lives (T3): a hollow
+  ring 2 under turnover (holes open when a rim column dies and close when motors divide into the gap), a static hollow
+  ring 3, a grower, and GRN genomes on hexprism, square4prism and square8prism. spec agrees with a brute-force flood
+  fill on 1,200 random shapes on every base, and the kernel export with spec on 2,000. The Euler re-integration and
+  the record re-derivation of the dot use the filled footprint (including a hollow ring and a GRN body whose holes
+  open and close). A hollow ring drags bitwise like the same ring with quiet sense cells filling it, and the Euler
+  drag with occupied columns alone is off by sqrt(37 / 19).
+- **Cost:** P is kept sorted by (b, a); each column birth or death costs O(|P|) (insert plus one row-run sweep), never
+  the bounding box's area.
+- **Choices** (LIFE_ABI.md 15.61; please confirm): tiles connect through shared edges (hex: six neighbours; square
+  bases: the four axial ones, also on square8, so a corner contact closes a gap); islands are not merged (no convex
+  hull), so the gaps between separate pieces stay free and the GB7 islands keep footprint 7; the footprint changes at
+  the record, so the motion up to t uses the footprint at t-.
+
+### 2. The life-length draw (GB11)
+Gate GB11 was read from smoke runs before the pilot: evolved CATCH bodies were still growing at T in 89-98% of their
+lives, which meets its condition (more than 10% of lives growing by more than 10% after T/2). So the per-generation
+life-length draw is on: `life.T_choices: [768, 1024, 1536]` in configs/life_catch.yaml, and so in the L_max 2, seeded
+and SPECK configs too. Each generation's lives and its recheck lives last one length, drawn uniformly and keyed by the
+run seed and the generation only; valid, held-out, final, clone, size-curve and founder lives keep T = 1024
+(founder_T). What was checked, each with a test (`tests/test_life_evolve.py`):
+- Seeds: the life seeds do not depend on the length (the same seeds with the draw off), and no cell reads T, so a
+  generation's lives at 768 are the first part of the same lives at 1536 (fate logs agree up to the cut; also checked
+  on evolved genomes of the 300-generation smoke). Over 300 generations the three lengths came up 80, 107 and 113
+  times; a different run seed gives a different sequence.
+- Recheck lives share the generation's length and the seeds they had without the draw.
+- Fitness stays per unit of each life's own length: the window is its T, and the extinction charge runs to its own end
+  (a zygote that dies at once scores -c_live at 768, 1024 and 1536). The hand-built 2-cell clicker scores the same at
+  every length (F(768) - F(1536) = -0.0001 +- 0.0017, n 2048 paired), but its per-life SD is 0.111 at 768 and 0.080
+  at 1536: short generations are noisier.
+- Evals: `evals` still counts genome evaluations whatever the length (checked on every smoke run: the founders plus
+  256 + 64 x 4 / 3 per generation); a generation at 1536 costs twice one at 768, so selection compute in nominal lives
+  is about evals x T_sel_mean / 1024 (the draw's mean is 1109, +8%).
+- Judged lives: the valid score of a run with the draw is the best genome on lives of the nominal T, recomputed.
+- Added: curves.jsonl and lineage.jsonl rows record the generation's `T`; results rows add `T_choices` and
+  `T_sel_mean`, and every CATCH row adds GB11's readout, `n_half` (the best genome's size at T/2 on its final lives cut
+  there) and `growing` (the share of those lives that grew by more than 10% after T/2); a config that overrides its
+  preset's world records `world_over`, and the aggregate shows such a world as `preset[key=value,...]`.
+- Guard: evolution refuses a nominal `life.T` outside `T_choices` (a run that overrides T alone would otherwise select
+  on other lengths than it is judged on; the tiny test configs scale the choices to 144, 192, 288).
+
+### 3. SPECK in the kernel: gates GS1-GS6 (S1 acceptance A1-A4)
+SPECK (catch_v1 with a small target halo, sigma 0.6, worth R_cap 500) was the S1 prototype study's candidate: an
+outward router at ring 4 passed the no-cliff test A1-A4 there. It is now a preset (`catch_speck`, `_l4`, `_l2`; every
+other key catch_v1's, c_miss 2 included) and is tested in the real kernel after RT-T1 by `scripts/life_gates.py
+--world speck` (docs/LIFE_GATES.md, SPECK section; outputs/life_gates/gates_speck.json).
+
+**Bodies** (`src/life/handbuilt.py`, SPECK section; program mode, references only). Role bodies whose cells take one of
+six roles from the shape (rim or interior sensor by n_view, the centre sensor, rim or interior motor, the hotspot);
+interior motors are quiet, since they can never pull. Six reflexes (full and sense-hollow rings 2-4; no lateral
+weight) and the router at ring 4 (interior coincidence detectors relaying on channel 1, rim sensors firing on one
+relay), each tuned in the kernel with the same budget (160 random candidates on 48 lives, then coordinate ascent with
+restarts to 300 knob sets on 192 hill lives; tuning seeds 17-18 M) on grids of GRN-decodable values, from the red
+team's knobs without the prototype-only slow state, polarity and hold. About 2.8 hours of 4-thread runs (two or three
+at a time); the knobs are frozen in `handbuilt.SPECK_TUNED`. Gates on fresh lives (seeds 19,000,000 + s; 1024 paired
+lives per point, 768 per growth-path point); the gate run took 23 minutes on 4 threads (peak 0.57 GB), and 29
+minutes (0.64 GB) with GS3's reported path from the best reflex, part of it next to other jobs.
+
+| gate | measured | verdict |
+|---|---|---|
+| GS1 (A1) the S0 champion earns | the GB4 ring-3 column reflex +4.995 ± 0.056 (catch_v1 +3.892); lone −0.020; paired +5.015 (z 89) | PASS |
+| GS2 (A2) router beats every tuned reflex by 3 SE | router@ring4 +11.263 ± 0.089; best reflex (sense-hollow ring 3) +9.016 ± 0.084; **+2.247 ± 0.100 (z 22.4)**; the other reflexes z 26-77 | PASS |
+| GS3 (A3) growth pays; path | router knobs on rings 1-6: +2.78, +3.99, +6.82, **+11.26**, +4.02, −2.53; re-tuned rings 3 and 5 +8.71, +7.54; every smaller body z ≥ 22 below; path from the ring-3 reflex: lowest −0.09 ± 0.07 (z −1.4), end +2.32 (z 20). Reported: from the best reflex (sense-hollow ring 3) the path first dips by 0.24 ± 0.11 (z −2.2) | PASS (registered); not valley-free from the best reflex (reported) |
+| GS4 (A4) lateral_off removes the gain | router → +1.669 with lateral_off: removes +9.59, 4.3 times the gain; reflexes move ≤ 0.004 | PASS |
+| GS5 router as a GRN genome | 0 role mismatches (11 gene states, 1,606 grown cells); ~50-column disks after growth +9.395 vs program twins +9.321 (z 0.5) | PASS |
+| GS6 GB7's cheats in SPECK | best blind presser +0.292, above the lone zygote by +0.312 (z 29), below the clicker by 0.186; at c_miss 10 it loses (−0.289, z −27) | **FAIL** |
+
+- **The router's lead is larger in the kernel than in the prototype** (+2.25 against +1.20 ± 0.12), with neither side
+  given the prototype's per-cell slow state, and with the hollow reflex no longer drag-discounted (RT-T1). The router
+  catches 28.3 targets per life against 21.0, at equal misses.
+- **c_miss 2 vs the prototype's 1.** For A1-A4 nothing changes: re-priced at c_miss 1 every router − reflex difference
+  moves by at most 0.006. But neither price keeps rule N10 in SPECK: a blind click breaks even at a 0.4% capture rate
+  at c_miss 2 (0.2% at 1), against v1's 1.96%, so blind pressers (and the blind GRN presser) earn about +0.26 to +0.29,
+  above the lone zygote though below the sensing clicker (+0.48). c_miss 10 restores v1's break-even rate; at that
+  price every cheat loses and A1-A4 do not move (router − best reflex +2.246). The preset keeps c_miss 2 as
+  specified; **decision for the user**.
+- **Delay** (reported; knobs not re-tuned): router − best reflex +3.32 ± 0.11 at d0 0.5, +2.25 at d0 1, **−0.56 ± 0.08
+  (z −6.8) at d0 2**, −0.48 at d0 2 with delay_sd and jit 0.5. As in the prototype, routing pays only while messages
+  are fast compared with the small target's stay under the body.
+- **The registered growth path is not smooth everywhere.** Judged against its start (the red team's valley depth) it
+  never falls by more than 1.4 SE; step by step, one move falls: at ring 3 + 4 columns with interior gain 1/4 (a local
+  high point, +9.10), adding gain or one more column costs 0.23-0.25 (z −2.3 to −2.5) before a plateau (+8.7 to +9.1)
+  leads on.
+- **From the best reflex the path has a valley** (review finding 1, part 6; reported in GS3, outside the verdict).
+  The registered path starts at the full ring-3 reflex with deaf interior sensors, 0.24 ± 0.11 (z −2.2) below GS2's
+  best tuned reflex, the sense-hollow ring 3. Started from the best reflex itself (the same grid with its knobs), the
+  path dips to −0.24 ± 0.11 (z −2.2; on independent lives −0.44 ± 0.11, z −4.0) and is clearly above it only from
+  ring 3 + 12 columns (16 on independent lives). Details in part 6.
+- **GS5.** The router written as a GRN genome (`handbuilt.router_genome`: the GB9 column grower plus six role genes
+  reading n_view and lineage) grows ragged disks of about 50 columns in which every cell decodes exactly its role, and
+  earns what program twins of the same shapes earn. After growth it beats the placed best reflex by +0.39 ± 0.16
+  (z 2.5); over the whole life, with growth, it ties it (−0.17 ± 0.14). The placed ring-4 router earns 1.8 more. The
+  genome is a reference, not a seed.
+- **Not tested:** A2's Rg (a reflex with a per-cell slow state; program mode has none), and A1's best evolved S0 body
+  (it waits for the S0 pilot).
+
+### 4. Smoke runs (with the drag fix and the draw)
+configs/life_catch.yaml and life_catch_seeded.yaml with the draw, and the SPECK world as overrides (before the preset
+existed); 4 threads per run, 3-4 runs at a time, load 11-27 on 14 CPUs, mean 18. Best genome after the last
+generation, on 64 fresh lives at T 1024 (lives keyed 10,000 + seed, never seen by the run), paired against the
+hand-built column reflex (program mode) on the same lives; reliance from the run's own final forks at T/2:
+
+| arm (seed, generations) | best body: cells (S / M / H) | F | minus the 2-cell clicker | minus ring 1 | size at T/2 / T / 1.5 T | growing (best / population) | msg / sense reliance | s per generation |
+|---|---|---|---|---|---|---|---|---|
+| v1 L4 unseeded (s0, 150) | 2.0 (1.0 / 0.97 / 0.03) | +0.023 +- 0.011 | -0.007 +- 0.011 | -1.008 +- 0.052 | 1.8 / 2.0 / 2.0 | 0.14 / 0.10 | 1.0 / 1.0 | 0.90 (2-cell: 0.67) |
+| v1 L4 unseeded (s1, 150) | extinct | -0.020 (charged) | — | — | 0 | 0 / 0 | — | 1.00 |
+| v1 seeded (s0, 100) | 203 (103 / 100 / 0) | +0.237 +- 0.127 | +0.21 +- 0.13 | -0.79 +- 0.14 | 33 / 203 / 594 | 0.97 / 1.00 | 1.0 / 1.0 | 12.3 (gens 40-99: 14.8) |
+| SPECK L4 unseeded (s0, 40) | 20.3 (9.8 / 8.9 / 1.6) | +0.626 +- 0.087 | +0.05 +- 0.09 | -2.18 +- 0.15 | 9.0 / 20.3 / 33.0 | 1.00 / 0.79 | 1.0 / 1.0 | 2.4 |
+| SPECK seeded (s0, 40) | 77 (39 / 38 / 0) | +2.79 +- 0.17 | +2.22 +- 0.18 | -0.01 +- 0.19 | 22 / 77 / 190 | 1.00 / 1.00 | 1.0 / 1.0 | 10.8 |
+
+References on those lives: v1 clicker +0.031 +- 0.013, ring 1 +1.03 +- 0.05; SPECK clicker +0.57 +- 0.06, ring 1 +2.80
++- 0.15. The run rows' own final F (their final lives): v1 s0 +0.025 +- 0.010; v1 seeded +0.33 +- 0.09 (the best of its
+top 8, re-measured: +0.77 +- 0.06); SPECK L4 +0.65 +- 0.09; SPECK seeded +2.65 +- 0.19. No life was invalid and no
+ledger check failed in any run.
+- **Past the clicker and ring 1?** Unseeded v1: no. Both seeds sat at <= 2 cells for 150 generations, the best equal to
+  the hand clicker (z -0.6), and seed 1 lost its clicker lineage at generations 144-148: the bodies among its 32 parents
+  fell 27, 22, 6, 1, 0 while six short (T 768) generations ran in a row, and genomes that die at once (charged exactly
+  -c_live) or stay a silent lone cell outscored clickers whose lives caught nothing. The founder is marginal: the
+  census's genuine founder has F +0.020, and the hand clicker's margin over the lone cell, +0.04, is less than half its
+  per-life SD of 0.08-0.11 (33-42% of its lives score at or below the lone cell). The earlier 300-generation unseeded
+  run (before the review fixes) climbed only after generation 200. Seeded v1: it grew at generation 4, but after 100
+  generations its best is +0.21 +- 0.13 above the clicker (1.6 SE) and -0.79 +- 0.14 below ring 1, at 10-15 times ring
+  1's size. SPECK seeded: at the ring-1 level after 40 generations. SPECK unseeded: 18-20 cells by generation 40, equal
+  to the clicker so far.
+- **Do they stop growing before T?** No lineage that grows does. The seeded v1 best grows from 33 cells at T/2 to 203 at
+  T and 594 at 1.5 T, and all 256 lives of its final population (32 genomes x 8) grew by more than 10% after T/2; the
+  SPECK bests too (100%; their populations 79% and 100%). Only the 2-cell clickers are static. So GB11's condition holds
+  in these runs too, and 100 generations of the draw have not stopped growth; the pilot reads it again from its own
+  rows.
+- **Message certificate.** Every living best genome passes both forks: the certificate (contacts, chemistry and division
+  off at T/2) and receptor_off each remove 100% of the second-half income. lateral_off removes nothing from the seeded
+  bodies (+0.12 +- 0.11, +0.18 +- 0.18) and 0.92 +- 0.40 of 1.77 from the SPECK unseeded body (2.3 SE; one body, 16
+  forks: a hint, not a finding).
+- **Time.** Founder sampling (16,384 genomes x 2 lives): 458-490 s in v1, 654 s in SPECK (93 earners, 8 founders, screen
+  F +0.80). Generations: 0.5-1.6 s while bodies are 2 cells (mean 0.9-1.0); in the seeded runs about 4, 8 and 22-26 s at
+  T 768, 1024 and 1536, and 41-56 s when the population's mean body passes 50 cells. Wall time is 0.32-0.54 us per
+  cell-unit of selection lives on 4 threads. Peak memory: 0.29 GB (a seeded run of 30 generations with bodies up to 202
+  cells, 4 threads).
+- **SPECK configs** (prepared, not decided): configs/life_speck.yaml (unseeded, L_max 4) and life_speck_seeded.yaml
+  (the same labelled seed genome as the v1 seeded arm) are life_catch.yaml in the preset `catch_speck_l4`. Our choices,
+  recorded in the config: held-out worlds at the v1 list's relative steps around SPECK's values (v_t 0.05 and 0.2,
+  R_cap 250 and 1000, sigma 0.4) plus sigma 1.5; skill_at 4.0, v1's rule (between ring 1 and ring 2) on SPECK's kernel
+  ring curve. Measured while preparing (kernel, hand-built column reflex, n 256 per ring, paired):
+
+| world | ring 0 (clicker) | ring 1 | ring 2 | ring 3 | ring 4 |
+|---|---|---|---|---|---|
+| v1 | +0.024 +- 0.006 | +0.984 +- 0.023 | +2.843 +- 0.035 | +3.854 +- 0.037 | +3.316 +- 0.027 |
+| SPECK | +0.467 +- 0.029 | +2.958 +- 0.086 | +5.014 +- 0.125 | +5.064 +- 0.114 | +0.800 +- 0.079 |
+
+- Selection noise is higher in SPECK: the per-life SD of F is 1.8-2.0 at rings 2-3, against 0.6 in v1.
+
+### 5. Pilot run matrix and time estimate
+`scripts/run_catch_pilot.sh` takes a run matrix by arm: `PILOT_ARMS="name:seeds[:generations] ..."`, arms v1_l4,
+v1_l2, v1_seeded, speck_l4, speck_seeded; runs interleave by seed; `PILOT_PLAN=1` prints the plan. Per run, low /
+central / high, at the smokes' load (assumed: at load 30 up to half again):
+
+| arm | generations | per run (h) | assumption |
+|---|---|---|---|
+| v1 L4 or L2, unseeded | 500 | 0.26 / 0.62 / 2.7 | 0.13 h founders, 1 s per 2-cell generation; 0 / 3 / 10 of 10 seeds climb at generation 200, then 10 / 15 / 30 s per generation |
+| seeded (v1 or SPECK) | 300 | 0.81 / 1.2 / 2.4 | bodies from generation 10, 10 / 15 / 30 s per generation (500 generations: 1.4 / 2.0 / 4.1) |
+| SPECK L4, unseeded | 500 | 1.35 / 1.9 / 3.6 | 0.18 h founders, 100 small-body generations at 2 s, then 10 / 15 / 30 s |
+
+- The full matrix (v1 L4 x10, v1 L2 x5, v1 seeded x5, SPECK L4 x10, SPECK seeded x5, all 500 generations): 31 / 49
+  / 117 job-hours, **16 / 24 / 58 h** on 2 jobs. Over the budget.
+- **Proposed: `v1_l4:10 v1_l2:3 v1_seeded:3:300 speck_l4:6 speck_seeded:3:300`**: 16 / 27 / 71 job-hours, **8 / 13 / 35
+  h** on 2 jobs. Why: v1 L4 keeps 10 seeds x 500 generations because S0's success and kill rules are written for them;
+  v1 L2 lives the same lives as L4 until a cell grows above the act plane (the v1 smoke bests carried hidden cells in 5
+  of their 400 generations), so 3 seeds show whether hidden planes cost anything; the seeded arms are the declared hedge
+  and grow within 10 generations, so 3 seeds x 300 generations answer "does evolution climb from a working reflex" at
+  60% of the cost; SPECK L4 keeps the full 500 generations, because routing can only pay once bodies pass the reflex
+  optimum (ring 2-3) and reach ring 4, and drops to 6 seeds to fit.
+- **The script's default is that matrix's v1 part** (`v1_l4:10 v1_l2:3 v1_seeded:3:300`: 6 / 12 / 42 job-hours, 3 / 6 /
+  21 h); the SPECK arms run only when PILOT_ARMS names them. `PILOT_PLAN=1` on this tree prints 16 runs (v1 L4 x10,
+  v1 L2 x3, v1 seeded x3 at 300 generations), and 25 with the two SPECK arms.
+- The range is wide because it depends on how many v1 seeds climb and how large grow-forever bodies get at T 1536; if
+  most v1 seeds climb, the v1 L4 arm alone needs up to 27 job-hours.
+
+### 6. Review of this work (2 findings, both reproduced with the reviewers' scripts and seeds)
+
+| finding | reproduced | real? | fix | regression test |
+|---|---|---|---|---|
+| GS3's valley-free path starts at the full ring-3 reflex (with deaf interior sensors), 0.24-0.50 F below the best tuned reflex, the sense-hollow ring 3; from there the path first falls | yes, to the digit: start − hollow3 −0.242 ± 0.109 (z −2.2), lowest −0.335 ± 0.109 (z −3.1), crossing at ring 3 + 12 columns (+0.325, z 3.0) on the gate lives; −0.503 (z −4.6) to −0.303 on lives 40,000,000 + s | yes: "valley-free" held only from a sub-optimal reflex | GS3 reports the path against the best reflex and searches the same grid with the best reflex's knobs starting at it (`path_from_best_reflex`, `reported_checks`); the registered verdict is unchanged; LIFE_GATES.md and this file state the valley | `test_routing_knobs_are_silent_on_a_sense_hollow_body` (fast), `test_gs3_reports_the_path_from_the_best_reflex` (slow), and `_rejudge_speck` now re-derives `reported_checks` |
+| a one-column slit from a hole to the outside restores the drag discount RT-T1 removed | yes, to the digit (n 2048, seeds 41,000,000 + s): slit body − same body with quiet sense cells refilling the slit +0.223 ± 0.010 F in catch_v1 (z 21), +0.177 ± 0.021 in SPECK | yes, a residual of 15.61's rule; low impact (such bodies are 2.2-4.7 F below the full ring 3; no gate changes) | recorded in LIFE_ABI.md 15.61 with the numbers and two candidate laws; not closed (part 9) | `test_a_slit_to_the_outside_leaves_the_hole_free` (spec, kernel export, and the kernel's dot drags like the 29 columns) |
+
+**Finding 1 in detail.** GS2's best tuned reflex is the sense-hollow ring 3 (centre and ring-3 sensors under a full
+act disk, 56 cells; +9.032 on GS3's 768 path lives), which is also the better reflex shape in catch_v1 (part 1), so an
+evolved S0 population may well sit there. The registered path starts at the full ring-3 reflex with its 18 interior
+sensors deaf (74 cells): 0.242 ± 0.109 below the best reflex (z −2.2), mostly their upkeep, and not clearly above it
+(by 2 SE) until ring 3 + 12 columns. GS3 now also searches the same grid (ring 3 + 0-24 ring-4 columns × interior gain
+0-1/2) with the best reflex's own knobs, starting at the best reflex itself. The routing knobs are silent on a
+sense-hollow body (bitwise, at every gain), so the first real step fills the interior with 18 sensors at once. Best
+monotone path, 768 paired lives per point, minus the best reflex:
+
+| path point (grid with the best reflex's knobs) | gate lives (19,000,000 + s) | independent lives (40,000,000 + s) |
+|---|---|---|
+| interior filled, gain 1/4 | −0.224 ± 0.111 (z −2.0) | −0.291 ± 0.111 (z −2.6) |
+| + 4 columns | −0.028 ± 0.111 | −0.295 ± 0.112 (z −2.6) |
+| gain 3/8 (the lowest point) | −0.243 ± 0.109 (z −2.2) | −0.438 ± 0.111 (z −4.0) |
+| + 8 columns | +0.004 ± 0.109 | −0.267 ± 0.105 (z −2.5) |
+| + 12 columns | +0.263 ± 0.111 (z 2.4) | +0.198 ± 0.116 (z 1.7) |
+| + 16 columns | +0.596 ± 0.112 (z 5.3) | +0.610 ± 0.111 (z 5.5) |
+| ring 4, gain 1/2 (the end) | +1.974 ± 0.111 (z 17.8) | +1.946 ± 0.118 (z 16.5) |
+
+The independent lives chose the same path. Both reported checks fail: by about 0.2 SE beyond the 2-SE line on the gate
+lives, and clearly on the independent ones. GS3's registered verdict (PASS) is unchanged, since the registration names
+the ring-3 reflex as the start.
+- What it means for the pilot: from the best reflex's shape a SPECK lineage must first pay about 0.2-0.4 per unit
+  (2.5-5% of F) for interior sensors and the first ring-4 columns before routing pays. That is small next to SPECK's
+  selection noise (per-life SD 1.8-2.0; a parent is chosen on 7 lives, 3 plus 4 for the shortlist, an SE of about
+  0.7), so drift can carry a population across, but selection does not pay for the first steps.
+- Not searched: other path families, for example interior relays added ring by ring with roles placed by site. In the
+  role bodies an interior sensor takes the relay role only when all six neighbours are present, so a partly filled
+  interior holds only rim-role sensors under quiet motors.
+- Two further checks by the reviewer, not rerun here (scripts in the review scratchpad): the registered path, chosen on
+  the gate lives, is still valley-free against its own start on the independent lives (lowest point the start, worst
+  step −0.099 ± 0.100); and A2 holds against a harder-tuned hollow reflex (700 evaluations, a widened grid, new seeds:
+  +8.640 ± 0.082 on GS2's lives, below the frozen +9.016; router minus it +2.62 ± 0.10).
+
+**Finding 2 in detail.** The thick hollow body (centre + rings 2-3 in every plane, n_fill 37) without the
+edge-sharing columns (2, 0) and (3, 0) encloses nothing, so it drags like its 29 columns though it spans the same disk.
+Against the same body with two quiet sense cells refilling those columns in the sense plane only (identical act-plane
+faces and pulls; n_fill 37): catch_v1 +0.223 ± 0.010 (speed 0.401 against 0.356 = sqrt(37 / 29)), so about +0.18 F of
+drag discount after the quiet cells' upkeep, the size RT-T1 removed from the closed thick hollow (−0.157); SPECK +0.177
+± 0.021. Against the closed thick hollow the slit body gains in SPECK (+0.060 ± 0.025, z 2.4) and loses in catch_v1
+(−0.199 ± 0.012). These bodies earn +1.62 (catch_v1) and +0.35 (SPECK) against the full ring 3's +3.86 and +5.05.
+- Why not closed now. Two local, O(n) laws would close it: the morphological closing of P by the radius-1 disk before
+  the fill, or the filled convex hull of each edge-connected piece (both give the slit body 36 tiles). Measured on
+  geometry alone (scratchpad scripts `prepilot_fix/footprint_alts.py` and `footprint_alts_gb9.py`), neither re-prices
+  a hand-built gate body without holes (rings 0-6, the 34 column-ladder bodies, runners, islands, tonic rings, the six
+  SPECK shapes, GS3's 25 path bodies and 31 ring-4-plus bodies), but both charge ragged grown bodies for their
+  notches. On the end-of-life bodies of the
+  smokes' best genomes (32 lives each): the closing changes 24 of 32 seeded v1 bodies (mean 98.2 → 100.5 tiles), 16 of
+  32 SPECK unseeded (10.7 → 11.3) and 12 of 32 SPECK seeded (38.6 → 39.2); the hull 25, 24 and 18 (98.2 → 103.6, 10.7
+  → 12.3, 38.6 → 40.1); GS5's grown routers 6 and 8 of 16; the GB6 and GB9 column grower 10 and 11 of 32 (40.2 →
+  40.5 and 40.6). Either is a kernel and spec change (new T-tests, gates and smokes rerun) that would raise the mean
+  footprint of grown bodies by 1.6-5.6% (closing) or 3.9-15% (hull), to remove a discount that no competitive body
+  uses. So it is left to the user.
+
+### 7. Tweaks and choices
+Each keeps sensing, acting and messaging local, adds no clock and designs no behaviour; hand-built bodies stay
+references and gates.
+1. **Drag from the filled footprint** (RT-T1, LIFE_ABI.md 15.61), with its choices: edge-sharing tiles, islands not
+   merged, the footprint at t- for the motion up to t. Residual recorded: a slit to the outside (finding 2).
+2. **The per-generation life-length draw is on** in every CATCH config (GB11's prescribed switch), and evolution refuses
+   a nominal T outside the drawn lengths (a guard).
+3. GB11's readout, the drawn length and world overrides are recorded per run.
+4. **SPECK presets** `catch_speck`, `_l4`, `_l2` (catch_v1 with sigma 0.6 and R_cap 500); its configs' held-out worlds
+   and skill_at 4.0 are ours.
+5. **The pilot matrix by arm**, with per-arm seeds and generations (`scripts/sweep.py` takes `path:N[:G]` and
+   `--plan`); the default drops from 10 seeds per arm (30 runs) to v1 L4 x10, v1 L2 x3 and seeded x3 at 300
+   generations.
+6. **SPECK gate choices** (LIFE_GATES.md, SPECK deviations): role bodies with quiet interior act cells; GRN-decodable
+   grids widened from the red team's; equal tuning budget per body; GS3's criteria (the path judged against its start)
+   with steps reported; GS5 and GS6 beyond the registration.
+7. **This round:** GS3 also reports the growth path from the best tuned reflex (`path_from_best_reflex`,
+   `reported_checks`), outside the verdict, because the registered path starts from the ring-3 reflex. The registered
+   criteria and verdict are unchanged.
+
+### 8. Verification
+- **After RT-T1** (before this round's review): CATCH GB3-GB13 9 of 9 pass, gates_catch.json identical leaf for leaf
+  (463 s, 4 threads, peak 0.60 GB): no gate body encloses a tile while it moves. BELL G1-G10 and S8 identical leaf for
+  leaf (10 of 11 pass, G10 on its known check; 379 s, peak 0.73 GB). The kernel checks are in part 1.
+- **SPECK tests** (with the gates): fast tests (`tests/test_life_handbuilt.py`) for the preset; role assignment and
+  shapes; a role body equals the column reflex where no motor is interior (bitwise) and differs only by the quiet
+  motors' spike costs at ring 2; grids and starts on the GRN grid; the tuner and the bottleneck path; routers (placed,
+  with lateral_off, and grown) bitwise equal to the reference. Slow tests (`tests/test_life_gates.py`): the SPECK gate
+  file, seed ranges and the frozen knobs, tune reproducibility, GS1-GS6 recomputed in part and pinned, and
+  `main --world speck`.
+- **Gates, rerun on this tree after the review** (kernel library `life_66f624a8719dfae0.so`, unchanged this round;
+  4 threads each, two or three gate runs at a time):
+  - BELL G1-G10 and S8: 10 of 11 pass (G10 on its known check); gates.json identical leaf for leaf (all 4134 leaves
+    outside the metadata and run times); 582 s, peak 0.73 GB.
+  - CATCH GB3-GB13: 9 of 9 pass; gates_catch.json identical leaf for leaf (4253 leaves); 674 s, peak 0.55 GB.
+  - SPECK GS1-GS6: GS1-GS5 pass and GS6 fails, as before. Every leaf is identical except GS3's new reported block
+    (333 leaves added, one criteria sentence and one note); GS3's two reported checks are False. 1745 s, peak 0.64 GB.
+- **Tests, this round:** 631 fast tests pass (59 s); all 127 slow tests pass in one run on the final tree and gate
+  files (349 s); ruff is clean on src, tests and scripts. New: two fast tests
+  (`test_routing_knobs_are_silent_on_a_sense_hollow_body`, `test_a_slit_to_the_outside_leaves_the_hole_free`), one
+  slow test (`test_gs3_reports_the_path_from_the_best_reflex`), and the SPECK re-judge now checks `reported_checks`.
+  The style test's allowance for scripts/life_gates.py drops from 3 long lines to 2 (one was split).
+- **Unchanged elsewhere:** the kernel, the reference, spec and every src/ file are untouched this round (only
+  scripts/life_gates.py, tests, configs' comments and docs changed), so kernel = reference bitwise as in part 1. The
+  legacy local smoke (configs/local_smoke.yaml) run on this tree is identical to HEAD's (curves and best genome
+  byte for byte; the results row differs only in name and wall_s). Earlier in this pre-pilot work a BELL life smoke
+  (configs/life_smoke.yaml) was identical to HEAD's too (curves, genomes, lineage, clones, population and results rows
+  apart from times, git fields and the run name).
+
+### 9. Open issues and decisions for the user (as left by the workflow; decided in part 10)
+- **c_miss in SPECK** (GS6): at catch_v1's c_miss 2 blind clicking pays in SPECK (a blind click breaks even at a 0.4%
+  capture rate); c_miss 10 restores v1's 1.96% and changes nothing in A1-A4. Keep 2, or set 10 for the SPECK arms
+  (one line in configs/life_speck.yaml: `world: {c_miss: 10.0}`).
+- **Whether the SPECK arms run**, and in which matrix (part 5). Caveats that travel with SPECK: the router's lead
+  reverses at d0 2; Rg is untested; from the best reflex the growth path has a valley of 0.22-0.44 F (z −2.0 to
+  −4.0 on two seed sets; finding 1), which a population could cross by drift (a parent's selection score on 7 lives
+  has an SE of about 0.7 in SPECK, per-life SD 1.8-2.0) but which selection does not pay for.
+- **The slit residual** (finding 2): keep the filled footprint as is (recorded), or close it with the closing or the
+  per-piece hull (a kernel change that would re-price many grown bodies; part 6).
+- **Still open from BODY-1 v1:** confirm tweaks 10 (c_miss 2) and 11 (projected footprint) and RT-T1's choices; the
+  founder is rare (1 in 8,192) and marginal, so the unseeded v1 arm can lose its clicker to noise and the
+  pre-registered kill rule (>= 8 of 10 seeds at <= 4 cells after 500 generations) may fire for that reason rather than
+  for the world; growth does not stop (the seeded lineage reaches 594 cells at 1.5 T; the cell guard is 1,024), and big
+  bodies at T 1536 dominate the compute; GB9's single-mutant scan was not run; the kernel's 2-cell clicker sits about
+  9% above the prototype's at equal prices (unexplained).
+- **Before launching:** commit (the tree is dirty; every results row records git_dirty), then
+  `scripts/run_catch_pilot.sh` (default matrix) or with `PILOT_ARMS` naming the SPECK arms.
+
+### 10. Decisions before launch and the pilot's pre-registration (2026-10-08)
+Taken under the user's standing approval of minor tweaks that keep sensing, acting and messaging local, add no clock
+and design no behaviour.
+1. **SPECK prices a miss at 10** (LIFE_ABI.md 15.62). R_cap / c_miss = 50 as in v1, so a blind click again breaks even
+   at 2 / 102. A price only: no cell reads it and lives are unchanged. SPECK gates rerun (`--world speck --threads 8`,
+   1770 s, peak 0.66 GB): **GS1-GS6 all pass**. Champion +4.946 ± 0.056; router@ring4 +10.910 ± 0.090 against the
+   best tuned reflex (sense-hollow ring 3) +8.664 ± 0.084, +2.246 ± 0.101 (z 22.3, unchanged from c_miss 2);
+   lateral_off removes +9.641, 4.3 times the gain; the GRN router after growth +0.070 ± 0.154 against its twins; the
+   2-cell clicker +0.463 (lone −0.020), and the best blind presser, re-screened at the new price, −0.065 ± 0.008
+   (below the lone zygote, z −5.8). Delay: router minus best reflex −0.58 ± 0.08 at d0 2 (the pilot runs d0 1).
+   From the best reflex the growth path still dips (start −0.25, lowest −0.34 ± 0.11, z −3.1), as reported in part 6.
+2. **A SPECK smoke at c_miss 10** (1 seed x 40 generations, 4 threads, 389 s) checks that founders still exist: 8 of
+   16,384 sampled genomes score (0.35% of the census at F >= 0, against 0.57% at c_miss 2; best founder +0.69). By
+   generation 40 the best genome grows 63 cells (S 30, M 21, H 12.5) and earns +0.37 ± 0.09 on 64 fresh lives
+   (the c_miss 2 smoke's best: +0.65 at 18.5 cells), with 5.3 misses per life against the c_miss 2 smoke's 30: the
+   price selects for clicking on evidence. The message certificate removes all of its second-half income; lone cells
+   are 0.4% of the population.
+3. **The SPECK arms run.** SPECK passes every gate, and in the smokes it is the world where unseeded evolution leaves
+   the 2-cell clicker quickly (the v1 founder's edge over the lone cell is +0.04 with per-life SD 0.08-0.11; SPECK's
+   2-cell clicker is +0.48 above it).
+4. **The slit residual stays recorded, not closed** (part 6, finding 2): no competitive body uses it, and both closing
+   laws re-price ragged grown bodies. The pilot analysis checks it on the evolved bodies: if a final best body gains
+   more than 0.1 F from a slit (its filled footprint against the closing law's), the law is revisited.
+5. **The BODY-1 v1 tweaks are kept** (c_miss 2 in v1, the projected and then filled footprint, the extinction charge,
+   the founder prior and budget) and the GS3 dip from the best reflex is reported, not acted on.
+6. **Matrix:** `v1_l4:10 v1_l2:3 v1_seeded:3:300 speck_l4:10 speck_seeded:3:300` (29 runs, 500 generations unless
+   noted), now the default of `scripts/run_catch_pilot.sh`, on 4 jobs x 3 threads (the machine's sweep setting, 12 of 14
+   cores). About 22 / 34 / 86 job-hours at 4 threads (low / central / high), so roughly 7 / 11 / 29 h. SPECK L4 has 10
+   seeds so its criteria count seeds like S0's.
+
+**Pre-registered criteria** (judged from the results rows and final genomes; the seeded arms are hedges and never the
+main result):
+- **S0, v1 L4** (proposal 8.2, unchanged): success if >= 5 of 10 seeds reach F >= +2.0 (`skill_at`) within 500
+  generations; kill if >= 8 of 10 seeds sit at <= 4 cells after 500 generations. v1 L2 is read against v1 L4 (do the
+  hidden planes cost or help?).
+- **S1 start, SPECK L4:** success if >= 5 of 10 seeds reach F >= +4.0 (`skill_at`, midway between ring 1 and ring 2)
+  within 500 generations; kill if >= 8 of 10 seeds sit at <= 4 cells after 500 generations.
+- **S1 routing, SPECK L4** (A2 and A4 on evolved bodies): count the seeds whose final best genome, on 1024 fresh lives
+  at T 1024 (seeds disjoint from every gate and run), beats the best tuned reflex (`reflex@hollow3`, frozen
+  `handbuilt.SPECK_TUNED` knobs, +8.66) by more than 3 paired SE, and loses at least half of that lead under
+  lateral_off. Reported as a count out of 10; one such seed is the first evolved router.
+- **GB11:** read from every results row (`n_half`, `growing`); growth that never stops is reported, not judged.
+

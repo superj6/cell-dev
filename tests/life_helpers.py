@@ -256,6 +256,26 @@ def grn3(seed: int, **shift) -> np.ndarray:
     return g
 
 
+def enclosed_tiles(fate_i, fate_f, kind: str = "hexprism") -> int:
+    """The most tiles a body enclosed (its filled footprint minus its occupied columns, LIFE_ABI.md 15.61) after any
+    time group of its life, rebuilt from its complete fate log: > 0 iff the drag ever counted a hole."""
+    ev = sorted((fr[0], row[0], row[1] & spec.MASK64, row[3], row[4]) for row, fr in
+                zip(np.asarray(fate_i).tolist(), np.asarray(fate_f).tolist()) if row[0] in (1, 2))
+    cols, col_of, most = {}, {}, 0
+    for j, (t, kind_, uid, a, b) in enumerate(ev):
+        if kind_ == 1:
+            col_of[uid] = (a, b)
+            cols[(a, b)] = cols.get((a, b), 0) + 1
+        else:
+            ab = col_of[uid]
+            cols[ab] -= 1
+            if cols[ab] == 0:
+                del cols[ab]
+        if j + 1 == len(ev) or ev[j + 1][0] != t:  # after the whole group: what the drag sees
+            most = max(most, spec.filled_footprint(cols, kind) - len(cols))
+    return most
+
+
 def kernel3(w: spec.World, seeds, *, program=None, genome=None, init=None, threads: int = 1,
             cap: int = CAP) -> build.Lives:
     """Lives through the C kernel in ABI 3's shapes; ``init`` cells are ``(a, b)``, ``(a, b, z)`` or

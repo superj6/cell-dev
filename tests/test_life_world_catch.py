@@ -11,7 +11,8 @@ import numpy as np
 import pytest
 
 from src import lattice
-from src.life import spec
+from src.life import build, spec
+from src.life import handbuilt as hb
 from tests.life_helpers import (
     CLICKER3,
     COLUMN3,
@@ -84,9 +85,10 @@ def _strokes(res, i, w) -> tuple[list, list, list]:
     return out, feet, [(a, b, tb, td) for a, b, z, tb, td in cells.values()]
 
 
-def _euler_dot(w, strokes, feet, every, t_end, dt=1e-3):
-    """Explicit Euler (step dt) of the overdamped dot, dX/dt = F(t) / n_col^drag_exp, with n_col the number of
-    occupied columns (a, b) in any plane, and 0 without a sense-plane cell (no traction). F is the sum of the
+def _euler_dot(w, strokes, feet, every, t_end, dt=1e-3, fill=True):
+    """Explicit Euler (step dt) of the overdamped dot, dX/dt = F(t) / n_fill^drag_exp, with n_fill the filled
+    footprint (the columns (a, b) occupied in any plane plus the tiles they enclose; ``fill=False``: the occupied
+    columns alone, the drag before 15.61), and 0 without a sense-plane cell (no traction). F is the sum of the
     strokes' forces decaying with tau_z from onset to the cell's death: (X, Y, path)."""
     steps = int(round((t_end - w.t0) / dt))
     ts = w.t0 + dt * np.arange(steps)
@@ -97,7 +99,12 @@ def _euler_dot(w, strokes, feet, every, t_end, dt=1e-3):
     for a, b, tb, td in every:
         per_col.setdefault((a, b), np.zeros(steps, dtype=bool))
         per_col[(a, b)] |= (ts >= tb) & (ts < td)
-    n_col = np.sum(list(per_col.values()), axis=0)
+    keys, occ = list(per_col), np.array(list(per_col.values()))
+    edges = np.concatenate([[0], np.flatnonzero(np.any(occ[:, 1:] != occ[:, :-1], axis=0)) + 1, [steps]])
+    n_col = np.zeros(steps)
+    for s0, s1 in zip(edges[:-1], edges[1:]):  # one footprint per stretch of constant occupancy
+        cols = [keys[i] for i in np.flatnonzero(occ[:, s0])]
+        n_col[s0:s1] = spec.filled_footprint(cols, w.lattice) if fill else len(cols)
     inc = np.zeros((steps, 2))
     for s, fx, fy, stop in strokes:
         for when, sign in ((s, 1.0), (stop, -1.0)):
@@ -155,6 +162,121 @@ def test_footless_act_cells_add_drag():
         _, _, feet_only = _euler_dot(w, strokes, feet, [(0, 0, *f) for f in feet], res["t_end"][i])
         assert path > 5.0 and abs(euler - path) < 1e-3 * path
         assert abs(feet_only / path - math.sqrt(3.0)) < 1e-2  # the old law: drag 1, the dot sqrt(3) faster
+
+
+RING3 = [s for s in hexdisk(3) if max(abs(s[0]), abs(s[1]), abs(s[0] + s[1])) == 3]
+INSIDE3 = [s for s in hexdisk(2) if s != (0, 0)]  # the 18 tiles a ring-3 body encloses besides its centre
+
+
+def _same_dot(a, b) -> bool:
+    """The dots of two batches moved bitwise alike: path, end point, nudges, clicks and their outcomes."""
+    cols = [L[k] for k in ("path", "X_end", "Y_end", "nudges", "clicks", "captures", "misses")]
+    return np.array_equal(bits(a.ledger[:, cols]), bits(b.ledger[:, cols]))
+
+
+def test_a_hollow_ring_drags_like_the_filled_disk():
+    """Red-team tweak RT-T1 (LIFE_ABI.md 15.61): the drag follows the body's extent, the filled footprint, so a
+    hollow ring drags like the disk it encloses. The hollow ring 3 (centre and ring-3 columns: 19 occupied columns,
+    37 filled tiles) and the same body with quiet receptor-less sense cells on the 18 enclosed tiles (37 columns)
+    make the same strokes (faces read the act plane only) on the same drag, so their dots move bitwise alike, and
+    the Euler re-integration with the filled footprint matches the hollow body; with the occupied columns alone
+    (the drag before 15.61) it is off by about sqrt(37 / 19)."""
+    hollow = columns([(0, 0)] + RING3)
+    filled = hollow + [(a, b, 0, R3["rim"]) for a, b in INSIDE3]  # the rim row is QUIET3: g_r 0, never fires
+    w = catch(T=200.0)
+    a = kernel3(w, [1, 2, 3], program=COLUMN3, init=hollow)
+    b = kernel3(w, [1, 2, 3], program=COLUMN3, init=filled)
+    assert _same_dot(a, b) and a["path"].min() > 5.0 and a["clicks"].min() > 0
+    for i in range(3):  # the hollow body's own cells spike bitwise alike in both
+        (ta, ua), (tb, ub) = a.spikes(i), b.spikes(i)
+        assert np.array_equal(bits(ta), bits(tb)) and np.array_equal(ua, ub)
+        strokes, feet, every = _strokes(a, i, w)
+        path = a.ledger[i][L["path"]]
+        _, _, filled_path = _euler_dot(w, strokes, feet, every, a["t_end"][i])
+        _, _, projected = _euler_dot(w, strokes, feet, every, a["t_end"][i], fill=False)
+        assert abs(filled_path - path) < 1e-3 * path
+        assert abs(projected / path - math.sqrt(37 / 19)) < 1e-2
+
+
+def test_footless_cells_enclose_and_islands_do_not():
+    """15.61 with footless cells: an act-plane ring with no sense cell under it (tonic, around a quiet centre column)
+    encloses the tiles inside it like any body, so filling them with quiet sense cells changes nothing; islands
+    (the centre and the six ring-3 corners) enclose nothing, so their footprint stays 7 columns (spec level:
+    tests/test_life_spec_abi3.py)."""
+    ring = [(0, 0, 0, R3["alone"]), (0, 0, 1, R3["contact"])] + [(a, b, 1, R3["contact"]) for a, b in RING3]
+    filled = ring + [(a, b, 0, R3["alone"]) for a, b in INSIDE3]
+    w = catch(T=200.0)
+    a = kernel3(w, [4, 5], program=_TONIC_PROGRAM, init=ring)
+    b = kernel3(w, [4, 5], program=_TONIC_PROGRAM, init=filled)
+    assert _same_dot(a, b) and a["path"].min() > 1.0 and a["nudges"].min() > 100
+    assert spec.filled_footprint(ISLANDS) == 7
+
+
+def test_a_slit_to_the_outside_leaves_the_hole_free():
+    """Recorded residual of 15.61 (review 2026-10-08): only tiles with no edge path to infinity are filled, so a
+    one-column slit from a hole to the outside leaves the hole free. The thick hollow body (centre + rings 2-3, every
+    plane) fills its ring-1 hole (37 tiles); cutting the two edge-sharing columns (2, 0) and (3, 0) opens it, and the
+    body drags like its 29 columns although it spans the same disk (LIFE_ABI.md 15.61 has the measured discount).
+    Closing either end of the slit closes the hole again. The kernel counts and drags the same."""
+    thick = [(0, 0)] + [s for s in hexdisk(3) if max(abs(s[0]), abs(s[1]), abs(s[0] + s[1])) >= 2]
+    slit = [s for s in thick if s not in ((2, 0), (3, 0))]
+    counts = {"thick": (thick, 37), "slit": (slit, 29), "outer end closed": (slit + [(3, 0)], 37),
+              "inner end closed": (slit + [(2, 0)], 36)}  # the ring-2 wall closes the hole; the notch stays free
+    for name, (cols, n) in counts.items():
+        assert spec.filled_footprint(cols) == build.filled_footprint(cols) == n, name
+    w = catch(T=200.0)
+    res = kernel3(w, [6, 7], program=COLUMN3, init=columns(slit))
+    assert res["path"].min() > 5.0
+    for i in range(2):
+        strokes, feet, every = _strokes(res, i, w)
+        _, _, path = _euler_dot(w, strokes, feet, every, res["t_end"][i])
+        assert abs(path - res.ledger[i][L["path"]]) < 1e-3 * path  # the drag of 29 tiles: no hole is filled
+
+
+# The `all` hash of 3 lives (seeds 11-13) of bodies that never enclose a tile, computed by the kernel of commit
+# 8395c12 (BODY-1 v1, drag from the occupied columns). Their filled footprint is their occupied columns at every
+# instant, so RT-T1 (15.61) must leave every one of them bitwise unchanged: full disks, hidden stacks, a lopsided
+# body, islands, turnover, footless drifters, a footless ring that grows a foot, and a square prism.
+CATCH_GOLDEN = {
+    "ring 1": ("ebb3ad6fcad2d938", "e514aacbfa9d617d", "d4454d0cf784b840"),
+    "ring 3 L4": ("5d4113f98ccce87a", "35851e7857541e43", "94459d8dd794534a"),
+    "ring 2 + 2 hidden L4": ("f089898e545d0d83", "3563a5cf102a1657", "4fb21a7bcdf75b07"),
+    "lopsided": ("6e3ca4debbaaf298", "6a0b8635194b5f86", "c82e4c8a20df74e2"),
+    "islands": ("b426b8207d4a2304", "5685943920ec313c", "ebe0af4b9ca1e55f"),
+    "turnover": ("b4f4b71167f49d5a", "98d60092e3ebade2", "22a056a3dc80d57d"),
+    "runner x3 footless": ("381c82602eb704de", "4e6bdcda910807d0", "937f8647410f0990"),
+    "footless then a foot": ("5815620dbacefe6e", "527540b71bb79214", "e72de59c931454f0"),
+    "square4prism plus": ("940ac875b528e7ad", "a7874df74e46b3e1", "f25318845cca68cc"),
+}
+
+
+def _golden_catch_cases() -> dict:
+    footless = [(a, b, 1, R3["contact"]) for a, b in hexdisk(1) if (a, b) != (0, 0)] + [(0, 0, 1, R3["juvenile"])]
+    tonic = V3.pack_program(V3.theta(b=2.0, tau_m=1, t_ref=0.5, kappa=1), alone=V3.theta(b=1.1, tau_m=4, t_ref=1,
+                                                                                         kappa=1),
+                            juvenile=V3.theta(b=1.5, tau_m=2, t_ref=1, kappa=1, p_div=1.0, zeta=-2))
+    run3 = hb.runner(*hb.RUNNER_PROTOTYPE, drifters=3)
+    return {
+        "ring 1": (catch(T=200.0), dict(program=COLUMN3, init=columns(hexdisk(1)))),
+        "ring 3 L4": (catch("catch_v1_l4", T=150.0), dict(program=COLUMN3, init=columns(hexdisk(3)))),
+        "ring 2 + 2 hidden L4": (catch("catch_v1_l4", T=150.0), dict(program=COLUMN3,
+                                                                     init=columns(hexdisk(2), hidden=2))),
+        "lopsided": (catch(T=200.0), dict(program=COLUMN3, init=columns([(0, 0), (1, 0), (1, -1), (0, -1)]))),
+        "islands": (catch(T=200.0), dict(program=COLUMN3, init=columns(ISLANDS))),
+        "turnover": (catch(T=200.0), dict(program=TURNOVER3, init=TURNOVER_BODY)),
+        "runner x3 footless": (catch(T=200.0), dict(program=run3.program, init=list(run3.cells))),
+        "footless then a foot": (catch(T=60.0), dict(program=tonic, init=footless)),
+        "square4prism plus": (catch(T=150.0, lattice="square4prism"),
+                              dict(program=COLUMN3, init=columns([(0, 0), (1, 0), (0, 1), (-1, 0), (0, -1)]))),
+    }
+
+
+def test_bodies_without_holes_live_bitwise_as_before_the_filled_footprint():
+    cases = _golden_catch_cases()
+    assert set(cases) == set(CATCH_GOLDEN)
+    for label, (w, kw) in cases.items():
+        res = kernel3(w, [11, 12, 13], **kw)
+        assert [f"{int(h):016x}" for h in res.hashes[:, 0]] == list(CATCH_GOLDEN[label]), label
 
 
 def test_surface_normal_faces_cancel_over_any_shape():

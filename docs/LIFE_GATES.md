@@ -1,7 +1,8 @@
 # One-life gates G1-G10 (migration step 3)
 
-BELL-1 gates G1-G10 and S8 first; the BODY-1 gates GB3-GB13 of the CATCH world follow at the end of this file
-(`python scripts/life_gates.py --world catch`).
+BELL-1 gates G1-G10 and S8 first; the BODY-1 gates GB3-GB13 of the CATCH world follow
+(`python scripts/life_gates.py --world catch`), and the gates GS1-GS6 of the S1 candidate SPECK close the file
+(`--world speck`).
 
 The pre-registered gates of `docs/ONE_LIFE_DESIGN.md` (PRE-REGISTERED GATES), measured in the C kernel on hex with
 Q10 membranes, plus the square8 size curve that G10 asks for before any square8 run. Each gate below gives its
@@ -37,6 +38,13 @@ verdict, and one plain-language line.
   (4144 of 4144 leaves; only run times and metadata differ), as the ABI-3 cross-check had found on its own rerun. That
   run (845 s on 4 threads on a shared machine, peak memory 0.73 GB) now is outputs/life_gates/gates.json, so the pins
   below are active again on this library.
+- **Rerun after RT-T1 (2026-10-08), the filled-footprint drag of CATCH (LIFE_ABI.md 15.61).** `python
+  scripts/life_gates.py --world bell --threads 4` on kernel library `life_66f624a8719dfae0.so` reproduced gates.json
+  leaf for leaf (4144 of 4144 leaves; only run times and metadata differ), as it must: BELL has no drag. 379 s on 4
+  threads, peak memory 0.73 GB; that run now is outputs/life_gates/gates.json.
+- **Rerun before the pilot (2026-10-08, after the pre-pilot review; no kernel change).** `python scripts/life_gates.py
+  --world bell --threads 4` on `life_66f624a8719dfae0.so` reproduced gates.json leaf for leaf (all 4134 leaves outside
+  the metadata and run times); 582 s on 4 threads with two other 4-thread jobs running, peak memory 0.73 GB.
 - Pinned by `tests/test_life_gates.py` (slow): each test recomputes part of its gate, asserts the stored numbers
   exactly, and re-judges the stored measurements to reproduce the stored verdicts.
 - **Result: 10 of 11 pass. G10 fails on one check:** the flank placement term of layered growth (design D4) adds
@@ -513,11 +521,29 @@ criterion, the registered (proposal) value, the measured value with lives and SE
     grid, adds two blind GRN genomes, and screens runners with 1, 2 and 3 drifters.
   - The run before the fixes (kernel `life_5c65f605cba3402e.so`, c_miss 1, the old drag) also passed 9 of 9; its
     numbers are in the git history of this file.
+- **Rerun after RT-T1 (2026-10-08): drag from the filled footprint** (LIFE_ABI.md 15.61: the occupied columns plus
+  every tile they enclose, so a hollow body drags like the disk it bounds). On kernel library
+  `life_66f624a8719dfae0.so`, `python scripts/life_gates.py --world catch --threads 4` reproduced gates_catch.json
+  leaf for leaf (4277 of 4277 leaves; only run times and metadata differ; 463 s on 4 threads, peak memory 0.60 GB):
+  no gate body encloses a tile while it moves (full disks, column ladders, islands, runners, hold bodies, the GRN
+  column grower and the grown GB6 bodies). That run now is outputs/life_gates/gates_catch.json. What the tweak moves
+  is measured in RESULTS.md (Pre-pilot, part 1): bodies hollow in every plane.
+- **Rerun before the pilot (2026-10-08, after the pre-pilot review; no kernel change).** `python scripts/life_gates.py
+  --world catch --threads 4` reproduced gates_catch.json leaf for leaf (all 4253 leaves outside the metadata and run
+  times); 674 s on 4 threads with two other 4-thread jobs running, peak memory 0.55 GB. The review's slit residual
+  (LIFE_ABI.md 15.61) is left as recorded; of the two laws that would close it, neither changes the footprint of a
+  hand-built gate body, but both change some grown ones (the GB6 and GB9 column grower: 10 and 11 of 32 bodies, by
+  0.3-0.4 tiles on average).
 - Pinned by `tests/test_life_gates.py` (slow), as for G1-G10: each test recomputes part of its gate, asserts the stored
   numbers exactly when gates_catch.json was written by the library in use, and re-judges the stored verdicts.
 - GB1 (BELL-1 bitwise under ABI 3) and GB2 (heap = window for CATCH lives) are tests (`test_life_world_bell.py`,
   `test_life_time.py`); GB10 (the founder census) and GB11 (growth stops, read from the pilot) belong to the census and
   the pilot. GB3-GB9, GB12 and GB13 are here.
+- **GB11 read (2026-10-08, from smoke runs before the pilot):** evolved CATCH bodies were still growing at T in
+  89-98% of their lives (criterion: more than 10% of lives growing by more than 10% after T/2), so the per-generation
+  life-length draw is on in configs/life_catch*.yaml and the SPECK configs (T from 768, 1024 and 1536 per
+  generation; judged lives at 1024). Every CATCH results row now carries the readout (`n_half`, `growing`), so the
+  pilot's own top genomes re-read it. RESULTS.md, Pre-pilot, part 2.
 - **Result: 9 of 9 pass.**
 
 ## How the CATCH gates measure
@@ -823,4 +849,352 @@ criterion, the registered (proposal) value, the measured value with lives and SE
    L_max 2 = 4 bitwise; the founder-loss part of the proposal's hidden-plane question is GB10's.
 6. **Two world tweaks came from the gates' review** (LIFE_ABI.md 15.59, 15.60): c_miss 2 and the projected-footprint
    drag. Both keep the column ladder (complete columns live bitwise as before; F moves by −misses / T). BELL-1 is
-   untouched.
+   untouched. A third came from the S1 red team (RT-T1, 15.61): the drag counts the filled footprint (holes
+   counted); every body without enclosed tiles, so every gate body, lives bitwise as before.
+
+
+# SPECK gates GS1-GS6 (the S1 candidate, ABI 3)
+
+The no-cliff acceptance test of `docs/BODY_DESIGN_PROPOSAL.md` 8 (A1-A4) for the S1 candidate SPECK, run in the real
+kernel: CATCH-T with a small target halo (sigma 0.6) worth R_cap 500 (proposal 8, candidate 3 "interior blindness";
+the S1 prototype study and its red team found that an outward router at ring 4 passes A1-A4 there). GS1-GS4 are A1-A4;
+GS5 writes the router as a GRN genome through the real genome path (the GB9 analogue), and GS6 runs GB7's cheats in
+SPECK (proposal 8 gives every stage its own red team); neither is part of A1-A4.
+
+- Produced by `python scripts/life_gates.py --world speck --threads 4` on 2026-10-08 (UTC); results in
+  `outputs/life_gates/gates_speck.json` (kernel library `life_66f624a8719dfae0.so`, ABI 3, the kernel after RT-T1).
+  About 23 minutes on 4 threads, peak memory 0.57 GB. The bodies' knobs come from
+  `python scripts/life_gates.py --world speck --tune ...` (outputs/life_gates/speck_tune/; about 2.8 hours of 4-thread
+  runs, two or three at a time), frozen in `handbuilt.SPECK_TUNED`.
+- **Rerun after the pre-pilot review (2026-10-08; no kernel change).** `python scripts/life_gates.py --world speck
+  --threads 4` (1745 s on 4 threads, part of it next to other 4-thread jobs; peak memory 0.64 GB). GS3 gained the
+  reported block `path_from_best_reflex`, its `reported_checks`, one note and one sentence of its criteria; every
+  other leaf of gates_speck.json is identical, GS3's earlier numbers included.
+- **Rerun at c_miss 10 (2026-10-08, before any SPECK run; LIFE_ABI.md 15.62).** The SPECK presets now price a miss at
+  10, keeping v1's ratio R_cap / c_miss = 50, because GS6 failed at catch_v1's c_miss 2. `python scripts/life_gates.py
+  --world speck --threads 8`: 1770 s, peak memory 0.66 GB; **GS1-GS6 all pass**. Lives are bitwise the same (no cell
+  reads a price), so every F moves by −8 · misses / T; GS6's blind-presser screen re-ranks at the new price. That run
+  is outputs/life_gates/gates_speck.json, and the summary table below gives its numbers. The per-gate sections after
+  it were written for the c_miss 2 run (kept in the scratchpad as gates_speck_cmiss2.json); their c_miss 10 values
+  are in the gate file.
+- Pinned by `tests/test_life_gates.py` (slow), as for the other gates.
+- **Result (at the presets' c_miss 10): GS1-GS6 all pass.** At catch_v1's c_miss 2 GS6 had failed: with R_cap 500 a
+  blind click broke even at a 0.4% capture rate, and the best blind presser beat the lone zygote (rule N10 did not
+  hold), though not the sensing clicker. c_miss 10 keeps v1's break-even rate; every cheat loses and A1-A4 are
+  unchanged (router minus the best reflex +2.246 at both prices). Three caveats travel with the A1-A4 verdict: the router's lead reverses
+  at message delay d0 2 (reported, as the prototype found); the growth path, though never below its start, has one
+  step that falls by 0.25 (z −2.5); and that valley-free path starts from the full ring-3 reflex, not from the best
+  tuned reflex (the sense-hollow ring 3), from which every path measured first falls by 0.22-0.44 F (z −2.0 to −4.0
+  over two seed sets) before it climbs (GS3, reported after the pre-pilot review).
+
+## How the SPECK gates measure
+
+- **World.** `spec.PRESETS["catch_speck"]`: catch_v1 (L_max 4) with sigma 0.6, R_cap 500 and c_miss 10 (LIFE_ABI.md
+  15.62; the first run used catch_v1's c_miss 2). Every other key is catch_v1's, including the receptor charge c_rec 0.001 and the filled-footprint drag (LIFE_ABI.md
+  15.59-15.61). `catch_speck_l2` is its L_max-2 twin; a body without hidden cells lives bitwise alike in both.
+- **Role bodies** (`handbuilt.role_body`, program mode, one fixed row per cell). A cell's role follows from the body's
+  shape, through cues a cell has locally:
+
+| role | cells | program row | what it does |
+|---|---|---|---|
+| S | sense plane, some in-plane neighbour site empty (the rim) | alone | relays receptor events on channel 0 to the act cell above; in the router it also listens to channel 1 (S.w1) |
+| J | sense plane, all six in-plane neighbours present (interior) | rim | in a reflex J = S; in the router a coincidence detector that relays on channel 1 |
+| C | the centre sensor (0, 0, 0) | juvenile | the clicker's coincidence detector |
+| M | act plane, an exposed face | contact | pulls the dot toward its open side when it twitches |
+| K | the hotspot's act cell (0, 0, 1) | zygote | presses (its face is empty inside a disk) |
+| I | act plane, no exposed face | C's row | quiet: it can never pull, so firing would only cost |
+
+  - The program table has five rows, so I shares C's row, which is inert above the screen (no receptor there, no
+    input weight, b < 1); `role_body` refuses a C row that could fire there. The S0 champion (GS1) is the GB4 column
+    body itself, whose interior act cells still fire uselessly.
+  - **Reflexes** have no lateral weight anywhere: every sensor drives only the act cell above it. Six shapes: full
+    rings 2, 3 and 4 (both planes) and the prototype's hollow rings 2, 3 and 4 (sense plane: the centre and the outer
+    ring only; act plane: the full disk, so after RT-T1 a hollow body drags and pulls like ring k and saves only the
+    cost of interior sensors, which in a reflex cannot move the dot).
+  - **The router** (ring 4, 122 cells): interior sensors J are coincidence detectors (b 1/4, g_r 1/2) that relay on
+    channel 1 to their in-plane neighbours (J.w1 1/8 between interior cells); a rim sensor fires on one relay
+    (S.w1 1), so a target over the interior makes the nearest rim cells fire and their motors pull the body toward
+    it. Two sense identities (rim and interior, by n_view), no receiver polarity, no hold identity.
+- **Tuning** (`life_gates.speck_tune`; `analysis.tune_knobs`). The red team's tuner, with the same budget for every
+  body: 160 random candidates (each grid knob redrawn with probability 1/2) on 48 lives; the best 6 and the start
+  re-measured on 192 hill lives; then coordinate ascent (every other value of every knob, round after round, until a
+  round makes no move) with restarts from the next-best candidates, until 300 distinct knob sets have been measured
+  on the hill lives. Every grid value lies on the GRN decode grid (kernel-expressible): `handbuilt.REFLEX_GRID`, 19
+  knobs (88 values) for every body, and `ROUTE_GRID`, 8 more (35 values) for the router. Starts: the red team's tuned
+  prototype knobs for that shape (`handbuilt.PROTOTYPE_STARTS`), without the prototype-only knobs. Each reflex shape
+  gets the full budget, so the reflex family as a whole had six times the router's.
+- **Seeds.** Tuning: random search `17,000,000 + s`, hill `18,000,000 + s`. Gates: fresh `19,000,000 + s`, shared by
+  every body and world (paired). Exploration used `7,000,000 + s`; no gate uses it. 1024 fresh lives per point (A2's
+  and A4's margins need at least 768 paired), 768 per growth-path point, 512 for GS5.
+- **Prices.** Every F is at the preset's c_miss (10 now; 2 in the first run, whose numbers the per-gate sections
+  give). GS1 and GS2 also re-price each life at c_miss 1, the prototype's price, and GS6 at c_miss 10 (prices never
+  change a life, so this is exact).
+
+## Summary
+
+At the presets' c_miss 10 (the current gates_speck.json). The first run, at c_miss 2, is in brackets where it differs
+by more than rounding; lives are the same at both prices.
+
+| gate | criterion (short) | measured, fresh lives (mean ± SE) | verdict |
+|---|---|---|---|
+| GS1 (A1) | the S0 champion earns F > 0 and beats the lone zygote, by 2 SE | +4.946 ± 0.056 [+4.995]; lone −0.020; paired +4.967 (z 88; n 1024) | PASS |
+| GS2 (A2) | router@ring4 beats every tuned reflex by more than 3 paired SE, within one ring of S0's optimum | +10.910 ± 0.090 [+11.263] vs the best reflex (hollow ring 3) +8.664 ± 0.084 [+9.016]: +2.246 ± 0.101 (z 22.3) | PASS |
+| GS3 (A3 + path) | router optimum interior at ring 4; above every smaller body; growth path from the ring-3 reflex never below its start by 2 SE and ending above it. Reported, not judged: the same path rules from the best tuned reflex | router knobs at rings 1-6: +2.43 / +3.64 / +6.45 / **+10.91** / +3.61 / −2.91; path lowest −0.09 ± 0.07 (z −1.4), largest step −0.26 ± 0.10 (z −2.5). From the best reflex (sense-hollow ring 3): the registered start is −0.25 ± 0.11 below it (z −2.3); the grid with its knobs dips to −0.34 ± 0.11 (z −3.1) and is clearly above it only from ring 3 + 12 columns (+0.31, z 2.9) | PASS; from the best reflex not valley-free (reported) |
+| GS4 (A4) | lateral_off removes at least half of the gain | removes +9.641 ± 0.094, 4.3 times the gain (+2.246); router with lateral_off +1.269 | PASS |
+| GS5 (GRN) | the router as a GRN genome decodes every role exactly and earns what its program twins earn after growth | 0 mismatches; after growth +9.037 ± 0.133 vs twins +8.968 (+0.070 ± 0.154, z 0.5) | PASS |
+| GS6 (cheats) | GB7's criteria in SPECK: blind cheats below the clicker and the lone zygote; islands below ring 1; runners not a trap | clicker +0.463 ± 0.011; best blind presser (re-screened at c_miss 10) −0.065 ± 0.008, below the lone zygote by 0.045 (z −5.8) and the clicker by 0.528; the GRN presser and relay −0.14; tonic rings −1.5 and −2.0; islands +0.218 (ring 1 far above); runners +0.51-0.61, below the 4- and 6-cell columns. [At c_miss 2 the best presser was +0.292, above the lone zygote by +0.312, z 29: FAIL] | PASS |
+
+Delay sensitivity (reported): router minus the best reflex, knobs not re-tuned: +3.33 ± 0.11 at d0 0.5, +2.25 ± 0.10 at
+d0 1, **−0.58 ± 0.08 at d0 2** (z −7.1), −0.50 ± 0.08 at d0 2 with delay_sd and jit 0.5 (the same at c_miss 2 within
+0.02).
+
+## GS1. The S0 champion still earns (A1)
+
+- **Criteria.** earns: F(champion) more than 2 SE above 0; above_lone: F(champion) − F(lone zygote) above 2 paired SE.
+  The champion is the GB4 ring-3 column reflex, unchanged (the hand-built S0 optimum).
+- **Registered.** Prototype (red team, n 768, c_miss 1): champion@ring3 +5.209 ± 0.067, lone −0.020.
+- **Measured** (1024 lives). Champion +4.995 ± 0.056 (13.4 captures and 6.2 misses per life; catch_v1: +3.892 ± 0.025);
+  at c_miss 1 +5.001. Lone −0.020. Paired +5.015 ± 0.056 (z 89). At the prototype's prices (c_miss 1, no receptor
+  charge) +5.005, against the prototype's +5.209 ± 0.067 (z −2.3, reported).
+- **Verdict.** PASS.
+- **Not tested.** The best evolved S0 body (A1's second half): no S0 pilot has finished.
+- **In plain words.** Moving the S0 champion into SPECK does not hurt it: it earns more than in S0, because each catch
+  pays five times as much, and the small target makes it miss less often.
+
+## GS2. The router beats every tuned reflex (A2)
+
+- **Criteria.** router_beats_every_reflex: F(router@ring4) − F(reflex) > 3 paired SE for each of the six tuned reflexes;
+  within_one_ring: ring 4 is within one ring of S0's optimum (ring 3).
+- **Registered.** Prototype red team (n 768): L@ring4 − R@hollow3 +1.203 ± 0.115 (z 10.5); both sides had per-cell
+  slow state and the drag counted sense-plane cells only.
+- **Tuning** (hill F on the 192 tuning lives, optimistic by selection): reflexes ring 2 +5.84, hollow 2 +5.85, ring 3
+  +8.58, hollow 3 +8.84, ring 4 +3.56, hollow 4 +4.54; router +11.08. Each spent 300 hill evaluations in 2 to 4
+  ascents (1 to 3 rounds each, the last often cut by the budget); a restart raised the best by at most 0.12 (the
+  ring-3 reflex +0.115, the router +0.094), small next to the router's lead of 2.2.
+- **Measured** (1024 fresh lives; F, captures, misses, speed; router minus it, paired):
+
+| body | cells | F ± SE | captures | misses | speed | router minus (z) |
+|---|---|---|---|---|---|---|
+| reflex, ring 2 | 38 | +5.776 ± 0.067 | 13.6 | 43.1 | 0.305 | +5.487 ± 0.097 (56.5) |
+| reflex, hollow 2 | 32 | +5.916 ± 0.065 | 13.6 | 42.9 | 0.302 | +5.347 ± 0.097 (55.0) |
+| reflex, ring 3 | 74 | +8.729 ± 0.082 | 21.2 | 46.0 | 0.287 | +2.534 ± 0.098 (25.8) |
+| **reflex, hollow 3** (best) | 56 | **+9.016 ± 0.084** | 21.0 | 45.1 | 0.287 | **+2.247 ± 0.100 (22.4)** |
+| reflex, ring 4 | 122 | +3.756 ± 0.055 | 13.0 | 40.9 | 0.257 | +7.507 ± 0.097 (77.3) |
+| reflex, hollow 4 | 86 | +4.741 ± 0.053 | 13.5 | 51.4 | 0.257 | +6.522 ± 0.096 (67.6) |
+| S0 champion (ring 3) | 74 | +4.995 ± 0.056 | 13.4 | 6.2 | 0.253 | +6.268 ± 0.092 (68.5) |
+| **router, ring 4** | 122 | **+11.263 ± 0.089** | 28.3 | 45.2 | 0.301 | — |
+
+  - The router catches 28.3 targets per life against the best reflex's 21.0, with the same misses (45.2 and 45.1)
+    and twice the upkeep. Re-priced at c_miss 1 every difference is the same to 0.006 (router − hollow 3 +2.247):
+    **c_miss 2 changes nothing here.**
+  - The tuned router: rim S g_r 3/8 on b 5/8 (one event still fires it, at the cheaper receptor charge), S.w1 1;
+    interior J g_r 1/2, b 1/4, tau_m 2, t_ref 1/2, w1 1/8, relaying on channel 1 only (J.emit0 0); motors w0 1.5,
+    kappa 1, t_ref 1/2, tau_m 4; hotspot w0 1, kappa 1, t_ref 1.
+- **Verdict.** PASS.
+- **Not measured: Rg.** A2 asks to beat the best tuned R and Rg (R with a per-cell slow state). Program mode has no
+  slow state; in the kernel it is genes, so an Rg needs a GRN body. Neither side here has one (the prototype gave it to
+  both).
+- **In plain words.** Hand-tuned as hard as the red team tuned them, no reflex comes close to the router: relaying what
+  the interior sees to the rim earns 2.2 more per unit than the best body that only reacts where it senses.
+
+## GS3. Growth still pays, and the path there (A3)
+
+- **Criteria.** optimum_interior: with the router's knobs on complete rings 1-6, ring 4 has the largest F, above
+  rings 3 and 5 by more than 2 paired SE, and above the router re-tuned on rings 3 and 5 (coordinate ascent from the
+  ring-4 knobs, 150 hill evaluations each); above_smaller: the router at ring 4 is above every measured body with
+  fewer cells by more than 2 paired SE; path_uphill: on the grid ring 3 + k ring-4 columns (k 0, 4, ..., 24) ×
+  interior gain J.g_r in 1/8 steps from 0 to the router's 1/2, with the tuned ring-3 reflex's other knobs and the
+  router's routing knobs, the monotone path (each step adds 4 columns or 1/8 of gain) whose lowest point is highest
+  never falls below its start by more than 2 paired SE and ends above it by more than 2 SE; and the start (that
+  reflex with deaf interior sensors) is not below the tuned ring-3 reflex by more than 2 SE. Reported, not judged
+  (`reported_checks`, after the pre-pilot review): the registered start is not below GS2's best tuned reflex by more
+  than 2 SE; and on the same grid with the best reflex's knobs, starting at the best reflex itself, the best monotone
+  path meets path_uphill's two rules.
+- **Registered.** Proposal A3; prototype red team (e5c, n 512): a valley-free path exists when the interior gain rises
+  in 1/8 steps (valley depth +0.043, SE about 0.11).
+- **Measured.**
+  - Size, router knobs (1024 lives): ring 1 +2.776, ring 2 +3.990, ring 3 +6.816, **ring 4 +11.263**, ring 5 +4.022,
+    ring 6 −2.532 (steps z +20, +36, +46, −71, −100). Re-tuned: ring 3 +8.710 ± 0.083, ring 5 +7.536 ± 0.069 (ring 4
+    above them by z 26 and 37). Ring 4 plus 6, 12, 18, 24, 30 ring-5 columns: +9.93, +8.01, +6.60, +5.19, +4.02.
+  - Every smaller body is below the router by z 22.4 (hollow-3 reflex) to 126 (lone zygote).
+  - Growth path (768 lives per point; F):
+
+| ring-4 columns added \ J.g_r | 0 | 1/8 | 1/4 | 3/8 | 1/2 |
+|---|---|---|---|---|---|
+| 0 | **+8.79** | +8.70 | +8.84 | +8.11 | +6.97 |
+| 4 | +8.03 | +8.16 | +9.10 | +8.85 | +8.22 |
+| 8 | +6.73 | +6.90 | +8.56 | +9.09 | +8.69 |
+| 12 | +5.86 | +6.17 | +8.39 | +9.36 | +9.37 |
+| 16 | +4.98 | +5.23 | +8.21 | +9.83 | +9.96 |
+| 20 | +4.17 | +4.55 | +8.00 | +10.15 | +10.36 |
+| 24 | +3.38 | +3.57 | +7.55 | +10.39 | **+11.11** |
+
+  - The best monotone path: gain 0 → 1/8 → 1/4 at ring 3, 4 columns, gain 3/8, then columns to ring 4, then gain 1/2.
+    Its lowest point is the second, −0.092 ± 0.065 below the start (z −1.4); it ends +2.316 ± 0.115 above it (z 20),
+    and +2.074 ± 0.114 above the best reflex (z 18). The start equals the tuned ring-3 reflex with its interior
+    sensors deaf (+0.019 cheaper); at gain 0 the routing knobs are silent, and that body lives bitwise as the deaf
+    reflex.
+  - **Step by step** (reported): every step rises (z +1.6 to +6.8) except two: the first (−0.09, z −1.4) and gain
+    1/4 → 3/8 at ring 3 + 4 columns (**−0.253 ± 0.100, z −2.5**). A one-column probe there: from ring 3 + 4 columns
+    at gain 1/4 (+9.10) both forward moves fall (one more column −0.232 ± 0.100, z −2.3; more gain −0.25), and the
+    landscape is a plateau of +8.7 to +9.1 until ring 3 + 7 columns, where adding gain becomes uphill (+0.23 to
+    +0.97, z 2.4 to 9.4). So the path never drops below its start, but a population that climbed to that local high
+    point faces a dip of about 0.25 per unit (2.7% of F) to go on.
+  - Knob path from the path's end (reflex knobs and routing at ring 4, +11.11) to the tuned router, one knob at a time
+    in grid order (reported): S.g_r +0.21, S.tau_m −0.60 (z −5.6), S.b +0.68, C.g_r −0.33 (z −3.8), C.t_ref +0.17,
+    the rest 0; this order is not a growth path, and the end of the path already beats every reflex.
+  - **From the best tuned reflex** (reported, outside the verdict; added after the pre-pilot review, 2026-10-08). The
+    registered path starts at the full ring-3 reflex with deaf interior sensors, but GS2's best tuned reflex is the
+    sense-hollow ring 3 (+9.032 on these 768 lives), which is also the better reflex shape in catch_v1 (+4.312 against
+    +3.863 for the column reflex, RT-T1), so an evolved S0 population may well sit there. `path_from_best_reflex`:
+    - The registered path against it: the start is 0.242 ± 0.109 below it (z −2.2), the path's second point
+      −0.335 ± 0.109 (z −3.1), and the path is clearly above it (z > 2) only from ring 3 + 12 columns (+0.325, z 3.0).
+    - The same grid with the best reflex's own knobs, starting at the best reflex: row 0 is its shape with the routing
+      knobs set, which lives bitwise as it at every gain (only interior sensors emit on channel 1, and it has none);
+      the step into row 1 fills the ring-3 interior with 18 sensors at once (a larger step than 4 columns). Best
+      monotone path: gain to 1/4 in row 0 (free), the interior filled at gain 1/4 (**−0.224 ± 0.111, z −2.0**), 4
+      columns (−0.028), gain 3/8 (**−0.243 ± 0.109, z −2.2, the lowest point**), 8 columns (+0.004), 12 columns
+      (+0.263, z 2.4), then up to +1.974 ± 0.111 at ring 4 with gain 1/2 (z 17.8).
+    - reported_checks: registered_start_not_below_best_reflex False, path_uphill_from_best_reflex False (both by
+      about 0.2 SE beyond the 2-SE line).
+    - On independent lives (seeds 40,000,000 + s, n 768; scratchpad scripts of the review round) the valley is
+      deeper: the registered start −0.503 ± 0.109 (z −4.6), the best-knob grid's lowest point −0.438 ± 0.111 (z −4.0,
+      the same path), and F is clearly above the best reflex only from ring 3 + 16 columns (+0.610, z 5.5; at 12
+      columns +0.198, z 1.7).
+    - So from the best reflex the way to the router dips by 0.22-0.44 F (2.5-5% of F) for the first 4-8 ring-4
+      columns. That is small next to selection noise in SPECK (per-life SD 1.8-2.0; a parent is chosen on 7 lives,
+      an SE of about 0.7), so drift can cross it, but selection does not pay for the first steps.
+- **Verdict.** PASS on the registered criteria, with the one-step dip above. Reported: from the best tuned reflex the
+  path is not valley-free.
+- **In plain words.** With routing, ring 4 is the best size, far above rings 3 and 5 even when they are re-tuned, and
+  a body can get there from the ring-3 reflex by adding columns and turning up its interior sensors' gain in small
+  steps without ever earning less than where it started. The way is not smooth everywhere: at one point a step costs
+  a little before the next steps pay. And a body that starts from the best reflex, which leaves its interior without
+  sensors, must first pay for interior sensors and a few columns (about 0.2-0.4 per unit) before routing pays it
+  back.
+
+## GS4. Lateral messages are the gain (A4)
+
+- **Criteria.** fork_removes_gain: F(router) − F(router with lateral_off from birth) ≥ 0.5 × (F(router) − F(best
+  reflex)), with a positive gain. lateral_off drops every in-plane message; up and down still pass (LIFE_ABI.md 12).
+- **Registered.** Prototype: lateral-off takes the router from +10.709 to +1.320 (removes +9.39; gain +1.20).
+- **Measured** (1024 lives). Router +11.263 → +1.669 ± 0.043 with lateral_off (8.7 captures per life): removes +9.594
+  ± 0.093, 4.3 times the gain over the hollow-3 reflex (+2.247 ± 0.100). The reflexes do not use lateral messages:
+  lateral_off changes them by at most 0.004 (|z| ≤ 1.6). The wire certificate (contacts, chemistry and division off
+  at T/2) removes 99.8% of the router's second-half income.
+- **Verdict.** PASS.
+- **In plain words.** Cut the messages inside the sense plane and the router collapses far below every reflex: its
+  rim no longer hears what the interior sees, and its interior sensors drive nothing.
+
+## GS5. The router as a GRN genome
+
+- **The genome** (`handbuilt.router_genome`, a raw float32 875-slot ABI-3 genome through `spec.V3.pack_genomes` in GRN
+  mode from one zygote). Growth is the GB9 column genome's (a disk of columns spread by flank placement while a
+  lineage timer is below the window). Six more genes give the roles from local cues: inner (n_view / D ≥ 7/8: all six
+  in-plane neighbours present), relay (sense and inner and not the founder: J), zygote (the founder: C), a latch set
+  in the zygote's daughters (they are born with kin still 0), hot (that latch and motor: the hotspot K) and quiet
+  (inner motor, not hot: I). Every phenotype knob is read out linearly from the role genes, each role's value in the
+  middle of its decode interval.
+- **Criteria.** phenotypes: each of 11 settled gene states (rim, growing rim, interior and ring-1 sensors, the zygote
+  young and old, rim and interior motors, the hotspot young and old, a newborn) decodes exactly its role's row;
+  grown_roles: in 16 grown bodies every cell decodes exactly the row of the role its site has in the final shape
+  (genes read from a panel kill at t = 300); columns: every grown body is complete columns, no hidden cell, growth
+  ends before t_open 192; after_growth: from t_open the genome is within 2 paired SE of program twins (the tuned
+  router's role body on each life's own final cells). The window is chosen on 48 screen lives per value.
+- **Measured.** Window screen: 0.16 +7.17, **0.18 +8.94**, 0.2 +8.82, 0.22 +6.72, 0.24 +2.98; chosen 0.18. Fresh (512
+  lives): 99.7 cells (49.9 columns: about 24.5 rim and 24.4 interior sensors), complete columns in 512 of 512, no
+  hidden cell, last birth by t = 117. Phenotypes and grown roles: 0 mismatches (1,606 cells). After growth: genome
+  +9.395 ± 0.133 against twins +9.321 ± 0.133 (+0.074 ± 0.153, z 0.5). Whole life (with growth, 101 claims) +8.897
+  ± 0.117.
+  - Compared (reported): the placed ring-4 router after t = 192 earns +11.177 ± 0.139 and the hollow-3 reflex +9.000
+    ± 0.130; the grown router is above that reflex by +0.394 ± 0.157 (z 2.5) after growth and level with it over the
+    whole life (−0.169 ± 0.142). Its ragged disks are smaller than ring 4 (50 columns, not 61) and earn less.
+- **Verdict.** PASS.
+- **In plain words.** The router can be written in the gene language evolution searches: from one cell, genes that
+  read only the plane, how many neighbours a cell has and its lineage grow a disk in which every cell takes exactly the
+  router's role, and the grown body earns what the hand-placed body of the same shape earns. Whether evolution finds
+  it is the pilot's question; this genome is a reference, not a seed.
+
+## GS6. Cheats in SPECK (GB7's red team, beyond A1-A4)
+
+- **Criteria** (GB7's, on 2048 fresh SPECK lives). blind_lose: each blind cheat (the spam-runner, the fixed presser,
+  the best of the 480-presser screen, the blind GRN presser and relay, tonic rings 1 and 2) below the 2-cell clicker
+  and the lone zygote by more than 2 paired SE; islands_lose: below ring 1; runner_not_a_trap: the best runner with 1,
+  2 and 3 drifters (each the best of 108 settings screened in SPECK) not above the 4-cell column by more than 2 SE and
+  below the 6-cell column; contacts_off_no_income at rings 0-4. The same checks at c_miss 10 are reported.
+- **Why.** Rule N10 (proposal 10): the miss cost makes blind clicking lose. A blind click captures with some small
+  probability p, so it pays when p R_cap > (1 − p) c_miss, i.e. above a capture rate of c_miss / (R_cap + c_miss):
+  1.96% in v1 (2 / 102), 0.40% in SPECK at c_miss 2 (2 / 502), 0.20% at the prototype's c_miss 1. c_miss 10 gives
+  SPECK v1's 1.96%.
+- **Measured** (F; paired against the clicker and the lone zygote; at c_miss 10):
+
+| cheat | F ± SE | clicks / captures per life | minus clicker (z) | minus lone (z) | at c_miss 10: minus lone (z) |
+|---|---|---|---|---|---|
+| best blind presser (b 2, tau_m 16, t_ref 2, kappa 1) | +0.292 ± 0.011 | 78.0 / 0.99 | −0.186 (−31) | **+0.312 (+29)** | −0.289 (−27) |
+| blind GRN presser | +0.263 ± 0.010 | 51.8 / 0.83 | −0.216 (−28) | **+0.283 (+29)** | −0.116 (−12) |
+| blind GRN relay | +0.264 ± 0.010 | 51.9 / 0.83 | −0.215 (−28) | **+0.284 (+29)** | −0.115 (−12) |
+| blind spam-runner | +0.071 ± 0.014 | 302.6 / 1.49 | −0.407 (−23) | **+0.091 (+6.6)** | −2.261 (−162) |
+| blind clicker (fast presser) | −0.042 ± 0.012 | 302.6 / 1.20 | −0.521 (−98) | −0.022 (−1.9) | −2.377 (−196) |
+| blind tonic ring 1 | −0.050 ± 0.012 | 183.4 / 1.22 | −0.529 (−52) | −0.030 (−2.5) | −1.453 (−120) |
+| blind tonic ring 2 | −0.574 ± 0.012 | 183.4 / 1.17 | −1.053 (−115) | −0.554 (−47) | −1.978 (−164) |
+
+  - References: lone zygote −0.020, 2-cell clicker +0.478 ± 0.011 (3.0 clicks, 1.9 misses per life), 4-cell column
+    +0.677, 6-cell column +1.188, ring 1 +2.860.
+  - Islands +0.233 against ring 1 +2.860 (−2.627, z −88). Runners (best of each screen, all without feet): 1 drifter
+    +0.523, 2 drifters +0.614, 3 drifters +0.622: below the 4-cell column (−0.154, −0.064, −0.055; z −8.5, −3.5,
+    −3.0) and the 6-cell column (z −26 to −29); they beat the clicker (+0.05 to +0.14), legitimate kinesis.
+  - Contacts off from birth: no click and no income at rings 0-4.
+  - **At c_miss 10** every check passes, and A1-A4 do not move: the champion +4.946, the router +10.910 against the
+    best reflex +8.664 (+2.246 ± 0.101, z 22.3; the router and the reflexes miss equally often).
+- **Verdict.** FAIL at c_miss 2 (blind_lose; every other check passed). **PASS at the presets' c_miss 10** (rerun):
+  the re-screened best blind presser earns −0.065 ± 0.008, below the lone zygote (z −5.8).
+- **In plain words.** In SPECK a catch is worth so much that pressing the button blindly and slowly pays its upkeep:
+  a cell that never looks earns a little more than one that does nothing. It still earns less than the 2-cell body
+  that looks before it presses, so in a population that can sense it is not a trap; but among random genomes it
+  counts as an earner. Charging a missed click 10 instead of 2 makes blind clicking lose again and changes nothing
+  else measured here, so the SPECK presets now do that (LIFE_ABI.md 15.62).
+
+## Delay sensitivity (reported)
+
+Router minus the best reflex (hollow ring 3), knobs as tuned at d0 1, 1024 paired lives:
+
+| message delay | router | best reflex | router minus | smallest z over all six reflexes |
+|---|---|---|---|---|
+| d0 0.5 | +12.900 ± 0.100 | +9.576 ± 0.087 | +3.324 ± 0.109 | +30.4 |
+| d0 1 (catch_v1) | +11.263 ± 0.089 | +9.016 ± 0.084 | +2.247 ± 0.100 | +22.4 |
+| d0 2 | +6.574 ± 0.065 | +7.129 ± 0.070 | **−0.555 ± 0.081** | −6.8 |
+| d0 2, delay_sd 0.5, jit 0.5 | +6.069 ± 0.073 | +6.545 ± 0.073 | −0.477 ± 0.083 | −5.8 |
+
+- As in the prototype (+2.13, +1.26, −0.19, −0.52), the router's lead grows when messages are fast and reverses when
+  they take twice as long: its relays must reach the rim while the small target is still under the interior. Neither
+  side was re-tuned at the other delays.
+- In plain words: SPECK rewards routing only while messages are quick compared with how long a small target stays
+  under the body; at twice the default delay the plain reflex wins.
+
+## Deviations and choices (SPECK gates)
+
+1. **Not in program mode, so not tested:** the prototype's per-cell slow state (Rg, and the slow-state knobs its tuned
+   R and L bodies used) and its receiver polarity (the red team's no-polarity router L0 was as good; the kernel's
+   polarity needs morphogens). A2's Rg is therefore untested. The prototype's hold identity N is dropped (N = J; the
+   red team measured −0.036 ± 0.121 for it).
+2. **Interior act cells are quiet** in every role body (they share C's inert row; five program rows). They cannot
+   pull, so this only removes useless cost. The S0 champion is left as GB4 has it.
+3. **Grids** are the red team's kernel-expressible grids, widened (S.g_r 1/4, 7/8, 5/4; S.b −1/4, 7/8; S.delta 1;
+   C.g_r 1/4; C.t_ref 3; C.b −1/4; M.w0 1/2, 5/4; M.tau_m 8; M.t_ref 3; M.b; K.w0 3/4; K.tau_m; K.b; J.w1 0; J.t_ref
+   1/2, 3/2; J.b 1/8, 3/8; J.emit0; J.delta), without I.w0 (quiet) and without the prototype-only knobs. The router's
+   start has J.emit0 0 (the start is completed before the family's fixed knobs are added); every round tried 1.
+4. **Equal budget** means 300 hill evaluations per body with restarts, not equal wall time; the router's grid is
+   larger, so it had fewer rounds per evaluation.
+5. **GS3** turns "growth still pays" and "the path is uphill" into the criteria above (the path judged against its
+   start, as the red team's valley depth), and reports the steps; it re-tunes the router on rings 3 and 5 from the
+   ring-4 knobs with half the budget. After the pre-pilot review it also reports the path from the best tuned reflex
+   (`path_from_best_reflex`, `reported_checks`), outside the verdict, since the registration names the ring-3 reflex
+   as the start.
+6. **GS5** is beyond the registration (the task asked for it if feasible). Its disks are ragged and smaller than ring
+   4, so it compares with twins of the same shapes, as GB9 does.
+7. **c_miss.** The first run used c_miss 2 throughout, as specified (catch_v1's costs), re-priced at 1 in GS1 and
+   GS2: no difference worth a decimal there (the router and the best reflex miss equally often). But neither 1 nor 2
+   keeps rule N10 in SPECK (GS6). The presets were then moved to c_miss 10, which does, with A1-A4 unchanged
+   (LIFE_ABI.md 15.62), and the gates were rerun.
+8. **Presets.** `catch_speck` (L_max 4), plus `catch_speck_l4` and `catch_speck_l2`, mirroring catch_v1's arms.
+9. **GS6** re-screens GB7's cheats on SPECK's tuning seeds; its runner and presser grids are GB7's.

@@ -3,6 +3,7 @@ common random numbers, founder sampling, the smoke run's outputs and lineage, th
 (evolve.recheck_*), the pilot arms and sweep, and the git revision in results rows."""
 import json
 import subprocess
+from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
@@ -640,6 +641,14 @@ def test_aggregate_groups_by_selection_and_reports_git():
                                      dict(row, seed=2, recheck_k=0, recheck_bodies=None)]))
     assert list(out["bodies_kept"])[1] == 0.5 and list(out["body_losses"])[1] == 2  # (3 + 2) / (10 + 0), 2 + 0
     assert np.isnan(out["bodies_kept"][0]) and np.isnan(out["body_losses"][0])  # one-stage
+    assert "growing" not in out and list(out["world"]) == ["bell_v1"] * 2  # BELL rows: as before
+    # CATCH rows: a world with overrides (SPECK) is its own group, and GB11's readout is the median share growing
+    catch = dict(row, world="catch_v1_l4", control="lmax4", **two)
+    out = life_summary(pd.DataFrame([dict(catch, growing=0.9), dict(catch, seed=1, growing=0.5),
+                                     dict(catch, control="speck_lmax4", world_over="R_cap=500,sigma=0.6",
+                                          growing=0.25)]))
+    assert list(out["world"]) == ["catch_v1_l4", "catch_v1_l4[R_cap=500,sigma=0.6]"]
+    assert list(out["runs"]) == [2, 1] and list(out["growing"]) == [0.7, 0.25]
 
 
 # ------------------------------------------------------------------------------------------- BODY-1: CATCH
@@ -649,7 +658,8 @@ CATCH_TINY = ["life.T=192", "life.founder_T=96", "life.valid_lives=2", "life.hel
               "life.size_curve=[2,14]", "life.size_curve_lives=2", "clones.every=1", "clones.top=2",
               "clones.times=[0.5]", "clones.lives=1", "evolve.mu=4", "evolve.lam=12", "evolve.generations=3",
               "evolve.founders=2", "evolve.init_samples=48", "evolve.max_init_samples=96", "evolve.heldout_every=1",
-              "evolve.batch=16", "evolve.recheck_k=8", "evolve.recheck_lives=2", "threads=2"]
+              "evolve.batch=16", "evolve.recheck_k=8", "evolve.recheck_lives=2", "threads=2",
+              "life.T_choices=[144,192,288]"]  # the configs' GB11 draw (768, 1024, 1536) scaled to T 192
 
 
 def _catch(*overrides, path=CATCH_CFG):
@@ -735,6 +745,26 @@ def test_a_catch_run_writes_its_outputs_with_the_body_columns(catch_smoke):
     assert layout.abi is spec.V3 and best.shape == (875,)
 
 
+def test_a_catch_run_records_its_drawn_lengths_and_judges_at_the_nominal_one(catch_smoke):
+    """GB11's draw in a run: every curves and lineage row records its generation's length (the evaluator's draw for
+    the run seed), evals still counts genome evaluations whatever the length, the valid score is the best genome on
+    lives of the nominal T, and the row adds T_choices, T_sel_mean and GB11's readout (n_half, growing)."""
+    out, row = catch_smoke
+    ev = setup(_catch())[3]
+    curves = [json.loads(line) for line in (out / "curves.jsonl").read_text().splitlines()]
+    gens = [json.loads(line) for line in (out / "lineage.jsonl").read_text().splitlines()][1:]
+    Ts = [ev.draw("gen", g).worlds[0].T for g in range(3)]
+    assert [c["T"] for c in curves] == [lrow["T"] for lrow in gens] == Ts and set(Ts) <= {144.0, 192.0, 288.0}
+    assert row["T_choices"] == [144.0, 192.0, 288.0] and row["T_sel_mean"] == pytest.approx(np.mean(Ts))
+    per_gen = 16 + 8 * 2 / 3  # 16 genomes on 3 lives, then the shortlist of 8 on 2 more, whatever the length
+    expected = [row["founders_sampled"] + (g + 1) * per_gen for g in range(3)]
+    assert [c["evals"] for c in curves] == pytest.approx(expected)
+    _, best = Layout.load(out / "best_genome.json")
+    valid = ev(best.reshape(1, -1), ev.draw("valid", 2, lives=2))  # judged lives: T = 192 whatever generation 2 drew
+    assert curves[-1]["valid"] == float(valid.fitness[0]) and ev.draw("valid", 2, lives=2).worlds[0].T == 192.0
+    assert 0.0 <= row["growing"] <= 1.0 and row["n_half"] > 0 and "world_over" not in row
+
+
 def test_catch_arms_differ_only_in_the_stack_height():
     l4, l2 = load_config(CATCH_CFG), load_config(str(ROOT / "configs/life_catch_l2.yaml"))
     assert (spec.world(l4.life.world).L_max, spec.world(l2.life.world).L_max) == (4, 2)
@@ -757,33 +787,213 @@ def test_catch_arms_differ_only_in_the_stack_height():
     else:  # the stub until the gates work provides the hand GRN seed
         with pytest.raises(NotImplementedError):
             evo.seed_genome(seeded, layout)
-    script = (ROOT / "scripts/run_catch_pilot.sh").read_text()
-    for part in ("CONFIGS=configs/life_catch.yaml,configs/life_catch_l2.yaml", "PILOT_SEEDS:-0,1,2,3,4,5,6,7,8,9",
-                 "PILOT_GENERATIONS:-500", "PILOT_JOBS:-2", "PILOT_THREADS:-4", "NAME=catch_pilot",
-                 'evolve.generations="$GENERATIONS"', "configs/life_catch_seeded.yaml", "scripts/aggregate.py"):
-        assert part in script, part
-    assert subprocess.run(["bash", "-n", str(ROOT / "scripts/run_catch_pilot.sh")]).returncode == 0
     from scripts.sweep import matrix
 
     arms = [(c, load_config(str(ROOT / c))) for c in ("configs/life_catch.yaml", "configs/life_catch_l2.yaml")]
     assert [r["run"] for r in matrix(arms, None, None, ["0"])] == ["lmax4_hexprism_sex_s0", "lmax2_hexprism_sex_s0"]
 
 
+def _pilot(arms: str | None = None):
+    """The pilot script in plan mode (it prints the runs and starts nothing)."""
+    import os
+
+    env = {k: v for k, v in os.environ.items() if not k.startswith("PILOT_")}
+    env.update(PILOT_PLAN="1", **({"PILOT_ARMS": arms} if arms is not None else {}))
+    return subprocess.run(["bash", str(ROOT / "scripts/run_catch_pilot.sh")], env=env, capture_output=True, text=True,
+                          timeout=120)
+
+
+def test_the_catch_pilot_matrix_is_set_per_arm():
+    """scripts/run_catch_pilot.sh: arms with seed counts (PILOT_ARMS), interleaved by seed; the default runs the v1
+    arms and the SPECK arms (29 runs on 4 jobs x 3 threads); bad arms are refused before anything runs."""
+    script = (ROOT / "scripts/run_catch_pilot.sh").read_text()
+    for part in ('ARMS=${PILOT_ARMS:-v1_l4:10 v1_l2:3 v1_seeded:3:300 speck_l4:10 speck_seeded:3:300}',
+                 "v1_l4) echo configs/life_catch.yaml",
+                 "v1_l2) echo configs/life_catch_l2.yaml", "v1_seeded) echo configs/life_catch_seeded.yaml",
+                 "speck_l4) echo configs/life_speck.yaml", "speck_seeded) echo configs/life_speck_seeded.yaml",
+                 "PILOT_GENERATIONS:-500", "PILOT_JOBS:-4", "PILOT_THREADS:-3", "NAME=catch_pilot", "scripts/sweep.py",
+                 'evolve.generations="$GENERATIONS"', "scripts/aggregate.py", '--out "${ROOT}outputs"'):
+        assert part in script, part
+    assert subprocess.run(["bash", "-n", str(ROOT / "scripts/run_catch_pilot.sh")]).returncode == 0
+
+    def runs(out):  # the plan's numbered rows (the last line is the count per config)
+        return [line.split()[1] for line in out.splitlines() if line[:3].strip().isdigit() and "runs:" not in line]
+
+    default = _pilot()
+    assert default.returncode == 0, default.stderr
+    got = runs(default.stdout)
+    assert len(got) == 29 and got[:5] == ["lmax4_hexprism_sex_s0", "lmax2_hexprism_sex_s0", "seeded_hexprism_sex_s0",
+                                          "speck_lmax4_hexprism_sex_s0", "speck_seeded_hexprism_sex_s0"]
+    assert sum(r.startswith("lmax4_") for r in got) == 10 and sum(r.startswith("lmax2_") for r in got) == 3
+    assert sum(r.startswith("seeded_") for r in got) == 3 and sum(r.startswith("speck_lmax4_") for r in got) == 10
+    assert sum(r.startswith("speck_seeded_") for r in got) == 3
+    tail = [f"{c}_hexprism_sex_s{s}" for s in range(3, 10) for c in ("lmax4", "speck_lmax4")]
+    assert got[15:] == tail  # the two 10-seed arms finish alone
+    for arm in (" seeded_hexprism", " speck_seeded_hexprism"):
+        seeded = [line for line in default.stdout.splitlines() if arm in line]
+        assert len(seeded) == 3 and all(line.endswith("generations=300") for line in seeded)  # the hedges run 300
+    full = _pilot("v1_l4:2 speck_seeded:1:300 v1_l2:2 speck_l4:1")
+    assert runs(full.stdout) == ["lmax4_hexprism_sex_s0", "speck_seeded_hexprism_sex_s0", "lmax2_hexprism_sex_s0",
+                                 "speck_lmax4_hexprism_sex_s0", "lmax4_hexprism_sex_s1", "lmax2_hexprism_sex_s1"]
+    gens = [line.endswith("generations=300") for line in full.stdout.splitlines()[:6]]
+    assert gens == [False, True, False, False, False, False]  # name:seeds:generations sets that arm's length only
+    for bad in ("v1_l4", "v1_l4:0", "v1_l4:x", "nope:2", " ", "v1_l4:2:", "v1_l4:2:0", "v1_l4:2:3:4"):
+        r = _pilot(bad)  # refused before the sweep starts (the check comes before the plan)
+        assert r.returncode == 2 and r.stdout == "" and r.stderr, bad
+
+
+def test_the_sweep_runs_the_first_n_seeds_of_an_arm():
+    from scripts.sweep import arm_spec, matrix
+
+    assert arm_spec("configs/life_catch.yaml") == ("configs/life_catch.yaml", None, None)
+    assert arm_spec("configs/life_catch.yaml:3") == ("configs/life_catch.yaml", 3, None)
+    assert arm_spec("configs/life_catch.yaml:3:250") == ("configs/life_catch.yaml", 3, 250)
+    assert arm_spec("/abs/a:b.yaml") == ("/abs/a:b.yaml", None, None)  # not a count
+    for bad in ("configs/life_catch.yaml:0", "configs/life_catch.yaml:2:0"):
+        with pytest.raises(ValueError):
+            arm_spec(bad)
+    l4, sd = (load_config(str(ROOT / c)) for c in ("configs/life_catch.yaml", "configs/life_catch_seeded.yaml"))
+    runs = matrix([("a", l4, 3), ("b", sd, 1, 250)], None, None, ["0", "1", "2"])
+    assert [r["run"] for r in runs] == ["lmax4_hexprism_sex_s0", "seeded_hexprism_sex_s0", "lmax4_hexprism_sex_s1",
+                                        "lmax4_hexprism_sex_s2"]
+    assert [r["generations"] for r in runs] == [None, 250, None, None]
+    from scripts.sweep import command
+
+    cmd = command(runs[1], 4, "o/x/seeded", ["evolve.generations=500", "evolve.mu=4"])
+    assert cmd[-3:] == ["evolve.generations=500", "evolve.mu=4", "evolve.generations=250"]  # the arm's wins
+    assert "evolve.generations=250" not in command(runs[0], 4, "o/x/l4", ["evolve.generations=500"])
+    assert matrix([("a", l4, None), ("b", sd)], None, None, ["4", "7"]) == matrix([("a", l4), ("b", sd)], None, None,
+                                                                                    ["4", "7"])
+    with pytest.raises(ValueError, match="3 seeds asked"):
+        matrix([("a", l4, 3)], None, None, ["0", "1"])
+    plan = subprocess.run([str(ROOT / ".venv/bin/python"), "scripts/sweep.py", "--config",
+                           "configs/life_catch.yaml:2,configs/life_catch_seeded.yaml:1", "--seeds", "5,6", "--name",
+                           "x", "--plan"], cwd=ROOT, capture_output=True, text=True, timeout=120)
+    assert plan.returncode == 0 and [line.split()[1] for line in plan.stdout.splitlines()[:3]] == [
+        "lmax4_hexprism_sex_s5", "seeded_hexprism_sex_s5", "lmax4_hexprism_sex_s6"]
+    assert not (ROOT / "logs" / "x").exists()  # a plan writes nothing
+
+
+SPECK_CFG = str(ROOT / "configs/life_speck.yaml")
+
+
+def test_the_speck_arms_are_v1_in_the_speck_world():
+    """configs/life_speck.yaml is life_catch.yaml in the speck-gates preset catch_speck_l4 (catch_v1_l4 with sigma
+    0.6 and R_cap 500), with its own label, held-out worlds and skill threshold; the SPECK seeded arm adds the same
+    labelled seed genome as v1's. Both keep the T draw."""
+    sp = load_config(SPECK_CFG)
+    assert sp.life.world == "catch_speck_l4" and sp.life.control == "speck_lmax4" and not sp.world
+    assert spec.world("catch_speck_l4") == replace(spec.world("catch_v1_l4"), name="catch_speck_l4", stage="body-s1",
+                                                   sigma=0.6, R_cap=500.0, c_miss=10.0)
+    a = load_config(CATCH_CFG, ["life.world=catch_speck_l4", "life.control=speck_lmax4", "life.skill_at=4.0"])
+    a.life.heldout = sp.life.heldout
+    a.logging.output_dir, a.extends = sp.logging.output_dir, sp.extends
+    assert a == sp
+    sps, v1s = load_config(str(ROOT / "configs/life_speck_seeded.yaml")), load_config(
+        str(ROOT / "configs/life_catch_seeded.yaml"))
+    b = load_config(SPECK_CFG, ["life.control=speck_seeded", "evolve.seed_genome=catch_reflex"])
+    b.logging.output_dir, b.extends = sps.logging.output_dir, sps.extends
+    assert b == sps and sps.evolve.seed_genome == v1s.evolve.seed_genome == evo.CATCH_SEED
+    _, layout, _, ev = setup(load_config(SPECK_CFG, ["threads=1"]))
+    w = ev.world()
+    assert (w.sigma, w.R_cap, w.L_max, w.c_miss, ev.T_choices) == (0.6, 500.0, 4, 10.0, (768.0, 1024.0, 1536.0))
+    held = ev.draw("heldout", 0, lives=1, overrides=list(sp.life.heldout))  # every held-out world is valid
+    assert [(x.sigma, x.R_cap, x.v_t) for x in held.worlds] == [(0.6, 500.0, 0.05), (0.6, 500.0, 0.2),
+                                                               (0.6, 250.0, 0.1), (0.6, 1000.0, 0.1),
+                                                               (0.4, 500.0, 0.1), (1.5, 500.0, 0.1)]
+    try:
+        assert torch.equal(evo.seed_genome(sps, layout), evo.seed_genome(v1s, layout))
+    except NotImplementedError:  # no hand GRN seed yet: both arms fail alike
+        pass
+
+
+def test_results_rows_name_world_overrides_and_the_length_draw():
+    from src.run import life_settings
+
+    sp, v1 = load_config(SPECK_CFG), load_config(CATCH_CFG)
+    assert life_settings(sp, [{"T": 768.0}, {"T": 1536.0}]) == dict(T_choices=[768.0, 1024.0, 1536.0],
+                                                                     T_sel_mean=1152.0)
+    over = load_config(CATCH_CFG, ["world.sigma=0.6", "world.R_cap=500.0", "costs_life.c_miss=10.0"])
+    assert life_settings(over, [])["world_over"] == "R_cap=500,c_miss=10,sigma=0.6"
+    assert life_settings(v1, []) == dict(T_choices=[768.0, 1024.0, 1536.0], T_sel_mean=None)
+    assert life_settings(_cfg(), [{"gen": 0}]) == {}  # BELL rows gain nothing
+
+
 def test_the_per_generation_life_length_draw_is_shared_and_selection_only():
-    """life.T_choices (gate GB11's switch, off by default): a generation's lives and its recheck lives share one
-    length drawn from the list, keyed by the run seed and the generation; every judged life keeps life.T."""
+    """life.T_choices (gate GB11's switch; on in the CATCH configs): a generation's lives and its recheck lives share
+    one length drawn uniformly from the list, keyed by the run seed and the generation only; the life seeds do not
+    depend on it; every judged life keeps life.T, and evolution refuses a nominal T outside the choices."""
     ev = LifeEvaluator(_catch("life.T_choices=[96,192,288]"), setup(_catch())[1])
-    Ts = [ev.draw("gen", g).worlds[0].T for g in range(24)]
-    assert set(Ts) == {96.0, 192.0, 288.0} and Ts == [ev.draw("gen", g).worlds[0].T for g in range(24)]
+    Ts = [ev.draw("gen", g).worlds[0].T for g in range(300)]
+    assert set(Ts) == {96.0, 192.0, 288.0} and Ts == [ev.draw("gen", g).worlds[0].T for g in range(300)]
+    assert all(60 <= Ts.count(T) <= 140 for T in (96.0, 192.0, 288.0))  # uniform: 100 each, SD 8.2
+    other = LifeEvaluator(_catch("life.T_choices=[96,192,288]", "seed=1"), setup(_catch())[1])
+    assert [other.draw("gen", g).worlds[0].T for g in range(300)] != Ts  # fresh across runs
+    off = LifeEvaluator(_catch("life.T_choices=null"), setup(_catch())[1])
     for g in range(6):
         d, rc = ev.draw("gen", g), recheck_draw(ev, g, 3, 2)
         assert {w.T for w in d.worlds + rc.worlds} == {Ts[g]}
+        assert d.seeds == off.draw("gen", g).seeds and rc.seeds == recheck_draw(off, g, 3, 2).seeds
     for purpose in ("valid", "final", "clones", "heldout"):
         assert ev.draw(purpose, 0, lives=2).worlds[0].T == 192.0
-    assert ev.draw("founders", 0, lives=1, T=96.0).worlds[0].T == 96.0
-    assert LifeEvaluator(_catch(), setup(_catch())[1]).draw("gen", 0).worlds[0].T == 192.0  # off by default
+    assert ev.world().T == 192.0 and ev.draw("founders", 0, lives=1, T=96.0).worlds[0].T == 96.0
+    assert off.draw("gen", 0).worlds[0].T == 192.0 and off.T_choices == ()  # off: life.T
     with pytest.raises(ValueError):
         LifeEvaluator(_catch("life.T_choices=[96.5]"), setup(_catch())[1])  # T must be an integer
+    with pytest.raises(ValueError, match="not one of life.T_choices"):
+        evolve_life(_catch("life.T_choices=[96,288]"), log=lambda row: None)
+
+
+def test_drawn_lengths_cut_the_same_lives_and_fitness_stays_per_unit():
+    """No cell reads T, so a generation's lives at a shorter length are the first part of the same lives at a longer
+    one (fate logs agree up to the cut). F is per unit of each life's own length: the window is its T and the
+    extinction charge runs to its own end, so a zygote that dies at once scores about -c_live at every length."""
+    _, layout, _, ev = setup(_catch())
+    x = layout.random(6, torch.Generator().manual_seed(11))
+    short, long = ev.draw("gen", 0, T=144.0), ev.draw("gen", 0, T=288.0)
+    assert short.seeds == long.seeds
+    a, b = ev.run(x, short, fate_cap=1 << 12), ev.run(x, long, fate_cap=1 << 12)
+    grew = 0
+    for i in range(6 * short.n):
+        (ka, fa), (kb, fb) = a.fates(i), b.fates(i)
+        cut = fb[:, 0] < short.worlds[0].t0 + 144.0
+        assert np.array_equal(ka, kb[cut]) and np.array_equal(fa, fb[cut])
+        grew += int((ka[:, 0] == 1).sum() > 1)
+    assert grew > 0  # some of these lives divide before the cut
+    g = torch.zeros(2, layout.size)
+    a0 = layout.view(g, "a0")
+    a0[0, spec.V3.K["p_die"]] = 2.0  # dies at its first tick
+    a0[:, spec.V3.K["tau_m"]] = 0.0
+    for T in ev.T_choices:
+        d = ev.draw("gen", 0, T=T)
+        col = ev.columns(ev.run(g, d), 2, d)
+        w = d.worlds[0]
+        assert (col["window"] == T).all() and w.T == T
+        assert np.allclose(col["F"][0], col["F_kernel"][0] - w.c_live * (w.t0 + T - col["t_ext"][0]) / T, rtol=0,
+                           atol=1e-15)
+        assert (np.abs(col["F"][0] + w.c_live) < 1e-3).all()
+
+
+def test_the_growth_readout_counts_lives_still_growing_after_half_time():
+    """GB11's readout (src/run.py growth_at_half): the size at T/2 is the same life's size at T/2, read from the full
+    life's fate log, and a life is growing if its size at T exceeds that by more than 10%."""
+    from src.run import GROWING, growth_at_half
+
+    _, layout, _, ev = setup(_catch())
+    x = layout.random(12, torch.Generator().manual_seed(4))
+    lives = 4
+    for i in range(12):
+        d = ev.draw("final", 0, lives=lives)
+        full = ev.run(x[i: i + 1], d, fate_cap=1 << 12)
+        n_end = full["n_end"]
+        at_half = []
+        for j in range(lives):
+            k, f = full.fates(j)
+            m = f[:, 0] < d.worlds[0].t0 + ev.T / 2
+            at_half.append(int((k[m][:, 0] == 1).sum() - (k[m][:, 0] == 2).sum()))
+        got = growth_at_half(ev, x[i: i + 1], n_end, lives)
+        assert got["n_half"] == np.mean(at_half)
+        assert got["growing"] == np.mean(n_end > (1 + GROWING) * np.maximum(at_half, 1))
 
 
 def test_founder_sampling_can_use_its_whole_budget():
@@ -812,7 +1022,7 @@ def test_the_catch_founder_settings_are_the_recorded_tweaks():
     assert list(cfg.genome.readout_std) == [0.5, 0.5] and dict(cfg.genome.input_init) == dict(is_S=2.0, is_M=2.0,
                                                                                               n_view=8.0)
     assert cfg.evolve.founder_all and cfg.evolve.max_init_samples == 16384 and cfg.life.founder_lives == 2
-    assert cfg.life.extinct_charge and cfg.life.T_choices is None
+    assert cfg.life.extinct_charge and list(cfg.life.T_choices) == [768, 1024, 1536] and cfg.life.T == 1024  # GB11
     _, layout, _, _ = setup(cfg)
     K = spec.V3.K
     a0 = slice(*layout.slices["a0"][:2])

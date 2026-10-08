@@ -24,6 +24,7 @@ from tests.life_helpers import (
     V3,
     catch,
     columns,
+    enclosed_tiles,
     grn3,
     grn_genome,
     hexdisk,
@@ -413,6 +414,11 @@ _FOOTLESS = [(a, b, 1, R3["contact"]) for a, b in hexdisk(1) if (a, b) != (0, 0)
 _TONIC3 = V3.pack_program(V3.theta(b=2.0, tau_m=1, t_ref=0.5, kappa=1), alone=V3.theta(b=1.1, tau_m=4, t_ref=1,
                                                                                        kappa=1),
                           juvenile=V3.theta(b=1.5, tau_m=2, t_ref=1, kappa=1, p_div=1.0, zeta=-2))
+_RING2 = [s for s in hexdisk(2) if max(abs(s[0]), abs(s[1]), abs(s[0] + s[1])) == 2]
+# the turnover rows on the centre and ring-2 columns: six enclosed tiles that open when a rim column dies and close
+# again when motors divide into the gap
+_RING3 = [s for s in hexdisk(3) if max(abs(s[0]), abs(s[1]), abs(s[0] + s[1])) == 3]
+_HOLLOW2_TURNOVER = [(a, b, z, R3["rim"] if (a, b, z) == (0, 0, 1) else r) for a, b, z, r in columns([(0, 0)] + _RING2)]
 _T3_FAST_3 = [
     ("column ring 1", catch(T=200.0), dict(program=COLUMN3, init=RING1), 42, {}),
     ("column turnover", catch(T=200.0), dict(program=TURNOVER3, init=TURNOVER_BODY), 9, {}),
@@ -422,6 +428,10 @@ _T3_FAST_3 = [
     ("twin t_open", catch(T=200.0, t_open=50.5, **TWIN), dict(program=COLUMN3, init=RING1), 6, {}),
     ("grn L4 window", catch("catch_v1_l4", T=50.0, window_h=0.125), dict(genome=grn3(25)), 25, dict(order=5)),
     ("grn L2 guard", catch(T=200.0, n_max=10), dict(genome=grn3(25)), 25, {}),
+    # RT-T1 (15.61): bodies whose filled footprint has holes that open and close while they move
+    ("hollow ring 2 turnover", catch(T=200.0), dict(program=TURNOVER3, init=_HOLLOW2_TURNOVER), 11, {}),
+    ("grn L4 holes", catch("catch_v1_l4", T=80.0, oracle_cap=60), dict(genome=grn3(5031, p_die=0.6, p_div=1.1)), 12,
+     {}),
 ]
 _T3_SLOW_3 = [
     ("column L4 hidden", catch("catch_v1_l4", T=120.0), dict(program=COLUMN3, init=columns(hexdisk(1), hidden=2)), 3,
@@ -457,6 +467,13 @@ _T3_SLOW_3 = [
     ("grn L2 cap", catch(T=60.0, oracle_cap=40), dict(genome=grn3(21)), 21, {}),
     ("grn L4 genes blind", catch("catch_v1_l4", T=50.0, flags=V3.flags("genes_blind")), dict(genome=grn3(25)), 25,
      {}),
+    ("hollow ring 3 static", catch(T=200.0), dict(program=COLUMN3, init=columns([(0, 0)] + _RING3)), 11, {}),
+    ("grower L2 holes", catch(T=150.0), dict(program=GROWER3), 13, {}),
+    ("grn L2 holes", catch(T=80.0, oracle_cap=60), dict(genome=grn3(5032, p_die=0.6, p_div=1.1)), 13, {}),
+    ("grn square4prism holes", catch(T=80.0, oracle_cap=60, lattice="square4prism"),
+     dict(genome=grn3(5020, p_die=0.6, p_div=1.1)), 11, {}),
+    ("grn square8prism holes", catch(T=80.0, oracle_cap=60, lattice="square8prism"),
+     dict(genome=grn3(5020, p_die=0.6, p_div=1.1)), 11, {}),
     ("bell on a prism", spec.world(T=60.0, lattice="hexprism", L_max=3), dict(genome=grn3(25)), 25, {}),
 ]
 
@@ -471,6 +488,9 @@ def _t3_catch(label, w, kw, seed, sched):
 
 def test_t3_reference_equals_kernel_bitwise_on_catch_bodies():
     rs = [_t3_catch(*case) for case in _T3_FAST_3]
+    for case, r in zip(_T3_FAST_3, rs):  # the RT-T1 cases enclose tiles while they move, grow and die (15.61)
+        if "holes" in case[0] or "hollow" in case[0]:
+            assert enclosed_tiles(r.fate_i, r.fate_f, case[1].lattice) > 0 and r["deaths"] > 10 and r["path"] > 3
     tot = {c: sum(r[c] for r in rs) for c in ("births", "deaths", "rejects", "rec_events", "clicks", "captures",
                                                "misses", "b2_clicks", "respawns", "nudges")}
     assert min(tot.values()) > 0, tot  # the list covers every CATCH path the test is named for
@@ -480,7 +500,9 @@ def test_t3_reference_equals_kernel_bitwise_on_catch_bodies():
 @pytest.mark.slow
 @pytest.mark.parametrize("label,w,kw,seed,sched", _T3_SLOW_3, ids=[c[0] for c in _T3_SLOW_3])
 def test_t3_reference_equals_kernel_bitwise_on_every_catch_condition(label, w, kw, seed, sched):
-    _t3_catch(label, w, kw, seed, sched)
+    r = _t3_catch(label, w, kw, seed, sched)
+    if "holes" in label or "hollow" in label:  # RT-T1 (15.61): the filled footprint differs from the columns
+        assert enclosed_tiles(r.fate_i, r.fate_f, w.lattice) > 0 and r["path"] > 3
 
 
 @pytest.mark.slow

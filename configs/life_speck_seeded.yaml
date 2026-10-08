@@ -1,0 +1,9 @@
+# SEEDED-ANCESTOR ARM in SPECK (declared hedge, BODY_DESIGN_PROPOSAL.md 7 arm b; never the main result): the SPECK
+# world of life_speck.yaml (L_max 4), with the population descended from the same labelled hand-written GRN genome
+# as the v1 seeded arm (configs/life_catch_seeded.yaml: evolve.seed_genome catch_reflex, the gates' 2-cell clicker,
+# handbuilt.catch_reflex_genome or column_genome(0)). It answers "does evolution climb from a working reflex to
+# routing in SPECK"; life_speck.yaml answers "can it start".
+extends: life_speck.yaml
+life: {control: speck_seeded}
+evolve: {seed_genome: catch_reflex}
+logging: {output_dir: outputs/life_speck_seeded}

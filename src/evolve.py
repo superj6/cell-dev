@@ -438,13 +438,22 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     generation's L lives, so a recheck of K genomes on L2 lives adds K * L2 / L. ``recheck_bodies`` and
     ``recheck_bodies_onestage`` count the bodies (``BODY_CELLS``) among the chosen parents and among the parents that
     one-stage selection would have chosen, both on the generation's lives: what the recheck did to multi-cell
-    genomes, so a run that stays at 1-2 cells can tell whether the recheck dropped its bodies."""
+    genomes, so a run that stays at 1-2 cells can tell whether the recheck dropped its bodies.
+
+    Life-length draw (``life.T_choices``, gate GB11; ``LifeEvaluator.draw``): each generation's lives and its recheck
+    lives last one length drawn from the list, so every genome of a generation is ranked on the same lives; the rows
+    and lineage rows then record it (``T``). Fitness is per unit time on those lives. ``evals`` still counts genome
+    evaluations, whatever their length. ``life.T`` must be one of the choices: it is the nominal length that valid,
+    held-out, clone and final lives use, and a run that overrides it alone would select on other lengths."""
     from src.life import clones
 
     torch.set_num_threads(int(cfg.threads))
     gen = torch.Generator().manual_seed(int(cfg.seed))
     _, layout, _, ev = setup(cfg)
     e, lc, cc = cfg.evolve, cfg.life, cfg.get("clones") or {}
+    if getattr(ev, "T_choices", ()) and ev.T not in ev.T_choices:
+        raise ValueError(f"life.T = {ev.T:g} is not one of life.T_choices {list(ev.T_choices)}: the nominal length "
+                         "of the judged lives must be one of the selection lengths (override both, or T_choices=null)")
     mu, lam, G = int(e.mu), int(e.lam), layout.dims.genes_max
     k_re, l_re, key_re = recheck_plan(e, mu, mu + lam)
     lin = Lineage(out, str(cfg.logging.get("lineage", "survivors")))
@@ -476,6 +485,7 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     conds = [str(x) for x in cc.get("conditions", clones.CONDITIONS)]
     curves, valid, heldout, chosen = [], None, None, None
     rc_lives = 0  # recheck lives so far: evals counts them as rc_lives / L genome evaluations
+    T_drawn = bool(getattr(ev, "T_choices", ()))  # life.T_choices: the rows record each generation's life length
 
     def counted():
         return evals + rc_lives / int(lc.lives) if rc_lives else evals
@@ -558,6 +568,8 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
                                                        clones.message_condition(conds))
             if clones.sense_condition(conds):
                 row["sense_reliance_best"] = clones.reliance([r for r in frows if r["rank"] == 0], clones.SENSE)
+        if T_drawn:  # GB11: the generation's life length (its recheck lives share it; judged lives keep life.T)
+            row["T"] = draw.worlds[0].T
         row.update(t_gen=round(time.perf_counter() - t_start, 4), t_eval=round(t_ev, 4))
         if rc is not None:
             row["t_recheck"] = round(rc["t"], 4)
@@ -565,7 +577,7 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
         log(row)
         kept = [int(i) - mu for i in order.tolist() if int(i) >= mu]
         logged = range(lam) if lin.mode == "all" else kept
-        lrow = {"gen": g, "seeds": [int(s) for s in draw.seeds],
+        lrow = {"gen": g, "seeds": [int(s) for s in draw.seeds], **({"T": draw.worlds[0].T} if T_drawn else {}),
                 "children": [{"id": int(kid_ids[j]), "pa": int(pa_ids[j]),
                               "pb": None if pb_ids is None else int(pb_ids[j]),
                               "mask": None if masks is None else mask_bits(masks[j]), "ops": ops[j],

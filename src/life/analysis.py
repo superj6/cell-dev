@@ -1,6 +1,7 @@
 """Measurements on finished lives: summaries, paired comparisons, size curves under the oracle cap, an Euler
-re-integration of the BELL-1 lumen (docs/ONE_LIFE_DESIGN.md: EVALUATION PROTOCOL and gates G1-G10), and summaries of
-CATCH lives (docs/BODY_DESIGN_PROPOSAL.md, gates GB3-GB13)."""
+re-integration of the BELL-1 lumen (docs/ONE_LIFE_DESIGN.md: EVALUATION PROTOCOL and gates G1-G10), summaries of
+CATCH lives (docs/BODY_DESIGN_PROPOSAL.md, gates GB3-GB13), and the hand tuner and growth-path search behind the SPECK
+gates GS1-GS6."""
 from __future__ import annotations
 
 import math
@@ -248,3 +249,98 @@ def final_cells(fate_i) -> list[tuple[int, int, int]]:
         elif row[0] == spec.FATE_KINDS["death"]:
             alive.pop(row[1], None)
     return list(alive.values())
+
+
+# --------------------------------------------------------------------------------- hand tuning and growth paths
+def tune_knobs(evaluate, start: dict, grid: dict, *, n_rand: int, budget: int, top: int = 6, seed: int = 0,
+               p_change: float = 0.5, eps: float = 1e-4, log=None) -> dict:
+    """Random search, then coordinate ascent with restarts, under a fixed budget (the S1 red team's tuner, with
+    restarts so that every family spends the same budget).
+
+    ``evaluate(knobs, stage)`` returns the mean F of a knob dict on the screen lives (stage ``"screen"``) or on the
+    hill lives (``"hill"``, the same lives for every candidate, so comparisons are paired). The candidates are
+    ``start`` and ``n_rand`` random variants of it (each knob of ``grid`` redrawn from its values with probability
+    ``p_change``), measured on the screen lives; the best ``top`` of them and ``start`` are re-measured on the hill
+    lives. Coordinate ascent then starts from the best: for each knob in ``grid`` order, every other value is tried,
+    and the knob moves to any value that beats the current F by more than ``eps``; a round is one pass over every
+    knob, and an ascent ends after a round without a move. While hill evaluations remain (``budget`` distinct knob
+    dicts, the re-measured candidates included; those are always measured), the next ascent starts from the
+    next-best re-measured candidate. Repeated dicts are evaluated once.
+    Returns the best knobs, their hill F, the evaluation counts and the trace of moves."""
+    rng = np.random.default_rng(seed)
+    keys = list(grid)
+    key_of = lambda k: tuple(sorted(k.items()))  # noqa: E731
+    cands = [dict(start)]
+    for _ in range(n_rand):
+        c = dict(start)
+        for k in keys:
+            if rng.random() < p_change:
+                c[k] = grid[k][int(rng.integers(len(grid[k])))]
+        cands.append(c)
+    screen = [float(evaluate(c, "screen")) for c in cands]
+    order = [int(i) for i in np.argsort(screen, kind="stable")[::-1][:top]]
+    if 0 not in order:
+        order.append(0)
+    hill: dict = {}
+
+    def H(k: dict) -> float:
+        kk = key_of(k)
+        if kk not in hill:
+            hill[kk] = float(evaluate(k, "hill"))
+        return hill[kk]
+
+    seeds = sorted(order, key=lambda i: -H(cands[i]))
+    best, best_F = dict(cands[seeds[0]]), H(cands[seeds[0]])
+    trace = [dict(event="screen", candidates=len(cands), hill_starts=[H(cands[i]) for i in seeds])]
+    for i in seeds:
+        if len(hill) >= budget:
+            break
+        cur, cur_F = dict(cands[i]), H(cands[i])
+        rounds = 0
+        while len(hill) < budget:
+            moved = False
+            for k in keys:
+                for v in grid[k]:
+                    if cur.get(k) == v or len(hill) >= budget:
+                        continue
+                    c = dict(cur, **{k: v})
+                    f = H(c)
+                    if f > cur_F + eps:
+                        cur, cur_F, moved = c, f, True
+                        trace.append(dict(event="move", ascent=i, knob=k, value=v, F=f))
+            rounds += 1
+            if log:
+                log(f"  ascent from candidate {i}: round {rounds} F {cur_F:+.4f} ({len(hill)} hill evaluations)")
+            if not moved:
+                break
+        trace.append(dict(event="ascent", start=i, rounds=rounds, F=cur_F))
+        if cur_F > best_F:
+            best, best_F = cur, cur_F
+    return dict(knobs=best, F=best_F, screen_evaluations=len(cands), hill_evaluations=len(hill), trace=trace)
+
+
+def monotone_bottleneck(G) -> dict:
+    """The monotone path through a grid of values ``G[i][j]`` from (0, 0) to the far corner, moving one step in i or
+    in j at a time, whose lowest value is highest (a growth path: each step adds one thing). Returns the path, its
+    lowest value and where it is, and every point's best attainable bottleneck."""
+    G = np.asarray(G, dtype=np.float64)
+    n, m = G.shape
+    best = np.full((n, m), -np.inf)
+    prev: dict = {}
+    for i in range(n):
+        for j in range(m):
+            if i == 0 and j == 0:
+                best[i, j] = G[0, 0]
+                continue
+            opts = [(best[a, b], (a, b)) for a, b in ((i - 1, j), (i, j - 1)) if a >= 0 and b >= 0]
+            v, p = max(opts, key=lambda o: (o[0], o[1]))
+            best[i, j] = min(G[i, j], v)
+            prev[(i, j)] = p
+    path, p = [(n - 1, m - 1)], (n - 1, m - 1)
+    while p != (0, 0):
+        p = prev[p]
+        path.append(p)
+    path = path[::-1]
+    low = min(path, key=lambda q: G[q])
+    return dict(path=[tuple(int(x) for x in q) for q in path], bottleneck=float(best[n - 1, m - 1]),
+                lowest_point=tuple(int(x) for x in low), best=best.tolist())

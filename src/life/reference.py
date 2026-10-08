@@ -233,6 +233,7 @@ class _Accountant:
         self.t_x = L.t0
         self.n_foot = 0  # live sense-plane cells: traction (15.44)
         self.cols: dict[tuple, int] = {}  # (a, b) -> live cells in that column: the projected footprint (15.59)
+        self.n_fill = 0  # tiles of the filled footprint, the projected one with its holes (drag, 15.61)
         self.gam = 1.0  # read only while n_foot > 0, after it has been set
         self.path = 0.0
         self.armed = True
@@ -576,7 +577,8 @@ class _Accountant:
                     ab = (site.a, site.b)
                     self.cols[ab] = self.cols.get(ab, 0) + 1
                     if self.cols[ab] == 1:
-                        self.gam = spec.drag(len(self.cols), L.drag_exp)
+                        self.n_fill = spec.filled_footprint(self.cols, L.base)
+                        self.gam = spec.drag(self.n_fill, L.drag_exp)
                     if site.z == 0:
                         self.n_foot += 1
                     elif site.z == 1:
@@ -600,8 +602,9 @@ class _Accountant:
                     self.cols[ab] -= 1
                     if self.cols[ab] == 0:
                         del self.cols[ab]
-                        if self.cols:
-                            self.gam = spec.drag(len(self.cols), L.drag_exp)
+                        self.n_fill = spec.filled_footprint(self.cols, L.base)
+                        if self.n_fill > 0:
+                            self.gam = spec.drag(self.n_fill, L.drag_exp)
                     if site.z == 0:
                         self.n_foot -= 1
                     elif site.z == 1:

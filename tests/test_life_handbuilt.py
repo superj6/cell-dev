@@ -333,3 +333,150 @@ def test_hand_bodies_live_as_the_reference():
         w = org.world(T=128.0)
         k = kernel3(w, [31], program=org.program, init=list(org.cells))
         assert mismatch(k, 0, reference3(w, 31, program=org.program, init=list(org.cells))) == [], org.name
+
+
+# ----------------------------------------------------------------------------- SPECK, the S1 candidate (GS1-GS4)
+CHAMPION_KNOBS = {"S.g_r": 1.0, "S.emit0": 1, "C.g_r": 0.55, "C.emit0": 1, "M.w0": 1.0, "M.kappa": 1.0, "M.t_ref": 4.0,
+                  "K.w0": 1.0, "K.kappa": 1.0, "K.t_ref": 4.0}  # the prototype's CHAMP (common.rows_A by role)
+
+
+def test_speck_preset_is_catch_v1_with_a_small_valuable_target():
+    from dataclasses import replace
+    v1 = spec.world("catch_v1")
+    for name, L_max in (("catch_speck", 4), ("catch_speck_l4", 4), ("catch_speck_l2", 2)):
+        w = spec.world(name)
+        assert (w.sigma, w.R_cap, w.L_max, w.c_miss, w.stage, w.world_kind) == (0.6, 500.0, L_max, 10.0, "body-s1", 1)
+        assert w.R_cap / w.c_miss == v1.R_cap / v1.c_miss  # a blind click breaks even at v1's capture rate
+        assert replace(w, name="catch_v1", stage="body-s0", sigma=1.5, R_cap=100.0, c_miss=2.0, L_max=4) == v1
+        assert V3.pack_world(w).shape == (66,)
+    assert hb.SPECK_PRESET == "catch_speck" and hb.SPECK_CHAMPION.cells == hb.ring_body(3).cells
+
+
+def test_role_bodies_take_their_roles_from_the_shape():
+    counts = {s: hb.role_counts(hb.role_body({}, s)) for s in ("ring0", "ring2", "hollow3", "ring4", "ring3+4")}
+    assert counts["ring0"] == dict(S=0, J=0, C=1, M=0, K=1, I=0)
+    assert counts["ring2"] == dict(S=12, J=6, C=1, M=12, K=1, I=6)
+    assert counts["hollow3"] == dict(S=18, J=0, C=1, M=18, K=1, I=18)
+    assert counts["ring4"] == dict(S=24, J=36, C=1, M=24, K=1, I=36)
+    assert sum(counts["ring3+4"].values()) == 74 + 8 and counts["ring3+4"]["C"] == 1
+    sense, act = hb.speck_shape("hollow3")
+    assert act == hb.disk(3) and sorted(sense) == sorted([(0, 0)] + [s for s in hb.disk(3) if hb.hex_ring(*s) == 3])
+    assert hb.speck_shape("ring3+24") == (hb.disk(4), hb.disk(4)) and hb.speck_shape("ring2+0")[0] == hb.disk(2)
+    body = hb.role_body({}, "ring2")
+    assert all(row == ROW3["juvenile"] for a, b, z, row in body.cells if z == 1 and 0 < hb.hex_ring(a, b) < 2)
+    assert hb.is_role_body(body) and not hb.is_role_body(hb.ring_body(2))
+    rows = hb.role_rows({"S.g_r": 0.75, "S.tau_m": 4.0, "J.w1": 0.125, "K.kappa": 0.5})
+    assert rows["J"] == dict(rows["S"], w1=0.125) and rows["S"]["w1" if "w1" in rows["S"] else "b"] == 0.0
+    assert rows["K"] == dict(hb.ROLE_DEFAULTS, kappa=0.5) and rows["M"] == hb.ROLE_DEFAULTS
+    for bad in ({"X.g_r": 1.0}, {"S.gain": 1.0}):
+        with pytest.raises(KeyError):
+            hb.role_rows(bad)
+    with pytest.raises(ValueError, match="inert"):  # interior act cells share C's row, which must not fire up there
+        hb.role_body({"C.b": 1.25}, "ring2")
+    hb.role_body({"C.b": 1.25}, "ring1")  # ring 1 has no interior act cell
+    for bad in ("ring", "hollow2+3", "ring1+13", "disk3"):
+        with pytest.raises(ValueError):
+            hb.speck_shape(bad)
+
+
+def test_a_role_body_is_the_column_reflex_up_to_its_quiet_interior_act_cells():
+    """Where no act cell is interior (rings 0 and 1) the role body with the champion's rows lives bitwise as the column
+    reflex; at ring 2 its six interior act cells are quiet instead of firing uselessly: every capture, miss and click
+    is the same, the dot's path agrees to rounding (a stroke moves the dot's anchor even when it cannot pull,
+    LIFE_ABI.md 9.7.2), and F differs by exactly their spikes and twitches."""
+    seeds = [3, 4, 5]
+    for k in (0, 1):
+        a, b = hb.role_body(CHAMPION_KNOBS, f"ring{k}").run(seeds, preset="catch_speck", T=300.0), \
+            hb.ring_body(k).run(seeds, preset="catch_speck", T=300.0)
+        assert np.array_equal(a.ledger.view(np.uint64), b.ledger.view(np.uint64)), k
+        assert np.array_equal(a.hashes, b.hashes), k
+    a = hb.role_body(CHAMPION_KNOBS, "ring2").run(seeds, preset="catch_speck", T=400.0)
+    b = hb.ring_body(2).run(seeds, preset="catch_speck", T=400.0)
+    for col in ("captures", "misses", "clicks", "rec_events", "income"):
+        assert np.array_equal(a[col], b[col]), col
+    assert np.allclose(a["path"], b["path"], rtol=1e-12, atol=0)
+    w = spec.world("catch_speck")
+    extra = b["spikes"] - a["spikes"]
+    assert np.all(extra > 0)
+    assert np.allclose(b["F"], a["F"] - (w.c_spike + w.c_tw * 1.0) * extra / 400.0, rtol=0, atol=1e-9)
+
+
+def test_routing_knobs_are_silent_on_a_sense_hollow_body():
+    """GS3's reported path from the best tuned reflex (review 2026-10-08) starts at that reflex, the sense-hollow
+    ring 3, with the router's routing knobs set: only interior sensors (J) emit on channel 1 and the hollow body has
+    none, so at every interior gain it lives bitwise as the tuned reflex (ledger and hashes)."""
+    best = "reflex@hollow3"
+    route = {k: v for k, v in hb.SPECK_TUNED["router@ring4"].items() if k in hb.ROUTE_GRID and k != "J.g_r"}
+    assert route["S.w1"] > 0 and hb.role_counts(hb.speck_body(best))["J"] == 0
+    ref = hb.speck_body(best).run([5, 6], preset="catch_speck", T=300.0)
+    for g in (0.0, 0.5):
+        body = hb.role_body(dict(hb.SPECK_TUNED[best], **route, **hb.ROUTER_FIXED, **{"J.g_r": g}), "hollow3")
+        res = body.run([5, 6], preset="catch_speck", T=300.0)
+        assert not np.array_equal(body.program, hb.speck_body(best).program)
+        assert np.array_equal(res.ledger.view(np.uint64), ref.ledger.view(np.uint64)), g
+        assert np.array_equal(res.hashes, ref.hashes), g
+
+
+def test_speck_grids_and_starts_are_kernel_expressible():
+    for grid in (hb.REFLEX_GRID, hb.ROUTE_GRID):
+        for key, vals in grid.items():
+            assert all(float(v) in V3.GRIDS[key.partition(".")[2]] for v in vals), key
+            assert len(set(vals)) == len(vals) and key.partition(".")[0] in hb.SPECK_ROLES
+    # a reflex has no lateral weight: no input weight on any sensor, no J knob, no second channel
+    assert not any(k.split(".")[1] in ("w0", "w1", "emit1") and k[0] in "SCJ" for k in hb.REFLEX_GRID)
+    assert not any(k.startswith("J.") for k in hb.REFLEX_GRID) and set(hb.ROUTE_GRID) & set(hb.REFLEX_GRID) == set()
+    assert max(hb.REFLEX_GRID["C.b"]) < 1.0  # C's row stays inert above the screen
+    assert hb.ROUTER_FIXED == {"S.emit0": 1.0, "C.emit0": 1.0, "J.emit1": 1.0}
+    for name, start in hb.PROTOTYPE_STARTS.items():
+        grid = hb.ROUTER_GRID if name == "router" else hb.REFLEX_GRID
+        assert hb.on_kernel_grid(start) and set(start) <= set(grid), name
+        full = hb.full_knobs(start, grid)
+        assert set(full) == set(grid) and all(full[k] == v for k, v in start.items())
+    full = hb.full_knobs({"S.t_ref": 0.5}, hb.ROUTER_GRID)
+    assert full["J.t_ref"] == 0.5 and full["C.t_ref"] == 1.0 and full["S.w1"] == 0.0  # J copies S; role defaults
+    assert not hb.on_kernel_grid({"C.g_r": 0.55}) and hb.on_kernel_grid({"C.g_r": 0.5, "M.tau_m": 4.0})
+
+
+def test_tune_knobs_climbs_spends_its_budget_and_is_reproducible():
+    calls = []
+
+    def f(k, stage):
+        calls.append(stage)
+        return -(k["x"] - 2) ** 2 - (k["y"] + 1) ** 2 + (0.01 if stage == "screen" else 0.0)
+
+    grid = {"x": (0, 1, 2, 3), "y": (-2, -1, 0, 1)}
+    r = analysis.tune_knobs(f, {"x": 0, "y": 1}, grid, n_rand=6, budget=40, top=3, seed=1)
+    assert r["knobs"] == {"x": 2, "y": -1} and r["F"] == 0.0
+    assert calls.count("screen") == 7 and r["screen_evaluations"] == 7 and r["hill_evaluations"] <= 16
+    small = analysis.tune_knobs(f, {"x": 0, "y": 1}, grid, n_rand=6, budget=2, top=3, seed=1)
+    assert small["hill_evaluations"] <= 4 and not [t for t in small["trace"] if t["event"] == "move"]  # no ascent
+    again = analysis.tune_knobs(f, {"x": 0, "y": 1}, grid, n_rand=6, budget=40, top=3, seed=1)
+    assert again["knobs"] == r["knobs"] and again["trace"] == r["trace"]
+
+
+def test_monotone_bottleneck_finds_the_highest_low_point():
+    G = [[1.0, 0.5, 3.0], [2.0, 2.5, 1.0], [0.0, 3.0, 4.0]]
+    b = analysis.monotone_bottleneck(G)
+    assert b["path"] == [(0, 0), (1, 0), (1, 1), (2, 1), (2, 2)] and b["bottleneck"] == 1.0
+    assert b["lowest_point"] == (0, 0)
+    deep = analysis.monotone_bottleneck([[5.0, 1.0], [2.0, 6.0]])
+    assert deep["bottleneck"] == 2.0 and deep["path"] == [(0, 0), (1, 0), (1, 1)] and deep["lowest_point"] == (1, 0)
+
+
+def test_routers_live_as_the_reference():
+    """A router's interior sensors relay on channel 1 inside the sense plane, which no earlier hand body did: the
+    kernel and the reference agree bitwise on it, placed (program mode, ring 2) and grown (the router genome, GRN mode),
+    with lateral_off too."""
+    from tests.life_helpers import kernel3, mismatch, reference3
+    knobs = dict(hb.full_knobs(hb.PROTOTYPE_STARTS["router"], hb.ROUTER_GRID), **hb.ROUTER_FIXED, **{"J.emit0": 1.0})
+    org = hb.role_body(knobs, "ring2")
+    for flags in (0, V3.flags("lateral_off")):
+        w = org.world("catch_speck", T=96.0, flags=flags)
+        k = kernel3(w, [41], program=org.program, init=list(org.cells))
+        assert k["arrivals"][0] > 0 and k["rec_events"][0] > 0
+        assert mismatch(k, 0, reference3(w, 41, program=org.program, init=list(org.cells))) == [], flags
+    g = hb.router_genome(knobs, 0.12)
+    w = spec.world("catch_speck", T=90.0)
+    k = kernel3(w, [43], genome=g)
+    assert k["n_end"][0] >= 14 and k["captures"][0] + k["misses"][0] > 0
+    assert mismatch(k, 0, reference3(w, 43, genome=g)) == []

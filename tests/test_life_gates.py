@@ -419,3 +419,180 @@ def test_main_runs_a_catch_gate(tmp_path):
     assert data["meta"]["world"] == "catch" and set(data["gates"]) == {"GB3"} and data["passed"]
     with pytest.raises(SystemExit):
         lg.main(["--world", "catch", "--gates", "G1", "--out", str(out)])
+
+
+# ----------------------------------------------------------------------------- SPECK (S1 candidate): GS1-GS5
+SPECK_JSON = GATES_JSON.with_name("gates_speck.json")
+SPECK_TUNE_DIR = GATES_JSON.parent / "speck_tune"
+SPECK_PASSING = ("GS1", "GS2", "GS3", "GS4", "GS5")  # pass in the stored run (GS6 fails: blind clicking pays)
+
+
+def _stored_speck(name: str):
+    """The stored SPECK gate, or None when gates_speck.json is missing or was written by another kernel library."""
+    if not SPECK_JSON.exists():
+        return None
+    data = json.loads(SPECK_JSON.read_text())
+    if data["meta"]["kernel"] != build.library_path().name:
+        return None
+    return data["gates"].get(name)
+
+
+def _rejudge_speck(name: str, stored: dict) -> None:
+    g = lg.SPECK_JUDGES[name](copy.deepcopy(stored))
+    assert g["checks"] == stored["checks"] and g["passed"] == stored["passed"], (g["checks"], stored["checks"])
+    assert g.get("reported_checks") == stored.get("reported_checks"), name  # reported, outside the verdict
+    if name in SPECK_PASSING:
+        assert stored["passed"], (name, stored["checks"])
+
+
+def test_speck_gates_json_is_complete_and_its_verdicts_follow_from_its_numbers():
+    if not SPECK_JSON.exists():
+        pytest.skip("gates_speck.json not written yet")
+    data = json.loads(SPECK_JSON.read_text())
+    assert set(data["gates"]) == set(lg.SPECK_GATES) and data["meta"]["world"] == "speck"
+    assert data["meta"]["fresh_seed0"] == lg.SPECK_FRESH_SEED0 and data["meta"]["threads"] <= 4
+    assert data["meta"]["abi"] == spec.V3.version
+    for name, g in data["gates"].items():
+        assert {"registered", "criteria", "checks", "passed"} <= set(g), name
+        _rejudge_speck(name, g)
+    assert data["passed"] == all(g["passed"] for g in data["gates"].values())
+    # the stored GS2 measured the knobs frozen in handbuilt
+    assert data["gates"]["GS2"]["tuning"]["knobs"] == _roundtrip(hb.SPECK_TUNED)
+
+
+def test_speck_seed_ranges_are_disjoint_and_the_tuned_bodies_are_frozen():
+    ranges = [lg.SPECK_FRESH_SEED0, lg.SPECK_SCREEN_SEED0, lg.SPECK_HILL_SEED0, lg.CATCH_FRESH_SEED0,
+              lg.CATCH_SCREEN_SEED0, lg.CATCH_EXPLORE_SEED0, analysis.FRESH_SEED0, analysis.SCREEN_SEED0]
+    assert len(set(r // 1_000_000 for r in ranges)) == len(ranges)
+    assert lg.S_LIVES >= 768 and lg.S_LIVES_PATH >= 768 and lg.SPECK_PRESET == "catch_speck"
+    assert set(hb.SPECK_TUNED) == set(lg.SPECK_REFLEXES) | {lg.SPECK_ROUTER} | set(lg.SPECK_SIZE_CHECK)
+    for name, knobs in hb.SPECK_TUNED.items():
+        family = name.partition("@")[0]
+        grid = lg.speck_family(family)[0]
+        assert set(knobs) == set(grid) and hb.on_kernel_grid(knobs), name
+        path = SPECK_TUNE_DIR / f"{name}.json"
+        if path.exists():  # the tune's own output, when this tree has it
+            rec = json.loads(path.read_text())
+            assert rec["knobs"] == _roundtrip(knobs) and rec["F"] == hb.SPECK_TUNE_RECORD[name]["hill_F"], name
+
+
+def test_speck_tune_is_reproducible():
+    cfg = dict(n_rand=3, budget=6, screen_lives=4, hill_lives=4, top=2)
+    a = lg.speck_tune("reflex", "ring2", threads=4, log=None, **cfg)
+    b = lg.speck_tune("reflex", "ring2", threads=4, log=None, **cfg)
+    assert a["knobs"] == b["knobs"] and a["trace"] == b["trace"] and a["hill_evaluations"] <= 6
+    with pytest.raises(ValueError):
+        lg.speck_family("polarised")
+
+
+def test_gs1_the_s0_champion_earns_in_speck():
+    g = lg.gate_gs1(threads=4)
+    assert g["passed"], g["checks"]
+    stored = _stored_speck("GS1")
+    if stored is not None:
+        for k in ("champion", "lone", "vs_lone", "checks"):
+            _same(g[k], stored[k])
+        _rejudge_speck("GS1", stored)
+
+
+def test_gs2_the_router_beats_the_best_tuned_reflex():
+    stored = _stored_speck("GS2")
+    best = stored["best_reflex"] if stored is not None else "reflex@hollow3"
+    router, reflex = hb.speck_body(lg.SPECK_ROUTER), hb.speck_body(best)
+    d = analysis.paired(lg.sF(router, lg.S_LIVES), lg.sF(reflex, lg.S_LIVES))
+    assert d["z"] > lg.Z_GS2, d
+    if stored is not None:
+        _same(d, stored["router_minus"][best])
+        _same(lg.spoint(router, lg.S_LIVES), stored["points"][lg.SPECK_ROUTER])
+        _rejudge_speck("GS2", stored)
+
+
+def test_gs3_the_growth_path_starts_from_the_reflex():
+    n = lg.S_LIVES_PATH
+    start = hb.role_body(lg.path_knobs(0.0), "ring3+0", "path k0 g0.0")
+    deaf = analysis.paired(lg.sF(start, n), lg.sF(hb.speck_body("reflex@ring3"), n))
+    # at gain 0 the routing knobs are silent: the start lives bitwise as the reflex with deaf interior sensors
+    silent = dict(hb.SPECK_TUNED["reflex@ring3"], **hb.REFLEX_FIXED, **{"J.g_r": 0.0})
+    a, b = lg.slives(start, 64), lg.slives(hb.role_body(silent, "ring3"), 64)
+    assert np.array_equal(a.view(np.uint64), b.view(np.uint64))
+    stored = _stored_speck("GS3")
+    if stored is not None:
+        _same(deaf, stored["start_vs_reflex3"])
+        _rejudge_speck("GS3", stored)
+
+
+def test_gs3_reports_the_path_from_the_best_reflex():
+    """Review 2026-10-08: the registered path starts at the ring-3 reflex with deaf interior sensors, which is below
+    the best tuned reflex (the sense-hollow ring 3, GS2). GS3 reports that start and path against the best reflex,
+    and the same grid with the best reflex's knobs starting at it (row 0: its shape with the routing knobs set,
+    silent without interior sensors). The two reported rules are outside the verdict."""
+    n = lg.S_LIVES_PATH
+    stored = _stored_speck("GS3")
+    best = stored["path_from_best_reflex"]["best_reflex"] if stored is not None else "reflex@hollow3"
+    base = lg.path_knobs(0.25, best)
+    assert all(base[k] == v for k, v in hb.SPECK_TUNED[best].items()) and base["J.g_r"] == 0.25
+    assert lg.path_knobs(0.25)["S.tau_m"] == hb.SPECK_TUNED["reflex@ring3"]["S.tau_m"]
+    start = hb.role_body(lg.path_knobs(0.0), "ring3+0", "path k0 g0.0")
+    d = analysis.paired(lg.sF(start, n), lg.sF(hb.speck_body(best), n))
+    if stored is not None:
+        fb = stored["path_from_best_reflex"]
+        _same(d, fb["start_vs_best_reflex"])
+        assert fb["row0_lives_as_best_reflex"] and fb["first_fill_cells"] == 18
+        assert fb["path"][0]["columns"] is None and fb["path"][0]["vs_start"]["mean"] == 0.0
+        assert set(stored["reported_checks"]) == {"registered_start_not_below_best_reflex",
+                                                  "path_uphill_from_best_reflex"}
+        _rejudge_speck("GS3", stored)
+
+
+def test_gs4_lateral_off_removes_the_routers_gain():
+    g = lg.gate_gs4(threads=4)
+    assert g["passed"], g["checks"]
+    stored = _stored_speck("GS4")
+    if stored is not None:
+        for k in ("gain", "removed", "router_lateral_off", "checks"):
+            _same(g[k], stored[k])
+        _rejudge_speck("GS4", stored)
+
+
+def test_gs5_the_router_genome_grows_columns_with_the_routers_roles():
+    knobs = lg._router_knobs()
+    assert all(not v["mismatches"] for v in hb.router_genome_states(hb.router_genome(knobs), knobs).values())
+    stored = _stored_speck("GS5")
+    win = stored["window"] if stored is not None else 0.2
+    res, bodies = lg._grown(lg.router_grn(win), 16, seed0=lg.SPECK_FRESH_SEED0, preset=lg.SPECK_PRESET,
+                            t_open=lg.GS5_T_OPEN)
+    assert all(lg._columns_ok(b) for b in bodies) and np.all(res["n_H_end"] == 0)
+    assert res["last_birth"].max() < lg.GS5_T_OPEN and res["n_end"].min() > 60
+    if stored is not None:
+        _rejudge_speck("GS5", stored)
+
+
+def test_gs6_blind_clicking_paid_at_c_miss_2_and_loses_at_the_presets_10():
+    """Rule N10 failed in SPECK at catch_v1's c_miss 2: with R_cap 500 a blind click breaks even at a 0.4% capture
+    rate, so a slow blind presser beat the lone zygote (but not the sensing clicker). The SPECK presets price a miss at
+    10, v1's break-even rate (LIFE_ABI.md 15.62), where it loses and GS6 passes. A price changes no life, so both come
+    from the same lives."""
+    n = lg.GS6_LIVES
+    presser = hb.blind_presser(2.0, 16.0, 2.0, 1.0)
+    at2, at10 = lg._sstep(hb.ZYGOTE, presser, n, 2.0), lg._sstep(hb.ZYGOTE, presser, n)
+    assert at2["z"] > lg.Z and at10["z"] < -lg.Z and lg._sstep(hb.CLICKER, presser, n)["z"] < -lg.Z
+    assert at10 == lg._sstep(hb.ZYGOTE, presser, n, lg.C_MISS_V1_RATIO)  # the preset's price is v1's ratio
+    assert lg.C_MISS_V1_RATIO / (500.0 + lg.C_MISS_V1_RATIO) == 2.0 / 102.0
+    stored = _stored_speck("GS6")
+    if stored is not None:
+        assert stored["checks"] == dict(blind_lose=True, islands_lose=True, runner_not_a_trap=True,
+                                        contacts_off_no_income=True)
+        assert all(stored["checks_at_c_miss_10"].values()) and stored["passed"]
+        if stored["cheats"]["blind_presser_best"]["point"]["body"] == presser.name:
+            _same(at10, stored["cheats"]["blind_presser_best"]["vs_lone"])
+        _rejudge_speck("GS6", stored)
+
+
+def test_main_runs_a_speck_gate(tmp_path):
+    out = tmp_path / "s.json"
+    assert lg.main(["--world", "speck", "--gates", "gs1", "--threads", "4", "--out", str(out)]) == 0
+    data = json.loads(out.read_text())
+    assert data["meta"]["world"] == "speck" and set(data["gates"]) == {"GS1"} and data["passed"]
+    assert data["meta"]["hill_seed0"] == lg.SPECK_HILL_SEED0
+    with pytest.raises(SystemExit):
+        lg.main(["--world", "catch", "--tune", "reflex@ring2", "--out", str(out)])

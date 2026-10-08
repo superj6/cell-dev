@@ -22,10 +22,13 @@ fields (docs/ONE_LIFE_DESIGN.md, EVALUATION PROTOCOL; Code plan, src/evolve.py).
   design allowed extinction because it "never beats a lone pump" (ONE_LIFE_DESIGN.md, cheat 8), which only BELL
   guarantees. The kernel's F column is unchanged; the charge is applied to the F that selection and every report
   use (``columns``), and ``extinct`` still counts the lives.
-- ``life.T_choices`` (off by default): each generation's lives (and its recheck lives) last a length drawn from the
-  list, the same for the whole generation and keyed by the run seed and the generation. This is gate GB11's switch
+- ``life.T_choices`` (off by default; on in the CATCH configs since GB11 found evolved bodies still growing at T):
+  each generation's lives (and its recheck lives) last a length drawn uniformly from the list, the same for the whole
+  generation and keyed by the run seed and the generation only (stream ``_T_STREAM``). This is gate GB11's switch
   (BODY_DESIGN_PROPOSAL.md 3.1: on only if evolved bodies are still growing at T); valid, held-out, final, clone and
-  founder lives keep ``life.T``. F is per unit time, so generations of different lengths compare.
+  founder lives keep ``life.T`` (or ``founder_T``). The life seeds do not depend on the length and no cell reads T,
+  so a shorter generation's lives are the first part of the same lives at a longer length. F is per unit time (the
+  window is each life's own T - t_open, and the extinction charge runs to its own end), so lengths compare.
 - The kernel ABI is the layout's (``layout.abi``): ABI 2 for BELL-1 genomes (793 slots), ABI 3 for BODY-1 genomes
   (875 slots, ``genome.LIFE_DIMS_ABI3``), which can also live in the CATCH world (``life.world: catch_v1_l4`` or
   ``catch_v1_l2``). A CATCH evaluation adds captures, misses and clicks per life and the cells per plane at the end

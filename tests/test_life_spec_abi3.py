@@ -295,6 +295,7 @@ def test_catch_known_answers():  # LIFE_ABI.md 14
     assert spec.drag(37, 0.5) == 6.082762530298219
     assert spec.dot_gain(1.0, 2.5, spec.drag(37, 0.5)) == (0.13549762641654428, 0.6703200460356393)
     assert spec.dot_gain(0.0, 2.5, 3.0) == (0.0, 1.0)
+    assert spec.filled_footprint(_ring(3)) == 37 and spec.filled_footprint(_ISLANDS) == 7
     assert spec.exposed_face("hexprism", [0, 1]) == (1.5, -0.8660254037844386)
 
 
@@ -374,3 +375,62 @@ def test_exposed_faces_cancel_over_any_body():
                     sx += two_x[d]
                     sy += sgn_y[d]
         assert sx == 0 and sy == 0
+
+
+# ---------------------------------------------------------------------------------- the filled footprint (15.61)
+_HEX_DISK = {k: [(a, b) for a in range(-k, k + 1) for b in range(-k, k + 1) if max(abs(a), abs(b), abs(a + b)) <= k]
+             for k in range(7)}
+_ISLANDS = [(0, 0), (3, 0), (0, 3), (-3, 3), (-3, 0), (0, -3), (3, -3)]  # the centre and the six ring-3 corners
+
+
+def _ring(k: int) -> list:
+    return [s for s in _HEX_DISK[k] if max(abs(s[0]), abs(s[1]), abs(s[0] + s[1])) == k]
+
+
+def _flood_filled(cols, kind: str) -> int:
+    """The definition, by brute force: flood the free tiles of the bounding box plus a margin from a corner through
+    shared edges (the six hex neighbours; the four axial square neighbours, also on square8); the rest is filled."""
+    occ = set(cols)
+    if not occ:
+        return 0
+    steps = lattice.offsets("hex") if lattice.base_kind(kind) == "hex" else lattice.offsets("square4")
+    a0, a1 = min(a for a, _ in occ) - 1, max(a for a, _ in occ) + 1
+    b0, b1 = min(b for _, b in occ) - 1, max(b for _, b in occ) + 1
+    seen, todo = {(a0, b0)}, [(a0, b0)]
+    while todo:
+        a, b = todo.pop()
+        for da, db in steps:
+            x = (a + da, b + db)
+            if a0 <= x[0] <= a1 and b0 <= x[1] <= b1 and x not in occ and x not in seen:
+                seen.add(x)
+                todo.append(x)
+    return (a1 - a0 + 1) * (b1 - b0 + 1) - len(seen)
+
+
+def test_the_filled_footprint_fills_holes_and_nothing_else():
+    """LIFE_ABI.md 9.7.2 and 15.61: the projected footprint plus every tile it encloses."""
+    for k in range(7):  # full disks: nothing to fill, so n_fill = n_col and every column body keeps its drag
+        assert spec.filled_footprint(_HEX_DISK[k]) == len(_HEX_DISK[k])
+    for k in range(1, 7):  # a hollow ring has the drag of the filled disk, with or without the hotspot column
+        assert spec.filled_footprint(_ring(k)) == spec.filled_footprint(_ring(k) + [(0, 0)]) == len(_HEX_DISK[k])
+        assert spec.filled_footprint(_ring(k) + _ring(k - 1)) == len(_HEX_DISK[k])
+    assert spec.filled_footprint(_ring(4) + [(0, 0), (1, 0)]) == 61  # an island inside a hole: the disk
+    assert spec.filled_footprint(_ring(3)[1:]) == 17  # a ring with a gap encloses nothing
+    assert spec.filled_footprint(_ISLANDS) == 7  # islands keep their gaps: the outside runs between them
+    assert spec.filled_footprint([(0, 0), (5, 0), (0, 5)] + [(a + 9, b) for a, b in _ring(2)]) == 3 + 19
+    assert spec.filled_footprint([]) == 0 and spec.filled_footprint([(7, -3)]) == 1
+    assert spec.filled_footprint([(0, 0), (0, 0), (1, 0)]) == 2  # repeats count once
+    plus_ring = [(1, 0), (0, 1), (-1, 0), (0, -1)]  # four square tiles meeting at the centre tile's corners
+    assert spec.filled_footprint(plus_ring, "square4prism") == spec.filled_footprint(plus_ring, "square8") == 5
+    diag = [(1, 1), (-1, 1), (-1, -1), (1, -1), (0, 2), (2, 0), (0, -2), (-2, 0)]  # touch only at corners
+    assert spec.filled_footprint(diag, "square8prism") == 13  # a corner contact closes a gap (tiles, not slots)
+    assert spec.edge_steps_up("hexprism") == (-1, 0) and spec.edge_steps_up("square8prism") == (0, 0)
+    rng = np.random.default_rng(15)
+    for kind in ("hexprism", "square4prism", "square8prism", "hex"):
+        for _ in range(300):
+            w, p = int(rng.integers(1, 9)), rng.random()
+            cols = [(a, b) for a in range(-w, w + 1) for b in range(-w, w + 1) if rng.random() < p]
+            shift = rng.integers(-2 ** 22, 2 ** 22, 2)
+            cols = [(a + int(shift[0]), b + int(shift[1])) for a, b in cols]
+            assert spec.filled_footprint(cols, kind) == _flood_filled(cols, kind), (kind, cols)
+

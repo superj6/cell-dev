@@ -8,7 +8,7 @@ import pytest
 from src import lattice
 from src.life import reference as ref
 from src.life import spec
-from tests.life_helpers import abi1_draw
+from tests.life_helpers import abi1_draw, enclosed_tiles, hexdisk
 
 L = spec.L
 ALONE = spec.theta(b=1.875, tau_m=8, t_ref=2, kappa=1)  # the best lone cell (design gate G1)
@@ -516,10 +516,10 @@ def _decode_sk(sk: int) -> tuple[int, int, int]:
 def _rederive_world(w, r: ref.LifeResult, seed: int, every: int = 8) -> dict:
     """Rebuild the CATCH world from a life's records and world log alone (9.7): every stroke's force decays from its
     onset until its cell dies, and the dot is the sum of their exact integrals over the footprint's intervals (a
-    different formula from the accountant's anchor updates). The drag counts occupied columns in any plane, and
-    traction needs a sense-plane cell (15.44, 15.59). Returns the largest position error at the clicks and at
-    the end, and the counts of click outcomes and receptor decisions (every ``every``-th candidate) that this
-    rebuilt world contradicts."""
+    different formula from the accountant's anchor updates). The drag counts the filled footprint, the columns
+    occupied in any plane plus the tiles they enclose, and traction needs a sense-plane cell (15.44, 15.59, 15.61).
+    Returns the largest position error at the clicks and at the end, and the counts of click outcomes and receptor
+    decisions (every ``every``-th candidate) that this rebuilt world contradicts."""
     units, offs = lattice.unit_vectors("hex"), lattice.offsets("hex")
     strokes, live, foot, occ, n_foot, cols = [], {}, [(w.t0, 0, 0)], set(), 0, {}
     recs, i = r.records, 0
@@ -533,7 +533,7 @@ def _rederive_world(w, r: ref.LifeResult, seed: int, every: int = 8) -> dict:
             if kind in (ref.R_BIRTH, ref.R_DEATH):
                 cols[(a, b)] = cols.get((a, b), 0) + (1 if kind == ref.R_BIRTH else -1)
                 n_foot += (1 if kind == ref.R_BIRTH else -1) if z == 0 else 0
-                foot.append((t, n_foot, sum(c > 0 for c in cols.values())))
+                foot.append((t, n_foot, spec.filled_footprint([ab for ab, c in cols.items() if c > 0], w.lattice)))
             if kind in (ref.R_BIRTH, ref.R_DEATH) and z == 1:
                 dO.append((kind == ref.R_BIRTH, (a, b)))
                 for s in live.pop((a, b), []) if kind == ref.R_DEATH else []:
@@ -600,12 +600,19 @@ def _rederive_world(w, r: ref.LifeResult, seed: int, every: int = 8) -> dict:
 def test_the_catch_world_rederives_from_the_records():
     cells, rows = _columns(HEX7)
     reflex = dict(program=_reflex(), cells=cells, rows=rows)
+    cells, rows = _columns([(0, 0)] + [s for s in hexdisk(3) if max(abs(s[0]), abs(s[1]), abs(s[0] + s[1])) == 3])
+    hollow = dict(program=_reflex(), cells=cells, rows=rows)
     for w, kw, seed in ((spec.world("catch_v1_l2", T=200.0), reflex, 42),
                         (spec.world("catch_v1_l2", T=200.0, b2_amp=1.0, b2_value=-5.0, b2_p=0.5), reflex, 4),
                         (spec.world("catch_v1_l2", T=200.0, b2_amp=1.0, b2_value=100.0, b2_mode=1), reflex, 6),
                         (spec.world("catch_v1_l4", T=60.0), dict(genome=_grn3(25)), 25),
-                        (spec.world("catch_v1_l4", T=30.0), dict(genome=_grn3(31)), 31)):
+                        (spec.world("catch_v1_l4", T=30.0), dict(genome=_grn3(31)), 31),
+                        (spec.world("catch_v1_l2", T=200.0), hollow, 42),  # a hole all life long (15.61)
+                        (spec.world("catch_v1_l2", T=60.0, oracle_cap=60), dict(genome=_grn3(118, p_die=0.6,
+                                                                                         p_div=1.1)), 118)):
         r = _run3(w, seed=seed, records=True, **kw)
+        if kw is hollow or seed == 118:  # holes that the drag fills, opened and closed by growth and death
+            assert enclosed_tiles(r.fate_i, r.fate_f) > 0
         out = _rederive_world(w, r, seed)
         assert out["err"] < 1e-12 and out["bad_clicks"] == out["bad_cands"] == 0, (w.name, seed, out)
         assert out["clicks"] == r["clicks"] > 0 and out["cands"] > 0.1 * r["rec_cand"] > 10

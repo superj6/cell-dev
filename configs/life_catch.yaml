@@ -26,8 +26,12 @@ genome:
 life:
   world: catch_v1_l4            # spec.PRESETS: catch_v1_l4 (L_max 4) | catch_v1_l2 (L_max 2)
   control: lmax4                # run-directory label; the two arms differ only in the world's L_max
-  T: 1024                       # fixed life length (proposal decision 6; GB11 decides on a per-generation draw)
-  T_choices: null               # GB11's switch: e.g. [768, 1024, 1536], one length per generation (evaluate.py)
+  T: 1024                       # nominal life length: valid, held-out, final, clone and founder lives use it
+  # GB11 (proposal 11) is ON: evolved CATCH bodies were still growing at T in 89-98% of lives (more than 10% grew by
+  # more than 10% after T/2; RESULTS.md Pre-pilot). So each generation's selection lives (and its
+  # recheck lives) last one length drawn from this list, shared by the whole generation and fresh across generations
+  # (evaluate.py); F is per unit time, and every judged life keeps T. null turns the draw off.
+  T_choices: [768, 1024, 1536]
   founder_T: 1024
   founder_lives: 2
   heldout: [{v_t: 0.05}, {v_t: 0.2}, {R_cap: 50.0}, {R_cap: 200.0}, {sigma: 1.0}]   # GB12's start-robustness worlds

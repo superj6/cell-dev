@@ -1,5 +1,6 @@
 """Hand-built organisms: BELL-1 programs (docs/ONE_LIFE_DESIGN.md: Identity, Life tasks, PRE-REGISTERED GATES) and,
-at the end, the BODY-1 CATCH bodies and the column-reflex genome (docs/BODY_DESIGN_PROPOSAL.md, gates GB3-GB13).
+at the end, the BODY-1 CATCH bodies and the column-reflex genome (docs/BODY_DESIGN_PROPOSAL.md, gates GB3-GB13), then
+the SPECK role bodies, the tuned reflexes and router, and the router genome (the S1 candidate, gates GS1-GS6).
 
 Each organism is a phenotype program (docs/LIFE_ABI.md 4.5 and 7.5): fixed decoded phenotype rows for a cell that is
 alone, has contacts, is a juvenile or is the zygote, plus the division scalars. They are the references the gates
@@ -718,4 +719,404 @@ def column_genome_states(genome=None, click_g_r: float = 0.5) -> dict:
         if th[V3.K["p_div"]] != pdiv:
             mism["p_div"] = (th[V3.K["p_div"]], pdiv)
         out[name] = dict(mismatches=mism, p_div=th[V3.K["p_div"]])
+    return out
+
+
+# ===================================================================================== SPECK: the S1 candidate
+# docs/BODY_DESIGN_PROPOSAL.md 8 (stage S1, candidate 3 "interior blindness"), world preset ``catch_speck``: catch_v1
+# with a small target halo (sigma 0.6) worth R_cap 500. The S1 prototype study and its red team (scratchpad
+# body_design/s1_study, s1_redteam) found an outward router at ring 4 that beats every tuned reflex there; gates
+# GS1-GS4 (scripts/life_gates.py --world speck, docs/LIFE_GATES.md) re-test the no-cliff acceptance test A1-A4 in the
+# kernel with the bodies below. They are references and gates only: program mode never evolves, and nothing here
+# seeds a population.
+#
+# Role bodies. Every cell's role follows from the body's shape alone, from cues a cell has locally (its plane, and
+# whether all six in-plane neighbour sites are occupied: n_view), plus the hotspot column, which the column genome
+# singles out by lineage (GB9):
+#   S  sense cell (z = 0) with an empty in-plane neighbour site (the rim of the sense plane)  -> program row "alone"
+#   J  sense cell whose six in-plane neighbours are all present (interior)                    -> "rim"
+#   C  the centre sense cell (0, 0, 0), under the hotspot                                     -> "juvenile"
+#   M  act cell (z = 1) with an exposed face (an empty in-plane neighbour site): it can pull   -> "contact"
+#   K  the hotspot's act cell (0, 0, 1): it pulls along its face and presses                  -> "zygote"
+#   I  interior act cell (no exposed face): it can never pull (LIFE_ABI.md 9.7.2), so firing would only cost; it
+#      takes C's row, which is inert above the screen (no receptor there, no input weight, b < 1): a quiet cell.
+# The program table has five rows (LIFE_ABI.md 4.5), so I shares C's row; ``role_body`` checks that C's row is inert.
+# A knob dict names knobs by role, ``{"S.g_r": 1.0, "M.w0": 1.5, ...}``, with the kernel's knob names (LIFE_ABI.md 8).
+# Each role starts from the prototype's row defaults (b 0, tau_m 2, t_ref 1, everything else 0); J copies S and then
+# takes its own ``J.`` knobs, so a body without ``J.`` knobs is a plain reflex in which interior sensors are steering
+# sensors whose act cell cannot pull.
+SPECK_PRESET = "catch_speck"
+SPECK_ROLES = ("S", "J", "C", "M", "K")
+ROLE_ROW = dict(S="alone", J="rim", C="juvenile", M="contact", K="zygote")
+ROLE_DEFAULTS = dict(b=0.0, tau_m=2.0, t_ref=1.0)  # the prototype's row defaults (cur.ROW0); every other knob 0
+NB6 = ((1, 0), (1, -1), (0, -1), (-1, 0), (-1, 1), (0, 1))  # hex in-plane slots (LIFE_ABI.md 4.3)
+ROLE_BODY = "role body"  # the start of every role body's ``about``
+
+
+def role_rows(knobs: dict) -> dict[str, dict]:
+    """Phenotype knobs per role (``SPECK_ROLES``) from a flat ``{"<role>.<knob>": value}`` dict."""
+    rows = {r: dict(ROLE_DEFAULTS) for r in SPECK_ROLES}
+    for key, v in knobs.items():
+        r, _, k = key.partition(".")
+        if r not in rows or k not in V3.K:
+            raise KeyError(f"unknown role knob {key!r}")
+        if r != "J":
+            rows[r][k] = float(v)
+    rows["J"] = dict(rows["S"], **{k[2:]: float(v) for k, v in knobs.items() if k.startswith("J.")})
+    return rows
+
+
+def inert_above_screen(row: dict) -> bool:
+    """A row that never fires in the act plane: no receptor there, no input weight, and a resting level below 1."""
+    return row.get("w0", 0.0) == 0.0 and row.get("w1", 0.0) == 0.0 and row.get("b", 0.0) < 1.0
+
+
+def speck_shape(name: str) -> tuple[list, list]:
+    """(sense sites, act sites) of a named body: ``ring{k}`` complete rings 0..k in both planes; ``hollow{k}`` the
+    prototype's hollow body (sense plane: the centre and ring k only; act plane: complete rings 0..k, so it drags
+    and pulls like ring k, LIFE_ABI.md 15.61); ``ring{k}+{m}`` ring k plus the first m ring-(k+1) columns in angular
+    order (the order of ``disk``)."""
+    import re
+
+    m = re.fullmatch(r"(ring|hollow)(\d+)(?:\+(\d+))?", name)
+    if m is None:
+        raise ValueError(f"unknown SPECK shape {name!r}")
+    kind, k, extra = m.group(1), int(m.group(2)), int(m.group(3) or 0)
+    full = disk(k)
+    if kind == "hollow":
+        if extra:
+            raise ValueError("a hollow body has no partial ring")
+        return [s for s in full if s == (0, 0) or hex_ring(*s) == k], full
+    nxt = disk(k + 1)[len(full):]
+    if not 0 <= extra <= len(nxt):
+        raise ValueError(f"ring {k + 1} has {len(nxt)} columns")
+    sites = full + nxt[:extra]
+    return sites, sites
+
+
+def role_cells(sense, act=None) -> tuple:
+    """Initial cells ``(a, b, z, row)`` of a role body: the sense cells (z = 0) in the given order, then the act cells
+    (z = 1); rows by role (``ROLE_ROW``; interior act cells on C's row)."""
+    act = sense if act is None else act
+    so, ao = set(sense), set(act)
+    if (0, 0) not in so or (0, 0) not in ao or len(so) != len(sense) or len(ao) != len(act):
+        raise ValueError("a role body holds the centre column in both planes, each site once")
+    cells = []
+    for a, b in sense:
+        interior = all((a + da, b + db) in so for da, db in NB6)
+        role = "C" if (a, b) == (0, 0) else ("J" if interior else "S")
+        cells.append((a, b, 0, ROW3[ROLE_ROW[role]]))
+    for a, b in act:
+        exposed = not all((a + da, b + db) in ao for da, db in NB6)
+        role = "K" if (a, b) == (0, 0) else ("M" if exposed else "C")  # an interior act cell: C's row, quiet
+        cells.append((a, b, 1, ROW3[ROLE_ROW[role]]))
+    return tuple(cells)
+
+
+def role_counts(body) -> dict[str, int]:
+    """Cells per role of a role body (I: interior act cells, on C's row above the screen)."""
+    by_row = {ROW3[ROLE_ROW[r]]: r for r in SPECK_ROLES}
+    out = dict.fromkeys(("S", "J", "C", "M", "K", "I"), 0)
+    for _, _, z, row in body.cells:
+        r = by_row[row]
+        out["I" if (z == 1 and r == "C") else r] += 1
+    return out
+
+
+def role_body(knobs: dict, shape="ring3", name: str | None = None, about: str = "") -> Body:
+    """A hand-built body in program mode whose cells play the roles above with the phenotypes of ``knobs``.
+    ``shape`` is a ``speck_shape`` name or explicit ``(sense sites, act sites)``."""
+    sense, act = speck_shape(shape) if isinstance(shape, str) else shape
+    rows = role_rows(knobs)
+    cells = role_cells(sense, act)
+    if any(z == 1 and row == ROW3["juvenile"] for _, _, z, row in cells) and not inert_above_screen(rows["C"]):
+        raise ValueError("interior act cells share C's row, which must stay inert above the screen (w0 = w1 = 0, "
+                         "b < 1)")
+    th = {r: V3.theta(**rows[r]) for r in SPECK_ROLES}
+    prog = V3.pack_program(th["M"], alone=th["S"], juvenile=th["C"], rim=th["J"], zygote=th["K"])
+    tag = shape if isinstance(shape, str) else f"{len(sense)}+{len(act)} cells"
+    return Body(name or f"roles@{tag}", prog, cells, about=ROLE_BODY + (f": {about}" if about else ""))
+
+
+def is_role_body(body) -> bool:
+    return isinstance(body, Body) and body.about.startswith(ROLE_BODY)
+
+
+def on_kernel_grid(knobs: dict) -> bool:
+    """Every value lies on its knob's GRN decode grid (``spec.V3.GRIDS``): the body is kernel-expressible, a phenotype
+    a genome can decode exactly (the hand-built column bodies' off-grid g_r 0.55 is not)."""
+    return all(float(v) in V3.GRIDS[key.partition(".")[2]] for key, v in knobs.items())
+
+
+# The S0 champion: the hand-built column reflex at its catch_v1 optimum (ring 3, 74 cells; gate GB4), unchanged.
+SPECK_CHAMPION = ring_body(3)
+
+# Tuning grids, every value on the GRN decode grid. REFLEX_GRID is every knob of a plain reflex (each sensor drives
+# only the act cell above it; no lateral weight anywhere): the steering sensors S (and J = S), the centre sensor C,
+# the rim motors M and the hotspot K. ROUTE_GRID adds the router's own knobs: the interior sensors' phenotype (J),
+# their relay channel 1 (J.emit1 is 1 in every router), and the rim sensors' weight on it (S.w1). The prototype's
+# receiver polarity (s1) and per-cell slow state (tau_u, b_in, b_f) have no program-mode counterpart and are not
+# used (docs/LIFE_GATES.md GS2).
+REFLEX_GRID = {
+    "S.g_r": (0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.25), "S.tau_m": (1.0, 2.0, 4.0, 8.0),
+    "S.t_ref": (0.5, 1.0, 1.5, 2.0, 3.0, 4.0), "S.b": (-0.5, -0.25, 0.0, 0.25, 0.5, 0.625, 0.75, 0.875),
+    "S.delta": (0.0, 0.5, 1.0),
+    "C.g_r": (0.25, 0.375, 0.5, 0.625, 0.75, 1.0), "C.tau_m": (1.0, 2.0, 4.0, 8.0, 16.0),
+    "C.t_ref": (0.5, 1.0, 2.0, 3.0, 4.0), "C.b": (-0.25, 0.0, 0.25, 0.5, 0.75),
+    "M.w0": (0.5, 0.625, 0.75, 1.0, 1.25, 1.5), "M.tau_m": (1.0, 2.0, 4.0, 8.0),
+    "M.t_ref": (0.5, 1.0, 1.5, 2.0, 3.0, 4.0), "M.kappa": (0.25, 0.5, 1.0), "M.b": (-0.25, 0.0, 0.25, 0.5),
+    "K.w0": (0.75, 1.0, 1.5), "K.tau_m": (1.0, 2.0, 4.0), "K.t_ref": (0.5, 1.0, 2.0, 4.0), "K.kappa": (0.5, 1.0),
+    "K.b": (0.0, 0.25, 0.5),
+}
+ROUTE_GRID = {
+    "J.g_r": (0.25, 0.375, 0.5, 0.625, 0.75, 1.0), "J.tau_m": (1.0, 2.0, 4.0, 8.0),
+    "J.t_ref": (0.5, 1.0, 1.5, 2.0, 3.0, 4.0), "J.b": (0.0, 0.125, 0.25, 0.375, 0.5),
+    "J.w1": (0.0, 0.125, 0.25, 0.375, 0.5), "J.emit0": (0.0, 1.0), "J.delta": (0.0, 0.5),
+    "S.w1": (0.5, 0.625, 0.75, 1.0, 1.25),
+}
+ROUTER_GRID = dict(REFLEX_GRID, **ROUTE_GRID)
+REFLEX_FIXED = {"S.emit0": 1.0, "C.emit0": 1.0}  # every sensor relays on channel 0 to the act cell above it
+ROUTER_FIXED = dict(REFLEX_FIXED, **{"J.emit1": 1.0})  # interior sensors also relay on channel 1
+
+# Tuning starts: the red team's tuned prototype knobs (scratchpad s1_redteam e2k_<shape>_R.json and
+# e2k_ring4_L0.json, its kernel-expressible no-polarity router), without the slow-state, polarity and hold (N) knobs,
+# which have no program-mode counterpart, and without I.w0 and J.g_r (interior act cells are quiet here; an
+# interior-deaf reflex is the hollow body, which is tuned in its own right). ``full_knobs`` completes a start without
+# the family's fixed knobs, so the router's tune starts with J.emit0 0 (the prototype's J also emitted on channel 0);
+# J.emit0 is a grid knob, so every ascent round tries both.
+PROTOTYPE_STARTS = {
+    "ring2": {"S.g_r": 0.375, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.625, "C.g_r": 1.0, "C.tau_m": 8.0, "C.b": 0.5,
+              "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 2.0, "M.tau_m": 1.0, "K.w0": 1.0, "K.kappa": 1.0,
+              "K.t_ref": 4.0},
+    "hollow2": {"S.g_r": 0.75, "S.tau_m": 4.0, "S.t_ref": 1.5, "S.b": 0.625, "C.g_r": 1.0, "C.tau_m": 1.0, "C.b": 0.5,
+                "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 2.0, "K.w0": 1.5, "K.kappa": 1.0, "K.t_ref": 4.0},
+    "ring3": {"S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.75, "C.g_r": 1.0, "C.tau_m": 1.0, "C.b": 0.5,
+              "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 4.0, "K.w0": 1.0,
+              "K.kappa": 1.0, "K.t_ref": 2.0},
+    "hollow3": {"S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.75, "C.g_r": 1.0, "C.tau_m": 2.0, "C.b": 0.5,
+                "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 0.5, "M.t_ref": 0.5, "K.w0": 1.5, "K.kappa": 1.0,
+                "K.t_ref": 0.5},
+    "ring4": {"S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.5, "C.g_r": 0.625, "C.tau_m": 1.0, "C.b": 0.75,
+              "C.t_ref": 4.0, "M.w0": 1.0, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 1.0, "K.w0": 1.0,
+              "K.kappa": 1.0, "K.t_ref": 4.0},
+    "hollow4": {"S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.25, "S.delta": 0.5, "C.g_r": 0.625,
+                "C.tau_m": 4.0, "C.b": 0.5, "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "K.w0": 1.5, "K.kappa": 1.0,
+                "K.t_ref": 2.0},
+    "router": {"S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.625, "S.w1": 1.0, "C.g_r": 0.75,
+               "C.tau_m": 2.0, "C.b": 0.5, "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 0.5, "M.t_ref": 0.5,
+               "M.tau_m": 4.0, "K.w0": 1.0, "K.kappa": 1.0, "K.t_ref": 4.0, "J.g_r": 0.5, "J.w1": 0.125,
+               "J.t_ref": 1.0, "J.tau_m": 4.0, "J.b": 0.25},
+}
+
+
+def full_knobs(knobs: dict, grid: dict) -> dict:
+    """``knobs`` plus the value in force of every knob of ``grid`` that it does not name (``role_rows``: the role
+    defaults, and S's value for a J knob), so a tuner sees the start as it lives."""
+    rows = role_rows(knobs)
+    out = dict(knobs)
+    for key in grid:
+        r, _, k = key.partition(".")
+        out.setdefault(key, rows[r].get(k, 0.0))
+    return out
+
+
+# The tuned SPECK bodies: each family's knobs after ``scripts/life_gates.py --world speck --tune`` (kernel, tuning
+# seeds, budget ``life_gates.SPECK_TUNE``), frozen here from outputs/life_gates/speck_tune/<name>.json; the gates
+# measure them on fresh lives. Keys "<family>@<shape>"; values exclude the family's fixed knobs.
+SPECK_TUNED: dict[str, dict] = {
+    "reflex@ring2": {
+        "S.g_r": 0.625, "S.tau_m": 2.0, "S.t_ref": 0.5, "S.b": 0.625, "C.g_r": 1.0, "C.tau_m": 8.0, "C.b": 0.5,
+        "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 1.0, "K.w0": 1.0, "K.kappa": 1.0, "K.t_ref": 4.0,
+        "S.delta": 0.0, "C.t_ref": 4.0, "M.b": 0.0, "K.tau_m": 2.0, "K.b": 0.0
+    },
+    "reflex@hollow2": {
+        "S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 2.0, "S.b": 0.625, "C.g_r": 1.0, "C.tau_m": 2.0, "C.b": 0.5, "M.w0":
+        1.5, "M.kappa": 1.0, "M.t_ref": 1.5, "K.w0": 1.5, "K.kappa": 1.0, "K.t_ref": 4.0, "S.delta": 0.0, "C.t_ref":
+        0.5, "M.tau_m": 2.0, "M.b": 0.25, "K.tau_m": 2.0, "K.b": 0.0
+    },
+    "reflex@ring3": {
+        "S.g_r": 1.0, "S.tau_m": 8.0, "S.t_ref": 0.5, "S.b": 0.75, "C.g_r": 0.75, "C.tau_m": 1.0, "C.b": 0.5,
+        "C.t_ref": 3.0, "M.w0": 1.25, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 2.0, "K.w0": 1.5, "K.kappa": 1.0,
+        "K.t_ref": 2.0, "S.delta": 0.0, "M.b": 0.25, "K.tau_m": 2.0, "K.b": 0.0
+    },
+    "reflex@hollow3": {
+        "S.g_r": 1.0, "S.tau_m": 4.0, "S.t_ref": 0.5, "S.b": 0.625, "C.g_r": 1.0, "C.tau_m": 4.0, "C.b": 0.5,
+        "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "K.w0": 1.5, "K.kappa": 1.0, "K.t_ref": 4.0,
+        "S.delta": 0.0, "M.tau_m": 2.0, "M.b": 0.25, "K.tau_m": 2.0, "K.b": 0.0
+    },
+    "reflex@ring4": {
+        "S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.75, "C.g_r": 0.5, "C.tau_m": 4.0, "C.b": 0.75,
+        "C.t_ref": 4.0, "M.w0": 1.0, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 1.0, "K.w0": 1.0, "K.kappa": 1.0,
+        "K.t_ref": 1.0, "S.delta": 1.0, "M.b": 0.25, "K.tau_m": 2.0, "K.b": 0.0
+    },
+    "reflex@hollow4": {
+        "S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.25, "S.delta": 1.0, "C.g_r": 0.625, "C.tau_m": 1.0,
+        "C.b": 0.75, "M.w0": 1.0, "M.kappa": 1.0, "M.t_ref": 0.5, "K.w0": 1.0, "K.kappa": 1.0, "K.t_ref": 2.0,
+        "C.t_ref": 3.0, "M.tau_m": 2.0, "M.b": 0.0, "K.tau_m": 2.0, "K.b": 0.0
+    },
+    "router@ring4": {
+        "S.g_r": 0.375, "S.tau_m": 1.0, "S.t_ref": 0.5, "S.b": 0.625, "S.w1": 1.0, "C.g_r": 1.0, "C.tau_m": 2.0,
+        "C.b": 0.5, "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 4.0, "K.w0": 1.0,
+        "K.kappa": 1.0, "K.t_ref": 1.0, "J.g_r": 0.5, "J.w1": 0.125, "J.t_ref": 0.5, "J.tau_m": 2.0, "J.b": 0.25,
+        "S.delta": 0.0, "M.b": 0.0, "K.tau_m": 2.0, "K.b": 0.0, "J.emit0": 0.0, "J.delta": 0.0
+    },
+    "router@ring3": {
+        "S.g_r": 1.0, "S.tau_m": 1.0, "S.t_ref": 1.5, "S.b": 0.25, "S.w1": 0.75, "C.g_r": 0.625, "C.tau_m": 2.0,
+        "C.b": 0.5, "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 4.0, "K.w0": 1.0,
+        "K.kappa": 1.0, "K.t_ref": 4.0, "J.g_r": 0.375, "J.w1": 0.125, "J.t_ref": 3.0, "J.tau_m": 2.0, "J.b": 0.25,
+        "S.delta": 0.0, "M.b": 0.0, "K.tau_m": 2.0, "K.b": 0.0, "J.emit0": 0.0, "J.delta": 0.0
+    },
+    "router@ring5": {
+        "S.g_r": 0.25, "S.tau_m": 4.0, "S.t_ref": 0.5, "S.b": 0.625, "S.w1": 1.0, "C.g_r": 1.0, "C.tau_m": 2.0, "C.b":
+        0.5, "C.t_ref": 4.0, "M.w0": 1.5, "M.kappa": 1.0, "M.t_ref": 0.5, "M.tau_m": 4.0, "K.w0": 1.0, "K.kappa": 1.0,
+        "K.t_ref": 1.0, "J.g_r": 0.625, "J.w1": 0.125, "J.t_ref": 0.5, "J.tau_m": 2.0, "J.b": 0.25, "S.delta": 0.0,
+        "M.b": 0.0, "K.tau_m": 2.0, "K.b": 0.0, "J.emit0": 0.0, "J.delta": 0.0
+    },
+}
+SPECK_TUNE_RECORD: dict[str, dict] = {  # per body: hill F, hill and screen evaluations, start, seconds
+    "reflex@ring2": dict(hill_F=5.841882512410481, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=537.7),
+    "reflex@hollow2": dict(hill_F=5.850884068806966, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=415.3),
+    "reflex@ring3": dict(hill_F=8.582300462086994, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=1239.6),
+    "reflex@hollow3": dict(hill_F=8.835348251342774, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=785.9),
+    "reflex@ring4": dict(hill_F=3.5648444417317706, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=2090.8),
+    "reflex@hollow4": dict(hill_F=4.54148665746053, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=992.3),
+    "router@ring4": dict(hill_F=11.079819271087645, hill_evaluations=300,
+                   screen_evaluations=161, start="prototype", budget=300, seconds=2055.3),
+    "router@ring3": dict(hill_F=8.550594561258952, hill_evaluations=150,
+                   screen_evaluations=1, start="router@ring4", budget=150, seconds=631.8),
+    "router@ring5": dict(hill_F=7.652403658548988, hill_evaluations=150,
+                   screen_evaluations=1, start="router@ring4", budget=150, seconds=1341.0),
+}
+
+
+def speck_fixed(family: str) -> dict:
+    return ROUTER_FIXED if family == "router" else REFLEX_FIXED
+
+
+def speck_body(name: str, shape: str | None = None) -> Body:
+    """The tuned SPECK body ``name`` ("reflex@ring3", "router@ring4", ...), on its own shape or on ``shape``."""
+    family, _, own = name.partition("@")
+    shape = shape or own
+    tag = name if shape == own else f"{family}@{own} knobs@{shape}"
+    return role_body(dict(SPECK_TUNED[name], **speck_fixed(family)), shape, tag,
+                     about=f"tuned SPECK {family} ({own})")
+
+
+# ------------------------------------------------------------------------- the SPECK router as a GRN genome (GS5)
+# genes of ``router_genome`` beyond the column genome's seven (CG_*)
+RG_INNER, RG_RELAY, RG_ZYG, RG_ZC, RG_KG, RG_IG = 7, 8, 9, 10, 11, 12
+ROUTER_GENOME_KNOBS = ("w0", "w1", "b", "tau_m", "t_ref", "emit0", "emit1", "delta", "kappa", "g_r")
+GENOME_ROLES = ("N", "S", "J", "C", "M", "K", "I")  # N: a newborn (the quiet row), then the roles of a role body
+
+
+def _ycode(knob: str, v: float) -> float:
+    """A readout value y that decodes exactly to ``v`` (LIFE_ABI.md 8), in the middle of its decode interval."""
+    v = float(v)
+    if knob in ("w0", "w1", "b", "g_r"):
+        if spec.q8(v) != v:
+            raise ValueError(f"{knob} {v} is off the 1/8 grid")
+        return v
+    if knob == "tau_m":
+        return float(spec.TAU_M.index(v)) - 2.0
+    if knob == "t_ref":
+        if v not in spec.T_REF:
+            raise ValueError(f"t_ref {v} is off the grid")
+        return v - 2.0
+    if knob in ("emit0", "emit1"):
+        return 1.0 if v else -1.0
+    table = dict(delta=spec.DELTA, kappa=spec.KAPPA)[knob]
+    i = table.index(v)
+    return -0.5 if i == 0 else i / 2.0
+
+
+def router_roles(knobs: dict) -> dict[str, dict]:
+    """The phenotype of each genome role: a role body's rows (``role_rows``) plus a quiet newborn N (the role
+    defaults) and the quiet interior act cell I (C's row above the screen, which never fires: no input weight, no
+    twitch, so the genome gives it the defaults)."""
+    rows = role_rows(knobs)
+    return dict(N=dict(ROLE_DEFAULTS), S=rows["S"], J=rows["J"], C=rows["C"], M=rows["M"], K=rows["K"],
+                I=dict(ROLE_DEFAULTS))
+
+
+def router_genome(knobs: dict, window: float = 0.2) -> np.ndarray:
+    """The SPECK router (a role body's knobs, every value on the GRN grid) as a raw float32 ABI-3 genome that grows a
+    disk of columns from one zygote and gives every cell its role from local cues (gate GS5, the GB9 analogue).
+
+    Growth is ``column_genome(1, window)``'s (genes 0-6: sense, motor, mark, kin, fresh, timer, grow; a disk of
+    columns whose size grows with ``window``; no act cell divides, no hidden cell). Six genes add the roles:
+    - 7 inner: target 1 iff n_view / D >= 7/8 (every in-plane neighbour present: n_view counts six in-plane contacts
+      and the column partner; the empty plane above is not a contact).
+    - 8 relay = sense AND inner AND kin: an interior sensor that is not the founder (J).
+    - 9 zygote: 1 in the zygote (starts at 1, target sigma(10 - 20 kin - 20 mark)), 0 in every other settled cell
+      and newborn: the founder C.
+    - 10 zc, a latch set in a newborn whose mother is the zygote (mark 1 with kin still 0 at birth), cleared in
+      every daughter at birth (Q -1): it marks the zygote's daughters, among them the act cell above it.
+    - 11 hot = zc AND motor: the hotspot's act cell K.
+    - 12 quiet = inner AND motor AND NOT hot: an interior act cell I, which can never pull.
+    Each phenotype knob is read out linearly, y = y_N + (y_S - y_N) sense + (y_M - y_N) motor + (y_J - y_S) relay
+    + (y_C - y_S) zygote + (y_K - y_M) hot + (y_I - y_M) quiet, with each role's y in the middle of its decode
+    interval (``_ycode``), so every settled state decodes its role's row exactly (``router_genome_states``)."""
+    g = column_genome(1, window=window).astype(np.float64)
+    W, b, lam, s0, Q, act = (V3.genome_view(g, n) for n in ("W", "b", "lam", "s0", "Q", "act"))
+    A, a0 = V3.genome_view(g, "A"), V3.genome_view(g, "a0")
+    K = V3.K
+    S, M, MK, KN = CG_SENSE, CG_MOTOR, CG_MARK, CG_KIN
+    IN, RL, ZY, ZC, KG, IG = RG_INNER, RG_RELAY, RG_ZYG, RG_ZC, RG_KG, RG_IG
+    for gene in (IN, RL, ZY, ZC, KG, IG):
+        act[gene], lam[gene], s0[gene], Q[gene] = 1.0, LAM_X[2], -12.0, 0.0
+    W[IN, X3["n_view"]], b[IN] = 160.0, -130.0  # 160 (x - 13/16): sigma(+-10) at 7/8 and 6/8
+    W[RL, S], W[RL, IN], W[RL, KN], b[RL] = 20.0, 20.0, 20.0, -50.0
+    W[ZY, KN], W[ZY, MK], b[ZY], s0[ZY] = -20.0, -20.0, 10.0, 12.0
+    W[ZC, MK], W[ZC, KN], W[ZC, ZC], b[ZC], Q[ZC] = 20.0, -30.0, 60.0, -15.0, -1.0
+    W[KG, ZC], W[KG, M], b[KG] = 20.0, 20.0, -30.0
+    W[IG, IN], W[IG, M], W[IG, KG], b[IG] = 20.0, 20.0, -20.0, -30.0
+    roles = router_roles(knobs)
+    for knob in ROUTER_GENOME_KNOBS:
+        y = {r: _ycode(knob, roles[r].get(knob, 0.0)) for r in GENOME_ROLES}
+        p = K[knob]
+        A[p, :] = 0.0
+        a0[p] = y["N"]
+        A[p, S], A[p, M], A[p, RL] = y["S"] - y["N"], y["M"] - y["N"], y["J"] - y["S"]
+        A[p, ZY], A[p, KG], A[p, IG] = y["C"] - y["S"], y["K"] - y["M"], y["I"] - y["M"]
+    return g.astype(np.float32)
+
+
+def router_genome_states(genome: np.ndarray, knobs: dict) -> dict:
+    """The router genome's decoded phenotype in each settled gene state against its role's row (``router_roles``),
+    on the knobs a role body uses (``ROUTER_GENOME_KNOBS``), and its p_div (1/2 where the column genome divides).
+    Returns, per state, the mismatching knobs as (genome, role) pairs."""
+    gt = V3.pack_genomes(np.asarray(genome)[None], "hexprism")[0]
+    hi, lo = spec.sigmoid(10.0), spec.sigmoid(-10.0)
+    roles = router_roles(knobs)
+    # (sense, motor, mark, kin, fresh, grow, inner, relay, zygote, zc, hot, quiet), role, p_div
+    states = dict(rim_sense=((hi, lo, lo, hi, lo, lo, lo, lo, lo, lo, lo, lo), "S", 0.0),
+                  rim_sense_growing=((hi, lo, lo, hi, lo, hi, lo, lo, lo, lo, lo, lo), "S", 0.5),
+                  inner_sense=((hi, lo, lo, hi, lo, lo, hi, hi, lo, lo, lo, lo), "J", 0.0),
+                  ring1_sense=((hi, lo, lo, hi, lo, lo, hi, hi, lo, hi, lo, lo), "J", 0.0),
+                  zygote=((hi, lo, lo, lo, lo, lo, hi, lo, hi, hi, lo, lo), "C", 0.5),
+                  zygote_young=((hi, lo, lo, lo, lo, lo, lo, lo, hi, lo, lo, lo), "C", 0.5),
+                  rim_act=((lo, hi, lo, hi, lo, lo, lo, lo, lo, lo, lo, lo), "M", 0.0),
+                  hotspot=((lo, hi, lo, hi, lo, lo, hi, lo, lo, hi, hi, lo), "K", 0.0),
+                  hotspot_young=((lo, hi, lo, hi, lo, lo, lo, lo, lo, hi, hi, lo), "K", 0.0),
+                  inner_act=((lo, hi, lo, hi, lo, lo, hi, lo, lo, lo, lo, hi), "I", 0.0),
+                  newborn=((0.0, lo, 1.0, 0.0, 1.0, 0.0, lo, lo, lo, lo, lo, lo), "N", 0.0))
+    genes = (CG_SENSE, CG_MOTOR, CG_MARK, CG_KIN, CG_FRESH, CG_GROW, RG_INNER, RG_RELAY, RG_ZYG, RG_ZC, RG_KG, RG_IG)
+    out = {}
+    for name, (lv, role, pdiv) in states.items():
+        g = np.zeros(spec.G_MAX)
+        g[list(genes)] = lv
+        th = V3.phenotype(gt, g)
+        want = V3.theta(**roles[role])
+        act_plane = role in ("M", "K", "I")
+        mism = {k: (th[V3.K[k]], float(want[V3.K[k]])) for k in ROUTER_GENOME_KNOBS
+                if not (act_plane and k == "g_r") and th[V3.K[k]] != want[V3.K[k]]}
+        if th[V3.K["p_div"]] != pdiv:
+            mism["p_div"] = (th[V3.K["p_div"]], pdiv)
+        out[name] = dict(role=role, mismatches=mism)
     return out

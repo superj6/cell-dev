@@ -335,6 +335,21 @@ def test_abi3_exports_match_spec_bitwise():  # LIFE_ABI.md 4.2 and 14
         assert np.array_equal(_bits(build.readout(row, g)), _bits(V3.readout(row, g)))
 
 
+def test_the_kernel_fills_the_footprint_like_spec():  # LIFE_ABI.md 9.7.2, 15.61: the drag's footprint
+    ring3 = [(a, b) for a in range(-3, 4) for b in range(-3, 4) if max(abs(a), abs(b), abs(a + b)) == 3]
+    assert build.filled_footprint(ring3) == 37 and build.filled_footprint([]) == 0
+    assert build.filled_footprint([(i, -i) for i in range(3000)]) == 3000  # a diagonal line: O(n), not O(area)
+    rng = np.random.default_rng(16)
+    for kind in ("hexprism", "square4prism", "square8prism", "hex", "square8"):
+        for _ in range(400):
+            w, p = int(rng.integers(1, 16)), rng.random()
+            cols = [(a, b) for a in range(-w, w + 1) for b in range(-w, w + 1) if rng.random() < p]
+            cols += [cols[i] for i in rng.integers(0, len(cols), 3)] if cols else []  # repeats count once
+            shift = rng.integers(-2 ** 22, 2 ** 22, 2)
+            cols = [(a + int(shift[0]), b + int(shift[1])) for a, b in cols]
+            assert build.filled_footprint(cols, kind) == spec.filled_footprint(cols, kind), (kind, cols)
+
+
 def test_the_close_unfold_inverts_splitmix64():
     x = np.random.default_rng(2).integers(0, 2 ** 63, 200, dtype=np.uint64) * np.uint64(3)
     mixed = np.array([spec.splitmix64(int(v)) for v in x], dtype=np.uint64)

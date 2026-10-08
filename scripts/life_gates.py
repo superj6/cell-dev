@@ -1,9 +1,13 @@
 """Pre-registered gates of the one-life engine on hex with Q10 (docs/ONE_LIFE_DESIGN.md, PRE-REGISTERED GATES;
 results and plain-language verdicts in docs/LIFE_GATES.md): G1-G10 and the square8 size curve (S8) for BELL-1, and
-GB3-GB9, GB12 and GB13 for the BODY-1 CATCH world (docs/BODY_DESIGN_PROPOSAL.md 11, ABI 3).
+GB3-GB9, GB12 and GB13 for the BODY-1 CATCH world (docs/BODY_DESIGN_PROPOSAL.md 11, ABI 3), and GS1-GS4, the
+no-cliff acceptance test A1-A4 of the S1 candidate SPECK (proposal 8), with GS5 (the router as a GRN genome) and GS6
+(GB7's cheats in SPECK).
 
     python scripts/life_gates.py [--world bell] [--gates G1,G2,...] [--threads 4] [--out outputs/life_gates/gates.json]
     python scripts/life_gates.py --world catch [--gates GB3,...] [--threads 4] [--out .../gates_catch.json]
+    python scripts/life_gates.py --world speck [--gates GS1,...] [--threads 4] [--out .../gates_speck.json]
+    python scripts/life_gates.py --world speck --tune reflex@ring3,router@ring4   (the tuning behind GS2-GS4)
 
 Re-registration (migration step 3). The registered G1, G3 and G4 values were measured by the prototype on 36 lives
 per point whose frozen physics was keyed to the seed, so every organism registered at 91 cells shared the same 36
@@ -1703,6 +1707,605 @@ def judge_gb13(g: dict) -> dict:
     return g
 
 
+# ===================================================================== SPECK (S1 candidate): gates GS1-GS6
+# docs/BODY_DESIGN_PROPOSAL.md 8: the no-cliff acceptance test A1-A4 of a stage after S0, here for SPECK
+# (``spec.PRESETS["catch_speck"]``: catch_v1 with sigma 0.6 and R_cap 500), with the role bodies of handbuilt.py
+# (SPECK section). The reflexes and the router are tuned by ``speck_tune`` (``--world speck --tune``) on their own
+# seeds, and every gate measures the frozen result (``handbuilt.SPECK_TUNED``) on fresh lives.
+SPECK_PRESET = hb.SPECK_PRESET
+SPECK_FRESH_SEED0 = 19_000_000  # fresh lives of every GS gate, shared by every body and world (paired)
+SPECK_SCREEN_SEED0 = 17_000_000  # tuning: the random-search lives
+SPECK_HILL_SEED0 = 18_000_000  # tuning: the coordinate-ascent lives (one set, so moves are paired)
+# Tuning budget, the same for every body: 160 random candidates on 48 lives, the best 6 and the start on 192 hill
+# lives, then coordinate ascent with restarts until 300 distinct knob dicts have been measured on the hill lives.
+SPECK_TUNE = dict(n_rand=160, screen_lives=48, hill_lives=192, top=6, budget=300, p_change=0.5)
+REFLEX_SHAPES = ("ring2", "hollow2", "ring3", "hollow3", "ring4", "hollow4")
+ROUTER_SHAPE = "ring4"
+
+
+def speck_family(family: str) -> tuple[dict, dict]:
+    """(tuning grid, fixed knobs) of a SPECK body family."""
+    if family == "reflex":
+        return hb.REFLEX_GRID, hb.REFLEX_FIXED
+    if family == "router":
+        return hb.ROUTER_GRID, hb.ROUTER_FIXED
+    raise ValueError(f"unknown SPECK family {family!r}")
+
+
+def speck_tune(family: str, shape: str, threads: int = 4, log=print, start_from: str | None = None,
+               **config) -> dict:
+    """Tune one SPECK body (``analysis.tune_knobs`` with ``SPECK_TUNE``) in the kernel: the family's grid and fixed
+    knobs on ``shape``, from the red team's prototype knobs (``handbuilt.PROTOTYPE_STARTS``) or from the frozen
+    tuned body ``start_from`` (``handbuilt.SPECK_TUNED``), on the tuning seeds. The random draws are keyed by family
+    and shape, so a rerun reproduces the result exactly."""
+    import zlib
+
+    grid, fixed = speck_family(family)
+    cfg = dict(SPECK_TUNE, **config)
+    start = hb.full_knobs(hb.SPECK_TUNED[start_from] if start_from else
+                          hb.PROTOTYPE_STARTS["router" if family == "router" else shape], grid)
+
+    def evaluate(knobs: dict, stage: str) -> float:
+        n, s0 = ((cfg["screen_lives"], SPECK_SCREEN_SEED0) if stage == "screen" else
+                 (cfg["hill_lives"], SPECK_HILL_SEED0))
+        body = hb.role_body(dict(knobs, **fixed), shape)
+        led = body.run(analysis.fresh_seeds(n, s0), threads=threads, preset=SPECK_PRESET).ledger
+        return float(led[:, L3["F"]].mean())
+
+    t0 = time.time()
+    res = analysis.tune_knobs(evaluate, start, grid, n_rand=cfg["n_rand"], budget=cfg["budget"], top=cfg["top"],
+                              seed=zlib.crc32(f"{family}@{shape}".encode()), p_change=cfg["p_change"], log=log)
+    res.update(family=family, shape=shape, fixed=fixed, start=start, start_from=start_from or "prototype", config=cfg,
+               seconds=round(time.time() - t0, 1),
+               seeds=dict(screen=f"{SPECK_SCREEN_SEED0} + s", hill=f"{SPECK_HILL_SEED0} + s"),
+               kernel=build.library_path().name)
+    return res
+
+
+S_LIVES = 1024  # fresh lives per point (A2's and A4's margins need at least 768 paired lives)
+S_LIVES_PATH = 768  # growth-path points (GS3)
+Z_GS2 = 3.0  # A2: the router beats every tuned reflex by more than 3 SE
+GS4_REMOVED = 0.5  # A4: the matching fork removes at least half of the gain
+S0_OPTIMUM_RING = 3  # the S0 champion's ring (GB4)
+PATH_COLUMNS = (0, 4, 8, 12, 16, 20, 24)  # ring-4 columns added to ring 3, in angular order (GS3)
+SIZE_RINGS = (1, 2, 3, 4, 5, 6)  # the router's knobs on complete rings (GS3)
+DELAYS = (("d0 0.5", dict(d0=0.5)), ("d0 1 (catch_v1)", {}), ("d0 2", dict(d0=2.0)),
+          ("d0 2, delay_sd 0.5, jit 0.5", dict(d0=2.0, delay_sd=0.5, jit=0.5)))
+LATERAL_OFF = V3.flags("lateral_off")
+# The S1 prototype study and its red team (scratchpad body_design/s1_redteam, cursor.c, c_miss 1, no receptor
+# charge, per-cell slow state and receiver polarity available, drag from sense-plane cells), n 768 paired lives
+# (e3k_b.log): the registered numbers A1-A4 were judged on.
+PROTOTYPE_SPECK = dict(
+    source="body_design/s1_redteam e3k_b (n 768), p8_delay (n 256), e5c_grid (n 512)",
+    champion_ring3=(5.209, 0.067), lone=(-0.020, 0.0), best_reflex=("R@hollow3", 9.505, 0.099),
+    router_ring4=(10.709, 0.098), router_minus_best_reflex=(1.203, 0.115), router_latoff=(1.320, 0.047),
+    delay_router_minus_reflex={"d0 0.5": (2.13, 0.23), "d0 1": (1.26, 0.22), "d0 2": (-0.19, 0.16),
+                               "d0 2, delay_sd 0.5, jit 0.5": (-0.52, 0.16)},
+    path_valley_depth=0.043)
+SPECK_REFLEXES = tuple(f"reflex@{s}" for s in REFLEX_SHAPES)
+SPECK_ROUTER = f"router@{ROUTER_SHAPE}"
+# GS3's size check: the router re-tuned on the neighbouring rings (``--tune-from router@ring4 --tune-budget 150``)
+SPECK_SIZE_CHECK = ("router@ring3", "router@ring5")
+
+
+def slives(org, n: int, **world) -> np.ndarray:
+    """Ledger rows of ``n`` fresh SPECK lives (seeds SPECK_FRESH_SEED0 + s, cached and paired like ``clives``)."""
+    return clives(org, n, seed0=SPECK_FRESH_SEED0, preset=SPECK_PRESET, **world)
+
+
+def sF(org, n: int, c_miss: float | None = None, **world) -> np.ndarray:
+    led = slives(org, n, **world)
+    if c_miss is None:
+        return led[:, L3["F"]]
+    return analysis.catch_F(led, cworld(SPECK_PRESET, **world), c_miss=c_miss)
+
+
+def spoint(org, n: int, **world) -> dict:
+    """``analysis.catch_point`` of a body in SPECK, its cells by role and its F at c_miss 1 (the prototype's price)."""
+    led = slives(org, n, **world)
+    rec = analysis.catch_point(led, cworld(SPECK_PRESET, **world))
+    rec["body"] = org.name
+    if isinstance(org, hb.Body):
+        rec["cells"] = len(org.cells)
+    if hb.is_role_body(org):
+        rec["roles"] = hb.role_counts(org)
+    m1 = analysis.summary(analysis.catch_F(led, cworld(SPECK_PRESET, **world), c_miss=1.0))
+    rec.update(F_c_miss_1=m1["mean"], se_c_miss_1=m1["se"])
+    return rec
+
+
+def _speck_bodies() -> dict:
+    return {name: hb.speck_body(name) for name in (*SPECK_REFLEXES, SPECK_ROUTER)}
+
+
+# ------------------------------------------------------------------------------------------------------ GS1
+def gate_gs1(threads: int = 4, n: int = S_LIVES) -> dict:
+    """A1: the S0 champion (the hand-built column reflex at ring 3, unchanged) still earns in SPECK."""
+    _THREADS[0] = threads
+    champ, lone = hb.SPECK_CHAMPION, hb.ZYGOTE
+    out = dict(registered=("A1 (proposal 8): the previous stage's champion earns F > 0 and above the lone cell in the "
+                           "new world; prototype: champion@ring3 +5.209 +- 0.067, lone -0.020 (n 768)"),
+               criteria=(f"earns: F(champion) > {Z:g} SE above 0; above_lone: F(champion) - F(lone zygote) > {Z:g} "
+                         f"paired SE; on {n} fresh SPECK lives."),
+               lives=n, seeds=f"{SPECK_FRESH_SEED0} + s", world=SPECK_PRESET, champion=spoint(champ, n),
+               lone=spoint(lone, n), vs_lone=analysis.paired(sF(champ, n), sF(lone, n)),
+               champion_catch_v1=cpoint(champ, C_LIVES), prototype=PROTOTYPE_SPECK["champion_ring3"],
+               z_prototype=None,
+               notes=["The best evolved S0 body is not tested: no S0 pilot has finished. The champion is the GB4 "
+                      "ring-3 column reflex, whose interior act cells still listen (w0 1) and fire uselessly.",
+                      "z_prototype compares F at the prototype's prices (c_miss 1, no receptor charge) with the red "
+                      "team's champion (reported, not judged)."])
+    m, se = PROTOTYPE_SPECK["champion_ring3"]
+    out["z_prototype"] = analysis.z_diff(dict(mean=out["champion"]["F_proto"], se=out["champion"]["se_proto"]),
+                                         dict(mean=m, se=se))
+    return judge_gs1(out)
+
+
+def judge_gs1(g: dict) -> dict:
+    c = g["champion"]
+    g["checks"] = dict(earns=bool(c["mean"] > Z * c["se"]), above_lone=bool(g["vs_lone"]["z"] > Z))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GS2
+def gate_gs2(threads: int = 4, n: int = S_LIVES) -> dict:
+    """A2: the outward router at ring 4 beats every tuned reflex (rings 2-4, full and hollow) by more than 3 SE on
+    fresh lives; it lies within one ring of S0's optimum. Delay sensitivity is reported, not judged."""
+    _THREADS[0] = threads
+    bodies = _speck_bodies()
+    router = bodies[SPECK_ROUTER]
+    pts = {name: spoint(b, n) for name, b in bodies.items()}
+    pts["champion"] = spoint(hb.SPECK_CHAMPION, n)
+    vs = {name: analysis.paired(sF(router, n), sF(bodies[name], n)) for name in SPECK_REFLEXES}
+    vs["champion"] = analysis.paired(sF(router, n), sF(hb.SPECK_CHAMPION, n))
+    best = max(SPECK_REFLEXES, key=lambda k: pts[k]["mean"])
+    at_c1 = {name: analysis.paired(sF(router, n, c_miss=1.0), sF(bodies[name], n, c_miss=1.0)) for name in
+             SPECK_REFLEXES}
+    delay = {}
+    for tag, w in DELAYS:
+        rf, bf = sF(router, n, **w), sF(bodies[best], n, **w)
+        delay[tag] = dict(router=analysis.summary(rf), best_reflex=analysis.summary(bf),
+                          router_minus_best_reflex=analysis.paired(rf, bf),
+                          router_minus_each_reflex_min_z=min(analysis.paired(rf, sF(bodies[k], n, **w))["z"]
+                                                             for k in SPECK_REFLEXES))
+    ring = int(ROUTER_SHAPE.removeprefix("ring"))
+    out = dict(registered=("A2 (proposal 8): a hand-built circuit using the intended computation beats the best tuned "
+                           "R and Rg by more than 3 SE at a size within one ring of the previous optimum; prototype "
+                           "(red team): router@ring4 - R@hollow3 +1.203 +- 0.115 (z 10.5, n 768)"),
+               criteria=(f"router_beats_every_reflex: F(router@ring4) - F(reflex) > {Z_GS2:g} paired SE for each of "
+                         f"the six tuned reflexes ({', '.join(REFLEX_SHAPES)}), on {n} fresh lives; "
+                         f"within_one_ring: the router's ring is within one of S0's optimum (ring {S0_OPTIMUM_RING}). "
+                         "Delays and c_miss 1 are reported."),
+               lives=n, seeds=f"{SPECK_FRESH_SEED0} + s", world=SPECK_PRESET, points=pts, router_minus=vs,
+               best_reflex=best, router_ring=ring,
+               router_minus_at_c_miss_1=at_c1, delay=delay, tuning=dict(config=SPECK_TUNE,
+                                                                        record=hb.SPECK_TUNE_RECORD,
+                                                                        knobs=hb.SPECK_TUNED),
+               prototype=PROTOTYPE_SPECK,
+               notes=["Rg (the reflex with a per-cell slow state) is not measured: program mode has no slow state "
+                      "(the kernel's slow state is genes, so an Rg needs a GRN body). The prototype's tuned "
+                      "reflexes and router both used it; here neither does.",
+                      "The prototype's receiver polarity (s1) is not used: its red team found the router as good "
+                      "without it (S.w1 1, no polarity), and the kernel's polarity needs morphogens.",
+                      "Interior act cells are quiet in every role body (they cannot pull; firing would only cost)."])
+    return judge_gs2(out)
+
+
+def judge_gs2(g: dict) -> dict:
+    g["checks"] = dict(router_beats_every_reflex=bool(min(g["router_minus"][k]["z"] for k in SPECK_REFLEXES) > Z_GS2),
+                       within_one_ring=bool(abs(g["router_ring"] - S0_OPTIMUM_RING) <= 1))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GS3
+def path_knobs(g_r: float, base: str = "reflex@ring3") -> dict:
+    """GS3's growth path: the tuned reflex ``base``'s knobs (the ring-3 reflex as registered; the best tuned reflex
+    for the reported path from it) plus the tuned router's routing knobs (``ROUTE_GRID``: the interior sensors'
+    phenotype and relay, the rim's weight on it) with interior receptor gain ``g_r``. At g_r 0 the interior sensors
+    have no receptor and the routing is silent (an interior-deaf reflex); on a shape without interior sensors (the
+    sense-hollow rings) the routing knobs are silent at every gain, since only interior sensors emit on channel 1."""
+    route = {k: v for k, v in hb.SPECK_TUNED[SPECK_ROUTER].items() if k in hb.ROUTE_GRID and k != "J.g_r"}
+    return dict(hb.SPECK_TUNED[base], **route, **hb.ROUTER_FIXED, **{"J.g_r": g_r})
+
+
+def _path_from_best_reflex(best_name: str, start, path: list, gains: list, n_path: int) -> dict:
+    """GS3, reported beyond the registration (review 2026-10-08): the growth path seen from the best tuned reflex
+    (GS2's), which is where an evolved S0 population may sit, not from the ring-3 reflex. (a) The registered path's
+    start and points against the best reflex. (b) The same grid with the best reflex's own knobs (``path_knobs(g,
+    best_name)``), starting at the best reflex itself: row 0 is its shape with the routing knobs set at each gain
+    (silent without interior sensors, so these bodies live bitwise as it when it is sense-hollow), and the step into
+    row 1 fills the ring-3 interior with sensors at once; then the monotone path whose lowest point is highest, judged
+    against the best reflex as the registered path is judged against its start."""
+    best = hb.speck_body(best_name)
+    bF = sF(best, n_path)
+    shape = best_name.partition("@")[2]
+    on_path = [dict(columns=p["columns"], g_r=p["g_r"], **analysis.paired(
+        sF(hb.role_body(path_knobs(p["g_r"]), f"ring3+{p['columns']}", f"path k{p['columns']} g{p['g_r']}"),
+           n_path), bF)) for p in path]
+    row0 = [hb.role_body(path_knobs(g, best_name), shape, f"{best_name} + routing knobs g{g}") for g in gains]
+    grid = [row0] + [[hb.role_body(path_knobs(g, best_name), f"ring3+{k}", f"path from {best_name} k{k} g{g}")
+                      for g in gains] for k in PATH_COLUMNS]
+    G = np.array([[sF(b, n_path).mean() for b in row] for row in grid])
+    bott = analysis.monotone_bottleneck(G)
+    pts = [(i, j) for i, j in bott["path"]]
+    fam = [dict(columns=None if i == 0 else PATH_COLUMNS[i - 1], g_r=gains[j], F=float(G[i, j]),
+                vs_start=analysis.paired(sF(grid[i][j], n_path), bF)) for i, j in pts]
+    steps = [dict(frm=[fam[t]["columns"], fam[t]["g_r"]], to=[fam[t + 1]["columns"], fam[t + 1]["g_r"]],
+                  **analysis.paired(sF(grid[b[0]][b[1]], n_path), sF(grid[a[0]][a[1]], n_path)))
+             for t, (a, b) in enumerate(zip(pts, pts[1:]))]
+    best_bits = slives(best, n_path).view(np.uint64)
+    return dict(best_reflex=best_name, best_reflex_F=analysis.summary(bF),
+                start_vs_best_reflex=analysis.paired(sF(start, n_path), bF),
+                path_vs_best_reflex=on_path, path_lowest_vs_best_reflex=min(on_path, key=lambda p: p["mean"]),
+                path_crosses_best_reflex_at=next((p for p in on_path if p["z"] > Z), None),
+                grid=dict(rows=[shape] + [f"ring3+{k}" for k in PATH_COLUMNS], g_r=gains, F=G.tolist()),
+                row0_lives_as_best_reflex=bool(all(np.array_equal(slives(b, n_path).view(np.uint64), best_bits)
+                                                   for b in row0)),
+                first_fill_cells=len(grid[1][0].cells) - len(row0[0].cells),
+                path=fam, path_lowest=min(fam, key=lambda p: p["vs_start"]["mean"]), path_steps=steps,
+                largest_step_drop=min(steps, key=lambda x: x["mean"]))
+
+
+def gate_gs3(threads: int = 4, n: int = S_LIVES, n_path: int = S_LIVES_PATH) -> dict:
+    """A3 and the growth path: the router's knobs peak at ring 4 on complete rings (an interior optimum), the router
+    at ring 4 beats every smaller body, and a growth path from the ring-3 reflex to ring 4 with routing is uphill
+    when the interior receptor gain rises in 1/8 steps."""
+    _THREADS[0] = threads
+    bodies = _speck_bodies()
+    router = bodies[SPECK_ROUTER]
+    rF = sF(router, n)
+    sizes = {k: hb.speck_body(SPECK_ROUTER, f"ring{k}") for k in SIZE_RINGS}
+    size_pts = {k: spoint(b, n) for k, b in sizes.items()}
+    size_steps = {k: analysis.paired(sF(sizes[k + 1], n), sF(sizes[k], n)) for k in SIZE_RINGS[:-1]}
+    smaller = {name: b for name, b in bodies.items() if len(b.cells) < len(router.cells)}
+    smaller.update({"champion": hb.SPECK_CHAMPION, "lone": hb.ZYGOTE})
+    smaller.update({f"router knobs@ring{k}": sizes[k] for k in SIZE_RINGS if len(sizes[k].cells) < len(router.cells)})
+    vs_smaller = {name: dict(cells=len(b.cells), **analysis.paired(rF, sF(b, n))) for name, b in smaller.items()}
+    beyond = {k: spoint(hb.speck_body(SPECK_ROUTER, f"ring4+{k}"), n) for k in (6, 12, 18, 24, 30)}
+    retuned = {name: dict(point=spoint(hb.speck_body(name), n),
+                          router_minus=analysis.paired(rF, sF(hb.speck_body(name), n)))
+               for name in SPECK_SIZE_CHECK if name in hb.SPECK_TUNED}
+    # the growth path: ring 3 + k ring-4 columns x interior receptor gain in 1/8 steps up to the router's
+    g_star = float(hb.SPECK_TUNED[SPECK_ROUTER]["J.g_r"])
+    gains = [i / 8 for i in range(int(round(8 * g_star)) + 1)]
+    grid = [[hb.role_body(path_knobs(g), f"ring3+{k}", f"path k{k} g{g}") for g in gains] for k in PATH_COLUMNS]
+    G = np.array([[sF(b, n_path).mean() for b in row] for row in grid])
+    bott = analysis.monotone_bottleneck(G)
+    start = grid[0][0]
+    path = []
+    for i, j in bott["path"]:
+        d = analysis.paired(sF(grid[i][j], n_path), sF(start, n_path))
+        path.append(dict(columns=PATH_COLUMNS[i], g_r=gains[j], F=float(G[i, j]), vs_start=d))
+    lo = min(path, key=lambda p: p["F"])
+    # reported, not judged: each step of that path against the point before it, and a one-column probe where a step
+    # falls (ring 3 + 4..12 columns at gains 1/4 and 3/8)
+    pts = [(PATH_COLUMNS[i], gains[j]) for i, j in bott["path"]]
+    pb = lambda k, g: hb.role_body(path_knobs(g), f"ring3+{k}", f"path k{k} g{g}")  # noqa: E731
+    steps = [dict(frm=a, to=b, **analysis.paired(sF(pb(*b), n_path), sF(pb(*a), n_path))) for a, b in zip(pts, pts[1:])]
+    fine = {f"{g:g}": {k: float(sF(pb(k, g), n_path).mean()) for k in range(4, 13)} for g in (0.25, 0.375)}
+    fine_steps = {f"k{k} g{g:g}": dict(more_columns=analysis.paired(sF(pb(k + 1, g), n_path), sF(pb(k, g), n_path)),
+                                        more_gain=analysis.paired(sF(pb(k, g + 0.125), n_path), sF(pb(k, g), n_path)))
+                  for k in range(4, 12) for g in (0.25,)}
+    reflex3 = bodies["reflex@ring3"]
+    deaf = analysis.paired(sF(start, n_path), sF(reflex3, n_path))
+    best_name = max(SPECK_REFLEXES, key=lambda k: sF(bodies[k], n).mean())  # GS2's best tuned reflex
+    end_vs_best = analysis.paired(sF(grid[-1][-1], n_path), sF(bodies[best_name], n_path))
+    from_best = _path_from_best_reflex(best_name, start, path, gains, n_path)
+    # from the path's end (reflex knobs + routing at ring 4) to the tuned router, one knob at a time
+    knob_path = []
+    cur = dict(path_knobs(g_star))
+    target = dict(hb.SPECK_TUNED[SPECK_ROUTER], **hb.ROUTER_FIXED)
+    prev = sF(hb.role_body(cur, "ring4", "knob path start"), n_path)
+    for key in [k for k in hb.ROUTER_GRID if cur.get(k) != target.get(k)]:
+        cur[key] = target[key]
+        f = sF(hb.role_body(cur, "ring4", f"knob path +{key}"), n_path)
+        knob_path.append(dict(knob=key, value=target[key], F=float(f.mean()), step=analysis.paired(f, prev)))
+        prev = f
+    out = dict(registered=("A3 (proposal 8): the circuit's F at its own optimum is above every smaller body's F and "
+                           "above the lone cell's; prototype (red team e5c): a valley-free growth path from the ring-3 "
+                           "reflex to the ring-4 router exists if the interior receptor gain rises in 1/8 steps "
+                           "(valley depth +0.043, SE about 0.11)"),
+               criteria=(f"optimum_interior: on complete rings {SIZE_RINGS[0]}-{SIZE_RINGS[-1]} with the router's "
+                         f"knobs, ring 4 has the largest F and is above rings 3 and 5 by more than {Z:g} paired SE, "
+                         f"and above the router re-tuned on rings 3 and 5 by more than {Z:g} paired SE; "
+                         f"above_smaller: the router at ring 4 is above every measured body with fewer cells (the "
+                         f"tuned reflexes, the champion, the lone zygote, the router's knobs on smaller rings) by "
+                         f"more than {Z:g} paired SE; path_uphill: on the grid ring 3 + k ring-4 columns (k in "
+                         f"{PATH_COLUMNS}) x interior gain J.g_r in 1/8 steps from 0 to the router's, with the ring-3 "
+                         "reflex's other knobs and the router's routing knobs, the monotone path (each step adds 4 "
+                         f"columns or 1/8 of gain) whose lowest point is highest never falls below its start by more "
+                         f"than {Z:g} paired SE and ends above it by more than {Z:g}; the start (the reflex with "
+                         f"interior sensors deaf) is not below the tuned ring-3 reflex by more than {Z:g} SE. "
+                         f"{n} fresh lives per size point, {n_path} per path point. Reported, not judged (review "
+                         "2026-10-08): the same two path rules from the best tuned reflex instead of the ring-3 "
+                         "reflex (reported_checks: the registered start against it, and the grid with its knobs "
+                         "starting at it)."),
+               lives=n, lives_path=n_path, seeds=f"{SPECK_FRESH_SEED0} + s", sizes=size_pts, size_steps=size_steps,
+               vs_smaller=vs_smaller, beyond_ring4=beyond, retuned_neighbours=retuned,
+               path_grid=dict(columns=list(PATH_COLUMNS), g_r=gains, F=G.tolist()), path=path,
+               path_bottleneck=bott["bottleneck"], path_lowest=lo, start_vs_reflex3=deaf, path_steps=steps,
+               largest_step_drop=min(steps, key=lambda x: x["mean"]), path_fine=fine, path_fine_steps=fine_steps,
+               path_end_vs_best_reflex=end_vs_best, knob_path=knob_path, path_from_best_reflex=from_best,
+               notes=["The size curve uses the router's ring-4 knobs on every ring; retuned_neighbours re-tunes the "
+                      "router on rings 3 and 5 from the ring-4 knobs (coordinate ascent, budget 150, tuning seeds).",
+                      "The knob path (reported) switches the ring-3 reflex's remaining knobs to the router's, one at a "
+                      "time in grid order, at ring 4.",
+                      "path_uphill judges every point against the start (the red team's valley depth); path_steps "
+                      "(reported) judge each step against the point before it, and path_fine probes one column at a "
+                      "time where a step falls.",
+                      "path_from_best_reflex (reported, review 2026-10-08): the registered path starts at the ring-3 "
+                      "reflex with deaf interior sensors, but the best tuned reflex (GS2) is another shape; this "
+                      "block measures the registered path against the best reflex and searches the same grid with "
+                      "the best reflex's knobs starting at the best reflex itself. Its first step fills the ring-3 "
+                      "interior with sensors at once (first_fill_cells), a larger step than 4 columns (8 cells). "
+                      "reported_checks apply path_uphill's two rules to it; they are not part of the verdict."])
+    return judge_gs3(out)
+
+
+def judge_gs3(g: dict) -> dict:
+    sz = {int(k): v for k, v in g["sizes"].items()}
+    st = {int(k): v for k, v in g["size_steps"].items()}
+    top = max(sz, key=lambda k: sz[k]["mean"])
+    lo = g["path_lowest"]["vs_start"]
+    end = g["path"][-1]["vs_start"]
+    rt = g.get("retuned_neighbours", {})
+    g["checks"] = dict(optimum_interior=bool(top == 4 and st[3]["z"] > Z and st[4]["z"] < -Z
+                                             and all(v["router_minus"]["z"] > Z for v in rt.values())),
+                       above_smaller=bool(min(v["z"] for v in g["vs_smaller"].values()) > Z),
+                       path_uphill=bool(lo["mean"] >= -Z * lo["se"] and end["z"] > Z
+                                        and g["start_vs_reflex3"]["mean"] >= -Z * g["start_vs_reflex3"]["se"]))
+    g["passed"] = bool(all(g["checks"].values()))
+    fb = g.get("path_from_best_reflex")
+    if fb is not None:  # reported beyond the registration; not part of the verdict
+        s, blo, bend = fb["start_vs_best_reflex"], fb["path_lowest"]["vs_start"], fb["path"][-1]["vs_start"]
+        g["reported_checks"] = dict(
+            registered_start_not_below_best_reflex=bool(s["mean"] >= -Z * s["se"]),
+            path_uphill_from_best_reflex=bool(blo["mean"] >= -Z * blo["se"] and bend["z"] > Z))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GS4
+def gate_gs4(threads: int = 4, n: int = S_LIVES) -> dict:
+    """A4: lateral_off from birth (no in-plane message; up and down still pass) removes at least half of the router's
+    gain over the best tuned reflex; the reflexes do not need lateral messages."""
+    _THREADS[0] = threads
+    bodies = _speck_bodies()
+    router = bodies[SPECK_ROUTER]
+    best = max(SPECK_REFLEXES, key=lambda k: sF(bodies[k], n).mean())
+    rF, bF, offF = sF(router, n), sF(bodies[best], n), sF(router, n, flags=LATERAL_OFF)
+    gain = analysis.paired(rF, bF)
+    removed = analysis.paired(rF, offF)
+    reflex_off = {k: analysis.paired(sF(bodies[k], n, flags=LATERAL_OFF), sF(bodies[k], n)) for k in SPECK_REFLEXES}
+    cert = dict(t_open=C_T_HALF, t_fork=C_T_HALF, fork_flags=FORK3)
+    twin = slives(router, n, t_open=C_T_HALF)
+    fork = slives(router, n, **cert)
+    inc_t, inc_f = float(twin[:, L3["income"]].mean()), float(fork[:, L3["income"]].mean())
+    out = dict(registered=("A4 (proposal 8): the matching fork (lateral-off) removes at least 50% of the gain; "
+                           "prototype: L@ring4 lateral-off +1.320 against +10.709 (removes +9.39; gain +1.20)"),
+               criteria=(f"fork_removes_gain: F(router) - F(router, lateral_off from birth) >= {GS4_REMOVED:g} x "
+                         f"(F(router) - F(best tuned reflex)), with a positive gain, on {n} fresh lives."),
+               lives=n, seeds=f"{SPECK_FRESH_SEED0} + s", best_reflex=best, router=spoint(router, n),
+               router_lateral_off=spoint(router, n, flags=LATERAL_OFF), gain=gain, removed=removed,
+               removed_fraction=removed["mean"] / gain["mean"] if gain["mean"] > 0 else float("nan"),
+               reflex_lateral_off=reflex_off,
+               certificate=dict(income_twin=inc_t, income_fork=inc_f,
+                                removed=1.0 - inc_f / inc_t if inc_t > 0 else float("nan")))
+    return judge_gs4(out)
+
+
+def judge_gs4(g: dict) -> dict:
+    gain, rem = g["gain"]["mean"], g["removed"]["mean"]
+    g["checks"] = dict(fork_removes_gain=bool(gain > 0 and rem >= GS4_REMOVED * gain))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GS5
+GS5_WINDOWS = (0.16, 0.18, 0.2, 0.22, 0.24)
+GS5_LIVES = 512
+GS5_T_OPEN = 192.0  # "after growth": the router genome's disks are complete by about t = 120
+
+
+def router_grn(window: float) -> hb.GrnBody:
+    return hb.GrnBody(f"router/GRN window {window:g}", hb.router_genome(_router_knobs(), window),
+                      about="the tuned SPECK router grown from one zygote, roles from local cues")
+
+
+def _router_knobs() -> dict:
+    return dict(hb.SPECK_TUNED[SPECK_ROUTER], **hb.ROUTER_FIXED)
+
+
+def _role_twins(bodies, seeds, **world) -> np.ndarray:
+    """F of program twins: the tuned router's role body on each life's own final cells."""
+    knobs = _router_knobs()
+    twins = [hb.role_body(knobs, (sorted((a, b) for a, b, z in body if z == 0),
+                                  sorted((a, b) for a, b, z in body if z == 1))) for body in bodies]
+    w = twins[0].world(SPECK_PRESET, **world)
+    res = build.run(w, seeds, programs=twins[0].program, init=[list(t.cells) for t in twins], threads=_threads(),
+                    abi=V3)
+    return res["F"]
+
+
+def _grn_roles(org, knobs: dict, n: int, t_kill: float = 300.0) -> dict:
+    """Every cell of a grown router genome against its role: lives to ``t_kill``, where a panel kill (LIFE_ABI.md
+    7.9, kill_frac 1) logs every cell's genes; each cell's decoded phenotype is compared with the row of the role its
+    site has in the final shape (``handbuilt.role_cells``). Returns the cells per role and the mismatches."""
+    gt = V3.pack_genomes(org.genome[None], "hexprism")[0]
+    roles = hb.router_roles(knobs)
+    res = org.run(analysis.fresh_seeds(n, SPECK_FRESH_SEED0), threads=_threads(), fate_cap=1 << 13,
+                  preset=SPECK_PRESET, T=t_kill + 64.0, kill_t=t_kill, kill_frac=1.0)
+    count, bad = dict.fromkeys(("S", "J", "C", "M", "K", "I"), 0), []
+    for i in range(n):
+        fi, ff = res.fates(i)
+        dead = [(int(r[3]), int(r[4]), int(r[6]), ff[j][2:]) for j, r in enumerate(fi)
+                if r[0] == spec.FATE_KINDS["death"] and ff[j][0] == t_kill]
+        so = {(a, b) for a, b, z, _ in dead if z == 0}
+        ao = {(a, b) for a, b, z, _ in dead if z == 1}
+        for a, b, z, genes in dead:
+            inner = all((a + da, b + db) in (so if z == 0 else ao) for da, db in hb.NB6)
+            role = ("C" if z == 0 else "K") if (a, b) == (0, 0) else (
+                ("J" if inner else "S") if z == 0 else ("I" if inner else "M"))
+            th, want = V3.phenotype(gt, genes), V3.theta(**roles[role])
+            mism = [k for k in hb.ROUTER_GENOME_KNOBS if not (z == 1 and k == "g_r") and th[V3.K[k]] != want[V3.K[k]]]
+            count[role] += 1
+            if mism:
+                bad.append(dict(life=i, site=(a, b, z), role=role, knobs=mism))
+    return dict(lives=n, t_kill=t_kill, cells=count, mismatches=bad)
+
+
+def gate_gs5(threads: int = 4, n: int = GS5_LIVES) -> dict:
+    """The router as a GRN genome (the GB9 analogue for SPECK): through the real genome path (raw 875-slot genome ->
+    spec.V3.pack_genomes -> GRN mode from one zygote) it grows a disk of columns and gives every cell the tuned
+    router's role from local cues (plane, n_view, lineage), and after growth it earns what program twins of the same
+    shapes earn."""
+    _THREADS[0] = threads
+    knobs = _router_knobs()
+    states = hb.router_genome_states(hb.router_genome(knobs), knobs)
+    screen = {}
+    for win in GS5_WINDOWS:
+        F = clives(router_grn(win), C_SCREEN_LIVES, seed0=SPECK_SCREEN_SEED0, preset=SPECK_PRESET)[:, L3["F"]]
+        screen[f"{win:g}"] = analysis.summary(F)
+    win = float(max(screen, key=lambda k: screen[k]["mean"]))
+    org = router_grn(win)
+    seeds = analysis.fresh_seeds(n, SPECK_FRESH_SEED0)
+    res, bodies = _grown(org, n, seed0=SPECK_FRESH_SEED0, preset=SPECK_PRESET, t_open=GS5_T_OPEN)
+    whole = slives(org, n)
+    twinF = _role_twins(bodies, seeds, t_open=GS5_T_OPEN)
+    after = analysis.paired(res["F"], twinF)
+    router, best = hb.speck_body(SPECK_ROUTER), max(SPECK_REFLEXES, key=lambda k: sF(hb.speck_body(k), S_LIVES).mean())
+    rF_after = slives(router, n, t_open=GS5_T_OPEN)[:, L3["F"]]
+    bF_after = slives(hb.speck_body(best), n, t_open=GS5_T_OPEN)[:, L3["F"]]
+    roles = [hb.role_counts(hb.role_body(knobs, (sorted((a, b) for a, b, z in body if z == 0),
+                                                 sorted((a, b) for a, b, z in body if z == 1)))) for body in bodies]
+    out = dict(registered=("GB9's rule for SPECK (not registered; the task asks for it if feasible): a hand GRN genome "
+                           "of the circuit within 2 SE of its program twin after growth"),
+               criteria=(f"phenotypes: every settled gene state decodes exactly its role's row; grown_roles: in 16 "
+                         "grown bodies every cell decodes exactly the row of the role its site has in the final shape "
+                         "(genes read from a panel kill at t = 300); columns: every grown "
+                         f"body is complete columns (a motor above every sensor, no hidden cell) and growth ends "
+                         f"before t_open = {GS5_T_OPEN:g}; after_growth: from t_open the genome is within {Z:g} paired "
+                         f"SE of program twins (the tuned router's role body on each life's own final cells); the "
+                         f"window is chosen on {C_SCREEN_LIVES} screen lives per value of {GS5_WINDOWS}."),
+               lives=n, seeds=f"{SPECK_FRESH_SEED0} + s", states=states, window_screen=screen, window=win,
+               cells=float(res["n_end"].mean()), columns=float(res["n_S_end"].mean()),
+               last_birth_max=float(res["last_birth"].max()),
+               columns_ok=int(sum(_columns_ok(b) for b in bodies)), hidden=float(res["n_H_end"].mean()),
+               roles_mean={r: float(np.mean([x[r] for x in roles])) for r in roles[0]},
+               grown_roles=_grn_roles(org, knobs, 16),
+               grn_after=analysis.summary(res["F"]), twins_after=analysis.summary(twinF), after_growth=after,
+               grn_whole_life=analysis.catch_point(whole, cworld(SPECK_PRESET)),
+               program_router_after=analysis.summary(rF_after), best_reflex=best,
+               best_reflex_after=analysis.summary(bF_after),
+               grn_after_minus_best_reflex=analysis.paired(res["F"], bF_after),
+               grn_whole_minus_best_reflex=analysis.paired(whole[:, L3["F"]], sF(hb.speck_body(best), n)),
+               notes=["The disks are ragged (flank placement), not complete hexagons; the twins have the same "
+                      "shapes, so after_growth tests the genome path, and the comparisons with the placed ring-4 "
+                      "router and the best reflex are reported.",
+                      "Six genes give the roles: inner (n_view), relay (sense, inner, not the founder), zygote, a "
+                      "latch marking the zygote's daughters (zc), hot (zc and motor: the hotspot) and quiet (inner "
+                      "motor, not hot)."])
+    return judge_gs5(out)
+
+
+def judge_gs5(g: dict) -> dict:
+    g["checks"] = dict(phenotypes=bool(all(not v["mismatches"] for v in g["states"].values())),
+                       grown_roles=bool(not g["grown_roles"]["mismatches"] and sum(g["grown_roles"]["cells"].values())),
+                       columns=bool(g["columns_ok"] == g["lives"] and g["hidden"] == 0
+                                    and g["last_birth_max"] < GS5_T_OPEN),
+                       after_growth=bool(abs(g["after_growth"]["z"]) <= Z))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GS6
+GS6_LIVES = 2048  # cheats are small bodies, as in GB7
+C_MISS_V1_RATIO = 10.0  # c_miss / (R_cap + c_miss) = 2 / 102, v1's break-even capture rate per click, at R_cap 500
+
+
+def _sscreen(bodies, n: int) -> tuple[dict, object]:
+    """``_screen`` on SPECK's tuning lives (SPECK_SCREEN_SEED0 + s)."""
+    rows = sorted(((float(clives(o, n, seed0=SPECK_SCREEN_SEED0, preset=SPECK_PRESET)[:, L3["F"]].mean()), o)
+                   for o in bodies), key=lambda r: -r[0])
+    return dict(screened=len(rows), lives=n, seeds=f"{SPECK_SCREEN_SEED0} + s",
+                top=[dict(body=o.name, F_screen=f) for f, o in rows[:5]]), rows[0][1]
+
+
+def _sstep(a, b, n: int, c_miss: float | None = None) -> dict:
+    """Paired F(b) - F(a) on SPECK's first ``n`` fresh lives, at the world's price or re-priced at ``c_miss``."""
+    return analysis.paired(sF(b, n, c_miss=c_miss), sF(a, n, c_miss=c_miss))
+
+
+def gate_gs6(threads: int = 4, n: int = GS6_LIVES) -> dict:
+    """GB7's cheats in SPECK (proposal 8: every stage has its own red team; rule N10: the miss cost makes blind
+    clicking lose): blind clickers, blind tonic act planes, islands and runners, screened again in this world, against
+    the bodies they are meant to beat; every F also re-priced at c_miss 10, the price with v1's break-even rate."""
+    _THREADS[0] = threads
+    clk, adj1, adj2, ring1 = hb.CLICKER, hb.ladder_body("adjacent", 1), hb.ladder_body("adjacent", 2), hb.ring_body(1)
+    bscr, best_blind = _sscreen(hb.blind_presser_grid(), C_BLIND_SCREEN_LIVES)
+    rscr, best_runner = {}, {}
+    for d in (1, 2, 3):
+        rscr[d], best_runner[d] = _sscreen(hb.runner_grid(d), C_SCREEN_LIVES)
+    cheats = dict(blind_spam_runner=(hb.BLIND_SPAM_RUNNER, clk), blind_clicker=(hb.BLIND_CLICKER, clk),
+                  blind_presser_best=(best_blind, clk), blind_grn=(hb.BLIND_GRN, clk),
+                  blind_relay_grn=(hb.BLIND_RELAY_GRN, clk), tonic_ring1=(hb.tonic_ring(1), clk),
+                  tonic_ring2=(hb.tonic_ring(2), clk), islands=(hb.islands(), ring1), runner=(best_runner[1], adj1),
+                  runner_2=(best_runner[2], adj1), runner_3=(best_runner[3], adj1))
+    rows = {}
+    for key, (org, ref) in cheats.items():
+        rows[key] = dict(point=spoint(org, n), against=ref.name, vs=_sstep(ref, org, n),
+                         vs_clicker=_sstep(clk, org, n), vs_lone=_sstep(hb.ZYGOTE, org, n),
+                         at_c_miss_10=dict(vs=_sstep(ref, org, n, C_MISS_V1_RATIO),
+                                           vs_clicker=_sstep(clk, org, n, C_MISS_V1_RATIO),
+                                           vs_lone=_sstep(hb.ZYGOTE, org, n, C_MISS_V1_RATIO)))
+    for key in RUNNERS:
+        rows[key]["vs_6_cells"] = _sstep(adj2, cheats[key][0], n)
+        rows[key]["at_c_miss_10"]["vs_6_cells"] = _sstep(adj2, cheats[key][0], n, C_MISS_V1_RATIO)
+    refs = {o.name: spoint(o, n) for o in (hb.ZYGOTE, clk, adj1, adj2, ring1)}
+    off = {}
+    for k in range(5):
+        co = slives(hb.ring_body(k), 128, flags=V3.flags("contacts_off"))
+        off[k] = dict(income_max=float(co[:, L3["income"]].max()), clicks=float(co[:, L3["clicks"]].mean()))
+    c10 = {o.name: analysis.summary(sF(o, S_LIVES, c_miss=C_MISS_V1_RATIO)) for o in
+           (hb.SPECK_CHAMPION, hb.speck_body(SPECK_ROUTER), *(hb.speck_body(k) for k in SPECK_REFLEXES))}
+    c10_gain = {k: analysis.paired(sF(hb.speck_body(SPECK_ROUTER), S_LIVES, c_miss=C_MISS_V1_RATIO),
+                                   sF(hb.speck_body(k), S_LIVES, c_miss=C_MISS_V1_RATIO)) for k in SPECK_REFLEXES}
+    out = dict(registered=("Beyond A1-A4: proposal 8 gives every stage its own red team (blind, tonic, runner, island "
+                           "cheats); rule N10 says the miss cost makes blind clicking lose. GB7's criteria, in SPECK."),
+               criteria=(f"GB7's, on {n} fresh SPECK lives: blind_lose: each blind cheat (spam-runner, the fixed "
+                         "presser, the best of the 480-presser screen, the GRN presser and relay, tonic rings 1 and 2) "
+                         f"below the 2-cell clicker and the lone zygote by more than {Z:g} paired SE; islands_lose: "
+                         f"below ring 1 by more than {Z:g} SE; runner_not_a_trap: the best runner with 1, 2 and 3 "
+                         f"drifters (each the best of 108 screened settings) not above the 4-cell column by more than "
+                         f"{Z:g} SE and below the 6-cell column by more than {Z:g} SE; contacts_off_no_income: rings "
+                         f"0-4 earn nothing with contacts off from birth. The same checks at c_miss "
+                         f"{C_MISS_V1_RATIO:g} are reported (checks_at_c_miss_10), with A2's gain at that price."),
+               lives=n, seeds=f"{SPECK_FRESH_SEED0} + s", blind_screen=bscr,
+               runner_screen={str(d): v for d, v in rscr.items()}, cheats=rows, references=refs, contacts_off=off,
+               at_c_miss_10=dict(points=c10, router_minus=c10_gain),
+               notes=[f"c_miss {C_MISS_V1_RATIO:g} keeps v1's break-even capture rate per click, c_miss / (R_cap + "
+                      f"c_miss) = 2 / 102, at R_cap 500; it is a price, so every life is the same and F moves by "
+                      f"-{C_MISS_V1_RATIO - 2:g} misses / T. The preset keeps catch_v1's c_miss 2."])
+    return judge_gs6(out)
+
+
+def _gs6_checks(c: dict, at: str | None) -> dict:
+    def v(k, field):
+        return (c[k] if at is None else c[k][at])[field]
+    return dict(blind_lose=bool(all(v(k, "vs_clicker")["z"] < -Z and v(k, "vs_lone")["z"] < -Z for k in BLIND_CHEATS)),
+                islands_lose=bool(v("islands", "vs")["z"] < -Z),
+                runner_not_a_trap=bool(all(v(k, "vs")["z"] <= Z and v(k, "vs_6_cells")["z"] < -Z for k in RUNNERS)))
+
+
+def judge_gs6(g: dict) -> dict:
+    g["checks"] = dict(_gs6_checks(g["cheats"], None),
+                       contacts_off_no_income=bool(all(v["income_max"] == 0.0 for v in g["contacts_off"].values())))
+    g["checks_at_c_miss_10"] = _gs6_checks(g["cheats"], "at_c_miss_10")
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
 # ------------------------------------------------------------------------------------------------------ main
 GATES = dict(G1=gate_g1, G2=gate_g2, G3=gate_g3, G4=gate_g4, G5=gate_g5, G6=gate_g6, G8=gate_g8, G9=gate_g9,
              G10=gate_g10, S8=gate_s8, G7=gate_g7)  # G7 last: it scans the bodies the others measured
@@ -1710,9 +2313,13 @@ JUDGES = dict(G1=judge_g1, G2=judge_g2, G3=judge_g3, G4=judge_g4, G5=judge_g5, G
               G9=judge_g9, G10=judge_g10, S8=judge_s8)
 CATCH_GATES = dict(GB3=gate_gb3, GB4=gate_gb4, GB5=gate_gb5, GB6=gate_gb6, GB7=gate_gb7, GB8=gate_gb8, GB9=gate_gb9,
                    GB12=gate_gb12, GB13=gate_gb13)
+SPECK_GATES = dict(GS1=gate_gs1, GS2=gate_gs2, GS3=gate_gs3, GS4=gate_gs4, GS5=gate_gs5, GS6=gate_gs6)
+SPECK_JUDGES = dict(GS1=judge_gs1, GS2=judge_gs2, GS3=judge_gs3, GS4=judge_gs4, GS5=judge_gs5,
+                    GS6=judge_gs6)
 CATCH_JUDGES = dict(GB3=judge_gb3, GB4=judge_gb4, GB5=judge_gb5, GB6=judge_gb6, GB7=judge_gb7, GB8=judge_gb8,
                     GB9=judge_gb9, GB12=judge_gb12, GB13=judge_gb13)
-WORLDS = dict(bell=(GATES, "gates.json"), catch=(CATCH_GATES, "gates_catch.json"))  # --world: gates, output file
+WORLDS = dict(bell=(GATES, "gates.json"), catch=(CATCH_GATES, "gates_catch.json"),
+              speck=(SPECK_GATES, "gates_speck.json"))  # --world: gates, output file
 
 
 def _jsonable(x):
@@ -1732,11 +2339,37 @@ def _jsonable(x):
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--world", choices=sorted(WORLDS), default="bell",
-                   help="bell: G1-G10 and S8 (BELL-1, ABI 2); catch: GB3-GB13 (BODY-1 CATCH, ABI 3)")
+                   help="bell: G1-G10 and S8 (BELL-1, ABI 2); catch: GB3-GB13 (BODY-1 CATCH, ABI 3); speck: "
+                        "GS1-GS6 (the S1 candidate SPECK, ABI 3)")
     p.add_argument("--gates", default=None, help="comma-separated gate names of that world (default: all)")
     p.add_argument("--threads", type=int, default=4)
-    p.add_argument("--out", default=None, help="default: outputs/life_gates/gates.json (bell) or gates_catch.json")
+    p.add_argument("--out", default=None,
+                   help="default: outputs/life_gates/gates.json (bell), gates_catch.json or gates_speck.json")
+    p.add_argument("--tune", default=None,
+                   help="--world speck only: tune bodies instead of running gates, e.g. reflex@ring3,router@ring4; "
+                        "each result goes to outputs/life_gates/speck_tune/<family>@<shape>.json")
+    p.add_argument("--tune-from", default=None,
+                   help="start every --tune body from this frozen tuned body (handbuilt.SPECK_TUNED), not from "
+                        "the prototype")
+    p.add_argument("--tune-budget", type=int, default=None,
+                   help="hill-evaluation budget for --tune, with no random search (default: SPECK_TUNE)")
     args = p.parse_args(argv)
+    if args.tune:
+        if args.world != "speck":
+            p.error("--tune needs --world speck")
+        _THREADS[0] = max(1, min(args.threads, 4))
+        for item in args.tune.split(","):
+            family, _, shape = item.strip().partition("@")
+            cfg = {} if args.tune_budget is None else dict(budget=args.tune_budget, n_rand=0)
+            res = speck_tune(family, shape, threads=_THREADS[0], log=lambda m: print(m, flush=True),
+                             start_from=args.tune_from, **cfg)
+            res["command"] = " ".join([Path(sys.argv[0]).name, *(argv if argv is not None else sys.argv[1:])])
+            path = Path(repo_root / "outputs" / "life_gates" / "speck_tune" / f"{family}@{shape}.json")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(_jsonable(res), indent=1) + "\n")
+            print(f"{family}@{shape}: hill F {res['F']:+.4f} after {res['hill_evaluations']} hill evaluations "
+                  f"({res['seconds']} s); wrote {path}", flush=True)
+        return 0
     gates, fname = WORLDS[args.world]
     names = [g.strip().upper() for g in (args.gates or ",".join(gates)).split(",") if g.strip()]
     bad = set(names) - set(gates)
@@ -1745,8 +2378,10 @@ def main(argv=None) -> int:
     names = [g for g in gates if g in names]  # canonical order
     threads = max(1, min(args.threads, 4))
     _THREADS[0] = threads
-    catch = args.world == "catch"
-    seeds = (dict(fresh_seed0=CATCH_FRESH_SEED0, screen_seed0=CATCH_SCREEN_SEED0) if catch else
+    catch = args.world in ("catch", "speck")
+    seeds = (dict(fresh_seed0=SPECK_FRESH_SEED0, screen_seed0=SPECK_SCREEN_SEED0, hill_seed0=SPECK_HILL_SEED0)
+             if args.world == "speck" else
+             dict(fresh_seed0=CATCH_FRESH_SEED0, screen_seed0=CATCH_SCREEN_SEED0) if catch else
              dict(fresh_seed0=analysis.FRESH_SEED0, screen_seed0=analysis.SCREEN_SEED0))
     out = dict(meta=dict(date=datetime.now(timezone.utc).isoformat(timespec="seconds"), world=args.world,
                          abi=V3.version if catch else spec.ABI_VERSION,
@@ -1760,7 +2395,9 @@ def main(argv=None) -> int:
         res = gates[name](threads=threads)
         res["seconds"] = round(time.time() - t0, 1)
         out["gates"][name] = _jsonable(res)
-        print(f"{name}: {'PASS' if res['passed'] else 'FAIL'}  checks {res['checks']}  ({res['seconds']} s)", flush=True)
+        extra = f"  reported {res['reported_checks']}" if res.get("reported_checks") else ""
+        print(f"{name}: {'PASS' if res['passed'] else 'FAIL'}  checks {res['checks']}{extra}  ({res['seconds']} s)",
+              flush=True)
     out["meta"]["seconds"] = round(time.time() - t_all, 1)
     out["passed"] = all(g["passed"] for g in out["gates"].values())
     path = Path(args.out or repo_root / "outputs" / "life_gates" / fname)

@@ -1,0 +1,28 @@
+# SPECK pilot arm (S1 candidate "interior blindness", BODY_DESIGN_PROPOSAL.md 8.2): CATCH-T v1 with a small target
+# halo (sigma 0.6, v1 1.5), a large capture reward (R_cap 500, v1 100) and a miss priced to match (c_miss 10, v1 2:
+# the same break-even capture rate per blind click, LIFE_ABI.md 15.62); everything else is life_catch.yaml (the
+# user's L_max 4 stack, the per-generation T draw of GB11, two-stage selection, the CATCH founder prior and budget).
+# The S1 prototype study found that a local outward router at ring 4 passes A1-A4 here, and the kernel gates agree
+# (docs/LIFE_GATES.md GS1-GS6; RESULTS.md Pre-pilot): the router beats the best tuned reflex by +2.25 +- 0.10 (z 22,
+# n 1024) and lateral_off removes 4.3 times that gain. Caveats: its lead reverses at message delay d0 2; the
+# valley-free growth path starts from the full ring-3 reflex, and from the best reflex (the sense-hollow ring 3) the
+# path first dips by 0.22-0.44 F. Runs in the default pilot matrix (scripts/run_catch_pilot.sh).
+#
+# The world is the preset spec.PRESETS["catch_speck_l4"] (catch_v1_l4 with sigma 0.6, R_cap 500 and c_miss 10, every
+# other key catch_v1's).
+extends: life_catch.yaml
+
+life:
+  world: catch_speck_l4         # spec.PRESETS: catch_speck_l4 (L_max 4) | catch_speck_l2 (L_max 2)
+  control: speck_lmax4          # run-directory label (sweep: speck_lmax4_hexprism_sex_s<seed>)
+  # Held-out worlds: the v1 list's relative steps around SPECK's own values (target speed x0.5 / x2, capture value
+  # x0.5 / x2, halo x2/3), plus the v1 halo (sigma 1.5: does a SPECK body still work where the interior can see?)
+  heldout: [{v_t: 0.05}, {v_t: 0.2}, {R_cap: 250.0}, {R_cap: 1000.0}, {sigma: 0.4}, {sigma: 1.5}]
+  # evals_to_skill threshold: v1's rule (skill_at 2.0 sits between the column reflex's ring 1 and ring 2) applied to
+  # SPECK's kernel curve (pilot readiness, n 256 per ring: ring 0 +0.47, ring 1 +2.96, ring 2 +5.01, ring 3 +5.06),
+  # midway between ring 1 and ring 2. The S1 success test itself (beat the best tuned reflex by > 3 SE, lateral_off
+  # removes >= 50% of the gain) is an analysis of the final bodies, not this number.
+  skill_at: 4.0
+
+logging:
+  output_dir: outputs/life_speck

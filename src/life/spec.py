@@ -316,7 +316,7 @@ class World:
     lam_s: float = 2.0  # receptor event rate added at the halo's centre, per sense cell per unit
     lam_bg: float = 0.05  # background receptor event rate (sensor noise)
     g_n: float = 1.0  # nudge gain: force per unit of twitch per unit of exposed face
-    drag_exp: float = 0.5  # drag gamma = n_foot ** drag_exp (n_foot = live sense-plane cells)
+    drag_exp: float = 0.5  # drag gamma = n_fill ** drag_exp (n_fill: the filled footprint, filled_footprint)
     th_click: float = 0.6  # the hotspot clicks when its twitch crosses this upward while the key is armed
     th_rel: float = 0.25  # the key re-arms when the hotspot's twitch is below this
     rho_c: float = 1.0  # capture radius
@@ -363,11 +363,23 @@ PRESETS = {
     "bell_v2": World(name="bell_v2", stage="v2", implemented=False, kill_rate=1 / 500),
     "bell_v3": World(name="bell_v3", stage="v3", implemented=False, drift_tau=200.0),
     # BODY-1 v1 (BODY_DESIGN_PROPOSAL.md 3.1, approved): the dot is the body; L_max 4 is the user's design (two
-    # hidden planes above the act plane) and L_max 2 the control arm. ABI 3 only. Two review tweaks (LIFE_ABI.md 15.59,
-    # 15.60): the World default c_miss is 2, and the kernel's drag counts every occupied column.
+    # hidden planes above the act plane) and L_max 2 the control arm. ABI 3 only. Recorded tweaks (LIFE_ABI.md 15.59-
+    # 15.61): the World default c_miss is 2, and the kernel's drag counts every occupied column plus the tiles they
+    # enclose (the filled footprint).
     "catch_v1": World(name="catch_v1", stage="body-s0", lattice="hexprism", world_kind=1, L_max=4),
     "catch_v1_l4": World(name="catch_v1_l4", stage="body-s0", lattice="hexprism", world_kind=1, L_max=4),
     "catch_v1_l2": World(name="catch_v1_l2", stage="body-s0", lattice="hexprism", world_kind=1, L_max=2),
+    # SPECK, the S1 candidate (BODY_DESIGN_PROPOSAL.md 8, "interior blindness", measured by the S1 prototype study):
+    # catch_v1 with a small target halo (sigma 0.6) worth five times as much (R_cap 500) and a miss priced five times
+    # as much (c_miss 10, so a blind click breaks even at v1's capture rate, 2 / 102; at c_miss 2 a blind presser beat
+    # the lone zygote, GS6, LIFE_ABI.md 15.62); every other key and the recorded tweaks are catch_v1's. Gates GS1-GS6
+    # (docs/LIFE_GATES.md) test it in the kernel; the _l4 / _l2 names mirror the catch_v1 arms.
+    "catch_speck": World(name="catch_speck", stage="body-s1", lattice="hexprism", world_kind=1, L_max=4, sigma=0.6,
+                         R_cap=500.0, c_miss=10.0),
+    "catch_speck_l4": World(name="catch_speck_l4", stage="body-s1", lattice="hexprism", world_kind=1, L_max=4,
+                            sigma=0.6, R_cap=500.0, c_miss=10.0),
+    "catch_speck_l2": World(name="catch_speck_l2", stage="body-s1", lattice="hexprism", world_kind=1, L_max=2,
+                            sigma=0.6, R_cap=500.0, c_miss=10.0),
 }
 
 
@@ -845,10 +857,72 @@ def poisson_next(seed: int, stream: int, blob: int, k: int, t_prev: float, mean:
     return t_prev - mean * math.log(draw(seed, stream, blob, k))
 
 
-def drag(n_col: int, drag_exp: float) -> float:
-    """gamma = n_col ** drag_exp (C pow), for n_col >= 1 occupied columns (the projected footprint, LIFE_ABI.md
-    9.7.2)."""
-    return math.pow(float(n_col), drag_exp)
+def drag(n_fill: int, drag_exp: float) -> float:
+    """gamma = n_fill ** drag_exp (C pow), for a filled footprint of n_fill >= 1 tiles (``filled_footprint``,
+    LIFE_ABI.md 9.7.2)."""
+    return math.pow(float(n_fill), drag_exp)
+
+
+def edge_steps_up(kind: str) -> tuple[int, int]:
+    """``(dlo, dhi)``: the a-offsets of the tiles that share an edge with tile (a, b) in row b + 1 (hex: a - 1 and a;
+    square: a). Tiles share an edge iff their sites are at unit distance, so square8's diagonal slots, whose tiles
+    touch only at a corner, are not edge steps."""
+    base = _lat.base_kind(kind)
+    up = [da for da, db in _lat.offsets(base) if db == 1 and math.isclose(math.hypot(*_lat.to_xy(base, da, db)), 1.0)]
+    return min(up), max(up)
+
+
+def filled_footprint(cols, kind: str = "hexprism") -> int:
+    """n_fill, the drag's footprint (LIFE_ABI.md 9.7.2, 15.61): the tiles of the occupied columns ``cols`` (the
+    projected footprint: every (a, b) with a live cell in any plane) plus every tile they enclose, i.e. every free
+    tile with no path of edge-sharing free tiles to infinity (holes are filled; islands add their own tiles and what
+    they enclose together, not the gaps between them).
+
+    Row runs, O(n) after the sort: each row b that holds occupied tiles splits into free runs between them; its two
+    unbounded runs, and every run of a row next to an empty row, are outside; runs of adjacent rows that share an edge
+    are joined (union-find); the enclosed tiles are the bounded runs not joined to the outside. The kernel computes
+    the same integer with the same method on its sorted column list."""
+    cs = sorted({(int(a), int(b)) for a, b in cols}, key=lambda s: (s[1], s[0]))
+    if not cs:
+        return 0
+    dlo, dhi = edge_steps_up(kind)
+    rows: dict[int, list[int]] = {}
+    for a, b in cs:  # rows in increasing b, sites in increasing a
+        rows.setdefault(b, []).append(a)
+    inf = math.inf
+    lo, hi, par = [-inf], [inf], [0]  # run 0 is the outside; a run is the free tiles [lo, hi] of its row
+
+    def find(x: int) -> int:
+        while par[x] != x:
+            par[x] = par[par[x]]
+            x = par[x]
+        return x
+
+    span: dict[int, tuple[int, int]] = {}
+    for b, aa in rows.items():
+        runs = [(-inf, aa[0] - 1)] + [(x + 1, y - 1) for x, y in zip(aa, aa[1:]) if y > x + 1] + [(aa[-1] + 1, inf)]
+        open_row = b - 1 not in rows or b + 1 not in rows  # it touches an empty row: every run is outside
+        s = len(par)
+        for x, y in runs:
+            lo.append(x)
+            hi.append(y)
+            par.append(0 if open_row or x == -inf or y == inf else len(par))
+        span[b] = (s, len(par))
+        if b - 1 in rows:  # join each run of row b - 1 to the runs of row b it shares an edge with
+            (p, pe), (q, qe) = span[b - 1], span[b]
+            while p < pe and q < qe:
+                l1, h1 = lo[p] + dlo, hi[p] + dhi
+                if max(l1, lo[q]) <= min(h1, hi[q]):
+                    x, y = find(p), find(q)
+                    par[max(x, y)] = min(x, y)
+                if h1 < hi[q]:
+                    p += 1
+                elif hi[q] < h1:
+                    q += 1
+                else:
+                    p, q = p + 1, q + 1
+    return len(cs) + sum(int(hi[r] - lo[r]) + 1 for r in range(1, len(par))
+                         if lo[r] != -inf and hi[r] != inf and find(r) != 0)
 
 
 def dot_gain(dt: float, tau_z: float, gam: float) -> tuple[float, float]:

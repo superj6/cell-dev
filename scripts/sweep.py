@@ -12,12 +12,17 @@ prints its headline numbers (life: F, size, income, extinction rate and peak siz
 config that changes them (square8, asex) is not overridden back to hex / sex.
 
 ``--config`` takes several comma-separated configs (equal arms): their runs share the job slots and start in seed
-order (arm 1 seed 0, arm 2 seed 0, arm 1 seed 1, ...), so the arms progress together. Life runs record the git
-revision and whether the tree was dirty in their results rows; the sweep prints both when it starts.
+order (arm 1 seed 0, arm 2 seed 0, arm 1 seed 1, ...), so the arms progress together. An arm written ``path:N`` runs
+only the first N seeds of ``--seeds`` (per-arm seed counts: an arm with fewer seeds drops out of the rotation once
+they are started), and ``path:N:G`` also runs them for G generations (``evolve.generations=G`` for that arm only,
+after every other override). Life runs record the git revision and whether the tree was dirty in their results rows;
+the sweep prints both when it starts. ``--plan`` prints the runs in start order and exits without running anything.
 
     python scripts/sweep.py --config configs/life_bell.yaml --seeds 0,1,2 --jobs 3 --threads 3 --name life_pilot
     python scripts/sweep.py --config configs/life_bell.yaml,configs/life_bell_square8.yaml --seeds 0,1 --name pilot
     python scripts/sweep.py --config configs/life_ctl_messages_off.yaml --seeds 0,1,2 --name life_pilot
+    python scripts/sweep.py --config configs/life_catch.yaml:4,configs/life_catch_l2.yaml:2 --seeds 0,1,2,3 --plan \
+        --name catch_pilot
 """
 from __future__ import annotations
 
@@ -59,22 +64,50 @@ def axes(lattices: str | None, breeding: str | None, cfg, mode: str) -> tuple[li
     return lattices.split(","), breeding.split(",")
 
 
-def matrix(arms: list[tuple[str, object]], lattices: str | None, breeding: str | None, seeds: list[str]) -> list[dict]:
-    """The runs of a sweep over ``arms`` (config path, loaded config): one arm keeps the lattice x breeding x seed
-    order; several arms interleave by seed (arm order within a seed). Raises if two runs would share a directory."""
+def arm_spec(entry: str) -> tuple[str, int | None, int | None]:
+    """One ``--config`` entry: ``path`` (every seed), ``path:N`` (the first N seeds of ``--seeds``) or ``path:N:G``
+    (those seeds for G generations). Returns (path, N or None, G or None)."""
+    parts = entry.split(":")
+    nums: list[str] = []
+    while len(parts) > 1 and len(nums) < 2 and parts[-1].isdigit():
+        nums.insert(0, parts.pop())
+    path = ":".join(parts)
+    count, gens = (int(nums[0]) if nums else None), (int(nums[1]) if len(nums) > 1 else None)
+    if (count is not None and count < 1) or (gens is not None and gens < 1):
+        raise ValueError(f"{entry}: an arm needs at least one seed and one generation")
+    return path, count, gens
+
+
+def matrix(arms: list[tuple], lattices: str | None, breeding: str | None, seeds: list[str]) -> list[dict]:
+    """The runs of a sweep over ``arms`` (config path, loaded config[, seed count[, generations]]): one arm keeps the
+    lattice x breeding x seed order; several arms interleave by seed (arm order within a seed). An arm with a seed
+    count runs the first that many ``seeds`` only; its runs carry its ``generations`` (None: the config's). Raises if
+    two runs would share a directory."""
     per_arm = []
-    for path, cfg in arms:
+    for arm in arms:
+        path, cfg, count, gens = (*arm, None, None)[:4]
+        if count is not None and count > len(seeds):
+            raise ValueError(f"{path}: {count} seeds asked, {len(seeds)} given in --seeds")
         mode = str(cfg.get("mode", "trials"))
         prefix = f"{cfg.life.get('control', 'full')}_" if mode == "life" else ""
         lats, breeds = axes(lattices, breeding, cfg, mode)
-        per_arm.append([dict(config=path, mode=mode, lattice=lat, breeding=b, seed=s, run=f"{prefix}{lat}_{b}_s{s}")
-                        for lat, b, s in itertools.product(lats, breeds, seeds)])
+        per_arm.append([dict(config=path, mode=mode, lattice=lat, breeding=b, seed=s, run=f"{prefix}{lat}_{b}_s{s}",
+                             generations=gens)
+                        for lat, b, s in itertools.product(lats, breeds, seeds[:count])])
     runs = per_arm[0] if len(per_arm) == 1 else [r for s in seeds for runs in per_arm for r in runs if r["seed"] == s]
     names = [r["run"] for r in runs]
     dup = sorted({n for n in names if names.count(n) > 1})
     if dup:
         raise ValueError(f"runs would share an output directory: {dup} (give the arms distinct control or lattice)")
     return runs
+
+
+def command(r: dict, threads: int, out: str, overrides: list[str]) -> list[str]:
+    """The command of run ``r``: its config and axes, the sweep's overrides, then the arm's own generations."""
+    return [sys.executable, "-m", "src.run", "--config", r["config"], f"lattice.kind={r['lattice']}",
+            f"evolve.breeding={r['breeding']}", f"seed={r['seed']}", f"threads={threads}",
+            f"logging.output_dir={out}", *overrides,
+            *([f"evolve.generations={r['generations']}"] if r.get("generations") else [])]
 
 
 if __name__ == "__main__":
@@ -88,11 +121,20 @@ if __name__ == "__main__":
     p.add_argument("--name", required=True)
     p.add_argument("--out", default="outputs", help="root of the run directories (relative to the repo or absolute)")
     p.add_argument("--logs", default="logs", help="root of the run logs (relative to the repo or absolute)")
+    p.add_argument("--plan", action="store_true", help="print the runs in start order and exit")
     p.add_argument("overrides", nargs="*")
     args = p.parse_args()
-    paths = args.config.split(",")
-    arms = [(c, load_config(str(repo_root / c) if not Path(c).is_absolute() else c, args.overrides)) for c in paths]
+    specs = [arm_spec(c) for c in args.config.split(",")]
+    arms = [(c, load_config(str(repo_root / c) if not Path(c).is_absolute() else c, args.overrides), n, g)
+            for c, n, g in specs]
     runs = matrix(arms, args.lattices, args.breeding, args.seeds.split(","))
+    if args.plan:
+        for i, r in enumerate(runs):
+            gens = f" generations={r['generations']}" if r["generations"] else ""
+            print(f"{i + 1:3d} {r['run']:32s} {r['config']}{gens}")
+        counts = {c: sum(r["config"] == c for r in runs) for c, _, _ in specs}
+        print(f"{len(runs)} runs: " + ", ".join(f"{c} x{n}" for c, n in counts.items()))
+        sys.exit(0)
     logs = repo_root / args.logs / args.name  # an absolute --logs replaces repo_root
     logs.mkdir(parents=True, exist_ok=True)
     git = git_state()
@@ -101,9 +143,7 @@ if __name__ == "__main__":
     while pending or running:
         while pending and len(running) < args.jobs:
             r = pending.pop(0)
-            cmd = [sys.executable, "-m", "src.run", "--config", r["config"], f"lattice.kind={r['lattice']}",
-                   f"evolve.breeding={r['breeding']}", f"seed={r['seed']}", f"threads={args.threads}",
-                   f"logging.output_dir={args.out}/{args.name}/{r['run']}", *args.overrides]
+            cmd = command(r, args.threads, f"{args.out}/{args.name}/{r['run']}", args.overrides)
             fh = open(logs / f"{r['run']}.log", "w")
             running.append((r, subprocess.Popen(cmd, cwd=repo_root, stdout=fh, stderr=subprocess.STDOUT), fh))
             print(f"started {r['run']}", flush=True)

@@ -230,6 +230,8 @@ typedef struct {         // a CATCH blob (9.7.1); blob 0 is the target
 } Blob;
 
 typedef struct { double t_send, t_arr; uint64_t tsk, sender; double amt[2]; } Flight;
+typedef struct { int32_t a, b; } Col;  // a column (a, b) of the projected footprint (9.7.2)
+typedef struct { int64_t *lo, *hi; int64_t *par; int64_t cap; } FillBuf;  // free runs and their union-find parents
 typedef struct { uint64_t key, sk; double t; int32_t ev, pad; } WEnt;  // window visit key, site, time, event
 
 typedef struct {
@@ -283,7 +285,9 @@ typedef struct {
   Flight *fl_q; int64_t fl_head, fl_n, fl_cap;
   // CATCH world (9.7): the dot, the blobs, the key, deferred writes of the current time group, and its ledger columns
   double t_x, X, Y, Fx, Fy, gam, path, next_sample;
-  int64_t n_foot, n_col;  // live sense-plane cells (traction); occupied columns (a, b), the projected footprint (drag)
+  int64_t n_foot, n_fill;  // live sense-plane cells (traction); tiles of the filled footprint (drag, 9.7.2)
+  Col *col; int64_t n_col, cap_col;  // occupied columns (a, b), the projected footprint, sorted by (b, a)
+  FillBuf fill;                      // scratch of filled_count
   int armed;
   Blob blob[2];
   int32_t *dO; int64_t n_dO, cap_dO;  // deferred changes of O, as pairs: site index, 1 = add / 0 = remove
@@ -1303,7 +1307,7 @@ static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the
   c->next_sample = cs + 1.0;
 }
 static void catch_start(Ctx *c) {  // 9.7.1, before the first time group
-  c->X = c->Y = c->Fx = c->Fy = 0.0; c->t_x = c->t0; c->n_foot = 0; c->n_col = 0; c->armed = 1; c->gam = 1.0;
+  c->X = c->Y = c->Fx = c->Fy = 0.0; c->t_x = c->t0; c->n_foot = 0; c->n_fill = 0; c->n_col = 0; c->armed = 1; c->gam = 1.0;
   c->blob[0].exists = 1; c->blob[0].present = 1;
   c->blob[1].exists = c->b2_amp > 0.0; c->blob[1].present = 0;
   for (int b = 0; b < 2; b++) {
@@ -1399,11 +1403,95 @@ static int column_live(const Ctx *c, const Site *s) {  // another live cell in t
   }
   return 0;
 }
+
+// The filled footprint (9.7.2, 15.61): the n tiles of the occupied columns col[] (sorted by (b, a), distinct) plus
+// every free tile they enclose (no path of edge-sharing free tiles to infinity). Row runs: each occupied row splits
+// into free runs; its two unbounded runs and every run of a row next to an empty row are outside (node 0); runs of
+// adjacent rows that share an edge are joined. O(n) time and memory. Returns -1 if the scratch cannot grow.
+#define RUN_INF ((int64_t)1 << 40)
+static int64_t fill_find(int64_t *par, int64_t x) {
+  while (par[x] != x) { par[x] = par[par[x]]; x = par[x]; }
+  return x;
+}
+static int64_t filled_count(const Col *col, int64_t n, int hex, FillBuf *fb) {
+  if (n == 0) return 0;
+  const int64_t need = 3 * n + 1;
+  if (need > fb->cap) {
+    int64_t c1 = fb->cap, c2 = fb->cap, c3 = fb->cap;  // the three arrays grow alike
+    const size_t e8 = sizeof(int64_t);
+    if (grow((void **)&fb->lo, &c1, need, e8, 256) || grow((void **)&fb->hi, &c2, need, e8, 256)
+        || grow((void **)&fb->par, &c3, need, e8, 256))
+      return -1;
+    fb->cap = c1;
+  }
+  int64_t *lo = fb->lo, *hi = fb->hi, *par = fb->par;
+  const int64_t dlo = hex ? -1 : 0, dhi = 0;  // a-offsets of the edge-sharing tiles in the row above (b + 1)
+  lo[0] = -RUN_INF; hi[0] = RUN_INF; par[0] = 0;
+  int64_t R = 1, ps = 0, pe = 0, i = 0;
+  int32_t pb = 0;
+  while (i < n) {
+    const int32_t b = col[i].b;
+    int64_t j = i;
+    while (j + 1 < n && col[j + 1].b == b) j++;
+    const int below = pe > ps && pb == b - 1, above = j + 1 < n && col[j + 1].b == b + 1;
+    const int64_t s = R;
+    lo[R] = -RUN_INF; hi[R] = (int64_t)col[i].a - 1; par[R] = 0; R++;
+    for (int64_t k = i; k < j; k++)
+      if (col[k + 1].a > col[k].a + 1) {
+        lo[R] = (int64_t)col[k].a + 1; hi[R] = (int64_t)col[k + 1].a - 1; par[R] = (below && above) ? R : 0; R++;
+      }
+    lo[R] = (int64_t)col[j].a + 1; hi[R] = RUN_INF; par[R] = 0; R++;
+    if (below) {  // join each run of row b - 1 to the runs of row b it shares an edge with
+      int64_t p = ps, q = s;
+      while (p < pe && q < R) {
+        const int64_t l1 = lo[p] + dlo, h1 = hi[p] + dhi;
+        if ((l1 > lo[q] ? l1 : lo[q]) <= (h1 < hi[q] ? h1 : hi[q])) {
+          const int64_t x = fill_find(par, p), y = fill_find(par, q);
+          if (x < y) par[y] = x; else par[x] = y;
+        }
+        if (h1 < hi[q]) p++;
+        else if (hi[q] < h1) q++;
+        else { p++; q++; }
+      }
+    }
+    ps = s; pe = R; pb = b; i = j + 1;
+  }
+  int64_t filled = n;
+  for (int64_t r = 1; r < R; r++)
+    if (lo[r] != -RUN_INF && hi[r] != RUN_INF && fill_find(par, r) != 0) filled += hi[r] - lo[r] + 1;
+  return filled;
+}
+static inline int col_less(Col x, Col y) { return x.b != y.b ? x.b < y.b : x.a < y.a; }
+static int64_t col_pos(const Ctx *c, Col x) {  // the first index whose column is not below x
+  int64_t lo = 0, hi = c->n_col;
+  while (lo < hi) {
+    const int64_t m = lo + (hi - lo) / 2;
+    if (col_less(c->col[m], x)) lo = m + 1; else hi = m;
+  }
+  return lo;
+}
+// The column (a, b) of s gains its first or loses its last live cell: P changes, and n_fill and gam follow (15.61).
+static void footprint_change(Ctx *c, const Site *s, int add) {
+  const Col x = {s->a, s->b};
+  const int64_t k = col_pos(c, x);
+  if (add) {
+    if (grow((void **)&c->col, &c->cap_col, c->n_col + 1, sizeof(Col), 64)) { c->fail |= FAIL_ALLOC; return; }
+    memmove(&c->col[k + 1], &c->col[k], (size_t)(c->n_col - k) * sizeof(Col));
+    c->col[k] = x; c->n_col++;
+  } else {
+    memmove(&c->col[k], &c->col[k + 1], (size_t)(c->n_col - k - 1) * sizeof(Col));
+    c->n_col--;
+  }
+  const int64_t nf = filled_count(c->col, c->n_col, c->base == 0, &c->fill);
+  if (nf < 0) { c->fail |= FAIL_ALLOC; return; }
+  c->n_fill = nf;
+  if (nf > 0) c->gam = pow((double)nf, c->drag_exp);
+}
 static void catch_birth(Ctx *c, const Rec *r) {  // 9.7.2
   const double t = r->t;
   Site *s = &c->sites[r->site];
   dot_adv(c, t);
-  if (!column_live(c, s)) { c->n_col += 1; c->gam = pow((double)c->n_col, c->drag_exp); }  // drag: footprint (15.59)
+  if (!column_live(c, s)) footprint_change(c, s, 1);  // drag: the filled footprint (15.59, 15.61)
   s->acc_live = 1;
   if (s->z == 0) c->n_foot += 1;
   if (s->z == 1) { s->fx = 0.0; s->fy = 0.0; s->tf = t; defer_occ(c, r->site, 1); }
@@ -1413,10 +1501,7 @@ static void catch_death(Ctx *c, const Rec *r) {  // 9.7.2: a dead cell stops pul
   Site *s = &c->sites[r->site];
   dot_adv(c, t);
   s->acc_live = 0;
-  if (!column_live(c, s)) {
-    c->n_col -= 1;
-    if (c->n_col > 0) c->gam = pow((double)c->n_col, c->drag_exp);
-  }
+  if (!column_live(c, s)) footprint_change(c, s, 0);
   if (s->z == 0) c->n_foot -= 1;
   if (s->z == 1) {
     const double ei = exp(-(t - s->tf) / c->tau_z);
@@ -1934,7 +2019,7 @@ static void ctx_free(Ctx *c) {
   for (int64_t i = 0; i < c->cap_cell_pool; i++) free(c->cells[i].inbox);
   free(c->cells); free(c->sites); free(c->map); free(c->ev); free(c->blobs); free(c->blob_next);
   free(c->heap.a); free(c->local.a); free(c->wbuf); free(c->bbuf); free(c->rec); free(c->gsnap); free(c->ridx);
-  free(c->fl_q); free(c->dO);
+  free(c->fl_q); free(c->dO); free(c->col); free(c->fill.lo); free(c->fill.hi); free(c->fill.par);
   for (int g = 0; g < 6; g++) free(c->grp[g]);
 }
 
@@ -2045,6 +2130,28 @@ void life_blob_place(uint64_t seed, int32_t blob, uint64_t q, double x, double y
 
 double life_receptor_next(uint64_t seed, uint64_t uid, uint64_t j, double t_prev, double lam_max) {
   return receptor_next(seed, uid, j, t_prev, lam_max);
+}
+
+static int col_cmp(const void *x, const void *y) {
+  const Col p = *(const Col *)x, q = *(const Col *)y;
+  return col_less(p, q) ? -1 : (col_less(q, p) ? 1 : 0);
+}
+
+// spec.filled_footprint: the filled footprint of the columns (a[i], b[i]) (repeats allowed) on base lattice `base`
+// (the code % 3 of 4.3: 0 hex, 1 square4, 2 square8); -1 on allocation failure
+int64_t life_filled_footprint(int32_t base, int64_t n, const int32_t *a, const int32_t *b) {
+  if (n <= 0) return 0;
+  Col *col = malloc((size_t)n * sizeof(Col));
+  if (!col) return -1;
+  for (int64_t i = 0; i < n; i++) { col[i].a = a[i]; col[i].b = b[i]; }
+  qsort(col, (size_t)n, sizeof(Col), col_cmp);
+  int64_t m = 0;
+  for (int64_t i = 0; i < n; i++)
+    if (m == 0 || col_less(col[m - 1], col[i])) col[m++] = col[i];
+  FillBuf fb = {0};
+  const int64_t r = filled_count(col, m, base == 0, &fb);
+  free(col); free(fb.lo); free(fb.hi); free(fb.par);
+  return r;
 }
 
 static int key_cmp(const void *a, const void *b) {

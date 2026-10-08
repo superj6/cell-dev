@@ -16,6 +16,11 @@ Every life F, valid and held-out score is measured under base physics, whatever 
 envelope control changes selection only), so conditions compare like for like; ``F_envelope`` is the same final lives
 under envelope physics for every condition (robustness). Rows written before that rule (no ``selection_physics``
 field) are refused for the envelope control, whose F was then measured under envelope physics.
+
+CATCH rows: a world with overrides of its preset is shown as ``preset[key=value,...]`` (e.g.
+``catch_v1_l4[R_cap=500,sigma=0.6]``, from the row's ``world_over``), so it never pools with the preset itself; and
+when the rows carry gate GB11's readout, ``growing`` is the median share of the best genome's final lives that grew
+by more than 10% after T/2.
 """
 from __future__ import annotations
 
@@ -89,6 +94,9 @@ def life_summary(df):
                    recheck_body_losses=df["recheck_body_losses"].astype(float))
     df = df.assign(selection=[selection(r) for r in df.to_dict("records")],
                    git=[git_label(r) for r in df.to_dict("records")])
+    if "world_over" in df:  # a preset with world overrides is its own world
+        df = df.assign(world=[w if not isinstance(o, str) or not o else f"{w}[{o}]"
+                              for w, o in zip(df["world"], df["world_over"])])
     old = (df["control"] == "envelope") & df["selection_physics"].isna()
     if old.any():
         raise ValueError(f"{int(old.sum())} envelope-control rows predate base-physics final lives (their F, valid "
@@ -110,6 +118,9 @@ def life_summary(df):
     )
     summary["evals_to_skill"] = _median_censored(df, LIFE_KEYS)
     summary["bodies_kept"] = summary["bodies_kept"] / summary.pop("onestage")  # NaN when one-stage or no bodies
+    if "growing" in df:  # GB11 (CATCH rows): lives of the best genome still growing after T/2
+        summary["growing"] = df.assign(growing=df["growing"].astype(float)).groupby(LIFE_KEYS)["growing"].median() \
+            .reset_index(drop=True)
     return summary
 
 

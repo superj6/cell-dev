@@ -9,7 +9,9 @@ With ``mode: life`` (configs/life*.yaml) the run also writes lineage.jsonl, clon
 results row describes the best genome's lives on fresh seeds (F, size, income, extinction, counterfactual forks)
 instead of trial scores and knockouts. It also records the code the run started from (``git_rev``, ``git_dirty``) and
 the selection scheme (``recheck_k``, ``recheck_lives``, ``recheck_key``) with what the recheck did to bodies
-(``recheck_bodies``, ``recheck_bodies_onestage``, ``recheck_body_losses``: ``src.evolve.recheck_bodies``).
+(``recheck_bodies``, ``recheck_bodies_onestage``, ``recheck_body_losses``: ``src.evolve.recheck_bodies``). CATCH rows
+add gate GB11's readout (``n_half``, ``growing``: ``growth_at_half``) and, when set, the world overrides of the preset
+(``world_over``) and the per-generation life-length draw (``T_choices``, ``T_sel_mean``: ``life_settings``).
 """
 from __future__ import annotations
 
@@ -196,6 +198,7 @@ def final_life(cfg, r: dict) -> dict:
                                                            ("clicks", "clicks"), ("n_S", "n_S_end"),
                                                            ("n_M", "n_M_end"), ("n_H", "n_H_end"), ("path", "path"))})
         out["mean_distance"] = float((best["dist_sum"] / np.maximum(best["samples"], 1.0)).mean())
+        out.update(growth_at_half(ev, top[:1], n_end, int(lc.final_lives)))
     else:
         out.update(phase_stats(ev, top[:1], draw.seeds[: min(int(lc.get("phase_lives", 16)), draw.n)]))
     n_fork = min(int(lc.get("final_fork_lives", 16)), draw.n)
@@ -219,6 +222,22 @@ def final_life(cfg, r: dict) -> dict:
         out["size_curve_argmax"] = max(curve, key=lambda n: curve[n]["mean"])
         out["size_curve_flat_top"] = analysis.best_size({n: c["F"] for n, c in curve.items()})["flat_top"]
     return out
+
+
+GROWING = 0.1  # GB11: a life is still growing if its size at T exceeds its size at T/2 by more than 10%
+
+
+def growth_at_half(ev, genome, n_end, lives: int) -> dict:
+    """Gate GB11's readout (BODY_DESIGN_PROPOSAL.md 11: "body size at T/2 and at T"): the genome's final lives cut at
+    T/2. No cell reads T, so such a life is the first half of the same life (its fate log is the full life's up to
+    T/2). Returns ``n_half`` (mean live cells at T/2) and ``growing`` (the share of lives whose size at T, ``n_end``,
+    exceeds the size at T/2 by more than ``GROWING``)."""
+    import numpy as np
+
+    half = ev.draw("final", 0, lives=lives, T=ev.T / 2)
+    n_half = ev.columns(ev.run(genome, half), 1, half)["n_end"][0]
+    return {"n_half": float(n_half.mean()),
+            "growing": float(np.mean(np.asarray(n_end) > (1.0 + GROWING) * np.maximum(n_half, 1.0)))}
 
 
 PHASE_WINDOW = 0.125  # beat statistics over the last eighth of the life (the prototype's [900, 1024))
@@ -361,6 +380,26 @@ def death_income(ev, genome, seeds, window: float = DEATH_WINDOW, max_windows: i
             "death_lift_rest": ratio(tot["post"], tot["post_len"], rest, rest_len)}
 
 
+def life_settings(cfg, curves: list[dict]) -> dict:
+    """Row fields that say what a CATCH-era run selected on, added only when set (BELL rows are unchanged):
+    ``world_over``, the run's ``world`` and ``costs_life`` overrides of its preset as one sorted ``key=value`` string
+    (e.g. ``R_cap=500,sigma=0.6``; SPECK itself is a preset), and under the per-generation life-length draw (GB11)
+    ``T_choices`` and ``T_sel_mean``, the mean selection length over the generations. ``evals`` still counts genome
+    evaluations whatever a generation's length (curves.jsonl records each generation's ``T``), so the selection
+    compute in nominal lives is about ``evals * T_sel_mean / T``; judged lives (valid, held-out, final) last ``life.T``.
+    """
+    out = {}
+    over = {k: v for sec in ("world", "costs_life") if cfg.get(sec)
+            for k, v in OmegaConf.to_container(cfg[sec], resolve=True).items()}
+    if over:
+        out["world_over"] = ",".join(f"{k}={over[k]:g}" if isinstance(over[k], (int, float)) else f"{k}={over[k]}"
+                                     for k in sorted(over))
+    if cfg.life.get("T_choices"):
+        Ts = [c["T"] for c in curves if "T" in c]
+        out.update(T_choices=[float(x) for x in cfg.life.T_choices], T_sel_mean=sum(Ts) / len(Ts) if Ts else None)
+    return out
+
+
 def main_life(cfg) -> Path:
     """Life-mode run: evolve, then save the best genome and the population and write the life results row."""
     out = Path(cfg.logging.output_dir)
@@ -391,7 +430,8 @@ def main_life(cfg) -> Path:
            "evals": r["evals"], "wall_s": round(wall, 1), "final_s": round(time.time() - t1, 1),
            "generations": len(r["curves"]), "founders_sampled": r["founders"]["sampled"],
            "valid_score": r["valid"], "heldout_score": r["heldout"], **fin,
-           "evals_to_skill": first_evals_at(r["curves"], float(lc.skill_at)) if r["curves"] else None}
+           "evals_to_skill": first_evals_at(r["curves"], float(lc.skill_at)) if r["curves"] else None,
+           **life_settings(cfg, r["curves"])}
     with open(out / "results.jsonl", "w") as fh:
         fh.write(json.dumps(row) + "\n")
     log_event(event="result", **row)

@@ -16,7 +16,7 @@ sense-plane cells receive Poisson receptor events from the screen point under th
 and the act cell at the body centre clicks (section 9.7). Both kinds run in GRN and program modes, under the heap and
 window schedulers, with forks by replay and the robustness-panel perturbations of section 7.9. The integer twin and
 the later world features are reserved (section 13). Section 15 lists every place where this contract makes a choice
-that the design left open, or deviates from its pseudo-code, and why; entries 33-60 are ABI 3's.
+that the design left open, or deviates from its pseudo-code, and why; entries 33-61 are ABI 3's.
 
 **Implementation state (2026-10-07).** `spec.CURRENT` is `spec.V2`, so every module-level name of `spec.py`
 (`GENOME_SIZE`, `pack_world`, ...) is ABI 2's. `kernel.c` implements ABI 3; `build.run` speaks the caller's ABI
@@ -57,6 +57,14 @@ ABI 1 and ABI 2 implement stage v1; ABI 3 adds BODY-1 v1.
     have the 2^-10 floor (15.58); the drag counts the projected footprint, every occupied column in any plane, not
     the sense-plane cells alone (15.59; every body of complete columns lives bitwise as before); the default c_miss
     is 2 (15.60; a price, so lives are unchanged and F moves by −misses / T). BELL-1 is untouched by all three.
+  - **Red-team tweak RT-T1** (2026-10-08, after the S1 prototype study; ABI 3 still not frozen): the drag counts the
+    filled footprint, the projected footprint plus every tile it encloses (9.7.2, 15.61), so a hollow body drags
+    like the disk it covers. Every body that never encloses a tile lives bitwise as before (full disks, column
+    bodies, hidden stacks, islands, footless drifters); BELL-1 is untouched. One test export is added
+    (`life_filled_footprint`, 4.2). A review then found a residual, recorded in 15.61 and not changed: a hole opened
+    to the outside by a one-column slit is not filled, so such a body keeps part of the old discount.
+  - **SPECK presets** (2026-10-08, before any SPECK run): c_miss 10, so R_cap / c_miss is v1's 50 (15.62). A price
+    only: no cell reads it, so lives are unchanged.
 - **ABI 2** (2026-10-07, approved before the pilot) removes the gene-network input `flank_best / 2`: x has 22
   entries (7.4 step 3), W is `[16][22]` and the genome has 793 slots (4.4), and `genes_blind` zeroes `x[18..21]`
   (12). Placement keeps `phi * flank(e)`, and program mode keeps its `flank_gate`. Why: section 15.32. A genome whose
@@ -268,6 +276,9 @@ void     life_blob_heading(uint64_t seed, int32_t blob, uint64_t h, double v_t, 
 void     life_blob_place(uint64_t seed, int32_t blob, uint64_t q, double x, double y, double r_min, double r_max,
                          double out[2]);
 double   life_receptor_next(uint64_t seed, uint64_t uid, uint64_t j, double t_prev, double lam_max);
+int64_t  life_filled_footprint(int32_t base, int64_t n, const int32_t *a, const int32_t *b);
+         // spec.filled_footprint of the columns (a[i], b[i]) (repeats count once) on base lattice code % 3
+         // (0 hex, 1 square4, 2 square8): n_fill of 9.7.2; -1 on allocation failure
 ```
 
 ### 4.3 Lattice table
@@ -418,7 +429,7 @@ are relative to `t0`. Keys 0-40 are ABI 2's world vector, unchanged. The default
 | 45 | lam_s | 2.0 | receptor events per sense cell per unit added at the halo's centre |
 | 46 | lam_bg | 0.05 | background receptor events per sense cell per unit (sensor noise) |
 | 47 | g_n | 1.0 | nudge gain: force per unit of twitch per unit of exposed face |
-| 48 | drag_exp | 0.5 | drag `gamma = n_foot ^ drag_exp`, n_foot = live sense-plane cells |
+| 48 | drag_exp | 0.5 | drag `gamma = n_fill ^ drag_exp`, n_fill = the filled footprint (9.7.2; the proposal's n_foot, tweaked by 15.59 and 15.61) |
 | 49 | th_click | 0.6 | the hotspot clicks when its twitch crosses this upward while the key is armed |
 | 50 | th_rel | 0.25 | the key re-arms when the hotspot's twitch is below this |
 | 51 | rho_c | 1.0 | capture radius |
@@ -439,9 +450,11 @@ are relative to `t0`. Keys 0-40 are ABI 2's world vector, unchanged. The default
 The lattice kind is a property of the call (the lattice table), not of the world vector. World presets
 (`spec.PRESETS`): `bell_v1` and `bell_v1_5` (world kind 0, hex, L_max 1); `catch_v1` and `catch_v1_l4` (world kind 1,
 hexprism, L_max 4: the user's design, two hidden planes above the act plane) and `catch_v1_l2` (L_max 2: the control
-arm). Every catch preset is BODY_DESIGN_PROPOSAL.md 3.1 (T 1024, BELL's costs and physics, and keys 44-65 at
-their defaults) except two recorded tweaks: c_miss 2 instead of 1 (15.60) and the drag's footprint counted over
-every plane (15.59). ABI 2 refuses them as not implemented.
+arm). Every catch_v1 preset is BODY_DESIGN_PROPOSAL.md 3.1 (T 1024, BELL's costs and physics, and keys 44-65 at
+their defaults) except recorded tweaks: c_miss 2 instead of 1 (15.60) and the drag's footprint counted over
+every plane (15.59) with its holes filled (15.61). `catch_speck` (= `catch_speck_l4`, L_max 4) and `catch_speck_l2`
+are the S1 candidate SPECK: the catch_v1 preset of the same L_max with sigma 0.6, R_cap 500 and c_miss 10 (15.62),
+every other key catch_v1's (docs/LIFE_GATES.md, gates GS1-GS6). ABI 2 refuses them all as not implemented.
 
 World rules (`spec.V3.validate_world`; the kernel's `world_ok` returns -2 for a vector that breaks any of them):
 - every entry is finite, and the reserved entries 38-40 are 0;
@@ -1149,6 +1162,7 @@ closed form; nothing here is stepped numerically, and no cell reads any of it. T
 #### 9.7.1 State, start and timeline
 ```
 dot:     t_x (anchor time), X, Y (position at t_x), Fx, Fy (total force at t_x), n_foot (live cells at z = 0), gam
+body:    P (the columns (a, b) with a live cell in any plane: the projected footprint), n_fill (the filled footprint)
 strokes: per act-plane site with a live occupant: fx, fy, t_f (the occupant's own pull, decaying from t_f)
 O:       the set of act-plane sites (a, b) (z = 1) with a live occupant, as at the left limit of the time group
 key:     armed
@@ -1159,7 +1173,7 @@ lambda_max = lam_bg + lam_s * (1.0 + b2_amp)
 ```
 Start, before the first time group (the initial births are records of the group at t0):
 ```
-X = Y = Fx = Fy = 0.0;  t_x = t0;  n_foot = 0;  armed = 1
+X = Y = Fx = Fy = 0.0;  t_x = t0;  n_foot = 0;  P = {};  n_fill = 0;  gam = 1.0;  armed = 1
 for each existing blob b, in increasing b:
     (vx_b, vy_b) = blob_heading(seed, b, 0, v_t);  h_b = 1
     tau_b = tau_turn > 0 ? poisson_next(seed, S_TURN, b, 0, t0, tau_turn) : +inf;  k_b = 1
@@ -1198,27 +1212,30 @@ dot_adv(t):                        # moves the anchor to t
         k = tau_z * (1.0 - e) / gam;  dx = Fx * k;  dy = Fy * k
         X = X + dx;  Y = Y + dy;  path = path + sqrt(dx * dx + dy * dy)
     Fx = Fx * e;  Fy = Fy * e;  t_x = t
-gam = pow((double) n_foot, drag_exp)                         # recomputed whenever n_foot changes to a value > 0
+gam = pow((double) n_fill, drag_exp)                         # recomputed whenever P changes and n_fill > 0 (9.7.2)
 blob_at(b, t):  dt = t - t_b;  return (x_b + vx_b * dt, y_b + vy_b * dt)
 ```
 `tau_z * (1.0 - e) / gam` is `(tau_z * (1.0 - e)) / gam`. `dot_at` from an older anchor and `dot_adv` compute the
 same `X + Fx * k`, so a record that reads the dot after another record of its group moved the anchor gets the same
 bits. Drag grows with the square root of the footprint (rule N6): thrust comes from the rim (about sqrt(n) cells), so
-the top speed does not depend on body size and growth buys sensing reach, not speed.
+the top speed does not depend on body size and growth buys sensing reach, not speed. The footprint is the body's
+extent on the screen, the filled footprint of 9.7.2 (tweaks 15.59 and 15.61 of the proposal's sense-plane count).
 
 #### 9.7.2 Bodies and strokes (rules N1, N3, N5)
 Actions on the records of a time group at t (after `world_to(t)`):
 ```
 R_BIRTH at (a, b, z):
     dot_adv(t)
-    if no other live cell in column (a, b), any plane: n_col += 1;  gam = pow((double) n_col, drag_exp)   # 15.59
+    if no other live cell in column (a, b), any plane:                                   # 15.59, 15.61
+        add (a, b) to P;  n_fill = filled_footprint(P);  gam = pow((double) n_fill, drag_exp)
     mark (a, b, z) live
     if z == 0: n_foot += 1
     if z == 1: (fx, fy, t_f) of (a, b) = (0.0, 0.0, t);  defer "add (a, b) to O"
 R_DEATH at (a, b, z):
     dot_adv(t)
     mark (a, b, z) not live
-    if no live cell left in column (a, b): n_col -= 1;  if n_col > 0: gam = pow((double) n_col, drag_exp)
+    if no live cell left in column (a, b):
+        remove (a, b) from P;  n_fill = filled_footprint(P);  if n_fill > 0: gam = pow((double) n_fill, drag_exp)
     if z == 0: n_foot -= 1
     if z == 1: e_i = exp(-(t - t_f) / tau_z);  Fx = Fx - fx * e_i;  Fy = Fy - fy * e_i;  defer "remove (a, b) from O"
 R_SPIKE at (a, b, 1) with kappa > 0, unless F(motor_off) at t:          # a stroke of an act-plane cell
@@ -1249,11 +1266,26 @@ end of the time group: apply the deferred changes of O, in record order
 - Only act-plane strokes reach the world (N1). A twitch in another plane is charged `c_tw * kappa` like every twitch
   and does nothing. The body is rigid: an act cell pulls whether or not a sense cell is under it, and the force acts
   on the dot through the footprint (`gam`).
-- **The footprint** (rule N6, tweaked; 15.59). The drag is `gam = n_col ^ drag_exp`, where `n_col` counts the columns
-  `(a, b)` that hold at least one live cell in any plane: the body's projected footprint. Traction still needs a
-  sense-plane cell (`n_foot > 0`, 15.44). "Live" is the accountant's own view, updated at once by each R_BIRTH and
-  R_DEATH (like `n_foot`), not the deferred `O`. For a body of complete columns `n_col = n_foot`, so every column
-  body lives exactly as under the proposal's sense-plane count.
+- **The footprint** (rule N6, tweaked twice; 15.59, 15.61). The drag is `gam = n_fill ^ drag_exp`. Tile the screen
+  with the base lattice's cells at the sites' planar positions (4.3): regular hexagons on hex bases, unit squares on
+  square bases. P, the projected footprint, is the set of columns `(a, b)` that hold at least one live cell in any
+  plane. A free tile (a column outside P) is **enclosed** if no path of free tiles, each sharing an edge with the
+  next, leads from it to infinity; edge-sharing tiles are the six hex neighbours on hex bases and the four
+  neighbours `(±1, 0), (0, ±1)` on square bases, also on square8, whose diagonal slots touch only at a corner (so a
+  corner contact closes a gap). `n_fill = |P| + (the number of enclosed tiles)`: the area the body covers with its
+  holes filled (`spec.filled_footprint`). Islands add their own tiles and what they enclose together, not the gaps
+  between them; an island inside a hole is inside the filled area anyway; footless act cells and overhanging hidden
+  cells are in P like any cell. n_fill is an integer, so any exact method gives the same bits; the kernel keeps P
+  as a list sorted by `(b, a)` (insertion and removal O(|P|)) and, at each change of P, counts the free runs between
+  occupied tiles row by row: a row's two unbounded runs and every run of a row next to an empty row are outside,
+  runs of adjacent rows that share an edge are joined (union-find), and the bounded runs not joined to the outside
+  are enclosed (O(|P|) time and memory; `spec.filled_footprint` does the same after a sort).
+- Traction still needs a sense-plane cell (`n_foot > 0`, 15.44). "Live" is the accountant's own view, updated at
+  once by each R_BIRTH and R_DEATH (like `n_foot`), not the deferred O: a change at t only sets the drag of the
+  intervals after t (`dot_adv(t)` comes first), so the dot's motion up to t uses the footprint at t-, and a time
+  group's intermediate footprints, while its births arrive one by one, never act. For a body of complete columns
+  without enclosed tiles `n_fill = |P| = n_foot`, so every such body lives exactly as under the proposal's
+  sense-plane count; it is world physics, and no cell reads it.
 
 #### 9.7.3 Blobs: run and tumble, placements and timers
 ```
@@ -1535,6 +1567,9 @@ blob_present(42, 0, 0.5)                      = false                  (draw = 0
 poisson_next(42, S_TURN, 0, 0, 0.0, 20.0)     = 15.984882681203024     (the target's first turn)
 poisson_next(42, S_RTIME, 0, 0, 0.0, 50.0)    = 71.9336107410924       (its first timer re-placement)
 drag(37, 0.5)                                 = 6.082762530298219
+filled_footprint(ring 3) = filled_footprint(ring 3 + centre) = 37       (hex: the 18 ring-3 tiles enclose 19)
+filled_footprint(centre + the six ring-3 corners) = 7                   (islands enclose nothing)
+filled_footprint({(1, 0), (0, 1), (-1, 0), (0, -1)}, square8prism) = 5  (tiles touching at corners close the gap)
 dot_gain(1.0, 2.5, drag(37, 0.5))             = (k 0.13549762641654428, e 0.6703200460356393)
 ```
 
@@ -1861,3 +1896,76 @@ and hand-designs no behaviour (hand-built organisms remain references and gates 
     the lone zygote (+0.043, z 19) and the column ladder stays uphill (proposal 3.5 had measured c_miss 2 as inside
     the good region). The world default `c_miss` is 2; the price only changes the bill, so every life is unchanged
     and F moves by −misses / T. Gate GB7 screens blind pressers over the GRN grid.
+61. **Drag counts the filled footprint (red-team tweak RT-T1 of rule N6, 2026-10-08).** The S1 prototype study found a
+    drag loophole: drag counted footprint cells, so a hollow body kept its reach but shed drag. With the proposal's
+    sense-plane count, a sense plane of centre + ring 3 (19 cells) under a full act disk dragged like 19 cells, not
+    37 (28% less), and that hollow body was the best tuned reflex there, competing with lateral routing for the wrong
+    reason. In this kernel 15.59 already counted the act disk (that body has 37 occupied columns and lives bitwise
+    alike before and after this entry), but a body hollow in every plane still dragged like its occupied columns
+    alone: the centre column and a ring of 18 columns cover the 37-tile disk and dragged like 19. The proposal's
+    reason for the law is the body's extent on the screen (drag grows with its linear size, Stokes-like), and a ring
+    has the extent of the disk it bounds, so the drag now counts the filled footprint: the occupied columns plus
+    every tile they enclose (9.7.2). Choices:
+    - tiles connect through shared edges: the six hex neighbours, and on square bases the four axial ones, also on
+      square8, whose diagonal slots touch only at a corner (a corner contact leaves no gap between closed tiles);
+    - islands are not merged (no convex hull): the gaps between separate pieces stay free, so the islands of GB7 keep
+      their footprint 7, and a body pays for the area it actually closes off;
+    - the footprint is the accountant's live view and changes at the record, as in 15.59, so the dot's motion up to t
+      uses the footprint at t- and a time group's intermediate footprints never act;
+    - **recorded residual (review, 2026-10-08): a slit to the outside reopens a hole.** Only tiles with no edge path
+      to infinity are filled, so a body that opens its hole to the outside through a one-column slit gets the drag
+      discount back while it spans the same disk. The thick hollow body (centre + rings 2-3 in every plane, n_fill
+      37) without the edge-sharing columns (2, 0) and (3, 0) encloses nothing and drags like its 29 columns; closing
+      either end of the slit closes the hole again (37, or 36 with the outer notch). Measured (column reflex, 2,048
+      paired lives, seeds 41,000,000 + s), against the same slit body with two quiet sense cells (no receptor)
+      refilling the slit's columns in the sense plane only, which keeps every act-plane face and pull and closes the
+      hole: catch_v1 +0.223 ± 0.010 F (z 21; speed 0.401 against 0.356, the factor sqrt(37 / 29)), so about +0.18 F
+      of drag discount after the two quiet cells' upkeep (about 0.04), the size RT-T1 removed from the closed thick
+      hollow (−0.157); SPECK +0.177 ± 0.021. Against the closed thick hollow the slit body gains in SPECK (+0.060 ±
+      0.025, z 2.4) and loses in catch_v1 (−0.199 ± 0.012), where the two removed columns' pull is worth more. Such
+      bodies sit far below the full ring 3 (catch_v1 +1.62 against +3.86, SPECK +0.35 against +5.05), so no gate
+      changes. Left open, a decision for the user: the morphological closing of P by the radius-1 disk before the
+      fill, or the filled convex hull of each edge-connected piece, would close this slit (both give it 36 tiles)
+      and re-price no hand-built gate body without holes (rings, column ladders, runners, islands, the SPECK shapes
+      and GS3's path bodies), but they also charge ragged grown bodies for their notches: on the end-of-life bodies
+      of the pre-pilot smokes' best genomes (32 lives each) the closing changes 24 of 32 seeded v1 bodies (98.2 →
+      100.5 tiles on average), 16 of 32 SPECK unseeded and 12 of 32 SPECK seeded, the hull 25, 24 and 18 (98.2 →
+      103.6), GS5's grown routers 6 and 8 of 16 and the GB6 and GB9 column grower 10 and 11 of 32. Either is a
+      kernel and spec change with new T-tests and a gate rerun. Test: `test_a_slit_to_the_outside_leaves_the_hole_free`.
+    It is world physics computed from occupancy only: no cell reads it, no clock, nothing global flows into a life.
+    The kernel keeps P sorted by (b, a) and recounts the filled tiles by row runs at each change of P: O(|P|) time and
+    memory per column birth or death (a few thousand operations at the 1024-cell guard), never the bounding box's
+    area (a 3,000-tile diagonal line counts in O(n)).
+    Measured on paired lives (4,096 per point, seeds 16,000,000 + s, the hand-built column reflex, the kernel of
+    8395c12 against this one): in catch_v1 the hollow ring 3 (centre + ring-3 columns, 38 cells) lost
+    −0.504 ± 0.005 F (+0.387 → −0.117; speed 0.148 → 0.106, the factor sqrt(19 / 37) = 0.717) and the thick
+    hollow ring (rings 2-3 + centre, 62 cells) −0.157 ± 0.008; in SPECK (sigma 0.6, R_cap 500) −0.358 ± 0.012 and
+    −0.144 ± 0.016. The full ring 3 and the sense-hollow ring 3 (the prototype's hollow body, act disk full) are
+    bitwise unchanged; the latter's lead over the full ring 3 (+0.449 ± 0.011 in catch_v1, +0.358 ± 0.034 in SPECK)
+    is all cost (18 fewer sense cells: 0.450 and 0.389 per unit), with income equal within 1 SE, so it is cell
+    economy, which the world should keep, not drag. Every body that never encloses a tile lives bitwise as before:
+    full disks, column bodies, hidden stacks, islands, turnover, footless drifters, a footless ring that grows a foot
+    (golden hashes of the old kernel in `test_bodies_without_holes_live_bitwise_as_before_the_filled_footprint`).
+    Random GRN growers change only in lives that enclose a tile while the dot is pulled (a diagnostic of 40 dividing
+    and dying genomes, 3 lives each: 17 of 120 lives changed, all of them such lives; 10 more enclosed tiles only
+    while still or with a residual force below an ulp of X, and stayed bitwise).
+    BELL-1 is untouched (no drag in world kind 0). Tests: `test_the_filled_footprint_fills_holes_and_nothing_else`
+    (spec against a flood fill on 1,200 random shapes on every base), `test_the_kernel_fills_the_footprint_like_spec`
+    (the export on 2,000 shapes), `test_a_hollow_ring_drags_like_the_filled_disk`,
+    `test_footless_cells_enclose_and_islands_do_not`, the Euler and record re-derivation checks (now with the filled
+    footprint, including a hollow ring and a GRN body whose holes open and close), and kernel = reference bitwise on
+    hole-forming growing and dying bodies (T3: a hollow ring 2 under turnover, a static hollow ring 3, a grower and
+    GRN genomes on hexprism, square4prism and square8prism).
+62. **SPECK prices a miss at 10 (tweak, 2026-10-08, before any SPECK run).** With R_cap 500 and v1's c_miss 2, a
+    blind click breaks even at a 0.4% capture rate (2 / 502), against 1.96% (2 / 102) in v1, and gate GS6 failed:
+    the best of 480 blind pressers earned +0.292 ± 0.011 (n 2048), +0.312 above the lone zygote (z 29), though
+    0.186 below the sensing 2-cell clicker, and the blind GRN presser and relay +0.26. A blind presser is a
+    founder-scale trap of the kind 15.60 removed from v1 (rule N10: the miss cost makes blind clicking lose). c_miss
+    10 keeps v1's ratio R_cap / c_miss = 50, so a blind click again breaks even at 2 / 102. Measured on the same
+    lives before the change (gates_speck.json at c_miss 2, `at_c_miss_10` blocks): every blind cheat falls below
+    the clicker by 0.60-2.86 and below the lone zygote; the sensing clicker loses only its misses' extra price
+    (1.94 misses per life: about −0.015 F, so it stays about +0.46 above the lone zygote); router minus the best
+    tuned reflex is +2.246 ± 0.101 (z 22.3), unchanged. Islands and runners are unaffected (they lose as before).
+    The tuned knobs (handbuilt.SPECK_TUNED) were tuned at c_miss 2 and are not re-tuned. Lives are unchanged: no
+    cell reads a price (the kernel only adds it to the ledger's cost tally), so events, fates and hashes are bitwise
+    the same and F moves by −8 · misses / T. The gates were rerun at the new presets (docs/LIFE_GATES.md, SPECK).
