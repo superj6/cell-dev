@@ -10,7 +10,8 @@ input travels with the gene being regulated, as cis-regulatory DNA does.
 
 Two layouts share this machinery: kind ``types`` (``Dims``, the legacy tick pipeline above) and kind ``life``
 (``LifeDims``, ``LifeLayout``: the 793-slot one-life genome of docs/ONE_LIFE_DESIGN.md, laid out exactly as
-``src/life/spec.py`` packs it for the kernel). ``make_layout`` picks the class by ``dims.kind``.
+``src/life/spec.py`` packs it for the kernel, and the 875-slot ABI-3 genome of BODY-1, ``LIFE_DIMS_ABI3``).
+``make_layout`` picks the class by ``dims.kind``.
 """
 from __future__ import annotations
 
@@ -165,29 +166,36 @@ class Layout:
 
 @dataclass(frozen=True)
 class LifeDims:
-    """Dims of the one-life genome. The defaults (stim 0) are the kernel's 793-slot table (ABI 2). ``stim`` > 0
-    describes a padded later-stage layout (receptor-trace inputs appended to W, receptor gain rows appended to A and
-    a0) that the kernel cannot run yet; ``LifeLayout.pad`` embeds a genome into it neutrally."""
+    """Dims of the one-life genome. The defaults (stim 0, cues 0, pheno 21) are ABI 2's 793-slot table (BELL-1).
+    Larger dims describe padded later layouts: ``stim`` receptor-trace inputs appended to W and
+    receptor gain rows appended to A and a0, ``cues`` plane-cue inputs after them, and ``pheno`` 22 for the vertical
+    placement knob zeta. ``LIFE_DIMS_ABI3`` (stim 1, cues 2, pheno 22: 875 slots) is ABI 3's table (LIFE_ABI.md 4.4);
+    ``LifeLayout.pad`` embeds an ABI-2 genome into it neutrally. The kernel runs both ABIs (``build.run`` speaks ABI 2
+    and ABI 3), so the layouts of both are ``runnable``; other padded layouts are not."""
 
-    genes_max: int = 16  # spec.G_MAX (LifeLayout checks every v1 dimension against src/life/spec.py)
+    genes_max: int = 16  # spec.G_MAX (LifeLayout checks every dimension of an ABI layout against src/life/spec.py)
     genes_init: int = 8  # spec.G_INIT
     morph: int = 2  # spec.M
     channels: int = 2  # spec.C
     stim: int = 0  # spec.S
-    pheno: int = 21  # spec.P
+    pheno: int = 21  # spec.P (ABI 3: 22 phenotype knobs, then the receptor gain row)
     kind: str = "life"
+    cues: int = 0  # plane-cue inputs (ABI 3: is_S, is_M)
 
     @property
     def genes(self) -> int:
         return self.genes_max
 
     @property
-    def grn_inputs(self) -> int:  # g, m/(1+m)[M], own trace, received traces[C], n_view/D, receptors[S]
-        return self.genes_max + self.morph + 1 + self.channels + 1 + self.stim
+    def grn_inputs(self) -> int:  # g, m/(1+m)[M], own trace, received traces[C], n_view/D, receptors[S], cues
+        return self.genes_max + self.morph + 1 + self.channels + 1 + self.stim + self.cues
 
     @property
     def readout(self) -> int:  # the phenotype knobs, then one receptor gain row per modality
         return self.pheno + self.stim
+
+
+LIFE_DIMS_ABI3 = LifeDims(stim=1, cues=2, pheno=22)  # BODY-1 v1 (LIFE_ABI.md 4.4): W [16][25], A [23][16]
 
 
 def make_dims(d) -> Dims | LifeDims:
@@ -203,7 +211,9 @@ def make_layout(dims, **kw) -> Layout:
     return LifeLayout(dims, **kw) if dims.kind == "life" else Layout(dims)
 
 
-# Initialization (design, INITIALIZATION: distribution choices, not rules; the census calibrates them):
+# Initialization (design, INITIALIZATION: distribution choices, not rules; the census calibrates them). The knob
+# priors below are BELL-1's. BODY-1 configs set their own (configs/life_catch.yaml: readout_std, knob_init and
+# input_init, a tweak calibrated by the CATCH census):
 # knob -> (a0 mean, a0 std, std of the knob's A row). A knob whose two stds are 0 starts exactly at decode(mean) in
 # every cell of every founder: no cell dies (p_die = 0), placement starts without the flank term (phi = 0), and the
 # dormant directional and chiral gains start at exactly 0.
@@ -245,24 +255,40 @@ class LifeLayout(Layout):
       slot, from this lineage or another, starts with no regulatory targets it did not bring.
     """
 
-    def __init__(self, dims: LifeDims, knob_init: dict | None = None):
+    def __init__(self, dims: LifeDims, knob_init: dict | None = None, input_init: dict | None = None,
+                 readout_std: tuple | None = None):
         from src.life import spec
 
-        if (dims.genes_max, dims.morph, dims.channels, dims.pheno) != (spec.G_MAX, spec.M, spec.C, spec.P):
+        n_pheno = (len(spec.KNOBS_V2), len(spec.KNOBS_V3) - spec.V3.S)  # 21 (ABI 2) or 22 (ABI 3: + zeta)
+        if (dims.genes_max, dims.morph, dims.channels) != (spec.G_MAX, spec.M, spec.C) or dims.pheno not in n_pheno:
             raise ValueError(f"life dims must have genes_max {spec.G_MAX}, morph {spec.M}, channels {spec.C} and pheno "
-                             f"{spec.P} (fixed by kernel ABI v{spec.ABI_VERSION}), got {dims}")
-        if not 0 <= dims.genes_init <= dims.genes_max or dims.stim < 0:
-            raise ValueError(f"need 0 <= genes_init <= genes_max and stim >= 0, got {dims}")
+                             f"21 or 22 (fixed by the kernel ABIs), got {dims}")
+        if not 0 <= dims.genes_init <= dims.genes_max or dims.stim < 0 or dims.cues < 0:
+            raise ValueError(f"need 0 <= genes_init <= genes_max and stim, cues >= 0, got {dims}")
         self.dims = dims
         self.fields = _life_fields(dims)
-        init = {k: (0.0, LIFE_A0_STD, LIFE_A_STD) for k in spec.KNOBS}
+        # readout row names: the phenotype knobs, then one receptor gain row per modality
+        self.knob_names = spec.KNOBS_V3[:dims.pheno] + tuple("g_r" if m == 0 else f"g_r{m}" for m in range(dims.stim))
+        init = {k: (0.0, LIFE_A0_STD, LIFE_A_STD) for k in self.knob_names}
         init.update(LIFE_KNOB_INIT)
+        if readout_std is not None:  # (a0 std, A std) of every knob that does not start fixed (config readout_std)
+            s0, sa = (float(x) for x in readout_std)
+            init = {k: v if v[1:] == (0.0, 0.0) else (v[0], s0, sa) for k, v in init.items()}
         init.update({k: tuple(float(x) for x in v) for k, v in (knob_init or {}).items()})
-        bad = set(init) - set(spec.KNOBS)
+        bad = set(init) - set(spec.KNOBS_V3) - set(self.knob_names)
         if bad:
             raise KeyError(f"unknown knobs in knob_init: {sorted(bad)}")
-        G, NIN = dims.genes_max, dims.grn_inputs
+        G = dims.genes_max
         view_col = G + dims.morph + 1 + dims.channels  # n_view/D (ABI 2 has no flank_best input)
+        recept = slice(view_col + 1, view_col + 1 + dims.stim)  # receptor traces, then the plane cues
+        # non-gene inputs by name (W columns G..), for input_init: founder std of every weight from that input
+        cues = ("is_S", "is_M", *(f"cue{c}" for c in range(2, dims.cues)))[:dims.cues]
+        self.input_names = (tuple(f"m{i}" for i in range(dims.morph)) + ("f",)
+                            + tuple(f"r{c}" for c in range(dims.channels)) + ("n_view",)
+                            + tuple("rho" if m == 0 else f"rho{m}" for m in range(dims.stim)) + cues)
+        bad = set(input_init or {}) - set(self.input_names)
+        if bad:
+            raise KeyError(f"unknown inputs in input_init: {sorted(bad)} (inputs: {self.input_names})")
         self.slices = {}
         units, blocks, stds, means, sigmas, genes, srcs = [], [], [], [], [], [], []
         offset = 0
@@ -288,10 +314,12 @@ class LifeLayout(Layout):
             if f.name == "W":
                 src[:, :G] = torch.arange(G)  # entries fed by gene j are mutable only while j is active
                 std[:, view_col] = 0.0  # homogeneous founders: n_view starts with no weight
-                std[:, NIN - dims.stim:] = 0.0  # receptor inputs of a padded layout start silent
+                std[:, recept] = 0.0  # receptor-trace inputs start silent; plane cues start random (BODY-1 census)
+                for name, v in (input_init or {}).items():  # overrides (config genome.input_init)
+                    std[:, G + self.input_names.index(name)] = float(v)
             if f.name in ("A", "a0"):
                 for r in range(dims.readout):
-                    m, s0, sa = init[spec.KNOBS[r]] if r < dims.pheno else (0.0, 0.0, 0.0)
+                    m, s0, sa = init[self.knob_names[r]]
                     std[r] = sa if f.name == "A" else s0
                     mean[r] = 0.0 if f.name == "A" else m
             stds.append(std.reshape(-1))
@@ -312,18 +340,20 @@ class LifeLayout(Layout):
         self._gene_idx = torch.where(self.gene_of >= 0, self.gene_of, torch.tensor(G))
         self._src_idx = torch.where(self.src_of >= 0, self.src_of, torch.tensor(G))
         self._field_at = torch.cat([torch.full((math.prod(f.shape),), i) for i, f in enumerate(self.fields)]).tolist()
-        if self.runnable:
+        # the spec ABI whose genome table these dims are (None for other padded layouts)
+        shape = (dims.stim, dims.cues, dims.pheno)
+        self.abi = next((x for x in (spec.V2, spec.V3) if shape == (x.S, x.NIN - len(spec.INPUTS_V2) - x.S,
+                                                                    x.P - x.S)), None)
+        if self.abi is not None:
             ours = [(f.name, tuple(f.shape), f.block, f.unit) for f in self.fields]
-            theirs = [(f.name, tuple(f.shape), f.block, f.unit) for f in spec.GENOME_FIELDS]
-            if ours != theirs or {k: v[:2] for k, v in self.slices.items()} != spec.GENOME_SLICES:
-                raise RuntimeError("the life layout disagrees with src/life/spec.py GENOME_FIELDS")
+            theirs = [(f.name, tuple(f.shape), f.block, f.unit) for f in self.abi.GENOME_FIELDS]
+            if ours != theirs or {k: v[:2] for k, v in self.slices.items()} != self.abi.GENOME_SLICES:
+                raise RuntimeError(f"the life layout disagrees with src/life/spec.py ABI {self.abi.version}")
 
     @property
     def runnable(self) -> bool:
-        """True for the kernel's own layout (no receptor modalities yet)."""
-        from src.life import spec
-
-        return self.dims.stim == spec.S
+        """True for the genome table of a kernel ABI (ABI 2 or ABI 3: ``build.run`` speaks both)."""
+        return self.abi is not None
 
     def from_dict(self, d: dict) -> torch.Tensor:
         """``Layout.from_dict`` with a shape check per field. A genome saved under ABI 1 has the same dims but a
@@ -495,14 +525,18 @@ class LifeLayout(Layout):
         return self.silence(p)
 
     def pad(self, params: torch.Tensor, target: "LifeLayout") -> torch.Tensor:
-        """Embed genomes into a later-stage layout with ``target.dims.stim >= stim`` (design: LATER-STAGE FIELDS).
+        """Embed genomes into a later-stage layout with at least as many inputs and knobs (design: LATER-STAGE
+        FIELDS), for example ABI 2 into ``LIFE_DIMS_ABI3`` (the same as ``spec.V3.pad_genomes``).
 
         New inputs (W columns) and knobs (A rows and a0 entries) are appended, so every existing entry keeps its
-        (row, column) place, and every new entry is 0: a new receptor input has no weight and a new gain row decodes
-        to 0. Padding to the same dims returns an identical genome.
+        (row, column) place, and every new entry is 0: a new receptor or cue input has no weight, and a new knob or
+        gain row decodes to 0. Padding to the same dims returns an identical genome.
         """
         a, b = self.dims, target.dims
-        if (a.genes_max, a.morph, a.channels, a.pheno) != (b.genes_max, b.morph, b.channels, b.pheno) or b.stim < a.stim:
+        grows = b.stim >= a.stim and b.cues >= a.cues and b.pheno >= a.pheno
+        # appending keeps every entry in place only if nothing of the source sits after a part that grows
+        in_place = (a.stim == b.stim or a.cues == 0) and (a.pheno == b.pheno or a.stim == 0)
+        if (a.genes_max, a.morph, a.channels) != (b.genes_max, b.morph, b.channels) or not (grows and in_place):
             raise ValueError(f"cannot pad {a} into {b}")
         lead = params.shape[:-1]
         parts = []
@@ -514,19 +548,17 @@ class LifeLayout(Layout):
 
     # ------------------------------------------------------------------------------------------------ kernel
     def pack(self, params: torch.Tensor, kind: str = "hex"):
-        """Raw genomes -> the kernel's float64 genome table ``[B, 793]`` (``spec.pack_genomes``)."""
-        from src.life import spec
-
+        """Raw genomes -> the kernel's float64 genome table of this layout's ABI (``abi.pack_genomes``): ``[B, 793]``
+        under ABI 2, ``[B, 875]`` under ABI 3."""
         if not self.runnable:
-            raise ValueError(f"kernel ABI v{spec.ABI_VERSION} runs stim = {spec.S} genomes only, got {self.dims}")
-        return spec.pack_genomes(params.detach().cpu().numpy().reshape(-1, self.size), kind)
+            raise ValueError(f"no kernel ABI has the genome table of {self.dims}")
+        return self.abi.pack_genomes(params.detach().cpu().numpy().reshape(-1, self.size), kind)
 
     def zygote_phenotype(self, params: torch.Tensor, kind: str = "hex"):
-        """Decoded phenotype ``[B, 21]`` of each genome's zygote, theta = decode(A g0 + a0)."""
+        """Decoded phenotype ``[B, P]`` of each genome's zygote, theta = decode(A g0 + a0) (P = 21 under ABI 2, 23
+        under ABI 3). The genes start at g0 in every plane, so this is the phenotype before the plane cues act."""
         import numpy as np
 
-        from src.life import spec
-
         gt = self.pack(params, kind)
-        a, b = spec.GENOME_SLICES["s0"]
-        return np.array([spec.phenotype(row, row[a:b]) for row in gt])
+        a, b = self.abi.GENOME_SLICES["s0"]
+        return np.array([self.abi.phenotype(row, row[a:b]) for row in gt])

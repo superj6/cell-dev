@@ -74,13 +74,15 @@ def _table(summary) -> str:
 def life_summary(df):
     """One row per life condition (world, control, lattice, breeding, selection) over its seeds: medians unless
     noted."""
-    for col, default in (("control", "full"), ("msg_reliance", float("nan")), ("evals_to_skill", float("nan")),
+    for col, default in (("control", "full"), ("msg_reliance", float("nan")), ("sense_reliance", float("nan")),
+                         ("evals_to_skill", float("nan")),
                          ("F_envelope", float("nan")), ("death_lift", float("nan")),
                          ("selection_physics", None), ("recheck_bodies", float("nan")),
                          ("recheck_bodies_onestage", float("nan")), ("recheck_body_losses", float("nan"))):
         if col not in df:
             df[col] = default
     df = df.assign(control=df["control"].fillna("full"), msg_reliance=df["msg_reliance"].astype(float),
+                   sense_reliance=df["sense_reliance"].astype(float),
                    evals_to_skill=df["evals_to_skill"].astype(float), F_envelope=df["F_envelope"].astype(float),
                    death_lift=df["death_lift"].astype(float), recheck_bodies=df["recheck_bodies"].astype(float),
                    recheck_bodies_onestage=df["recheck_bodies_onestage"].astype(float),
@@ -97,7 +99,8 @@ def life_summary(df):
              valid=("valid_score", "median"), heldout=("heldout_score", "median"), cells=("n_cells", "median"),
              n_peak=("n_peak", "median"), income=("income", "median"), energy=("energy", "median"),
              income_per_cell=("income_per_cell", "median"), extinction=("extinction_rate", "median"),
-             msg_reliance=("msg_reliance", "median"), F_envelope=("F_envelope", "median"),
+             msg_reliance=("msg_reliance", "median"), sense_reliance=("sense_reliance", "median"),
+             F_envelope=("F_envelope", "median"),
              death_lift=("death_lift", "median"), reached=("evals_to_skill", "count"),
              evals_to_skill=("evals_to_skill", "median"), git=("git", lambda x: ",".join(sorted(set(x)))),
              bodies_kept=("recheck_bodies", lambda x: x.sum(min_count=1)),

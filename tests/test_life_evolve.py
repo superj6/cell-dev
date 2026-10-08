@@ -640,3 +640,189 @@ def test_aggregate_groups_by_selection_and_reports_git():
                                      dict(row, seed=2, recheck_k=0, recheck_bodies=None)]))
     assert list(out["bodies_kept"])[1] == 0.5 and list(out["body_losses"])[1] == 2  # (3 + 2) / (10 + 0), 2 + 0
     assert np.isnan(out["bodies_kept"][0]) and np.isnan(out["body_losses"][0])  # one-stage
+
+
+# ------------------------------------------------------------------------------------------- BODY-1: CATCH
+CATCH_CFG = str(ROOT / "configs/life_catch.yaml")
+CATCH_TINY = ["life.T=192", "life.founder_T=96", "life.valid_lives=2", "life.heldout_lives=1",
+              "life.heldout=[{v_t: 0.2}]", "life.final_lives=4", "life.final_top=2", "life.final_fork_lives=2",
+              "life.size_curve=[2,14]", "life.size_curve_lives=2", "clones.every=1", "clones.top=2",
+              "clones.times=[0.5]", "clones.lives=1", "evolve.mu=4", "evolve.lam=12", "evolve.generations=3",
+              "evolve.founders=2", "evolve.init_samples=48", "evolve.max_init_samples=96", "evolve.heldout_every=1",
+              "evolve.batch=16", "evolve.recheck_k=8", "evolve.recheck_lives=2", "threads=2"]
+
+
+def _catch(*overrides, path=CATCH_CFG):
+    return load_config(path, CATCH_TINY + list(overrides))
+
+
+def test_the_catch_evaluator_runs_abi3_genomes_and_reports_the_planes():
+    from src.genome import LIFE_DIMS_ABI3
+
+    _, layout, _, ev = setup(_catch())
+    assert layout.dims == LIFE_DIMS_ABI3 and layout.abi is spec.V3 and ev.abi is spec.V3 and ev.catch
+    assert ev.kind == "hexprism" and ev.world().L_max == 4 and ev.extinct_charge
+    x = layout.random(16, torch.Generator().manual_seed(3))
+    draw = ev.draw("gen", 0)
+    r = ev(x, draw)
+    led = ev.run(x, draw).ledger.reshape(16, draw.n, -1)
+    L3 = spec.V3.L
+    for k, c in (("captures", "captures"), ("misses", "misses"), ("clicks", "clicks"), ("n_S", "n_S_end"),
+                 ("n_M", "n_M_end"), ("n_H", "n_H_end")):
+        assert np.array_equal(getattr(r, k).numpy(), led[:, :, L3[c]].mean(1)), k
+    assert np.allclose((r.n_S + r.n_M + r.n_H).numpy(), r.n_cells.numpy(), rtol=1e-12, atol=0)
+    assert set(r.take(0, catch=True)) == set(LifeEval.KEYS + LifeEval.CATCH_KEYS)
+    assert set(r.take(0)) == set(LifeEval.KEYS)  # the BELL row keys are unchanged
+    bell = LifeEvaluator(_cfg(), LAY)
+    assert bell.abi is spec.V2 and not bell.catch and not bell.extinct_charge
+    rb = bell(_pop(4), bell.draw("gen", 0))
+    assert all((getattr(rb, k) == 0).all() for k in LifeEval.CATCH_KEYS)
+    with pytest.raises(ValueError, match="ABI-3 genome"):  # a CATCH world with BELL's 793-slot genome
+        setup(_catch("genome.life.stim=0", "genome.life.cues=0", "genome.life.pheno=21", "genome.input_init=null",
+                     "genome.knob_init=null", "genome.readout_std=null"))
+
+
+def test_the_extinction_charge_scores_an_extinct_life_as_a_silent_cell_living_on():
+    """Tweak (evaluate.py): in CATCH a zygote that dies at once has F about 0 and would beat the silent lone cell
+    (-c_live) and every losing body. Under life.extinct_charge an extinct life pays c_live for every counted unit
+    after its extinction; the kernel's F stays in F_kernel, and lives that do not go extinct are untouched."""
+    _, layout, _, ev = setup(_catch())
+    g = torch.zeros(2, layout.size)  # no active gene: a decode of a0 alone
+    a0 = layout.view(g, "a0")
+    a0[0, spec.V3.K["p_die"]] = 2.0  # p_die = 1: the zygote dies at its first tick
+    a0[:, spec.V3.K["tau_m"]] = 0.0
+    draw = ev.draw("gen", 0)
+    col = ev.columns(ev.run(g, draw), 2, draw)
+    w = draw.worlds[0]
+    assert col["extinct"][0].all() and not col["extinct"][1].any()
+    assert (col["F_kernel"][0] > -1e-3).all()  # the kernel's F of the dead zygote is about 0 ...
+    rest = w.t0 + w.T - col["t_ext"][0]
+    assert np.allclose(col["F"][0], col["F_kernel"][0] - w.c_live * rest / w.T, rtol=0, atol=1e-15)
+    assert (np.abs(col["F"][0] + w.c_live) < 1e-3).all()  # ... and is charged like a silent cell
+    assert np.array_equal(col["F"][1], col["F_kernel"][1]) and (col["F"][1] < -w.c_live).all()  # lives on: unchanged
+    assert np.array_equal(col["extinct_charge"][0], col["F_kernel"][0] - col["F"][0])
+    r = ev(g, draw)  # the charge is a cost: F = income rate - cost rate still holds
+    assert torch.allclose(r.score - r.energy, r.fitness, atol=1e-12)
+    ev.extinct_charge = False
+    assert np.array_equal(ev.columns(ev.run(g, draw), 2, draw)["F"][0], col["F_kernel"][0])
+
+
+@pytest.fixture(scope="module")
+def catch_smoke(tmp_path_factory):
+    out = tmp_path_factory.mktemp("catch_smoke")
+    results = main(_catch(f"logging.output_dir={out}"))
+    return out, json.loads(results.read_text().splitlines()[-1])
+
+
+def test_a_catch_run_writes_its_outputs_with_the_body_columns(catch_smoke):
+    out, row = catch_smoke
+    for name in ("results.jsonl", "curves.jsonl", "lineage.jsonl", "best_genome.json", "population.json",
+                 "clones.jsonl", "config.yaml"):
+        assert (out / name).exists(), name
+    assert row["world"] == "catch_v1_l4" and row["lattice"] == "hexprism" and row["L_max"] == 4 and row["abi"] == 3
+    assert row["control"] == "lmax4" and row["recheck_k"] == 8 and row["generations"] == 3
+    assert {"captures", "misses", "clicks", "n_S", "n_M", "n_H", "path", "mean_distance", "msg_reliance",
+            "sense_reliance", "size_curve", "forks", "F_envelope", "git_rev"} <= set(row)
+    assert "receptor_off" in _catch().clones.conditions  # review fix: a blind relay clicker passes the certificate
+    assert "kuramoto_R" not in row  # BELL's beat statistics are not computed in CATCH
+    assert set(row["forks"]) == {f"{c}@0.5" for c in _catch().clones.conditions}
+    assert row["n_S"] + row["n_M"] + row["n_H"] == pytest.approx(row["n_cells"])
+    curves = [json.loads(line) for line in (out / "curves.jsonl").read_text().splitlines()]
+    assert all(set(LifeEval.CATCH_KEYS) <= set(c) for c in curves) and all("clones" in c for c in curves)
+    clones_rows = [json.loads(line) for line in (out / "clones.jsonl").read_text().splitlines()]
+    assert {c["condition"] for c in clones_rows} == set(_catch().clones.conditions)
+    layout, best = Layout.load(out / "best_genome.json")
+    assert layout.abi is spec.V3 and best.shape == (875,)
+
+
+def test_catch_arms_differ_only_in_the_stack_height():
+    l4, l2 = load_config(CATCH_CFG), load_config(str(ROOT / "configs/life_catch_l2.yaml"))
+    assert (spec.world(l4.life.world).L_max, spec.world(l2.life.world).L_max) == (4, 2)
+    assert l4.lattice.kind == l2.lattice.kind == "hexprism" and l4.life.T == 1024 and l4.evolve.generations == 500
+    assert (l4.evolve.recheck_k, l4.evolve.recheck_lives, l4.evolve.recheck_key) == (64, 4, "all")
+    assert "hidden_off" in l4.clones.conditions and "hidden_off" not in l2.clones.conditions
+    assert l4.clones.conditions[0] == l2.clones.conditions[0] == "contacts_off+chem_off+division_off"
+    a = load_config(CATCH_CFG, ["life.world=catch_v1_l2", "life.control=lmax2",
+                                f"clones.conditions={list(l2.clones.conditions)}"])
+    a.logging.output_dir, a.extends = l2.logging.output_dir, l2.extends
+    assert a == l2
+    seeded = load_config(str(ROOT / "configs/life_catch_seeded.yaml"))
+    assert seeded.evolve.seed_genome == evo.CATCH_SEED and seeded.life.control == "seeded"
+    from src.life import handbuilt as hb
+    layout = setup(seeded)[1]
+    if hasattr(hb, "catch_reflex_genome"):
+        assert torch.equal(evo.seed_genome(seeded, layout)[0], torch.as_tensor(hb.catch_reflex_genome()))
+    elif hasattr(hb, "column_genome"):  # gate GB9's genome that grows the 2-cell clicker
+        assert torch.equal(evo.seed_genome(seeded, layout)[0], torch.from_numpy(hb.column_genome(0)))
+    else:  # the stub until the gates work provides the hand GRN seed
+        with pytest.raises(NotImplementedError):
+            evo.seed_genome(seeded, layout)
+    script = (ROOT / "scripts/run_catch_pilot.sh").read_text()
+    for part in ("CONFIGS=configs/life_catch.yaml,configs/life_catch_l2.yaml", "PILOT_SEEDS:-0,1,2,3,4,5,6,7,8,9",
+                 "PILOT_GENERATIONS:-500", "PILOT_JOBS:-2", "PILOT_THREADS:-4", "NAME=catch_pilot",
+                 'evolve.generations="$GENERATIONS"', "configs/life_catch_seeded.yaml", "scripts/aggregate.py"):
+        assert part in script, part
+    assert subprocess.run(["bash", "-n", str(ROOT / "scripts/run_catch_pilot.sh")]).returncode == 0
+    from scripts.sweep import matrix
+
+    arms = [(c, load_config(str(ROOT / c))) for c in ("configs/life_catch.yaml", "configs/life_catch_l2.yaml")]
+    assert [r["run"] for r in matrix(arms, None, None, ["0"])] == ["lmax4_hexprism_sex_s0", "lmax2_hexprism_sex_s0"]
+
+
+def test_the_per_generation_life_length_draw_is_shared_and_selection_only():
+    """life.T_choices (gate GB11's switch, off by default): a generation's lives and its recheck lives share one
+    length drawn from the list, keyed by the run seed and the generation; every judged life keeps life.T."""
+    ev = LifeEvaluator(_catch("life.T_choices=[96,192,288]"), setup(_catch())[1])
+    Ts = [ev.draw("gen", g).worlds[0].T for g in range(24)]
+    assert set(Ts) == {96.0, 192.0, 288.0} and Ts == [ev.draw("gen", g).worlds[0].T for g in range(24)]
+    for g in range(6):
+        d, rc = ev.draw("gen", g), recheck_draw(ev, g, 3, 2)
+        assert {w.T for w in d.worlds + rc.worlds} == {Ts[g]}
+    for purpose in ("valid", "final", "clones", "heldout"):
+        assert ev.draw(purpose, 0, lives=2).worlds[0].T == 192.0
+    assert ev.draw("founders", 0, lives=1, T=96.0).worlds[0].T == 96.0
+    assert LifeEvaluator(_catch(), setup(_catch())[1]).draw("gen", 0).worlds[0].T == 192.0  # off by default
+    with pytest.raises(ValueError):
+        LifeEvaluator(_catch("life.T_choices=[96.5]"), setup(_catch())[1])  # T must be an integer
+
+
+def test_founder_sampling_can_use_its_whole_budget():
+    """evolve.founder_all: sampling draws all max_init_samples even after a genome clears the bar, and the founders
+    are the fittest of the whole pool (scorers first); without it sampling stops at the first batch with a scorer."""
+    base = ["evolve.init_samples=32", "evolve.max_init_samples=96", "evolve.min_founder_score=-1000.0"]
+    for full, used_expected in ((False, 32), (True, 96)):
+        cfg = _cfg(*base, f"evolve.founder_all={str(full).lower()}")
+        ev = LifeEvaluator(cfg, LAY)
+
+        def sample(g, ev=ev, batches=iter(range(10))):
+            return ev.draw("founders", next(batches), 1, 64.0)
+
+        founders, used, info = sample_founders(cfg, ev, LAY, sample, torch.Generator().manual_seed(0),
+                                               collect=(seen := []))
+        assert used == used_expected == sum(len(r.fitness) for r in seen)
+        best = torch.cat([r.fitness for r in seen]).max()
+        assert info["best_fitness"] == float(best) and info["scoring_founders"] == founders.shape[0]
+    with pytest.raises(ValueError):
+        sample_founders(_cfg("evolve.founder_all=true", "evolve.max_init_samples=null"), ev, LAY, None,
+                        torch.Generator().manual_seed(0))
+
+
+def test_the_catch_founder_settings_are_the_recorded_tweaks():
+    cfg = load_config(CATCH_CFG)
+    assert list(cfg.genome.readout_std) == [0.5, 0.5] and dict(cfg.genome.input_init) == dict(is_S=2.0, is_M=2.0,
+                                                                                              n_view=8.0)
+    assert cfg.evolve.founder_all and cfg.evolve.max_init_samples == 16384 and cfg.life.founder_lives == 2
+    assert cfg.life.extinct_charge and cfg.life.T_choices is None
+    _, layout, _, _ = setup(cfg)
+    K = spec.V3.K
+    a0 = slice(*layout.slices["a0"][:2])
+    mean, std = layout.init_mean[a0], layout.init_std[a0]
+    assert (mean[K["b"]], mean[K["g_r"]], mean[K["kappa"]], mean[K["w0"]], mean[K["emit0"]]) == (0.0, 0.5, 1.5,
+                                                                                                    0.5, 0.5)
+    # review fix: the means decode as the config says (kappa 1, not 1/2; b 0 as in proposal 7)
+    theta = spec.V3.decode_knobs([float(x) for x in mean])
+    assert theta[K["kappa"]] == 1.0 and theta[K["b"]] == 0.0 and theta[K["g_r"]] == 0.5 and theta[K["w0"]] == 0.5
+    fixed = [K[k] for k in ("p_die", "phi", "a0", "a1", "chi")]
+    assert all(std[i] == 0 for i in fixed) and all(std[i] == 0.5 for i in range(spec.V3.P) if i not in fixed)
+    bell = setup(_cfg())[1]  # BELL's founders are untouched
+    assert torch.equal(bell.init_std, LifeLayout(LifeDims()).init_std)

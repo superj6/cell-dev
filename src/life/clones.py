@@ -10,7 +10,17 @@ differences measure only what the condition removes from then on. Conditions (ke
 - ``apoptosis_off``, ``division_off``: no deaths, no claims;
 - ``identity_clamp``: genes frozen (no gene update and no division partition: a newborn starts with her mother's g;
   the phenotype is still re-decoded);
-- ``freeze``: genes, phenotype, division and death all frozen.
+- ``freeze``: genes, phenotype, division and death all frozen;
+- BODY-1 (ABI 3, LIFE_ABI.md 12): ``lateral_off`` (in-plane spikes undelivered; vertical ones still land),
+  ``hidden_off`` (spikes of hidden-plane cells undelivered), ``receptor_off`` and ``motor_off``.
+
+A condition may join several flags with ``+``. The message certificate of BODY_DESIGN_PROPOSAL.md 5 and gate GB6 is
+``CERTIFICATE = contacts_off+chem_off+division_off``: no spikes, no morphogen transport and no new cells from the fork
+on, so whatever income is left came from a channel other than messages (a frozen body cannot rebuild a reflex through
+chemistry or growth either). The certificate alone does not show that the income needs *sensing*: a blind tonic
+sensor that relays to the act cell above it also needs every message. So the CATCH set also forks ``SENSE =
+receptor_off`` (receptor events undelivered from t_f), and a sense-to-act wire is certified only when both forks
+remove the income (review fix, 2026-10-07; gate GB6).
 
 A world that already uses its fork slot (the freeze-after-growth control) can only be forked at its own fork time:
 the kernel has one ``t_fork``. Other fork times are reported as skipped.
@@ -25,13 +35,40 @@ import numpy as np
 from src.life import build, spec
 
 CONDITIONS = ("contacts_off", "chem_off", "apoptosis_off", "division_off", "identity_clamp", "freeze")
+CERTIFICATE = "contacts_off+chem_off+division_off"  # BODY-1's message certificate (GB6; LIFE_ABI.md 12)
+SENSE = "receptor_off"  # BODY-1's sensing check: with the certificate, a sense-to-act wire (GB6)
+CATCH_CONDITIONS = (CERTIFICATE, SENSE, "contacts_off", "lateral_off", "hidden_off", "chem_off")
 COLUMNS = ("income", "F", "n_end", "spikes", "arrivals", "contact_events", "deaths", "births", "live_time")
+
+
+def condition_flags(condition: str | None) -> int:
+    """Kernel flag bits of a condition: one flag name of ``spec.FLAGS_V3`` or several joined by ``+`` (0 for None).
+    The ABI-3 names (lateral_off, ...) are refused by ABI 2's world check when a fork runs under ABI 2."""
+    if condition is None:
+        return 0
+    bits = 0
+    for name in condition.split("+"):
+        if name not in spec.FLAGS_V3 or spec.FLAGS_V3[name] & spec.V3.BASE_ONLY_FLAGS:
+            raise ValueError(f"unknown fork condition {name!r} in {condition!r}")
+        bits |= spec.FLAGS_V3[name]
+    return bits
+
+
+def message_condition(conditions) -> str:
+    """The fork whose income loss measures message reliance: the certificate if it is among ``conditions``, else
+    contacts_off."""
+    return CERTIFICATE if CERTIFICATE in [str(c) for c in conditions] else "contacts_off"
+
+
+def sense_condition(conditions) -> str | None:
+    """The fork whose income loss measures sensing reliance (``SENSE``) if it is among ``conditions``, else None."""
+    return SENSE if SENSE in [str(c) for c in conditions] else None
 
 
 def fork_world(base: spec.World, t_fork: float, condition: str | None) -> spec.World | None:
     """The fork of ``base`` at ``t_fork`` (relative to t0) under ``condition``, or its twin for ``None``; ``None`` if
     the world's single fork slot is taken by a control at another time."""
-    flags = 0 if condition is None else spec.FLAGS[condition]
+    flags = condition_flags(condition)
     if base.fork_flags:
         if t_fork != base.t_fork:
             return None
@@ -46,9 +83,9 @@ def _stats(x: np.ndarray) -> tuple[float, float]:
 
 
 def run_forks(table: np.ndarray, base: spec.World, seeds, times, conditions=CONDITIONS, *, kind: str | None = None,
-              threads: int = 1) -> list[dict]:
-    """Forks of every genome (packed table rows ``[G, 793]``) at every time (fractions of T) under every condition,
-    each paired with its twin on the same life seeds. All lives run in one kernel batch.
+              threads: int = 1, abi: spec.Abi | None = None) -> list[dict]:
+    """Forks of every genome (packed table rows of ``abi``, ``spec.CURRENT`` if None) at every time (fractions of T)
+    under every condition, each paired with its twin on the same life seeds. All lives run in one kernel batch.
 
     Returns one row per (genome, time, condition): the twin's and the fork's mean income rate, income per cell
     (income / cell-time) and n_end, and the paired differences (fork - twin) of the income rate and of F, as
@@ -83,12 +120,13 @@ def run_forks(table: np.ndarray, base: spec.World, seeds, times, conditions=COND
     out = list(skipped)
     if not jobs:
         return out
-    res = build.run(worlds, life_seeds, genomes=table, genome_of=np.array(rows), kind=kind, threads=threads)
+    res = build.run(worlds, life_seeds, genomes=table, genome_of=np.array(rows), kind=kind, threads=threads, abi=abi)
+    L = res.layout.L
     n = len(seeds)
     for g, frac, t_f, cond, i, j in jobs:
         tw, fk = res.ledger[i: i + n], res.ledger[j: j + n]
         window = base.T - max(base.t_open, t_f)
-        col = {k: (tw[:, spec.L[k]], fk[:, spec.L[k]]) for k in COLUMNS}
+        col = {k: (tw[:, L[k]], fk[:, L[k]]) for k in COLUMNS}
         rate = (col["income"][0] / window, col["income"][1] / window)
         ipc = [c_i / np.maximum(c_l, 1e-300) for c_i, c_l in zip(col["income"], col["live_time"])]
         d_inc, d_inc_se = _stats(rate[1] - rate[0])

@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import torch
 
-from src.genome import Dims, Layout, LifeDims, LifeLayout, make_dims, make_layout
+from src.genome import LIFE_DIMS_ABI3, Dims, Layout, LifeDims, LifeLayout, make_dims, make_layout
 from src.life import build, spec
 from src.life import handbuilt as hb
 from tests.life_helpers import bits, same
@@ -322,6 +322,131 @@ def test_pad_is_neutral():
         v5.pad(p, LAY)  # padding never drops fields
     with pytest.raises(ValueError):
         v5.pack(p)  # the kernel cannot run receptor genomes yet
+
+
+def test_the_abi3_layout_is_spec_v3_and_pads_neutrally():
+    """LIFE_DIMS_ABI3 is BODY-1's 875-slot table (LIFE_ABI.md 4.4): fields, shapes, blocks, units and offsets equal
+    spec.V3's, padding an ABI-2 genome equals spec.V3.pad_genomes, and it packs into spec.V3's kernel table (the
+    kernel runs ABI 2 and ABI 3 tables; other padded layouts are not runnable)."""
+    lay3 = LifeLayout(LIFE_DIMS_ABI3)
+    assert lay3.abi is spec.V3 and LAY.abi is spec.V2 and LAY.runnable and lay3.runnable
+    assert lay3.size == spec.V3.GENOME_SIZE == 875 and lay3.dims.grn_inputs == spec.V3.NIN
+    assert lay3.knob_names == spec.V3.KNOBS
+    x = LAY.mutate(LAY.random(6, _gen(21)), _gen(22), dup_rate=0.5)
+    p = LAY.pad(x, lay3)
+    assert np.array_equal(p.numpy(), spec.V3.pad_genomes(x.numpy(), spec.V2))
+    assert torch.equal(lay3.active(p), LAY.active(x)) and torch.equal(lay3.pad(p, lay3), p)
+    with pytest.raises(ValueError):
+        lay3.pad(p, LAY)
+    gt = lay3.pack(p, "hexprism")
+    assert gt.shape == (6, 875) and np.array_equal(bits(gt), bits(spec.V3.pack_genomes(p.numpy(), "hexprism")))
+    assert np.array_equal(bits(lay3.pack(p)), bits(spec.V3.pad_genomes(LAY.pack(x), spec.V2)))  # 2D: pad o pack
+    assert lay3.zygote_phenotype(p).shape == (6, spec.V3.P)
+    f = lay3.random(64, _gen(23))
+    W = lay3.view(f, "W")
+    assert (W[:, :, G + 5:G + 7] == 0).all()  # n_view and the receptor trace start silent
+    assert (W[:, :8, G + 7:G + 9] != 0).any(dim=(1, 2)).all()  # plane cues start random (plane-specific founders)
+    a0 = lay3.view(f, "a0")
+    assert a0[:, spec.V3.K["g_r"]].std() > 0.5 and a0[:, spec.V3.K["zeta"]].std() > 0.5
+    v5 = LifeLayout(LifeDims(stim=1))  # a receptor row without zeta cannot grow into ABI 3 in place
+    with pytest.raises(ValueError):
+        v5.pad(LAY.pad(x, v5), lay3)
+
+
+LAY3 = LifeLayout(LIFE_DIMS_ABI3)
+CATCH = spec.world("catch_v1_l4", T=300.0)
+
+
+def _catch_lives(params: torch.Tensor, seeds=(3, 4)) -> build.Lives:
+    return build.run(CATCH, list(seeds), genomes=LAY3.pack(params.reshape(1, -1), "hexprism"), threads=4,
+                     raster_cap=50_000, fate_cap=4096, abi=spec.V3)
+
+
+@pytest.fixture(scope="module")
+def catch_growers() -> torch.Tensor:
+    """ABI-3 founders whose CATCH bodies grow into the act plane, spike and receive receptor events."""
+    x = LAY3.random(256, _gen(31))
+    res = build.run(CATCH, [7] * 256, genomes=LAY3.pack(x, "hexprism"), genome_of=np.arange(256), threads=4,
+                    abi=spec.V3)
+    pick = [i for i in range(256) if 4 <= res["n_end"][i] <= 200 and res["n_M_end"][i] > 0 and res["spikes"][i] > 50
+            and res["rec_events"][i] > 0][:3]
+    assert len(pick) == 3
+    return x[pick].clone()
+
+
+def _same_but_the_copy(base: build.Lives, life: build.Lives, src: int, dst: int) -> bool:
+    """``same`` except the copy's own gene in the fate log, which tracks the original's (silent duplicate)."""
+    if not (np.array_equal(bits(base.ledger), bits(life.ledger)) and np.array_equal(base.hashes, life.hashes)):
+        return False
+    for i in range(len(base.ledger)):
+        fb, fd = base.fates(i)[1], life.fates(i)[1]
+        keep = [c for c in range(fb.shape[1]) if c != 2 + dst]
+        if not (np.array_equal(bits(base.spikes(i)[0]), bits(life.spikes(i)[0]))
+                and np.array_equal(base.fates(i)[0], life.fates(i)[0]) and np.array_equal(bits(fb[:, keep]),
+                                                                                          bits(fd[:, keep]))
+                and np.array_equal(bits(fd[:, 2 + dst]), bits(fd[:, 2 + src]))):
+            return False
+    return True
+
+
+def test_abi3_operators_stay_exact_through_the_kernel_in_catch(catch_growers, tmp_path):
+    """BODY-1 genomes keep the operators' guarantees in CATCH lives (3D bodies, receptors, the dot): a silent
+    duplicate lives the same life (its own gene tracks the original's), deleting it again, crossing a genome with
+    itself and a save/load round trip give bitwise the same life, and a deletion is the same life as zeroing the gene's
+    outgoing weights."""
+    for x in catch_growers:
+        base = _catch_lives(x)
+        act = LAY3.active(x)
+        src, dst = int(act.nonzero()[0, 0]), int((~act).nonzero()[0, 0])
+        dup = LAY3.duplicate(x, src, dst)
+        assert _same_but_the_copy(base, _catch_lives(dup), src, dst)
+        assert same(base, _catch_lives(LAY3.delete(dup, dst)))
+        child = LAY3.crossover(x[None], x[None], _gen(5))[0]
+        assert same(base, _catch_lives(child))
+        k = int(act.nonzero()[1, 0])
+        zeroed = x.clone()
+        LAY3.view(zeroed, "W")[:, k] = 0.0
+        LAY3.view(zeroed, "A")[:, k] = 0.0
+        LAY3.view(zeroed, "act")[k] = 0.0
+        assert same(_catch_lives(LAY3.delete(x, k)), _catch_lives(zeroed))
+    LAY3.save(catch_growers[0], tmp_path / "g.json")
+    lay, y = Layout.load(tmp_path / "g.json")
+    assert lay.dims == LIFE_DIMS_ABI3 and lay.abi is spec.V3 and torch.equal(y, catch_growers[0])
+    assert same(_catch_lives(catch_growers[0]), _catch_lives(y))
+
+
+def test_input_init_sets_founder_weight_spreads_by_input_name():
+    """genome.input_init: the founder std of every weight from a named non-gene input. The defaults are unchanged
+    (n_view and the receptor trace silent, plane cues at the W std), so BELL and CATCH founders draw the same
+    genomes as before; an override changes that column only, from the same random stream."""
+    assert LAY3.input_names == spec.V3.INPUTS[G:] and LAY.input_names == spec.V2.INPUTS[G:]
+    plain = LifeLayout(LIFE_DIMS_ABI3, input_init={})
+    assert torch.equal(plain.random(8, _gen(41)), LAY3.random(8, _gen(41)))
+    lay = LifeLayout(LIFE_DIMS_ABI3, input_init={"n_view": 1.0, "is_S": 2.0})
+    a, b = LAY3.random(16, _gen(42)), lay.random(16, _gen(42))
+    Wa, Wb = LAY3.view(a, "W"), lay.view(b, "W")
+    col = {name: G + i for i, name in enumerate(LAY3.input_names)}
+    other = [c for c in range(spec.V3.NIN) if c not in (col["n_view"], col["is_S"])]
+    assert torch.equal(Wa[:, :, other], Wb[:, :, other])  # every other weight is the same draw
+    assert (Wa[:, :8, col["n_view"]] == 0).all() and (Wb[:, :8, col["n_view"]] != 0).all()
+    assert torch.allclose(Wb[:, :8, col["is_S"]], 2.0 * Wa[:, :8, col["is_S"]])
+    assert (Wb[:, 8:, :] == 0).all()  # spare gene slots stay empty
+    with pytest.raises(KeyError):
+        LifeLayout(LIFE_DIMS_ABI3, input_init={"flank_best": 1.0})
+
+
+def test_readout_std_sets_every_free_knob_spread_and_knob_init_still_wins():
+    lay = LifeLayout(LIFE_DIMS_ABI3, readout_std=(0.5, 0.25), knob_init={"g_r": (0.5, 0.75, 1.0)})
+    K = spec.V3.K
+    a0, A = slice(*lay.slices["a0"][:2]), lay.slices["A"]
+    std_a0 = lay.init_std[a0]
+    std_A = lay.init_std[A[0]:A[1]].reshape(spec.V3.P, G)
+    fixed = [K[k] for k in ("p_die", "phi", "a0", "a1", "chi")]  # LIFE_KNOB_INIT's fixed knobs stay fixed
+    for k in range(spec.V3.P):
+        want = (0.0, 0.0) if k in fixed else (0.75, 1.0) if k == K["g_r"] else (0.5, 0.25)
+        assert (float(std_a0[k]), float(std_A[k, 0])) == want, spec.V3.KNOBS[k]
+    assert lay.init_mean[a0][K["g_r"]] == 0.5 and lay.init_mean[a0][K["b"]] == 1.0  # means are knob_init's
+    assert torch.equal(LifeLayout(LIFE_DIMS_ABI3, readout_std=None).init_std, LAY3.init_std)
 
 
 def test_save_and_load_round_trip(tmp_path):

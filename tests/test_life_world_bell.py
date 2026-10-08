@@ -1,10 +1,13 @@
 """BELL-1 lumen tests (docs/ONE_LIFE_DESIGN.md, TESTS: test_life_world_bell.py): the closed-form lumen against Euler
-integration, no pay for tonic saturation, the lone-cell reference point, and income per cell bounded by the lone rate."""
+integration, no pay for tonic saturation, the lone-cell reference point, and income per cell bounded by the lone rate.
+Since ABI 3 (CATCH) the kernel also carries a second world kind; golden BELL lives pin BELL bitwise across that bump."""
 import itertools
 
 import numpy as np
+import pytest
 
 from src.life import build, spec
+from src.life import reference as ref
 from tests.life_helpers import BUSY, HEX7, PM, grn_genome, kernel, mismatch, r25, reference
 
 PUMP = spec.theta(b=1.875, tau_m=8, t_ref=2, kappa=1)  # the design's best lone cell (gate G1)
@@ -104,3 +107,112 @@ def test_income_per_cell_never_exceeds_the_lone_rate():
         assert np.all(per_cell <= rate), (wb, per_cell.max() / rate)
         best = max(best, per_cell.max())
     assert best > 0.8 * rate  # the bound is approached by small synchronized bodies, never exceeded
+
+
+# ===================================================================== BELL regression across the ABI-3 bump
+# The `all` hash of 3 lives (seeds 11-13) per case, computed by the ABI-2 kernel of commit 7d3896d (before ABI 3).
+# `all` folds every record word and every ABI-2 ledger column, so equality pins each life bitwise (LIFE_ABI.md 9.6,
+# 15.33: program and GRN mode move by exactly 0 per life). Cases built by _golden_cases below.
+BELL_GOLDEN = {
+    "R25-v1 cap 37": ("1d1818084bb0e44a", "4d00268c2881f451", "0c577819df5883cf"),
+    "lone pump": ("8aac5d89c1996638", "cc4c872511d4fa30", "77de9b76fe12a47a"),
+    "BUSY hex": ("48979066167ae48a", "08804346ff679d6b", "37aedb8abe439aee"),
+    "BUSY square8": ("4dd6f7bf610fdbdf", "d04a2a126d91dc85", "1e1c245ac19239b5"),
+    "BUSY square4": ("5e48096d8d8f6e02", "ae5d77c81106c07a", "20a690df903688c0"),
+    "BUSY lockstep HEX7": ("b7839925a1e7fe21", "6a4569eeda864352", "1ce400b1d585b95d"),
+    "BUSY panel": ("210ca53dafbd9f25", "bb81c11bc0e77a74", "d2d12afab6d45ca4"),
+    "BUSY window guard": ("2611d125a14c5f04", "8685d9b85a29b5e2", "3f0ceeacef9bd5c4"),
+    "BUSY contacts_off fork": ("5da7fb8a593e0ab6", "bfca431ac503f85e", "4cac9f5859a72294"),
+    "BUSY t0 1024": ("a6140473477816ed", "65ae3aa5812fbb8f", "2d9ead179302b898"),
+    "BUSY wall R2": ("3a0b71e12def42fe", "555b9557ed976365", "295641315a024976"),
+    "GRN hex cap 20": ("9b7f4c33c128086c", "ece197aa612632ec", "32570942f22cc224"),
+    "GRN square8 cap 16": ("0a3676e60cc2bc85", "e7e911806a949901", "0199bcee0eb9815b"),
+    "GRN freeze fork": ("55066d2d7826279a", "b57d27111069bcb8", "333b360275d185c9"),
+}
+
+
+def _golden_cases(theta, pack_program, pack_genomes, world, flags, genome_size, genome_view, K):
+    """The golden BELL lives, built from ABI-2 packers only (the same code produced the goldens on HEAD)."""
+    coupled = theta(b=1.125, tau_m=1, t_ref=2.5, w0=-1, emit0=1, delta=2, kappa=1)
+    pump = theta(b=1.875, tau_m=8, t_ref=2, kappa=1)
+
+    def knobs(row, **kw):
+        out = np.array(row, dtype=np.float64)
+        for k, v in kw.items():
+            out[K[k]] = float(v)
+        return out
+
+    def r25(chem=False, **extra):
+        contact = knobs(coupled, p_div=0.5, phi=2, **extra)
+        return pack_program(contact, alone=knobs(pump, p_div=0.5, phi=2), juvenile=knobs(contact, emit0=0, emit1=0),
+                            juv_ticks=10, flank_gate=2, p_div_lo=1 / 16,
+                            **(dict(Dm0=0.05, Dm1=0.02, km0=0.05, km1=0.1) if chem else {}))
+
+    busy = r25(chem=True, p_die=2.0 ** -6, sec0=0.3, sec1=0.1, pol0=1.0, a0=0.5, chi=0.5)
+    rng = np.random.default_rng(6)
+    g = (rng.normal(0, 0.7, genome_size)).astype(np.float32)
+    act = genome_view(g, "act")
+    act[:] = 0.0
+    act[:8] = 1.0
+    a0 = genome_view(g, "a0")
+    for knob, shift in (("b", 1.3), ("w0", -0.8), ("emit0", 0.8), ("kappa", 1.5), ("p_div", 1.4), ("p_die", 0.3)):
+        a0[K[knob]] += shift
+    pm, lock = flags("program_mode"), flags("lockstep")
+    hex7 = [(0, 0), (1, 0), (1, -1), (0, -1), (-1, 0), (-1, 1), (0, 1)]
+    return {  # label: (world, kwargs of build.run)
+        "R25-v1 cap 37": (world(oracle_cap=37, flags=pm), dict(programs=r25())),
+        "lone pump": (world(flags=pm), dict(programs=pack_program(pump))),
+        "BUSY hex": (world(T=200.0, flags=pm), dict(programs=busy)),
+        "BUSY square8": (world(T=150.0, lattice="square8", flags=pm), dict(programs=busy)),
+        "BUSY square4": (world(T=150.0, lattice="square4", flags=pm), dict(programs=busy)),
+        "BUSY lockstep HEX7": (world(T=150.0, flags=pm | lock), dict(programs=busy, init=hex7)),
+        "BUSY panel": (world(T=120.0, oracle_cap=20, noise_rate=0.1, drop_p=0.1, kill_t=60.0, kill_frac=0.3,
+                             stuck_t=40.0, flags=pm), dict(programs=busy)),
+        "BUSY window guard": (world(T=120.0, window_h=0.25, n_max=20, flags=pm), dict(programs=busy)),
+        "BUSY contacts_off fork": (world(T=150.0, oracle_cap=20, t_fork=60.0, t_open=60.0, flags=pm,
+                                         fork_flags=flags("contacts_off")), dict(programs=busy)),
+        "BUSY t0 1024": (world(T=150.0, t0=1024.0, oracle_cap=20, flags=pm), dict(programs=busy)),
+        "BUSY wall R2": (world(T=150.0, fabric_R=2, flags=pm), dict(programs=busy)),
+        "GRN hex cap 20": (world(T=96.0, oracle_cap=20), dict(genomes=pack_genomes(g, "hex"))),
+        "GRN square8 cap 16": (world(T=80.0, lattice="square8", oracle_cap=16),
+                               dict(genomes=pack_genomes(g, "square8"))),
+        "GRN freeze fork": (world(T=100.0, oracle_cap=20, t_fork=50.0, t_open=50.0, fork_flags=flags("freeze")),
+                            dict(genomes=pack_genomes(g, "hex"))),
+    }
+
+
+def _golden():
+    V2 = spec.V2
+    return _golden_cases(V2.theta, V2.pack_program, V2.pack_genomes, spec.world, V2.flags, V2.GENOME_SIZE,
+                         V2.genome_view, V2.K)
+
+
+def test_bell_lives_are_bitwise_those_of_the_abi2_kernel():
+    """GB1 as a regression test: every golden BELL life, program mode and GRN mode, through the ABI-3 kernel in ABI
+    2's shapes, and in ABI 3's shapes with neutrally padded tables (the `all` hash then folds 57 ledger columns, and
+    undoing the 22 extra folds gives ABI 2's; the world hash stays HASH_INIT)."""
+    V3 = spec.V3
+    cases = _golden()
+    assert set(cases) == set(BELL_GOLDEN)
+    for label, (w, kw) in cases.items():
+        want = np.array([int(h, 16) for h in BELL_GOLDEN[label]], dtype=np.uint64)
+        two = build.run(w, [11, 12, 13], abi=spec.V2, **kw)
+        assert np.array_equal(two.hashes[:, 0], want), label
+        pad = {k: (V3.pad_program(v, spec.V2) if k == "programs" else V3.pad_genomes(v, spec.V2)) if k != "init"
+               else v for k, v in kw.items()}
+        three = build.run(w, [11, 12, 13], abi=V3, **pad)
+        assert np.array_equal(build.unfold_close(three.hashes[:, 0], three.ledger, 35), want), label
+        assert np.array_equal(three.hashes[:, 1:4], two.hashes[:, 1:]) and np.all(three.hashes[:, 4] == spec.HASH_INIT)
+        assert np.array_equal(three.ledger[:, :35].view(np.uint64), two.ledger.view(np.uint64)), label
+
+
+@pytest.mark.slow
+def test_the_reference_reproduces_the_abi2_golden_bell_lives():
+    for label, (w, kw) in _golden().items():
+        if w.T > 200 or label.startswith("BUSY hex") or "lockstep" in label:
+            continue  # the long and the big lives are the kernel's (above)
+        prog, genome = kw.get("programs"), kw.get("genomes")
+        cells = kw.get("init")
+        r = ref.run(w, program=prog, genome_table=None if genome is None else genome[0], cells=cells, seed=12,
+                    abi=spec.V2)
+        assert int(r.hashes[0]) == int(BELL_GOLDEN[label][1], 16), label

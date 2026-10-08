@@ -128,7 +128,7 @@ class GenomeOrganism:
         from src.life import build
 
         return build.run(self.ev.world(oracle_cap=cap, **world), seeds, genomes=self.table, kind=self.ev.kind,
-                         threads=threads)
+                         threads=threads, abi=self.ev.abi)
 
 
 def save_population(r: dict, path: Path) -> None:
@@ -148,7 +148,11 @@ def final_life(cfg, r: dict) -> dict:
     Every F here is measured under the run's base physics, whatever the selection lives were (the envelope control
     changes selection only). ``F_envelope`` is the best genome on the same final lives under envelope physics, for
     every condition, so robustness compares across conditions; ``top_best_F`` is the best of the top re-measured on
-    lives separate from the ones it was picked on."""
+    lives separate from the ones it was picked on. In CATCH the beat statistics (BELL's) are skipped, the row adds the
+    best genome's captures, misses, clicks, cells per plane, path and mean distance to the target per life, and
+    ``msg_reliance`` is the income lost under the message certificate (``clones.CERTIFICATE``) when it is forked, and
+    ``sense_reliance`` the income lost when the receptors are (``clones.SENSE``; None if not forked): a blind relay
+    clicker has msg_reliance 1 and sense_reliance 0."""
     import numpy as np
 
     from src.life import analysis, clones
@@ -166,7 +170,7 @@ def final_life(cfg, r: dict) -> dict:
            "n_cells": float(n_end.mean()), "n_end_q": [float(x) for x in np.quantile(n_end, [0.1, 0.25, 0.5, 0.75, 0.9])],
            "n_peak": float(col["n_peak"][0].mean()), "body": float((col["live_time"][0] / window[0]).mean()),
            "income": float((col["income"][0] / window[0]).mean()),
-           "energy": float(((col["income"][0] - col["net"][0]) / window[0]).mean()),
+           "energy": float(((col["income"][0] - col["net"][0]) / window[0] + col["extinct_charge"][0]).mean()),
            "income_per_cell": float((col["income"][0] / live).mean()),
            "spikes_per_cell": float((col["spikes"][0] / live).mean()),
            "contact_events_per_cell": float((col["contact_events"][0] / live).mean()),
@@ -186,17 +190,26 @@ def final_life(cfg, r: dict) -> dict:
         F_env = ev.columns(ev.run(top[:1], env), 1, env)["F"][0]
         se, d = analysis.summary(F_env), analysis.paired(F_env, F)
         out.update(F_envelope=se["mean"], F_envelope_se=se["se"], d_F_envelope=d["mean"], d_F_envelope_se=d["se"])
-    out.update(phase_stats(ev, top[:1], draw.seeds[: min(int(lc.get("phase_lives", 16)), draw.n)]))
+    if ev.catch:
+        best = {k: v[0] for k, v in col.items()}
+        out.update({k: float(best[c].mean()) for k, c in (("captures", "captures"), ("misses", "misses"),
+                                                           ("clicks", "clicks"), ("n_S", "n_S_end"),
+                                                           ("n_M", "n_M_end"), ("n_H", "n_H_end"), ("path", "path"))})
+        out["mean_distance"] = float((best["dist_sum"] / np.maximum(best["samples"], 1.0)).mean())
+    else:
+        out.update(phase_stats(ev, top[:1], draw.seeds[: min(int(lc.get("phase_lives", 16)), draw.n)]))
     n_fork = min(int(lc.get("final_fork_lives", 16)), draw.n)
     conds = [str(x) for x in cc.get("conditions", clones.CONDITIONS)]
     base = ev.world()
     times = FORK_FINAL_TIMES if not base.fork_flags else (base.t_fork / base.T,)  # a control holds the fork slot
     frows = clones.run_forks(ev.table(top[:1]), base, draw.seeds[:n_fork], times, conds, kind=ev.kind,
-                             threads=ev.threads)
+                             threads=ev.threads, abi=ev.abi)
     out["forks"] = {f"{x['condition']}@{x['frac']:g}": {k: x.get(k) for k in ("d_income", "d_income_se", "d_F",
                                                                                "ipc_twin", "ipc_fork", "skipped")}
                     for x in frows}
-    out["msg_reliance"] = clones.reliance(frows, "contacts_off")
+    out["msg_reliance"] = clones.reliance(frows, clones.message_condition(conds))
+    sense = clones.sense_condition(conds)  # CATCH: does the income also need the receptors (a sensing wire)?
+    out["sense_reliance"] = clones.reliance(frows, sense) if sense else None
     out.update(death_income(ev, top[:1], draw.seeds[:n_fork]))
     sizes = [int(n) for n in (lc.get("size_curve") or [])]
     if sizes:  # the same lives at every size (common random numbers, as in the gates), so sizes compare paired
@@ -226,7 +239,7 @@ def phase_stats(ev, genome, seeds) -> dict:
     w = ev.world()
     t0 = w.T * (1.0 - PHASE_WINDOW)
     res = build.run(ev.world(t_open=t0), seeds, genomes=ev.table(genome), kind=ev.kind, threads=ev.threads,
-                    raster_cap=1 << 16, fate_cap=1 << 13)
+                    raster_cap=1 << 16, fate_cap=1 << 13, abi=ev.abi)
     Rs, loc, per, traps, ipcs = [], [], [], [], []
     for i in range(len(seeds)):
         if res.status("raster_overflow")[i] or res.status("fate_overflow")[i] or res["t_end"][i] < w.t0 + w.T:
@@ -304,7 +317,7 @@ def death_income(ev, genome, seeds, window: float = DEATH_WINDOW, max_windows: i
         return {}
     w = ev.world()
     table = ev.table(genome)
-    res = build.run(w, seeds, genomes=table, kind=ev.kind, threads=ev.threads, fate_cap=1 << 13)
+    res = build.run(w, seeds, genomes=table, kind=ev.kind, threads=ev.threads, fate_cap=1 << 13, abi=ev.abi)
     lives, jobs = [], []
     for i, seed in enumerate(seeds):
         if res.status("fate_overflow")[i] or res["t_end"][i] < w.t0 + w.T:
@@ -323,7 +336,7 @@ def death_income(ev, genome, seeds, window: float = DEATH_WINDOW, max_windows: i
     opened = {}  # income of each replay, by job index
     if jobs:
         rep = build.run([replace(w, t_open=float(x)) for _, x in jobs], [s for s, _ in jobs], genomes=table,
-                        kind=ev.kind, threads=ev.threads)
+                        kind=ev.kind, threads=ev.threads, abi=ev.abi)
         opened = {j: float(v) for j, v in enumerate(rep["income"])}
     span = w.T - w.t_open
     tot = dict(post=0.0, post_len=0.0, pre=0.0, pre_len=0.0, income=0.0)
@@ -372,6 +385,7 @@ def main_life(cfg) -> Path:
     k, lives, key = recheck_plan(e, int(e.mu), int(e.mu) + int(e.lam))
     row = {"name": out.name, "mode": "life", "control": str(lc.get("control", "full")), "world": str(lc.world),
            "lattice": str(cfg.lattice.kind), "breeding": str(cfg.evolve.breeding), "seed": int(cfg.seed), **git,
+           "L_max": int(r["evaluator"].world().L_max), "abi": int(r["evaluator"].abi.version),
            "selection_physics": "envelope" if r["evaluator"].envelope.get("enabled", False) else "base",
            "recheck_k": k, "recheck_lives": lives, "recheck_key": key if k else None, **recheck_bodies(r["curves"]),
            "evals": r["evals"], "wall_s": round(wall, 1), "final_s": round(time.time() - t1, 1),

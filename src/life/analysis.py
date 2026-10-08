@@ -1,8 +1,10 @@
-"""Measurements on finished lives: summaries, paired comparisons, size curves under the oracle cap, and an Euler
-re-integration of the BELL-1 lumen (docs/ONE_LIFE_DESIGN.md: EVALUATION PROTOCOL and gates G1-G10)."""
+"""Measurements on finished lives: summaries, paired comparisons, size curves under the oracle cap, an Euler
+re-integration of the BELL-1 lumen (docs/ONE_LIFE_DESIGN.md: EVALUATION PROTOCOL and gates G1-G10), and summaries of
+CATCH lives (docs/BODY_DESIGN_PROPOSAL.md, gates GB3-GB13)."""
 from __future__ import annotations
 
 import math
+from dataclasses import replace
 
 import numpy as np
 
@@ -202,3 +204,47 @@ TRAP_IPC, TRAP_LOCAL = 10e-3, 0.8  # design: trap flag = income per cell < 10e-3
 def is_trap(income_per_cell: float, local: float) -> bool:
     """Phase-wave trap: locally synchronous (local order above 0.8) but earning almost nothing per cell."""
     return bool(income_per_cell < TRAP_IPC and local > TRAP_LOCAL)
+
+
+# ------------------------------------------------------------------------------------------ CATCH (BODY-1, ABI 3)
+PROTOTYPE_PRICES = dict(c_rec=0.0, c_miss=1.0)  # the CATCH prototypes' price list: no receptor charge, c_miss 1
+
+
+def catch_F(ledger, w: spec.World | None = None, **costs) -> np.ndarray:
+    """F of CATCH lives (ABI-3 ledger rows), re-priced with ``costs`` overriding the world's cost table when given
+    (``spec.V3.fitness``); ``catch_F(led, w, **PROTOTYPE_PRICES)`` is the prototypes' price list (no receptor
+    charge, and the proposal's c_miss 1 before the c_miss-2 tweak, LIFE_ABI.md 15.60). Prices never change a life,
+    only its bill, so a re-priced F is exact."""
+    led = np.atleast_2d(np.asarray(ledger, dtype=np.float64))
+    if not costs:
+        return led[:, spec.V3.L["F"]].copy()
+    w = w or spec.world("catch_v1")
+    return spec.V3.fitness(led, replace(w, **costs))
+
+
+def catch_point(ledger, w: spec.World | None = None) -> dict:
+    """Summary of CATCH lives: F (mean, SE, median, fraction positive), F at the prototypes' prices (``F_proto``,
+    ``PROTOTYPE_PRICES``), and per-life means of captures, misses, clicks, the dot's speed (path / T), receptor
+    events and cells per plane at the end."""
+    w = w or spec.world("catch_v1")
+    led = np.atleast_2d(np.asarray(ledger, dtype=np.float64))
+    L = spec.V3.L
+    rec = summary(led[:, L["F"]])
+    nr = summary(catch_F(led, w, **PROTOTYPE_PRICES))
+    rec.update(F_proto=nr["mean"], se_proto=nr["se"])
+    for k in ("captures", "misses", "clicks", "rec_events", "n_end", "n_S_end", "n_M_end", "n_H_end", "claims"):
+        rec[k] = float(led[:, L[k]].mean())
+    rec["speed"] = float(led[:, L["path"]].mean() / w.T)
+    rec["income_rate"] = float(led[:, L["income"]].mean() / (w.T - w.t_open))
+    return rec
+
+
+def final_cells(fate_i) -> list[tuple[int, int, int]]:
+    """Sites ``(a, b, z)`` of the cells alive at the end of a life, from its complete ABI-3 fate log, in birth order."""
+    alive = {}
+    for row in np.asarray(fate_i).tolist():
+        if row[0] == spec.FATE_KINDS["birth"]:
+            alive[row[1]] = (int(row[3]), int(row[4]), int(row[6]))
+        elif row[0] == spec.FATE_KINDS["death"]:
+            alive.pop(row[1], None)
+    return list(alive.values())

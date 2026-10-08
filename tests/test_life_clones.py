@@ -76,3 +76,71 @@ def test_forks_under_a_control_that_holds_the_fork_slot():
     done = [r for r in rows if "skipped" not in r]
     assert len(rows) == 4 and len(done) == 2 and all(r["t_fork"] == 50.0 for r in done)
     assert clones.reliance(rows) is not None or all(r["income_twin"] == 0 for r in done)
+
+
+# ------------------------------------------------------------------------------------------- BODY-1 (ABI 3)
+V3 = spec.V3
+CATCH = spec.world("catch_v1_l4", T=200.0)
+
+
+@pytest.fixture(scope="module")
+def catch_talker() -> np.ndarray:
+    """A packed ABI-3 founder whose CATCH body spikes across planes (in-plane and vertical contacts)."""
+    from src.genome import LIFE_DIMS_ABI3
+
+    lay = LifeLayout(LIFE_DIMS_ABI3)
+    gt = lay.pack(lay.random(256, torch.Generator().manual_seed(8)), "hexprism")
+    res = build.run(CATCH, [11] * 256, genomes=gt, genome_of=np.arange(256), threads=4, abi=V3)
+    i = next(i for i in range(256) if res["arrivals"][i] > 500 and 8 <= res["n_end"][i] <= 300
+             and res["n_M_end"][i] > 0 and res["n_H_end"][i] > 0)
+    return gt[i:i + 1]
+
+
+def test_conditions_join_flags_and_the_certificate_is_three_lesions():
+    assert clones.condition_flags(None) == 0
+    assert clones.condition_flags(clones.CERTIFICATE) == V3.flags("contacts_off", "chem_off", "division_off")
+    assert clones.condition_flags("lateral_off+hidden_off") == V3.flags("lateral_off", "hidden_off")
+    for bad in ("lateral", "contacts_off+nope", "lockstep", "program_mode"):  # unknown names and base-only flags
+        with pytest.raises(ValueError):
+            clones.condition_flags(bad)
+    assert clones.message_condition(clones.CATCH_CONDITIONS) == clones.CERTIFICATE
+    assert clones.message_condition(clones.CONDITIONS) == "contacts_off"
+    w = clones.fork_world(CATCH, 100.0, clones.CERTIFICATE)
+    assert w.fork_flags == clones.condition_flags(clones.CERTIFICATE) and w.t_open == 100.0
+    with pytest.raises(ValueError):  # ABI 2 refuses the ABI-3 forks
+        spec.V2.validate_world(replace(W, fork_flags=V3.FLAGS["lateral_off"]))
+
+
+def test_catch_forks_run_under_abi3_and_the_certificate_delivers_nothing(catch_talker):
+    """BODY-1 forks (proposal 8, GB6): every CATCH condition runs as one ABI-3 batch; after the certificate at T/2
+    no spike lands once the spikes in flight have, no cell is born, and the bill still holds every charge."""
+    rows = {r["condition"]: r for r in clones.run_forks(catch_talker, CATCH, SEEDS, [0.5], clones.CATCH_CONDITIONS,
+                                                        threads=2, abi=V3)}
+    assert set(rows) == set(clones.CATCH_CONDITIONS) and all("skipped" not in r for r in rows.values())
+    cert, lat = rows[clones.CERTIFICATE], rows["lateral_off"]
+    assert cert["arrivals_fork"] < 0.05 * cert["arrivals_twin"]
+    assert lat["arrivals_fork"] < lat["arrivals_twin"]  # in-plane spikes dropped, vertical ones still land
+    late = replace(clones.fork_world(CATCH, 100.0, clones.CERTIFICATE), t_open=110.0)
+    res = build.run(late, SEEDS, genomes=catch_talker, abi=V3)
+    assert np.all(res["arrivals"] == 0) and np.all(res["births"] == 0) and np.all(res["packets"] == 0)
+    assert np.all(res["contact_events"] > 0)  # spikes are still charged
+    assert np.allclose(res["cost"], V3.column_cost(res.ledger, late), rtol=1e-12)
+    hid = rows["hidden_off"]
+    assert hid["arrivals_fork"] <= hid["arrivals_twin"]
+    with pytest.raises(ValueError):  # the ABI-2 default refuses a CATCH world
+        clones.run_forks(catch_talker, CATCH, SEEDS, [0.5], ["contacts_off"])
+
+
+def test_a_blind_relay_passes_the_certificate_but_not_the_sensing_fork():
+    """Review fix: the certificate alone (msg reliance 1) does not show sensing. A blind tonic zygote relaying to the
+    motor above it needs every message and no receptor, so receptor_off removes nothing; the sensing clicker loses
+    all of its income under both forks."""
+    from src.life import handbuilt as hb
+    assert clones.SENSE in clones.CATCH_CONDITIONS and clones.sense_condition(clones.CATCH_CONDITIONS) == clones.SENSE
+    assert clones.sense_condition(clones.CONDITIONS) is None
+    seeds = list(range(40, 56))
+    for org, sensing in ((hb.BLIND_RELAY_GRN, 0.0), (hb.COLUMN_GRN_RING0, 1.0)):
+        rows = clones.run_forks(org.table(), spec.world("catch_v1"), seeds, [0.5], clones.CATCH_CONDITIONS,
+                                threads=4, abi=V3)
+        assert clones.reliance(rows, clones.CERTIFICATE) == pytest.approx(1.0, abs=0.02), org.name
+        assert clones.reliance(rows, clones.SENSE) == pytest.approx(sensing, abs=0.02), org.name

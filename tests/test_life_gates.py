@@ -252,3 +252,170 @@ def test_square8_n_view_gate_against_the_abi1_flank_gate():
     for N in (61, 91, 127):  # on hex the two gates are equal (G10): |z| < 1
         d = z[f"abi2/grn_hex/{N}"] - z[f"abi1/grn_hex/{N}"]
         assert abs(d.mean()) < d.std(ddof=1) / np.sqrt(d.size)
+
+
+# ---------------------------------------------------------------------------------------- BODY-1: the CATCH gates
+CATCH_JSON = GATES_JSON.with_name("gates_catch.json")
+CATCH_PASSING = ("GB3", "GB4", "GB5", "GB6", "GB7", "GB8", "GB9", "GB12", "GB13")  # pass in the stored run
+L3 = spec.V3.L
+
+
+def _stored_catch(name: str):
+    """The stored CATCH gate, or None when gates_catch.json is missing or was written by another kernel library."""
+    if not CATCH_JSON.exists():
+        return None
+    data = json.loads(CATCH_JSON.read_text())
+    if data["meta"]["kernel"] != build.library_path().name:
+        return None
+    return data["gates"].get(name)
+
+
+def _rejudge_catch(name: str, stored: dict) -> None:
+    g = lg.CATCH_JUDGES[name](copy.deepcopy(stored))
+    assert g["checks"] == stored["checks"] and g["passed"] == stored["passed"], (g["checks"], stored["checks"])
+    if name in CATCH_PASSING:
+        assert stored["passed"], (name, stored["checks"])
+
+
+def test_catch_gates_json_is_complete_and_its_verdicts_follow_from_its_numbers():
+    if not CATCH_JSON.exists():
+        pytest.skip("gates_catch.json not written yet")
+    data = json.loads(CATCH_JSON.read_text())
+    assert set(data["gates"]) == set(lg.CATCH_GATES) and data["meta"]["world"] == "catch"
+    assert data["meta"]["fresh_seed0"] == lg.CATCH_FRESH_SEED0 and data["meta"]["threads"] <= 4
+    assert data["meta"]["abi"] == spec.V3.version
+    for name, g in data["gates"].items():
+        assert {"registered", "criteria", "checks", "passed"} <= set(g), name
+        _rejudge_catch(name, g)
+    assert data["passed"] == all(g["passed"] for g in data["gates"].values())
+
+
+def test_catch_seed_ranges_are_disjoint():
+    ranges = [lg.CATCH_FRESH_SEED0, lg.CATCH_SCREEN_SEED0, lg.CATCH_EXPLORE_SEED0, analysis.FRESH_SEED0,
+              analysis.SCREEN_SEED0]
+    assert len(set(r // 1_000_000 for r in ranges)) == len(ranges)
+    assert lg.C_LIVES_SMALL >= 2048 and lg.C_LIVES >= 512 and lg.CATCH_PRESET == "catch_v1"
+
+
+def test_gb3_the_clicker_beats_the_lone_zygote():
+    g = lg.gate_gb3(threads=4)
+    assert g["passed"], g["checks"]
+    assert g["lone"]["income_rate"] == 0.0 and -0.021 < g["lone"]["mean"] < -0.020
+    stored = _stored_catch("GB3")
+    if stored is not None:
+        for k in ("lone", "clicker", "step", "checks"):
+            _same(g[k], stored[k])
+        _rejudge_catch("GB3", stored)
+
+
+def test_gb4_ring_curve_points_are_pinned():
+    pts = {k: lg.cpoint(hb.ring_body(k), lg._n_for(hb.ring_body(k)), proto=f"ring{k}") for k in (0, 1, 3)}
+    assert pts[0]["mean"] < pts[1]["mean"] < pts[3]["mean"] and pts[3]["mean"] > 20 * pts[0]["mean"]
+    assert all(abs(p["z_prototype"]) <= lg.Z_PORT for p in pts.values())
+    stored = _stored_catch("GB4")
+    if stored is not None:
+        for k, p in pts.items():
+            _same(dict(p, cells=len(hb.ring_body(k).cells)), stored["rings"][str(k)])
+        assert stored["best"]["n_star"] in (3, 4) and not stored["best"]["edge"]
+        _rejudge_catch("GB4", stored)
+
+
+def test_gb5_column_ladder_points_are_pinned():
+    bodies = [hb.ladder_body("adjacent", m) for m in range(4)]
+    steps = [lg._step(a, b, lg.C_LIVES_SMALL) for a, b in zip(bodies, bodies[1:])]
+    assert all(s["z"] > 2 for s in steps), steps
+    stored = _stored_catch("GB5")
+    if stored is not None:
+        for m in (1, 2, 3):
+            _same(steps[m - 1], stored["orders"]["adjacent"]["steps"][f"{m - 1}->{m}"])
+        _rejudge_catch("GB5", stored)
+
+
+def test_gb6_the_wire_certificate_removes_second_half_income():
+    org = hb.ring_body(1)
+    row = lg._gb6_row(org, lg.C_LIVES_FORK)
+    assert row["removed"] >= lg.GB6_REMOVED and row["removed_sense"] >= lg.GB6_REMOVED
+    # review fix: a blind relay clicker passes the certificate alone; receptor_off shows it senses nothing
+    blind = lg._gb6_row(hb.BLIND_RELAY_GRN, 64)
+    assert blind["removed"] >= lg.GB6_REMOVED and blind["removed_sense"] < 0.05
+    stored = _stored_catch("GB6")
+    if stored is not None:
+        _same(float(row["removed"]), stored["organisms"][org.name]["removed"])
+        _same(float(row["removed_sense"]), stored["organisms"][org.name]["removed_sense"])
+        _rejudge_catch("GB6", stored)
+
+
+def test_gb7_cheats_lose():
+    n = lg.C_LIVES_SMALL
+    for cheat, ref in ((hb.BLIND_SPAM_RUNNER, hb.CLICKER), (hb.islands(), hb.ring_body(1))):
+        s = lg._step(ref, cheat, n)
+        assert s["z"] < -lg.Z, (cheat.name, s)
+    # review fixes: slow blind clickers (a presser, or a tonic zygote relaying to a motor) lose to the lone zygote at
+    # c_miss 2, and a clicker with two footless tonic drifters stays below the 4-cell column once their columns drag
+    for cheat in (hb.BLIND_GRN, hb.BLIND_RELAY_GRN, hb.blind_presser(1.5, 16.0, 2.0, 1.0)):
+        s = lg._step(hb.ZYGOTE, cheat, n)
+        assert s["z"] < -lg.Z, (cheat.name, s)
+    s = lg._step(hb.ladder_body("adjacent", 1), hb.runner(1.5, 8.0, 4.0, 1.0, drifters=2), n)
+    assert s["z"] < lg.Z, s
+    co = lg.clives(hb.ring_body(2), 128, flags=spec.V3.flags("contacts_off"))
+    assert np.all(co[:, L3["income"]] == 0) and np.all(co[:, L3["clicks"]] == 0)
+    stored = _stored_catch("GB7")
+    if stored is not None:
+        _same(lg._step(hb.CLICKER, hb.BLIND_SPAM_RUNNER, n), stored["cheats"]["blind_spam_runner"]["vs"])
+        assert [stored["runner_screen"][d]["screened"] for d in ("1", "2", "3")] == [108] * 3
+        assert stored["blind_screen"]["screened"] == len(hb.blind_presser_grid())
+        _rejudge_catch("GB7", stored)
+
+
+def test_gb8_the_centre_hold_pays_at_ring_1():
+    n = lg._n_for(hb.ring_body(1))
+    gain = lg._step(hb.ring_body(1), hb.hold_body(1), n)
+    assert gain["z"] > lg.Z and 0.3 < gain["mean"] < 0.6
+    stored = _stored_catch("GB8")
+    if stored is not None:
+        _same(gain, stored["rings"]["1"]["gain"])
+        _rejudge_catch("GB8", stored)
+
+
+def test_gb9_the_column_genome_grows_and_expresses_the_reflex():
+    assert all(not v["mismatches"] for v in hb.column_genome_states().values())
+    stored = _stored_catch("GB9")
+    res, bodies = lg._grown(hb.COLUMN_GRN_RING1, 64)
+    want = sorted((a, b, z) for a, b, z, _ in hb.ring_body(1).cells)
+    assert all(sorted(b) == want for b in bodies) and res["rejects"].sum() == 0
+    if stored is not None:
+        assert all(v["exact"] == v["lives"] for v in stored["growth"].values())
+        _same(lg.cpoint(hb.COLUMN_GRN_RING1, lg.C_LIVES_FORK, t_open=lg.GB9_T_OPEN), stored["after_growth"]["1"]["grn"])
+        _rejudge_catch("GB9", stored)
+
+
+def test_gb12_v1_sits_inside_the_good_start_region():
+    b = lg.gb12_bodies()
+    for a, c in (("lone", "ring0"), ("ring0", "adjacent_1"), ("adjacent_1", "adjacent_2")):
+        s = lg._step(b[a], b[c], lg.C_LIVES_SMALL)
+        assert s["z"] > lg.Z, (a, c, s)
+    slow = lg.cpoint(hb.CLICKER, lg.C_LIVES_SMALL, proto="v_t_0.05/ring0", v_t=0.05)
+    assert slow["mean"] < 2 * slow["se"]  # the clicker earns nothing when the target is slow (proposal 3.5)
+    stored = _stored_catch("GB12")
+    if stored is not None:
+        _same(slow, stored["worlds"]["v_t_0.05"]["points"]["ring0"])
+        _rejudge_catch("GB12", stored)
+
+
+def test_gb13_hidden_planes_cost_exactly_c_live():
+    g = lg.gate_gb13(threads=4)
+    assert g["passed"], g["checks"]
+    stored = _stored_catch("GB13")
+    if stored is not None:
+        _same(g["silent_hidden"], stored["silent_hidden"])
+        _same(g["planes"], stored["planes"])
+        _rejudge_catch("GB13", stored)
+
+
+def test_main_runs_a_catch_gate(tmp_path):
+    out = tmp_path / "c.json"
+    assert lg.main(["--world", "catch", "--gates", "gb3", "--threads", "4", "--out", str(out)]) == 0
+    data = json.loads(out.read_text())
+    assert data["meta"]["world"] == "catch" and set(data["gates"]) == {"GB3"} and data["passed"]
+    with pytest.raises(SystemExit):
+        lg.main(["--world", "catch", "--gates", "G1", "--out", str(out)])

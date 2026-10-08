@@ -1,0 +1,55 @@
+# BODY-1 v1, stage S0 (docs/BODY_DESIGN_PROPOSAL.md, approved 2026-10-07): the body is the dot, a 3D hex-prism tissue
+# rides on it (sense plane z = 0, act plane z = 1, hidden planes above), and the world is CATCH-T (LIFE_ABI.md 9.7).
+# This arm is the user's design, L_max 4 (two hidden planes); configs/life_catch_l2.yaml is the equal L_max-2 arm.
+# One life per genome from one zygote, kernel ABI 3, everything else as in life.yaml (two-stage selection K64 L4).
+extends: life.yaml
+
+lattice:
+  kind: hexprism                # hex planes stacked at unit spacing: D = 8 (6 in-plane, up, down)
+
+genome:
+  life: {genes_max: 16, genes_init: 8, morph: 2, channels: 2, stim: 1, cues: 2, pheno: 22}   # ABI 3: 875 slots
+  # Founder prior (tweak, calibrated by the real-kernel CATCH census; every entry stays mutable). With BELL's priors
+  # the readout a0 + A g spreads about 2.6 wide, so b, w, g_r sit at the q8 limits, and one contact moves a gene by
+  # about 0.1 (n_view / D = 1/8 with weight std 1): no random genome stopped growing after its first divisions, and 0
+  # of 8,192 founded at either L_max. Here the readout is narrower, the plane cues are stronger and the contact input
+  # can switch a gene. Means: the proposal's reflex-centred ones (proposal 7, step 1: g_r, w0 and emit0 +0.5, b 0),
+  # plus one of our own, kappa 1.5, which decodes to kappa 1 (KAPPA[rint(2 y)]; y 1.0 would decode to 1/2): the
+  # twitch that reaches th_click in one spike, which proposal 6 step 1 says the act daughter needs. Census (8,192
+  # genomes, c_miss 2; RESULTS.md BODY-1 v1): earners 194 / 213 at L_max 4 / 2 against 98 / 93 with BELL's kappa mean
+  # 0.5, one genuine founder in both. Set all three to null for BELL's priors.
+  readout_std: [0.5, 0.5]       # a0 std and A std of every knob that does not start fixed (BELL: 1.0 and 1.5)
+  knob_init: {b: [0.0, 0.5, 0.5], g_r: [0.5, 0.5, 0.5], kappa: [1.5, 0.5, 0.5], w0: [0.5, 0.5, 0.5],
+              emit0: [0.5, 0.5, 0.5]}   # [a0 mean, a0 std, A std]; knobs not listed as LIFE_KNOB_INIT
+  input_init: {is_S: 2.0, is_M: 2.0, n_view: 8.0}   # founder W std per input (BELL: 1, 1, 0)
+
+life:
+  world: catch_v1_l4            # spec.PRESETS: catch_v1_l4 (L_max 4) | catch_v1_l2 (L_max 2)
+  control: lmax4                # run-directory label; the two arms differ only in the world's L_max
+  T: 1024                       # fixed life length (proposal decision 6; GB11 decides on a per-generation draw)
+  T_choices: null               # GB11's switch: e.g. [768, 1024, 1536], one length per generation (evaluate.py)
+  founder_T: 1024
+  founder_lives: 2
+  heldout: [{v_t: 0.05}, {v_t: 0.2}, {R_cap: 50.0}, {R_cap: 200.0}, {sigma: 1.0}]   # GB12's start-robustness worlds
+  skill_at: 2.0                 # S0 success: F >= +2.0, the ring-2 level (proposal 8.2)
+  size_curve: [2, 6, 14, 38, 74, 122]   # oracle-capped sizes (all planes): clicker, 3 columns, rings 1, 2, 3, 4
+  extinct_charge: true          # tweak: an extinct life pays c_live per remaining unit, as if one silent cell lived on
+                                # (CATCH has no lone pump, so dying at once would beat every losing body; evaluate.py)
+
+clones:
+  every: 10
+  times: [0.25, 0.5, 0.75]
+  # the message certificate (GB6) first, then the sensing check (receptor_off: with the certificate, a sense-to-act
+  # wire; review fix), then single lesions: lateral and hidden messages, chemistry
+  conditions: [contacts_off+chem_off+division_off, receptor_off, contacts_off, lateral_off, hidden_off, chem_off]
+
+evolve:
+  min_founder_score: 0.0        # a founder must earn more than it costs (F >= 0; the lone zygote scores -0.02)
+  founder_key: fitness
+  # founder budget (tweak, the proposal's arm (a) "a larger founder budget"): draw all 16,384 genomes, two lives each,
+  # and keep the fittest 8, instead of stopping at the first genome that clears the bar on one lucky life
+  founder_all: true
+  max_init_samples: 16384
+
+logging:
+  output_dir: outputs/life_catch

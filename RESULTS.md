@@ -609,3 +609,121 @@ Checks after the review fixes:
 - **Paired arms.** With shared seeds, the two arms are not independent until one diverges. For independent lineages,
   give square8 other seeds (for example 10-19).
 - **ABI-1 outputs** (outputs/life_smoke40, life_census, life_reference) cannot be loaded or resumed under ABI 2.
+
+## 2026-10-08 — BODY-1 v1: CATCH-T in the kernel (ABI 3), gates, census, smoke, review fixes
+The approved body design (docs/BODY_DESIGN_PROPOSAL.md: the dot is the body; a hex-prism tissue rides on it; sense
+plane z = 0, act plane z = 1, hidden planes above; surface-normal pulls; clicks only at the hotspot; arms L_max 2 and
+4) now runs in the C kernel and the Python reference as ABI 3 (docs/LIFE_ABI.md 9.7 and section 15). A code review
+then found six problems; five were real model or gate problems and are fixed below, with their tweaks. Nothing is
+committed and no pilot was launched.
+
+**Kernel verified.**
+- Kernel = reference, bitwise, on every ABI-3 test life, on about 1,800 random CATCH lives (cross-check round 1), and
+  after the fixes on 600 more random founders of the CATCH prior at L_max 4 and 2 (369 grew, 124 ended with a
+  column that has no sense cell, the case the drag fix changes): 0 mismatches.
+- BELL-1 under ABI 3: G1-G10 and S8 rerun on the fixed kernel are identical to the ABI-2 kernel's gates.json leaf for
+  leaf (program and GRN mode alike), so BELL numbers moved by 0. 10 of 11 pass; G10 fails on its one known check, as
+  before (601 s, 4 threads, 0.72 GB).
+- heap = window and tie-order invariance for CATCH lives with growth, receptors, forks and the second blob (GB2;
+  `test_life_time.py`, `test_life_reference_smoke.py`); the closed-form dot against Euler integration within 0.1%.
+- The legacy tick pipeline: a local smoke run on this tree is identical to HEAD's (curves and results row, apart
+  from wall_s).
+- Tests: 610 fast and 111 slow pass; ruff clean. A CATCH run peaks at 0.43 GB (4 threads).
+
+**Review findings** (6 reported; all reproduced with the reviewers' scripts):
+
+| finding | reproduced | fix | regression test |
+|---|---|---|---|
+| slow blind clicking beats the lone zygote at c_miss 1; GB7 tested one fast presser | yes: best presser −0.0118 vs lone −0.0203, +0.0085 ± 0.0020; GRN version +0.0108 (z 5.5) | c_miss 2 (tweak 10); GB7 screens 480 blind pressers and two blind GRN genomes | `test_gb7_cheats_lose`, `test_blind_genomes_never_sense_and_click_slowly` |
+| the message certificate gives a blind relay clicker msg_reliance 1.0 | yes: certificate removes 100%, receptor_off 0% | receptor_off joins the CATCH forks; runs report `sense_reliance`; GB6 requires both forks ≥ 95% and catches the blind relay | `test_a_blind_relay_passes_the_certificate_but_not_the_sensing_fork`, GB6 test, the CATCH run test |
+| a clicker with two footless tonic drifters beats the 4-column body and is a local optimum | yes: +0.068 ± 0.005 over 4 columns (z 14), every neighbour lower | drag from the projected footprint (tweak 11); GB7 screens runners with 1-3 drifters and reports their neighbours | `test_footless_act_cells_add_drag`, Euler and record re-derivation tests |
+| tiny t_resp or tau_turn hangs `life_run` | yes: t_resp 1e-20 never returned (killed at 30 s) | both are 0 or ≥ 2^-10 (spec and kernel; LIFE_ABI 4.7, 15.58) | `test_world_timers_below_the_step_floor_are_refused_so_every_life_ends`, world-range lists |
+| the founder prior's b 0.25 and kappa 1.0 were credited to the proposal | yes: proposal 7 says b 0 and no kappa mean | b back to 0; kappa set to 1.5 and declared as our own (tweak 14), with a census | `test_the_catch_founder_settings_are_the_recorded_tweaks` (decodes the means) |
+| kappa mean 1.0 decodes to kappa 1/2, not 1 | yes (KAPPA[rint(2y)]: y 1.0 → 1/2) | as above | as above |
+
+**Gates (CATCH, 9 of 9 pass;** docs/LIFE_GATES.md BODY-1, outputs/life_gates/gates_catch.json, 808 s, 4 threads).
+Fresh lives, paired; F at c_miss 2.
+
+| gate | measured | verdict |
+|---|---|---|
+| GB3 first division pays | lone −0.0203; 2-cell clicker +0.0237 ± 0.0023; step +0.044 (z 19, n 2048) | PASS |
+| GB4 ring ladder | rises to ring 3 (74 cells) +3.892 ± 0.025, 164× the clicker; ring 6 −3.32; port max z 2.67 | PASS |
+| GB5 column by column | 29 of 30 steps uphill, none down, in 3 orders and ring 1 → 2; faintest +0.023 ± 0.004 | PASS |
+| GB6 wire certificate | certificate and receptor_off each remove 99.6-100% at rings 0-6 and on two grown GRN bodies; blind relay: 100% and 0% | PASS |
+| GB7 cheats | blind pressers lose to the lone zygote (best −0.046, z −17; GRN −0.061, z −21); runners with 1/2/3 drifters +0.060 / +0.043 / +0.053, all below the 4-column body (+0.071; z −2.7, −7.1, −4.5) and the 6-column body (z −27 to −31); islands −0.226 | PASS |
+| GB8 2-hop hold (positive control) | ring 1 gain +0.484 ± 0.011 (z 46); lateral-off removes 100% | PASS |
+| GB9 column reflex as a GRN genome | rings 0 and 1 grow exactly in 256/256 lives; after growth z +0.05 / −0.04 vs program twins; 80-cell grower −0.031 ± 0.042 | PASS |
+| GB12 start robustness | v1: every first step uphill; clicker margin vanishes at v_t 0.05 and R_cap 50 as in the prototype | PASS |
+| GB13 hidden planes | silent hidden cells cost exactly c_live (residual ≤ 8e-14); L_max 2 = 4 bitwise for column bodies | PASS |
+
+- Not part of the gate: the runner screen repeated on the GRN grid (b 1.125-2, every tau_m and t_ref, kappa
+  0.25-1, feet or not; 960 settings per drifter count): best runners +0.061 / +0.057 / +0.048, all below the
+  4-column body (z −2.5, −3.4, −5.6).
+- Before the fixes the same 9 gates also passed, because GB6 did not fork the receptors and GB7 screened neither slow
+  pressers nor multi-drifter runners.
+
+**Census (GB10;** 8,192 founder-distribution genomes, one CATCH life each, earners re-measured on 24 fresh lives;
+the fixed world). The four rows differ only in the founder prior's b and kappa means:
+
+| prior (b, kappa a0 means) | zygotes with kappa 1 | earners L_max 4 / 2 | genuine founders L_max 4 / 2 (all sense) | top-8 recheck F, L_max 4 / 2 |
+|---|---|---|---|---|
+| proposal 7 (0, BELL's 0.5) | 21% | 98 / 93 | 1 / 1 | −0.044 / −0.042 |
+| before the review (0.25, 1.0) | 40% | 163 / 183 | 1 / 1 | −0.026 / −0.020 |
+| (0.25, 1.5) | 60% | 222 / 246 | 1 / 1 | −0.021 / −0.019 |
+| **adopted (0, 1.5)** | 60% | 194 / 213 | 1 / 1 | −0.017 / −0.018 |
+
+- The genuine founder is the same genome in every row: a 2-cell clicker, F +0.020 ± 0.016, whose income receptor_off
+  removes entirely. Rate 1 in 8,192 at each L_max (95% CI 1 in 1,471 to 1 in 323,567), below the proposal's
+  1 in 2,000. Before the c_miss fix the census found 2; the other one (17 misses per life) no longer earns.
+- 53% of random genomes never divide and 27-28% trip the 1024-cell guard (72-77% of the census's kernel events).
+- So, as proposal 7 step 3 prescribes, the pilot script now runs the seeded-ancestor arm by default (tweak 15),
+  next to the two unseeded arms with their larger founder budget.
+
+**Smoke evolution** (1 seed × 30 generations per arm, the pilot configs; final values on 64 fresh lives):
+
+| arm | founders | final best | F ± SE | msg / sense reliance | wall |
+|---|---|---|---|---|---|
+| L_max 4, unseeded | best of 16,384 (screen F +0.087) | 2-cell clicker | −0.0005 ± 0.0068 | 1.0 / 1.0 | 541 s |
+| L_max 2, unseeded | best of 16,384 (screen F +0.087) | 2-cell clicker | +0.036 ± 0.012 | 1.0 / 1.0 | 612 s |
+| seeded (hand GRN 2-cell clicker, L_max 4) | the seed | 48 cells (24 S, 24 M, 0 H) | +0.727 ± 0.073 | 1.0 / 1.0 | 165 s |
+
+- Both unseeded arms found sensing 2-cell clickers (receptor_off and the certificate remove all of their income) and
+  stayed at 2 cells for 30 generations. The seeded arm grew to about 50 cells within 10 generations. Thirty
+  generations judge nothing; an earlier 300-generation unseeded run (before the fixes) reached 52 cells and +1.84.
+
+**Tweaks beyond the approved proposal, and why** (each keeps sensing, acting and messaging local, adds no clock and
+designs no behaviour; hand-built bodies stay references and gates only):
+1. Vertical placement uses the 3D polarity vector as well as zeta (LIFE_ABI 15.37): no planar special case, so
+   "grow up from the sense plane" can also come from chemistry.
+2. Plane cues are 0 outside CATCH (15.38): BELL genomes get no stray input.
+3. A cell with g_r 0 has no receptor (15.40): otherwise the genes could read the screen for free.
+4. A dying act cell's residual pull is removed (15.43); 5. no sense-plane cell, no traction (15.44).
+6. Founder prior: readout std 0.5 / 0.5, plane-cue weights std 2, n_view weights std 8 (census: with BELL's priors
+   0 of 8,192 founded at either L_max).
+7. Founder budget: all 16,384 samples, 2 lives each, keep the best 8 (proposal 7 arm a); 8. an extinct life pays
+   c_live per remaining unit (otherwise dying at once would beat every losing body); 9. founder bar F ≥ 0.
+10. **c_miss 2, not 1** (15.60): break-even capture rate per click 2 / 102 = 1.96%, above blind clicking's 1.55%.
+    Cost: the clicker's margin over the lone cell falls from +0.070 to +0.044, and in GB12 the clicker no longer
+    earns at c_live 0.04 or rho_c 0.7 (it did at c_miss 1): v1 sits closer to the edge of the good region.
+11. **Drag from the projected footprint** (15.59): every occupied column in any plane, not only sense-plane cells.
+    Column bodies are bitwise unchanged; footless act cells now slow the dot. It follows the proposal's own reason
+    for the law (drag grows with the body's linear size).
+12. World timers have the 2^-10 floor (15.58), a validity rule.
+13. receptor_off is part of the CATCH fork set, and `sense_reliance` is reported next to `msg_reliance`.
+14. Founder prior means: b 0 (the proposal's), kappa 1.5, our own, so the mean decodes to kappa 1, the one-spike click
+    that proposal 6 step 1 says the act daughter needs (census above).
+15. The pilot runs the seeded-ancestor arm by default (`PILOT_SEEDED=0` turns it off), as proposal 7 prescribes below
+    1 in 2,000.
+
+**Open issues.**
+- Founders are rare (1 in 8,192 at each L_max). The unseeded arms start from noise-lucky genomes whose true F is
+  near the lone cell's; whether they climb past 2 cells in 500 generations is what the pilot measures.
+- Tweaks 10 and 11 change rule N10's price and rule N6's footprint; please confirm them. With c_miss 2 blind clicking
+  still pays in the R_cap 200 world (the blind GRN presser +0.039 ± 0.004 over the lone cell, z 10, n 2048), which
+  the configs use only for held-out scores and GB12 for robustness.
+- The S1 world search (decision 3) was not started in this round: no S1 candidate has passed A1-A4, and no later
+  stage is wired.
+- GB9's single-mutant scan was not run; GB11 (growth stops) needs the pilot. The kernel's 2-cell clicker sits about
+  9% above the prototype's at equal prices (unexplained). Footless bodies are no longer ported to the prototype.
+- Before launching: commit (the tree is dirty), then `scripts/run_catch_pilot.sh` runs 30 runs (two unseeded arms
+  and the seeded arm, 10 seeds each).

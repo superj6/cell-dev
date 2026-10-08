@@ -1,5 +1,6 @@
-"""Pilot tools for life mode: the random-genome census (scripts/life_census.py), the throughput benchmark
-(scripts/life_bench.py), the sweep's lattice and breeding axes, and the seeded control (evolve.seed_genome)."""
+"""Pilot tools for life mode: the random-genome census (scripts/life_census.py, BELL and the BODY-1 CATCH census),
+the throughput benchmark (scripts/life_bench.py), the sweep's lattice and breeding axes, and the seeded control
+(evolve.seed_genome)."""
 import json
 from pathlib import Path
 
@@ -146,3 +147,51 @@ def test_reference_screens_the_timer_and_measures_the_pick_on_fresh_lives():
     up = r["fresh"]["uncapped"]
     assert up["guard"] == 1.0 and up["mean"] < -10  # R25-v1 has no stop rule: it grows into the N_max guard
     assert r["fresh"][f"timer {r['best_timer']:g}"]["guard"] == 0.0
+
+
+# ------------------------------------------------------------------------------------------- BODY-1 census
+CATCH_CFG = str(ROOT / "configs/life_catch.yaml")
+
+
+def test_clopper_pearson_matches_the_proposal_intervals():
+    """BODY_DESIGN_PROPOSAL.md 7 quotes 8 founders in 8,192 as 1 in 2,370 to 1 in 520 and 11 as 1 in 1,490 to 1 in
+    416 (exact 95% intervals)."""
+    lo, hi = life_census.clopper_pearson(8, 8192)
+    assert round(1 / lo, -1) == 2370 and round(1 / hi) == 520
+    lo, hi = life_census.clopper_pearson(11, 8192)
+    assert round(1 / lo, -1) == 1490 and round(1 / hi) == 416
+    assert life_census.clopper_pearson(0, 100)[0] == 0.0 and life_census.clopper_pearson(5, 5)[1] == 1.0
+    lo, hi = life_census.clopper_pearson(3, 10)
+    assert lo < 0.3 < hi
+
+
+def test_catch_census_rechecks_every_earner_on_shared_fresh_lives():
+    cfg = load_config(CATCH_CFG, ["evolve.init_samples=32", "threads=2", "life.T=256"])
+    c = life_census.catch_census(cfg, 64, [4, 2], recheck_lives=3, log=lambda *_: None)
+    assert set(c["lmax"]) == {"4", "2"} and c["config"]["samples"] == 64 and c["config"]["T"] == 256.0
+    for L, h in c["lmax"].items():
+        assert h["lives"] == 64 and h["invalid"] == 0 and h["lone_F"] == -0.02
+        assert abs(h["lone"] + h["body"] + h["guard"] + h["extinct"] - 1.0) < 1e-12
+        assert len(h["rechecked"]) == h["earners"] == len(h["earner_rows"])  # every earner, nothing else
+        assert all(r["genuine"] == (r["F"] > 0 and r["F"] - 2 * r["F_se"] > -0.02) for r in h["rechecked"])
+        assert h["n_genuine"] == len(h["genuine"]) and h["rate_ci95"][0] <= h["rate"] <= h["rate_ci95"][1]
+        if L == "2":
+            assert h["hidden_plane"] == 0.0  # no hidden plane exists at L_max 2
+    assert "genuine founders" in life_census.catch_markdown(c)
+    # the same genomes at both heights: a lone zygote is lone at every L_max
+    assert c["lmax"]["4"]["lone"] == c["lmax"]["2"]["lone"]
+    with pytest.raises(ValueError):
+        life_census.catch_census(_cfg(), 8, [1], log=lambda *_: None)  # a BELL config
+
+
+def test_catch_horizon_counts_a_synthetic_ledger():
+    st = spec.STATUS
+    col = {k: np.zeros(4) for k in life_census.CATCH_COLUMNS}
+    col.update(F=np.array([-0.02, 0.05, -20.0, -0.1]), income=np.array([0.0, 200.0, 0.0, 100.0]),
+               births=np.array([0, 1, 900, 5]), n_end=np.array([1, 2, 1024, 6]), clicks=np.array([0, 3, 0, 9]),
+               captures=np.array([0, 2, 0, 1]), n_S_end=np.array([1, 1, 500, 3]), n_M_end=np.array([0, 1, 300, 3]),
+               n_H_end=np.array([0, 0, 224, 0]), status=np.array([0, 0, st["guard_cells"], 0], dtype=float))
+    h = life_census.catch_horizon(col)
+    assert (h["lone"], h["body"], h["guard"], h["earners"], h["clickers"], h["capturers"]) == (
+        0.25, 0.5, 0.25, 2, 0.5, 0.5)
+    assert h["body_act"] == 0.5 and h["hidden_plane"] == 0.25 and [r["index"] for r in h["earner_rows"]] == [1, 3]

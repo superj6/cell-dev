@@ -99,8 +99,10 @@ def setup(cfg):
         from src.life.evaluate import LifeEvaluator
 
         dims = make_dims({**OmegaConf.to_container(cfg.genome.life, resolve=True), "kind": "life"})
-        knob_init = cfg.genome.get("knob_init")
-        layout = make_layout(dims, knob_init=None if knob_init is None else OmegaConf.to_container(knob_init))
+        g = cfg.genome
+        plain = {k: None if g.get(k) is None else OmegaConf.to_container(g[k]) for k in ("knob_init", "input_init",
+                                                                                         "readout_std")}
+        layout = make_layout(dims, **plain)
         return None, layout, None, LifeEvaluator(cfg, layout)
     lattice = build_lattice(cfg.lattice.kind, cfg.lattice.radius, cfg.lattice.contact)
     layout = Layout(Dims(**cfg.genome.dims))
@@ -113,11 +115,16 @@ def sample_founders(cfg, ev: Evaluator, layout: Layout, sample, gen: torch.Gener
     """Random genomes in batches until one of them actually scores (a dead single cell has nothing to climb from), up
     to ``max_init_samples``. Returns the fittest ``founders`` with scorers ranked first, the evaluations used, and a
     summary. ``sample(gen)`` draws the trials to score them on. ``evolve.founder_key`` picks what must reach
-    ``min_founder_score``: ``score`` (default) or ``fitness`` (life mode: F >= 0.02). ``collect`` receives every
+    ``min_founder_score``: ``score`` (default) or ``fitness`` (life mode: F >= 0.02). With ``evolve.founder_all``
+    sampling never stops early: all ``max_init_samples`` are drawn and the founders are the fittest of them (scorers
+    first), so one lucky genome cannot end the search (BODY-1, where founders are rare). ``collect`` receives every
     batch's evaluation (for the life census)."""
     e = cfg.evolve
     min_score = float(e.get("min_founder_score", 0.0))
     key = str(e.get("founder_key", "score"))
+    sample_all = bool(e.get("founder_all", False))
+    if sample_all and e.get("max_init_samples") is None:
+        raise ValueError("evolve.founder_all needs evolve.max_init_samples")
     pool, fits, scores, evals = [], [], [], 0
     while True:
         cands = layout.random(int(e.init_samples), gen, float(cfg.genome.init_scale))
@@ -128,7 +135,8 @@ def sample_founders(cfg, ev: Evaluator, layout: Layout, sample, gen: torch.Gener
         fits.append(res.fitness)
         scores.append(getattr(res, key))
         evals += cands.shape[0]
-        if float(torch.cat(scores).max()) >= min_score or evals >= int(e.get("max_init_samples", evals)):
+        if evals >= int(e.get("max_init_samples", evals)) or (not sample_all and float(torch.cat(scores).max())
+                                                                >= min_score):
             break
     pool, fits, scores = torch.cat(pool), torch.cat(fits), torch.cat(scores)
     order = fits.argsort(descending=True)
@@ -377,17 +385,34 @@ def recheck_bodies(curves: list[dict]) -> dict:
                 recheck_body_losses=sum(c["recheck_bodies_onestage"] > 0 and c["recheck_bodies"] == 0 for c in rc))
 
 
+CATCH_SEED = "catch_reflex"  # BODY-1's seeded ancestor (BODY_DESIGN_PROPOSAL.md 7, arm b)
+
+
 def seed_genome(cfg, layout) -> torch.Tensor:
     """The founder of a seeded run (``evolve.seed_genome``), as one raw genome ``[1, size]``: ``r25_v1`` (the hand-built
     R25-v1 written as a GRN genome, gate G9; uncapped it grows until the N_max guard), ``r25_v1_timer`` (the same with
-    its lineage-timer gene at ``evolve.seed_timer``, default 1.125, a local stop rule), or the path of a saved genome
-    (``best_genome.json``). Design control: "the population starts from the R25-v1 genome"; never the main result."""
-    from src.lattice import offsets
+    its lineage-timer gene at ``evolve.seed_timer``, default 1.125, a local stop rule), ``catch_reflex`` (BODY-1's
+    seeded ancestor, the declared hedge of BODY_DESIGN_PROPOSAL.md 7: the smallest hand-written ABI-3 GRN that grows
+    the 2-cell clicker from one zygote, ``handbuilt.catch_reflex_genome()`` or else the gates' column genome
+    ``handbuilt.column_genome(rings=0)``), or the path of a saved genome (``best_genome.json``). Design control: "the
+    population starts from the R25-v1 genome"; never the main result."""
     from src.life import handbuilt as hb
+    from src.life import spec
 
     name = str(cfg.evolve.seed_genome)
-    D = len(offsets(str(cfg.lattice.kind)))
-    if name == "r25_v1":
+    D = spec.V3.lattice_degree(str(cfg.lattice.kind))
+    if name == CATCH_SEED:
+        make = getattr(hb, "catch_reflex_genome", None)
+        if make is None and hasattr(hb, "column_genome"):
+            make = lambda: hb.column_genome(0)  # noqa: E731  (gate GB9's genome that grows the 2-cell clicker)
+        if make is None:
+            raise NotImplementedError("the seeded CATCH arm needs the hand GRN 2-cell clicker of gate GB9 "
+                                      "(handbuilt.catch_reflex_genome or handbuilt.column_genome), which "
+                                      "src/life/handbuilt.py does not provide yet")
+        g = torch.as_tensor(np.asarray(make(), dtype=np.float32))
+        if g.numel() != layout.size:
+            raise ValueError(f"{name}: a genome of {g.numel()} slots for a layout of {layout.size}")
+    elif name == "r25_v1":
         g = torch.from_numpy(hb.r25_genome(D=D))
     elif name == "r25_v1_timer":
         g = torch.from_numpy(hb.r25_genome(timer=float(cfg.evolve.get("seed_timer", 1.125)), D=D))
@@ -493,7 +518,7 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
             rc_lives += len(rc["shortlist"]) * l_re
         pa_ids, pb_ids = ids[ia], (None if ib is None else ids[ib])
         pop, ids, breeds, origins = everyone[order], all_ids[order], all_breeds[order], all_origins[order]
-        row = {"gen": g, "evals": counted(), **chosen.take(0), "mean_score": float(chosen.score.mean()),
+        row = {"gen": g, "evals": counted(), **chosen.take(0, ev.catch), "mean_score": float(chosen.score.mean()),
                "mean_fitness": float(chosen.fitness.mean()), "median_n_cells": float(chosen.n_cells.median()),
                "best_id": int(ids[0]), "best_breed": int(breeds[0]), "breeds": int(breeds.unique().numel()),
                "pop_guard": float(res.guard.mean()), "pop_lone": float((res.n_peak <= 1).double().mean()),
@@ -523,13 +548,16 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
             sel = clone_targets(breeds, int(cc.get("top", 8)))
             seeds = ev.draw("clones", g, lives=int(cc.get("lives", 3))).seeds
             frows = clones.run_forks(ev.table(pop[sel]), ev.world(), seeds, times, conds, kind=ev.kind,
-                                     threads=ev.threads)
+                                     threads=ev.threads, abi=ev.abi)
             for r in frows:
                 r.update(gen=g, id=int(ids[sel[r["genome"]]]), breed=int(breeds[sel[r["genome"]]]),
                          rank=sel[r.pop("genome")])
             lin.clones(frows)
             row["clones"] = clone_summary(frows)
-            row["msg_reliance_best"] = clones.reliance([r for r in frows if r["rank"] == 0])
+            row["msg_reliance_best"] = clones.reliance([r for r in frows if r["rank"] == 0],
+                                                       clones.message_condition(conds))
+            if clones.sense_condition(conds):
+                row["sense_reliance_best"] = clones.reliance([r for r in frows if r["rank"] == 0], clones.SENSE)
         row.update(t_gen=round(time.perf_counter() - t_start, 4), t_eval=round(t_ev, 4))
         if rc is not None:
             row["t_recheck"] = round(rc["t"], 4)

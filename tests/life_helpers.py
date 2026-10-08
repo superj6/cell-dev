@@ -114,9 +114,12 @@ def same(a: build.Lives, b: build.Lives) -> bool:
 
 
 def mismatch(k: build.Lives, i: int, r: ref.LifeResult) -> list[str]:
-    """What differs between kernel life i and a reference life (empty when they agree bitwise)."""
-    out = [c for j, c in enumerate(spec.LEDGER) if bits(k.ledger[i, j]) != bits(r.ledger[j])]
-    out += [f"hash:{h}" for j, h in enumerate(spec.HASHES) if int(k.hashes[i, j]) != int(r.hashes[j])]
+    """What differs between kernel life i and a reference life (empty when they agree bitwise), in the kernel
+    batch's ABI (``spec.CURRENT`` unless the run asked for another)."""
+    if k.ledger.shape[1] != len(r.ledger) or k.hashes.shape[1] != len(r.hashes):
+        return ["abi"]
+    out = [c for j, c in enumerate(k.layout.LEDGER) if bits(k.ledger[i, j]) != bits(r.ledger[j])]
+    out += [f"hash:{h}" for j, h in enumerate(k.layout.HASHES) if int(k.hashes[i, j]) != int(r.hashes[j])]
     t, u = k.spikes(i)
     if not (np.array_equal(bits(t), bits(r.raster_t)) and np.array_equal(u, r.raster_uid)):
         out.append("raster")
@@ -203,3 +206,86 @@ def uid0(seed: int, j: int) -> int:
 def fate_uid(x: int) -> int:
     """A uid as the fate log stores it (int64) -> uint64."""
     return int(x) & spec.MASK64
+
+
+# ------------------------------------------------------------------------------------- ABI 3: 3D bodies and CATCH
+V3 = spec.V3
+PM3 = V3.flags("program_mode")
+R3 = V3.PROGRAM_ROW
+# the hand-built column reflex (BODY_DESIGN_PROPOSAL.md 3.2), one fixed program row per initial cell
+SENSE3 = V3.theta(g_r=1.0, emit0=1, tau_m=2, t_ref=1)  # relays every receptor event on channel 0
+MOTOR3 = V3.theta(w0=1.0, kappa=1.0, t_ref=4.0, tau_m=2)  # act cell: one channel-0 arrival fires a full twitch
+CLICKER3 = V3.theta(g_r=0.55, emit0=1, tau_m=2, t_ref=1)  # centre coincidence sensor: one noise event never clicks
+QUIET3 = V3.theta(tau_m=2, t_ref=1)  # never fires (a silent hidden cell)
+COLUMN3 = V3.pack_program(MOTOR3, alone=SENSE3, juvenile=CLICKER3, rim=QUIET3)
+
+
+def hexdisk(k: int) -> list[tuple[int, int]]:
+    """The hex sites within ring k of the origin (1, 7, 19, 37, ... sites)."""
+    return [(a, b) for a in range(-k, k + 1) for b in range(-k, k + 1) if max(abs(a), abs(b), abs(a + b)) <= k]
+
+
+def columns(sites, hidden: int = 0, rows=COLUMN3) -> list[tuple[int, int, int, int]]:
+    """A sense cell under an act cell at every site (the centre sensor is the clicker), then ``hidden`` quiet cells
+    on each column, as initial cells ``(a, b, z, row)`` of ``COLUMN3``. The control planes come first, so their
+    cells keep their uids whatever the hidden planes hold."""
+    body = [(a, b, 0, R3["juvenile"] if (a, b) == (0, 0) else R3["alone"]) for a, b in sites]
+    body += [(a, b, 1, R3["contact"]) for a, b in sites]
+    return body + [(a, b, 2 + h, R3["rim"]) for h in range(hidden) for a, b in sites]
+
+
+def catch(name: str = "catch_v1_l2", **kw) -> spec.World:
+    """A CATCH preset (BODY_DESIGN_PROPOSAL.md 3.1) with overrides."""
+    return spec.world(name, **kw)
+
+
+def grn3(seed: int, **shift) -> np.ndarray:
+    """A raw 8-gene ABI-3 genome biased to be tonic, emitting, contractile, dividing, dying, receptive and to place
+    upward, with random weights on the receptor trace and the plane cues; ``shift`` changes the readout biases."""
+    rng = np.random.default_rng(seed)
+    g = (rng.normal(0, 0.7, V3.GENOME_SIZE)).astype(np.float32)
+    act = V3.genome_view(g, "act")
+    act[:] = 0.0
+    act[:8] = 1.0
+    bias = dict(b=1.3, w0=-0.8, emit0=0.8, kappa=1.5, p_div=0.9, p_die=0.3, g_r=0.8, zeta=1.0)
+    bias.update(shift)
+    a0 = V3.genome_view(g, "a0")
+    for knob, s in bias.items():
+        a0[V3.K[knob]] += s
+    V3.genome_view(g, "W")[:8, 22:25] = rng.normal(0, 2.0, (8, 3)).astype(np.float32)
+    return g
+
+
+def kernel3(w: spec.World, seeds, *, program=None, genome=None, init=None, threads: int = 1,
+            cap: int = CAP) -> build.Lives:
+    """Lives through the C kernel in ABI 3's shapes; ``init`` cells are ``(a, b)``, ``(a, b, z)`` or
+    ``(a, b, z, row)``; ``genome`` is a raw ABI-3 genome (or one per life)."""
+    if program is not None:
+        return build.run(replace(w, flags=w.flags | PM3), seeds, programs=program, init=init, threads=threads,
+                         raster_cap=cap, fate_cap=cap, abi=V3)
+    gt = V3.pack_genomes(np.atleast_2d(np.asarray(genome, dtype=np.float32)), w.lattice)
+    return build.run(w, seeds, genomes=gt, init=init, threads=threads, raster_cap=cap, fate_cap=cap, abi=V3)
+
+
+def reference3(w: spec.World, seed: int, *, program=None, genome=None, init=None, tie: int = 0, order: int = 0,
+               salt: int = 0, cap: int = CAP, records: bool = False) -> ref.LifeResult:
+    """One life through the Python reference in ABI 3's shapes (the arguments of ``kernel3``)."""
+    cells = None if init is None else [tuple(c[:3]) if len(c) > 2 else (c[0], c[1], 0) for c in init]
+    rows = None if init is None else [c[3] if len(c) > 3 else -1 for c in init]
+    return ref.run(w, program=program, genome=genome, cells=cells, rows=rows, seed=seed, tie_seed=tie,
+                   order_seed=order, salt=salt, raster_cap=cap, fate_cap=cap, records=records, abi=V3)
+
+
+# turnover in both control planes: sensors die, the hotspot's motor dies often, and motors divide into the gaps (the
+# daughters take the selector's contact row, a motor); initial body: TURNOVER_BODY
+TURNOVER3 = V3.pack_program(V3.theta(w0=1.0, kappa=1.0, t_ref=4.0, tau_m=2, p_div=1 / 32),
+                            alone=V3.theta(g_r=1.0, emit0=1, tau_m=2, t_ref=1, p_die=2 ** -5), juvenile=CLICKER3,
+                            rim=V3.theta(w0=1.0, kappa=1.0, t_ref=4.0, tau_m=2, p_die=1 / 8))
+TURNOVER_BODY = [(a, b, z, R3["rim"] if (a, b, z) == (0, 0, 1) else r) for a, b, z, r in columns(hexdisk(1))]
+# a selector-driven grower from one zygote: the zygote (its own row) senses and divides, upward first (zeta 2);
+# daughters sense, relay, twitch, divide slowly and die; newborns with contacts are motors for 2 ticks
+GROWER3 = V3.pack_program(
+    V3.theta(g_r=0.5, emit0=1, w0=0.5, kappa=1, t_ref=4, tau_m=2, p_div=1 / 16, p_die=2 ** -6, zeta=-1),
+    alone=V3.theta(g_r=1.0, emit0=1, tau_m=2, t_ref=1, p_div=0.5, zeta=2),
+    zygote=V3.theta(g_r=0.55, emit0=1, tau_m=2, t_ref=1, p_div=0.5, zeta=2, kappa=0.5), juvenile=MOTOR3, juv_ticks=2,
+    zyg_row=1)

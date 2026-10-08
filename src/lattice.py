@@ -176,3 +176,84 @@ def in_disk(kind: str, a: int, b: int, radius: int) -> bool:
         return max(abs(a), abs(b), abs(a + b)) <= radius
     offsets(kind)
     return a * a + b * b <= (radius + 0.5) ** 2
+
+
+# 3D prism helpers for kernel ABI 3 (docs/LIFE_ABI.md 4.3). A prism kind stacks planes of its base kind at unit
+# spacing. Its slots are the base kind's in-plane slots in their native order, then up (dz = +1), then down (dz = -1).
+# Every 2D kind is also accepted here, as a prism without vertical slots. The 2D helpers above are unchanged.
+_PRISMS = {"hexprism": "hex", "square4prism": "square4", "square8prism": "square8"}
+KINDS3 = ("hex", "square4", "square8", "hexprism", "square4prism", "square8prism")
+_VERTICAL = [(0, 0, 1), (0, 0, -1)]
+
+
+def is_prism(kind: str) -> bool:
+    base_kind(kind)
+    return kind in _PRISMS
+
+
+def base_kind(kind: str) -> str:
+    """The 2D kind of each plane: a prism's base kind, or the kind itself."""
+    if kind in _PRISMS:
+        return _PRISMS[kind]
+    if kind not in _OFFSETS:
+        raise ValueError(f"unknown lattice kind {kind!r} ({' | '.join(KINDS3)})")
+    return kind
+
+
+def offsets3(kind: str) -> list[tuple[int, int, int]]:
+    """Neighbour offsets ``(da, db, dz)``: the base kind's in-plane offsets (dz = 0), then up and down for a prism."""
+    out = [(da, db, 0) for da, db in offsets(base_kind(kind))]
+    return out + (list(_VERTICAL) if is_prism(kind) else [])
+
+
+def in_plane_slots(kind: str) -> list[int]:
+    return [d for d, (_, _, dz) in enumerate(offsets3(kind)) if dz == 0]
+
+
+def vertical_slots(kind: str) -> list[int]:
+    """Slots that leave the plane (up, then down); none on a 2D kind."""
+    return [d for d, (_, _, dz) in enumerate(offsets3(kind)) if dz != 0]
+
+
+def back_slots3(kind: str) -> list[int]:
+    """``back[d]`` for 3D offsets, by lookup: up and down point back at each other."""
+    off = offsets3(kind)
+    return [off.index((-da, -db, -dz)) for da, db, dz in off]
+
+
+def to_xyz(kind: str, a: int, b: int, z: int) -> tuple[float, float, float]:
+    """Position of site (a, b, z): the base kind's planar position, at height z (plane spacing 1)."""
+    x, y = to_xy(base_kind(kind), a, b)
+    return (x, y, float(z))
+
+
+def unit_vectors3(kind: str) -> list[tuple[float, float, float]]:
+    """Unit vector of each slot: in-plane slots are the base kind's ``unit_vectors`` with z = 0, vertical ones
+    (0, 0, +1) and (0, 0, -1). The in-plane values are the 2D values exactly."""
+    out = [(x, y, 0.0) for x, y in unit_vectors(base_kind(kind))]
+    return out + ([(0.0, 0.0, 1.0), (0.0, 0.0, -1.0)] if is_prism(kind) else [])
+
+
+def cyclic_neighbours3(kind: str) -> list[tuple[int, int]]:
+    """``(prev, next)`` per slot: the base kind's angular neighbours for in-plane slots, the slot itself for a
+    vertical slot (it has no angular neighbours, so its flank count is always 0 when it is empty)."""
+    out = list(cyclic_neighbours(base_kind(kind)))
+    return out + [(d, d) for d in vertical_slots(kind)]
+
+
+def rotate3(kind: str, a: int, b: int, z: int, k: int = 1) -> tuple[int, int, int]:
+    """Rotate (a, b) counter-clockwise by ``k`` elementary steps of the base kind; the height is unchanged."""
+    a, b = rotate(base_kind(kind), a, b, k)
+    return a, b, z
+
+
+def mirror3(kind: str, a: int, b: int, z: int) -> tuple[int, int, int]:
+    """Reflect (a, b) across the x axis; the height is unchanged."""
+    a, b = mirror(base_kind(kind), a, b)
+    return a, b, z
+
+
+def slot_map3(kind: str, fn) -> list[int]:
+    """Slot permutation ``p`` induced by a map of 3D offsets: ``offsets3[p[d]] == fn(*offsets3[d])``."""
+    off = offsets3(kind)
+    return [off.index(tuple(fn(da, db, dz))) for da, db, dz in off]

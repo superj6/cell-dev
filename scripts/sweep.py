@@ -36,7 +36,7 @@ from src.common import load_config  # noqa: E402
 from src.run import git_state  # noqa: E402
 
 HEADLINE = dict(trials=("valid_score", "heldout_score", "heldout_no_messages", "n_cells"),
-                life=("F", "F_se", "n_cells", "n_peak", "income", "extinction_rate", "msg_reliance"))
+                life=("F", "F_se", "n_cells", "n_peak", "income", "extinction_rate", "msg_reliance", "sense_reliance"))
 
 
 def headline(results: Path, mode: str) -> str:

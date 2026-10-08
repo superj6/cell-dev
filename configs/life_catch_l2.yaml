@@ -1,0 +1,6 @@
+# BODY-1 v1 S0, the control-planes-only arm (L_max 2: sense plane and act plane, no hidden planes; proposal 4.1). An
+# equal pilot arm with life_catch.yaml (L_max 4), not a control: only the stack height changes.
+extends: life_catch.yaml
+life: {world: catch_v1_l2, control: lmax2}
+clones: {conditions: [contacts_off+chem_off+division_off, receptor_off, contacts_off, lateral_off, chem_off]}  # no H
+logging: {output_dir: outputs/life_catch_l2}

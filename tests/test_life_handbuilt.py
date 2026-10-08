@@ -186,3 +186,150 @@ def test_r25_genome_scores_like_the_program():
     p = analysis.summary(hb.R25_V1.run(seeds, cap=37, threads=4)["F"])
     g = analysis.summary(hb.R25_V1_GRN.run(seeds, cap=37, threads=4)["F"])
     assert abs(analysis.z_diff(g, p)) <= 3, (g, p)
+
+
+# ------------------------------------------------------------------------------------------- BODY-1: CATCH bodies
+V3 = spec.V3
+K3, ROW3 = V3.K, V3.PROGRAM_ROW
+
+
+def _row3(prog, name):
+    i = ROW3[name]
+    return prog[i * V3.P:(i + 1) * V3.P]
+
+
+def test_catch_rows_are_the_prototype_rows():
+    """common.rows_A of the prototype (cur.row defaults: b 0, tau_m 2, t_ref 1): sensor g_r 1 emitting on ch0, motor
+    w0 1 kappa 1 t_ref 4, centre coincidence sensor g_r 0.55, and the cheats' tonic rows."""
+    for row, want in ((hb.SENSE, dict(g_r=1.0, emit0=1, b=0, tau_m=2, t_ref=1, w0=0, kappa=0)),
+                      (hb.MOTOR, dict(w0=1, kappa=1, t_ref=4, tau_m=2, b=0, emit0=0, g_r=0)),
+                      (hb.CLICK_SENSE, dict(g_r=0.55, emit0=1, tau_m=2, t_ref=1, emit1=0)),
+                      (hb.SENSE_HOLD, dict(g_r=1.0, emit0=1, w1=-1)), (hb.CLICK_HOLD, dict(g_r=0.55, emit0=1, emit1=1)),
+                      (hb.TONIC_MOTOR, dict(b=1.2, tau_m=2, t_ref=2, kappa=1)),
+                      (hb.PRESSER, dict(b=2.0, tau_m=2, t_ref=2, kappa=0.6)),
+                      (hb.SPAM_DRIFTER, dict(b=2.0, tau_m=2, t_ref=0.5, kappa=1))):
+        assert all(row[K3[k]] == v for k, v in want.items()), (row, want)
+    assert hb.CLICK_SENSE_Q8[K3["g_r"]] == 0.5 and spec.q8(0.5) == 0.5 and spec.q8(0.55) != 0.55
+
+
+def test_column_bodies_are_the_time_tests_bodies():
+    from tests.life_helpers import COLUMN3, columns, hexdisk
+    assert np.array_equal(hb.COLUMN_PROGRAM, COLUMN3)
+    for k in range(4):
+        assert sorted(hb.ring_body(k).cells) == sorted(columns(hexdisk(k)))
+        assert sorted(hb.ring_body(k, hidden=2).cells) == sorted(columns(hexdisk(k), hidden=2))
+    assert [len(hb.ring_body(k).cells) for k in range(7)] == [2, 14, 38, 74, 122, 182, 254]
+    assert hb.ring_body(3, hidden=2).plane_counts() == (37, 37, 74)
+    # the prototype's cur.hexdisk order: by ring, then by angle from -pi
+    assert hb.disk(1) == [(0, 0), (0, -1), (1, -1), (1, 0), (0, 1), (-1, 1), (-1, 0)]
+    assert len(hb.disk(3)) == 37 and [hb.hex_ring(*s) for s in hb.disk(2)] == [0] + [1] * 6 + [2] * 12
+    cells = hb.ring_body(1).cells
+    assert cells[0] == (0, 0, 0, ROW3["juvenile"]) and all(c[3] == ROW3["alone"] for c in cells[1:7])
+    assert all(c[2] == 1 and c[3] == ROW3["contact"] for c in cells[7:])
+    with pytest.raises(ValueError):
+        hb.column_body([(1, 0)])
+
+
+def test_column_ladders_and_cheats_have_the_registered_shapes():
+    sizes = {o: [len(hb.ladder_body(o, m).cells) for m in range(7)] for o in hb.COLUMN_ORDERS}
+    assert all(s == [2, 4, 6, 8, 10, 12, 14] for s in sizes.values())
+    assert hb.ladder_body("adjacent", 6).cells == hb.ring_body(1).cells == hb.ladder_body("opposite", 6).cells
+    assert hb.ladder_body("alternating", 5).cells == hb.ladder_body("adjacent", 5).cells  # the same five columns
+    opp = {(a, b) for a, b, z, _ in hb.ladder_body("opposite", 2).cells if z == 0}
+    assert opp == {(0, 0), (0, -1), (0, 1)}  # an opposite pair
+    assert hb.ring1_plus(0).cells == hb.ring_body(1).cells and len(hb.ring1_plus(12).cells) == 38
+    assert sorted(hb.ring1_plus(12).cells) == sorted(hb.ring_body(2).cells)
+    isl = {(a, b) for a, b, z, _ in hb.islands().cells}
+    assert len(hb.islands().cells) == 14 and all(hb.hex_ring(*s) in (0, 3) for s in isl)
+    assert hb.BLIND_SPAM_RUNNER.flags == V3.flags("contacts_off") and len(hb.BLIND_SPAM_RUNNER.cells) == 3
+    assert len(hb.runner_grid()) == 108 and len(hb.runner(1.1, 2.0, 1.0, 1.0, 1).cells) == 4
+    drift = _row3(hb.runner(*hb.RUNNER_PROTOTYPE).program, "zygote")
+    assert (drift[K3["b"]], drift[K3["t_ref"]], drift[K3["kappa"]]) == (1.1, 1.0, 1.0)
+    assert _row3(hb.tonic_ring(2).program, "alone")[K3["g_r"]] == 0  # blind: the sensors have no receptor
+    # review cheats (GB7): runners with 2 and 3 adjacent drifters, and the blind presser grid
+    two, three = hb.runner(1.5, 8.0, 4.0, 1.0, drifters=2), hb.runner(1.5, 8.0, 4.0, 1.0, foot=1, drifters=3)
+    assert len(two.cells) == 4 and len(three.cells) == 8 and len(hb.runner_grid(3)) == 108
+    assert {(a, b) for a, b, z, _ in three.cells if z == 1} == {(0, 0), *hb.RUNNER_SITES}
+    assert hb.runner(*hb.RUNNER_PROTOTYPE).cells == hb.runner(*hb.RUNNER_PROTOTYPE, drifters=1).cells
+    assert len(hb.blind_presser_grid()) == 480 and all(b.cells == hb.BLIND_CLICKER.cells for b in
+                                                        hb.blind_presser_grid()[:3])
+
+
+def test_blind_genomes_never_sense_and_click_slowly():
+    """Review cheats (GB6, GB7): grown from one zygote into 2 cells, no receptor event ever lands; the presser
+    clicks with no message, the relay with one message per click."""
+    for org, relayed in ((hb.BLIND_GRN, False), (hb.BLIND_RELAY_GRN, True)):
+        res = org.run([5, 6], T=400.0)
+        assert np.all(res["n_end"] == 2) and np.all(res["rec_events"] == 0) and np.all(res["clicks"] > 5)
+        assert np.all(res["arrivals"] > 0) == relayed and np.all(res["n_M_end"] == 1)
+    from tests.life_helpers import kernel3, mismatch, reference3
+    w = hb.BLIND_RELAY_GRN.world(T=120.0)
+    k = kernel3(w, [21], genome=hb.BLIND_RELAY_GRN.genome)
+    assert mismatch(k, 0, reference3(w, 21, genome=hb.BLIND_RELAY_GRN.genome)) == []
+
+
+def test_catch_bodies_live_cleanly():
+    bad = spec.STATUS["capacity"] | spec.STATUS["ledger_mismatch"] | spec.STATUS["guard_cells"] | spec.STATUS["wall"]
+    for name, org in hb.CATCH_BODIES.items():
+        res = org.run([1, 2], T=200.0)
+        assert not np.any(res["status"].astype(np.int64) & bad), name
+        assert np.all(res["n_end"] == len(org.cells)) and np.all(res["births"] == 0), name
+        if org.flags & V3.flags("contacts_off"):
+            assert np.all(res["arrivals"] == 0), name
+    # blind bodies never sense; every click of the blind clicker is a miss or a lucky capture
+    res = hb.BLIND_CLICKER.run([3, 4], T=200.0)
+    assert np.all(res["rec_events"] == 0) and np.all(res["clicks"] > 30)
+
+
+def test_silent_hidden_cells_cost_exactly_c_live():
+    """Proposal 4.1: a silent hidden cell receives nothing (motors do not emit) and changes no other cell's draws."""
+    seeds = [11, 12, 13]
+    base = hb.ring_body(1).run(seeds)
+    for h in (1, 2):
+        res = hb.ring_body(1, hidden=h).run(seeds)
+        assert np.allclose(res["F"], base["F"] - spec.COSTS["c_live"] * 7 * h, rtol=0, atol=1e-12)
+        assert np.array_equal(res["captures"], base["captures"]) and np.array_equal(res["path"], base["path"])
+
+
+def test_column_genome_decodes_the_program_rows_in_every_settled_state():
+    states = hb.column_genome_states()
+    assert all(not v["mismatches"] for v in states.values()), states
+    assert {k: v["p_div"] for k, v in states.items()} == dict(sense_fresh=0.5, sense=0.0, sense_growing=0.5, zygote=0.5,
+                                                              motor=0.0, motor_fresh=0.0, act_newborn=0.0,
+                                                              sense_newborn=0.0)
+    g = hb.column_genome(1)
+    assert g.dtype == np.float32 and g.size == V3.GENOME_SIZE == 875
+    assert list(np.nonzero(V3.genome_view(g, "act"))[0]) == [0, 1, 2, 3, 4]
+    assert list(np.nonzero(V3.genome_view(hb.column_genome(1, window=0.16), "act"))[0]) == [0, 1, 2, 3, 4, 5, 6]
+    assert np.count_nonzero(hb.column_genome(0) != hb.column_genome(1)) == 3  # a0 and the kin weight of p_div, s0
+    for bad in (dict(rings=2), dict(click_g_r=0.55), dict(window=0.5)):
+        with pytest.raises(ValueError):
+            hb.column_genome(**bad)
+
+
+@pytest.mark.parametrize("rings", [0, 1])
+def test_column_genome_grows_its_ring_exactly(rings):
+    want = sorted((a, b, z) for a, b, z, _ in hb.ring_body(rings).cells)
+    org = (hb.COLUMN_GRN_RING0, hb.COLUMN_GRN_RING1)[rings]
+    res = org.run(list(range(8)), T=160.0, fate_cap=256, threads=4)
+    for i in range(8):
+        assert sorted(analysis.final_cells(res.fates(i)[0])) == want, i
+    assert np.all(res["rejects"] == 0) and np.all(res["claims"] == len(want) - 1) and np.all(res["n_H_end"] == 0)
+
+
+def test_column_genome_lives_match_the_reference_bitwise():
+    from tests.life_helpers import kernel3, mismatch, reference3
+    for org in (hb.COLUMN_GRN_RING1, hb.column_grower(0.1)):
+        w = org.world(T=120.0)
+        k = kernel3(w, [21], genome=org.genome)
+        assert k["n_end"][0] >= 14 and k["captures"][0] + k["misses"][0] > 0
+        assert mismatch(k, 0, reference3(w, 21, genome=org.genome)) == [], org.name
+
+
+def test_hand_bodies_live_as_the_reference():
+    from tests.life_helpers import kernel3, mismatch, reference3
+    for org in (hb.hold_body(1), hb.runner(*hb.RUNNER_PROTOTYPE), hb.BLIND_SPAM_RUNNER, hb.islands(),
+                hb.runner(1.5, 8.0, 4.0, 1.0, drifters=2), hb.blind_presser(1.5, 16.0, 2.0, 1.0)):
+        w = org.world(T=128.0)
+        k = kernel3(w, [31], program=org.program, init=list(org.cells))
+        assert mismatch(k, 0, reference3(w, 31, program=org.program, init=list(org.cells))) == [], org.name

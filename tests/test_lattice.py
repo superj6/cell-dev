@@ -114,3 +114,86 @@ def test_in_disk_matches_dense_fabric(kind, r):
     assert len(inside) == lat.n
     pos = sorted(tuple(round(v, 6) for v in lattice.to_xy(kind, a, b)) for a, b in inside)
     assert pos == sorted(tuple(round(float(v), 6) for v in p) for p in lat.pos.tolist())
+
+
+# 3D prism helpers (kernel ABI 3, docs/LIFE_ABI.md 4.3)
+PRISMS = {"hexprism": "hex", "square4prism": "square4", "square8prism": "square8"}
+
+
+@pytest.mark.parametrize("kind", lattice.KINDS3)
+def test_offsets3_keep_the_base_slots_and_add_up_then_down(kind):
+    base = lattice.base_kind(kind)
+    off = lattice.offsets3(kind)
+    assert off[:len(lattice.offsets(base))] == [(a, b, 0) for a, b in lattice.offsets(base)]
+    if kind in PRISMS:
+        assert base == PRISMS[kind] and lattice.is_prism(kind)
+        assert off[-2:] == [(0, 0, 1), (0, 0, -1)] and len(off) == len(lattice.offsets(base)) + 2
+    else:
+        assert base == kind and not lattice.is_prism(kind) and len(off) == len(lattice.offsets(kind))
+    assert lattice.in_plane_slots(kind) == list(range(len(lattice.offsets(base))))
+    assert lattice.vertical_slots(kind) == ([len(off) - 2, len(off) - 1] if kind in PRISMS else [])
+    assert len(set(off)) == len(off) and (0, 0, 0) not in off
+
+
+def test_hexprism_tables():
+    assert lattice.offsets3("hexprism")[6:] == [(0, 0, 1), (0, 0, -1)]
+    assert lattice.back_slots3("hexprism") == [3, 4, 5, 0, 1, 2, 7, 6]
+    assert lattice.cyclic_neighbours3("hexprism")[6:] == [(6, 6), (7, 7)]
+    assert lattice.back_slots3("square8prism") == [2, 3, 0, 1, 6, 7, 4, 5, 9, 8]
+
+
+@pytest.mark.parametrize("kind", lattice.KINDS3)
+def test_back_slots3_by_lookup(kind):
+    off, back = lattice.offsets3(kind), lattice.back_slots3(kind)
+    for d, (da, db, dz) in enumerate(off):
+        assert off[back[d]] == (-da, -db, -dz) and back[back[d]] == d
+    if not lattice.is_prism(kind):
+        assert back == lattice.back_slots(kind)
+
+
+@pytest.mark.parametrize("kind", lattice.KINDS3)
+def test_unit_vectors3(kind):
+    base = lattice.base_kind(kind)
+    units = lattice.unit_vectors3(kind)
+    assert units[:len(lattice.offsets(base))] == [(x, y, 0.0) for x, y in lattice.unit_vectors(base)]  # exact
+    for (da, db, dz), (x, y, z) in zip(lattice.offsets3(kind), units):
+        assert math.sqrt(x * x + y * y + z * z) == pytest.approx(1.0, abs=1e-12)
+        px, py, pz = lattice.to_xyz(kind, da, db, dz)
+        n = math.sqrt(px * px + py * py + pz * pz)
+        assert (x, y, z) == pytest.approx((px / n, py / n, pz / n), abs=1e-12)
+    for d in lattice.vertical_slots(kind):
+        assert units[d] in ((0.0, 0.0, 1.0), (0.0, 0.0, -1.0))
+
+
+@pytest.mark.parametrize("kind", lattice.KINDS3)
+def test_cyclic_neighbours3(kind):
+    cyc = lattice.cyclic_neighbours3(kind)
+    base = lattice.base_kind(kind)
+    assert cyc[:len(lattice.offsets(base))] == lattice.cyclic_neighbours(base)
+    for d in lattice.vertical_slots(kind):
+        assert cyc[d] == (d, d)
+    for d in lattice.in_plane_slots(kind):  # in-plane neighbours stay in the plane
+        assert cyc[d][0] in lattice.in_plane_slots(kind) and cyc[d][1] in lattice.in_plane_slots(kind)
+
+
+@pytest.mark.parametrize("kind", lattice.KINDS3)
+def test_rotate3_and_mirror3_fix_the_height(kind):
+    k = lattice.rotation_steps(lattice.base_kind(kind))
+    rot = lattice.slot_map3(kind, lambda a, b, z: lattice.rotate3(kind, a, b, z))
+    mir = lattice.slot_map3(kind, lambda a, b, z: lattice.mirror3(kind, a, b, z))
+    D = len(lattice.offsets3(kind))
+    assert sorted(rot) == list(range(D)) and sorted(mir) == list(range(D))
+    for d in lattice.vertical_slots(kind):
+        assert rot[d] == d and mir[d] == d
+    for a, b, z in [(2, -1, 0), (0, 3, 1), (-4, 1, 3)]:
+        assert lattice.rotate3(kind, a, b, z, k) == (a, b, z)
+        assert lattice.rotate3(kind, a, b, z)[2] == z and lattice.mirror3(kind, a, b, z)[2] == z
+        assert lattice.to_xyz(kind, a, b, z)[:2] == lattice.to_xy(lattice.base_kind(kind), a, b)
+
+
+def test_unknown_kinds_are_refused_by_the_3d_helpers():
+    for fn in (lattice.offsets3, lattice.base_kind, lattice.is_prism, lattice.unit_vectors3, lattice.back_slots3):
+        with pytest.raises(ValueError):
+            fn("triprism")
+    with pytest.raises(ValueError):
+        lattice.offsets("hexprism")  # the 2D helpers stay 2D

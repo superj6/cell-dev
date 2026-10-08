@@ -1,5 +1,8 @@
 # One-life gates G1-G10 (migration step 3)
 
+BELL-1 gates G1-G10 and S8 first; the BODY-1 gates GB3-GB13 of the CATCH world follow at the end of this file
+(`python scripts/life_gates.py --world catch`).
+
 The pre-registered gates of `docs/ONE_LIFE_DESIGN.md` (PRE-REGISTERED GATES), measured in the C kernel on hex with
 Q10 membranes, plus the square8 size curve that G10 asks for before any square8 run. Each gate below gives its
 criterion, the old registered value, the measured value with the number of lives and the standard error (SE), the
@@ -29,6 +32,11 @@ verdict, and one plain-language line.
   memory 0.47 GB) reproduced every number in gates.json. Only run times, the date and three notes changed: the G9
   and G10 notes now say that the n_view gate matched the flank_best gate on hex, and S8 gained a note with the
   paired square8 comparison against the ABI-1 flank_best genome (S8 below; `results/flank_square8/`).
+- **Rerun on the ABI-3 kernel (2026-10-08).** `python scripts/life_gates.py --threads 4` (with the `--world` option
+  added, BELL being the default) on kernel library `life_5c65f605cba3402e.so` reproduced gates.json leaf for leaf
+  (4144 of 4144 leaves; only run times and metadata differ), as the ABI-3 cross-check had found on its own rerun. That
+  run (845 s on 4 threads on a shared machine, peak memory 0.73 GB) now is outputs/life_gates/gates.json, so the pins
+  below are active again on this library.
 - Pinned by `tests/test_life_gates.py` (slow): each test recomputes part of its gate, asserts the stored numbers
   exactly, and re-judges the stored measurements to reproduce the stored verdicts.
 - **Result: 10 of 11 pass. G10 fails on one check:** the flank placement term of layered growth (design D4) adds
@@ -481,3 +489,338 @@ verdict, and one plain-language line.
     - What changed in the criteria: G10's d4_flank_gate became d4_grn_placement, because its flank_best-gated genome
       can no longer be built. The ABI-1 measurements are kept in gates.json (`abi1` entries) and in
       `scripts/life_gates.py` (`ABI1`).
+
+---
+
+# BODY-1 gates GB3-GB13 (the CATCH world, ABI 3)
+
+The pre-registered gates of `docs/BODY_DESIGN_PROPOSAL.md` (section 11) that need the real kernel before any
+evolution run in the CATCH world: the hand-built ladder, the cheats, the wire certificate, the 2-hop positive control,
+start robustness, the column reflex written as a GRN genome, and the cost of hidden planes. Each gate gives its
+criterion, the registered (proposal) value, the measured value with lives and SE, the verdict, and one plain line.
+
+- Produced by `python scripts/life_gates.py --world catch --threads 4` on 2026-10-08 (UTC), after the review fixes
+  below; results in `outputs/life_gates/gates_catch.json` (kernel library `life_f5513afc9e42df92.so`, ABI 3). Run time
+  808 s on 4 threads on a shared machine.
+- **Review fixes (2026-10-08) changed the world and two gates** (LIFE_ABI.md 15.58-15.60):
+  - **c_miss 2** (was the proposal's 1): a slow blind presser beat the lone zygote at c_miss 1 (+0.0085, z 4.2). Every
+    life is unchanged; every F moves by −misses / T (the clicker by −0.026, ring 3 by −0.042).
+  - **The drag counts the projected footprint** (every occupied column in any plane, not the sense-plane cells only):
+    a clicker with two footless tonic drifters beat the 4-column body at drag 1 (+0.068, z 14) and was a 4-cell
+    local optimum. Every body of complete columns lives bitwise as before, so of the bodies below only the runners
+    and the blind spam-runner changed.
+  - **GB6** forks receptor_off too and must catch a blind relay clicker; **GB7** screens blind pressers over the GRN
+    grid, adds two blind GRN genomes, and screens runners with 1, 2 and 3 drifters.
+  - The run before the fixes (kernel `life_5c65f605cba3402e.so`, c_miss 1, the old drag) also passed 9 of 9; its
+    numbers are in the git history of this file.
+- Pinned by `tests/test_life_gates.py` (slow), as for G1-G10: each test recomputes part of its gate, asserts the stored
+  numbers exactly when gates_catch.json was written by the library in use, and re-judges the stored verdicts.
+- GB1 (BELL-1 bitwise under ABI 3) and GB2 (heap = window for CATCH lives) are tests (`test_life_world_bell.py`,
+  `test_life_time.py`); GB10 (the founder census) and GB11 (growth stops, read from the pilot) belong to the census and
+  the pilot. GB3-GB9, GB12 and GB13 are here.
+- **Result: 9 of 9 pass.**
+
+## How the CATCH gates measure
+
+- **Bodies.** `src/life/handbuilt.py` (BODY-1 section): program-mode bodies placed at t0, one fixed program row per
+  cell, copied from the prototype's `common.rows_A` with its off-grid values (centre sensor g_r 0.55, drifters b 1.1,
+  the presser's kappa 0.6). Sensors relay every receptor event on channel 0, the motor above each listens (w0 1,
+  kappa 1, t_ref 4), and the centre sensor is a coincidence detector. World `catch_v1` (L_max 4, the user's design);
+  a body without hidden cells lives bitwise alike at L_max 2 (GB13).
+- **Fresh lives.** Seeds `15,000,000 + s`, shared by every body and every world (common random numbers), so steps
+  between bodies are paired life by life. 2048 lives per point for bodies of at most 14 cells, 512 for larger ones,
+  256 for the forks (GB6) and the genome (GB9). Screens that choose a candidate (the runners, the blind pressers, the
+  grower's window) use `16,000,000 + s`; the gates and the genome were designed on exploration seeds `7,000,000 + s`,
+  which no gate uses.
+- **The prototype reference.** The proposal's numbers come from 128-512 lives each. For the port checks the prototype
+  (`body_design/critique/cursor.c`, an unchanged copy, md5 `10e2811877882af7c2ef1616e48eeecf`) was re-run on 1024-4096
+  fresh prototype lives per point (seeds `cur.seeds_for(n, 700000 + i)`), with the same bodies; the values are stored in
+  `life_gates.PROTOTYPE_CATCH`. The prototype has no receptor charge and ran at c_miss 1, so the kernel's F is re-priced
+  at its prices (`analysis.PROTOTYPE_PRICES`: c_rec 0, c_miss 1) from its own ledger before the comparison. Prices
+  never change a life, so this is exact. A port check passes at 3 combined SE per point (several points per gate).
+  Bodies with footless act cells (the runners and the spam-runner) are not ported after the drag tweak, since the
+  prototype's drag counted sense-plane cells only; before it they ported within 0.8 SE. Correlated luck: all bodies
+  share the target paths of a seed, so one seed set moves every body the same way, and the port z values below are
+  not independent.
+
+## Summary
+
+| gate | criterion (short) | measured, fresh lives (mean ± SE) | verdict |
+|---|---|---|---|
+| GB3 | lone zygote below the 2-cell clicker by 2 SE | −0.0203 vs +0.0237 ± 0.0023, paired +0.044 ± 0.002 (z 19; n 2048) | PASS |
+| GB4 | ring curve rises to an interior optimum, F* > 20× clicker; prototype within 3 SE | n* = ring 3 (74 cells), F* = +3.892 ± 0.025, 164× the clicker; max port z 2.67 | PASS |
+| GB5 | no column step below its parent by 2 SE, 3 orders (+ ring 1 → 2); prototype within 3 SE | 29 of 30 steps uphill, none down; max port z 2.71 | PASS |
+| GB6 | contacts+chem+division off at T/2, and receptor_off at T/2, each remove ≥ 95% of second-half income; the blind relay is caught | 99.6-100% at rings 0-6 and on two grown GRN bodies, under both forks; blind relay: certificate 100%, receptor_off 0% | PASS |
+| GB7 | every cheat loses (blind ones to the clicker and the lone zygote, islands to ring 1, runners with 1-3 drifters not above the 4-cell column) | best blind presser −0.046 (lone −0.020), blind GRN genomes −0.061, spam-runner −0.510, tonic rings −0.523 / −1.024, islands −0.226 (ring 1 +0.996); runners +0.060 / +0.043 / +0.053 vs the 4-cell column +0.071 | PASS |
+| GB8 | 2-hop centre hold pays at ring 1; lateral-off removes ≥ 50% of the gain | +0.484 ± 0.011 (prototype +0.463); lateral-off removes 100% | PASS |
+| GB9 | the column reflex as a GRN genome matches its program twin | rings 0 and 1 grow exactly (256/256); after growth z +0.05 and −0.04; grown 80-cell disk −0.031 ± 0.042 vs its twins | PASS |
+| GB12 | v1 inside the good start region; the clicker margin vanishes where the prototype's does | v1 uphill at every first step; clicker earns at v_t 0.2 and R_cap 200, not at v_t 0.05 and R_cap 50 | PASS |
+| GB13 | silent hidden cells cost exactly c_live; L_max 2 = L_max 4 | residual ≤ 8e-14; bitwise equal for program rings and grown GRN bodies | PASS |
+
+## GB3. The first division pays
+
+- **Criterion.** The lone zygote (the centre sensor alone, no act cell) is below the 2-cell clicker (one upward
+  division) by more than 2 paired SE; the lone zygote has no click and no income.
+- **Registered.** −0.020 against +0.045 ± 0.004 (proposal 3.2, crit, n 512, c_miss 1).
+- **Measured** (2048 lives). Lone −0.0203. Clicker +0.0237 ± 0.0023 (26.2 misses per life at c_miss 2; at the
+  prototype's prices +0.0494, prototype +0.0420 ± 0.0016, z +2.7). Step +0.0440 ± 0.0023, z 19.
+- **Verdict.** PASS.
+- **Porting note.** The kernel's clicker sits above the prototype's on every seed set measured: +0.0458 ± 0.0008 pooled
+  over 16,384 extra kernel lives at the prototype's prices (seeds 30,000,000 and 40,000,000 + s, not stored), against
+  +0.0420 ± 0.0016, about +9% (z 2.1). This fresh set is luckier. Unresolved; candidates are the kernel's Q10 membrane
+  register and its tick re-anchors (the prototype has neither), which shift the centre sensor's coincidence window
+  slightly. At ring 3 the same check gives +3.908 ± 0.009 against +3.907 ± 0.013 (no offset).
+- **In plain words.** One cell that only senses loses its upkeep; the moment it divides once upward and the daughter
+  presses the button when the mother sees the target twice in quick succession, the pair earns money. At c_miss 2 it
+  earns about half of what it earned at c_miss 1, still 19 SE above the lone cell.
+
+## GB4. The ring ladder
+
+- **Criteria.** rises: every ring step up to n* positive by more than 2 paired SE; interior: n* is not the largest ring
+  and F there is below F* by more than 2 SE; ratio: F* > 20 × F(ring 0); port: every ring within 3 SE of the prototype.
+- **Registered.** Monotone to an interior optimum at ring 3 (74 cells), +3.849 (synth) / +3.907 ± 0.051 (crit), 65-87 ×
+  the clicker (c_miss 1); −3.19 at ring 6.
+- **Measured** (2048 lives for rings 0-1, 512 for 2-6; F, F at the prototype's prices, prototype, z):
+
+| ring (cells) | F ± SE | F, prototype prices | prototype (n) | z | captures | misses | speed |
+|---|---|---|---|---|---|---|---|
+| 0 (2) | +0.0237 ± 0.0023 | +0.0494 | +0.0420 ± 0.0016 (4096) | +2.67 | 1.2 | 26.2 | 0 |
+| 1 (14) | +0.9962 ± 0.0079 | +1.0594 | +1.0497 ± 0.0056 (4096) | +0.99 | 14.5 | 61.3 | 0.387 |
+| 2 (38) | +2.9290 ± 0.0241 | +2.9840 | +2.9544 ± 0.0132 (2048) | +1.07 | 39.4 | 47.1 | 0.379 |
+| **3 (74)** | **+3.8921 ± 0.0245** | +3.9510 | +3.9069 ± 0.0126 (2048) | +1.60 | 57.3 | 43.3 | 0.412 |
+| 4 (122) | +3.3622 ± 0.0199 | +3.4376 | +3.3912 ± 0.0134 (1024) | +1.94 | 62.7 | 51.6 | 0.413 |
+| 5 (182) | +0.9718 ± 0.0180 | +1.0728 | +1.0873 ± 0.0127 (1024) | −0.66 | 51.7 | 70.6 | 0.345 |
+| 6 (254) | −3.3167 ± 0.0173 | −3.1823 | −3.2099 ± 0.0121 (1024) | +1.32 | 23.7 | 99.7 | 0.250 |
+
+- Paired steps: +0.972 (z 119), +1.920 (70), +0.963 (32), then −0.530 (−21), −2.390, −4.289. n* = ring 3, flat top
+  {3}; ring 6 is 7.21 below it. F* / F(ring 0) = 164 (80 at c_miss 1: the clicker pays most of the miss cost).
+- **Verdict.** PASS.
+- **In plain words.** Adding whole rings of sensing columns pays up to three rings (74 cells); beyond that the upkeep
+  of cells that only see what the rim already sees wins, and at six rings the body loses money. The kernel
+  reproduces the prototype's curve.
+
+## GB5. Column by column
+
+- **Criteria.** no_valley: no step below its parent by more than 2 paired SE, in three orders of adding the six ring-1
+  columns to the clicker (adjacent, opposite pairs first, alternating) and in angular order from ring 1 to ring 2;
+  port: every partial body within 3 SE of the prototype. Uphill steps are counted, not gated.
+- **Registered.** Every intermediate step uphill in every order tried (synth: +0.045 → +0.091 → +0.222 → +0.310 →
+  +0.448 → +0.747 → +1.045).
+- **Measured** (2048 lives up to 14 cells, 512 beyond):
+
+| order | 2 cells | 4 | 6 | 8 | 10 | 12 | 14 |
+|---|---|---|---|---|---|---|---|
+| adjacent | +0.024 | +0.071 | +0.203 | +0.291 | +0.443 | +0.694 | +0.996 |
+| opposite pairs first | +0.024 | +0.071 | +0.094 | +0.253 | +0.472 | +0.694 | +0.996 |
+| alternating | +0.024 | +0.071 | +0.109 | +0.155 | +0.403 | +0.694 | +0.996 |
+
+  - Every step of the three orders is uphill (z 5.4 to 36.4; the faintest is the opposite pair, +0.023 ± 0.004).
+  - Ring 1 → ring 2, one column at a time: +1.009, +1.128, +1.189, +1.342, +1.376, +1.508, +1.663, +1.882, +2.065,
+    +2.350, +2.542, +2.731, +2.929. Steps z 1.6 to 10.9; one step (3 → 4 added columns, +0.035 ± 0.022) is flat, none
+    falls.
+  - Port: 22 partial bodies, largest |z| 2.71 (adjacent, 12 cells), as before the fixes (the same lives).
+- **Verdict.** PASS (29 of 30 steps uphill, none down).
+- **In plain words.** However the first columns are added, each one makes the body richer: there is no valley to
+  cross on the way from two cells to a full disk.
+
+## GB6. The wire certificate
+
+- **Criteria.** wire: a fork at T/2 with `contacts_off | chem_off | division_off` (t_open = T/2; the twin has
+  t_open = T/2 only) removes at least 95% of the second half's income, and so does a fork with `receptor_off`, at every
+  ring 0-6 and, beyond the registration, on two grown bodies of the column genome (ring 1, and the window-0.16 disk of
+  about 80 cells), whose cells could also talk through morphogens. blind_relay_caught: the blind relay clicker
+  (`handbuilt.BLIND_RELAY_GRN`: a zygote with no receptor fires tonically and relays to the motor above it) passes the
+  certificate but keeps at least half its income under receptor_off, so the joint check rejects it.
+- **Registered.** ≥ 95% (proposal S0 criterion 3); prototype: contacts-off drops every body to its costs.
+- **Why receptor_off** (review fix). The certificate shows that the income needs messages, not that it needs
+  sensing: the blind relay needs every message and senses nothing, and it scored msg_reliance 1.0 in the pipeline. A
+  passing certificate plus receptor_off means a sense-to-act wire. The CATCH runs now report `sense_reliance` next to
+  `msg_reliance` (`clones.SENSE`).
+- **Measured** (256 lives): certificate 100% (ring 0), 99.7%, 99.7%, 99.8%, 99.8%, 99.8%, 99.7% (rings 1-6), 99.6% and
+  99.7% (GRN ring 1 and disk); receptor_off the same to four digits. The residue is at most one capture per life, from
+  a spike sent just before T/2. Blind relay: the certificate removes 100%, receptor_off 0%.
+- **Verdict.** PASS.
+- **In plain words.** Cut the messages, or blind the sensors, halfway through life and the body stops earning at once:
+  every bit of income goes through the sense-to-act wire. A body that clicks blindly through a message is caught.
+
+## GB7. Cheats
+
+- **Criteria.** blind_lose: the blind cheats are below the 2-cell clicker and the lone zygote by more than 2 paired
+  SE. They are the spam-runner (a tonic presser plus a footless tonic drifter, no messages), the fixed fast presser
+  (b 2, tau_m 2, t_ref 2, kappa 0.6), the best of a screen of 480 blind pressers (a silent zygote under a tonic presser,
+  b 1.125-2 × every tau_m × every t_ref × kappa 0.5 and 1, 128 screen lives each), the blind GRN presser and the blind
+  GRN relay (`handbuilt.blind_genome`, both evolvable genomes grown from one zygote), and blind tonic act planes of
+  rings 1 and 2. islands_lose: the islands (the centre column plus six isolated columns at the ring-3 corners, 14
+  cells) are below the compact ring 1 by more than 2 SE. runner_not_a_trap: for 1, 2 and 3 adjacent footless tonic
+  drifters beside the clicker, the best of the 108 prototype settings (48 screen lives each, then measured fresh) is
+  not above the 4-cell column by more than 2 SE and is below the 6-cell column by more than 2 SE. No income at any ring
+  with contacts off from birth; each cheat with feet under every act cell within 3 SE of the prototype. Lateral off
+  from birth and the 2- and 3-drifter runners' one-step neighbours are reported.
+- **Registered.** Spam-runner −0.207, tonic rings −0.351 / −0.844, islands −0.201 against compact ring 1 +1.081,
+  runner +0.094 against the 4-cell column +0.091 and the 6-cell +0.222 (proposal 11); none above the 4-cell column.
+- **What the review found** (before the fixes, c_miss 1, drag from sense-plane cells): the slow blind presser
+  (b 1.5, tau_m 16, t_ref 2, kappa 1, about 52 clicks per life) beat the lone zygote by +0.0085 ± 0.0020, and its GRN
+  version by +0.0108 (z 5.5); a clicker with two footless drifters (b 1.5, tau_m 8, t_ref 4, kappa 1) scored
+  +0.156, above the 4-cell column by +0.068 (z 14), and every one-step neighbour of it was lower. The old GB7 tested
+  one fast presser and one-drifter runners only, so it passed.
+- **Measured** (2048 lives; tonic rings 512):
+
+| cheat | F ± SE | prototype (z) | against | paired difference (z) | vs lone zygote (z) |
+|---|---|---|---|---|---|
+| blind spam-runner | −0.5104 ± 0.0027 | not ported | clicker | −0.534 (−153) | −0.490 (−179) |
+| blind fast presser (fixed) | −0.5117 ± 0.0024 | −0.2163 (−0.4) | clicker | −0.535 (−579) | −0.491 (−202) |
+| best blind presser (b 1.125, tau_m 16, t_ref 2.5, kappa 1) | −0.0460 ± 0.0015 | — | clicker | −0.070 (−34) | −0.026 (−17) |
+| blind GRN presser | −0.0609 ± 0.0020 | — | clicker | −0.085 (−51) | −0.041 (−21) |
+| blind GRN relay | −0.0611 ± 0.0020 | — | clicker | −0.085 (−51) | −0.041 (−21) |
+| blind tonic ring 1 (14) | −0.5231 ± 0.0048 | −0.3553 (+1.9) | clicker | −0.552 (−136) | −0.503 (−104) |
+| blind tonic ring 2 (38) | −1.0236 ± 0.0045 | −0.8505 (+0.9) | clicker | −1.053 (−288) | −1.003 (−222) |
+| islands (14) | −0.2258 ± 0.0023 | −0.2027 (+1.5) | ring 1 | −1.222 (−149) | −0.206 (−91) |
+| runner, 1 drifter (b 1.5, tau_m 2, t_ref 1, kappa 1) | +0.0600 ± 0.0027 | not ported | 4-cell column | −0.011 (−2.7) | +0.080 (+29) |
+| runner, 2 drifters (b 1.1, tau_m 2, t_ref 4, kappa 1) | +0.0425 ± 0.0029 | not ported | 4-cell column | −0.028 (−7.1) | +0.063 (+22) |
+| runner, 3 drifters (b 1.5, tau_m 2, t_ref 4, kappa 1) | +0.0526 ± 0.0030 | not ported | 4-cell column | −0.018 (−4.5) | +0.073 (+24) |
+| runner, prototype setting (b 1.1, tau_m 2, t_ref 1, kappa 1) | +0.0418 ± 0.0025 | not ported | 4-cell column | −0.029 (−7.6) | +0.062 (+25) |
+
+  - The prototype column of the blind cheats is at its prices (c_miss 1); their F here is at c_miss 2, where each of
+    their many misses costs twice as much.
+  - Every runner is 0.14-0.16 below the 6-cell column (z −27 to −31). The 2-drifter runner is no longer a local
+    optimum: a sensing column at (0, −1) or (0, 1) raises it by +0.027 (z 6.4) and +0.021 (z 4.9); dropping a drifter
+    (−0.028), a column on the far side (−0.058, −0.066) and sensing feet under the drifters (−0.042) lower it. From the
+    3-drifter runner, dropping a drifter is uphill (+0.017, z 4.6).
+  - Contacts off from birth: no click and no income at any ring. Lateral off from birth: |ΔF| ≤ 0.0084 at every ring,
+    all within 1.3 paired SE. Not bitwise: in-plane arrivals carry weight 0 in the column reflex, but they still
+    re-anchor the receiver's Q10 membrane (the prototype ignored zero-weight arrivals).
+- **Verdict.** PASS.
+- **In plain words.** Pressing blindly, fast or slow, drifting blindly and spreading out in disconnected pieces all
+  lose money; drifting so the target crosses the button more often earns a little, but less than growing one more
+  sensing column, and from a drifting body a sensing column is an uphill step.
+
+## GB8. The 2-hop centre hold (positive control)
+
+- **Criteria.** At ring 1 the hold body (the centre sensor also emits on channel 1, and every steering sensor listens to
+  it with w1 −1) beats the plain reflex by more than 2 paired SE, and its F is within 3 SE of the prototype's hold body;
+  a lateral-off fork from birth removes at least 50% of the gain (the A4 rule). Rings 2-4 are reported.
+- **Registered.** +0.440 at ring 1, about 0 beyond (proposal 5).
+- **Measured.** Ring 1 (2048 lives): +1.4798 ± 0.0096 against +0.9962, gain +0.4836 ± 0.0106 (z 46; prototype gain
+  +0.463; port z +1.3); with lateral off the gain is +0.0002 ± 0.0013 (100% removed). The gain grew from +0.470 at
+  c_miss 1: the hold also saves misses (46.9 per life against the plain ring's 61.3). Rings 2, 3, 4 (512 lives): gains −0.001, +0.011, +0.008 (|z| ≤ 1.7; prototype −0.027,
+  +0.010, −0.001).
+- **Verdict.** PASS.
+- **In plain words.** One circuit beyond the plain wire does pay, and the kernel sees it: when the target sits under the
+  centre, silencing the ring-1 sensors stops them from dragging the body off it. It pays only at ring 1, where those
+  sensors are the rim.
+
+## GB9. The column reflex as a GRN genome (the G9 analogue)
+
+- **The genome** (`handbuilt.column_genome`, a raw float32 875-slot ABI-3 genome run through `spec.V3.pack_genomes` in
+  GRN mode from one zygote). Five active genes, seven with the growth window:
+  - sense (target is_S) and motor (target is_M) set the phenotype from the plane cues: every z = 0 cell decodes the
+    steering sensor, every z = 1 cell the motor.
+  - mark (Q +1: 1 in every newborn, decaying) and kin (a latch of mark, inherited) single out the zygote: kin = 0 only
+    in the first cell, which keeps the coincidence-detector gain (g_r 0.5, the 1/8 grid's nearest to the prototype's
+    0.55) and, in the ring-1 genome, keeps dividing until its slots are full. Nothing local marks the site under the
+    hotspot, so lineage does. A single founder gene with Q ≠ 0 does not work: the partition saturates it in every
+    dividing mother.
+  - fresh (Q +1, self-sustaining): every new sense cell divides exactly once, upward (zeta 2 beats every in-plane
+    score), then stops. mark blocks a newborn's division until kin has latched.
+  - with a window: a lineage timer (lambda 1/128, inherited) and a grow gene (on in sense cells while the timer is
+    below the window) spread a disk of columns by flank placement.
+  - The sense term of p_div outweighs every other term, so act cells never divide and no cell enters a hidden plane.
+- **Criteria.** phenotypes: every settled gene state decodes exactly its program row; exact_growth: the ring-0 and
+  ring-1 genomes grow exactly `ring_body(0)` and `ring_body(1)` in every life at L_max 4 and 2, without rejects or
+  hidden cells, complete before t = 192; after_growth: from t = 192 (t_open) each grown ring is within 2 SE of its
+  program twin (the same columns, centre g_r 0.5); grower: the windowed genome (window chosen on screen lives) is
+  within 2 paired SE of program twins built on each life's own final columns, after growth.
+- **Registered.** GB9: a hand GRN column grower within 2 SE of its program twin at its optimum; a single-mutant scan
+  reported, including whether one mutation grows a whole ring.
+- **Measured** (256 lives):
+  - phenotypes: 8 states (sense fresh, sense, sense growing, zygote, motor, fresh motor, newborn sense, newborn act):
+    no mismatch; p_div 1/2 exactly where a cell should divide, 0 elsewhere.
+  - growth: ring 0 and ring 1 exact in 256 of 256 lives at L_max 4 and at L_max 2 (1 and 13 claims, no reject, no
+    hidden cell; last birth by t = 23 and t = 80).
+  - after growth: ring 0 +0.0409 ± 0.0072 vs twin +0.0404 (z +0.05); ring 1 +1.0088 ± 0.0261 vs +1.0103 (z −0.04).
+    Whole life (with growth): ring 1 +0.955 vs +1.005 (z −1.6: 13 claims at c_div 0.5 and a smaller body for the
+    first 50-80 units).
+  - grower: window screen (48 lives) F +1.49, +2.20, +2.74, +3.16, **+3.24**, +3.06, +2.59, +1.62 at windows
+    0.08-0.22; chosen 0.16. Fresh: 80.0 cells (40 + 40, no hidden), whole life +3.244 ± 0.036; after growth +3.484
+    against its twins +3.515, paired −0.031 ± 0.042 (z −0.7); growth done by t = 122. The hand-built ring 3 earns
+    +3.89 (at c_miss 2): the grown disks are ragged, not complete rings.
+  - The ring-0 and ring-1 genomes differ in three entries (the zygote's starting fresh level, and the founder term of
+    the p_div readout, a0 and A[p_div][kin]): one change of the division readout grows the whole ring 1 at once.
+- **Verdict.** PASS.
+- **Not done.** No single-mutant scan was run. The genome is representable in the layout evolution searches
+  (`genome.LIFE_DIMS_ABI3`, no value bounds); whether mutation reaches it from random founders is GB10's question.
+- **In plain words.** The column reflex can be written in the same gene language evolution searches: from one cell,
+  the genes read only "am I touching the screen" and "am I in the act plane" plus their own lineage, and they grow
+  exactly the hand-built 2-cell clicker or ring 1, or a disk of about 80 cells, and earn what the hand-built bodies of
+  the same shape earn.
+
+## GB12. Start robustness
+
+- **Criteria.** v1_inside: at v1 every first step (lone → 2 → 4 → 6 → 8 → 14 → 74 cells) is uphill by more than 2
+  paired SE and the clicker earns (F > 2 SE above 0); clicker_margin: the clicker earns at v_t 0.2 and R_cap 200 and
+  does not at v_t 0.05 and R_cap 50, as in the prototype; port: every point of those four worlds within 3 SE of the
+  prototype. c_live 0.04 and rho_c 0.7 are reported.
+- **Registered.** Proposal 3.5 (c_miss 1): the clicker earns nothing at v_t 0.05 and R_cap 50; 2 → 4 flat at v_t 0.2,
+  R_cap 50, c_live 0.04 and rho_c 0.7.
+- **Measured** (2048 lives up to 14 cells, 512 at ring 3, all at c_miss 2; F of lone, 2, 4, 6, 8, 14, 74 cells):
+
+| world | lone | 2 | 4 | 6 | 8 | ring 1 | ring 3 | clicker earns | flat or falling first steps |
+|---|---|---|---|---|---|---|---|---|---|
+| v1 | −0.020 | +0.024 | +0.071 | +0.203 | +0.291 | +0.996 | +3.89 | yes | none |
+| v_t 0.05 | −0.020 | −0.055 | +0.030 | +0.228 | +0.335 | +1.328 | +4.22 | no | lone → 2 falls (z −24) |
+| v_t 0.2 | −0.020 | +0.095 | +0.108 | +0.149 | +0.197 | +0.430 | +2.65 | yes | none (2 → 4 +0.013, z 3.2) |
+| R_cap 50 | −0.020 | −0.034 | −0.029 | +0.013 | +0.032 | +0.287 | +1.09 | no | lone → 2 falls (z −12); 2 → 4 z 2.7 |
+| R_cap 200 | −0.020 | +0.139 | +0.271 | +0.582 | +0.808 | +2.415 | +9.49 | yes | none |
+| c_live 0.04 | −0.040 | −0.016 | −0.009 | +0.083 | +0.131 | +0.716 | +2.41 | no | 2 → 4 flat (z 2.0) |
+| rho_c 0.7 | −0.020 | −0.025 | −0.011 | +0.050 | +0.084 | +0.416 | +2.73 | no | lone → 2 falls (z −2.8) |
+
+  - Port (at the prototype's prices): the four gated worlds, 28 points, largest |z| 1.67; the two reported worlds,
+    largest 2.48.
+  - **The cost of c_miss 2.** v1 stays inside the good region (the clicker step is z 19), but closer to its edge: at
+    c_miss 1 the clicker still earned at c_live 0.04 (+0.009) and the first step was faintly uphill at rho_c 0.7; now
+    the first earners there are the 4- and 6-cell bodies.
+- **Verdict.** PASS.
+- **In plain words.** v1's settings sit inside the region where every first step pays, but not far inside it: with a
+  target half as fast, half the reward, double the upkeep or a smaller capture radius, the 2-cell clicker earns
+  nothing and the first earner is a bigger body.
+
+## GB13. The cost of hidden planes
+
+- **Criteria.** silent_hidden_exact: with 1 or 2 silent hidden cells on every column (rings 0-3), every life's F equals
+  the plain body's minus c_live per hidden cell, to 1e-9; l2_equals_l4: the program rings 0-3 and the column genome's
+  bodies (ring 1 and the window-0.16 disk) live bitwise alike at L_max 4 and L_max 2.
+- **Registered.** GB13: the hand GRN column grower at L_max 4 and 2, cells per plane and F; proposal 4.1: each silent
+  hidden cell costs exactly c_live.
+- **Measured** (64 lives): residuals at most 8.4e-14 (ring 3 with two hidden planes: +2.453 against +3.933, i.e. 74 ×
+  0.02 less); all six bodies bitwise equal at L_max 2 and 4 (GRN ring 1: 7 + 7 cells, the disk: 40 + 40, no hidden
+  cell). Hidden cells stacked on columns add no column, so the drag tweak leaves them exact.
+- **Verdict.** PASS.
+- **In plain words.** A cell in a hidden plane that does nothing costs exactly its upkeep and changes nothing else; the
+  hand-built genome never puts one there. What hidden planes cost an evolving population is for the L_max arms of the
+  pilot to measure.
+
+## Deviations and choices (BODY-1 gates)
+
+1. **Lives per point.** The proposal measured 128-512 lives per point. These gates use 2048 (≤ 14 cells), 512
+   (larger) and 256 (GB6, GB9) fresh lives. A smoke run of GB4-GB12 at 1024 / 256 lives, on the same fresh seeds and
+   with the same criteria, failed GB5's port check at one point (adjacent, 12 cells, z 3.28; GB12's reported-only
+   c_live 0.04 ring 3 was at 3.04) and passed every other check. I then raised the lives before the recorded run,
+   for precision, without changing seeds or criteria; the recorded run keeps those first 1024 lives. Extra kernel lives
+   on two other seed sets (GB3 note) show that the fresh set is a lucky draw for small bodies.
+2. **Port checks** use a re-measured prototype reference (1024-4096 lives per point) and the kernel's F re-priced at
+   the prototype's prices (c_rec 0, c_miss 1), at 3 SE per point. The remaining small-body offset (GB3 note) is
+   reported, not explained. Bodies with footless act cells are not ported after the drag tweak.
+3. **GB5** adds the ring 1 → ring 2 ladder to the three registered orders. **GB6** adds two grown GRN bodies, the
+   receptor_off fork and the blind relay. **GB7** adds blind pressers (a screen and two GRN genomes) to the proposal's
+   cheats, screens runners with 1-3 drifters, and judges each against the 4-cell column ("none above it",
+   registered) and the 6-cell column (the proposal's "not a trap"). **GB12** turns "report where the clicker margin
+   vanishes" into a pass rule (it vanishes exactly where the prototype's does) and reports c_live 0.04 and rho_c 0.7.
+4. **GB9** compares the genome with an on-grid twin (centre g_r 0.5, since 0.55 is off the GRN grid) and after growth
+   (t_open 192), because whole-life F includes growth costs a placed body never pays; whole-life values are reported.
+   Its exact growth covers rings 0 and 1; larger bodies come from a growth window and are matched to twins of their
+   own shapes. No single-mutant scan.
+5. **GB13** checks the cost of silent hidden cells exactly instead of re-measuring the proposal's table, and checks
+   L_max 2 = 4 bitwise; the founder-loss part of the proposal's hidden-plane question is GB10's.
+6. **Two world tweaks came from the gates' review** (LIFE_ABI.md 15.59, 15.60): c_miss 2 and the projected-footprint
+   drag. Both keep the column ladder (complete columns live bitwise as before; F moves by −misses / T). BELL-1 is
+   untouched.

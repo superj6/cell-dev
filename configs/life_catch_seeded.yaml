@@ -1,0 +1,9 @@
+# SEEDED-ANCESTOR ARM (declared hedge, BODY_DESIGN_PROPOSAL.md 7 arm b; never the main result). The population descends
+# from one hand-written GRN genome instead of sampled founders: the smallest one that grows the 2-cell clicker from
+# one zygote (gate GB9: handbuilt.catch_reflex_genome if present, else handbuilt.column_genome(rings=0); see
+# evolve.seed_genome). It answers "does evolution climb from a working reflex"; the unseeded arms answer "can it
+# start". The genome belongs to the gates work and was still changing when this arm was wired: record its revision.
+extends: life_catch.yaml
+life: {control: seeded}
+evolve: {seed_genome: catch_reflex}
+logging: {output_dir: outputs/life_catch_seeded}

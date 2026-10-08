@@ -297,19 +297,25 @@ def test_fitness_reprices_ledger_columns():
 
 
 def test_document_tables_match_spec():
-    assert _table_names("### 4.9 Ledger") == list(spec.LEDGER)
-    assert _table_names("### 4.7 World vector") == list(spec.WORLD_KEYS)
-    assert _table_names("## 8. Phenotype decode") == list(spec.KNOBS)
+    # docs/LIFE_ABI.md is the ABI-3 contract (spec.V3); spec's module-level names are the ABI the kernel runs (V2)
+    v3 = spec.V3
+    assert _table_names("### 4.9 Ledger") == list(v3.LEDGER)
+    assert _table_names("### 4.7 World vector") == list(v3.WORLD_KEYS)
+    assert _table_names("## 8. Phenotype decode") == list(v3.KNOBS)
     flags = re.findall(r"^\| (\d+) \| (\w+) \|", DOC.split("## 12. Flags and forks", 1)[1], flags=re.M)
-    assert {name: 1 << int(b) for b, name in flags} == spec.FLAGS
+    assert {name: 1 << int(b) for b, name in flags} == v3.FLAGS
     streams = re.findall(r"^\| S_(\w+) \| (\d+) \|", DOC, flags=re.M)
-    assert {name.lower(): int(i) for name, i in streams} == spec.STREAMS
+    assert {name.lower(): int(i) for name, i in streams} == v3.STREAMS
     sizes = re.search(r"life_sizes\(int32_t out\[10\]\);\s+// abi, genome (\d+), program (\d+), world (\d+), "
                       r"ledger (\d+), hashes (\d+), knobs (\d+),\s+// max_init (\d+), fate_i (\d+), fate_f (\d+)", DOC)
-    assert [int(x) for x in sizes.groups()] == list(spec.SIZES.values())[1:]
-    assert list(spec.SIZES) == ["abi", "genome", "program", "world", "ledger", "hashes", "knobs", "max_init",
-                                "fate_i", "fate_f"]
+    assert [int(x) for x in sizes.groups()] == list(v3.SIZES.values())[1:]
+    assert list(v3.SIZES) == list(spec.SIZES) == ["abi", "genome", "program", "world", "ledger", "hashes", "knobs",
+                                                  "max_init", "fate_i", "fate_f"]
     table = DOC.split("### 4.4 Genome table", 1)[1].split("###", 1)[0]  # the genome fields, shapes and offsets
     rows = re.findall(r"^\| (\w+) \| ([\[\]\d]+) \| (\d+) \|", table, flags=re.M)
-    assert {n: int(o) for n, _, o in rows} == {n: a for n, (a, _) in spec.GENOME_SLICES.items()}
-    assert {n: sh for n, sh, _ in rows} == {f.name: "".join(f"[{k}]" for k in f.shape) for f in spec.GENOME_FIELDS}
+    assert {n: int(o) for n, _, o in rows} == {n: a for n, (a, _) in v3.GENOME_SLICES.items()}
+    assert {n: sh for n, sh, _ in rows} == {f.name: "".join(f"[{k}]" for k in f.shape) for f in v3.GENOME_FIELDS}
+    # ABI 2 (what the kernel runs now) is the prefix of every ABI-3 table
+    assert list(v3.LEDGER[:spec.LEDGER_SIZE]) == list(spec.LEDGER) and v3.WORLD_KEYS[:41] == spec.WORLD_KEYS
+    assert v3.KNOBS[:spec.P] == spec.KNOBS and {k: v3.FLAGS[k] for k in spec.FLAGS} == spec.FLAGS
+    assert {k: v3.STREAMS[k] for k in spec.STREAMS} == spec.STREAMS

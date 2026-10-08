@@ -1,7 +1,9 @@
 """Pre-registered gates of the one-life engine on hex with Q10 (docs/ONE_LIFE_DESIGN.md, PRE-REGISTERED GATES;
-results and plain-language verdicts in docs/LIFE_GATES.md): G1-G10, and the square8 size curve (S8).
+results and plain-language verdicts in docs/LIFE_GATES.md): G1-G10 and the square8 size curve (S8) for BELL-1, and
+GB3-GB9, GB12 and GB13 for the BODY-1 CATCH world (docs/BODY_DESIGN_PROPOSAL.md 11, ABI 3).
 
-    python scripts/life_gates.py [--gates G1,G2,...] [--threads 4] [--out outputs/life_gates/gates.json]
+    python scripts/life_gates.py [--world bell] [--gates G1,G2,...] [--threads 4] [--out outputs/life_gates/gates.json]
+    python scripts/life_gates.py --world catch [--gates GB3,...] [--threads 4] [--out .../gates_catch.json]
 
 Re-registration (migration step 3). The registered G1, G3 and G4 values were measured by the prototype on 36 lives
 per point whose frozen physics was keyed to the seed, so every organism registered at 91 cells shared the same 36
@@ -1022,11 +1024,695 @@ def gate_g8(threads: int = 4) -> dict:
     )
 
 
+# ================================================================================== BODY-1: the CATCH world (ABI 3)
+# Pre-registered gates GB3-GB9, GB12 and GB13 of docs/BODY_DESIGN_PROPOSAL.md 11, measured in the kernel on
+# program-mode hand-built bodies (handbuilt.Body) and on the column genome (handbuilt.column_genome). GB1 (BELL-1
+# bitwise under ABI 3) and GB2 (heap = window for CATCH lives) are tests (test_life_world_bell.py,
+# test_life_time.py); GB10 (the founder census) and GB11 (growth stops, read from the pilot) belong to the census and
+# the pilot. Results: docs/LIFE_GATES.md (BODY-1 section), outputs/life_gates/gates_catch.json.
+V3 = spec.V3
+L3 = V3.L
+CATCH_FRESH_SEED0 = 15_000_000  # fresh lives of every CATCH gate, shared by every body and world (paired)
+CATCH_SCREEN_SEED0 = 16_000_000  # screens that choose a candidate (the runner, the grower's window)
+CATCH_EXPLORE_SEED0 = 7_000_000  # the CATCH gates and the column genome were designed on these; no gate uses them
+CATCH_PRESET = "catch_v1"  # L_max 4, the user's design; a body without hidden cells lives bitwise alike at L_max 2
+C_LIVES_SMALL = 2048  # fresh lives per point for bodies of at most 14 cells (cheap; the clicker is noisy)
+C_LIVES = 512  # fresh lives per point for larger bodies
+C_LIVES_FORK = 256  # GB6 forks and GB9 (removal and growth checks need fewer)
+C_SCREEN_LIVES = 48  # screen lives per candidate (the prototype's runner screen used 48)
+Z_PORT = 3.0  # kernel against the prototype, per point: several points per gate, so 3 SE (family-wise about 2%)
+FORK3 = V3.flags("contacts_off", "chem_off", "division_off")  # the wire certificate (LIFE_ABI.md 12)
+GB6_REMOVED = 0.95
+C_T_HALF = 512.0
+GB9_T_OPEN = 192.0  # "after growth": every grown body here is complete by t = 120
+GB9_WINDOWS = (0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22)
+
+# The prototype CATCH-T (scratchpad body_design/critique/cursor.c with cur.py and common.py, unchanged copies; md5
+# of cursor.c 10e2811877882af7c2ef1616e48eeecf), re-measured on 2026-10-07 for these gates: world
+# dict(nlaw=1, alpha=0.5, g_n=1, rmode=2, t_resp=50) at its v1 defaults, the hand-built rows of common.rows_A, the
+# same bodies as handbuilt (ring order by angle, as cur.hexdisk), seeds cur.seeds_for(n, 700000 + i) for the i-th
+# point in this order, fresh to every earlier prototype run. Values (F, SE, n); the prototype charges no receptor
+# events (c_rec 0) and ran at c_miss 1, so the port checks compare it with the kernel's F re-priced at those prices
+# (analysis.PROTOTYPE_PRICES; the run world has c_miss 2, LIFE_ABI.md 15.60). Prices never change a life. The
+# prototype's drag counted sense-plane cells only, so bodies with footless act cells (the runners and the blind
+# spam-runner) are not ported after the drag tweak (15.59); they ported within 1 SE before it.
+PROTOTYPE_CATCH = dict(
+    source="body_design/critique/cursor.c (CATCH-T, surface-normal law, timer respawn), common.rows_A",
+    points={
+        "lone": (-0.02019, 0.00000, 4096), "ring0": (0.04197, 0.00156, 4096), "ring1": (1.04968, 0.00562, 4096),
+        "ring2": (2.95435, 0.01318, 2048), "ring3": (3.90687, 0.01261, 2048), "ring4": (3.39116, 0.01338, 1024),
+        "ring5": (1.08728, 0.01273, 1024), "ring6": (-3.20994, 0.01210, 1024), "adjacent_1": (0.09292, 0.00219, 4096),
+        "adjacent_2": (0.21590, 0.00317, 4096), "adjacent_3": (0.31586, 0.00377, 4096),
+        "adjacent_4": (0.47862, 0.00450, 4096), "adjacent_5": (0.72700, 0.00500, 4096),
+        "opposite_2": (0.12966, 0.00264, 4096), "opposite_3": (0.29572, 0.00353, 4096),
+        "opposite_4": (0.52124, 0.00418, 4096), "alternating_2": (0.13962, 0.00267, 4096),
+        "alternating_3": (0.20930, 0.00310, 4096), "alternating_4": (0.45192, 0.00421, 4096),
+        "ring1_plus_1": (1.17269, 0.00826, 2048), "ring1_plus_2": (1.24221, 0.00865, 2048),
+        "ring1_plus_3": (1.35688, 0.00914, 2048), "ring1_plus_4": (1.42280, 0.00967, 2048),
+        "ring1_plus_5": (1.57363, 0.01014, 2048), "ring1_plus_6": (1.71100, 0.01071, 2048),
+        "ring1_plus_7": (1.90259, 0.01104, 2048), "ring1_plus_8": (2.14796, 0.01137, 2048),
+        "ring1_plus_9": (2.37153, 0.01168, 2048), "ring1_plus_10": (2.55865, 0.01212, 2048),
+        "ring1_plus_11": (2.75865, 0.01274, 2048), "blind_spam_runner": (-0.20876, 0.00204, 4096),
+        "blind_clicker": (-0.21628, 0.00172, 4096), "tonic_ring1": (-0.35531, 0.00230, 2048),
+        "tonic_ring2": (-0.85047, 0.00232, 2048), "islands": (-0.20269, 0.00158, 4096),
+        "runner": (0.09744, 0.00213, 4096), "hold_ring1": (1.51291, 0.00687, 4096),
+        "hold_ring1_latoff": (1.06513, 0.01138, 1024), "hold_ring2": (2.92704, 0.01303, 2048),
+        "hold_ring2_latoff": (2.93189, 0.01842, 1024), "hold_ring3": (3.91706, 0.01278, 2048),
+        "hold_ring3_latoff": (3.90504, 0.01803, 1024), "hold_ring4": (3.39025, 0.01320, 1024),
+        "hold_ring4_latoff": (3.40447, 0.01330, 1024), "v_t_0.05/lone": (-0.02019, 0.00000, 4096),
+        "v_t_0.05/ring0": (-0.02501, 0.00099, 4096), "v_t_0.05/adjacent_1": (0.05548, 0.00199, 4096),
+        "v_t_0.05/adjacent_2": (0.24946, 0.00328, 4096), "v_t_0.05/adjacent_3": (0.37192, 0.00396, 4096),
+        "v_t_0.05/ring1": (1.36938, 0.00863, 2048), "v_t_0.05/ring3": (4.24654, 0.01673, 1024),
+        "v_t_0.2/lone": (-0.02014, 0.00000, 4096), "v_t_0.2/ring0": (0.11253, 0.00207, 4096),
+        "v_t_0.2/adjacent_1": (0.12371, 0.00241, 4096), "v_t_0.2/adjacent_2": (0.17128, 0.00292, 4096),
+        "v_t_0.2/adjacent_3": (0.21453, 0.00332, 4096), "v_t_0.2/ring1": (0.47693, 0.00646, 2048),
+        "v_t_0.2/ring3": (2.72465, 0.01835, 1024), "R_cap_50/lone": (-0.02019, 0.00000, 4096),
+        "R_cap_50/ring0": (-0.00924, 0.00078, 4096), "R_cap_50/adjacent_1": (-0.00768, 0.00107, 4096),
+        "R_cap_50/adjacent_2": (0.03895, 0.00156, 4096), "R_cap_50/adjacent_3": (0.06019, 0.00183, 4096),
+        "R_cap_50/ring1": (0.34911, 0.00394, 2048), "R_cap_50/ring3": (1.14561, 0.00873, 1024),
+        "R_cap_200/lone": (-0.02019, 0.00000, 4096), "R_cap_200/ring0": (0.15869, 0.00325, 4096),
+        "R_cap_200/adjacent_1": (0.28380, 0.00433, 4096), "R_cap_200/adjacent_2": (0.60054, 0.00638, 4096),
+        "R_cap_200/adjacent_3": (0.82860, 0.00759, 4096), "R_cap_200/ring1": (2.47628, 0.01625, 2048),
+        "R_cap_200/ring3": (9.47061, 0.03554, 1024), "c_live_0.04/lone": (-0.04019, 0.00000, 4096),
+        "c_live_0.04/ring0": (0.00716, 0.00159, 4096), "c_live_0.04/adjacent_1": (0.01200, 0.00218, 4096),
+        "c_live_0.04/adjacent_2": (0.10224, 0.00319, 4096), "c_live_0.04/adjacent_3": (0.15795, 0.00386, 4096),
+        "c_live_0.04/ring1": (0.77630, 0.00799, 2048), "c_live_0.04/ring3": (2.41067, 0.01761, 1024),
+        "rho_c_0.7/lone": (-0.02019, 0.00000, 4096), "rho_c_0.7/ring0": (0.00356, 0.00127, 4096),
+        "rho_c_0.7/adjacent_1": (0.01577, 0.00171, 4096), "rho_c_0.7/adjacent_2": (0.08385, 0.00247, 4096),
+        "rho_c_0.7/adjacent_3": (0.12104, 0.00283, 4096), "rho_c_0.7/ring1": (0.51840, 0.00618, 2048),
+        "rho_c_0.7/ring3": (2.79701, 0.01520, 1024),
+    },
+    # the proposal's own values (synth s2 n 128-512, crit c1/c2 fresh lives), for the record
+    proposal=dict(ring0=(0.045, 0.004), ring1=(1.040, 0.022), ring2=(2.891, 0.050), ring3=(3.907, 0.051),
+                  ring4=(3.489, 0.037), ring5=(1.098, 0.036), ring6=(-3.189, 0.037), runner=(0.094, 0.006),
+                  hold_gain_ring1=(0.440, 0.036), islands=(-0.201, 0.009), blind_spam_runner=(-0.207, 0.006)),
+)
+
+
+# ------------------------------------------------------------------------------------------------ cached lives
+_CCACHE: dict = {}
+
+
+def _cblob(org) -> bytes:
+    if isinstance(org, hb.Body):
+        return hashlib.sha1(np.ascontiguousarray(org.program).tobytes() + repr(org.cells).encode()).digest()
+    return hashlib.sha1(np.ascontiguousarray(org.genome).tobytes()).digest()
+
+
+def cworld(preset: str = CATCH_PRESET, **world) -> spec.World:
+    return spec.world(preset, **world)
+
+
+def clives(org, n: int, *, seed0: int = CATCH_FRESH_SEED0, preset: str = CATCH_PRESET, **world) -> np.ndarray:
+    """Ledger rows ``[n, 57]`` of ``n`` CATCH lives of ``org`` (a ``handbuilt.Body`` or ``GrnBody``), seeds
+    seed0 + s. Cached like ``lives``: asking for more lives runs only the missing seeds, so every gate that uses a
+    point sees the same lives, and bodies of different shapes on the same seeds are paired."""
+    key = (type(org).__name__, _cblob(org), int(org.flags), preset, seed0, tuple(sorted(world.items())))
+    have = _CCACHE.get(key)
+    m = 0 if have is None else len(have)
+    if m < n:
+        res = org.run(analysis.fresh_seeds(n, seed0, first=m), threads=_threads(), preset=preset, **world)
+        have = res.ledger.copy() if have is None else np.concatenate([have, res.ledger])
+        _CCACHE[key] = have
+    return have[:n]
+
+
+def cF(org, n: int, **kw) -> np.ndarray:
+    return clives(org, n, **kw)[:, L3["F"]]
+
+
+def cpoint(org, n: int, preset: str = CATCH_PRESET, proto: str | None = None, **world) -> dict:
+    """``analysis.catch_point`` of a body, with its z against the prototype point ``proto`` (F re-priced at
+    the prototype's prices, analysis.PROTOTYPE_PRICES) when given."""
+    rec = analysis.catch_point(clives(org, n, preset=preset, **world), cworld(preset, **world))
+    rec["body"] = org.name
+    if proto is not None and proto in PROTOTYPE_CATCH["points"]:
+        m, s, k = PROTOTYPE_CATCH["points"][proto]
+        rec["prototype"] = dict(F=m, se=s, n=k)
+        rec["z_prototype"] = analysis.z_diff(dict(mean=rec["F_proto"], se=rec["se_proto"]), dict(mean=m, se=s))
+    return rec
+
+
+def _n_for(org) -> int:
+    return C_LIVES_SMALL if len(org.cells) <= 14 else C_LIVES
+
+
+def _step(a, b, n: int) -> dict:
+    """Paired F(b) - F(a) on their first ``n`` common lives."""
+    return analysis.paired(cF(b, n), cF(a, n))
+
+
+def _port(pts: dict) -> dict:
+    zs = {k: p["z_prototype"] for k, p in pts.items() if "z_prototype" in p}
+    worst = max(zs, key=lambda k: abs(zs[k])) if zs else None
+    return dict(points=len(zs), max_abs_z=abs(zs[worst]) if zs else 0.0, worst=worst,
+                outside=[k for k, z in zs.items() if abs(z) > Z_PORT])
+
+
+# ------------------------------------------------------------------------------------------------------ GB3
+def gate_gb3(threads: int = 4, n: int = C_LIVES_SMALL) -> dict:
+    """The lone zygote (the centre sensor alone) against the 2-cell clicker (one upward division)."""
+    _THREADS[0] = threads
+    lone, clk = cpoint(hb.ZYGOTE, n, proto="lone"), cpoint(hb.CLICKER, n, proto="ring0")
+    out = dict(registered="GB3: lone zygote <= the 2-cell clicker - 2 SE (prototype: -0.020 vs +0.045 +- 0.004)",
+               criteria=(f"clicker_beats_lone: F(clicker) - F(lone) > {Z:g} paired SE on {n} fresh lives; "
+                         "lone_earns_nothing: the lone zygote has no act cell, so no click and no income."),
+               lives=n, seeds=f"{CATCH_FRESH_SEED0} + s", lone=lone, clicker=clk,
+               step=_step(hb.ZYGOTE, hb.CLICKER, n))
+    return judge_gb3(out)
+
+
+def judge_gb3(g: dict) -> dict:
+    g["checks"] = dict(clicker_beats_lone=bool(g["step"]["z"] > Z),
+                       lone_earns_nothing=bool(g["lone"]["income_rate"] == 0.0 and g["lone"]["clicks"] == 0.0))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GB4
+RINGS3 = tuple(range(7))
+
+
+def gate_gb4(threads: int = 4) -> dict:
+    """Complete rings 0-6 of the hand-built column reflex (proposal 3.2): rises to an interior optimum, F* > 20 x
+    the 2-cell clicker, and the prototype's curve on fresh lives."""
+    _THREADS[0] = threads
+    bodies = {k: hb.ring_body(k) for k in RINGS3}
+    pts = {k: cpoint(b, _n_for(b), proto=f"ring{k}") for k, b in bodies.items()}
+    for k, b in bodies.items():
+        pts[k]["cells"] = len(b.cells)
+    steps = {f"{k - 1}->{k}": _step(bodies[k - 1], bodies[k], min(_n_for(bodies[k - 1]), _n_for(bodies[k])))
+             for k in RINGS3[1:]}
+    b = analysis.best_size({k: cF(bodies[k], C_LIVES) for k in RINGS3})
+    out = dict(registered=("GB4: the hand-built ring curve is monotone up to an interior optimum, with F* > 20 x "
+                           "the clicker (prototype 65 x synth, 87 x crit: +3.91 / +0.045 at ring 3, 74 cells)"),
+               criteria=(f"rises: every ring step below n* is positive by more than {Z:g} paired SE; interior: n* "
+                         "is not the largest ring and F there is below F* by more than 2 paired SE; ratio: F* > 20 x "
+                         f"F(ring 0); port: every ring within {Z_PORT:g} combined SE of the re-measured prototype "
+                         "(kernel F re-priced at the prototype's prices: c_rec 0, c_miss 1). n* and the flat top are "
+                         f"taken on the first {C_LIVES} lives, which every ring shares."),
+               lives={k: _n_for(b) for k, b in bodies.items()}, seeds=f"{CATCH_FRESH_SEED0} + s",
+               rings=pts, steps=steps, best=b, ratio=b["F_star"] / pts[0]["mean"], port=_port(pts),
+               top_step=_step(bodies[b["n_star"]], bodies[RINGS3[-1]], C_LIVES))
+    return judge_gb4(out)
+
+
+def judge_gb4(g: dict) -> dict:
+    ns = int(g["best"]["n_star"])
+    steps = g["steps"]
+    g["checks"] = dict(rises=bool(all(steps[f"{k - 1}->{k}"]["z"] > Z for k in range(1, ns + 1))),
+                       interior=bool(not g["best"]["edge"] and g["top_step"]["z"] < -Z),
+                       ratio=bool(g["ratio"] > 20.0), port=bool(not g["port"]["outside"]))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GB5
+def _proto_key(order: str, m: int) -> str:
+    """The prototype point of the clicker plus the first m columns of an order (shared shapes have one key)."""
+    if m == 0:
+        return "ring0"
+    if m == 6:
+        return "ring1"
+    cols = sorted(hb.COLUMN_ORDERS[order][:m])
+    for name, o in hb.COLUMN_ORDERS.items():
+        if sorted(o[:m]) == cols:
+            return f"{name}_{m}"
+    raise KeyError(order)
+
+
+def gate_gb5(threads: int = 4) -> dict:
+    """Column by column (proposal 3.2): the six ring-1 columns join the clicker in three orders, then the twelve
+    ring-2 columns join ring 1 in angular order; no step may fall below its parent by more than 2 SE."""
+    _THREADS[0] = threads
+    orders, port_pts = {}, {}
+    for name in hb.COLUMN_ORDERS:
+        bodies = [hb.ladder_body(name, m) for m in range(7)]
+        pts = {m: cpoint(b, C_LIVES_SMALL, proto=_proto_key(name, m)) for m, b in enumerate(bodies)}
+        steps = {f"{m - 1}->{m}": _step(bodies[m - 1], bodies[m], C_LIVES_SMALL) for m in range(1, 7)}
+        orders[name] = dict(columns=list(hb.COLUMN_ORDERS[name]), points=pts, steps=steps)
+        port_pts.update({_proto_key(name, m): p for m, p in pts.items() if 0 < m < 6})
+    r2 = [hb.ring1_plus(m) for m in range(13)]
+    pts2 = {m: cpoint(b, C_LIVES, proto=f"ring1_plus_{m}") for m, b in enumerate(r2)}
+    steps2 = {f"{m - 1}->{m}": _step(r2[m - 1], r2[m], C_LIVES) for m in range(1, 13)}
+    port_pts.update({f"ring1_plus_{m}": p for m, p in pts2.items() if 0 < m < 12})
+    out = dict(registered="GB5: the column-by-column curve has no step below its parent by more than 2 SE, in 3 orders",
+               criteria=(f"no_valley: in every order (and from ring 1 to ring 2) no step is below its parent by more "
+                         f"than {Z:g} paired SE; port: every partial body within {Z_PORT:g} combined SE of the "
+                         "prototype (re-priced at c_rec 0, c_miss 1). Uphill steps (z > 2) are counted, not gated."),
+               lives=dict(ring0_to_ring1=C_LIVES_SMALL, ring1_to_ring2=C_LIVES), seeds=f"{CATCH_FRESH_SEED0} + s",
+               orders=orders, ring1_to_ring2=dict(points=pts2, steps=steps2), port=_port(port_pts))
+    return judge_gb5(out)
+
+
+def judge_gb5(g: dict) -> dict:
+    all_steps = [s for o in g["orders"].values() for s in o["steps"].values()]
+    all_steps += list(g["ring1_to_ring2"]["steps"].values())
+    g["uphill_steps"] = f"{sum(s['z'] > Z for s in all_steps)} of {len(all_steps)}"
+    g["checks"] = dict(no_valley=bool(all(s["z"] >= -Z for s in all_steps)), port=bool(not g["port"]["outside"]))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GB6
+C_TWIN = dict(t_open=C_T_HALF)
+C_FORK = dict(t_open=C_T_HALF, t_fork=C_T_HALF, fork_flags=FORK3)
+C_SENSE = dict(t_open=C_T_HALF, t_fork=C_T_HALF, fork_flags=V3.flags("receptor_off"))  # the sensing check
+GB6_BLIND_KEPT = 0.5  # the blind relay keeps at least half its income under receptor_off (it keeps all of it)
+
+
+def gb6_organisms() -> list:
+    return [hb.ring_body(k) for k in RINGS3] + [hb.COLUMN_GRN_RING1, hb.column_grower(0.16)]
+
+
+def _gb6_row(org, n: int) -> dict:
+    twin, fork, sense = clives(org, n, **C_TWIN), clives(org, n, **C_FORK), clives(org, n, **C_SENSE)
+    it, ifk, ise = (float(x[:, L3["income"]].mean()) for x in (twin, fork, sense))
+    return dict(twin=analysis.catch_point(twin, cworld(**C_TWIN)), fork=analysis.catch_point(fork, cworld(**C_FORK)),
+                income_twin=it, income_fork=ifk, income_sense_off=ise,
+                removed=1.0 - ifk / it if it > 0 else float("nan"),
+                removed_sense=1.0 - ise / it if it > 0 else float("nan"),
+                captures_fork_max=float(fork[:, L3["captures"]].max()))
+
+
+def gate_gb6(threads: int = 4, n: int = C_LIVES_FORK) -> dict:
+    """The wire certificate: contacts, chemistry and division off from T/2 removes the second half's income, and so
+    does receptor_off (review fix: the certificate alone also passes a blind relay clicker, which needs every
+    message but senses nothing; the joint check rejects it)."""
+    _THREADS[0] = threads
+    rows = {org.name: _gb6_row(org, n) for org in gb6_organisms()}
+    out = dict(registered=("GB6: contacts+chem+division-off at T/2 removes >= 95% of second-half income at every "
+                           "ring (proposal S0 success criterion 3)"),
+               criteria=(f"wire: 1 - income(fork) / income(twin) >= {GB6_REMOVED:g} in [T/2, T] under the "
+                         f"certificate and under receptor_off (review fix: a passing certificate must mean a "
+                         "sense-to-act wire, not any message), for every ring 0-6 and, beyond the registration, for "
+                         "the column genome's grown bodies (ring 1, and the window-0.16 disk) whose cells could also "
+                         "talk through chemistry; blind_relay_caught: the blind relay clicker (handbuilt."
+                         f"BLIND_RELAY_GRN) passes the certificate (>= {GB6_REMOVED:g}) but keeps at least "
+                         f"{GB6_BLIND_KEPT:g} of its income under receptor_off, so the joint check rejects it."),
+               lives=n, window=[C_T_HALF, 1024.0], fork_flags="contacts_off | chem_off | division_off; receptor_off",
+               organisms=rows, blind_relay=_gb6_row(hb.BLIND_RELAY_GRN, n),
+               notes=["Forks are replays (LIFE_ABI.md 12): the same life with fork_flags from T/2 and t_open = T/2; "
+                      "the twin has t_open = T/2 only. A spike sent before T/2 is still delivered, so a capture can "
+                      "follow within a few units of the fork (captures_fork_max).",
+                      "The blind relay is a negative control, not a body any gate wants: its zygote has no receptor "
+                      "and fires tonically, so every click is a relayed message and none is caused by the screen."])
+    return judge_gb6(out)
+
+
+def judge_gb6(g: dict) -> dict:
+    g["checks"] = {f"wire_{k}": bool(v["removed"] >= GB6_REMOVED and v["removed_sense"] >= GB6_REMOVED)
+                   for k, v in g["organisms"].items()}
+    br = g["blind_relay"]
+    kept = 1.0 - br["removed_sense"]
+    g["checks"]["blind_relay_caught"] = bool(br["removed"] >= GB6_REMOVED and kept >= GB6_BLIND_KEPT)
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GB7
+C_BLIND_SCREEN_LIVES = 128  # the blind presser screen: the top is flat and each body cheap
+
+
+def _screen(bodies, n: int) -> tuple[dict, object]:
+    """Mean F of every body on ``n`` screen lives; the best is then measured on fresh lives by the caller."""
+    rows = sorted(((float(cF(o, n, seed0=CATCH_SCREEN_SEED0).mean()), o) for o in bodies), key=lambda r: -r[0])
+    return dict(screened=len(rows), lives=n, seeds=f"{CATCH_SCREEN_SEED0} + s",
+                top=[dict(body=o.name, F_screen=f) for f, o in rows[:5]]), rows[0][1]
+
+
+def runner_screen(drifters: int = 1) -> dict:
+    """The 108 runner settings (proposal 11) with 1-3 adjacent drifters on screen lives; the best by mean F is then
+    measured on fresh lives."""
+    cfgs = list(itertools.product(*hb.RUNNER_AXES.values()))
+    out, best = _screen(hb.runner_grid(drifters), C_SCREEN_LIVES)
+    cfg = next(c for c in cfgs if hb.runner(*c, drifters=drifters).name == best.name)
+    return dict(out, drifters=drifters, best=best, best_setting=list(cfg))
+
+
+def runner_neighbours(cfg, drifters: int) -> dict:
+    """One-step neighbours of the runner ``hb.runner(*cfg, drifters=drifters)`` (review): drop its last drifter, add
+    a sensing column (steering sensor under a motor) at each free ring-1 site, or put steering sensors under its
+    drifters."""
+    *knobs, foot = cfg
+    d = drifters
+    used = {(0, 0), *hb.RUNNER_SITES[:d]}
+    out = {}
+    if d > 1:
+        out["drop a drifter"] = hb.runner(*knobs, foot=foot, drifters=d - 1)
+    for a, b in [s for s in hb.disk(1) if s not in used]:
+        out[f"column at ({a}, {b})"] = hb.runner(*knobs, foot=foot, drifters=d, extra=(
+            (a, b, 0, V3.PROGRAM_ROW["alone"]), (a, b, 1, V3.PROGRAM_ROW["contact"])))
+    if not foot:
+        out["sensing feet"] = hb.runner(*knobs, drifters=d, extra=tuple(
+            (a, b, 0, V3.PROGRAM_ROW["alone"]) for a, b in hb.RUNNER_SITES[:d]))
+    return out
+
+
+def blind_screen() -> dict:
+    """The blind 2-cell clickers (review fix): a silent zygote under a tonic presser, over the presser phenotypes
+    of the GRN grid that can click (handbuilt.BLIND_PRESSER_AXES); the best is then measured on fresh lives."""
+    out, best = _screen(hb.blind_presser_grid(), C_BLIND_SCREEN_LIVES)
+    return dict(out, best=best)
+
+
+def gate_gb7(threads: int = 4) -> dict:
+    """Cheats (proposal 11): blind clickers (the best of a presser screen and two GRN genomes), a blind tonic act
+    plane, islands and the best runners with 1-3 drifters, against the bodies they are meant to beat, on the same
+    fresh lives; every ring with contacts off and with lateral off."""
+    _THREADS[0] = threads
+    n, nb = C_LIVES_SMALL, C_LIVES
+    clk, adj1, adj2, ring1 = hb.CLICKER, hb.ladder_body("adjacent", 1), hb.ladder_body("adjacent", 2), hb.ring_body(1)
+    bscr = blind_screen()
+    best_blind = bscr.pop("best")
+    rscr = {d: runner_screen(d) for d in (1, 2, 3)}
+    best_runner = {d: rscr[d].pop("best") for d in rscr}
+    proto_runner = hb.runner(*hb.RUNNER_PROTOTYPE)
+    cheats = dict(blind_spam_runner=(hb.BLIND_SPAM_RUNNER, n, clk), blind_clicker=(hb.BLIND_CLICKER, n, clk),
+                  blind_presser_best=(best_blind, n, clk), blind_grn=(hb.BLIND_GRN, n, clk),
+                  blind_relay_grn=(hb.BLIND_RELAY_GRN, n, clk),
+                  tonic_ring1=(hb.tonic_ring(1), nb, clk), tonic_ring2=(hb.tonic_ring(2), nb, clk),
+                  islands=(hb.islands(), n, ring1), runner=(best_runner[1], n, adj1),
+                  runner_2=(best_runner[2], n, adj1), runner_3=(best_runner[3], n, adj1),
+                  runner_prototype_config=(proto_runner, n, adj1))
+    footless = ("blind_spam_runner", "runner", "runner_2", "runner_3", "runner_prototype_config")  # not ported (15.59)
+    rows = {}
+    for key, (org, m, ref) in cheats.items():
+        proto = "runner" if key == "runner_prototype_config" else key
+        rows[key] = dict(point=cpoint(org, m, proto=None if key in footless else proto), against=ref.name,
+                         vs=_step(ref, org, m), vs_clicker=_step(clk, org, m), vs_lone=_step(hb.ZYGOTE, org, m))
+    for key in ("runner", "runner_2", "runner_3", "runner_prototype_config"):
+        rows[key]["vs_6_cells"] = _step(adj2, cheats[key][0], n)
+    neighbours = {}
+    for d in (2, 3):
+        org = best_runner[d]
+        neighbours[f"runner_{d}"] = {k: dict(F=float(cF(o, n).mean()), vs_runner=_step(org, o, n))
+                                     for k, o in runner_neighbours(rscr[d]["best_setting"], d).items()}
+    off = {}
+    for k in RINGS3:
+        org = hb.ring_body(k)
+        co = clives(org, 128, flags=V3.flags("contacts_off"))
+        lo = clives(org, 128, flags=V3.flags("lateral_off"))
+        off[k] = dict(contacts_off=analysis.catch_point(co), contacts_off_income_max=float(co[:, L3["income"]].max()),
+                      lateral_off=analysis.paired(lo[:, L3["F"]], cF(org, 128)))
+    pts = {k: v["point"] for k, v in rows.items()}
+    out = dict(registered=("GB7: every cheat in the table re-measured; none above the 4-cell column (proposal "
+                           "11: blind spam-runner -0.207, tonic rings -0.351 / -0.844, islands -0.201 against "
+                           "ring 1 +1.081, runner +0.094 against the 4-cell column +0.091 and the 6-cell +0.222)"),
+               criteria=(f"blind_lose: each blind cheat (spam-runner, the fixed presser, the best of the presser "
+                         "screen, the GRN presser and the GRN relay, tonic rings 1 and 2) below the 2-cell clicker "
+                         f"and the lone zygote by more than {Z:g} paired SE; islands below the compact ring 1 (the "
+                         f"same 14 cells) by more than {Z:g} SE; runner_not_a_trap: the best runner with 1, 2 and 3 "
+                         "adjacent drifters (each the best of the 108-setting screen, measured fresh) not above the "
+                         f"4-cell column by more than {Z:g} SE and below the 6-cell column by more than {Z:g} SE "
+                         "(legitimate kinesis, not a trap); contacts_off from birth: no income at any ring; port: each "
+                         f"cheat with feet under every act cell within {Z_PORT:g} SE of the prototype (re-priced at "
+                         "c_rec 0, c_miss 1). Lateral off from birth and the 2- and 3-drifter runners' one-step "
+                         "neighbours are reported."),
+               lives=dict(small=n, tonic=nb, rings_off=128), seeds=f"{CATCH_FRESH_SEED0} + s",
+               blind_screen=bscr, runner_screen={str(d): v for d, v in rscr.items()}, cheats=rows,
+               runner_neighbours=neighbours, rings_off=off, port=_port(pts),
+               notes=["The prototype's runner configuration is measured too (b 1.1, tau_m 2, t_ref 1, kappa 1, no "
+                      "foot); the screen's pick may differ, since the top of the screen is flat.",
+                      "Review fixes (2026-10-07): the blind presser screen replaces the single fast presser (a slow "
+                      "one beat the lone zygote at c_miss 1), and the runner screen covers 2 and 3 drifters (a "
+                      "clicker with two footless drifters beat the 4-cell column at drag 1). Runners and the "
+                      "spam-runner carry footless act cells, whose drag the prototype did not count (15.59), so "
+                      "they are not ported.",
+                      "lateral_off drops in-plane arrivals; in the column reflex those carry weight 0 (sensors "
+                      "listen to nothing), but an arrival still re-anchors the receiver's Q10 membrane, so the fork "
+                      "is not bitwise the plain body (the prototype ignored zero-weight arrivals)."])
+    return judge_gb7(out)
+
+
+BLIND_CHEATS = ("blind_spam_runner", "blind_clicker", "blind_presser_best", "blind_grn", "blind_relay_grn",
+                "tonic_ring1", "tonic_ring2")
+RUNNERS = ("runner", "runner_2", "runner_3")
+
+
+def judge_gb7(g: dict) -> dict:
+    c = g["cheats"]
+    g["checks"] = dict(
+        blind_lose=bool(all(c[k]["vs_clicker"]["z"] < -Z and c[k]["vs_lone"]["z"] < -Z for k in BLIND_CHEATS)),
+        islands_lose=bool(c["islands"]["vs"]["z"] < -Z),
+        runner_not_a_trap=bool(all(c[k]["vs"]["z"] <= Z and c[k]["vs_6_cells"]["z"] < -Z for k in RUNNERS)),
+        contacts_off_no_income=bool(all(v["contacts_off_income_max"] == 0.0 for v in g["rings_off"].values())),
+        port=bool(not g["port"]["outside"]))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GB8
+HOLD_RINGS = (1, 2, 3, 4)
+
+
+def gate_gb8(threads: int = 4) -> dict:
+    """The 2-hop centre hold (proposal 5): a positive control that a circuit beyond the wire can be seen."""
+    _THREADS[0] = threads
+    rows = {}
+    for k in HOLD_RINGS:
+        plain, hold = hb.ring_body(k), hb.hold_body(k)
+        n = _n_for(plain)
+        gain = _step(plain, hold, n)
+        lat = clives(hold, n, flags=V3.flags("lateral_off"))[:, L3["F"]]
+        lat_gain = analysis.paired(lat, cF(plain, n))
+        pm, _, _ = PROTOTYPE_CATCH["points"][f"hold_ring{k}"]
+        rm, _, _ = PROTOTYPE_CATCH["points"][f"ring{k}"]
+        rows[k] = dict(hold=cpoint(hold, n, proto=f"hold_ring{k}"), plain_F=float(cF(plain, n).mean()), gain=gain,
+                       lateral_off_gain=lat_gain, removed=1.0 - lat_gain["mean"] / gain["mean"],
+                       prototype_gain=pm - rm, lives=n)
+    out = dict(registered="GB8: the hold circuit gain at ring 1 is reproduced (prototype +0.440 at ring 1, ~0 beyond)",
+               criteria=(f"gain: at ring 1 the hold beats the plain reflex by more than {Z:g} paired SE, and its "
+                         f"F is within {Z_PORT:g} SE of the prototype's hold body (re-priced at c_rec 0, c_miss 1); "
+                         "lateral_off: the lateral-off fork from birth removes at least 50% of the ring-1 gain (the "
+                         "A4 rule). Rings 2-4 are reported."),
+               seeds=f"{CATCH_FRESH_SEED0} + s", rings=rows)
+    return judge_gb8(out)
+
+
+def judge_gb8(g: dict) -> dict:
+    r1 = g["rings"][1] if 1 in g["rings"] else g["rings"]["1"]
+    g["checks"] = dict(gain=bool(r1["gain"]["z"] > Z and abs(r1["hold"]["z_prototype"]) <= Z_PORT),
+                       lateral_off=bool(r1["removed"] >= 0.5))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ------------------------------------------------------------------------------------------------------ GB9
+def _grown(org, n: int, seed0: int = CATCH_FRESH_SEED0, preset: str = CATCH_PRESET, **world):
+    res = org.run(analysis.fresh_seeds(n, seed0), threads=_threads(), fate_cap=1 << 12, preset=preset, **world)
+    return res, [analysis.final_cells(res.fates(i)[0]) for i in range(n)]
+
+
+def _twins(bodies, seeds, **world) -> np.ndarray:
+    """F of program twins: the column reflex (on-grid clicker) on each life's own final columns."""
+    cells = [hb.column_cells(sorted((a, b) for a, b, z in body if z == 0)) for body in bodies]
+    w = hb.CLICKER.world(CATCH_PRESET, **world)
+    res = build.run(w, seeds, programs=hb.CLICK_Q8_PROGRAM, init=cells, threads=_threads(), abi=V3)
+    return res["F"]
+
+
+def _columns_ok(body) -> bool:
+    """Every sense cell has a motor above it and nothing else exists."""
+    s = {(a, b) for a, b, z in body if z == 0}
+    m = {(a, b) for a, b, z in body if z == 1}
+    return s == m and len(body) == len(s) + len(m)
+
+
+def gate_gb9(threads: int = 4, n: int = C_LIVES_FORK) -> dict:
+    """The column reflex as a GRN genome (the G9 analogue): through the real genome path (raw 875-slot genome ->
+    spec.V3.pack_genomes -> GRN mode from one zygote, phenotypes from the plane cues and lineage genes)."""
+    _THREADS[0] = threads
+    seeds = analysis.fresh_seeds(n, CATCH_FRESH_SEED0)
+    growth = {}
+    for k, org in ((0, hb.COLUMN_GRN_RING0), (1, hb.COLUMN_GRN_RING1)):
+        want = sorted((a, b, z) for a, b, z, _ in hb.ring_body(k).cells)
+        for preset in ("catch_v1", "catch_v1_l2"):
+            res, bodies = _grown(org, n, preset=preset)
+            growth[f"ring{k}/{preset}"] = dict(
+                lives=n, exact=int(sum(sorted(b) == want for b in bodies)), rejects=float(res["rejects"].sum()),
+                hidden_cells=float(res["n_H_end"].sum()), claims=float(res["claims"].mean()),
+                last_birth_max=float(res["last_birth"].max()))
+    after = {}
+    for k, org in ((0, hb.COLUMN_GRN_RING0), (1, hb.COLUMN_GRN_RING1)):
+        twin = hb.column_body(hb.disk(k), f"ring{k} (centre g_r 0.5)", program=hb.CLICK_Q8_PROGRAM)
+        g, t = cpoint(org, n, t_open=GB9_T_OPEN), cpoint(twin, n, t_open=GB9_T_OPEN)
+        gw, tw, ref = cpoint(org, n), cpoint(twin, n), cpoint(hb.ring_body(k), n)
+        after[k] = dict(grn=g, twin=t, z=analysis.z_diff(g, t),
+                        paired=analysis.paired(cF(org, n, t_open=GB9_T_OPEN), cF(twin, n, t_open=GB9_T_OPEN)),
+                        whole_life=dict(grn=gw, twin=tw, z=analysis.z_diff(gw, tw)),
+                        twin_vs_reference=analysis.paired(cF(twin, n), cF(hb.ring_body(k), n)), reference_F=ref["mean"])
+    # the grower: its window chosen on screen lives, then measured fresh against twins of its own final shapes
+    screen = {}
+    for wdw in GB9_WINDOWS:
+        led = clives(hb.column_grower(wdw), C_SCREEN_LIVES, seed0=CATCH_SCREEN_SEED0)
+        screen[wdw] = dict(F=float(led[:, L3["F"]].mean()), cells=float(led[:, L3["n_end"]].mean()))
+    wbest = max(screen, key=lambda w: screen[w]["F"])
+    org = hb.column_grower(wbest)
+    res, bodies = _grown(org, n)
+    res_late, bodies_late = _grown(org, n, t_open=GB9_T_OPEN)
+    tw_late = _twins(bodies_late, seeds, t_open=GB9_T_OPEN)
+    grower = dict(window=wbest, screen=screen, whole_life=analysis.catch_point(res.ledger),
+                  after_growth=analysis.catch_point(res_late.ledger, cworld(t_open=GB9_T_OPEN)),
+                  twins_after_growth=analysis.summary(tw_late),
+                  paired=analysis.paired(res_late["F"], tw_late),
+                  same_shapes=bool(all(sorted(a) == sorted(b) for a, b in zip(bodies, bodies_late))),
+                  columns_complete=int(sum(_columns_ok(b) for b in bodies)),
+                  last_birth_max=float(res["last_birth"].max()), hidden_cells=float(res["n_H_end"].sum()),
+                  ring3_F=float(cF(hb.ring_body(3), n).mean()))
+    g0, g1 = hb.column_genome(0), hb.column_genome(1)
+    diff = [int(i) for i in np.nonzero(g0 != g1)[0]]
+    fields = [next(f for f, (a, b) in V3.GENOME_SLICES.items() if a <= i < b) for i in diff]
+    out = dict(registered=("GB9: a hand GRN column grower within 2 SE of its program twin at its optimum; a "
+                           "single-mutant scan reported, including whether one mutation grows a whole ring"),
+               criteria=(f"phenotypes: every settled gene state decodes exactly its program row; exact_growth: the "
+                         f"ring-0 and ring-1 genomes grow exactly ring_body(0) and ring_body(1) in all {n} lives at "
+                         "L_max 4 and 2, with no reject and no hidden cell; after_growth: from t = "
+                         f"{GB9_T_OPEN:g} on (t_open), each grown ring is within {Z:g} combined SE of its program twin "
+                         "(the same columns, centre g_r 0.5 on the GRN grid); grower: the windowed genome (window "
+                         f"chosen on screen lives) is within {Z:g} paired SE of program twins built on each life's own "
+                         "final columns, after growth, and every grown body is complete columns with no hidden cell."),
+               lives=n, seeds=f"{CATCH_FRESH_SEED0} + s; window screen {CATCH_SCREEN_SEED0} + s",
+               phenotypes=hb.column_genome_states(), growth=growth, after_growth=after, grower=grower,
+               genome=dict(slots=int(g1.size), path="handbuilt.column_genome -> spec.V3.pack_genomes -> build.run",
+                           active_genes=[int(k) for k in np.nonzero(V3.genome_view(g1, "act"))[0]],
+                           ring0_vs_ring1=dict(entries=diff, fields=fields)),
+               notes=["The centre sensor is the zygote itself: a founder state (kin = 0) that only the first cell "
+                      "keeps, since nothing local marks the site under the hotspot. Every other sense cell decodes "
+                      "the steering sensor, every act cell the motor.",
+                      "Whole-life F includes growth (one claim per cell at c_div 0.5, and the first tens of units "
+                      "with a smaller body); after_growth compares the expressed reflex itself.",
+                      "No single-mutant scan of the GRN was run. The ring-0 and ring-1 genomes differ in the entries "
+                      "listed in genome.ring0_vs_ring1 (the founder's p_div weight and the zygote's starting fresh "
+                      "level), so one change of the founder's division readout grows the whole ring 1 at once."])
+    return judge_gb9(out)
+
+
+def judge_gb9(g: dict) -> dict:
+    after = {int(k): v for k, v in g["after_growth"].items()}
+    gr = g["grower"]
+    g["checks"] = dict(
+        phenotypes=bool(all(not v["mismatches"] for v in g["phenotypes"].values())),
+        exact_growth=bool(all(v["exact"] == v["lives"] and v["rejects"] == 0 and v["hidden_cells"] == 0
+                              and v["last_birth_max"] < GB9_T_OPEN for v in g["growth"].values())),
+        after_growth=bool(all(abs(v["z"]) <= Z for v in after.values())),
+        grower=bool(abs(gr["paired"]["z"]) <= Z and gr["columns_complete"] == g["lives"] and gr["hidden_cells"] == 0
+                    and gr["last_birth_max"] < GB9_T_OPEN and gr["same_shapes"]))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ----------------------------------------------------------------------------------------------------- GB12
+GB12_WORLDS = {"v1": {}, "v_t_0.05": dict(v_t=0.05), "v_t_0.2": dict(v_t=0.2), "R_cap_50": dict(R_cap=50.0),
+               "R_cap_200": dict(R_cap=200.0), "c_live_0.04": dict(c_live=0.04), "rho_c_0.7": dict(rho_c=0.7)}
+GB12_GATED = ("v_t_0.05", "v_t_0.2", "R_cap_50", "R_cap_200")  # half and double target speed and reward
+# where the prototype's clicker earns (F > 0 by 2 SE): proposal 3.5, re-measured (PROTOTYPE_CATCH)
+GB12_CLICKER_EARNS = {"v_t_0.05": False, "v_t_0.2": True, "R_cap_50": False, "R_cap_200": True}
+
+
+def gb12_bodies() -> dict:
+    return dict(lone=hb.ZYGOTE, ring0=hb.CLICKER, adjacent_1=hb.ladder_body("adjacent", 1),
+                adjacent_2=hb.ladder_body("adjacent", 2), adjacent_3=hb.ladder_body("adjacent", 3),
+                ring1=hb.ring_body(1), ring3=hb.ring_body(3))
+
+
+def gate_gb12(threads: int = 4) -> dict:
+    """Start robustness (proposal 3.5): the first steps at half and double target speed and reward."""
+    _THREADS[0] = threads
+    bodies = gb12_bodies()
+    names = list(bodies)
+    worlds, port_pts = {}, {}
+    for wname, kw in GB12_WORLDS.items():
+        pts, steps = {}, {}
+        for name, org in bodies.items():
+            key = name if wname == "v1" else f"{wname}/{name}"
+            pts[name] = cpoint(org, _n_for(org), proto=key, **kw)
+            if wname != "v1":
+                port_pts[key] = pts[name]
+        for a, b in zip(names, names[1:]):
+            m = min(_n_for(bodies[a]), _n_for(bodies[b]))
+            steps[f"{a}->{b}"] = analysis.paired(cF(bodies[b], m, **kw), cF(bodies[a], m, **kw))
+        clk = pts["ring0"]
+        worlds[wname] = dict(world=kw, points=pts, steps=steps, clicker_earns=bool(clk["mean"] > Z * clk["se"]),
+                             first_steps_uphill=[k for k, s in steps.items() if s["z"] > Z],
+                             first_steps_flat=[k for k, s in steps.items() if abs(s["z"]) <= Z],
+                             first_steps_down=[k for k, s in steps.items() if s["z"] < -Z])
+    out = dict(registered=("GB12: GB3 and GB5 repeated at v_t 0.05 and 0.2 and at R_cap 50 and 200; report where the "
+                           "clicker margin vanishes (prototype: v_t 0.05 and R_cap 50) and keep v1's settings inside "
+                           "the good region"),
+               criteria=(f"v1_inside: at v1 every first step (lone -> 2 -> 4 -> 6 -> 8 -> 14 -> 74 cells) is uphill by "
+                         f"more than {Z:g} paired SE and the clicker earns (F > {Z:g} SE above 0); clicker_margin: "
+                         "the clicker earns at v_t 0.2 and R_cap 200 and does not at v_t 0.05 and R_cap 50, as in "
+                         f"the prototype; port: every point of the four gated worlds within {Z_PORT:g} SE of the "
+                         "re-measured prototype (re-priced at c_rec 0, c_miss 1). c_live 0.04 and rho_c 0.7 are "
+                         "reported."),
+               lives={k: _n_for(o) for k, o in bodies.items()}, seeds=f"{CATCH_FRESH_SEED0} + s, every world",
+               worlds=worlds, port=_port({k: p for k, p in port_pts.items() if k.split("/")[0] in GB12_GATED}),
+               port_reported=_port({k: p for k, p in port_pts.items() if k.split("/")[0] not in GB12_GATED}))
+    return judge_gb12(out)
+
+
+def judge_gb12(g: dict) -> dict:
+    v1 = g["worlds"]["v1"]
+    g["checks"] = dict(v1_inside=bool(v1["clicker_earns"] and all(s["z"] > Z for s in v1["steps"].values())),
+                       clicker_margin=bool(all(g["worlds"][w]["clicker_earns"] == e
+                                               for w, e in GB12_CLICKER_EARNS.items())),
+                       port=bool(not g["port"]["outside"]))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
+# ----------------------------------------------------------------------------------------------------- GB13
+def gate_gb13(threads: int = 4, n: int = 64) -> dict:
+    """Hidden-plane cost (proposal 4.1): silent hidden cells cost exactly c_live each; bodies without hidden cells
+    (the program rings and the column genome, whose act cells never divide) live bitwise alike at L_max 4 and 2."""
+    _THREADS[0] = threads
+    w = cworld()
+    silent = {}
+    for k in range(4):
+        base = clives(hb.ring_body(k), n)
+        for h in (1, 2):
+            led = clives(hb.ring_body(k, hidden=h), n)
+            nh = led[:, L3["n_H_end"]]
+            resid = led[:, L3["F"]] - (base[:, L3["F"]] - w.c_live * nh)  # each hidden cell lives the whole life
+            silent[f"ring{k}+{h}h"] = dict(cells=len(hb.ring_body(k, hidden=h).cells), hidden=int(nh[0]),
+                                           F=float(led[:, L3["F"]].mean()), F_without=float(base[:, L3["F"]].mean()),
+                                           max_abs_residual=float(np.abs(resid).max()))
+    planes = {}
+    for org in [hb.ring_body(k) for k in range(4)] + [hb.COLUMN_GRN_RING1, hb.column_grower(0.16)]:
+        a, b = clives(org, n, preset="catch_v1"), clives(org, n, preset="catch_v1_l2")
+        planes[org.name] = dict(bitwise=bool(np.array_equal(a.view(np.uint64), b.view(np.uint64))),
+                                F=float(a[:, L3["F"]].mean()), cells_S=float(a[:, L3["n_S_end"]].mean()),
+                                cells_M=float(a[:, L3["n_M_end"]].mean()), cells_H=float(a[:, L3["n_H_end"]].mean()))
+    out = dict(registered=("GB13: the hand GRN column grower at L_max 4 and 2, cells per plane and F (proposal 4.1: "
+                           "each silent hidden cell costs exactly c_live)"),
+               criteria=("silent_hidden_exact: with 1 or 2 silent hidden cells on every column (rings 0-3), every "
+                         "life's F equals the plain body's minus c_live per hidden cell, to 1e-9; l2_equals_l4: the "
+                         "program rings 0-3 and the column genome's bodies live bitwise alike at L_max 4 and L_max 2."),
+               lives=n, seeds=f"{CATCH_FRESH_SEED0} + s", silent_hidden=silent, planes=planes,
+               notes=["The cost of hidden planes in evolution is what the L_max arms of the pilot measure (genomes "
+                      "whose act cells divide upward); the column genome's act cells never divide, by construction."])
+    return judge_gb13(out)
+
+
+def judge_gb13(g: dict) -> dict:
+    exact = all(v["max_abs_residual"] <= 1e-9 for v in g["silent_hidden"].values())
+    same = all(v["bitwise"] for v in g["planes"].values())
+    g["checks"] = dict(silent_hidden_exact=bool(exact), l2_equals_l4=bool(same))
+    g["passed"] = bool(all(g["checks"].values()))
+    return g
+
+
 # ------------------------------------------------------------------------------------------------------ main
 GATES = dict(G1=gate_g1, G2=gate_g2, G3=gate_g3, G4=gate_g4, G5=gate_g5, G6=gate_g6, G8=gate_g8, G9=gate_g9,
              G10=gate_g10, S8=gate_s8, G7=gate_g7)  # G7 last: it scans the bodies the others measured
 JUDGES = dict(G1=judge_g1, G2=judge_g2, G3=judge_g3, G4=judge_g4, G5=judge_g5, G6=judge_g6, G7=judge_g7,
               G9=judge_g9, G10=judge_g10, S8=judge_s8)
+CATCH_GATES = dict(GB3=gate_gb3, GB4=gate_gb4, GB5=gate_gb5, GB6=gate_gb6, GB7=gate_gb7, GB8=gate_gb8, GB9=gate_gb9,
+                   GB12=gate_gb12, GB13=gate_gb13)
+CATCH_JUDGES = dict(GB3=judge_gb3, GB4=judge_gb4, GB5=judge_gb5, GB6=judge_gb6, GB7=judge_gb7, GB8=judge_gb8,
+                    GB9=judge_gb9, GB12=judge_gb12, GB13=judge_gb13)
+WORLDS = dict(bell=(GATES, "gates.json"), catch=(CATCH_GATES, "gates_catch.json"))  # --world: gates, output file
 
 
 def _jsonable(x):
@@ -1045,32 +1731,39 @@ def _jsonable(x):
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    p.add_argument("--gates", default=",".join(GATES))
+    p.add_argument("--world", choices=sorted(WORLDS), default="bell",
+                   help="bell: G1-G10 and S8 (BELL-1, ABI 2); catch: GB3-GB13 (BODY-1 CATCH, ABI 3)")
+    p.add_argument("--gates", default=None, help="comma-separated gate names of that world (default: all)")
     p.add_argument("--threads", type=int, default=4)
-    p.add_argument("--out", default=str(repo_root / "outputs" / "life_gates" / "gates.json"))
+    p.add_argument("--out", default=None, help="default: outputs/life_gates/gates.json (bell) or gates_catch.json")
     args = p.parse_args(argv)
-    names = [g.strip().upper() for g in args.gates.split(",") if g.strip()]
-    bad = set(names) - set(GATES)
+    gates, fname = WORLDS[args.world]
+    names = [g.strip().upper() for g in (args.gates or ",".join(gates)).split(",") if g.strip()]
+    bad = set(names) - set(gates)
     if bad:
-        p.error(f"unknown gates {sorted(bad)}; known: {sorted(GATES)}")
-    names = [g for g in GATES if g in names]  # canonical order
+        p.error(f"unknown gates {sorted(bad)} for --world {args.world}; known: {sorted(gates)}")
+    names = [g for g in gates if g in names]  # canonical order
     threads = max(1, min(args.threads, 4))
     _THREADS[0] = threads
-    out = dict(meta=dict(date=datetime.now(timezone.utc).isoformat(timespec="seconds"), abi=spec.ABI_VERSION,
+    catch = args.world == "catch"
+    seeds = (dict(fresh_seed0=CATCH_FRESH_SEED0, screen_seed0=CATCH_SCREEN_SEED0) if catch else
+             dict(fresh_seed0=analysis.FRESH_SEED0, screen_seed0=analysis.SCREEN_SEED0))
+    out = dict(meta=dict(date=datetime.now(timezone.utc).isoformat(timespec="seconds"), world=args.world,
+                         abi=V3.version if catch else spec.ABI_VERSION,
                          kernel=build.library_path().name, threads=threads, python=platform.python_version(),
                          command=" ".join([Path(sys.argv[0]).name, *(argv if argv is not None else sys.argv[1:])]),
-                         fresh_seed0=analysis.FRESH_SEED0, screen_seed0=analysis.SCREEN_SEED0),
+                         **seeds),
                gates={})
     t_all = time.time()
     for name in names:
         t0 = time.time()
-        res = GATES[name](threads=threads)
+        res = gates[name](threads=threads)
         res["seconds"] = round(time.time() - t0, 1)
         out["gates"][name] = _jsonable(res)
         print(f"{name}: {'PASS' if res['passed'] else 'FAIL'}  checks {res['checks']}  ({res['seconds']} s)", flush=True)
     out["meta"]["seconds"] = round(time.time() - t_all, 1)
     out["passed"] = all(g["passed"] for g in out["gates"].values())
-    path = Path(args.out)
+    path = Path(args.out or repo_root / "outputs" / "life_gates" / fname)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(_jsonable(out), indent=1) + "\n")
     print(f"wrote {path} ({out['meta']['seconds']} s)")
