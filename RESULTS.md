@@ -1339,3 +1339,21 @@ duplication on, and per-channel face weights (needs the user's approval); then P
 plus, as part 1, the BODY-1 bodies. `extract.py` traces one life per body (the life with F nearest the median of 24,
 seeds from 38,000,000; every trace's F equals the kernel's) and the pilot's evolution curves; `build2.py` assembles
 `atlas.html` from `template2.html`.
+
+## 2026-10-09 — Hardware path study
+`docs/HARDWARE_PATH.md` (workflow `hardware-path-study`; records in `results/hardware_study/`). Four studies, each
+re-checked by a skeptic; seeds 37.1M-37.8M.
+- **For evolution throughput, custom hardware does not pay at this scale.** A pilot costs $6-16 on one rented 192-core
+  box. A bit-exact float64 FPGA port would be worse per dollar (exp/log cores are 1 ULP, not glibc); an integer FPGA
+  design is estimated at 0.8-2x the cost-efficiency of an integer CPU kernel for 4-12 person-months. Neuromorphic chips
+  give no throughput gain and are not rentable by the hour. A time-stepped GPU port could be 2-9x cheaper per unit of
+  work but puts a lockstep clock into the model, and the dt that leaves behaviour unchanged is unmeasured.
+- **Fixed point is fitness-neutral.** Emulated integer arithmetic (12-16-bit genes and morphogens, table sigmoid and
+  exp2/log2, 1/256 time grid) moved F by -0.012 ± 0.020 over the 11 pilot bests (1,024 paired lives each); final sizes
+  shift by up to about 4 cells. Precision traps: gene state needs >= 10 fractional bits (Q8 cost s5 6.7%), twitch >= 8.
+- **Exact parallel execution already works:** the ABI's window scheduler (each site advances alone, a fence every
+  h <= d_min) was bitwise equal to the heap kernel in 528 of 528 life comparisons, so a processor array can replay
+  lives exactly. The d_min rule is what makes this possible.
+- **Recommendation:** make an integer ABI the next reference contract (folded into ABI 4): CPU speed (about 1.4-2.3x
+  with fast mode, estimated), bitwise portability across machines, and the exact reference any FPGA or chip must
+  match; then one cell processor, then a small spatial array; silicon only after the ABI is frozen.
