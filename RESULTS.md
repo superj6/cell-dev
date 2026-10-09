@@ -1312,3 +1312,30 @@ mostly efficiency cores), so absolute times are pessimistic.
   capabilities): pin the image (Ubuntu 24.04, glibc 2.39), set `ATEN_CPU_CAPABILITY=avx2`, use AVX2+FMA hosts and
   replay a fixed set of lives first. `src/run.py` cannot resume a run, so spot capacity would lose whole runs until
   checkpointing exists.
+
+## 2026-10-09 — After the pilot: design review and the atlas
+**Design review** (workflow `post-pilot-design-review`: four lenses with their own experiments, three critics, a
+synthesis; `docs/POST_PILOT_CALLS.md`, every assessment and critique in `results/catch_pilot/design_review.json`).
+New lives came from seed bases 36.1M-36.6M. Main findings beyond the pilot section:
+- **The routing gap is earnings per cell, not catching skill.** s5 earns 9.65 per unit time against the tuned reflex's
+  9.95 with about twice the cells, and capping its size lowers F, so its algorithm needs those cells.
+- **A harness bug froze four v1 runs for 244-364 generations:** on exact ties parents always win (stable sorts with
+  parents first, `src/evolve.py`), which switches off neutral drift exactly where drift is the only way out.
+- **F tracks developmental speed** (cells at t = 64; rank correlation about 0.95 across the 10 SPECK bests), not final
+  size; only s3 and s9 are measurably overgrown (+0.42 and +0.53 F available from stopping).
+- **Direction-specific synapses exist only through morphogen chemistry,** which costs s5 about 10% of its running
+  cost, couples synapse sign to division placement and breaks when the gene clock slows (s5 -10.25 F at 4x; traced
+  to a tick-phase artefact in the gradient comparison).
+- **Hidden planes have no job in a reactive world:** regrowing the same genomes at L_max 2 gains +0.32 F on average.
+- **A shaped score is rejected:** distance and time-near-target predict F on other lives at r 0.09 against 0.17-0.19
+  for F itself, yet are 10-17x more heritable per life, so selection would breed parking near targets.
+Calls, in order (details and gates in the doc): random tie-breaking; checkpoint/resume with determinism pinning; exact
+kernel speedups; report-only readouts; a niche map of worlds; then faster conduction (d0 0.5) behind a re-tune gate, an
+ABI-4 cleanup bundle (per-time gene and fate laws, like-with-like gradient, gene split at ACK, drop tau_tr), gene
+duplication on, and per-channel face weights (needs the user's approval); then Pilot 2 (three diagnostics, then a
+20-seed matrix).
+
+**Atlas** (`results/atlas/`, published as the "Spiking Tissue Atlas" artifact): the 2026-10-06 task-ladder specimens
+plus, as part 1, the BODY-1 bodies. `extract.py` traces one life per body (the life with F nearest the median of 24,
+seeds from 38,000,000; every trace's F equals the kernel's) and the pilot's evolution curves; `build2.py` assembles
+`atlas.html` from `template2.html`.

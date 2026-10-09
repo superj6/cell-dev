@@ -1,0 +1,813 @@
+<title>Spiking Tissue Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column of specimen "slides" (viewer left, notes right), then the experiment charts. */
+:root {
+  --bg: #f1f4f1; --surface: #fbfcfa; --ink: #121614; --ink-2: #48514c; --muted: #737c77; --rule: #dbe1dc;
+  --site: #e2e8e3; --site-lit: #fff3cf; --accent: #0d7a6b; --spike: #101a16; --cue: #4a3aa7; --loss: #c8283a;
+  --t0: #2a78d6; --t1: #eb6834; --t2: #1baf7a; --t3: #e87ba4;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0d1211; --surface: #141a18; --ink: #e9eeea; --ink-2: #b3bdb7; --muted: #828c86; --rule: #26302c;
+  --site: #1c2421; --site-lit: #6a5a2a; --accent: #3cc3ad; --spike: #ffffff; --cue: #9085e9; --loss: #ff6b78;
+  --t0: #3987e5; --t1: #d95926; --t2: #199e70; --t3: #d55181;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0d1211; --surface: #141a18; --ink: #e9eeea; --ink-2: #b3bdb7; --muted: #828c86; --rule: #26302c;
+  --site: #1c2421; --site-lit: #6a5a2a; --accent: #3cc3ad; --spike: #ffffff; --cue: #9085e9; --loss: #ff6b78;
+  --t0: #3987e5; --t1: #d95926; --t2: #199e70; --t3: #d55181;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15.5px; line-height: 1.55 }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: 28px 64px; display: grid; gap: 56px }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0 }
+h1 { font-size: clamp(2.1rem, 5.5vw, 3.6rem); font-weight: 760; font-stretch: 78%; line-height: 1.02; letter-spacing: -0.01em }
+h2 { font-size: clamp(1.45rem, 3vw, 2rem); font-weight: 720; font-stretch: 82%; line-height: 1.1 }
+h3 { font-size: 1.05rem; font-weight: 650; font-stretch: 90% }
+p { margin: 0; max-width: 66ch }
+a { color: var(--accent) }
+.eyebrow { font-family: var(--font-data); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted) }
+.lede { font-size: 1.08rem; color: var(--ink-2) }
+.hero { display: grid; gap: 18px }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; align-items: start }
+.hero-copy { display: grid; gap: 16px; min-width: 0 }
+.legend-row { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.86rem; color: var(--ink-2) }
+.key { display: inline-flex; align-items: center; gap: 7px }
+.sw { width: 13px; height: 13px; border-radius: 3px; display: inline-block; flex: none }
+.sw.hex { clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); border-radius: 0 }
+.toc { display: flex; flex-wrap: wrap; gap: 8px }
+.toc a { font-family: var(--font-data); font-size: 0.8rem; text-decoration: none; color: var(--ink); padding: 6px 10px; border: 1px solid var(--rule); border-radius: 999px; background: var(--surface) }
+.toc a:hover, .toc a:focus-visible { border-color: var(--accent); outline: none }
+
+.specimen { display: grid; gap: 18px; padding-top: 28px; border-top: 1px solid var(--rule) }
+.spec-head { display: grid; gap: 6px }
+.spec-head .headline { color: var(--ink-2); font-size: 1.04rem }
+.spec-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start }
+.viewer { display: grid; gap: 10px; min-width: 0 }
+.stage { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden }
+.stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; max-width: 100% }
+.raster { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px; display: grid; gap: 4px }
+.raster canvas { display: block; width: 100%; max-width: 100% }
+.raster .axis { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.7rem; color: var(--muted) }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.seg { display: flex; flex-wrap: wrap; gap: 6px }
+button, .btn { font: 600 0.82rem/1 var(--font-body); color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 8px 11px; cursor: pointer }
+button:hover { border-color: var(--muted) }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.play { min-width: 74px }
+.toggle { display: inline-flex; align-items: center; gap: 7px; font-size: 0.84rem; color: var(--ink-2); cursor: pointer; user-select: none }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px }
+input[type="range"] { flex: 1 1 160px; accent-color: var(--accent); min-width: 0 }
+.trial-caption { font-size: 0.86rem; color: var(--ink-2); min-height: 2.8em; margin: 0 }
+.status { font-family: var(--font-data); font-size: 0.76rem; color: var(--ink-2); min-height: 2.6em }
+.status b { color: var(--ink) }
+.notes { display: grid; gap: 16px; min-width: 0 }
+.notes .mech { font-size: 0.98rem }
+.chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden }
+.chip { background: var(--surface); padding: 9px 11px; display: grid; gap: 2px }
+.chip .k { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em }
+.chip .v { font-family: var(--font-data); font-size: 1.05rem; font-weight: 600; font-variant-numeric: tabular-nums }
+.chip .v.zero { color: var(--loss) }
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem }
+th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--rule); white-space: nowrap; font-variant-numeric: tabular-nums }
+th { font-weight: 600; color: var(--ink-2); font-size: 0.74rem }
+td.num { font-family: var(--font-data) }
+tr:last-child td { border-bottom: none }
+details { font-size: 0.86rem; color: var(--ink-2) }
+summary { cursor: pointer; color: var(--ink); font-weight: 600 }
+.evidence { margin-top: 8px; font-size: 0.84rem; color: var(--ink-2) }
+.caveat { font-size: 0.82rem; color: var(--muted) }
+
+.results { display: grid; gap: 28px }
+.chart-card { display: grid; gap: 10px; padding-top: 22px; border-top: 1px solid var(--rule) }
+.chart-card .sub { color: var(--ink-2); font-size: 0.95rem }
+.chart { position: relative; width: 100%; overflow-x: auto }
+.chart svg { display: block; width: 100%; height: auto; min-width: 560px }
+.chart text { font-family: var(--font-body); fill: var(--ink-2); font-size: 11px }
+.chart .tick text { fill: var(--muted); font-family: var(--font-data); font-size: 10px }
+.chart .grid line { stroke: var(--rule); stroke-width: 1 }
+.chart .base { stroke: var(--muted); stroke-width: 1 }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 0.78rem; padding: 6px 8px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -110%); z-index: 2 }
+.small-multiples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px }
+.foot { display: grid; gap: 10px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: 0.9rem }
+/* Part 1: one continuous life (world view + tissue planes + whole-life timeline) */
+.part-head { display: grid; gap: 10px; padding-top: 30px; border-top: 3px solid var(--ink) }
+.part-head h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); font-stretch: 76% }
+#toc { flex-direction: column; align-items: flex-start }
+.toc-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.toc-group .eyebrow { margin-right: 4px }
+.life { display: grid; gap: 10px; min-width: 0 }
+.life-stages { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 10px }
+.life-stages .stage canvas { aspect-ratio: auto }
+.life-world canvas { aspect-ratio: 1 / 1 }
+.life-tissue { display: grid; align-content: start; gap: 6px; padding: 8px 8px 6px }
+.life-tissue canvas { aspect-ratio: 3 / 1.25; display: block; width: 100%; height: auto }
+.timeline { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px; display: grid; gap: 4px }
+.timeline canvas { display: block; width: 100%; max-width: 100%; cursor: pointer; touch-action: none }
+.timeline .axis { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 0.7rem; color: var(--muted) }
+.picker { display: flex; flex-wrap: wrap; gap: 6px }
+.picker button { font-weight: 600; padding: 7px 10px }
+.life .status { min-height: 1.6em }
+.hero-life .life-stages { grid-template-columns: minmax(0, 1fr) }
+.chart.evo svg { min-width: 380px }
+@media (max-width: 860px) {
+  .hero-grid, .spec-grid, .small-multiples { grid-template-columns: minmax(0, 1fr) }
+  .chips { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+}
+@media (max-width: 560px) { .life-stages { grid-template-columns: minmax(0, 1fr) } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto } }
+</style>
+
+<main class="wrap">
+  <header class="hero">
+    <div class="eyebrow">cell-dev · evolved specimens · updated 2026-10-09</div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1>Spiking Tissue Atlas</h1>
+        <p class="lede">Every body below grew from one cell. A genome decides how its cells divide and what each one becomes, and a grown cell only ever hears its immediate neighbours. Nobody wired an input or an output.</p>
+        <p>Part 1 is the newest work: bodies that chase a target across a screen during one continuous life, with no clock anywhere. Part 2 is the first task ladder, where flat bodies answered short timed trials. Pick a body: the replay starts mid-life, and “From the first cell” replays its growth from the zygote.</p>
+        <nav class="toc" id="toc" aria-label="Specimens"></nav>
+      </div>
+      <div id="hero-viewer" class="hero-life"></div>
+    </div>
+  </header>
+
+  <section id="part1" style="display:grid; gap:56px">
+    <div class="part-head">
+      <div class="eyebrow">part 1 · BODY-1 pilot · 29 evolution runs · 2026-10-09</div>
+      <h2>Bodies that steer a dot</h2>
+      <p class="lede">The body is a dot on a screen, and its cells are stacked in layers. The bottom layer touches the screen: a cell there gets a receptor event now and then, more often when the target's halo is under it. A spike in the layer above twitches the dot outward on that cell's side. The middle cell of that layer clicks, and a click with the target inside the catch zone is a catch. Higher layers can only talk to the cells below them. Each cell fires when its own charge crosses threshold, and a spike takes about one time unit to reach a neighbour.</p>
+      <p>Score is catch income minus the cost of living cells, spikes and wasted clicks, per time unit. The replays below are one typical life of each body (the life whose score is nearest the median of 24), replayed in the reference simulator and checked against the fast one bit for bit.</p>
+      <div class="legend-row" aria-label="Legend for part 1">
+        <span class="key"><span class="sw hex" style="background:var(--t0)"></span>touches the screen</span>
+        <span class="key"><span class="sw hex" style="background:var(--t1)"></span>pulls the body</span>
+        <span class="key"><span class="sw hex" style="background:var(--t2)"></span>hidden layers</span>
+        <span class="key"><span class="sw hex" style="background:var(--t0); opacity:.5"></span>pale: interior cell</span>
+        <span class="key"><span class="sw hex" style="background:var(--surface); border:2px solid var(--ink)"></span>ringed: centre cell</span>
+        <span class="key"><span class="sw hex" style="background:var(--spike)"></span>just fired</span>
+        <span class="key"><span class="sw" style="background:var(--accent); border-radius:50%; opacity:.6"></span>target halo · catch</span>
+        <span class="key"><span class="sw" style="background:var(--loss)"></span>missed click</span>
+      </div>
+    </div>
+    <div id="evo-charts" style="display:grid; gap:28px"></div>
+    <div id="body-specimens" style="display:grid; gap:56px"></div>
+  </section>
+
+  <section style="display:grid; gap:56px">
+    <div class="part-head" id="part2">
+      <div class="eyebrow">part 2 · the task ladder · 2026-10-06</div>
+      <h2>Flat bodies answering timed trials</h2>
+      <p class="lede">An earlier model on a flat grid with a global tick. Each organism grew, then faced short trials: grown cells react to light where they sit and pass spikes to their neighbours, and the score depends only on <em>where</em> in the body the firing ends up. Press play to watch a body grow, then work through a trial. Switch messages off to see what the cells can do alone. The red overlay marks the cells it cannot do without.</p>
+      <div class="legend-row" aria-label="Legend for part 2">
+        <span class="key"><span class="sw hex" style="background:var(--t0)"></span>cell types A–D</span>
+        <span class="key"><span class="sw hex" style="background:var(--t1)"></span></span>
+        <span class="key"><span class="sw hex" style="background:var(--t2)"></span></span>
+        <span class="key"><span class="sw hex" style="background:var(--t3)"></span></span>
+        <span class="key"><span class="sw hex" style="background:var(--spike)"></span>firing this tick</span>
+        <span class="key"><span class="sw hex" style="background:var(--site-lit)"></span>light on empty sites</span>
+        <span class="key"><span class="sw" style="border:2px dashed var(--cue)"></span>cue spot (a dashed frame: the go signal)</span>
+        <span class="key"><span class="sw" style="background:var(--accent)"></span>where the firing points</span>
+      </div>
+    </div>
+  <div id="specimens" style="display:grid; gap:56px"></div>
+
+  <section class="results" id="results">
+    <div class="spec-head">
+      <div class="eyebrow">113 evolution runs</div>
+      <h2>What the experiments showed</h2>
+      <p class="lede">Scores are on held-out trials the organisms never trained on: 1 means all the firing sat on the correct side, 0 means no lean or silence. Dots are single runs (seeds); bars are medians.</p>
+    </div>
+    <div id="charts"></div>
+  </section>
+  </section>
+
+  <footer class="foot" id="foot"></footer>
+</main>
+
+<script type="application/json" id="atlas-data">/*__DATA__*/</script>
+<script>
+(() => {
+const DATA = JSON.parse(document.getElementById("atlas-data").textContent);
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const TYPE_NAMES = ["A", "B", "C", "D"];
+const el = (tag, attrs = {}, kids = []) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else if (k === "html") n.innerHTML = v;
+    else n.setAttribute(k, v);
+  }
+  for (const c of [].concat(kids)) if (c != null) n.append(c);
+  return n;
+};
+const fmt = (v, d = 2) => (v == null || Number.isNaN(v) ? "–" : (Math.abs(v) < 0.005 ? "0.00" : v.toFixed(d)));
+
+/* ---------- tissue viewer ---------- */
+function makeViewer(spec, host, opts = {}) {
+  const pos = spec.pos, hex = spec.lattice.kind === "hex";
+  const finalAlive = spec.final.alive, finalTypes = spec.final.types;
+  const typeOf = new Map(finalAlive.map((s, i) => [s, finalTypes[i]]));
+  const typeIdx = [...new Set(finalTypes)].sort((a, b) => a - b);
+  const letter = (t) => TYPE_NAMES[typeIdx.indexOf(t)] ?? "?";
+  const colorOf = (t) => css(`--t${Math.max(0, typeIdx.indexOf(t)) % 4}`);
+  let maxD = 0; for (const s of finalAlive) maxD = Math.max(maxD, Math.hypot(pos[s][0], pos[s][1]));
+  const R = Math.max(4.6, maxD + 2.6);
+  const imp = new Map(finalAlive.map((s, i) => [s, spec.importance[i]]));
+  const impMax = Math.max(1e-6, ...spec.importance);
+  const centre = finalAlive.reduce((a, s) => [a[0] + pos[s][0] / finalAlive.length, a[1] + pos[s][1] / finalAlive.length], [0, 0]);
+
+  const stage = el("div", { class: "stage" });
+  const canvas = el("canvas", { role: "img", "aria-label": `${spec.title}: animated tissue` });
+  stage.append(canvas);
+  const status = el("div", { class: "status", "aria-live": "polite" });
+  const modes = el("div", { class: "seg", role: "group", "aria-label": "What to show" });
+  const playBtn = el("button", { class: "play", type: "button", text: "Play" });
+  const slider = el("input", { type: "range", min: "0", max: "1", value: "0", id: `${spec.id}-${opts.tag || "v"}-tick`, "aria-label": "Tick" });
+  const msgBox = el("input", { type: "checkbox", id: `${spec.id}-${opts.tag || "v"}-msgs` }); msgBox.checked = true;
+  const impBox = el("input", { type: "checkbox", id: `${spec.id}-${opts.tag || "v"}-imp` });
+  const controls = el("div", { class: "controls" }, [playBtn, slider,
+    el("label", { class: "toggle", for: msgBox.id }, [msgBox, "messages on"]),
+    el("label", { class: "toggle", for: impBox.id }, [impBox, "cells it needs"])]);
+  const rasterWrap = el("div", { class: "raster" });
+  const raster = el("canvas", { role: "img", "aria-label": "Spike raster" });
+  const rasterAxis = el("div", { class: "axis" }, [el("span", { text: "rows: cells, target side on top" }), el("span", { text: "ticks →" })]);
+  rasterWrap.append(raster, rasterAxis);
+  const caption = el("p", { class: "trial-caption" });
+  host.append(el("div", { class: "viewer" }, [modes, caption, stage, controls, status, opts.noRaster ? null : rasterWrap]));
+
+  const views = [{ label: "Growth", kind: "growth" }, ...spec.trials.map((t, i) => ({ label: t.label, kind: "trial", i }))];
+  let view = 1, tick = 0, playing = false, timer = null;
+  const buttons = views.map((v, k) => {
+    const b = el("button", { type: "button", text: v.kind === "growth" ? "Growth" : `Trial ${v.i + 1}`, title: v.label, "aria-pressed": String(k === view) });
+    b.addEventListener("click", () => { setView(k); }); modes.append(b); return b;
+  });
+
+  function frames() { return views[view].kind === "growth" ? spec.growth.length : spec.trials[views[view].i].T }
+  function setView(k) {
+    view = k; buttons.forEach((b, j) => b.setAttribute("aria-pressed", String(j === k)));
+    caption.textContent = views[k].kind === "growth" ? "Growth from a single cell, one division round per frame." : views[k].label;
+    slider.max = String(frames() - 1);
+    tick = views[k].kind === "growth" ? frames() - 1 : defaultTick(spec.trials[views[k].i]);
+    slider.value = String(tick); draw();
+  }
+  function defaultTick(t) { // a resting frame worth looking at: the busiest tick inside the scoring window
+    let best = 0, bestN = -1; const sp = t.spikes;
+    t.window.forEach((w, k) => { if (w && sp[k].length > bestN) { bestN = sp[k].length; best = k } });
+    return bestN > 0 ? best : Math.max(0, t.window.indexOf(1));
+  }
+  function poly(ctx, x, y, s, scale) {
+    ctx.beginPath();
+    if (hex) { const r = scale / Math.sqrt(3); for (let k = 0; k < 6; k++) { const a = Math.PI / 6 + k * Math.PI / 3; const px = x + r * Math.cos(a), py = y + r * Math.sin(a); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py) } }
+    else { const h = scale / 2; ctx.rect(x - h, y - h, 2 * h, 2 * h) }
+    ctx.closePath();
+  }
+  function arrow(ctx, x0, y0, x1, y1, color, dashed) {
+    ctx.save(); ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2.5; if (dashed) ctx.setLineDash([6, 5]);
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke(); ctx.setLineDash([]);
+    const a = Math.atan2(y1 - y0, x1 - x0), h = 9;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - h * Math.cos(a - 0.45), y1 - h * Math.sin(a - 0.45)); ctx.lineTo(x1 - h * Math.cos(a + 0.45), y1 - h * Math.sin(a + 0.45)); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+  function draw() {
+    const W = Math.round(canvas.clientWidth || 480), dpr = window.devicePixelRatio || 1;
+    if (canvas.width !== W * dpr) { canvas.width = W * dpr; canvas.height = W * dpr }
+    const ctx = canvas.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const scale = W / (2 * R), X = (x) => W / 2 + x * scale, Y = (y) => W / 2 - y * scale;
+    ctx.fillStyle = css("--surface"); ctx.fillRect(0, 0, W, W);
+    const v = views[view], growth = v.kind === "growth";
+    const t = growth ? null : spec.trials[v.i];
+    const alive = growth ? new Map(spec.growth[tick].alive.map((s, i) => [s, spec.growth[tick].types[i]])) : typeOf;
+    const useMsgs = msgBox.checked;
+    const firing = new Set(growth ? [] : (useMsgs ? t.spikes : t.spikesNoMsg)[tick]);
+    const light = growth ? null : t.light[tick], cue = growth ? null : t.cue[tick];
+    const site = css("--site"), lit = css("--site-lit"), spike = css("--spike"), cueC = css("--cue"), surf = css("--surface");
+    for (let s = 0; s < pos.length; s++) {
+      const [x, y] = pos[s]; if (Math.abs(x) > R + 1 || Math.abs(y) > R + 1) continue;
+      poly(ctx, X(x), Y(y), s, scale);
+      const L = light ? +light[s] / 9 : 0;
+      ctx.fillStyle = site; ctx.fill();
+      if (L > 0) { ctx.globalAlpha = Math.min(1, 0.2 + 0.8 * L); ctx.fillStyle = lit; ctx.fill(); ctx.globalAlpha = 1 }
+      ctx.strokeStyle = surf; ctx.lineWidth = 1; ctx.stroke();
+    }
+    for (const [s, ty] of alive) {
+      const [x, y] = pos[s];
+      poly(ctx, X(x), Y(y), s, scale * 0.86);
+      const col = colorOf(ty);
+      if (firing.has(s)) { ctx.fillStyle = spike; ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = Math.max(2, scale * 0.12); ctx.stroke() }
+      else { ctx.fillStyle = col; ctx.fill() }
+      if (impBox.checked && !growth) {
+        const a = Math.max(0, imp.get(s) || 0) / impMax;
+        if (a > 0.02) { poly(ctx, X(x), Y(y), s, scale * 0.98); ctx.strokeStyle = css("--loss"); ctx.globalAlpha = 0.25 + 0.75 * a; ctx.lineWidth = 1 + 3.5 * a; ctx.stroke(); ctx.globalAlpha = 1 }
+      }
+    }
+    let cueCount = 0; if (cue) for (let s = 0; s < pos.length; s++) if (+cue[s] > 0) cueCount++;
+    const goSignal = cueCount > pos.length * 0.8; // a uniform cue is the 'go' signal: frame the whole view instead
+    if (goSignal) { ctx.save(); ctx.setLineDash([12, 7]); ctx.strokeStyle = cueC; ctx.lineWidth = 6; ctx.strokeRect(3, 3, W - 6, W - 6); ctx.restore() }
+    else if (cue) for (let s = 0; s < pos.length; s++) {
+      if (+cue[s] === 0) continue; const [x, y] = pos[s]; if (Math.abs(x) > R + 1 || Math.abs(y) > R + 1) continue;
+      ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = cueC; ctx.lineWidth = 2; poly(ctx, X(x), Y(y), s, scale * 0.98); ctx.stroke(); ctx.restore();
+    }
+    let note = "";
+    if (growth) {
+      note = `<b>growth step ${tick + 1}</b> of ${spec.growth.length} · ${spec.growth[tick].alive.length} cells`;
+    } else {
+      const L = R * 0.82;
+      arrow(ctx, X(centre[0]), Y(centre[1]), X(centre[0] + t.target[0] * L), Y(centre[1] + t.target[1] * L), css("--ink"), true);
+      let ax = 0, ay = 0, den = 0;
+      const sp = useMsgs ? t.spikes : t.spikesNoMsg;
+      for (let k = 0; k <= tick; k++) if (t.window[k]) for (const s of sp[k]) {
+        const dx = pos[s][0] - centre[0], dy = pos[s][1] - centre[1]; ax += dx; ay += dy; den += Math.hypot(dx, dy);
+      }
+      if (den > 0) arrow(ctx, X(centre[0]), Y(centre[1]), X(centre[0] + ax / den * L), Y(centre[1] + ay / den * L), css("--accent"), false);
+      const inWin = t.window[tick] ? "scoring window" : (t.window.slice(0, tick).includes(1) ? "after the window" : "before scoring");
+      note = `<b>tick ${tick}</b> of ${t.T - 1} · ${inWin}${goSignal ? " · go signal on" : (cueCount ? " · cue on" : "")} · ${firing.size} firing · trial score <b>${fmt(useMsgs ? t.score : t.scoreNoMsg)}</b>${useMsgs ? ` (messages off: ${fmt(t.scoreNoMsg)})` : " with messages off"}`;
+    }
+    status.innerHTML = note;
+    if (!opts.noRaster) drawRaster();
+  }
+  function drawRaster() {
+    const v = views[view];
+    if (v.kind === "growth") { rasterWrap.hidden = true; return } rasterWrap.hidden = false;
+    const t = spec.trials[v.i], sp = msgBox.checked ? t.spikes : t.spikesNoMsg;
+    const rows = [...finalAlive].sort((a, b) => ((pos[b][0] - centre[0]) * t.target[0] + (pos[b][1] - centre[1]) * t.target[1]) - ((pos[a][0] - centre[0]) * t.target[0] + (pos[a][1] - centre[1]) * t.target[1]));
+    const rowOf = new Map(rows.map((s, i) => [s, i]));
+    const W = Math.round(raster.clientWidth || 480), dpr = window.devicePixelRatio || 1;
+    const rh = Math.max(2, Math.min(9, Math.floor(180 / rows.length))), H = rows.length * rh + 2;
+    raster.style.height = H + "px";
+    if (raster.width !== W * dpr || raster.height !== H * dpr) { raster.width = W * dpr; raster.height = H * dpr }
+    const ctx = raster.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = css("--surface"); ctx.fillRect(0, 0, W, H);
+    const cw = W / t.T;
+    ctx.fillStyle = css("--site"); t.window.forEach((w, k) => { if (w) ctx.fillRect(k * cw, 0, cw, H) });
+    sp.forEach((list, k) => { for (const s of list) { const r = rowOf.get(s); if (r == null) continue; ctx.fillStyle = colorOf(typeOf.get(s)); ctx.fillRect(k * cw + 1, r * rh + 1, Math.max(1, cw - 2), Math.max(1, rh - 1)) } });
+    ctx.fillStyle = css("--ink"); ctx.fillRect(tick * cw + cw / 2 - 1, 0, 2, H);
+  }
+  function step() {
+    const n = frames();
+    if (tick >= n - 1) { // growth hands over to the first trial; trials loop
+      if (views[view].kind === "growth" && views.length > 1) { setView(1); tick = 0 } else tick = 0;
+    } else tick++;
+    slider.value = String(tick); draw();
+  }
+  function setPlaying(on) {
+    playing = on; playBtn.textContent = on ? "Pause" : "Play";
+    clearInterval(timer); if (on) timer = setInterval(step, views[view].kind === "growth" ? 170 : 230);
+  }
+  playBtn.addEventListener("click", () => setPlaying(!playing));
+  slider.addEventListener("input", () => { tick = +slider.value; draw() });
+  msgBox.addEventListener("change", draw); impBox.addEventListener("change", draw);
+  new ResizeObserver(() => draw()).observe(canvas);
+  setView(1);
+  if (opts.autoplay && !reduceMotion) {
+    const io = new IntersectionObserver((es) => { for (const e of es) { if (e.isIntersecting && !playing) { setView(0); tick = 0; slider.value = "0"; setPlaying(true) } else if (!e.isIntersecting && playing) setPlaying(false) } }, { threshold: 0.4 });
+    io.observe(canvas);
+  }
+  return { letter, colorOf, typeIdx };
+}
+
+/* ---------- specimen sections ---------- */
+function chip(k, v, zeroBad, count) {
+  const val = typeof v === "number" ? (count ? String(v) : fmt(v)) : v;
+  return el("div", { class: "chip" }, [el("span", { class: "k", text: k }), el("span", { class: "v" + (zeroBad && typeof v === "number" && Math.abs(v) < 0.05 ? " zero" : ""), text: val })]);
+}
+function rulesTable(spec, vw) {
+  const head = ["type", "cells", "hears channel 1 / 2", "light gain", "cue gain", "bias", "leak per tick", "rest after spike", "sends on"];
+  const rows = spec.rules.map((r) => el("tr", {}, [
+    el("td", {}, [el("span", { class: "key" }, [el("span", { class: "sw hex", style: `background:${vw.colorOf(r.type)}` }), `type ${vw.letter(r.type)}`])]),
+    el("td", { class: "num", text: String(r.count) }),
+    el("td", { class: "num", text: `${fmt(r.w[0], 3)} / ${fmt(r.w[1], 3)}` }),
+    el("td", { class: "num", text: fmt(r.gains[0], 3) }), el("td", { class: "num", text: fmt(r.gains[1], 3) }),
+    el("td", { class: "num", text: fmt(r.bias, 3) }), el("td", { class: "num", text: `1/${Math.round(1 / r.leak)}` }),
+    el("td", { class: "num", text: `${r.refr} tick${r.refr === 1 ? "" : "s"}` }),
+    el("td", { class: "num", text: r.emit.map((e, i) => (e ? `ch ${i + 1}` : null)).filter(Boolean).join(", ") || "nothing" })]));
+  return el("div", { class: "tbl-wrap" }, [el("table", {}, [el("thead", {}, [el("tr", {}, head.map((h) => el("th", { text: h })))]), el("tbody", {}, rows)])]);
+}
+function specimenSection(spec, info, idx) {
+  const sec = el("section", { class: "specimen", id: spec.id });
+  sec.append(el("div", { class: "spec-head" }, [
+    el("div", { class: "eyebrow", text: `specimen ${idx + 1} · ${info.taskLabel} · ${spec.lattice.kind} lattice · ${spec.stats.cells} cells` }),
+    el("h2", { text: info.title }), el("p", { class: "headline", text: info.headline })]));
+  const grid = el("div", { class: "spec-grid" });
+  const left = el("div", { style: "min-width:0" }), right = el("div", { class: "notes" });
+  grid.append(left, right); sec.append(grid);
+  const vw = makeViewer(spec, left, { tag: "s" });
+  const st = spec.stats;
+  right.append(el("p", { class: "eyebrow", text: info.taskLine }));
+  right.append(el("p", { class: "mech", text: info.mechanism }));
+  right.append(el("div", { class: "chips" }, [chip("held-out score", st.heldout), chip("messages off", st.noMessages, true),
+    chip("types shuffled", st.shuffledTypes, true), chip("all one type", st.oneType, true), chip("cells", st.cells, false, true), chip("cell types", st.types, false, true)]));
+  right.append(rulesTable(spec, vw));
+  const det = el("details", {}, [el("summary", { text: "How this was checked" }), el("p", { class: "evidence", text: info.evidence })]);
+  if (info.caveats) det.append(el("p", { class: "evidence caveat", text: "Caveats: " + info.caveats }));
+  right.append(det);
+  return sec;
+}
+
+/* ---------- charts (hand-built SVG, one scale per chart) ---------- */
+const SVGNS = "http://www.w3.org/2000/svg";
+const sv = (tag, attrs = {}) => { const n = document.createElementNS(SVGNS, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); return n };
+function tipFor(box) { const t = el("div", { class: "tip" }); t.hidden = true; box.append(t); return (html, x, y) => { if (html == null) { t.hidden = true; return } t.innerHTML = html; t.style.left = x + "px"; t.style.top = y + "px"; t.hidden = false } }
+function groupedChart(host, cfg) {
+  // cfg: {groups:[name], series:[{key,label,color}], value(g,s)->{median, seeds[]}|null, yMax, yLabel}
+  const box = el("div", { class: "chart" }); host.append(box);
+  const W = 860, H = 300, m = { l: 46, r: 12, t: 14, b: 54 };
+  const svg = sv("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": cfg.aria });
+  box.append(svg); const tip = tipFor(box);
+  const yMin = cfg.yMin ?? 0, yMax = cfg.yMax ?? 1;
+  const y = (v) => m.t + (H - m.t - m.b) * (1 - (v - yMin) / (yMax - yMin));
+  const gW = (W - m.l - m.r) / cfg.groups.length, bw = Math.min(26, (gW - 24) / cfg.series.length - 4);
+  const grid = sv("g", { class: "grid" }), ticks = sv("g", { class: "tick" });
+  for (let v = yMin; v <= yMax + 1e-9; v += cfg.step ?? 0.25) { grid.append(sv("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) })); const tx = sv("text", { x: m.l - 6, y: y(v) + 3, "text-anchor": "end" }); tx.textContent = v.toFixed(2); ticks.append(tx) }
+  svg.append(grid, ticks);
+  svg.append(sv("line", { class: "base", x1: m.l, x2: W - m.r, y1: y(Math.max(0, yMin)), y2: y(Math.max(0, yMin)) }));
+  cfg.groups.forEach((g, gi) => {
+    const gx = m.l + gi * gW + 12;
+    const lab = sv("text", { x: gx + (gW - 24) / 2, y: H - m.b + 18, "text-anchor": "middle" }); lab.textContent = cfg.groupLabel ? cfg.groupLabel(g) : g; svg.append(lab);
+    cfg.series.forEach((s, si) => {
+      const d = cfg.value(g, s.key); const bx = gx + si * (bw + 4);
+      if (!d) { const na = sv("text", { x: bx + bw / 2, y: y(Math.max(0, yMin)) - 4, "text-anchor": "middle" }); na.textContent = "n/a"; na.setAttribute("style", "fill:var(--muted);font-size:9px"); svg.append(na); return }
+      const v = d.median, y0 = y(Math.max(0, yMin)), y1 = y(Math.max(yMin, v));
+      const r = Math.min(4, bw / 2), top = Math.min(y0, y1), h = Math.max(1.5, Math.abs(y0 - y1));
+      const path = v >= 0 ? `M${bx},${y0} V${top + r} Q${bx},${top} ${bx + r},${top} H${bx + bw - r} Q${bx + bw},${top} ${bx + bw},${top + r} V${y0} Z` : `M${bx},${y0} H${bx + bw} V${y0 + h} H${bx} Z`;
+      const bar = sv("path", { d: path, fill: s.color, "fill-opacity": "0.85" }); svg.append(bar);
+      (d.seeds || []).forEach((sd) => svg.append(sv("circle", { cx: bx + bw / 2, cy: y(Math.max(yMin, Math.min(yMax, sd))), r: 3.2, fill: "var(--surface)", stroke: "var(--ink)", "stroke-width": 1.2 })));
+      const hit = sv("rect", { x: bx - 2, y: m.t, width: bw + 4, height: H - m.t - m.b, fill: "transparent" });
+      hit.addEventListener("mousemove", (ev) => { const r0 = box.getBoundingClientRect(); tip(`<b>${s.label}</b> · ${cfg.groupLabel ? cfg.groupLabel(g) : g}<br>median ${fmt(v)}${d.seeds ? ` · seeds ${d.seeds.map((x) => fmt(x)).join(", ")}` : ""}`, ev.clientX - r0.left, ev.clientY - r0.top) });
+      hit.addEventListener("mouseleave", () => tip(null)); svg.append(hit);
+    });
+  });
+  const leg = el("div", { class: "legend-row" }, cfg.series.map((s) => el("span", { class: "key" }, [el("span", { class: "sw", style: `background:${s.color}` }), s.label])));
+  host.append(leg);
+  const tbl = el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "" }), ...cfg.series.map((s) => el("th", { text: s.label }))])]),
+    el("tbody", {}, cfg.groups.map((g) => el("tr", {}, [el("td", { text: cfg.groupLabel ? cfg.groupLabel(g) : g }), ...cfg.series.map((s) => { const d = cfg.value(g, s.key); return el("td", { class: "num", text: d ? `${fmt(d.median)}${d.seeds ? `  (${d.seeds.map((x) => fmt(x)).join(", ")})` : ""}` : "n/a" }) })])))]);
+  host.append(el("details", {}, [el("summary", { text: "Show the numbers" }), el("div", { class: "tbl-wrap" }, [tbl])]));
+}
+function lineChart(host, cfg) {
+  // cfg: {title, lines:[{label, color, pts:[[x,y]], marks:[[x,label]]}], xMax}
+  const box = el("div", { class: "chart" }); host.append(box);
+  const W = 520, H = 260, m = { l: 40, r: 10, t: 12, b: 34 };
+  const svg = sv("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": cfg.aria }); box.append(svg); const tip = tipFor(box);
+  const x = (v) => m.l + (W - m.l - m.r) * v / cfg.xMax, y = (v) => m.t + (H - m.t - m.b) * (1 - (v - cfg.yMin) / (cfg.yMax - cfg.yMin));
+  const grid = sv("g", { class: "grid" }), ticks = sv("g", { class: "tick" });
+  for (let v = cfg.yMin; v <= cfg.yMax + 1e-9; v += 0.25) { grid.append(sv("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) })); const t = sv("text", { x: m.l - 6, y: y(v) + 3, "text-anchor": "end" }); t.textContent = v.toFixed(2); ticks.append(t) }
+  for (let v = 0; v <= cfg.xMax; v += cfg.xStep) { const t = sv("text", { x: x(v), y: H - m.b + 14, "text-anchor": "middle" }); t.textContent = String(v); ticks.append(t) }
+  const xl = sv("text", { x: (W + m.l) / 2, y: H - 4, "text-anchor": "middle" }); xl.textContent = "generation"; svg.append(grid, ticks, xl);
+  if (cfg.threshold != null) svg.append(sv("line", { x1: m.l, x2: W - m.r, y1: y(cfg.threshold), y2: y(cfg.threshold), stroke: "var(--muted)", "stroke-dasharray": "4 4" }));
+  for (const L of cfg.lines) {
+    svg.append(sv("polyline", { points: L.pts.map(([a, b]) => `${x(a)},${y(b)}`).join(" "), fill: "none", stroke: L.color, "stroke-width": 2, "stroke-linejoin": "round" }));
+    for (const [g, lab] of L.marks || []) { const p = L.pts.find((q) => q[0] >= g) || L.pts[L.pts.length - 1]; svg.append(sv("circle", { cx: x(p[0]), cy: y(p[1]), r: 4.5, fill: L.color, stroke: "var(--surface)", "stroke-width": 2 })) }
+  }
+  const hit = sv("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" });
+  const cross = sv("line", { y1: m.t, y2: H - m.b, stroke: "var(--muted)", "stroke-width": 1, visibility: "hidden" }); svg.append(cross, hit);
+  hit.addEventListener("mousemove", (ev) => {
+    const r0 = svg.getBoundingClientRect(), gx = (ev.clientX - r0.left) / r0.width * W, gen = Math.max(0, Math.min(cfg.xMax, (gx - m.l) / (W - m.l - m.r) * cfg.xMax));
+    cross.setAttribute("x1", x(gen)); cross.setAttribute("x2", x(gen)); cross.setAttribute("visibility", "visible");
+    const rows = cfg.lines.map((L) => { let best = L.pts[0]; for (const p of L.pts) if (Math.abs(p[0] - gen) < Math.abs(best[0] - gen)) best = p; return `${L.label}: ${fmt(best[1])}${best[2] ? ` (${best[2]})` : ""}` });
+    const rb = box.getBoundingClientRect(); tip(`<b>gen ${Math.round(gen)}</b><br>${rows.join("<br>")}`, ev.clientX - rb.left, ev.clientY - rb.top);
+  });
+  hit.addEventListener("mouseleave", () => { tip(null); cross.setAttribute("visibility", "hidden") });
+  host.append(el("div", { class: "legend-row" }, cfg.lines.map((L) => el("span", { class: "key" }, [el("span", { class: "sw", style: `background:${L.color}` }), L.label]))));
+}
+
+/* ---------- part 1: one continuous life ---------- */
+const S32 = Math.sqrt(3) / 2;
+const planar = (a, b) => [a + b / 2, b * S32];
+const PLANE_VAR = ["--t0", "--t1", "--t2"];
+const PLANE_NAME = ["touch the screen", "pull the body", "hidden"];
+const INNER = new Set(["J", "I"]), CENTRE = new Set(["C", "K"]);
+const FLASH = 1.2; // a spike stays lit this many time units, fading
+const hexRing = (a, b) => Math.max(Math.abs(a), Math.abs(b), Math.abs(a + b));
+const lowerBound = (arr, x) => { let lo = 0, hi = arr.length; while (lo < hi) { const m = (lo + hi) >> 1; if (arr[m] < x) lo = m + 1; else hi = m } return lo };
+function hexPath(ctx, x, y, size) {
+  const r = size / Math.sqrt(3); ctx.beginPath();
+  for (let k = 0; k < 6; k++) { const a = Math.PI / 6 + k * Math.PI / 3; const px = x + r * Math.cos(a), py = y + r * Math.sin(a); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py) }
+  ctx.closePath();
+}
+const lifePrep = new Map();
+function prepLife(L) {
+  if (lifePrep.has(L)) return lifePrep.get(L);
+  const n = L.cells.length, idx = new Map(L.cells.map((r, i) => [r[0], i]));
+  const pos = L.cells.map((r) => planar(r[1], r[2]));
+  const plane = L.cells.map((r) => Math.min(2, r[3]));
+  const born = L.cells.map((r) => r[5]), died = L.cells.map((r) => (r[6] < 0 ? Infinity : r[6]));
+  const st = Float64Array.from(L.spikes.t), sc = Int32Array.from(L.spikes.c, (c) => idx.get(c));
+  const order = L.cells.map((_, i) => i).sort((i, j) => L.cells[i][3] - L.cells[j][3] || hexRing(L.cells[i][1], L.cells[i][2]) - hexRing(L.cells[j][1], L.cells[j][2])
+    || Math.atan2(pos[i][1], pos[i][0]) - Math.atan2(pos[j][1], pos[j][0]));
+  const rowOf = new Int32Array(n); order.forEach((i, r) => { rowOf[i] = r });
+  const maxR = Math.max(2.5, ...pos.map((p) => Math.hypot(p[0], p[1])));
+  const maxRing = Math.max(3, ...L.cells.map((r) => hexRing(r[1], r[2])));
+  const sites = []; for (let a = -maxRing - 1; a <= maxRing + 1; a++) for (let b = -maxRing - 1; b <= maxRing + 1; b++) if (hexRing(a, b) <= maxRing + 1) sites.push(planar(a, b));
+  const clicks = L.clicks.map((c) => ({ t: c[0], ok: c[1] === "capture" }));
+  const P = { n, pos, plane, born, died, st, sc, rowOf, maxR, maxRing, sites, clicks, z: L.cells.map((r) => r[3]), cls: L.cells.map((r) => r[4]) };
+  lifePrep.set(L, P); return P;
+}
+function litCells(P, t) { // cell index -> brightness of its latest spike within FLASH
+  const lit = new Map(), i0 = lowerBound(P.st, t - FLASH), i1 = lowerBound(P.st, t + 1e-9);
+  for (let i = i0; i < i1; i++) lit.set(P.sc[i], 1 - (t - P.st[i]) / FLASH);
+  return lit;
+}
+function fillCell(ctx, P, i, x, y, size, glow) {
+  const col = css(PLANE_VAR[P.plane[i]]);
+  hexPath(ctx, x, y, size);
+  if (glow > 0) {
+    ctx.fillStyle = col; ctx.fill();
+    ctx.globalAlpha = 0.35 + 0.65 * glow; ctx.fillStyle = css("--spike"); ctx.fill(); ctx.globalAlpha = 1;
+  } else { ctx.globalAlpha = INNER.has(P.cls[i]) ? 0.5 : 1; ctx.fillStyle = col; ctx.fill(); ctx.globalAlpha = 1 }
+  if (CENTRE.has(P.cls[i])) { ctx.strokeStyle = css("--ink"); ctx.lineWidth = Math.max(1.5, size * 0.12); ctx.stroke() }
+}
+const alive = (P, i, t) => P.born[i] <= t && t < P.died[i];
+function dotAt(L, t) {
+  const k = Math.max(0, Math.min(L.T - 1, Math.floor(t))), k1 = Math.min(L.T - 1, k + 1), f = Math.max(0, Math.min(1, t - k));
+  return [L.traj.X[k] + (L.traj.X[k1] - L.traj.X[k]) * f, L.traj.Y[k] + (L.traj.Y[k1] - L.traj.Y[k]) * f, L.traj.tx[k], L.traj.ty[k]];
+}
+function drawWorld(canvas, L, P, t, lit) {
+  const W = Math.round(canvas.clientWidth || 360), dpr = window.devicePixelRatio || 1;
+  if (canvas.width !== W * dpr) { canvas.width = W * dpr; canvas.height = W * dpr }
+  const ctx = canvas.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const [X, Y, tx, ty] = dotAt(L, t);
+  const Rv = Math.max(7.5, P.maxR + 3.2), s = W / (2 * Rv);
+  const sx = (x) => W / 2 + (x - X) * s, sy = (y) => W / 2 - (y - Y) * s;
+  ctx.fillStyle = css("--surface"); ctx.fillRect(0, 0, W, W);
+  ctx.strokeStyle = css("--rule"); ctx.lineWidth = 1; ctx.beginPath();
+  for (let g = Math.ceil((X - Rv) / 2) * 2; g <= X + Rv; g += 2) { ctx.moveTo(sx(g), 0); ctx.lineTo(sx(g), W) }
+  for (let g = Math.ceil((Y - Rv) / 2) * 2; g <= Y + Rv; g += 2) { ctx.moveTo(0, sy(g)); ctx.lineTo(W, sy(g)) }
+  ctx.stroke();
+  const k = Math.max(0, Math.min(L.T - 1, Math.floor(t))), k0 = Math.max(0, k - 120);
+  ctx.beginPath(); ctx.moveTo(sx(L.traj.X[k0]), sy(L.traj.Y[k0]));
+  for (let j = k0 + 1; j <= k; j++) ctx.lineTo(sx(L.traj.X[j]), sy(L.traj.Y[j]));
+  ctx.lineTo(W / 2, W / 2); ctx.strokeStyle = css("--muted"); ctx.lineWidth = 1.5; ctx.stroke();
+  const acc = css("--accent"), gx = sx(tx), gy = sy(ty);
+  ctx.fillStyle = acc;
+  ctx.globalAlpha = 0.1; ctx.beginPath(); ctx.arc(gx, gy, 2 * L.sigma * s, 0, 2 * Math.PI); ctx.fill();
+  ctx.globalAlpha = 0.22; ctx.beginPath(); ctx.arc(gx, gy, L.sigma * s, 0, 2 * Math.PI); ctx.fill();
+  ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(gx, gy, Math.max(3, 0.14 * s), 0, 2 * Math.PI); ctx.fill();
+  for (let i = 0; i < P.n; i++) {
+    if (P.z[i] !== 0 || !alive(P, i, t)) continue;
+    fillCell(ctx, P, i, sx(X + P.pos[i][0]), sy(Y + P.pos[i][1]), s * 0.94, lit.get(i) || 0);
+  }
+  ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = css("--ink"); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(W / 2, W / 2, L.rho * s, 0, 2 * Math.PI); ctx.stroke(); ctx.restore();
+  for (const c of P.clicks) {
+    const age = t - c.t; if (age < 0 || age > 8) continue;
+    const kk = Math.max(0, Math.min(L.T - 1, Math.floor(c.t))), cx = sx(L.traj.X[kk]), cy = sy(L.traj.Y[kk]);
+    ctx.globalAlpha = Math.max(0, 1 - age / 8); ctx.lineWidth = 3;
+    if (c.ok) { ctx.strokeStyle = acc; ctx.beginPath(); ctx.arc(cx, cy, (0.6 + age * 0.35) * s, 0, 2 * Math.PI); ctx.stroke() }
+    else { const h = 0.45 * s; ctx.strokeStyle = css("--loss"); ctx.beginPath(); ctx.moveTo(cx - h, cy - h); ctx.lineTo(cx + h, cy + h); ctx.moveTo(cx + h, cy - h); ctx.lineTo(cx - h, cy + h); ctx.stroke() }
+    ctx.globalAlpha = 1;
+  }
+  return Math.hypot(tx - X, ty - Y);
+}
+function drawTissue(canvas, P, t, lit) {
+  const W = Math.round(canvas.clientWidth || 420), H = Math.round(W * 1.25 / 3), dpr = window.devicePixelRatio || 1;
+  if (canvas.width !== W * dpr || canvas.height !== H * dpr) { canvas.width = W * dpr; canvas.height = H * dpr }
+  const ctx = canvas.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = css("--surface"); ctx.fillRect(0, 0, W, H);
+  const pw = W / 3, labelH = 30, R = Math.max(3.2, P.maxR + 0.8), s = Math.min(pw - 6, H - labelH - 6) / (2 * R);
+  const counts = [0, 0, 0];
+  for (let i = 0; i < P.n; i++) if (alive(P, i, t)) counts[P.plane[i]]++;
+  for (let p = 0; p < 3; p++) {
+    const cx = pw * (p + 0.5), cy = (H - labelH) / 2 + 3;
+    ctx.fillStyle = css("--site");
+    for (const [x, y] of P.sites) { hexPath(ctx, cx + x * s, cy - y * s, s * 0.9); ctx.fill() }
+    const zs = p < 2 ? [p] : [2, 3];
+    for (const zz of zs) for (let i = 0; i < P.n; i++) {
+      if (P.z[i] !== zz || !alive(P, i, t)) continue;
+      const grow = Math.min(1, 0.35 + (t - P.born[i]) / 3);
+      fillCell(ctx, P, i, cx + P.pos[i][0] * s, cy - P.pos[i][1] * s, s * 0.9 * grow * (zz === 3 ? 0.6 : 1), lit.get(i) || 0);
+    }
+    ctx.fillStyle = css("--ink-2"); ctx.font = `600 ${Math.max(10, Math.round(W / 46))}px ${css("--font-body")}`; ctx.textAlign = "center";
+    ctx.fillText(PLANE_NAME[p], cx, H - labelH + 12);
+    ctx.fillStyle = css("--muted"); ctx.font = `${Math.max(9, Math.round(W / 52))}px ${css("--font-data")}`;
+    ctx.fillText(`${counts[p]} cell${counts[p] === 1 ? "" : "s"}${p === 2 ? " (z 2–3)" : ` (z ${p})`}`, cx, H - labelH + 25);
+  }
+  return counts;
+}
+function makeLife(host, keys, opts = {}) {
+  const lives = keys.map((k) => DATA.body1.lives[k]);
+  let cur = 0, t = 0, playing = false, speed = 30, raf = 0, last = 0, tl = null;
+  const picker = keys.length > 1 ? el("div", { class: "picker", role: "group", "aria-label": "Body" }) : null;
+  const caption = el("p", { class: "trial-caption" });
+  const world = el("canvas", { role: "img", "aria-label": "The screen around the body: target halo, the dot's recent path, the cells touching the screen, catches and missed clicks" });
+  const tissue = el("canvas", { role: "img", "aria-label": "The body's cell layers, cells lit when they fire" });
+  const stages = el("div", { class: "life-stages" }, [el("div", { class: "stage life-world" }, [world]), el("div", { class: "stage life-tissue" }, [tissue])]);
+  const tlCanvas = el("canvas", { role: "img", "aria-label": "Whole life: every cell's spikes (rows), catches and missed clicks along the top" });
+  const timeline = el("div", { class: "timeline" }, [tlCanvas, el("div", { class: "axis" }, [el("span", { text: "rows: cells (screen layer, pulling layer, hidden), catches on top" }), el("span", { text: "time →" })])]);
+  const playBtn = el("button", { class: "play", type: "button", text: "Play" });
+  const birthBtn = el("button", { type: "button", text: "From the first cell" });
+  const speeds = [[30, "1×"], [120, "4×"]];
+  const speedBtns = speeds.map(([v, lab]) => { const b = el("button", { type: "button", text: lab, "aria-pressed": String(v === speed), title: `${v} time units per second` }); b.addEventListener("click", () => { speed = v; speedBtns.forEach((x, j) => x.setAttribute("aria-pressed", String(speeds[j][0] === v))) }); return b });
+  const slider = el("input", { type: "range", min: "0", max: "1023", step: "0.5", value: "0", id: `life-${opts.tag || "x"}-t`, "aria-label": "Time in the life" });
+  const status = el("div", { class: "status", "aria-live": "off" });
+  host.append(el("div", { class: "life" }, [picker, caption, stages, el("div", { class: "controls" }, [playBtn, birthBtn, ...speedBtns, slider]), status, timeline]));
+  const pickBtns = picker ? keys.map((k, i) => { const b = el("button", { type: "button", text: lives[i].short, title: lives[i].label, "aria-pressed": String(i === 0) }); b.addEventListener("click", () => setLife(i)); picker.append(b); return b }) : [];
+
+  function restT(L) { // a resting frame worth seeing: just after the first catch once the body has grown
+    const c = L.clicks.find((x) => x[1] === "capture" && x[0] > L.T * 0.35) || L.clicks.find((x) => x[1] === "capture");
+    return c ? Math.min(L.T - 1, c[0] + 0.6) : L.T / 2;
+  }
+  function setLife(i) {
+    cur = i; tl = null; pickBtns.forEach((b, j) => b.setAttribute("aria-pressed", String(j === i)));
+    const L = lives[i];
+    caption.textContent = `${L.label}. This life: score ${fmt(L.F)}, ${L.captures} catches, ${L.misses} missed clicks (median of 24 lives ${fmt(L.F_median24)}).`;
+    slider.max = String(L.T - 1); t = restT(L); slider.value = String(t); draw();
+  }
+  function buildTimeline(L, P, W) {
+    const dpr = window.devicePixelRatio || 1, band = 16, rh = Math.max(1, Math.min(3, Math.floor(190 / P.n))), H = band + P.n * rh + 4;
+    const c = document.createElement("canvas"); c.width = W * dpr; c.height = H * dpr;
+    const ctx = c.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = css("--surface"); ctx.fillRect(0, 0, W, H);
+    const xs = (tt) => tt / L.T * W, y0 = band + 2;
+    ctx.fillStyle = css("--site");
+    for (let i = 0; i < P.n; i++) { const a = xs(P.born[i]), b = xs(Math.min(L.T, P.died[i])); ctx.fillRect(a, y0 + P.rowOf[i] * rh, Math.max(1, b - a), Math.max(1, rh - (rh > 1 ? 1 : 0))) }
+    const cols = PLANE_VAR.map((v) => css(v));
+    for (let k = 0; k < P.st.length; k++) { const i = P.sc[k]; ctx.fillStyle = cols[P.plane[i]]; ctx.fillRect(xs(P.st[k]), y0 + P.rowOf[i] * rh, 1, Math.max(1, rh)) }
+    for (const cl of P.clicks) { ctx.fillStyle = cl.ok ? css("--accent") : css("--loss"); ctx.fillRect(xs(cl.t) - 0.75, cl.ok ? 1 : 7, 1.5, cl.ok ? band - 2 : band - 8) }
+    return { c, H, W };
+  }
+  function draw() {
+    const L = lives[cur], P = prepLife(L), lit = litCells(P, t);
+    const dist = drawWorld(world, L, P, t, lit), counts = drawTissue(tissue, P, t, lit);
+    const W = Math.round(tlCanvas.clientWidth || 600);
+    if (!tl || tl.W !== W) { tl = buildTimeline(L, P, W); tlCanvas.style.height = tl.H + "px" }
+    const dpr = window.devicePixelRatio || 1;
+    if (tlCanvas.width !== W * dpr || tlCanvas.height !== tl.H * dpr) { tlCanvas.width = W * dpr; tlCanvas.height = tl.H * dpr }
+    const ctx = tlCanvas.getContext("2d"); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(tl.c, 0, 0);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = css("--ink"); ctx.fillRect(t / L.T * W - 1, 0, 2, tl.H);
+    let caught = 0, missed = 0; for (const c of P.clicks) if (c.t <= t) { if (c.ok) caught++; else missed++ }
+    status.innerHTML = `<b>t ${t.toFixed(0)}</b> of ${L.T} · <b>${counts[0] + counts[1] + counts[2]}</b> cells · <b>${caught}</b> catches · ${missed} missed clicks · target ${dist.toFixed(1)} away`;
+  }
+  function frame(now) {
+    if (!playing) return;
+    const dt = Math.min(0.1, (now - last) / 1000); last = now;
+    t += dt * speed; const T = lives[cur].T;
+    if (t >= T - 1) t = 0;
+    slider.value = String(t); draw(); raf = requestAnimationFrame(frame);
+  }
+  function setPlaying(on) {
+    playing = on; playBtn.textContent = on ? "Pause" : "Play"; cancelAnimationFrame(raf);
+    if (on) { last = performance.now(); raf = requestAnimationFrame(frame) }
+  }
+  playBtn.addEventListener("click", () => { if (!playing && t >= lives[cur].T - 2) t = 0; setPlaying(!playing) });
+  slider.addEventListener("input", () => { t = +slider.value; draw() });
+  birthBtn.addEventListener("click", () => { t = 0; slider.value = "0"; draw(); setPlaying(true) });
+  const seek = (ev) => { const r = tlCanvas.getBoundingClientRect(); t = Math.max(0, Math.min(lives[cur].T - 1, (ev.clientX - r.left) / r.width * lives[cur].T)); slider.value = String(t); draw() };
+  tlCanvas.addEventListener("pointerdown", (ev) => { seek(ev); tlCanvas.setPointerCapture(ev.pointerId) });
+  tlCanvas.addEventListener("pointermove", (ev) => { if (ev.buttons) seek(ev) });
+  const redraw = () => { tl = null; draw() };
+  new ResizeObserver(() => draw()).observe(world);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+  new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  let started = false;
+  new IntersectionObserver((es) => {
+    for (const e of es) {
+      if (e.isIntersecting && opts.autoplay && !started && !reduceMotion) { started = true; setPlaying(true) }
+      else if (!e.isIntersecting && playing) setPlaying(false);
+    }
+  }, { threshold: 0.35 }).observe(world);
+  setLife(0);
+}
+
+function evoChart(host, cfg) {
+  // cfg: {aria, xMax, yMin, yMax, yStep, yFmt, threshold, groups:[{key,label,color}], lines:[{label, group, pts:[[x,y]]}]}
+  const box = el("div", { class: "chart evo" }); host.append(box);
+  const W = 560, H = 270, m = { l: 44, r: 12, t: 12, b: 34 };
+  const svg = sv("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": cfg.aria }); box.append(svg); const tip = tipFor(box);
+  const x = (v) => m.l + (W - m.l - m.r) * v / cfg.xMax, y = (v) => m.t + (H - m.t - m.b) * (1 - (v - cfg.yMin) / (cfg.yMax - cfg.yMin));
+  const grid = sv("g", { class: "grid" }), ticks = sv("g", { class: "tick" }), yf = cfg.yFmt || ((v) => String(v));
+  for (let v = cfg.yMin; v <= cfg.yMax + 1e-9; v += cfg.yStep) { grid.append(sv("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) })); const tt = sv("text", { x: m.l - 6, y: y(v) + 3, "text-anchor": "end" }); tt.textContent = yf(v); ticks.append(tt) }
+  for (let v = 0; v <= cfg.xMax; v += 100) { const tt = sv("text", { x: x(v), y: H - m.b + 14, "text-anchor": "middle" }); tt.textContent = String(v); ticks.append(tt) }
+  const xl = sv("text", { x: (W + m.l) / 2, y: H - 4, "text-anchor": "middle" }); xl.textContent = "generation"; svg.append(grid, ticks, xl);
+  if (cfg.yMin < 0) svg.append(sv("line", { class: "base", x1: m.l, x2: W - m.r, y1: y(0), y2: y(0) }));
+  if (cfg.threshold != null) svg.append(sv("line", { x1: m.l, x2: W - m.r, y1: y(cfg.threshold), y2: y(cfg.threshold), stroke: "var(--ink-2)", "stroke-dasharray": "5 4", "stroke-width": 1.2 }));
+  const colorOf = (g) => cfg.groups.find((q) => q.key === g).color;
+  for (const Ln of cfg.lines) {
+    svg.append(sv("polyline", { points: Ln.pts.map(([a, b]) => `${x(a)},${y(Math.max(cfg.yMin, Math.min(cfg.yMax, b)))}`).join(" "), fill: "none", stroke: colorOf(Ln.group), "stroke-width": 2, "stroke-linejoin": "round", "stroke-opacity": 0.9 }));
+    const e = Ln.pts[Ln.pts.length - 1];
+    svg.append(sv("circle", { cx: x(e[0]), cy: y(Math.max(cfg.yMin, Math.min(cfg.yMax, e[1]))), r: 3.5, fill: colorOf(Ln.group), stroke: "var(--surface)", "stroke-width": 2 }));
+  }
+  const cross = sv("line", { y1: m.t, y2: H - m.b, stroke: "var(--muted)", "stroke-width": 1, visibility: "hidden" });
+  const hit = sv("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }); svg.append(cross, hit);
+  hit.addEventListener("mousemove", (ev) => {
+    const r0 = svg.getBoundingClientRect(), gx = (ev.clientX - r0.left) / r0.width * W, gen = Math.max(0, Math.min(cfg.xMax, (gx - m.l) / (W - m.l - m.r) * cfg.xMax));
+    cross.setAttribute("x1", x(gen)); cross.setAttribute("x2", x(gen)); cross.setAttribute("visibility", "visible");
+    const rows = cfg.lines.map((Ln) => { let best = Ln.pts[0]; for (const p of Ln.pts) if (Math.abs(p[0] - gen) < Math.abs(best[0] - gen)) best = p; return [Ln, best[1]] }).sort((a, b) => b[1] - a[1]);
+    const rb = box.getBoundingClientRect();
+    tip(`<b>generation ${Math.round(gen)}</b><br>${rows.map(([Ln, v]) => `<span style="color:${colorOf(Ln.group)}">■</span> ${Ln.label}: ${yf(v)}`).join("<br>")}`, ev.clientX - rb.left, ev.clientY - rb.top);
+  });
+  hit.addEventListener("mouseleave", () => { tip(null); cross.setAttribute("visibility", "hidden") });
+  host.append(el("div", { class: "legend-row" }, [...cfg.groups.map((g) => el("span", { class: "key" }, [el("span", { class: "sw", style: `background:${g.color}` }), g.label])),
+    cfg.threshold != null ? el("span", { class: "key" }, [el("span", { class: "sw", style: "border-top:2px dashed var(--ink-2); height:0; width:16px; border-radius:0" }), cfg.thresholdLabel]) : null]));
+}
+function buildEvo(C) {
+  const host = document.getElementById("evo-charts");
+  const card = (id, eyebrow, title, sub) => { const c = el("div", { class: "chart-card", id }, [el("div", { class: "eyebrow", text: eyebrow }), el("h3", { text: title }), el("p", { class: "sub", text: sub })]); host.append(c); return c };
+  const range = (lines, step) => { let lo = Infinity, hi = -Infinity; for (const Ln of lines) for (const p of Ln.pts) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]) } return [Math.floor(lo / step) * step, Math.ceil(hi / step) * step] };
+  const groupsS = [{ key: "stops", label: "body stops growing in its life", color: "var(--s1)" }, { key: "grows", label: "still growing at the end of life", color: "var(--s2)" }];
+  const c1 = card("evolution", "speck task · 10 seeds · 500 generations", "The best speck bodies are the ones that learned to stop growing",
+    "Each line is one seed's best genome, scored every 10 generations on lives it never trained on (score per time unit: catch income minus costs). 7 of 10 seeds passed the +4 needed to count as skilled. The five whose final body stops growing within its life finished as the five best.");
+  const sm = el("div", { class: "small-multiples" }); c1.append(sm);
+  const fitLines = C.speck.map((r) => ({ label: r.label, group: r.group, pts: r.valid }));
+  const [a0, a1] = range(fitLines, 1);
+  const p1 = el("div", {}, [el("h3", { text: "Score on unseen lives" })]), p2 = el("div", {}, [el("h3", { text: "Cells in the best body (9-generation median)" })]); sm.append(p1, p2);
+  evoChart(p1, { aria: "Speck task: validation score of the best genome by generation, 10 seeds", xMax: 500, yMin: Math.min(0, a0), yMax: Math.max(8, a1), yStep: 1, yFmt: (v) => (v > 0 ? "+" : "") + v.toFixed(v % 1 ? 1 : 0), threshold: 4, thresholdLabel: "skill threshold +4", groups: groupsS, lines: fitLines });
+  const cellLines = C.speck.map((r) => ({ label: r.label, group: r.group, pts: r.cells }));
+  const [, b1] = range(cellLines, 50);
+  evoChart(p2, { aria: "Speck task: cells in the best genome's body by generation, 10 seeds", xMax: 500, yMin: 0, yMax: b1, yStep: 50, yFmt: (v) => v.toFixed(0), groups: groupsS, lines: cellLines });
+  const groupsV = [{ key: "grew", label: "grew a body", color: "var(--s3)" }, { key: "stuck", label: "stayed at 1–2 cells", color: "var(--s5)" }];
+  const c2 = card("evolution-v1", "original task · 10 seeds · 500 generations", "On the original task, growth got going in only 4 seeds of 10",
+    "A 2-cell clicker earns only +0.04 more than a lone cell on that task, which is within the noise of a single life, so most populations never found the first step to a bigger body. Dashed: the +2 needed to count as skilled.");
+  const vLines = C.v1.map((r) => ({ label: r.label, group: r.group, pts: r.valid }));
+  const [v0, v1] = range(vLines, 0.5);
+  const one = el("div", { style: "max-width:560px" }); c2.append(one);
+  evoChart(one, { aria: "Original task: validation score of the best genome by generation, 10 seeds", xMax: 500, yMin: Math.min(-0.5, v0), yMax: Math.max(3, v1), yStep: 0.5, yFmt: (v) => (v > 0 ? "+" : "") + v.toFixed(1), threshold: 2, thresholdLabel: "skill threshold +2", groups: groupsV, lines: vLines });
+}
+function bodySection(info, idx) {
+  const sec = el("section", { class: "specimen", id: info.id });
+  sec.append(el("div", { class: "spec-head" }, [el("div", { class: "eyebrow", text: info.eyebrow }), el("h2", { text: info.title }), el("p", { class: "headline", text: info.headline })]));
+  const grid = el("div", { class: "spec-grid" }), left = el("div", { style: "min-width:0" }), right = el("div", { class: "notes" });
+  grid.append(left, right); sec.append(grid);
+  makeLife(left, info.lives, { tag: info.id });
+  right.append(el("p", { class: "eyebrow", text: info.taskLine }));
+  right.append(el("p", { class: "mech", text: info.mechanism }));
+  right.append(el("div", { class: "chips" }, info.chips.map(([k, v, bad]) => el("div", { class: "chip" }, [el("span", { class: "k", text: k }), el("span", { class: "v" + (bad ? " zero" : ""), text: v })]))));
+  const det = el("details", {}, [el("summary", { text: "How this was checked" }), el("p", { class: "evidence", text: info.evidence })]);
+  if (info.caveats) det.append(el("p", { class: "evidence caveat", text: "Caveats: " + info.caveats }));
+  right.append(det);
+  return sec;
+}
+
+/* ---------- build ---------- */
+const toc = document.getElementById("toc"), specHost = document.getElementById("specimens");
+const B = DATA.body1;
+const tg1 = el("div", { class: "toc-group" }, [el("span", { class: "eyebrow", text: "part 1" })]);
+const tg2 = el("div", { class: "toc-group" }, [el("span", { class: "eyebrow", text: "part 2" })]);
+toc.append(tg1, tg2);
+tg1.append(el("a", { href: "#evolution", text: "Evolution" }));
+B.specimens.forEach((info, i) => { tg1.append(el("a", { href: `#${info.id}`, text: info.short })); document.getElementById("body-specimens").append(bodySection(info, i)) });
+DATA.specimens.forEach((item, i) => {
+  const spec = DATA.organisms[item.id];
+  tg2.append(el("a", { href: `#${item.id}`, text: item.short }));
+  specHost.append(specimenSection(spec, item, i));
+});
+tg2.append(el("a", { href: "#results", text: "Results" }));
+makeLife(document.getElementById("hero-viewer"), B.picker, { tag: "hero", autoplay: true });
+buildEvo(B.curves);
+buildCharts(DATA.charts);
+function buildCharts(C) {
+  const host = document.getElementById("charts");
+  const card = (eyebrow, title, sub) => { const c = el("div", { class: "chart-card" }, [el("div", { class: "eyebrow", text: eyebrow }), el("h3", { text: title }), el("p", { class: "sub", text: sub })]); host.append(c); return c };
+  const rungs = ["withdraw", "context", "jump", "memory"];
+  const pick = (d) => (d && typeof d === "object" && d.median != null ? { median: d.median, seeds: d.values } : null);
+
+  const nm = C.needs_messages, nmRow = (g) => nm.rows.find((r) => r.rung === g);
+  groupedChart(card("does it need messages?", "Every evolved solution stops working when cells can't hear their neighbours",
+    "Same bodies, same 48 unseen trials, tested with messages on and off. The third bar is evolution run with messages off from the start: it never finds anything that works."), {
+    aria: "Held-out score with messages on, the same bodies with messages off, and evolution with messages off, per task",
+    groups: rungs, series: [{ key: "messagesOn", label: "evolved, messages on", color: "var(--s1)" }, { key: "sameOrganismsMessagesOff", label: "same bodies, messages off", color: "var(--s2)" }, { key: "evolvedWithMessagesOff", label: "evolved with messages off", color: "var(--s3)" }],
+    value: (g, k) => pick(nmRow(g)[k]), yMin: -0.25, yMax: 1, step: 0.25 });
+
+  const bl = C.baselines, blRow = (g) => bl.rows.find((r) => r.rung === g);
+  groupedChart(card("is evolution worth it?", "Evolution clearly wins only where the grown layout matters",
+    "Each condition tested about 52,000 bodies. On context, evolution with 8 founders beats random search and a ready-made one-type disk; on withdraw random search does better, and on memory a plain disk is enough."), {
+    aria: "Held-out score by condition and task", groups: rungs,
+    series: [{ key: "evo8", label: "evolution, 8 founders", color: "var(--s1)" }, { key: "evo1", label: "evolution, 1 founder", color: "var(--s2)" }, { key: "random", label: "random search", color: "var(--s3)" }, { key: "fixed", label: "ready-made one-type disk", color: "var(--s4)" }, { key: "nomsg", label: "evolution, messages off", color: "var(--s5)" }],
+    value: (g, k) => pick(blRow(g)[k]), yMin: 0, yMax: 1, step: 0.25 });
+
+  const br = C.breeding;
+  groupedChart(card("cross-breeding", "Mixing two parents helps on context and jump, not everywhere",
+    "Each seed pair starts from the same founders; only the breeding switch differs. Crossover builds a child from whole pieces of two parents; mutation only copies one parent with small changes."), {
+    aria: "Held-out score with crossover versus mutation only", groups: br.pairs.map((p) => p.key),
+    groupLabel: (k) => { const p = br.pairs.find((q) => q.key === k); return `${p.rung} · ${p.lattice}` },
+    series: [{ key: "crossover", label: "crossover (two parents)", color: "var(--s1)" }, { key: "mutationOnly", label: "mutation only", color: "var(--s2)" }],
+    value: (k, s) => pick(br.pairs.find((p) => p.key === k)[s]), yMin: 0, yMax: 1, step: 0.25 });
+
+  const L = C.ladder, names = L.rungNames;
+  const c4 = card("chaining tasks", "The task ladder stalls at context",
+    "Each line is one run's score on whatever task it is currently on (dots mark a move to the next task, after which the score restarts on the harder task). The dashed line is the 0.7 needed to move up.");
+  const sm = el("div", { class: "small-multiples" }); c4.append(sm);
+  for (const run of L.runs) {
+    const panel = el("div", {}, [el("h3", { text: run.label === "no newcomers" ? "Without newcomers" : "With newcomers on each new task" })]); sm.append(panel);
+    lineChart(panel, { aria: `Ladder runs, ${run.label}`, xMax: run.generations, xStep: 200, yMin: 0, yMax: 1, threshold: run.advanceAt,
+      lines: run.seeds.map((sd, i) => ({ label: `seed ${sd.seed}`, color: `var(--s${i + 1})`, pts: sd.checkpoints.map((c) => [c[0], c[1], names[c[2]]]), marks: sd.advances.map((a) => [a.gen, a.toName]) })) });
+    panel.append(el("p", { class: "caveat", text: run.seeds.map((sd) => `seed ${sd.seed}: passed ${sd.rungsPassed.join(", ") || "nothing"}, ended on ${sd.finalRungName}`).join(" · ") }));
+  }
+
+  const ce = C.census;
+  const c5 = card("starting point", "What 2,048 random genomes already manage", ce.plain);
+  const head = ["grid", "grew past one cell", "median cells", ...ce.tasks];
+  c5.append(el("div", { class: "tbl-wrap" }, [el("table", {}, [el("thead", {}, [el("tr", {}, head.map((h) => el("th", { text: h })))]),
+    el("tbody", {}, ce.rows.map((r) => el("tr", {}, [el("td", { text: r.lattice }), el("td", { class: "num", text: `${Math.round(r.grewMoreThanOneCell * 100)}%` }), el("td", { class: "num", text: String(r.medianCells) }),
+      ...ce.tasks.map((t) => el("td", { class: "num", text: fmt(r.bestRandomHeldout[t]) }))])))])]));
+}
+document.getElementById("foot").append(...(DATA.footer || []).map((p) => el("p", { text: p })));
+})();
+</script>
