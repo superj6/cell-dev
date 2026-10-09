@@ -1142,3 +1142,173 @@ main result):
   lateral_off. Reported as a count out of 10; one such seed is the first evolved router.
 - **GB11:** read from every results row (`n_half`, `growing`); growth that never stops is reported, not judged.
 
+
+## 2026-10-09 — BODY-1 pilot: results, how the evolved bodies work, compute audit
+The pilot of Pre-pilot part 10 ran to completion: 29 runs, 0 failed, 81.8 run-hours on 4 jobs x 3 threads, started
+2026-10-08 07:09 and finished 2026-10-09 06:18 (the longest run, SPECK L4 s6, took 9.7 h). Code: git 8e75606. Seven
+runs that started after the analysis script was added record `git_dirty`: the only differences were new, untracked
+files (`scripts/catch_pilot_analysis.py` and its test); no tracked file changed. Analyses and audits ran on the same
+laptop during the last hours (at nice 19, load up to 30-58), so late generations of the last runs ran up to 4-10x
+slower and their wall times are not representative. Summary tables: `results/catch_pilot/` (`summary.md`,
+`results.csv`, `analysis.md` from `scripts/catch_pilot_analysis.py`, `mechanisms.json`, `compute_audit.json`).
+
+**In brief.**
+- **S1 start (SPECK L4) succeeds:** 7 of 10 seeds reach F >= +4.0 (5 needed); none sits at <= 4 cells. Final bests
+  +2.70 to +6.94, median +4.91.
+- **S0 (v1 L4) neither succeeds nor is killed:** 4 of 10 reach +2.0 (5 needed) and 6 of 10 stay at 1-2 cells (8 needed
+  to kill). Unseeded v1 starts growing in about 4 seeds in 10; every SPECK seed grows.
+- **S1 routing: 0 of 10.** No evolved body beats the tuned reflex (+8.69); the best, s5, is at +7.06 (lead -1.63,
+  z -17). Yet the better bodies depend more on lateral messages (Spearman 0.71 between F and the share lateral_off
+  removes; s6 loses all of +6.22).
+- **Bounded growth emerges in SPECK:** the five best SPECK bodies (s4-s8) stop growing within their life (GB11 share
+  growing 0.00-0.02); the other five, all worse, are still growing at T.
+- **Mechanisms (part 4, post hoc):** every evolved body regrew the column reflex; three lineages added local
+  computation on top: neighbour voting with an antenna fringe and a latch (s4), cooperative detection with feedback
+  inhibition (s5), gain set by crowding with in-life adaptation (s2). All four make direction-specific synapses from a
+  morphogen gradient. Hidden planes are inert everywhere.
+- **Selection is noisy:** within each generation's 64-genome recheck shortlist, first-pass and recheck F rank-correlate
+  at a median of about 0.03; per-life F has an SD of about 2.0 in SPECK, almost all of it capture-count noise.
+- **Compute (part 5):** about 0.1 CPU-s per life, so 24 CPU-h per 500-generation run of ~120-cell bodies; an exact
+  "fast" kernel mode would give 1.24-1.35x; a rented 192-core CPU box would run a pilot this size in 1-1.5 h for
+  $6-16; GPUs would not help.
+
+### 1. Pre-registered criteria
+| arm | seeds | final F by seed (results rows) | reached skill | <= 4 cells | median F | verdict |
+|---|---|---|---|---|---|---|
+| v1 L4 (S0) | 10 | +0.03 -0.02 -0.02 -0.02 -0.02 +2.66 +2.50 -0.02 +2.60 +2.72 | 4 (skill 2) | 6 | +0.01 | no success, not killed |
+| v1 L2 | 3 | +0.03 +0.01 +3.10 | 1 (skill 2) | 2 | +0.03 | - |
+| v1 seeded (300 gens) | 3 | +1.84 +2.17 +1.35 | 2 (skill 2) | 0 | +1.84 | - |
+| SPECK L4 (S1 start) | 10 | +3.45 +3.07 +4.02 +2.70 +5.10 +6.94 +6.40 +6.29 +6.09 +4.72 | 7 (skill 4) | 0 | +4.91 | **success**, not killed |
+| SPECK seeded (300 gens) | 3 | +1.36 +3.35 +4.38 | 2 (skill 4) | 0 | +3.35 | - |
+
+- **S1 routing** (1024 fresh lives per body, seeds 23,000,000 + s; reflex@hollow3 +8.694 ± 0.084, router@ring4
+  +10.964 ± 0.090): evolved F +2.66 to +7.06, all below the reflex by 1.6-6.0 (z -17 to -67), so no seed qualifies
+  and the lateral-share test is moot. lateral_off for the whole life removes 7-107% of F (s2 7%; s5 63%, s6 107%, s7
+  86%, s8 65%, s9 78%).
+- **v1 L2 against v1 L4:** one L2 seed of 3 grew (+3.10, the best v1 body) against 4 of 10 at L4. Too few seeds to say
+  whether hidden planes cost or help; part 4 finds them inert in the bodies that have them.
+- **GB11:** in SPECK L4, s4-s8 reach their final size by T/2 and stop (share growing 0.00-0.02); s0-s3 and s9 still
+  grow (share 1.00; s9 103 cells at T/2, 180 at T). The seeded arms all keep growing (speck seeded s0 reaches 322).
+- **Slit check:** no evolved body gains more than 0.1 F from a slit (largest estimated gain +0.030 mean, +0.096 for one
+  life of v1 s8; an enclosure in 5 of 736 lives), so the closing law is not revisited.
+
+### 2. Selection dynamics (`analysis.md`, "Selection dynamics")
+- Unfrozen runs keep about 27 of 224 children per generation and reach one breed (all parents descended from one
+  founder) within 2-119 generations. Runs stuck at 1-2 cells freeze for long stretches (up to 256 generations).
+- Inside the recheck shortlist, Spearman(F_base, F_recheck) has a median between -0.04 and +0.10 in every growing
+  run. The compute audit (part 5) traces this to capture-count noise: each capture is 0.49 F in SPECK and a life has
+  about 19, so a single life's F has an SD of about 2.0 (about 0.6 in v1). Common random numbers are already in place
+  (every genome of a generation and its recheck share the life seeds and T).
+
+### 3. Diagnostics: knockouts and faster conduction (256 paired lives each)
+Genome knockouts set a knob to its neutral value (or zero an input's weights) for the whole life, development
+included, so they mix behaviour and growth (cells at the end are reported with each dF).
+- **The occupied-neighbour input (n_view) stops growth:** without it 14 of the 15 unseeded grown bodies grow to the
+  1,024-cell guard (dF -16.5 to -28.0) and SPECK s6 stops at 287 (-9.4). Contact inhibition evolved in every lineage
+  that grew without a seed.
+- **The plane cues are developmental:** without is_S and is_M most bodies shrink to 1-41 cells (three keep 66-132),
+  at dF -1.4 to -9.1.
+- **Division geometry** (asym, zeta) runs away in many bodies; the seeded arms, which descend from hand-built genomes
+  with many readout rows exactly zero, show 0.00 for every knob they do not use.
+- **No body uses apoptosis** (p_die knockout 0.00 everywhere). delta and tau_tr are unused (|dF| <= 0.25); chi and phi
+  matter in two bodies only (v1 L2 s2 chi -1.97; SPECK s8 chi -0.97, phi -1.40).
+- **Chemistry is load-bearing in the best SPECK bodies** (secretion, polarity or anisotropy gain: -7 to -11 in s5-s7).
+- **Channel 1:** removing emission on it costs -11.7 in SPECK s5, -7.0 in s9, -6.3 in s8 and -3.1 to -3.7 in s1 and s3,
+  and nothing in s0, s2, s4, s6 and s7 (s2 and s4 send on one channel per plane; part 4).
+- **Faster conduction** (d0 0.5, d_min 0.25) helps every body: the router +1.99, the reflex +0.99, evolved bodies +0.14
+  to +1.70 (s6 +1.70, the most lateral-dependent body).
+### 4. How the evolved bodies work (post hoc, exploratory; `src/life/probe.py`, docs/PROBE.md)
+Not pre-registered. A probe toolkit traces single lives in the pure-Python reference (every trace's F equals the
+kernel's bitwise), follows each act spike back through the spikes that caused it, and lesions messages per cell,
+channel or direction after development (a reference lateral lesion equals the kernel's `lateral_off` fork bitwise;
+`tests/test_probe.py`). It was validated on the two hand-built SPECK bodies: in reflex@hollow3 every receptor-started
+rim-motor chain starts in the motor's own column (0 of 7,421 relayed); in router@ring4 38.5% start in another column
+and reach the rim through in-plane hops, with latency quantised at about d0 per hop. Four evolved bodies were then
+taken apart, one agent each, and a second agent tried to refute each account on fresh lives (seeds 31.0M-31.35M,
+disjoint from every pre-registered range). Verdicts: s4 confirmed; s5, s2 and v1 s5 partly (the refuted sub-claims
+are dropped below).
+
+**Every body regrew the column reflex.** A sense cell's spike fires the act cell directly above it about 1.0 later
+(one hop; 89% of motor spikes in s5, 99.9% in s4); rim act cells pull outward along their open face, so the side of
+the body under the target drags the dot toward it; the centre sense cell drives the hotspot, which clicks. Hidden
+cells are inert in all four (hidden_off after development changes F by at most +0.04 ± 0.16 where measured; in s4
+they never fire).
+
+**Directional wiring from chemistry (all four).** The genome has one weight per channel, the same for every input
+slot. Every body instead reads direction from a standing morphogen gradient: the receiver scales each channel by
+`1 + a_c ŝ` (LIFE_ABI.md 8), where ŝ is the neighbour-minus-self morphogen difference, so one spike's weight depends
+on where it comes from. Going up it excites (about +0.9 to +3.4); coming down it inhibits or nearly vanishes (-0.1 to
+-1.9); in-plane it ranges from near-cancellation (+0.3 in s5) to directed relays (s4's fringe +1.6 to +1.9 inward and
+about 0 outward; s2's act plane 0.33 outward, 0.15 inward). In v1 s5, swapping the planes' secretion flips the
+vertical signs and wrecks the score. s5 and v1 s5 emit every spike on both
+channels (ch0 excitatory, ch1 inhibitory), which is why s5's emit1 knockout costs -11.7 F (part 3); s4 and s2 use one
+channel per plane.
+
+**On top of the reflex, three lineages evolved distinct local computations:**
+- **SPECK s4 (+5.1): neighbour voting, an antenna fringe and a latch** (confirmed). A sensor is a leaky integrator
+  (rest about -1.7, threshold 1): an own receptor event adds +2, a neighbour sensor's spike about +1.1, so it fires on
+  two own events (about 1.0), one own event plus one neighbour spike (0.82-0.87) or 3-4 neighbour spikes (0.38-0.82),
+  and almost never on one event alone (0.04). Sensors under one target confirm each other; isolated background events
+  die. Act cells only bud straight up, so the sense disk outgrows the motor disk, and its roughly 20 motor-less fringe
+  sensors excite inward (+1.6 to +1.9) and barely outward: an antenna for targets beyond the motor footprint. After a
+  spike a sensor restarts at v = 0, above its rest, so for about 1.8 units one event re-fires it (worth 0.9-1.4 F).
+  Lateral messages carry about 55% of F after development, all of it as capture reward; scrambling where the lateral
+  drive lands (same amount and timing) gives -4.15 ± 0.39, worse than no lateral messages; no uniform excitability
+  shift recovers more than +0.64 of the 3.3 loss.
+- **SPECK s5 (+6.8): cooperative detection plus feedback inhibition** (partly confirmed). Sensors need two own events
+  within about 4.6-5.5 units, or one event plus neighbour spikes. Weak lateral excitation (+0.3) primes sensors 1.5-3
+  units outside the halo, so when the target passes over the body's interior the rim motors on its side keep pulling
+  (approach speed at 1-3 units doubles). lateral_off after development costs -4.3 to -4.9, all reward; seven uniform
+  gain substitutes recover none of it. About 1 unit after a twitch the act cell inhibits its own sensor; interior act
+  cells, which cannot pull, serve as the sense sheet's inhibitory interneurons. Removing the downward feedback costs
+  more (-5.6) than removing lateral messages (-4.7): without it the excitable sense sheet runs away, off-target spikes
+  triple and pull aim collapses. s5 scores below the hand reflex because of cost (122 cells, 15 inert hidden, about 18
+  interior act cells), not skill.
+- **SPECK s2 (+4.4): gain set by crowding** (partly confirmed). The sense plane is a 1-bit retina. Each act cell's GRN
+  reads its contact count and sets its gain: few contacts (the rim, which can pull) relay every spike; crowded cells
+  need two inputs within about 2 units and pass activity outward (lateral 0.33 out, 0.15 in). This is causal and
+  adapts in life: when a neighbour dies the cells around it drift to high gain over tens to about 100 units, not if
+  their n_view input is held fixed. The outward relay pays only above about 70-75 cells (-1.50 ± 0.54 when removed at
+  91 cells) and costs below about 60, so a body that keeps growing crosses from one sign to the other in its life.
+- **v1 L4 s5 (+2.8)** is the hand reflex regrown, plus a centre sensor that needs about 2 events within 1 unit before
+  it clicks (a single-event centre adds about 28 misses per life). Lateral messages are worth about 0.3 F; a plain
+  column reflex was not ruled out for its steering sensors.
+
+**Not seen in any body:** use of the hidden planes; a one-hop OR relay like the hand router's (s4 and s5 recruit
+softly); channel codes beyond excitatory/inhibitory; apoptosis (part 3: p_die knockouts are 0 everywhere).
+Every account is in `results/catch_pilot/mechanisms.json` (interpretation and verification per body).
+
+### 5. Compute audit (workflow `compute-efficiency-audit`, `compute_audit.json`)
+Four measurements, each re-checked by an independent skeptic. Taken on the loaded laptop (an Intel Core Ultra 7 255U,
+mostly efficiency cores), so absolute times are pessimistic.
+- **Per life:** 0.07-0.15 CPU-s at T 1024 for 85-145-cell bodies, about 1.2-1.5 µs per cell-time unit, linear in
+  cell-time. A generation is about 1,070 lives (256 x 3 selection, 64 x 4 recheck, about 5% side rounds), so about 175
+  CPU-s at 126 cells and about 24 CPU-h per 500 generations. Python is 0.2-0.4% of a generation; the population call
+  is 72%, the recheck 23.5%, the side rounds 4%.
+- **Where kernel time goes:** the scheduler handles about twice the ledger's `events`: receptor candidates are 43-60%
+  of heap events, and only about 4% of them are accepted in SPECK. A fit gives CPU ≈ 187 ns per heap event + 1.9 µs
+  per GRN tick. A sampling profile (single measurement, not re-checked) puts the event queue at 14-16%, readout and
+  decode 12-13%, chemistry 9-11%, GRN 9-10%, hash folding about 10% and libm 19% of CPU: about half model arithmetic,
+  half bookkeeping for exactness and verification.
+- **Exact speedups (outputs bitwise unchanged):** a "fast" kernel mode without hash folds and per-packet records,
+  1.24x (ledger identical in 62/62 lives; evolution never reads the hashes), and with a sparse readout and
+  `-march=x86-64-v3`, 1.35x. Hazard: in fast mode every hash stays at its initial value, so the gates and golden tests,
+  which compare hashes, must keep the full build. Threads do not contend, and results do not depend on thread count,
+  batch composition or order, so any job layout is exact: fewer jobs with more threads, the longest arms first, and
+  per-call thread counts that grow when runs finish (the pilot's last 2.5 h or more ran one 3-thread job).
+- **Not exact but cheap:** capping founder lives at n_max 256 cuts the founder phase 4-5x (5.6% of the pilot) and kept
+  the same top 8 in both batches tested; clone forks every 50 generations instead of 10 save about 3%.
+- **Selection schemes:** the recheck is worth its lives (dropping it saves 1.33x lives but loses about as much
+  progress per generation); schemes like 2 lives plus 5 for the top 64 may give 1.1-1.2x, but the model behind those
+  numbers overpredicts real progress 10-30x, so they need an A/B. A denser score (distance or time near the target,
+  already in the ledger) could cut the lives needed several-fold but changes the objective.
+- **Renting:** GPUs do not fit (a generation is about 1,000 branchy lives, about 30 warps). Many-core CPU instances do,
+  at 2026-10-09 prices: AWS c7a.48xlarge (192 cores, no SMT) $9.85/h on demand, $3.40 spot; c8a.48xlarge $10.35 /
+  $5.53; hpc7a $7.20; GCP c3d-highcpu-360 $13.45 / $3.43; Modal $0.047 per core-hour. A pilot this size would take
+  about 1-1.5 h on one 192-core box ($6-16) and a 40-run x 1000-generation ablation about 5 h ($25-30 spot); a server
+  core's speed against this laptop is estimated (2-2.6x), not measured.
+- **Before renting:** results are bitwise portable only with the same libm path (glibc picks an FMA or non-FMA path at
+  run time) and the same torch CPU kernels (`torch.randn`, used for mutation noise, differs between ATEN CPU
+  capabilities): pin the image (Ubuntu 24.04, glibc 2.39), set `ATEN_CPU_CAPABILITY=avx2`, use AVX2+FMA hosts and
+  replay a fixed set of lives first. `src/run.py` cannot resume a run, so spot capacity would lose whole runs until
+  checkpointing exists.

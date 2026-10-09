@@ -1,0 +1,1014 @@
+{
+ "note": "Compute audit of the pilot (workflow compute-efficiency-audit, 2026-10-09): kernel profile, evolution loop, sample efficiency and scale-out options, each re-checked by a skeptic. Measured on a loaded laptop; prices as found on 2026-10-09. Artifact paths point to the session scratchpad and are not kept.",
+ "areas": [
+  {
+   "key": "kernel",
+   "report": {
+    "title": "How efficient the life kernel is: per-life cost, profile, exact speedups and cross-machine bitwise risk (CATCH test bodies, loaded laptop)",
+    "findings": [
+     {
+      "claim": "One life of an evolved CATCH body costs 0.07 to 0.15 CPU-s at T=1024 on one E-core. The cost is linear in cell-time, at 1.2 to 1.5 us per cell-time unit (1.1 to 1.8 us per ledger event), whatever T is. These figures are for a loaded machine, so they are pessimistic.",
+      "evidence": "bench.py, prod build, threads=1, one life per call, pinned to E-cores 4-11 at nice 19; CPU is the C call's thread CPU time. T=1024, 32 lives per body:\n- speck_s5: 0.150 s (p10-p90 0.128-0.173), 97k events, 118k cell-units, 5.6k spikes, n_end 122, 1.27 us per cell-unit\n- speck_s0: 0.074 s, 41k events, 56k cell-units, n_end 143, 1.32 us\n- lmax4_s5: 0.118 s, 104k events, 82k cell-units, 9.6k spikes, n_end 85, 1.44 us\nT sweep (768 and 1536, 16 lives each): us per cell-unit stays within 5% of the T=1024 value. speck_s0 keeps growing (86 cells at T=768, 290 at T=1536, 0.224 s per life).\nThe 32 parents in each run's population.json (2 lives each) cost the same: 0.154, 0.068 and 0.108 s per life.\nThe pilot's own curves agree: t_eval*3/(768*pop_body*T) gives a median of 1.40-1.56 wall-us per cell-unit per thread. t_gen \u2248 t_eval + t_recheck, and the Python remainder has a median of 0 s.\nLoad bias: CPU time is inflated by L2/L3 shared with pilot threads and by the 15 W chip's lower all-core clock. Wall/CPU ran 1.0-3.4, so wall times mean nothing here.\nFiles: raw/bench_prod.jsonl, raw/analyse_bench.txt, raw/summary.json.",
+      "confidence": "high"
+     },
+     {
+      "claim": "The scheduler handles about 2x as many events as the ledger's 'events' column counts, at 590-730 ns each. Receptor candidates make up 43-60% of all heap events, and in SPECK only about 4% of them are accepted.",
+      "evidence": "counts.py: counting build, 16 lives per body. Its hashes equal the production build's.\n- Heap pops per life: 206k, 108k and 189k, against ledger events of 93k, 41k and 99k.\n- speck_s5 mix: receptor candidates 54%, ticks 28%, spike arrivals 15%, receptor deliveries 2%, notices and claims under 1%.\n- Acceptance (bench ledger): 4.4% (speck_s5), 4.1% (speck_s0), 19.7% (lmax4_s5, sigma 1.5).\n- Per heap event: 2.2-2.7 records (R_PACKET is 58% of all records), 5.5-6.8 libm calls (about 1.18M exp, 112k log and 117k tanh per speck_s5 life, roughly 20 exp per tick), 2.06e5 heap pushes, at most 445 entries in the heap.\nFiles: raw/counts.jsonl, raw/analyse_bench.txt.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Cost model: CPU per life \u2248 187 ns per heap event + 1.9 us per GRN tick (R2 0.992). In ledger terms that is about 1.17 us per cell-unit + 2.0 us per spike (R2 0.98), or 0.58 us per cell-unit + 2.4 us per spike + 0.60 us per receptor candidate (R2 0.99). Ticks run at about 0.5 per cell-unit.",
+      "evidence": "Least squares in analyse_bench.py.\n- Count fit: 48 lives (counting build counts against production timings).\n- Ledger fit: 144 lives (3 bodies x 3 values of T).\n- Fitted on one E-core under load.\nPlanning example: a 126-cell population needs about 1,070 lives per generation (256x3 selection + 64x4 recheck + about 5% for the rounds every 10 generations). At mean T 1109 that is about 175 E-core CPU-s per generation, or about 24 CPU-h per 500 generations.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Where the time goes (exclusive cost centres, libm time charged to its caller), the same within 2 points for all 3 bodies:\n- event queue (binary heap) 14-16%\n- phenotype readout 23x16 + decode 12-13%\n- chemistry inbox and per-neighbour packet sends 9-11%\n- GRN regulation 16x25 + sigma 9-10%\n- hash folding 9.7-10%\n- record emission and zeroing 8.2-8.6%\n- receptor thinning (halo, dot position) 5.5-6.7%\n- batch dispatch 4.8-6.2%\n- receptor candidate scheduling (log + hash) 3.9-5.2%\n- membrane 3.7-5.9%\n- accountant sums and flight queue 3.2-3.6%\n- derive 2.8-3.2%\n- record sort/flush 1.6-1.9%\n- scheduler loop about 1%\n- allocation about 1%, almost all of it the inlined capacity check\n- site map 0.3%\nlibm is 19% of the total: exp about 14% (GRN sigma 7.0%, halo 1.75%, dot_gain 1.7%, traces 1.6%, vnow 1.1%, chemistry decay 0.9%), log 2.3%, tanh 2.1%, nearbyint/floor 0.5%.",
+      "evidence": "perf was not usable: there is no perf binary for kernel 6.17.0-1032-oem and perf_event_paranoid is 4. I wrote a SIGPROF sampler instead (prof.c: ITIMER_PROF at 1 kHz of CPU time, backtrace through the signal frame) and resolved inline chains with addr2line -i against life_g.so. Its .text is byte-identical to the production build; -g only adds debug info.\nSamples: 38.2k (speck_s5, 250 lives), 29.7k (lmax4_s5, 250 lives), 27.7k (speck_s0, 400 lives); about 95 CPU-s in total.\nHottest lines:\n- readout kernel.c:174: 7.0%\n- the memset inside emit: 5.5%\n- hless kernel.c:315: 5.2%\n- tick kernel.c:874 (the neighbour occupant's uid check, a cache miss): 3.5%\nCalls cost about 18 ns per exp, about 30 ns per log and about 27 ns per tanh.\nFiles: raw/prof_report_*.txt, raw/prof_*.cc.json, prof_report.py.",
+      "confidence": "high"
+     },
+     {
+      "claim": "About half the CPU is model arithmetic and half is bookkeeping for exactness, clocklessness and verification.\n- Model work (about 50-55%): readout/decode, GRN, membrane, derive, chemistry arithmetic, receptor schedule and thinning.\n- Bookkeeping (about 45-50%): heap 15%, hash folding 10%, records + sort + accountant dispatch about 13%, batch dispatch 5%, scheduler, event pool, allocation.\n- Hash folding only serves verification: neither the evolution code nor the ledger reads the hashes.\nReceptor candidates cost about 25% end to end, including their share of heap, dispatch, records and folds, and more than 95% of them are rejected in SPECK.",
+      "evidence": "Cost-centre shares above.\n- grep: src/life/evaluate.py, src/run.py and src/evolve.py never read res.hashes.\n- Measured with the nohash build: removing fold() alone saves 9.3% CPU, and the ledger stays bitwise identical in 24/24 lives.\n- The 25% receptor figure is an estimate: the 54% event share applied to the heap, dispatch and record costs, plus the receptor_next and thinning cost centres, plus 21% of the fold words.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Threads do not contend. The OpenMP region at kernel.c:2206 has nothing shared that is mutable in the hot path: each life callocs its own Ctx, the shared tables are read-only, each life's output row is written once at close, and 'omp critical' guards only the error code. Allocation is negligible. Peak memory is under 1 MB per life.",
+      "evidence": "Code reading:\n- run_one: calloc(Ctx), ctx_free at the end.\n- close_life writes the 57 ledger doubles and run_one copies the 5 hashes, once per life.\n- '#pragma omp critical' covers only rc = r on failure.\n- schedule(dynamic,1) costs one atomic per 0.1-s life.\nMeasured:\n- Batch process CPU at threads=2 vs 1: 4.52 vs 4.58 s, 2.41 vs 2.46 s, 3.81 vs 3.77 s. Weak test: under load the two threads overlapped only partly (CPU/wall 0.5-1.2).\n- Hashes are identical for per-life calls and batch calls at threads 1 and 2.\n- grow() runs 158-258 reallocs per life; libc time is 0.2-0.3% of samples.\n- Peak capacity of all life arrays: 0.74-0.97 MB at T=1024.\n- Process maxrss is 198-225 MB, almost all of it Python, numpy and torch.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Build flags (24 lives each, paired life by life against prod):\n- -march=x86-64-v2/v3/native with -ffp-contract=off is bitwise identical (hashes and ledger 24/24) and only 1.2%, 2.8% and 3.1% faster.\n- FMA contraction (-ffp-contract=fast) changes every hash (0/24) for a 1.5% gain. It would also break the bitwise match with reference.py, which rounds every operation.\n- -O2 is 3.4% slower.\nv3 also matched on 192 random-genome lives.",
+      "evidence": "variants.py: each life ran once per variant, the variants interleaved so that load drift cancels; numbers are geometric means of the CPU ratio.\nRatios: v2 0.988, v3 0.972, native 0.969, O2 1.034, fma 0.985, nohash 0.907.\nv2 removes the libm calls to nearbyint (nm -D); with v3, floor is still imported.\nbroad_check.py: v3 hashes 192/192.\nFiles: raw/analyse_variants.txt, raw/broad_check.json.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Prototype speedups I built and measured (scratch copies only):\n- 'fast' mode (no hash folds, no R_PACKET records: the simulator counts packets and pushes flights itself): 20.8% less CPU (1.26x), ledger bitwise identical everywhere tested.\n- 'ro' (readout and GRN sums skip the +0.0 weights of inactive genes, 4 knobs interleaved, a zero result recomputed in full): 2.2% faster, hashes identical.\n- fast + ro + x86-64-v3: 25.8-26.7% less CPU (1.35-1.36x), ledger bitwise identical.\n- Floyd bottom-up heap pop: no gain (+1%).",
+      "evidence": "opt_patch.py; raw/analyse_variants_opt.txt and raw/analyse_variants_bu.txt.\nCPU ratios: ro 0.978, fast 0.792, fastro 0.773, fastro_v3 0.733 / 0.742 (two runs), bu 1.010, fastro_bu_v3 0.738.\nLedger checks for fast/fastro/fastro_v3:\n- the 3 bodies: 24/24\n- 192 random-genome lives at T=160 (74 guard trips, 80 bodies over 50 cells): 192/192\n- 36 lives with kill_frac 0.4 at t=200 (907 kills, lost packets, nonzero in-flight morphogen): 36/36\nThe ro and bu builds kept hashes identical everywhere tested, which also confirms that the pop order among equal heap keys does not matter.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Bitwise reproducibility across machines is not guaranteed.\n- build.py pins only gcc flags (no compiler, glibc or CPU check), and LIFE_ABI.md section 2 assumes the same libm.\n- glibc 2.39 chooses exp/log/pow/sin/cos/tanh code at runtime by CPU feature. Its FMA and non-FMA paths disagree on 5e-6 to 1e-3 of inputs (up to 1 ULP, 3 ULP for tanh).\n- With the non-FMA path, every life's hashes change (0/24 equal). The ledger stayed identical in 21/24 lives; the others differed only in dist_sum, X_end and path, and F was identical in all 24.\n- Discrete events are robust because of the q10/q8 quantisation, but over 1000 lives x 500 generations a decision will flip eventually, so evolution would diverge.",
+      "evidence": "libm_fp.c over 2e6 inputs: fingerprint 0debfc91371c03c8 by default, bb8e3d1fc4edfa8a with GLIBC_TUNABLES=glibc.cpu.hwcaps=-AVX2,-FMA,-FMA4,-AVX. ld.so --list-diagnostics confirmed that the FMA/AVX/AVX2 bits were cleared.\nPer-input differences out of 200k: exp 133-145, log 24, pow 138-198, tanh 26, sin 156, cos 132 (raw/libm_variant_diff.txt).\nLives (raw/variants_nofma.jsonl): H_ALL and H_CHEM differ in every life, H_WORLD in 9/24.\nAny modern x86 server (Intel Haswell or later, AMD Zen) has FMA and AVX2, so it takes the same path. A different glibc version, ARM, or a CPU without AVX2 is the risk.",
+      "confidence": "high"
+     },
+     {
+      "claim": "The repo already has a working tripwire for a new machine. The golden-hash tests pass here and fail under the emulated non-FMA libm. The section 14 test vectors exercise each libm function at only one or two points, so they would miss this. My xmachine_check.py with xmachine_ref.json compares the libm fingerprint plus 24 evolved-body lives (all 5 hashes and all 57 ledger columns): BITWISE OK here, MISMATCH under the non-FMA emulation.",
+      "evidence": "pytest -p no:cacheprovider on test_life_world_bell.py::test_bell_lives_are_bitwise_those_of_the_abi2_kernel and test_life_world_catch.py::test_bodies_without_holes_live_bitwise_as_before_the_filled_footprint, with CELL_DEV_CACHE set to my scratch dir: 2 passed.\nUnder GLIBC_TUNABLES non-FMA both fail, on 'BUSY hex' and 'ring 2 + 2 hidden L4'.\nThe .so built from the repo has the same .text as lib/life_prod.so.\nraw/xmachine_nofma.txt: hashes 0/8 per body, ledger 7/8, 8/8 and 6/8.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Outside the kernel, evolution's mutation noise depends on the CPU too. torch.randn with the same seed gives different numbers under ATEN_CPU_CAPABILITY=avx2 and =default. A rented AVX-512 machine would pick other kernels unless ATEN_CPU_CAPABILITY=avx2 is set and torch stays at 2.14.1+cpu.",
+      "evidence": "src/genome.py:127 and 448 draw mutation noise with torch.randn(generator=gen).\nTest: 256x875 randn with seed 123. SHA prefix 4e709a5c... under avx2 vs 42697154... under default.\nI could not test AVX-512 on this CPU.",
+      "confidence": "medium"
+     }
+    ],
+    "recommendations": [
+     {
+      "change": "Add a 'fast' evaluation mode for selection and recheck lives: fold() becomes a no-op, and chemistry packets emit no R_PACKET record (the simulator counts packets[t>=t_open]++ and pushes the flight itself). Use it as a build define or a second exported entry point. Keep the full build for valid, heldout, final and clone lives and for the golden tests. Audit a small sample of selection lives in full mode each generation and require identical ledgers.",
+      "expected_gain": "Measured 20.8% less CPU, 1.26x (paired, 24 lives on 3 bodies). Hashing alone is 9.3%; dropping packet records adds the rest, since they are 58% of all records.",
+      "effort": "small",
+      "preserves_exactness": "Ledger stays bitwise identical: 24/24 test lives, 192 random lives, 36 lives with kills. The 5 hashes are not computed (they stay HASH_INIT). Evolution never reads hashes, so evolution results are bitwise unchanged. Heap scheduler only: the window scheduler visits sites out of time order.",
+      "risk": "Two code paths can drift apart, so add a test asserting fast and full ledgers are equal on many random lives. Any future ledger column fed only by R_PACKET records would need the same treatment."
+     },
+     {
+      "change": "Build with -march=x86-64-v3 (or v2 for older machines) while keeping -ffp-contract=off and no fast-math. The flags are already part of build.py's cache key. Do not enable FMA contraction.",
+      "expected_gain": "Measured 2.8% (v3) or 1.2% (v2). FMA contraction would add only 1.5% more.",
+      "effort": "small",
+      "preserves_exactness": "Bitwise identical, hashes and ledger: 24/24 plus 192/192 lives. The match with reference.py also holds, since every operation is still rounded separately. FMA contraction would change every hash and break the reference match.",
+      "risk": "Requires AVX2/FMA-capable x86 (any server since about 2015). An old CPU would get SIGILL instead of wrong results."
+     },
+     {
+      "change": "Make the phenotype readout (a0 + A g, 23x16) and the GRN rows (b + W x, 16x25) sparse and parallel: skip +0.0 weights (inactive gene slots), compute 4 knobs or rows together, and later use AVX2 lanes with A and W transposed (one multiply then one add per lane, same order). If a sum comes out zero, recompute it in full so the sign of zero matches.",
+      "expected_gain": "Measured 2.2% for the scalar prototype ('ro'). Full SIMD is estimated at another 3-5% (the multiply-add work is about 8% of CPU after ro).",
+      "effort": "medium",
+      "preserves_exactness": "Bitwise identical (hashes 24/24, 192/192, 36/36). Exact by construction: +0.0 times a finite g only flips -0 to +0, and the zero-result fallback handles that case.",
+      "risk": "Low. A future genome that packs -0.0 or a non-finite g would fall back correctly or break the exactness argument, so assert it in a test."
+     },
+     {
+      "change": "Replace the binary heap (14-16% of CPU) with a calendar or ladder queue. Use buckets of about 1/32 time unit, since events land 0.5-2.2 units ahead, keep an overflow heap, and keep the exact (t, tie, sk) order.",
+      "expected_gain": "Estimated 5-10%, not measured. Bottom-up pop gave nothing (+1%), so comparison count is not the bottleneck; branchy compares and 24-byte moves are.",
+      "effort": "medium",
+      "preserves_exactness": "Bitwise identical if the total order is kept. The order among equal keys does not matter: the bu prototype and the window-scheduler contract both show this.",
+      "risk": "Medium: bucket width tuning, and far-future events (kill/stuck, guard) belong in the overflow heap. Validate against the goldens and broad_check.py."
+     },
+     {
+      "change": "Cheaper records for the full (hashed) mode. (1) Emit one record per tick carrying all its chemistry packets, and fold the same words in the same order. (2) Stop zeroing all 104 bytes of each Rec; write only the fields each record kind uses.",
+      "expected_gain": "Estimated 4-6% for (1), since records drop from 2.7 to about 1.3 per event, and 2-4% for (2) (the memset alone is 5.5% of samples). Not measured.",
+      "effort": "medium",
+      "preserves_exactness": "Bitwise identical, hashes included, provided the folded word sequence and the canonical (t, sk, seq) placement are unchanged: a tick's packets are consecutive records of one site at one time.",
+      "risk": "Medium: every reader of a record kind must be checked. Bugs from uninitialised fields can be rare and hard to catch, so run goldens plus broad random-life checks."
+     },
+     {
+      "change": "Reject receptor candidates cheaply and exactly. In catch_candidate, compute the acceptance draw first. Reject at once when draw*lam_max >= lam_bg + lam_s*bound, where bound is a rigorous upper bound on the halo from a lower bound on distance (dot displacement bounded by |F|*tau_z/gam). This skips both exps (halo and dot_at) for far cells. Also compute sigma for K_ASYM lazily, at divisions only (about 120 per life against 58k ticks).",
+      "expected_gain": "Estimated 3-5% from the cheap reject (thinning is 5.5-6.7% and more than 95% of SPECK candidates are rejected), plus about 1% from lazy asym. Not measured.",
+      "effort": "medium",
+      "preserves_exactness": "Bitwise identical only if the bounds are rigorous, including a margin for exp's under-1-ULP error. The lazy asym change is exactly identical.",
+      "risk": "Medium: a too-tight bound silently changes accept decisions. Test on many lives near the halo edge."
+     },
+     {
+      "change": "Changes to the model itself (new ABI version and new goldens, best done between experiments). (a) A per-region lambda_max, or candidate streams thinned against a local bound, so most rejected candidates are never created. (b) The kernel's own deterministic exp/log/tanh/pow/sin/cos (only IEEE operations, or vendored correctly rounded CORE-MATH) used by both kernel and reference.py, which also allows vectorised sigma over the 8 active GRN rows.",
+      "expected_gain": "(a) Estimated 15-20%: receptor candidates are about 25% of CPU end to end. (b) A few percent from SIMD sigma, and above all lives become bitwise portable across glibc versions, CPUs and ARM.",
+      "effort": "large",
+      "preserves_exactness": "No. (a) keeps the statistics but changes every life. (b) changes every result by about 1 ULP-level divergence against current goldens, then is exactly reproducible everywhere.",
+      "risk": "Re-validation against all gates and goldens. The Python reference gets slower if it must run a pure-Python exp."
+     },
+     {
+      "change": "Parallelise across runs before parallelising within one. Lives are independent and threads do not contend, so on a many-core machine run many independent runs (seeds and controls) at 2-4 threads each instead of one run with many threads. Within a call, order lives longest first (for example by parent body size, or the parent's events last generation) to shorten the barrier tail. Each generation has two barriers: the 768-life selection call, then the 256-life recheck call.",
+      "expected_gain": "Throughput scales about with core count. LPT order mostly matters when a call has 8 or fewer lives per thread (the recheck at 32+ threads): estimated 5-20% of that call's wall time. Measure with idle_scaling.py order/layout.",
+      "effort": "small",
+      "preserves_exactness": "Yes. Results do not depend on thread count, batch composition or order (hashes were identical for per-life and batch calls at threads 1 and 2), and the evaluator averages each genome's lives in a fixed order.",
+      "risk": "Low. If the life order is permuted inside build.run, it must be un-permuted before the outputs are averaged."
+     },
+     {
+      "change": "Before trusting results on rented compute:\n- Use an image matching this laptop: Ubuntu 24.04 (glibc 2.39), gcc 13.3, torch 2.14.1+cpu, the same numpy.\n- Choose x86-64 with AVX2 and FMA (AMD EPYC Zen 3/4 or Intel Ice Lake or later).\n- Set ATEN_CPU_CAPABILITY=avx2.\n- Run xmachine_check.py xmachine_ref.json and the two golden tests, and require BITWISE OK.\nCPU instances only: a GPU does not help an exact, branchy, event-driven kernel. Each job needs about 0.3 GB and each life under 1 MB, so pick compute-optimised instances on core count and per-core speed.",
+      "expected_gain": "Not a speedup. It keeps rented runs comparable with the 29-run pilot and checkable against it bit for bit.",
+      "effort": "small",
+      "preserves_exactness": "It is what makes exactness hold across machines. Without it, hashes differ, ledgers differ in about 12% of lives in low-order bits, and evolution diverges eventually.",
+      "risk": "An AVX-512 host still runs the kernel bitwise alike, since glibc picks the same FMA path, but torch would use other kernels unless pinned. ARM (Graviton) would almost certainly differ."
+     }
+    ],
+    "scripts_for_idle_machine": [
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/idle_bench.sh: runs everything below in about 10-20 min. Run it after the pilot, with nothing else busy: PY=/home/jgon/project/ml/cell-dev/.venv/bin/python ./idle_bench.sh. On a rented host set CPUS (one id per core type from lscpu -e), MAXT=<cores> and ORDT=<threads>. It builds lib/ if lib/life_fastro_v3.so is missing, then appends rows to raw/idle_*.jsonl.",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/idle_scaling.py: four tests on a real late-pilot workload (the 32 parents of speck_s5 x 8 lives at T 1024):\n- cores: single-thread CPU s per life on a P-core (0), an E-core (4) and an LP-core (12)\n- threads: one 256-life call at 1, 2, 4, 6, 8, 10, 12, 14 threads (lives/s, speedup, efficiency)\n- layout: the same total work as 1x12, 2x6, 4x3, 6x2, 12x1 processes x threads (machine lives/s)\n- order: natural vs longest-first order at 12 threads",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/variants.py --lives 16 --variants prod,v2,v3,native,O2,fma,nohash,ro,fast,fastro,fastro_v3: paired CPU ratios and bitwise checks without load noise. idle_bench.sh includes this step.",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/xmachine_check.py xmachine_ref.json --repo <checkout>: run it first on any rented machine. It compares the platform, the libm fingerprint, and 24 evolved-body lives (5 hashes and 57 ledger columns) against this laptop and exits 1 on mismatch. Then run, from the repo: CELL_DEV_CACHE=/tmp/x python -m pytest -p no:cacheprovider tests/test_life_world_bell.py::test_bell_lives_are_bitwise_those_of_the_abi2_kernel tests/test_life_world_catch.py::test_bodies_without_holes_live_bitwise_as_before_the_filled_footprint",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/profile_run.py --body speck_s5 --lives 250 followed by prof_report.py raw/prof_speck_s5: repeats the CPU profile without load, to check the shares; perf is not needed."
+    ],
+    "artifacts": [
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/kernel.c (copy of src/life/kernel.c, sha256 0840503e...)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/build_variants.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/kc_patch.py (counting build -> kernel_count.c)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/opt_patch.py (prototypes ro / fast / fastro -> kernel_ro.c, kernel_fast.c, kernel_fastro.c; kernel_bu.c = bottom-up heap pop)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/kload.py (loads a scratch .so into src.life.build, times the life_run call, reads counters)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/bench.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/counts.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/analyse_bench.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/prof.c (SIGPROF sampler)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/profile_run.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/prof_report.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/variants.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/analyse_variants.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/broad_check.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/libm_fp.c",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/xmachine_check.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/xmachine_ref.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/idle_bench.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/idle_scaling.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/lib/ (life_prod/g/count/nohash/v2/v3/native/fma/O2/ro/fast/fastro/fastro_v3/bu/fastro_bu_v3 .so, prof.so, libm_fp)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/bench_prod.jsonl (per-life timings and ledger, batches, parents)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/counts.jsonl",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/analyse_bench.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/summary.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/prof_report_speck_s5.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/prof_report_lmax4_s5.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/prof_report_speck_s0.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/prof_*.bin, *.bin.maps, *.json, *.report.json, *.cc.json (raw samples and resolved profiles)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/variants.jsonl, variants_opt.jsonl, variants_bu.jsonl, variants_nofma.jsonl",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/analyse_variants.txt, analyse_variants_opt.txt, analyse_variants_bu.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/broad_check.json, kill_check.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/raw/libm_fp_default.txt, libm_fp_nofma.txt, libm_variant_diff.txt, xmachine_nofma.txt"
+    ]
+   },
+   "verdict": {
+    "title": "Review of the 'kernel' efficiency report: the main numbers hold up. Fast mode measures 1.24x (the report says 1.26x), the whole run gains about 1.23x, and the report misses founder cost, the slowest-run limit, and a hash-equality hazard in fast mode",
+    "checks": [
+     {
+      "claim": "One life of an evolved CATCH body costs 0.07-0.15 CPU-s at T=1024 on one E-core, which is 1.2-1.5 us per cell-time unit.",
+      "recheck": "I compiled my own prod build from src/life/kernel.c with build.py's flags; it came out byte-identical to the report's lib/life_prod.so. I loaded it with my own ctypes wrapper (verify/vload.py) and timed thread CPU around life_run, threads=1, nice 19, pinned to E-cores 4-11. I used new seeds (first=7100-7400), T cycling over 768/1024/1536, and 10 pilot bodies (verify/check.py, raw/check_{a,b,c}.jsonl).",
+      "result": "CPU-s per life scaled to T=1024:\n- speck_s5: 0.150 s (report 0.150)\n- speck_s0: 0.078 s (report 0.074)\n- lmax4_s5: 0.130 s (report 0.118)\n\nUs per cell-unit: 1.34, 1.29 and 1.59. The other 7 bodies came out at 1.32-1.52 (one tiny body excluded).\n\nLoad bias, measured: the E-cores ran at 2.5-2.8 GHz against a 4.3 GHz maximum. A P-core whose SMT sibling was busy gave the same per-life CPU as an E-core (0.150 vs 0.146 s). An LP core was 1.9x slower (0.275 s, 1.44 GHz). So these absolute numbers are tied to the clock, and an idle or server core should be noticeably faster.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "The heap processes about 2x as many events as the ledger 'events' column counts. Receptor candidates are 43-60% of heap pops, about 4% of them are accepted in SPECK (20% in v1), and R_PACKET is about 58% of records.",
+      "recheck": "I wrote my own counting patch (verify/vcount_patch.py \u2192 kernel_vc.c), with thread-local counters on hpop by event group/sub, on hpush, and on emit by record kind. I ran 6 new-seed lives per body (verify/vcount.py). Acceptance also comes from the ledger columns rec_accept/rec_cand of all 62 checked lives.",
+      "result": "Heap pops vs ledger events:\n- speck_s5: 198k pops = 2.23x ledger events\n- lmax4_s5: 197k = 1.91x\n- speck_s0: 114k = 2.64x\n\nShare of pops that are receptor candidates: 54.7%, 42.6% and 59.9%. Records per pop: 2.75, 2.10 and 2.52. R_PACKET share of records: 57.7%, 54.1% and 54.3%.\n\nAcceptance: 0.042-0.048 for SPECK bodies, 0.18-0.22 for v1 bodies. Almost every batch holds a single event (batches \u2248 pops).",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "'fast' mode (no hash folds, no R_PACKET records) uses 20.8% less CPU (1.26x) and keeps the ledger bitwise identical.",
+      "recheck": "I ran the report's lib/life_fast.so and life_fastro_v3.so paired life by life against my own prod build, in rotating order. That covered 62 lives:\n- 10 bodies (the 3 test bodies plus speck_s7, speck_s2, lmax2_s2, seeded_s1, speck_seeded_s2, lmax4_s8, lmax4_s1)\n- perturbed worlds: drop_p 0.1 + noise_rate 0.15, and kill_t 300 / kill_frac 0.4\n\nI compared all 57 ledger columns as uint64 bits. I also read opt_patch.py against kernel.c: the only consumers of R_PACKET are the accountant at line 1608 and the fold, and close_life filters the in-flight sum by t_send < te <= t_arr and sorts it.",
+      "result": "Ledger bitwise identical in 62/62 lives for both fast and fastro_v3. Hashes differ in 62/62, as expected.\n\nCPU ratios (geometric mean):\n- fast on the report's 3 bodies: 0.788\n- fast pooled over all 62 lives: 0.806 (95% CI 0.794-0.817), i.e. 1.24x, slightly less than 1.26x\n- fast per body: 0.774-0.831\n- fastro_v3 pooled: 0.741, i.e. 1.35x (report: 0.733-0.742)\n\nThe patch logic is sound under the heap scheduler.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "-march=x86-64-v3 with -ffp-contract=off is bitwise identical and 2.8% faster.",
+      "recheck": "I compiled my own v3 build from the repo source and paired it against prod over the same 62 lives.",
+      "result": "Hashes and ledger identical in 62/62 lives. The CPU ratio is 0.980, i.e. 2.0% faster (per body 0.955-1.003); the report says 2.8%. Real but small.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Evolution never reads the hashes, so fast mode leaves evolution results bitwise unchanged.",
+      "recheck": "I grepped src/ and scripts/ for hashes, unfold_close and H_ALL. I checked that the mismatch check in evolve.py uses ledger status bits, and read scripts/life_gates.py.",
+      "result": "True for src/evolve.py, src/run.py, src/life/evaluate.py and clones.py; ledger_mismatch comes from ST_MISMATCH in the ledger.\n\nHowever, scripts/life_gates.py tests bitwise identity with np.array_equal(a.hashes, b.hashes), at lines 258-259 and 799, and in identical() at line 976. Under fast mode every hash is HASH_INIT, so those comparisons would always pass. Fast mode must therefore be opt-in per call, never the build that build.load() returns by default.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Results do not depend on thread count, batch composition or life order, so LPT reordering and any threads-per-run layout are exact.",
+      "recheck": "verify/threads_eq.py: 8 lives of lmax4_s5 at T 768, run three ways: per-life calls, batch calls at threads 1 and 2, and reversed order. I compared hashes and ledger bits.",
+      "result": "All equal. Life outputs do not depend on thread count, batching or order.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Per generation, t_gen \u2248 t_eval + t_recheck, the Python remainder is about 0, and the rounds every 10 generations add about 5%.",
+      "recheck": "I split each pilot run's curves.jsonl into its parts (verify/curves_split.py, all 28 runs, 72.8 run-h). I compared results.jsonl wall_s with the sum of t_gen (verify/founders.py).",
+      "result": "Share of generation wall time: selection 72.1%, recheck 23.6%, every-10 rounds 4.0%, other Python 0.3%. Recheck lives cost about the same per life as selection lives (0.236/0.721 x 3 \u2248 0.98).\n\nThe report did not count the founder phase, which runs before generation 0. It takes 530-1130 s per run, 4.2 h of the 72.3 h total (5.8%), and it is 50-70% of the wall time of the 13 runs whose bodies stayed small.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Planning: about 1,070 lives per generation, about 175 E-core CPU-s per generation at mean T 1109, about 24 CPU-h per 500 generations for a 126-cell population.",
+      "recheck": "I redid the arithmetic: 768 + 256 = 1024, x1.05, x0.150 x 1109/1024. I compared with the pilot's speck_s5 run (wall_s 24,943 at 3 threads) and with the measured clone round (144 rows/round = 8 genomes x 3 times x 6 conditions, roughly 500 lives in one batch).",
+      "result": "The arithmetic is correct: 1075 lives x 0.162 s = 174 CPU-s per generation, and 24.2 CPU-h per 500 generations. That is consistent with speck_s5's 6.9 h x 3 threads = 20.8 thread-h while its bodies grew.\n\nThe estimate leaves out founders (about 0.5 thread-h per run). It is tied to the clock of a loaded E-core, so it does not carry over to rented hardware.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "glibc 2.39 chooses its FMA or non-FMA libm path at runtime, and the two give different results, so lives are not bitwise portable. The golden tests pass here and fail under emulated non-FMA.",
+      "recheck": "My own program (verify/lm.c, -fno-builtin) ran 300k inputs each through exp, log, tanh, pow, sin and cos, by default and with GLIBC_TUNABLES=glibc.cpu.hwcaps=-AVX2,-FMA. I ran the two golden tests under both settings (PYTHONDONTWRITEBYTECODE=1, -p no:cacheprovider, scratch CELL_DEV_CACHE). I also ran 18 evolved-body lives under both (verify/xm.py).",
+      "result": "Inputs that differ, out of 300k, default vs non-FMA:\n\n| function | inputs differing | max ULP |\n|---|---|---|\n| exp | 220 | 1 |\n| log | 5 | 1 |\n| tanh | 64 | 3 |\n| pow | 200 | 1 |\n| sin | 211 | 1 |\n| cos | 177 | 1 |\n\nMasking AVX-512 is a no-op here, since this CPU has none.\n\nGolden tests: both pass by default. Under non-FMA they fail on 'BUSY hex' (BELL) and 'ring 2 + 2 hidden L4' (CATCH).\n\nThe 18 lives: hashes 0/18 equal; ledger 17/18 equal, the one difference being only the 'path' column; F identical in all 18.\n\nThe report's 'ARM almost certainly differs' is unverified. aarch64 compiles the same generic glibc source with FMA, so it might match, but this has to be tested rather than assumed.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "torch.randn mutation noise depends on ATEN_CPU_CAPABILITY (avx2 vs default), so it must be pinned on rented hosts.",
+      "recheck": "verify/trand.py: torch 2.14.1+cpu with seeded generators, using the real mutation shapes (224x2, 224x3) and a founder-sized block (2048x875), under default, avx2 and auto.",
+      "result": "default vs avx2: 173 of 448 and 249 of 672 mutation-noise values differ (by at most 1.2e-6), and 688,666 of 1.79M founder values differ. torch.rand (uniform) is identical. auto equals avx2 on this laptop.\n\nAVX-512 behaviour could not be tested here.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Longest-first (LPT) ordering is worth an estimated 5-20% of a call's wall time at 32 or more threads.",
+      "recheck": "verify/straggle.py simulates greedy dynamic,1 scheduling, using the measured costs of the 32-parent lives (bench_prod.jsonl 'pop' rows, CV 0.16-0.20, max/mean 1.40-1.56). I resampled them into calls of 768, 256 and 40 lives at 3-64 threads, in natural and oracle-LPT order.",
+      "result": "| call | 16 threads | 32 threads | 64 threads | LPT |\n|---|---|---|---|---|\n| 768-life selection | 0.99 | 0.97 | 0.94-0.95 | \u22650.99 |\n| 256-life recheck | 0.96-0.97 | 0.92-0.93 | 0.84-0.87 | 0.95-1.00 |\n\nSo at 16 or fewer threads per run LPT gains under 1% of a generation, and at 64 threads about 2-4%. The 5-20% figure only holds for the recheck call itself at 64 threads.\n\nCosts within a real generation (mutants, guard trips) may vary more than this, which was not measured. The report's idle_scaling.py also uses only parent lives, so it shares that blind spot.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "The CPU profile shares (heap 14-16%, hash folds 9.7-10%, libm 19%, and so on) and the 'about half is bookkeeping' split.",
+      "recheck": "I did not repeat the SIGPROF profile. I cross-checked against what I did measure: fast mode saves 19-21% of CPU, which agrees with hash folding at about 9.3% plus packet records. My event counts match the report's mix. Its numbers are internally consistent: 1.18M exp x 18 ns = 21 ms, which is 14% of 150 ms.",
+      "result": "Consistent with my measurements, but the shares themselves were not re-measured.",
+      "outcome": "unverifiable"
+     },
+     {
+      "claim": "Calendar queue 5-10%, cheaper records 4-6% plus 2-4%, cheap receptor reject 3-5%, per-region lambda_max 15-20%.",
+      "recheck": "None of these was prototyped by the report or by me. I checked only that each one's premise matches the counts: heap 15%, the memset in emit 5.5%, rcand 43-60% of pops.",
+      "result": "The premises are plausible, but the gains are estimates. The lambda_max change alters every life (new ABI and goldens), so it changes the experiment.",
+      "outcome": "unverifiable"
+     }
+    ],
+    "corrected_recommendations": "Ranked by value per effort. Gains are measured on this loaded laptop unless marked as estimates.\n\n1. **Rent a many-core x86 CPU machine and run many runs side by side.**\n   - Exact, no code changes. This is by far the biggest lever.\n   - Lives are independent, the threads do not contend (from reading the code), and results do not depend on thread count or order (verified). Per-life memory is under 1 MB, and each job needs about 0.3 GB.\n   - A whole 29-run pilot, about 217 thread-hours on the laptop, finishes in roughly the slowest run's time. Neither the report nor I have measured how fast a server core is relative to the laptop's, so run the report's idle_bench.sh and xmachine_check.py on the rented host first.\n   - A GPU would not help.\n\n2. **Give the slowest runs more threads.** Exact; small effort. The report missed this.\n   - The makespan is set by the big-body runs: speck_s6 took 9.7 h and speck_s7 9.2 h, at 3 threads each.\n   - From the measured parts of a generation plus the simulated barriers, one run should scale to about 5.1x at 16 threads (ideal 5.3), about 9.9x at 32 and about 18x at 64, all relative to 3 threads. At 64 threads the 0.3% serial Python share grows to about 5%.\n   - Let each run choose its thread count every generation, for example in proportion to pop_body, or from the cores left free when small runs finish. This is exact because results do not depend on thread count.\n   - \"Parallelise across runs before within one\" is right for throughput, but up to about 16-32 threads per run is cheap.\n\n3. **'fast' kernel mode for selection, recheck and founder lives.**\n   - Measured at 0.806 CPU, i.e. 1.24x, 95% CI 1.22-1.26x, over 62 lives on 10 bodies plus kills and noise. The report's 1.26x came from 3 bodies. The ledger was bitwise identical in 62/62 lives.\n   - For a whole run, after Amdahl: about 1.23x if the every-10 rounds stay in full mode, since founders can use it too.\n   - Effort is small: a #define or a second entry point, opt-in per call.\n   - Required safeguards: build.load() must keep returning the full build. scripts/life_gates.py and the tests compare hashes, and with fast mode all hashes are HASH_INIT, so those comparisons would always pass. Add a test that fast and full ledgers are equal on random lives, plus a per-generation audit.\n\n4. **Add -march=x86-64-v3 and the sparse 'ro' readout on top of fast.**\n   - fastro_v3 measured 0.741, i.e. 1.35x, ledger 62/62. v3 alone is 2.0%, not 2.8%, but it combines with ro: fastro_v3 / (fast x v3) = 0.94.\n   - Small effort, exact. Hashes for v3 were 62/62 identical.\n   - Requires AVX2+FMA hosts; an older CPU gets SIGILL rather than wrong results.\n\n5. **Run the every-10 measurement rounds off the critical path.** Exact; small to medium effort; missed by the report.\n   - The valid, held-out and clone lives only feed the logs, not selection, so another worker can run them while the next generation starts. That saves about 4% of wall per run, a bit more at high thread counts.\n\n6. **Pin the platform for reproducibility.** Small effort.\n   - Use an Ubuntu 24.04 / glibc 2.39 container with the same venv (torch 2.14.1+cpu), and set ATEN_CPU_CAPABILITY=avx2.\n   - Use x86 hosts with AVX2+FMA.\n   - Run xmachine_check.py and the two golden tests first.\n   - This buys bit-for-bit replay and passing golden tests, not scientific validity. In 18 lives under non-FMA libm, F was identical in all of them and the ledger in 17. Treat ARM as untested rather than as known to differ.\n\n7. **LPT (longest-first) ordering of lives within a call.** Exact, but low value: under 1% of a generation at 16 or fewer threads per run, about 2-4% at 64. Only worth doing for runs with very many threads.\n\n8. **Unmeasured exact kernel changes, each medium effort and estimated at 3-10%:**\n   - calendar queue in place of the binary heap\n   - one record per tick, and no full memset of each record\n   - cheap exact rejection of receptor candidates\n\n   Prototype them only if the compute bill becomes large, and validate against the goldens and broad random-life checks.\n\n9. **Changes to the model itself** (per-region lambda_max, the kernel's own libm). Large effort. They change every life, so do them between experiments.",
+    "missed": "**Costs the report leaves out**\n- **Founder phase.** It takes 530-1130 s per run: 5.8% of the pilot's total wall time, and 50-70% of the wall time of the 13 small-body runs. It is embarrassingly parallel (32,768 lives) and can use fast mode, but the report's planning ignores it.\n- **The slowest run sets the pilot's length.** The longest run takes 9.7 h at 3 threads, so renting many cores alone does not shorten a pilot unless the heavy runs also get more threads. Results do not depend on thread count, so changing it per generation is safe.\n\n**Measurement biases**\n- **Clock and core type.** During the measurements the E-cores ran at 2.5-2.8 GHz against a 4.3 GHz maximum. A P-core thread whose SMT sibling was busy ran no faster than an E-core. The LP cores (12-13) are 1.9x slower per life, so a pilot thread landing on them becomes a straggler; on the laptop, keep runs off cpus 12-13.\n- **SMT on rented machines.** Cloud vCPUs are usually hyperthreads. For this branchy, latency-bound kernel, compare cost per physical core, or pick instances where one vCPU is one core. I believe AWS's 7th-generation AMD instances work that way; confirm on the provider's page.\n- **Straggler workload.** idle_scaling.py builds its workload from parent lives only, so it understates the cost variance of a real generation (mutants, guard trips) and with it any LPT benefit.\n\n**A hazard in fast mode**\n- In fast mode every hash stays HASH_INIT. Any code that treats \"hashes equal\" as \"lives identical\" would silently pass: scripts/life_gates.py and the golden tests do this. Fast mode has to stay an explicit opt-in.\n\n**Design-level levers (not exact)**\n- The two-stage recheck is 23.6% of generation wall time. A smaller recheck_k or recheck_lives would save time but changes the experiment.\n- So does drawing T from [768, 1024, 1536]: the mean T of 1109 costs about 8% more than the nominal 1024.\n\n**Reproducibility caveats**\n- Cross-machine bitwise identity matters for replaying runs and passing golden tests, not for valid statistics. A future OS or glibc upgrade on the laptop itself could also break the goldens; pinning a container protects against both.\n\n**Prices**\n- The report gives no prices, so there was nothing to re-check.\n\n**Files**\nAll my scripts and raw outputs are under /tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/kernel/verify/:\n- Scripts: check.py, summ.py, vload.py, vcount_patch.py, vcount.py, curves_split.py, founders.py, lm.c, trand.py, cores.py, straggle.py, threads_eq.py, xm.py.\n- Builds: lib/prod.so, v3.so, vc.so.\n- Raw results: raw/check_a.jsonl, check_b.jsonl, check_c.jsonl, cores.jsonl, lm_*.bin, trand_*.npz, xm_*.npz."
+   }
+  },
+  {
+   "key": "loop",
+   "report": {
+    "title": "cell-dev evolution loop: where each generation's time goes, how well 4 jobs x 3 threads used the laptop, and what would make rollouts faster on the laptop and on a rented many-core server",
+    "findings": [
+     {
+      "claim": "Kernel calls in one generation of evolve_life (src/evolve.py about lines 493-600). (A) Population: ev(everyone, draw), 256 genomes x 3 lives = 768 lives in one build.run call (evolve.batch 256). T is drawn per generation from {768, 1024, 1536}. (B) Recheck: the top 64 by mean F on the generation's lives get lives 3-6 of the same draw, 64 x 4 = 256 lives, same T. This call cannot start until A has ranked the population. Every 10 generations (and the last): (C) valid, best x 16 lives at T 1024; (D) held-out, best x 6 worlds x 4 = 24 lives (20 in v1); (E) clone forks, run_forks over the top 8 plus each other breed's best x 3 times x (1 twin + 6 conditions) x 3 lives = 63 full-length lives per genome, 504-880 lives. Founders, once per unseeded run: 16 batches of layout.random(1024) x 2 lives at T 1024, each split into 4 calls of 512 lives, so 64 calls and 32,768 lives. Python between the calls: draw, randint parents, crossover, mutate, origins bookkeeping, ev.table packing (inside t_eval), columns, argsort, pooled(), the curves row, the lineage row (registry, pdist 32x875, json) and file flushes.",
+      "evidence": "Code read: src/evolve.py (evolve_life, recheck, recheck_draw, sample_founders, fill), src/life/evaluate.py (LifeEvaluator.__call__ splits into chunks of self.batch; run is genome-major), src/life/clones.py run_forks (one build.run for all forks), src/run.py main_life/final_life, scripts/sweep.py (J Popen processes, polled every 2 s), configs/life.yaml + life_catch.yaml + life_speck.yaml. Lives per generation: 1024 kernel lives, plus about 55-90 on average from checkpoints.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Where generation time went in the pilot: the population kernel call took 72.1% of generation wall time, the recheck 23.5%, the checkpoint calls 4.0%, and Python outside the kernel calls 0.2-0.4% (median 13-28 ms per plain generation). Python inside t_eval adds about 30 ms more (packing 256 + 64 genome tables). In total Python costs about 50-75 ms per generation, against 11-32 s mean generation times. Outside the generation loop, founder sampling took 4.4 h of about 78 finished run-hours (~5.6%) and the final evaluation 0.2%. Generations at T 1536 hold 52% of all generation time (T 768: 20%, T 1024: 28%). Generations with more than 5% guard trips hold 0.6%; generations before 20 hold 1.1%.",
+      "evidence": "loop/pilot_times.py -> pilot_times.txt/json: 28 finished runs, 74.0 generation-hours, from t_gen/t_eval/t_recheck in outputs/catch_pilot/*/curves.jsonl. loop/python_overhead.py -> python_overhead.json (CPU time, nice 19, loaded): breed 14 ms, pack_256 23 ms, pack_64 5.8 ms, build prep 1.6 ms, bookkeeping 1.1 ms. Stuck runs, where kernel work is near zero, give the floor: lmax4 s1 has t_gen 73 ms and t_eval 45 ms for 768 lives. RESULTS.md part 4 also reports recheck 31%/28% of population kernel time; my median recheck/eval ratio over the pilot is 0.32.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Inside one process at 3 threads, almost no thread time is lost: kernel threads were running or runnable 98-99.5% of wall time. At most about 1-2% went to OpenMP barrier tails, Python and I/O together. The rest of the gap is run-queue waiting caused by other load on the machine.",
+      "evidence": "/proc/<pid>/task/*/schedstat (loop/pilot_threads.py; read-only; earlier snapshot in this session). speck s6, 8.25 h elapsed: each of the 3 kernel threads was on-CPU 88%, waiting in the run queue 10%, and asleep 2%. Workers made about 1,800 voluntary switches, roughly one per kernel call; with libgomp's ~300k-iteration spin, sleep happens only on gaps longer than about 10-20 ms. lmax4 s9: on-CPU 86%, run queue 13.5%. speck s9, 0.38 h: on-CPU 91%, run queue 7.7%, asleep 0.5-1.2%. The simulation below gives 0.3% straggler idle at 3 threads, which fits.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Per-life costs in late generations. Cost follows cell-time: about 1.1 us per cell-unit plus 0.28 us per event (R^2 0.95). The population call's lives spread moderately (cv 0.24-0.98). The longest life in a call is always a mutant that hits the 1024-cell guard: 0.1-0.8% of lives, holding 1-5% of the CPU, but each costing 1.6-1.7 s, or 3-15 times the mean life. Recheck lives are uniform (max/mean 1.4-2.0). The kernel already stops a guard life at the first unit time with n >= n_max (1024) or events > e_max, so the expense is the growth up to 1024 cells.",
+      "evidence": "8 replayed generations from 5 finished runs' final populations: speck s5 at T 768/1024/1536, speck s0/s2/s4 at T 1536, lmax4 s5 at T 1024/1536. Children were bred with the run's own crossover+mutate. Totals: 6,144 population, 2,048 recheck and 544 checkpoint lives (loop/gen_replay.py -> replay_*.json; loop/costmodel.py -> costmodel.txt/json). Timing used a copy of kernel.c with per-life thread-CPU clocks (loop/build/kernel_timed.c), checked bitwise equal to the unmodified copy (check_bitwise.py: ledgers and hashes equal). Runs were pinned to E-cores 4-11, 2 threads, nice 19. Absolute times are inflated by load and only relative sizes are used. Guard code: kernel.c guard_check and run_heap; spec.py n_max 1024, e_max 5e6.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Efficiency of one run against its thread count, with schedule(dynamic,1) in kernel order, weighted like the pilot's time over the three T values, checkpoints included, plus ~60 ms of serial Python per generation: 99.6% at 3 threads, 98.8% at 8, 97.6% at 12, 96.4% at 16, 90.8% at 32, 79.5% at 64, 62.9% at 128, 49.9% at 192. The cause is the per-call barrier. From 64 threads up, one guard-tripping life (1.6-1.7 s) is longer than work/P. The small valid and held-out calls (16 and 24 lives) are already 9-12% idle at 3 threads and over 75% idle at 64, but they are under 2% of the work. Batching R runs into each call fixes this: R=4 gives 96.9% at 64 and 79.3% at 192; R=16 gives 99.0% and 94.0%.",
+      "evidence": "loop/sched_sim.py (exact list-scheduling simulation of OpenMP dynamic,1, from the measured per-life costs) -> sched_sim.txt/json. The same with fitted model costs (sched_sim --model) -> sched_sim_model.txt: same picture. loop/summary.py -> summary.txt/json for the T-weighting and Python. Single-call floors: speck s5 T 768 population with one 1.71 s guard life is 6.4% idle at 16 threads and 40% at 64.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Ordering lives longest-first with a realistic cost guess does not help. A child guessed to cost what its parent costs correlates with its actual cost at only r = -0.04 to 0.30, because life-to-life (seed) variance and mutations dominate. With perfect knowledge of costs (oracle ordering) the gain would be large.",
+      "evidence": "loop/lpt_pred.py -> lpt_pred.txt/json. Population-call idle, mean of 8 replays: at 64 threads 16.7% in kernel order, 16.2% with the parent-based guess, 4.4% with the oracle; at 192 threads 45.7% / 39.8% / 27.7%.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Founder sampling is dominated by guard trips. 31% of random-genome lives hit the 1024-cell guard (median trip at t 166 of 1024) and hold 82% of founder CPU, so about 4-5% of all pilot compute went to founder lives that cannot become founders. Founder calls of 512 lives are 1.4% idle at 3 threads, 21% at 16 and 62% at 64. Calls of 2,048 lives would be 0.5% / 5.6% / 27% idle, and one call of all 32,768 lives 0.0% / 0.3% / 2.5%.",
+      "evidence": "loop/founder_sample.py -> founders_speck_lmax4_hexprism_sex_s5_128.json: 128 random genomes x 2 lives at T 1024, speck prior. loop/founder_sim.py -> founder_sim.txt (bootstrap list-scheduling). In the same sample, 4 of 176 non-guard lives peaked at 512 cells or more and 6 at 256 or more. Sample of 256 lives, so the shares are approximate.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "How the 4 jobs x 3 threads layout did on the whole sweep. The sweep will span about 24.4 h for 83.2 run-hours. 15% of slot-hours sit idle because the 29th run (speck s9, started about 02:36 today) runs alone on 3 threads for about 5 h. The laptop was also shared: in two 20-30 s samples the pilot got 8.1 and 11.0 of 14 hardware threads (58% and 79%) at load 25-100, with every CPU at 100%. Per-thread speed was low: 1.25-1.9 wall thread-us per cell-unit (median ~1.5) against 0.61 us unloaded in RESULTS.md. My thread-CPU measurements give 1.2-1.5 us, so most of that 2-2.5x slowdown is slower instructions, not time-slicing (run-queue wait is ~10%). Likely causes are the power-limited 15 W U-series chip at all-core load, E-cores sharing L2, hyper-threading and other users' jobs.",
+      "evidence": "loop/pilot_timeline.py -> pilot_timeline.txt (run start = config.yaml mtime, end = results.jsonl mtime; speck s9's remaining time estimated from the median finished speck run). loop/machine_share.py -> machine_share_1.txt, machine_share_2.txt. loop/pilot_rates.py -> pilot_rates.txt: 3.73e11 population cell-units in 53.4 h of t_eval. lscpu: CPUs 0-3 are 2 P-cores with HT at 5.2 GHz, 4-11 are 8 E-cores at 4.3 GHz in two L2 clusters, 12-13 are 2 LP cores at 2.4 GHz.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "On the laptop, the job layout barely matters for throughput: one run is at least 97.6% efficient up to 12 threads, so 4x3, 2x6 and 1x12 differ by under 2%. More threads per run only cut a single run's latency. What does matter is the sweep tail. Simulated on the pilot's own run lengths: the actual order takes 24.4 h; ordering arms by expected length takes 23.6 h; an elastic thread budget (running runs share all 12 threads once fewer than 4 remain) takes 20.8 h, the throughput bound. On a 192-thread server at the pilot's per-thread speed: static 29 slots x 6 threads take 4.9 h with 70% of the box idle; static 16x12 take 2.6 h; elastic takes 1.4-1.5 h. Elastic capped at 32 threads per run takes 1.7 h, and at 16 threads 2.2 h.",
+      "evidence": "loop/sweep_sim.py -> sweep_sim.txt/json, using pilot_timeline durations and the per-thread-count efficiency curve from summary.py. RESULTS.md (lines ~255-275) also found the machine saturates at ~0.19 R25 generations/s 'whatever the layout'.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Total work, for sizing a rental: the pilot's population calls simulated 3.7e11 cell-units; recheck adds about 32%, checkpoints about 5% and founders about 6%. That is about 83 run-hours x 3 threads, roughly 250 loaded-laptop thread-hours or about 220 CPU-hours. The longest single run is about 9.7 h at 3 loaded threads, about 29 thread-hours. On any machine, a sweep's floor is max(total work / threads, longest run / efficiency at the threads it gets).",
+      "evidence": "pilot_rates.txt; pilot_times.txt; pilot_timeline.txt; process CPU about 88% of 3 x wall (schedstat).",
+      "confidence": "medium"
+     }
+    ],
+    "recommendations": [
+     {
+      "change": "Elastic thread budget. sweep.py gets a total thread count, rewrites a per-run budget file (for example floor(total / running runs), at least 1) whenever runs start or finish, and LifeEvaluator.run (and the build.run calls in clones and final_life) re-reads its thread count before each kernel call instead of fixing cfg.threads at start.",
+      "expected_gain": "Laptop sweep 24.4 h -> 20.8 h (-15%); this pilot's 5 h single-run tail would shrink to about 1.5 h. On a 192-thread server it is the largest lever: 4.9 h (static 29x6) -> ~1.5 h at the same per-thread speed, about 3.3x fewer rented hours.",
+      "effort": "small",
+      "preserves_exactness": "Yes, bitwise. Results do not depend on the thread count (documented in LifeEvaluator; the benchmark's bitwise check confirms 1 vs 2 threads). Only timing fields change.",
+      "risk": "Low. Keep the budget at least 1 and avoid brief oversubscription when a new run starts; the change touches only how threads are handed out."
+     },
+     {
+      "change": "Rented many-core server: run many runs at once, at most 16-32 threads each while many are active, and let survivors widen as others finish (elastic). Do not give a single run more than about 32 threads unless lives are batched across runs. Use x86 compute-optimized many-core CPUs; there is no GPU use. Memory is about 0.3-0.45 GB per process.",
+      "expected_gain": "One run's efficiency is 96% at 16 threads and 91% at 32, against 80% at 64 and 50% at 192. A pilot-sized sweep (29 x 500 generations) would need about 1.4-1.5 h on 192 threads if a vCPU is as fast as a loaded laptop thread; it is probably faster (unloaded laptop threads are 2-2.5x faster than loaded ones).",
+      "effort": "small",
+      "preserves_exactness": "Yes. It changes only layout and threads.",
+      "risk": "Per-vCPU speed on the server is unmeasured. Run bench_scaling.py kernel/layouts on a short rental first; with SMT, count a vCPU as roughly 0.6 of a core."
+     },
+     {
+      "change": "Founder sampling: (a) config evolve.batch=1024 or more (genomes per kernel call); (b) small code change: under founder_all, draw all 16 batches first (same layout.random and draw-index order) and run their 32,768 lives in one kernel call.",
+      "expected_gain": "Founder-call idle at 16 threads 21% -> 5.6% with (a), 0.3% with (b); at 64 threads 62% -> 27% / 2.5%. On the laptop at 3 threads only 1.4% -> ~0% of founder time (~0.1% overall). It matters when founders run wide on a server: founders are ~6% of run-hours and come first in every run.",
+      "effort": "small",
+      "preserves_exactness": "Yes, bitwise. evolve.batch only chunks the genomes (LifeEvaluator.__call__ concatenates per-genome results), and (b) keeps the same RNG call order and founder seeds.",
+      "risk": "Low. Check that collect/life_census still get per-batch results."
+     },
+     {
+      "change": "Batch several runs per kernel call: R runs advance in lockstep inside one process; their population calls are joined into one kernel call, then their rechecks.",
+      "expected_gain": "One-run efficiency at 64 / 192 threads goes 80% / 50% -> 97% / 79% with R=4, and 99% / 94% with R=16. Worth it only if few runs must go very wide (for example one long run on a big box); with elastic multi-process layouts the gain is small.",
+      "effort": "large",
+      "preserves_exactness": "Yes. Lives are independent and each run keeps its own RNG, seeds and files.",
+      "risk": "Medium: a rewrite of the evolve_life driver and lineage I/O, and runs of very different lengths drift apart."
+     },
+     {
+      "change": "Take the diagnostics off the critical path: clones.every 20 instead of 10, or fold the valid, held-out and fork lives of generation g into generation g+1's population call (they never feed selection).",
+      "expected_gain": "clones.every 20 saves about 2% of wall time (checkpoints are 4.0%). Folding saves the small calls' barrier idle: under 0.5% at 16 threads or fewer, 3-4 points at 128-192.",
+      "effort": "small",
+      "preserves_exactness": "The evolution stays bitwise identical either way. clones.every changes only which generations get diagnostic rows (not comparable with the pilot's every-10 clone curves); folding is exact but delays the rows by one generation.",
+      "risk": "Low."
+     },
+     {
+      "change": "Laptop hygiene for sweeps: keep other heavy jobs off (the pilot got only 58-79% of hardware threads at load 25-100), and do not count on more threads per run raising throughput.",
+      "expected_gain": "Up to 1.3-1.7x the machine share for the sweep. Faster per-thread speed would follow too (the unloaded laptop measured 0.61 us per cell-unit against ~1.5 us loaded).",
+      "effort": "small",
+      "preserves_exactness": "Yes.",
+      "risk": "None in code; it limits other uses of the laptop."
+     },
+     {
+      "change": "Optional, the user's call: the pilot's last run (speck s9, started ~02:36) is alone on 3 threads for ~5 h. It could be restarted with threads=12, which gives identical results (thread count does not affect them).",
+      "expected_gain": "About 3-3.5 h sooner end of the pilot.",
+      "effort": "small",
+      "preserves_exactness": "Yes, bitwise (thread-independent), but the restart repeats the ~0.4 h already done.",
+      "risk": "sweep.py would log the killed run as failed and the aggregate step would need a manual rerun; it also competes with the other analysis on the machine. I did not touch the process."
+     },
+     {
+      "change": "Not recommended: (1) asynchronous / steady-state evolution with no generation barrier; (2) merging the population and recheck calls; (3) longest-first ordering with the current cost guesses; (4) a lower n_max for selection lives.",
+      "expected_gain": "(1) The barrier costs only 1-9% at 32 threads or fewer per run. (2) Exact merging is impossible because the recheck needs the population's ranking; rechecking everyone costs +75% lives. (3) No measurable gain (64-thread idle 16.7% -> 16.2%). (4) Would cut the guard stragglers, but bodies already reach 300-400 cells (s0 population q90 305, still growing).",
+      "effort": "medium",
+      "preserves_exactness": "(1) and (4) change the algorithm and break comparability with the pilot; (2) as speculative recheck-all changes the work but could stay exact; (3) is exact but useless.",
+      "risk": "High for (1) and (4): different evolutionary dynamics."
+     },
+     {
+      "change": "Founder-only guard (for example n_max 512 during founder sampling only).",
+      "expected_gain": "Up to ~3-5x less founder CPU (82% of it is guard lives), i.e. ~4% of total run time; much more for runs that stay stuck at 1-2 cells, where founders are about half of the run.",
+      "effort": "small",
+      "preserves_exactness": "No. Founder selection changes if a top-8 founder would have peaked above the cap (in my sample 4 of 176 non-guard lives peaked at 512 cells or more).",
+      "risk": "Medium. Adopt only after checking on the pilot seeds that the chosen founders are bitwise unchanged."
+     }
+    ],
+    "scripts_for_idle_machine": [
+     "cd /tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop && /home/jgon/project/ml/cell-dev/.venv/bin/python bench_scaling.py all   # every part, about 1 h on an idle laptop; writes bench_out/{kernel,layouts,generation,founders}.json and records the load average (it should be ~0-1)",
+     "... bench_scaling.py kernel --threads 1,2,4,8,12   # kernel only: the fixed 768-life late-pilot population call (speck s5 final population + 224 bred children, T 1024) and a 256-life recheck-sized call. Reports wall, CPU, lives/s, cell-units/s, speedup, efficiency, the dynamic,1 tail and a bitwise hash check across thread counts",
+     "... bench_scaling.py layouts --layouts 1x12,2x6,3x4,4x3,6x2,12x1   # J processes x t threads started together on the same 768-life call; aggregate lives/s answers 'one run with many threads vs many runs with few'",
+     "... bench_scaling.py generation --threads 1,2,4,8,12 --gens 11   # the real evolve_life loop seeded from speck s5's best genome (no output files): t_gen, t_eval, t_recheck, Python residual and checkpoint extra per thread count",
+     "... bench_scaling.py founders --threads 1,4,12   # one 1024-genome x 2-life founder batch (guard-heavy random genomes)",
+     "... bench_scaling.py kernel --threads 1,2,4 --cpus 0-3 ; ... bench_scaling.py kernel --threads 1,2,4,8 --cpus 4-11   # P-cores vs E-cores separately; OMP_WAIT_POLICY=passive is optional; --lib prod uses src.life.build's own cached library",
+     "On a rented server, before a sweep: the same kernel and layouts parts (for example --threads 1,8,16,32,64 --layouts 12x16,24x8,48x4) give the per-vCPU speed that the sweep_sim.py projections divide by"
+    ],
+    "artifacts": [
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/bench_scaling.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/klib.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/build/kernel_timed.c",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/build/kernel_ref.c",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/build/life_timed.so",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/build/life_ref.so",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/check_bitwise.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/gen_replay.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/run_queue.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/queue1.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/queue1.log",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/queue2.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/queue2.log",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/queue3.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/queue3.log",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_speck_lmax4_hexprism_sex_s5_g500.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_speck_lmax4_hexprism_sex_s5_g502.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_speck_lmax4_hexprism_sex_s5_g505.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_speck_lmax4_hexprism_sex_s0_g501.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_speck_lmax4_hexprism_sex_s2_g500.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_speck_lmax4_hexprism_sex_s4_g500.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_lmax4_hexprism_sex_s5_g500.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/replay_lmax4_hexprism_sex_s5_g505.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/founder_sample.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/founders_speck_lmax4_hexprism_sex_s5_128.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/founder_sim.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/founder_sim.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/founder_sim.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/costmodel.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/costmodel.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/costmodel.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sched_sim.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sched_sim.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sched_sim.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sched_sim_model.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sched_sim_model.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/summary.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/summary.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/summary.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/lpt_pred.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/lpt_pred.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/lpt_pred.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/python_overhead.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/python_overhead.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_times.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_times.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_times.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_rates.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_rates.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_rates.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_timeline.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_timeline.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_timeline_0131.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sweep_sim.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sweep_sim.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/sweep_sim.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/machine_share.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/machine_share_1.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/machine_share_2.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_threads.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/pilot_threads.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/smoke_out (tiny smoke-test outputs of bench_scaling.py under load: they show the script runs and the 1 vs 2 thread hashes match; the timings mean nothing)"
+    ]
+   },
+   "verdict": {
+    "title": "Review of the \"loop\" report: its measurements check out, but its biggest speedup claim (elastic threads cutting rented hours 3.3x) mostly comes from a free change to how jobs are laid out",
+    "checks": [
+     {
+      "claim": "Where generation time goes: the population kernel call takes 72.1%, the recheck 23.5%, checkpoints 4.0% and Python 0.2-0.4%. Founders are 5.6% of run-hours and the final evaluation 0.2%. Generations at T 768/1024/1536 hold 20/28/52% of generation time.",
+      "recheck": "I wrote my own accounting (verify/v_timeline.py) over the curves.jsonl and results.jsonl of the 28 finished runs. Founder time is wall_s minus the sum of t_gen. Checkpoint generations are g%10==0 or the final one. I also read evolve.py to see what t_gen covers.",
+      "result": "Population 72.1%, recheck 23.6%, checkpoint extra 4.1%, Python residual 0.24%. Founders 4.41 h of 78.2 h (5.6%), final 0.17 h (0.22%). By T: 19.9 / 28.1 / 52.0%. Median recheck/eval ratio 0.31. One nuance: t_gen is stopped before the lineage write, so founder time also includes setup and every generation's lineage I/O. Both are small.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "One run's efficiency against its thread count, with schedule(dynamic,1), T-weighted, with 60 ms of serial Python: 99.6% at 3 threads, 98.8% at 8, 97.6% at 12, 96.4% at 16, 90.8% at 32, 79.5% at 64, 62.9% at 128, 49.9% at 192. The cause is a 1.6-1.7 s guard-tripping life, and the longest life in a call is always a guard mutant.",
+      "recheck": "Own heap-based list scheduler (verify/v_sched.py) on the 8 replays' per-life thread-CPU costs, population plus recheck, same T weights. I also checked n_peak and status of the longest life in each population call.",
+      "result": "The efficiencies reproduce: 99.6 / 98.8 / 97.7 / 96.5 / 90.9 / 79.8 / 63.2 / 50.2%. The mechanism is overstated. The longest life is not a guard trip in 3 of 8 replays (n_peak 219, 394 and 532). Only 3 of 8 replays have a 1.6-1.7 s life. In s0 and s2 the guard lives cost 0.4-1.0 s. The recheck call has no guard lives at all and is still 40-46% idle at 192 threads and 18-19% at 64. So at high thread counts the loss comes as much from having too few lives per call (256 or 768) as from guard stragglers.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "On a 192-thread server, an elastic thread budget is the largest lever: static 29 slots x 6 threads take 4.9 h, elastic takes about 1.5 h, so about 3.3x fewer rented hours.",
+      "recheck": "Own layout simulation (verify/v_server.py). It uses the pilot's run durations from file mtimes, assumes 5.02 h for the unfinished run, and uses my efficiency curve from v_sched.py. It covers static layouts in pilot order and longest-first order, plus elastic layouts with thread caps.",
+      "result": "Elastic takes 1.43 h with no cap, 1.66 h capped at 32 and 2.18 h capped at 16. Static 29x6 does take 4.89 h. But 29x6 is a straw man: plain static sweep.py layouts do almost as well. 8x24 takes 1.76 h in pilot order and 1.40 h longest-first. 6x32 takes 1.64 h and 1.43 h. The work bound is 1.30 h. Against a sensible zero-code layout, elastic gains 0-23%, not 3.3x. At 96 threads the best static layout (8x12 longest-first, 2.67 h) even beats elastic (2.84 h).",
+      "outcome": "refuted"
+     },
+     {
+      "claim": "Laptop sweep: 24.4 h actual, 20.8 h elastic (-15%); 15% of slot-hours idle because the last run (speck s9) runs alone for about 5 h.",
+      "recheck": "Own timeline from mtimes. I estimated s9's total from its progress (131 generations, 0.51 gen-h, pop_body 42) against each finished speck run's cumulative t_gen curve. I simulated a 4-job cap with elastic threads, plus the static 2x6 and 1x12 layouts. I also checked the current load (ps, loadavg).",
+      "result": "With s9 = 5.02 h I reproduce 24.46 h actual and 20.84 h elastic. But s9's length is uncertain. The analog runs give a median of about 6.1 gen-h and a plausible range of 3-9 h, so the actual span is 22.4-28.4 h and elastic would give 20.3-21.9 h: a saving of 2-7 h (9-23%). Plain --jobs 1 --threads 12 needs no code and gives 21.2 h (2x6 gives 21.9 h). That captures most of the elastic gain. Also, the tail threads are not idle: the machine is at load 25-30 from the user's other analysis (nice 19). Elastic would take CPU away from that analysis rather than add throughput.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Inside one process at 3 threads, kernel threads are running or runnable 98-99.5% of wall time, and almost no thread time is lost.",
+      "recheck": "Read-only 90 s sample of /proc/<pid>/task/*/schedstat for the running speck s9 process (verify/v_schedstat.py). No signals were sent.",
+      "result": "Three busy threads: on-CPU 98.9-99.5%, run queue 0.2-0.8%, asleep 0.1-0.3%. This is better than the earlier sample now that s9 runs alone at nice 0 against nice-19 jobs. Caveat: libgomp spin-waiting counts as on-CPU, so schedstat cannot bound barrier idle. The bound comes from the simulation, which gives 0.2-0.4% idle at 3 threads.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Elastic threads keep results bitwise exact, because results do not depend on the thread count, and the change is small.",
+      "recheck": "Read kernel.c life_run: num_threads(threads) is set per call and each life i writes only its own ledger and hash slots. Read evaluate.py: self.threads is read on every build.run. I then built kernel.c myself through build.py (CELL_DEV_CACHE=verify/cache) and ran 24 lives (speck s5 best plus 7 mutants x 3 lives) at 1 and 2 threads (verify/v_threads_bitwise.py).",
+      "result": "Ledger bytes and hashes are bitwise equal. Setting ev.threads before each call is all elastic needs, so the effort is small. Exactness across machines is a separate question. docs/LIFE_ABI.md says bitwise agreement assumes the same libm (the kernel uses exp, log, tanh, cos, sin and pow). A rented server therefore has to be verified, not assumed equal.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Founders: 31% of random-genome lives trip the 1024-cell guard and hold 82% of founder CPU. Founder calls of 512 lives are 1.4% idle at 3 threads, 21% at 16 and 62% at 64. 2,048-life calls would be 0.5 / 5.6 / 27% idle and one 32,768-life call 0.0 / 0.3 / 2.5%.",
+      "recheck": "census_guard from the founders event of every run log (23 runs x 16,384 genomes x 2 lives), and my own bootstrap list-scheduling of the 256-life sample. I also read sample_founders: sample(gen) ignores gen, so drawing all 16 batches first keeps the RNG order.",
+      "result": "The full census guard share is 27.7% (range 25.9-28.3%), not 31%. The 31% came from a 256-life sample. Its CPU share is therefore probably nearer 78-80%. The bootstrap gives 1.7 / 22.3 / 60.7% idle for 512-life calls, 0.5 / 6.0 / 27.6% for 2,048 and 0.0 / 0.4 / 2.4% for 32,768, which confirms the idle numbers. Option (b), one founder call, needs a run path that takes a separate draw (seed set) for each founder batch, because LifeEvaluator.run uses one draw per call. Still a small change.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Loaded laptop threads are 2-2.5x slower than unloaded ones (about 1.5 us against 0.61 us per cell-unit). This was used for 'laptop hygiene' gains and for 'a server vCPU is probably faster'.",
+      "recheck": "One process pinned to E-cores 4-11, interleaving 3 rounds x 24 single-thread lives of RESULTS.md's own benchmark genome (BELL R25-v1 timer) with the speck s5 and lmax4 s5 best bodies at T 1024. Same load for all three, CPU time only (verify/v_percell.py).",
+      "result": "Thread-CPU per cell-unit: BELL R25 1.21 us, speck 1.24 us, lmax4 1.43 us. So CATCH lives cost about the same per cell-unit as the benchmark (1.0-1.2x), and the roughly 2x gap to 0.61 us is real. It comes from E-core against P-core plus contention, not from the world. However, 0.61 us was measured at 3 threads. RESULTS.md's own 8-thread figure is 0.97 us, so a fully used laptop never gets 0.61 us per thread. Clearing other jobs would raise per-thread speed by about 1.4x at most, not 2.5x.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Longest-first ordering by a parent-based cost guess does not help: r = -0.04 to 0.30, because life-to-life (seed) variance and mutations dominate.",
+      "recheck": "Correlation of each child's life cost with the mean of its two parents' per-genome costs, plus the within-genome share of variance, over the 8 replays.",
+      "result": "r = 0.01-0.39, so the conclusion stands. The stated reason is half wrong. Within-genome (seed) variance is only 2-28% of the total. What makes cost unpredictable is the mutation's effect on each child, not seed noise.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Rental sizing: about 250 loaded-laptop thread-hours (about 220 CPU-hours), 1.4-1.5 h on 192 threads if a vCPU is as fast as a loaded laptop thread, probably faster. Use x86 compute-optimized many-core machines. No prices were given.",
+      "recheck": "Arithmetic re-done (83.2 run-hours x 3 threads = 249). I opened price and specification sources: instances.vantage.sh/aws/ec2/c7a.48xlarge and c7i.48xlarge, and aws.amazon.com/ec2/instance-types/c7a.",
+      "result": "The arithmetic holds. Prices in us-east-1: c7a.48xlarge (192 vCPU, AMD EPYC 9R14) costs $9.85/h on demand and $3.40/h spot. AWS states that every c7a vCPU is a physical core with no SMT. c7i.48xlarge (192 vCPU, Sapphire Rapids with SMT) costs $8.57/h on demand and $3.26/h spot. That is about 1.7x more per physical core, so c7a-class no-SMT AMD is the better buy. Server per-core speed is still unmeasured.",
+      "outcome": "unverifiable"
+     }
+    ],
+    "corrected_recommendations": "Ranked by value per effort. \"Loaded-laptop speed\" means pilot per-thread speed. My test lives were bitwise identical at 1 and 2 threads, so these layout changes do not change results.\n\n1. Change the job layout, no code needed: run fewer runs at once, each with more threads.\n   - Laptop: sweep.py --jobs 1 --threads 12, or --jobs 2 --threads 6. For this pilot's mix of run lengths, that gives about 21.2-21.9 h instead of 24.5 h.\n   - 192-core server: --jobs 6-8 --threads 24-32 gives 1.4-1.8 h at loaded-laptop speed. Do not use 29x6 (4.9 h) or 16x12 (2.5 h).\n   - Start the expected-long arms (speck) first; that alone moves 8x24 from 1.76 h to 1.40 h.\n   - Gain: about 13% on the laptop and 3x on the server against the naive layout. Almost everything the report credited to elastic threads.\n\n2. Rent one c7a.48xlarge, or another no-SMT many-core AMD machine.\n   - It has 192 physical cores and costs $9.85/h on demand or $3.40/h spot.\n   - A pilot-sized sweep (29 runs x 500 generations) is about 220-250 loaded-laptop CPU-hours. If a server core is 1-2x a loaded laptop thread (unmeasured), that is about 0.8-1.5 h, roughly $8-15 on demand, against about 25 h on the laptop.\n   - Before the sweep, spend about 15 minutes on two checks:\n     - bench_scaling.py kernel and layouts, to measure per-core speed;\n     - a bitwise check of a fixed set of lives against laptop hashes, because exactness assumes the same libm. Use the same Ubuntu 24.04 / glibc 2.39 / gcc 13.3 image.\n   - Use on-demand: there is no resume support, so a spot interruption would lose runs.\n   - Effort: small. Value: very high.\n\n3. Elastic thread budget (small code change, bitwise exact).\n   - Over the best static layout it adds 0-23% when run lengths are unknown in advance. On the laptop: 20.8 h against 21.2 h for 1x12.\n   - Mainly robustness against an unpredictable long tail.\n   - On a laptop shared with the user's own analyses, it moves CPU from those jobs to the pilot rather than adding capacity.\n\n4. Founders: set evolve.batch=1024 (config only, exact). It saves about 1% of a sweep where runs use 16-32 threads, and about nothing on the laptop. One kernel call for all 16 founder batches (small code, needs a separate draw per batch) adds about another 1%.\n\n5. Laptop hygiene: keep other heavy jobs off during sweeps. The pilot's share of the machine would go from 58-79% to about 100%, so up to 1.3-1.7x. The per-thread gain is at most about 1.4x (0.97 us at 8 threads unloaded), not the 2.5x the report implied.\n\n6. clones.every 20: about 2%. It changes when diagnostic rows appear, so they are not comparable with the pilot's every-10 clone curves.\n\n7. Batching several runs into each kernel call: large effort and little value for sweeps, because wide static layouts already reach 1.40 h against a 1.30 h work bound. Only useful for a single run spread over 64 or more threads.\n\n8. Restarting speck s9 with 12 threads: the user's call. It saves about 3 h of pilot tail, repeats about 0.75 h of done work, and takes CPU from the user's running analysis.\n\nKeep as not recommended:\n- asynchronous evolution;\n- longest-first ordering with parent-based guesses;\n- a lower n_max;\n- a founder-only guard, unless it is shown not to change the chosen founders.",
+    "missed": "1. The zero-code fix: wider, fewer jobs (laptop 1x12 or 2x6; server 6-8 x 24-32, longest arms first) captures nearly all the gain the report credits to elastic threads. The 3.3x server figure compares elastic against a naive 29x6 layout.\n\n2. Dollars, which answer the rental question directly. A pilot-sized sweep is about $8-15 on demand on a c7a.48xlarge ($9.85/h; $3.40/h spot), against about 25 h on the laptop. c7i-class machines with SMT cost about 1.7x more per physical core for this CPU-bound, no-GPU work. Cost scales with total work, so a 64-core box costs about the same and just takes 3x longer.\n\n3. Exactness across machines. docs/LIFE_ABI.md says bitwise agreement assumes the same libm (exp, log, tanh, cos, sin, pow). The report marked renting as \"exact: yes\" without checking. Pin the OS image and compare hashes on a fixed set of lives before trusting results as comparable with the pilot.\n\n4. No resume or checkpoint support exists (nothing in run.py, evolve.py or sweep.py), so spot instances risk losing whole runs. Use on-demand, or add resume (population, ids, origins, generator state, counters) only if sweeps grow much larger.\n\n5. At 64 or more threads per run, idle comes from having too few lives per call (recheck 256, population 768), not only from guard stragglers. The recheck call has no guard lives and is still 40-46% idle at 192 threads.\n\n6. The report's 15% idle and 24.4 h depend on an unknown s9 length (3-9 h gives a 22.4-28.4 h span).\n\n7. The laptop's tail threads are not idle: load 25-30 from the user's other analysis at nice 19 is using them.\n\n8. The schedstat on-CPU share includes libgomp spin-waiting, so it does not by itself show useful work.\n\n9. The founder guard share is 27.7% across all runs' full censuses, not 31%.\n\n10. Future cost growth. Per-life cost follows cell-time, and bodies are still growing (s0 population q90 about 305 cells against about 120 for s5). Later or longer runs will cost about 2-3x more per generation than the pilot average, so budget rentals on cell-time rather than run count.\n\n11. On a two-socket, many-CCD server, pinning each job's threads to one NUMA node or CCD set (taskset, OMP_PROC_BIND) is a cheap, exact extra. It is unmeasured.\n\nVerification scripts and outputs, all in /tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/loop/verify/:\n- v_sched.py, v_sched.json\n- v_timeline.py\n- v_server.py (usage: v_server.py <s9_hours> <thread totals>)\n- v_percell.py, v_percell.json\n- v_schedstat.py\n- v_threads_bitwise.py\n- cache/life/ (own kernel build)\n\nSources:\n- https://instances.vantage.sh/aws/ec2/c7a.48xlarge\n- https://instances.vantage.sh/aws/ec2/c7i.48xlarge\n- https://aws.amazon.com/ec2/instance-types/c7a/"
+   }
+  },
+  {
+   "key": "samples",
+   "report": {
+    "title": "Sample efficiency of cell-dev selection: late-run rollouts mostly rank near-neutral children by capture-count noise",
+    "findings": [
+     {
+      "claim": "Where the pilot's compute goes. Selection lives take 69% of process time, the recheck 22%, monitoring (valid, held-out and clone forks, plus breeding and logging overhead) 4%, founder sampling 4.6% and the final evaluation 0.2%. 95% of generation time falls in generations whose median body has at least 30 cells.",
+      "evidence": "lineage_stats.py over all 29 runs (curves.jsonl t_eval / t_recheck / t_gen; founders = results wall_s - sum(t_gen) - final_s). Process-hours: eval 49.4, recheck 16.0, rest 2.9, founders 3.3, final 0.1, total 71.7. A 500-generation run uses 384k selection lives, 128k recheck lives, 0.8k valid, 1.0-1.2k held-out, about 26k clone or fork lives (8 genomes x 3 times x 7 x 3 every 10 generations) and 32.8k founder lives. Generations with median_n >= 30 account for 65.4 of 68.8 generation-hours (5953 of 12546 generations). Load bias: these are wall-clock times under 4 jobs x 3 threads plus other load. All phases run in the same process under the same load, so the split is roughly fair, but absolute hours are inflated.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Among the top genomes, selection is close to a lottery. Each generation 27-28 of the 32 survivors are new children and only 4-6 parents survive. Parents fill 8-10 of the 64 shortlist slots. If parents and children were exchangeable (no true differences), the expected numbers would be 4 kept and 8 in the shortlist. Inside the shortlist, the Spearman correlation between F_base (3 lives) and F_recheck (4 lives) has a median of 0.034 over 8,514 body-run generations, and 0.000-0.017 in generations >= 450.",
+      "evidence": "lineage.jsonl from the 20 runs whose median body reached 30 cells: per-run medians are kept 26-28, parents kept 4-6, parents in shortlist 8-10, recheck_changed 7.5-12. Repeated measures of genomes shortlisted in several generations (F_recheck centred per generation, never the value they were shortlisted on) give a between-genome ICC of 0.00-0.065 in every body run. File: samples/lineage_stats.json.",
+      "confidence": "high"
+     },
+     {
+      "claim": "The near-zero recheck correlation is both range restriction and genuine noise, and the experiment reproduces the logs. All real between-genome variance comes from about 4-9% broken children, which never reach the top 64. Among parents and the remaining near-neutral children, true spread is at most 0.27 F (speck) or 0.135 F (catch_v1), against a per-life noise sd of 2.0 F (speck) or 0.62 F (catch_v1).",
+      "evidence": "crn_experiment.py: the final population (32) plus 224 children bred exactly as evolve_life does (crossover then mutate, same n_mut, p_cell and scaling), 16 shared fresh lives at T 1024. speck s5 (about 120 cells): per-life genome x life variance 4.05 (sd 2.01); shared life effect 0.47; between-genome variance 1.47 over all 256, but 0.046 among parents (95% upper bound 0.25) and 0.025 among the 237 non-broken genomes (tau about 0.16, 95% upper bound 0.27). Broken children are 8.5% (mean F 2.78 vs parents 6.49). Emulating the pilot's recheck on these numbers gives Spearman 0.001 (10-90%: -0.16 to 0.16), 9.7 parents in the shortlist, 5.4 parents kept, winner's curse 1.42 F and a variance of 0.97 for the 4-life recheck means; the logs at gens >= 450 show 0.009, 10, 5, 1.31 and 1.21. catch_v1 lmax4 s5 (about 75 cells): noise sd 0.62, life effect 0.155, cloud tau 0.11 (upper bound 0.135), 4.5% broken; emulated Spearman 0.013 against 0.017 in the logs. Single-life heritability is 0.27 (speck) and 0.14 (catch) over all candidates but 0.006 and 0.030 inside the near-neutral cloud. Files: samples/runs/*/noise.json and noise_L16.txt.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Per-life F noise in SPECK is Poisson noise in the capture count. Each capture is worth R_cap/T = 0.49 F, and a 120-cell body makes about 19 captures per T=1024 life. Neither the seed scheme nor any other bookkeeping can remove it: only observing more captures (more simulated time) does.",
+      "evidence": "speck s5, 256 genomes x 16 lives: per-genome per-life variance of F has median 4.39, against the Poisson prediction (R_cap/T)^2 x mean captures = 4.50 (ratio 0.99). The index of dispersion of captures within a genome is 0.98, and the within-genome correlation of F with captures is 0.99. catch_v1 (R_cap 100) makes about 55 captures per life, which predicts a per-life sd of 0.68 (measured 0.62).",
+      "confidence": "high"
+     },
+     {
+      "claim": "Common random numbers are already in place, but they help little late in a run, because the clockless dynamics decorrelate after any genome change. Early in a run they are decisive. Every genome of a generation and its recheck shares the life seeds (hash of run seed, purpose, generation and life) and the per-generation T. Late in the run CRN is worth only 1.1-1.6x in lives.",
+      "evidence": "Paired-difference variance per life, different seeds divided by same seeds: speck s5 1.13-1.15 for children vs parent a (per-life correlation 0.13) and 0.93-0.96 for point mutants vs the best (no gain). catch_v1 s5: 1.54-1.60 for children (correlation 0.35) and 1.56-1.81 for mutants. Small-body population (lmax4 s0, 2 cells): 7.2-13x, child correlation 0.92, mutant correlation 0.9999, and 11% of mutants are bitwise neutral. In the scheme simulator, the pilot without CRN loses 1% of its selection differential in speck, 9% in catch and 22% in the 2-cell regime (86% to 67% of the oracle). Source: evaluate.py life_seed / LifeDraw and evolve.recheck_draw.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Effect sizes are bimodal. A few children and mutants are clearly broken, and one life detects them. All others differ by less than the resolution of any feasible number of lives. Ranking a typical near-neutral mutant against its parent with 80% probability takes about 70-200 lives in SPECK and 25-80 in catch_v1. The pilot gives a child 3 lives and the shortlist 7.",
+      "evidence": "speck s5: of 64 point mutants of the best, 4.7% have z < -3 (median 0.4 lives for an 80% call) and none have z > 3. Of 224 children vs parent a, 5.4% have z < -3 and 0.4% have z > 3. Paired per-life sd is 2.76 F. Using n80 = (0.84 x sd_d / delta)^2: delta 0.27 (upper bound) needs 74 lives, 0.16 (point estimate) 211, 0.5 needs 22, 1.0 needs 5. catch_v1: paired sd about 0.8, cloud tau 0.11, so 37 lives at delta = tau and 83 at the median |delta|. 2-cell regime: with CRN the paired sd is 0.0015, so a typical mutant is resolved in under 1 life. Mutational load in speck: children average 0.47 F below their parents (0.31 of it from broken children); catch: 0.10 F.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "In a one-generation simulator built from these measurements, the recheck's lives are 1.7-5.6x less productive than first-pass lives. Two kinds of saving exist. Keeping the same per-generation selection quality saves only 1.2-1.45x. Trading per-generation selection for more generations saves 2-3.4x per life. The second kind is risky because the late population sits near mutation-selection balance.",
+      "evidence": "analyze_noise.py: a nonparametric empirical-Bayes prior (NPMLE) fitted to the 256 candidates, per-genome residual bootstrap, shared life effects for CRN, and a sensitivity term tau for hidden small effects. S = true-mean selection differential of the 32 chosen. The table compares each scheme with the pilot (1024 lives), at tau 0.1-0.2 for speck and 0.1 for catch. One life each for 256 genomes (256 lives): S 79-84% (speck) and 60% (catch); 3.1-3.3x and 2.4x S per life. 256 x 1 then top 64 x 3 (448 lives): 91-94% and 80%; 2.1x and 1.85x. 256 x 1, top 128 +1, top 64 +2 (512 lives): 93-95% and 86%; 1.9x and 1.7x. 256 x 3 with no recheck (768 lives): 91-94% and 84%; 1.2x and 1.1x. 256 x 2 then top 64 x 5 (832 lives): 98-99% and 96%; 1.2x. lam 480, 1 life, top 64 x 3 (704 lives): 98-101% and 89%; 1.4x and 1.3x. lam 480 with three stages (768 lives): 100-103% and 96%; 1.3x. lam 992 at 1 life is worse than the pilot at equal cost. Pooling the parents' previous 7 lives adds under 2% to S. Marginal S per 1,000 recheck lives vs first-pass lives: 0.078 vs 0.434 in speck, 0.10 vs 0.17 in catch. Caveat: children lose 0.47 F (speck) or 0.10 F (catch) to mutation, while the pilot's S is about 0.35-0.45 and 0.16, and valid F rose only about 0.006 F per generation after gen 300. A lower S per generation could lower the plateau unless the mutation load also falls. This one-generation model ignores drift and diversity.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Short lives (T=512) give about 1.2-1.4x more selection information per CPU-second than T=1024. They change what is selected, though. In SPECK they predict T=1024 performance on independent lives about as well as T=1024 itself; in catch_v1 they do so worse. Shortening T only in early generations would save at most about 5%.",
+      "evidence": "256 candidates x 4 lives at T=512, on the same seeds as T=1024 (each T=512 life is the first half of the T=1024 life). speck s5: CPU per life 0.088 vs 0.165 s, noise variance 6.74 vs 4.30, information per CPU 1.19x. Spearman with T=1024 on the same lives is 0.70; as a predictor of T=1024 on the other 12 lives it is 0.20, against 0.195 for T=1024 itself. It finds 83% of the bottom 5%. Bodies are already at 123 cells by T/2. catch_v1 s5: information per CPU 1.44x, prediction of T=1024 on other lives 0.13 vs 0.23, bottom-5% recall 58%. Generations with median body under 30 cells use about 5% of generation time (3.4 of 68.8 h). Load bias: T512 and T1024 chunks ran in different load windows; CPU per life varied about 20% between windows.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Early-stopping doomed lives is worth little late in a run, but founder sampling is dominated by guard-tripping lives. Capping n_max at 256 for founder lives cuts founder CPU 4x and leaves the chosen founders unchanged. Founder 'earners' on 2 lives are mostly luck.",
+      "evidence": "Late populations had 0 extinct and 0 guard lives in 4,096 (speck), 4,096 (catch) and 5,120 (2-cell) lives. In the logs, body generations have pop_guard 0.4-0.5% of lives. CPU per life is about the same for every genome (speck children 0.189 vs parents 0.176 CPU-s), so broken children cost 4-10% of candidate CPU. Founders: batch 0 of speck s5 reproduced exactly (layout.random(1024) on the run's own 2 lives). Guard lives are 32% of lives but hold 81% of events. With n_max 256, CPU falls from 123.6 to 30.7 s and events by 4.8x; the top 8, the earner set (4) and every earner's F are identical; earners peak at 45 cells or fewer. The 4 earners on the run's own lives earn on none of 2 fresh lives (top-8 mean F 0.067 on own lives vs -0.062 on fresh). Founders are 4.6% of pilot time but 50-70% of the wall time of the runs stuck at 1-2 cells. File: samples/founders/speck_lmax4_hexprism_sex_s5/founders.json.",
+      "confidence": "high"
+     },
+     {
+      "claim": "How load biases the measurements.",
+      "evidence": "Everything ran under nice 19 at load average 15-57 on 14 threads (the pilot plus many niced sibling jobs). CPU-s per life for 120-cell speck bodies was 0.15-0.25 (1.6-2.4 us per event); catch 75-cell bodies 0.10-0.14 (1.2-1.3 us per event); 2-cell bodies 0.0016; founders 0.06 (0.015 capped). Contention for SMT and E-cores and frequency drops inflate these by an unknown factor, likely 1.3-2x against an idle machine. Savings given as lives per generation, the variance decompositions and the selection simulations do not depend on load. Wall-time splits from the pilot logs are inflated about uniformly.",
+      "confidence": "medium"
+     }
+    ],
+    "recommendations": [
+     {
+      "change": "Keep common random numbers (shared life seeds and T within a generation and its recheck). They are already implemented; do not count on them for more savings late in a run.",
+      "expected_gain": "None beyond today. They are worth 1.1-1.6x in lives late in a run and 7-13x in the 1-2 cell regime, where they are what makes selection work.",
+      "effort": "small",
+      "preserves_exactness": "Yes. This is the current behaviour.",
+      "risk": "None."
+     },
+     {
+      "change": "Monitoring cadence: run clone forks every 50 generations instead of 10, and possibly valid/held-out every 20.",
+      "expected_gain": "About 3% of run compute. Clone and fork lives are about 26k per run, against 512k selection plus recheck lives.",
+      "effort": "small",
+      "preserves_exactness": "Yes for the evolution. Valid, held-out and clone lives use their own hash seeds and never touch the torch generator, so the selection trajectory stays bitwise identical. Only the logged monitoring rows change.",
+      "risk": "Coarser time resolution of msg_reliance, sense_reliance and valid F curves."
+     },
+     {
+      "change": "Founder sampling: give founder lives their own live-cell guard (n_max 256). Optionally make the search two-stage: 16,384 genomes x 1 capped life, then the top 256 x 4 more lives, then the top 8.",
+      "expected_gain": "The cap cuts founder CPU 4x: about 3.5% of a body run, about 2x for runs that get stuck at 1-2 cells. The two-stage search brings founders to about 16% of today's founder compute (about 6x) and picks founders that also earn on fresh lives.",
+      "effort": "small",
+      "preserves_exactness": "No. This changes the algorithm: capped founder lives score the guard charge, and the two-stage search changes which founders are picked. In the 1,024-genome test the top 8 and the earner set were unchanged by the cap. Needs a founder-only world override in evolve_life; a global world.n_max would also cap selection lives, where bodies reach 190-270 cells.",
+      "risk": "A founder that legitimately exceeds 256 cells would be lost; earners in the test peaked at 45 cells."
+     },
+     {
+      "change": "Drop or adapt the recheck. Option a: evolve.recheck_k=0. Option b: switch the recheck off automatically once the logged shortlist Spearman (F_base vs F_recheck, already in lineage.jsonl) stays near 0 for about 20 generations.",
+      "expected_gain": "1.33x fewer lives per generation (the recheck is 22% of compute). Per-generation S stays at 91-94% (speck) or 84% (catch) of the pilot.",
+      "effort": "small",
+      "preserves_exactness": "No. This changes the algorithm, and selection trajectories are not comparable with the pilot. Option a is config-only.",
+      "risk": "Slightly more broken parents get through (0.7 vs 0.3 of 32 per generation in speck). The recheck's protective role for small bodies early on (recheck_bodies) would need checking for option a."
+     },
+     {
+      "change": "Same selection quality per generation, cheaper. Option 1: life.lives=2, evolve.recheck_lives=5 (256 x 2, then top 64 x 5; config-only). Option 2: race a larger brood with evolve.lam=480, life.lives=1, recheck_k=64, recheck_lives=3 (config-only); a third stage (top 128 +1, then top 64 +2) needs a small code change.",
+      "expected_gain": "Option 1: 832 lives, 1.23x fewer, keeping 96-99% of the pilot's S in both worlds. Option 2: 704 lives, 1.45x fewer, 98-101% of S in speck and 89% in catch; the three-stage version uses 768 lives (1.33x fewer) and keeps 96-103%.",
+      "effort": "small",
+      "preserves_exactness": "No. This changes the algorithm (selection scheme); config overrides only, no kernel or ABI change.",
+      "risk": "Low. The one-generation model ignores drift and diversity. lam 480 doubles lineage and breeding work, which is small next to the kernel."
+     },
+     {
+      "change": "Fixed compute, more generations: one life per genome. Either 256 x 1 with no recheck (life.lives=1, recheck_k=0), or 256 x 1 then top 64 x 3 (life.lives=1, recheck_lives=3). Spend the saved compute on 2.3-4x more generations or more seeds.",
+      "expected_gain": "Lives per generation fall 4x (256) or 2.3x (448). S per life rises 2.4-3.3x for 1 life or 1.7-2.2x for the halving variant. For the pilot's 500 generations, the halving variant would cut about 71.7 h of process time to about 35 h.",
+      "effort": "small",
+      "preserves_exactness": "No. This changes the algorithm; config-only.",
+      "risk": "High. Per-generation S falls to 60-84% (one life) or 80-94% (halving) of the pilot, while each generation's children lose 0.10-0.47 F to mutation. Near mutation-selection balance this can lower the plateau, so it must be A/B tested at equal compute first (idle_ab_selection.sh). Pairing it with a lower mutation load (n_mut 1 or smaller sigma) is a natural follow-up."
+     },
+     {
+      "change": "Do not reuse parent evaluations across generations, and do not raise lambda at one life without a recheck stage.",
+      "expected_gain": "Pooling parents' previous lives adds under 2% to S. Skipping parent re-evaluation would save at most 9.4% of lives, but would freeze parents' winner's-curse inflation (+1.3 to 1.6 F in speck). lam 992 at one life costs the same as the pilot and gives 88-100% of its S in speck (50-73% in catch).",
+      "effort": "small",
+      "preserves_exactness": "Yes. Keeping the current behaviour.",
+      "risk": "None."
+     },
+     {
+      "change": "Shorter selection lives, for example T_choices [512, 768] instead of [768, 1024, 1536]. Do not bother with an early-generation-only T schedule.",
+      "expected_gain": "T=512 lives cost 0.53x as much and carry 1.2-1.4x more information per CPU-second, so the selection phase would need about 1.6-2x less compute for equal information. Early generations are only about 5% of time, so an early-only schedule saves at most about 2.5%.",
+      "effort": "small",
+      "preserves_exactness": "No. This changes the objective: GB11 drew T up to 1536 to keep selection pressure on late-life growth and stop rules.",
+      "risk": "Medium to high. In catch_v1, T=512 predicts T=1024 performance on independent lives worse (Spearman 0.13 vs 0.23), and it relaxes the pressure GB11 was added for."
+     },
+     {
+      "change": "Do not build kernel-side early termination or surrogates for doomed lives.",
+      "expected_gain": "At most 2-5% in body generations: no extinct or guard lives in the late populations, a pop_guard of 0.4-0.5%, and broken children are 4-10% of CPU.",
+      "effort": "large",
+      "preserves_exactness": "Would change the kernel ABI and F for stopped lives.",
+      "risk": "Not worth the ABI and verification cost."
+     },
+     {
+      "change": "Design question for the user (reward variance). Selection noise is Poisson noise in the capture count. A denser auxiliary signal (time in the capture zone or click distance, both already in the ledger as measurement-only zone_samples and dist_sum) would cut the noise per life.",
+      "expected_gain": "Potentially large: capture noise is about 100% of per-life variance. Not quantified here.",
+      "effort": "medium",
+      "preserves_exactness": "No. This is reward shaping and changes the objective; cells would still not sense it.",
+      "risk": "High. It selects for a proxy, and a fitness term should be justified as a necessary fixed rule."
+     }
+    ],
+    "scripts_for_idle_machine": [
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/idle/idle_ab_selection.sh: an equal-compute A/B of five selection schemes using config overrides only, via scripts/sweep.py with --out and --logs pointing to scratch. Arms: ab_pilot, ab_L1, ab_L1rc3, ab_L2rc5 and ab_lam480 (configs in idle/ab_configs/), x 3 seeds, starting from speck s5's evolved best genome (START=reflex starts from catch_reflex instead). The arms get G0, 4 G0, 2.29 G0, 1.23 G0 and 1.45 G0 generations so their lives are equal. It ends with sample_efficiency_compare.py (final F on 64 lives, valid F and wall time per arm). Rough cost at G0=150: about 7 CPU-hours per arm and seed, about 110 CPU-hours in all, about 2 h on a 64-vCPU rented box at JOBS=16 THREADS=4. Usage: JOBS=4 THREADS=3 SEEDS=0,1,2 G0=150 bash idle_ab_selection.sh.",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/idle/idle_noise_full.sh: the selection-noise experiment at full size, for speck s5, speck s0 (about 270 cells, untested here), lmax4 s5 and lmax4 s0. Each body gets 32 shared lives at T=1024 for 320 genomes, plus T=512 and T=1536 on 16 lives, then analyze_noise.py with tau 0/0.1/0.2/0.3. This tightens the upper bound on the hidden effect spread (about 1/sqrt(L)) and gives noise per CPU against T. Usage: THREADS=12 LIVES=32 LIVES_T=16 bash idle_noise_full.sh (MAX_THREADS lifts the laptop's threads <= 2 guard)."
+    ],
+    "artifacts": [
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/lineage_stats.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/lineage_stats.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/crn_experiment.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/analyze_noise.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/q.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/founder_experiment.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/analyze_founders.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/speck_lmax4_hexprism_sex_s5/noise.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/speck_lmax4_hexprism_sex_s5/noise_L16.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/lmax4_hexprism_sex_s5/noise.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/lmax4_hexprism_sex_s5/noise_L16.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/lmax4_hexprism_sex_s0/noise.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/lmax4_hexprism_sex_s0/noise_L16.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/runs/ (per-run genomes.npz and chunk_T<len>_<lo>_<hi>_<l0>_<l1>.npz with per-life F, captures, events, status and CPU time)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/founders/speck_lmax4_hexprism_sex_s5/founders.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/founders/speck_lmax4_hexprism_sex_s5/ (f_own_0_1024_nmaxbase.npz, f_own_0_1024_nmax256.npz, f_fresh_0_1024_nmax256.npz)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/idle/idle_ab_selection.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/idle/ab_configs/ (ab_pilot.yaml, ab_L1.yaml, ab_L1_rc3.yaml, ab_L2_rc5.yaml, ab_lam480.yaml)",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/idle/sample_efficiency_compare.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/idle/idle_noise_full.sh"
+    ]
+   },
+   "verdict": {
+    "title": "Review of the selection-efficiency report: the measurements hold up, but it scores schemes with the wrong metric, so the claimed recheck and one-life savings mostly disappear",
+    "checks": [
+     {
+      "claim": "Compute split: selection 69%, recheck 22%, monitoring and overhead 4%, founders 4.6%, final 0.2%. 95% of generation time falls in generations whose median body has at least 30 cells.",
+      "recheck": "Wrote my own script (verify/split.py) over all 29 curves.jsonl and the 28 finished results.jsonl. The pilot has moved on since the report was written: speck s9 is at generation 145. I also read evolve.py to see exactly what t_eval, t_recheck and t_gen time.",
+      "result": "Selection 53.5 h (67.9%), recheck 17.5 h (22.2%), rest 3.2 h (4.1%), founders 4.4 h (5.6%), final 0.17 h (0.2%), out of 78.8 process-hours. 95.3% of generation time is in generations with median_n >= 30 (70.8 of 74.3 h). Late generations spend 0.31-0.38 as long on the recheck as on selection, against a lives ratio of 256/768 = 0.33, so recheck lives cost about the same as first-pass lives. In the body runs, Python overhead outside the kernel is 0.02 s per generation (0.07% of t_gen), so serial per-generation overhead does not limit anything. The 'rest' share is almost all the every-10-generation monitoring (4.2-4.7% of t_gen). Founders take 50-71% of the wall time of runs stuck at 1-2 cells. These are wall-clock seconds under load, but every phase shares the same load, so the split holds.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Inside the shortlist, Spearman(F_base, F_recheck) has a median of about 0.03, and 0.00-0.017 at generations >= 450. Parents kept: 4-6. Parents in the shortlist: 8-10.",
+      "recheck": "Recomputed from lineage.jsonl with my own code (verify/lineage_check.py, numpy rank correlation), using only generations whose median_n >= 30.",
+      "result": "Median rho is 0.026 over 6,298 body generations (mean 0.031 +- 0.003); at generations >= 450 it is 0.016. Every body run has a median of 4-6 parents kept (mostly 5), 8-10 parents in the shortlist and recheck_changed 8-12. If the 8.5% broken children drop out and the rest are exchangeable, you would expect 8.6 parents in the shortlist and 4.3 kept, which matches.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Per-life F noise in SPECK is Poisson noise in the capture count (R_cap/T = 0.49 F per capture, about 19 captures at T 1024, per-life sd about 2.0 F). catch_v1's per-life sd is 0.62.",
+      "recheck": "Ran my own kernel lives (verify/noise_check.py, scratch kernel build, threads=2, nice 19) on 64 fresh seeds from a block the agent did not use (51000000+). Bodies: the best genome of speck s5 and of lmax4 s5, both at T=1024.",
+      "result": "Speck s5 best: F 6.37 +- 0.29, per-life sd 2.33, 18.9 captures, corr(F, captures) 0.990, slope 0.46 F per capture (R_cap/T = 0.488), residual variance 0.11 of 5.42. Capture dispersion is 1.32, against 1.0 for Poisson; one genome on 64 lives cannot separate these. catch s5 best: sd 0.60, 49.6 captures, dispersion 0.94, corr 0.89; Poisson capture noise predicts a variance of 0.47 against 0.36 measured. Capture count drives the per-life noise in both worlds; calling it Poisson exactly is approximate. CPU: 0.25 CPU-s per life (2.7 us per event) for speck and 0.16 (1.5 us per event) for catch, at load average 23-28, so inflated.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Capping founder lives at n_max 256 cuts founder CPU about 4x and leaves the chosen founders unchanged (tested on batch 0).",
+      "recheck": "Reproduced a different batch, batch 1 (the run generator's second layout.random(1024) draw, on the run's own batch-1 founder lives), at base n_max and at 256 (verify/founder_cap.py). I also checked the founder event of every run and read sample_founders and the guard charge code.",
+      "result": "CPU fell from 125.0 to 23.8 s (5.3x) and events from 93.2M to 19.5M (4.8x). Event counts do not depend on load. The top 8 is identical. Batch 1 has no earners, though, so this batch cannot test whether the earner set survives the cap. Every founder run found 8 or more earners among its 16,384 genomes, so the cap changes the selection only if an earner grows past 256 cells. It also cuts the guard charge (c_live x n_max x remaining time) by 4x. The cap needs a founder-only override in code: cfg.world applies to every life.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Recheck lives are 1.7-5.6x less productive than first-pass lives (marginal S per 1,000 lives: 0.078 vs 0.434 in speck, 0.10 vs 0.17 in catch).",
+      "recheck": "Recomputed from the agent's own simulator output (runs/*/noise.json, schemes) as differences between schemes (verify/marginal.txt).",
+      "result": "Wrong comparison. 0.434 and 0.173 are the AVERAGE S per 1k lives of the 256x3 first pass (S/768), while 0.078 and 0.10 are MARGINAL values. At the margin, at tau 0.1, a recheck life adds 0.076 (speck) or 0.103 (catch) per 1k, while a third first-pass life adds 0.052 or 0.060 and a fourth adds 0.031 or 0.041. At every tau, recheck lives are 1.2-2.0x MORE productive than a third first-pass life, and about equal to a second one. The same holds for D.",
+      "outcome": "refuted"
+     },
+     {
+      "claim": "Dropping the recheck keeps 91-94% of S (speck) and 84% (catch) for 1.33x fewer lives. One life per genome gives 2.4-3.3x S per life. lam 480 keeps 98-101% of S at 1.45x fewer lives.",
+      "recheck": "Read analyze_noise.simulate. S is the chosen mean minus the mean of the scheme's own candidate pool, so it includes the children's mutation load, which is roughly the same for every scheme. It also flatters larger broods, whose pool mean is lower. The quantity that adds up over generations is D = chosen mean minus current parents' mean. The agent's simulator already computes D (delta_parents) but the report never uses it. I tabulated D from noise.json, and as an independent check I wrote my own parametric simulator (verify/sel_sim.py, sel_sim_D.py).",
+      "result": "In D, speck at tau 0.1-0.26 and catch at tau 0-0.15: no recheck keeps 65-78% of per-generation gain at 0.87-1.04x gain per life, so it saves nothing per unit of progress. 256x1 keeps 14-44% at 0.54-1.76x. lam480 x1 >64+3 keeps 67-81% at 0.97-1.17x. Halving 256x1 >64+3 keeps 62-73% at 1.42-1.66x. 256x2 >64+5 keeps 92-98% at 1.14-1.21x. lam96 x3 >64x4 keeps 80-93% at 1.29-1.49x; the report missed this one. My parametric model with the report's own speck numbers even gives negative D for the pilot, so the result is very sensitive to the model.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "The one-generation simulator's gains carry over to evolution, with the caveat that it ignores drift and diversity.",
+      "recheck": "Compared the simulator's predicted per-generation gain for the pilot with the progress the pilot actually made: the slope of valid F over generations >= 300 in the 14 finished body runs (verify/progress.py).",
+      "result": "Predicted pilot D is 0.054-0.167 F per generation (speck) and 0.047-0.157 (catch). The actual valid-F slope has a median of 0.005 F per generation (range 0.0003-0.018). The model overpredicts progress by about 10-30x: it redraws standing variation every generation, which real selection uses up. The ranking of schemes might survive, but none of its ratios can be trusted without a real A/B.",
+      "outcome": "unverifiable"
+     },
+     {
+      "claim": "Running clone forks every 50 generations instead of 10 saves about 3% and leaves the evolution bitwise identical.",
+      "recheck": "Read evolve_life, clones.run_forks, clone_targets and LifeEvaluator.draw, and counted fork lives. Measured the extra time of monitoring generations (verify/overhead.py).",
+      "result": "Each clone event is 8 genomes x 3 times x (1 twin + 6 conditions) x 3 seeds = 504 full lives; valid plus held-out add 40-46. Monitoring is 4.2-4.7% of t_gen, and clones are about 92% of those lives, so going to every 50 saves about 3.2%. Valid, held-out and clone lives use hash-keyed draws, clone_targets is deterministic, and none of them touches the torch generator, so selection stays bitwise identical.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Shorter selection lives (T_choices [512, 768]) are a small, config-only change.",
+      "recheck": "Read the guard at the top of evolve_life.",
+      "result": "evolve_life raises ValueError unless life.T is one of T_choices. With life.T at 1024, T_choices [512, 768] crashes, so life.T must also change. That changes the length of the valid, held-out, final and clone lives as well, so the reported F is no longer comparable with the pilot's. In catch_v1, T=512 also predicts T=1024 worse (0.13 against 0.23).",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "In the idle A/B script, the arms get equal lives, and valid and clones every 10 generations add about 5% to every arm alike. Cost: about 7 CPU-hours per arm and seed, about 2 h on a 64-vCPU machine.",
+      "recheck": "Read idle_ab_selection.sh and ab_configs. Worked out monitoring lives per arm, and checked the cost against speck s5's late t_gen.",
+      "result": "Monitoring is fixed per generation (544 lives every 10 generations), not per life. It is about 5% of the pilot arm's selection lives but 20% for ab_L1, 11% for L1rc3, 6% for L2rc5 and 7% for lam480. Because the comparison uses cumulative t_gen, the cheaper arms are penalised by up to about 14%. Set clones.every=0 in every arm. The test is also underpowered: at the real progress rate (0.005 F per generation), the pilot arm gains about 0.75 F over 150 generations, while one run's final F on 64 lives has an SE of about 0.25-0.3 F. With 3 seeds per arm, gaps of 0.2-0.3 F between arms are below the noise. Cost: late speck s5 generations take 93 s of wall time at 3 threads under load, so 150 generations is about 11.6 thread-hours loaded, roughly 6-9 CPU-hours idle. The 7 CPU-hour figure is plausible, but with 15 runs in one wave, wall time on a 64-vCPU (SMT) machine is more like 2-4 h than 2 h.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Common random numbers are already in place: every genome of a generation and its recheck share the life seeds and T.",
+      "recheck": "Read LifeEvaluator.draw, life_seed and recheck_draw.",
+      "result": "Confirmed. draw('gen', g) gives all 256 genomes the same seeds. The T draw is keyed by run seed and generation only. recheck_draw takes the next lives of the same generation's draw, so the T is the same and the seeds are disjoint. In the simulator, removing CRN costs 1-8% of D in speck and 12-17% in catch.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Lives-per-generation arithmetic: pilot 1024, 256x3 768, 256x2+64x5 832, lam480 704, 256x1+64x3 448, three-stage lam480 768; about 26k clone lives, 384k selection and 128k recheck lives per 500 generations.",
+      "recheck": "Recomputed from life.yaml, life_catch.yaml and the evolve and clone loops.",
+      "result": "All correct. Clones: 51 events x 504 = 25.7k lives.",
+      "outcome": "confirmed"
+     }
+    ],
+    "corrected_recommendations": "These are ranked by value per unit of effort. Gains are recomputed by me. 'D' is the per-generation gain in the parents' true mean, the quantity that adds up over generations. All selection-scheme numbers come from the agent's one-generation model, which overpredicts real progress by 10-30x, so treat them as hypotheses until the A/B is done.\n\n1. Run clone forks every 50 generations instead of every 10 (clones.every=50; config only). This saves about 3.2% of generation time and leaves evolution bitwise identical. The cost is coarser msg_reliance and sense_reliance curves. Leave valid and held-out at every 10: together they are only about 0.4%.\n\n2. Give founder lives their own cap of n_max 256. This needs a small code change, a founder-only world override in evolve_life or sample_founders. Founder CPU drops 4-5x (I measured 5.3x CPU and 4.8x events on batch 1; the agent measured 4x on batch 0), and the top 8 were the same in both batches. That is about 4.5% of total pilot compute (founders are now 5.6%) and about 2x for runs stuck at 1-2 cells, which are cheap anyway. It is not exact: the guard charge shrinks 4x, and an earner that grows past 256 cells would be lost. Optionally, make the founder search two-stage: 16,384 x 1 capped life, then the top 256 x 4. Founder compute falls to about 13-16% of today's, and the 2-life earners already look like luck.\n\n3. Keep common random numbers and the re-evaluation of parents. This is the current behaviour, so it costs nothing.\n\n4. Before changing selection, run an equal-compute A/B with three fixes: clones.every=0 in every arm, 6-8 seeds per arm instead of 3, and judging on valid-F slope plus at least 256 final lives. The cheaper world (catch_v1) can serve as the second test. The candidates, in their D per life from the agent's own model:\n   - (a) 256x2 then top 64 x5 (life.lives=2, recheck_lives=5; config only): 1.14-1.21x per life, keeps 92-98% of per-generation D. Lowest risk.\n   - (b) Successive halving, 256x1 then top 64 x3 (life.lives=1, recheck_lives=3; config only): 1.42-1.66x per life, but only 62-73% of per-generation D. That is risky near mutation-selection balance.\n   - (c) A smaller brood, lam 96 with 3 lives then top 64 x4 (640 lives): 1.29-1.49x per life at 80-93% of D. The report missed it. It reduces diversity.\n   - (d) lam 480 x1 then top 64 x3: 0.97-1.17x per life, 67-81% of D. Not worth it.\n\n5. Do not drop the recheck, and do not use 1 life with no recheck. Dropping the recheck saves 1.33x in lives per generation, but per-generation D falls to 65-78%, so D per life is 0.87-1.04x: nothing saved per unit of progress. The report's claim that recheck lives are 1.7-5.6x less productive compared marginal values with averages; at the margin, recheck lives beat a third first-pass life. One life with no recheck keeps only 14-44% of D.\n\n6. Shorter lives (T_choices [512, 768]) are not config-only: life.T must also change, which changes every judged life. The objective changes, catch_v1 evidence is negative, and GB11's reasoning argues against it. Low priority.\n\n7. Kernel-side early stopping of doomed lives: agreed, not worth it (2-5% at most, plus ABI and verification cost).\n\n8. A design question for the user, with potentially the largest payoff: about 80-99% of per-life variance is capture-count noise. A denser fitness signal (the zone_samples and dist_sum ledger columns) could cut the lives needed several-fold, but it changes the objective and has to be justified as a necessary fixed rule.",
+    "missed": "1. The report's headline metric is wrong. S is measured against each scheme's own candidate pool, so it includes the children's mutation load, which is much the same for every scheme and compresses the differences between them. It also flatters larger broods, whose pool mean is lower. The agent's own simulator outputs D (delta_parents), and D reverses the conclusions on the recheck and on one-life selection.\n\n2. The one-generation model predicts 0.05-0.17 F of progress per generation for the pilot. The pilot's actual late progress is a median of 0.005 F per generation. A model that is off by this much cannot support savings estimates; only the A/B can.\n\n3. The A/B as written gives the cheaper arms up to about 14% extra monitoring overhead and is statistically underpowered (see checks).\n\n4. Sample efficiency is not where the rental question gets decided. The pilot's work is already embarrassingly parallel across runs. Serial Python overhead is 0.02 s per generation (0.07% of t_gen in body runs), so on a rented machine the way to scale is more concurrent runs (seeds or arms) at 2-4 threads each. Schemes with fewer lives per generation (256-448 lives per kernel call, two synchronous calls per generation) leave each run less to spread over threads, so they make per-run thread scaling worse.\n\n5. Lower-noise worlds are cheaper to test in. Per-life sd is 2.0-2.3 F in speck against about 0.6 in catch_v1, which matters when sizing any A/B.\n\n6. Load bias in my own numbers: CPU per life (0.25 s speck, 0.16 s catch) was measured at load average 23-28 and is inflated. The founder events ratio (4.8x) and every lives-based ratio do not depend on load.\n\nMy scripts and outputs are in /tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/samples/verify/: split.py, lineage_check.py, noise_check.py, founder_cap.py, sel_sim.py, sel_sim_D.py, marginal.txt, overhead.py, progress.py, and out/noise_*.json and out/founders_*.json."
+   }
+  },
+  {
+   "key": "scaleout",
+   "report": {
+    "title": "Scale-out and rental options for cell-dev evolution: workload, per-core speed, GPU fit, prices (2026-10-09), costs of 3 experiments, and what to change before renting",
+    "findings": [
+     {
+      "claim": "So far the pilot has used about 189 laptop-CPU-hours (a laptop-CPU-hour, written L-h, is one CPU-hour on this laptop under pilot load). That is 72.6 run-hours of wall time, or 218 thread-slot-hours at 3 threads. About 217 L-h and about 83 run-hours are projected when it finishes, roughly 24 h of elapsed time on 4 job slots. This is close to run_catch_pilot.sh's 'high' estimate of 86 job-hours.",
+      "evidence": "pilot_compute.py reads only outputs/catch_pilot/*: results.jsonl wall_s, curves.jsonl t_gen/t_eval/t_recheck, and /proc of the live src.run processes. 28 of 29 runs have started, 24 are done, 12,512 generations so far, and the sweep has been running 65,409 s (18.2 h). CPU time was measured directly for the 4 running 3-thread jobs from /proc utime+stime: 2.57, 2.58, 2.62 and 2.64 CPU-s per wall-s. That ratio was applied to finished runs, because the pilot records only wall time. Still to run: lmax4_s9 104 gens, speck s6/s7/s8 46/53/85 gens, about 14 L-h together, plus speck_lmax4_s9, which has not started (about 14 L-h, range 5-26). Raw numbers are in scaleout/pilot_compute.json. Load bias: the machine runs at load 24-30 (sometimes 37-130 from other users' jobs). That inflates wall time about 13% over CPU time, and per-thread CPU time about 1.5-2x over an idle laptop.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Cost differs about 50x between run types. Stuck runs (1-3 cells) cost 0.5-1.0 L-h each, and about two thirds of that is founder sampling. Grown 500-generation runs cost 6-26 L-h, and the SPECK L4 arm uses more than half of the pilot.",
+      "evidence": "pilot_compute.json gives these figures (wall hours at 3 threads -> L-h). Stuck runs (8: lmax2 s0/s1, lmax4 s0-s4/s7): 0.21-0.37 h -> 0.54-0.96 L-h, with founders taking 530-950 s wall (16,384 genomes x 2 lives). Grown lmax4/lmax2 runs: 1.3-4.1 h -> 3.4-10.6 L-h. Seeded runs (300 gens): 1.1-3.1 h -> 2.9-8.0 L-h. SPECK L4 (500 gens): done runs 0.8-6.9 h (2.2-18 L-h), running runs at 8.3 h and growing (projected 25 L-h). Totals by arm: speck_lmax4 115 L-h so far (about 140 projected), lmax4 32.7, speck_seeded 16.6, seeded 13.7, lmax2 11.4. Late generations take 0.86 s in stuck runs and 40-115 s in runs with bodies of 60-170 cells.",
+      "confidence": "high"
+     },
+     {
+      "claim": "The cost of a generation is set by body size. A good model is CPU-s \u2248 T x (1.12e-3 x population mean body + 0.29e-3 x best body), which is about 1.46 us of laptop CPU per selection cell-time unit. At ~120-cell bodies a generation costs about 194 L-s, and 1000 generations cost about 54 L-h per run. The kernel is about 95% of every generation. Python bookkeeping takes about 0.06 s per generation.",
+      "evidence": "Least-squares fit over 11,339 plain generation rows of all pilot runs (fit_gen_cost.py -> fit_gen_cost.json). Generations with a valid/held-out/clone round cost 41% more, which adds about 4% when spread over the 10 generations. Cross-check: speck_s5's last 50 generations took 222 L-s (body 120) and speck_s6's took 298 L-s (body 169). In stuck runs, t_gen - t_eval - t_recheck is 0.06 s per generation. Rule of thumb: about 1.6 L-s per cell of mean body per generation.",
+      "confidence": "high"
+     },
+     {
+      "claim": "The single-thread kernel costs about 1.25-1.41 us of CPU per cell-unit on both P- and E-cores under load, and 2.76 us on the low-power E-cores. Cost per event, about 1.6-2.1 us or 4.2-5.2k cycles, is the stable figure. CATCH v1 bodies cost about twice as much per cell-unit as SPECK bodies because they produce 1.31 events per cell-unit against 0.73-0.80.",
+      "evidence": "bench_cell.py bench pinned to one CPU (os.sched_setaffinity), with the core clock sampled from scaling_cur_freq. Test body: speck_lmax4_hexprism_sex_s5, 16 lives, T=1024, n_end 119. Results: cpu6 (E) 1.245 us at 2.70 GHz = 3.36 kcycles/cu; cpu9 (E) 1.364 us at 2.51 GHz; cpu0/cpu2 (P thread with a busy HT sibling) 1.30/1.41 us at 3.19/2.92 GHz = 4.1 kcycles/cu; cpu12 (LP-E) 2.76 us at 1.42 GHz. In verify runs, lmax4_hexprism_sex_s5 (catch_v1_l4) costs 2.4-2.7 us/cu. No hardware counters were available (perf_event_paranoid=4), so cycles are CPU time x sampled clock. The pinned core was shared with pilot threads, so cache contention inflates these numbers. Files: bench_laptop_cpu{0,2,6,9,12}_t1.json, measurements.json.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Runs are embarrassingly parallel. Generations are a strict serial chain. Lives inside a generation are independent and give bitwise-identical results at any thread count, but each generation has only 768 selection lives and 256 recheck lives. That makes up to about 32 threads per run efficient. Past that, a big box should run many runs side by side.",
+      "evidence": "In evolve_life, selection at generation g sets the parents of g+1, which is a barrier. LifeEvaluator splits genomes into chunks of 256 (evolve.batch), and 256 genomes x 3 lives = 768 lives go into one life_run call. The recheck adds 64 x 4 = 256 lives, and every 10 generations there are also 16 valid lives, 24 held-out lives and the clone forks. Founders are 32,768 lives in calls of 512. The kernel uses '#pragma omp parallel for schedule(dynamic,1)' over lives. Efficiency model at 120 cells (per generation: 200 L-s of work + 0.15 L-s Python + about 0.3 L-s of dynamic-schedule tail): 97% at 12 threads, 96.5% at 16, 93% at 32, 87% at 64, 70% at 192 (gen_eff_120cells.txt). In verify, threads 1 and 2 gave identical hashes for all 18 lives.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Memory and data are not constraints. A job peaks at about 0.43 GB, and inputs and outputs are a few MB per run.",
+      "evidence": "VmHWM of the 4 pilot jobs is 420-427 MB, and current RSS is 70-130 MB. RESULTS.md reports 0.29-0.72 GB for gate runs. At 40-100 jobs, a 192-vCPU box needs 20-45 GB, so compute-optimized or highcpu shapes are enough. Inputs: repo 8.4 MB plus a 4.5 MB .git, plus pip wheels. Outputs: 5-9 MB per 500-generation run (lineage.jsonl 4.7 MB, clones.jsonl 3.5 MB), 202 MB for the whole pilot plus 15 MB of logs. Egress for an experiment costs well under $1.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Estimated per-thread speed with every core busy, relative to a loaded laptop CPU-second: AWS c7a/hpc7a (Zen 4, no SMT, 3.7 GHz) about 2.0x (range 1.6-2.4); c8a (Zen 5, no SMT, 4.5 GHz) about 2.6x (2.1-3.1); GCP c3d SMT vCPU about 1.1x; c4d vCPU about 1.5x; c7i vCPU about 1.0x; one Modal physical core (2 vCPU) about 2.0x per core. These are estimates to about \u00b125%, not measurements.",
+      "evidence": "Basis: clocks under load (laptop E-cores 2.5-2.7 GHz, P-cores 2.9-3.2), IPC class (Crestmont about 0.7-0.8 of Zen 4 / Golden Cove on branchy integer code), and published single-thread scores from sparecores.com, observed 2026-10-09. GB6 single-core: c7a 1,984, hpc7a 1,998, c3d 2,024, c7i 2,055, c8a 2,816, Hetzner CCX63 1,859. PassMark single-thread: c7a 2,887, c7i 3,024, c8a 3,816. A loaded laptop thread is about 900-1,000 GB6-equivalent: the roughly 2,500 P-core score scaled to 2.6-3 GHz and to HT or E-core sharing. A 1.25x SMT gain is assumed (range 1.1-1.4). AWS says c7a and c8a have no SMT ('each vCPU is a physical core'), and c8a is about 30% faster than c7a. The kernel's working set (Cell struct about 1.2 KB x cells, plus sites, inboxes, heap and records) is a few hundred KB, which suits the L2/L3 of these servers. To be measured on the box with bench_cell.py fleet (us_per_cu_per_vcpu against the laptop's 1.3-1.46).",
+      "confidence": "medium"
+     },
+     {
+      "claim": "A GPU port would not help. The kernel is a sequential, branchy, exact discrete-event simulation per life. A generation has too few lives to fill a GPU, warps would diverge across event types, and the bitwise contract would break unless both CPU and GPU switched to a common software libm (a new ABI, with every hash changing). A time-stepped approximation would break the clockless exact design.",
+      "evidence": "kernel.c: each life has its own binary heap of events (HEnt/hpush/hpop) and per-site time-ordered batches. One sequential accountant consumes records in canonical (t, sitekey, seq) order. Cells live in an open-addressing hash map, pools grow by realloc, footprints use union-find, and records use merge sorts. The code is FP64 and calls glibc exp/log/pow (GLIBC_2.29 versions), sincos, tanh, nearbyint and llround (nm -D of the built .so). It costs about 4.2-5.2k cycles per event and 0.15-0.3 s of CPU per life at 120-170 cells. With 768-1024 lives per generation, one life per GPU thread gives about 24-32 warps on an H100's 132 SMs, under 1% occupancy. Even 100 runs batched in lockstep would leave in-order, divergent per-thread code with spilled state running about 50-100x slower than a CPU core per thread. The best case after months of rewriting is roughly tens to a few hundred CPU-core equivalents per GPU. A 192-core spot box gives that for $3-6/h with no rewrite.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Current prices (observed date and source per row): AWS c8a.48xlarge (192 Zen 5 cores) $10.35/h on-demand, $5.53 spot in us-east-1, $2.44 spot in the cheapest region. c7a.48xlarge (192 Zen 4) $9.85 on-demand, $3.40 spot ($2.47 cheapest region). hpc7a.96xlarge (192 Zen 4) $7.20 on-demand in us-east-2, no spot. c7i.48xlarge $8.57 on-demand, $3.27 spot. GCP c3d-highcpu-360 (180 Zen 4 cores, SMT) $13.45 on-demand, $3.43 spot in us-central1. c4d-highcpu-384 $15.26 on-demand, $6.47 spot (older quote). Azure HB176rs_v4 $7.20 on-demand, $1.33 spot (low confidence). Hetzner CCX63 (48 vCPU) $1.53/h. Modal $0.04716 per physical-core-hour plus $0.008 per GiB-hour, preemptible (3x for non-preemptible).",
+      "evidence": "Sources: sparecores.com/server/aws/{c8a.48xlarge,c7a.48xlarge,hpc7a.96xlarge} (2026-10-09); instances.vantage.sh/aws/ec2/{c7a,c8a,c7i}.48xlarge (2026-10-09; Vantage shows hpc7a at $9.08 for another region); aws.amazon.com/ec2/instance-types/c8a (no SMT, 4.5 GHz); sparecores.com/server/gcp/c3d-highcpu-360 (2026-09-22); sparecores.com/server/gcp/c4d-highcpu-384 (2026-06-18); sparecores.com/server/azure/Standard_HB176rs_v4 (2026-10-09; spot equal to the 'lowest' figure, HPC quota approval needed); keeper.sparecores.net/server/hcloud/ccx63/prices (2026-09-29); modal.com/pricing (2026-10-09; the Starter plan includes $30/month free; region pinning costs 1.15-1.75x). Hetzner AX162 (EPYC 9454P, 48 cores / 96 threads, from 128 GB) has specs on hetzner.com/dedicated-rootserver/matrix-ax, but its price page renders in JS. About \u20ac200-260/month is from memory and unverified. Not checked: the web-search budget ran out, so OVH, Lambda and Vast were not priced. Lambda and Vast sell GPU instances, so this workload would pay for idle GPUs there.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "Cost per unit of work, $/L-h: GCP c3d spot 0.0085, AWS c7a spot 0.0089, c8a spot 0.0111, c4d spot 0.0112, hpc7a on-demand 0.0187, c8a on-demand 0.0207, Modal 0.0256 (preemptible), Hetzner CCX63 0.030, c7i on-demand 0.045. A monthly 48-core dedicated box would be about 0.0034, but only if it stays busy and the price is as remembered. A 192-core Zen 5 box delivers about 48 times the laptop's pilot throughput: about 500 laptop-equivalents against the laptop's 10.4.",
+      "evidence": "cost_model.py -> cost_model.json and cost_model.txt. Box capacity = vCPU x per-vCPU speed factor from the speed finding above. $/L-h = price per hour / capacity. Laptop: 4 jobs x 2.6 CPU-s/s = 10.4 laptop-equivalents.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "(a) Rerunning this pilot (about 217 L-h) takes ~21-24 h on the laptop. On one c8a.48xlarge it takes about 1-1.5 h for about $8 spot or $16 on-demand (hpc7a about 2 h, $14). On Modal it takes about 1.7 h for about $6. One box is enough, because the longest run (about 25 L-h) is the binding constraint.",
+      "evidence": "cost_model.txt, experiment a: 29 runs at 6.6 threads each on 192 cores gives 1.5 h. Oversubscribing to 12 threads per run with OMP_WAIT_POLICY=PASSIVE should bring that to about 1 h once the stuck runs finish in minutes. 5 boxes cut wall time to 0.3 h at about the same dollars. Modal: 29 containers x cpu=8 (16 threads), 114 core-hours x $0.051.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "(b) A 10-seed x 4-arm x 1000-generation ablation at ~120-cell bodies needs about 2,200 L-h (2,000-3,300 if bodies grow toward 170). That is about 9-13 days on the laptop. Rented: 1 c8a.48xlarge 5.1 h ($28 spot / $53 on-demand); 5 c8a boxes 1.1 h ($29 spot); 1 GCP c3d-360 spot 6.3 h ($22); 1 hpc7a 6.6 h ($48 on-demand); Modal 40 containers 4 h ($59; cpu=16 gives about 2 h for the same money; non-preemptible $167); one 48-core dedicated box about 21 h.",
+      "evidence": "cost_model.py: run_lh = 1000 gens x 1.62 L-s x 120 cells + 0.55 L-h founders = 54.6 L-h per run; the longest run is assumed to be 1.15x the mean. 1 box: 40 runs x 4.8 threads; 5 boxes: 24 threads per run. Boxes are billed until the last run ends. Cost scales linearly with mean body size.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "(c) A 100-seed population study costs 1,400 L-h if it is pilot-like (SPECK, 500 generations, ~6 days on the laptop) and 5,500 L-h at 1000 generations of 120-cell bodies (~22 days on the laptop). Rented: c1 on 5 c8a boxes 1.1 h ($30 spot / $55 on-demand) or Modal 1.7 h ($38). c2 on 5 c8a boxes 2.6 h ($71 spot / $133 on-demand), 5 c3d spot boxes 3.2 h ($55), Modal 4 h ($147), or one c8a box 12.6 h ($70 spot).",
+      "evidence": "cost_model.txt, experiments c1 and c2. c1 uses the pilot's SPECK L4 mean of about 14 L-h per run, with the longest run 26 L-h. c2 uses 54.6 L-h per run, with the longest run 62.7 L-h.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "src/run.py cannot resume a run. Any preemption or crash restarts the run from generation 0, and rerunning scripts/sweep.py overwrites every run in its matrix. Exact resume is cheap to add: the torch.Generator is the only random state in a run.",
+      "evidence": "main_life opens curves.jsonl with 'w'. Lineage opens lineage.jsonl and clones.jsonl with 'w'. evolve_life keeps pop/ids/breeds/origins/next_id/next_innov/evals/rc_lives in memory, and population.json is written only after the last generation. sweep.py has no skip or resume and launches every run. Life seeds, the T draw and envelope draws are spec.hash64 values of (seed, purpose, index, life) (evaluate.life_seed, LifeEvaluator.draw), and the kernel is stateless. Breeding, mutation and founder sampling use one torch.Generator, and get_state/set_state restores it exactly. A sketch is in scaleout/resume_sketch.py.",
+      "confidence": "high"
+     },
+     {
+      "claim": "Bitwise results on another machine are likely but need checking. The kernel calls glibc libm functions, which use FMA variants chosen at load time on x86-64. Breeding runs through torch's CPU kernels, and an AVX-512 server picks different kernels from this AVX2 laptop. requirements.txt is not pinned. alt-arcs' Modal image (debian_slim) ships an older glibc than the laptop's.",
+      "evidence": "Laptop: Ubuntu 24.04.4, glibc 2.39, gcc 13.3.0, torch 2.14.1+cpu with get_cpu_capability()=AVX2, numpy 2.5.3, omegaconf 2.3.1, Python 3.12.3. The kernel .so imports exp@GLIBC_2.29, log@GLIBC_2.29, pow@GLIBC_2.29, sincos, tanh, frexp, ldexp, llround, nearbyint, nextafter and floor. requirements.txt says torch>=2.2, numpy>=1.26. genome.py draws torch.randn/rand for mutations and crossover. Laptop references made this session: verify_laptop.json (3 bodies x 6 lives, threads 1 vs 2 identical, rerun identical, 0 mismatches) and replay_laptop_t2/, a 12-generation seeded SPECK run (332 s evolution + 206 s final at 2 threads). replay_check.py compare ignores only the timing fields; a self-test with one injected change was caught.",
+      "confidence": "medium"
+     },
+     {
+      "claim": "alt-arcs' Modal pattern (one GPU function running sweep.py, outputs on a Volume) maps to cell-dev best as one CPU container per run. The C kernel should be built into the image, and Volume commits should be periodic. Without resume, Modal's restart-on-preemption reruns a run from generation 0.",
+      "evidence": "../alt-arcs/src/modal_app.py: debian_slim with python 3.12, add_local_dir of the repo, gpu=A10G, timeout 6 h, Volume at /data, sweep.py run as a subprocess, volume.commit at the end. Modal docs (2026-10-09): cpu= counts physical cores; billing is the higher of request and usage; default soft CPU limit 16.125 cores; preemption 'restart[s] it on the same input'; nonpreemptible=True costs 3x. Sketch: scaleout/modal_cell_dev.py (ubuntu:24.04 + add_python 3.12, pinned wheels, build.build() at image build time, cpu=8 with 16 threads, retries=2, commits every 5 min, starmap over sweep.matrix()). git_state() returns None in an image without .git.",
+      "confidence": "medium"
+     }
+    ],
+    "recommendations": [
+     {
+      "change": "Add exact checkpoint/resume to life-mode runs. Every ~5 generations, save pop, ids, breeds, origins, next_id, next_innov, evals, rc_lives, valid, heldout, chosen.fitness, curves, the founders info, torch.Generator.get_state(), accumulated wall time, and the byte offsets of curves/lineage/clones.jsonl, written atomically (tmp file + os.replace). On resume: truncate the files to those offsets, reopen them with 'a', and continue at g+1. Add logging.resume=true, and add sweep.py --skip-done, --resume and --shard i/n. See scaleout/resume_sketch.py.",
+      "expected_gain": "Makes spot and preemptible capacity safe: c7a, c3d or c8a spot is 45-65% cheaper than on-demand, and Modal preemptible is 3x cheaper than non-preemptible. Losing a ~5-hour run to a preemption drops from 100% of the run to at most 5 generations (a few minutes). A crashed or interrupted sweep also restarts without redoing finished runs.",
+      "effort": "medium",
+      "preserves_exactness": "Yes, provided the generator state and all counters are restored. Life seeds and T draws are hashes of (seed, purpose, index), so a resumed run should match an uninterrupted one byte for byte except t_gen/t_eval/t_recheck/wall_s. A slow test should check this: 6 generations straight vs 3 + resume + 3, compared with replay_check.compare.",
+      "risk": "Low to medium. The main risk is missing a piece of state, for example a resume landing exactly at the final generation, or rows that only the 10th generations write. The split-vs-straight test catches this."
+     },
+     {
+      "change": "Pin the environment and check determinism on every new machine type before a sweep. Pin exact versions (torch==2.14.1 from the CPU index, numpy==2.5.3, omegaconf==2.3.1, ...). Use an Ubuntu 24.04 base (glibc 2.39, gcc 13.3) rather than debian_slim. Set ATEN_CPU_CAPABILITY=avx2 so AVX-512 servers run the laptop's torch kernels. Then run bench_cell.py verify --reference verify_laptop.json and replay_check.py run/compare against replay_laptop_t2.",
+      "expected_gain": "Keeps rented results directly comparable and poolable with laptop runs, and catches a non-portable machine in about 10 minutes instead of after a sweep. No change in speed: breeding is under 1% of runtime.",
+      "effort": "small",
+      "preserves_exactness": "This is what protects exactness. It changes no outputs on the laptop.",
+      "risk": "Low. If verify fails on some CPU family because glibc chose a different libm variant, stay on CPUs with AVX2+FMA (every current server qualifies) and use the same image everywhere."
+     },
+     {
+      "change": "What to rent. For bursts: one AWS c8a.48xlarge spot per ~40 runs (192 Zen 5 cores, no SMT, $5.53/h in us-east-1, about 2.6x laptop per thread). If the lowest $/work matters more than per-run latency, use c7a spot or GCP c3d-highcpu-360 spot. hpc7a on-demand ($7.20/h) is the no-preemption fallback. For zero-ops fan-out: Modal, one container per run, cpu=8-16. For steady experimentation over weeks: a monthly 48-core EPYC dedicated box (Hetzner AX162 class, about 10x the laptop, flat about \u20ac200-260/month; check the price). Do not rent GPUs.",
+      "expected_gain": "A pilot rerun takes 1-1.5 h instead of ~24 h ($6-16). The 40-run x 1000-generation ablation takes 1-6 h instead of 9-13 days ($22-59). A 100-seed study takes 1-4 h instead of 6-22 days ($30-150).",
+      "effort": "small",
+      "preserves_exactness": "Yes, if the verify and replay checks pass on the box. The kernel's clockless local rules are untouched, since only where it runs changes.",
+      "risk": "Spot capacity and preemptions; new accounts have low vCPU quotas (request AWS/GCP spot quota for 192+ vCPU, and Azure HB needs HPC quota, before renting). The speed factors are estimates to \u00b125% until bench_cell.py fleet runs on the box. Idle tails: one long run can keep a big box billed, so oversubscribe threads and use rent_box_setup.sh's auto-shutdown."
+     },
+     {
+      "change": "Choose the job layout on a big box: one job per run, threads per run = ceil(1.5 x vCPU / runs) capped at about 32, with OMP_WAIT_POLICY=PASSIVE. Do not give one run more than about 32-64 threads. For per-run latency, a fleet of smaller boxes (or Modal containers) with 16-32 threads per run is faster than one huge box.",
+      "expected_gain": "Parallel efficiency stays above 93% (vs 70% for a run spread over 192 threads). Cores freed by stuck runs, which finish in minutes, go to the long runs, cutting the pilot's wall time on one box from about 1.5 h to about 1 h.",
+      "effort": "small",
+      "preserves_exactness": "Yes. Whole runs give the same results at any thread count (RESULTS.md, and verify threads 1 vs 2).",
+      "risk": "Oversubscribing with the default GOMP spin policy wastes some CPU. idle_scaling.sh measures default, PASSIVE and ACTIVE."
+     },
+     {
+      "change": "Record CPU time (getrusage RUSAGE_SELF+CHILDREN) and host/cpu_model/nproc in every curves row or results row. In git_state(), fall back to an env var (CELL_DEV_GIT_REV / CELL_DEV_GIT_DIRTY) when there is no .git, as in Modal images or rsync'ed trees.",
+      "expected_gain": "Cost accounting becomes exact on every machine (the pilot's core-hours had to be estimated from 4 live processes), the $/L-h figures can be checked, and code provenance survives on rented boxes.",
+      "effort": "small",
+      "preserves_exactness": "Yes. The new fields are metadata, and replay_check's ignore list would gain the CPU-time and host fields.",
+      "risk": "Low."
+     },
+     {
+      "change": "Merge the side evaluations that run every 10 generations (16 valid lives, 24 held-out lives, clone forks) into fewer kernel calls, or overlap them with the next generation's evaluation. They do not affect selection.",
+      "expected_gain": "Small on CPU work (they are about 4% of it), but each small call is bound by its slowest life. At 32 or more threads per run this could cut per-run wall time by about 5-10%. Below 16 threads the gain is negligible.",
+      "effort": "medium",
+      "preserves_exactness": "Yes, if each life keeps the same seed, world and genome and results are put back in the same order. Lives are independent of batch composition by contract.",
+      "risk": "Low to medium. It reorganizes evolve_life and final_life bookkeeping, so it is worth doing only after resume."
+     },
+     {
+      "change": "Do not port the kernel to a GPU, and do not build a time-stepped GPU approximation.",
+      "expected_gain": "Avoids months of work for no throughput gain: 768-1024 lives per generation leave a GPU under 1% occupied, and a 192-core spot box costs $3-6/h with no rewrite.",
+      "effort": "small",
+      "preserves_exactness": "Keeps ABI 3, every hash and the clockless semantics. A CUDA libm or a time-stepped scheme would break all three.",
+      "risk": "None."
+     }
+    ],
+    "scripts_for_idle_machine": [
+     "bash /tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/idle_scaling.sh /home/jgon/project/ml/cell-dev laptop_idle  # needs the laptop idle (after the pilot), 15-25 min. Runs: bitwise check vs verify_laptop.json; single thread pinned to P, E and LP-E cores with clock sampling (cycles per cell-unit); threads 1-12 inside one call; job layouts 7x1, 14x1, 4x3, 2x6, 28x1, 9x3 for machine-wide cell-units/s; OMP wait policies when oversubscribed; scripts/life_bench.py on life_speck.yaml at 3 and 8 threads (founders capped at 2048), with output written to scratch",
+     "On a rented box: bash ~/scaleout/rent_box_setup.sh <name> '<configs>' <seeds> [overrides]  # Ubuntu 24.04 template: pinned venv, ATEN_CPU_CAPABILITY=avx2, OMP_WAIT_POLICY=PASSIVE, kernel bitwise check + 12-generation replay check vs the laptop (aborts on any mismatch), fleet calibration, then sweep.py in tmux with threads=ceil(1.5*nproc/runs); powers off 15 min after the sweep ends",
+     ".venv/bin/python scaleout/bench_cell.py fleet --jobs $(( $(nproc)/3 )) --threads 3 --lives-per-thread 4 --out fleet_<host>.json  # machine-wide throughput, all jobs started together; compare us_per_cu_per_vcpu with the laptop's 1.3-1.46 to replace the estimated speed factors in cost_model.py",
+     ".venv/bin/python scaleout/bench_cell.py verify --threads 8 --lives 6 --reference scaleout/verify_laptop.json --out verify_<host>.json  # 18 lives x 5 hashes + ledger digest, bitwise vs the laptop",
+     ".venv/bin/python scaleout/replay_check.py run --threads 8 --out replay_<host> && .venv/bin/python scaleout/replay_check.py compare scaleout/replay_laptop_t2 replay_<host>  # whole-run portability: 12 seeded SPECK generations + final evaluation, timing fields ignored",
+     "modal run scaleout/modal_cell_dev.py::verify ; modal run scaleout/modal_cell_dev.py::sweep --name <name> --configs <configs> --seeds <seeds> --overrides '...'  # Modal sketch, one CPU container per run (add resume first for runs over ~1 h)",
+     "python3 scaleout/cost_model.py  # recomputes $/L-h and the experiment tables after you edit the speed factors (leq) with measured numbers or update prices"
+    ],
+    "artifacts": [
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/pilot_compute.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/pilot_compute.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/fit_gen_cost.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/fit_gen_cost.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_cell.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_laptop_cpu0_t1.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_laptop_cpu2_t1.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_laptop_cpu6_t1.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_laptop_cpu9_t1.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_laptop_cpu12_t1.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bench_laptop_ecore6_t1.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/fleet_laptop_smoke.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/measurements.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/verify_laptop.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/verify_laptop_again.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/replay_check.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/replay_laptop_t2/",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/replay_laptop_t2.log",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/cost_model.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/cost_model.json",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/cost_model.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/gen_eff_120cells.txt",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/idle_scaling.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/rent_box_setup.sh",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/modal_cell_dev.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/resume_sketch.py",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/bodies/",
+     "/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/cache/life/life_66f624a8719dfae0.so"
+    ]
+   },
+   "verdict": {
+    "title": "Review of the cell-dev scale-out report: the numbers mostly hold. Determinism pinning is a must, the pilot runs about 4 h longer than projected, fleet and Modal wall times are about 1.5x too optimistic, and elastic threads were missed",
+    "checks": [
+     {
+      "claim": "The pilot has used about 189 L-h (72.6 run-hours x 2.6 CPU-s per wall-s). It will reach about 217 L-h and 83 run-hours, roughly 24 h of elapsed time.",
+      "recheck": "Re-summed results.jsonl wall_s now that 28 of 29 runs are done. Read curves.jsonl of the run just started, speck_lmax4_s9. Checked final_s, which wall_s excludes: 0.1-49 s, negligible.",
+      "result": "The arithmetic was right when written. Now: 78.05 run-hours = 203 L-h for 28 runs. speck_lmax4_s9 started around 02:36. At generation 92 it already has pop_body 68 and t_gen 42 s, so it is growing early like s5/s6. It projects to about 20-25 L-h (the report's central estimate was 14) and about 8 more hours alone at 3 threads. Pilot total is about 225 L-h and about 28 h elapsed. Roughly the last 8 h is a single 3-thread job on a 14-thread laptop.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "Load inflates wall time about 13% over CPU time. The 3-thread jobs run 2.57-2.64 CPU-s per wall-s.",
+      "recheck": "Read /proc/<pid>/task/*/schedstat for all 4 live pilot jobs: on-CPU time, run-queue wait and sleep per thread over the whole process life (verify/procs.py -> procs_now.json).",
+      "result": "On-CPU 84-87%, run-queue wait 11-15%, sleep only 0.3-2.5% of each thread's life. The master and worker threads have equal on-CPU time. So the gap is CPU contention from other jobs, not Python, Amdahl or tail losses. Recent spikes are much worse than 13%: speck_s6 generation 474 had t_recheck 398 s against about 33 s normally, and speck_s8 generation 452 spent 154 s outside the kernel.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Generation cost is about T x (1.12e-3 pop_body + 0.29e-3 best body), about 194 L-s per generation at 120 cells. Python is about 0.06 s per generation.",
+      "recheck": "Own fits over all curves.jsonl rows (verify/fit_check.py): one with no intercept, one robust median over the 1,429 plain generations with pop_body > 80. Also took per-run kernel cost per cell-unit, and the non-kernel time from stuck and all-dead runs.",
+      "result": "No-intercept fit: 187 L-s, or about 195 with the side-evaluation rounds (+41% every 10th generation, which I reproduced). Robust median: 174 L-s, or about 181. So 194 is high by at most about 7%. Selection kernel: 1.45 wall-us per cell-unit per thread, which is 1.25 CPU-us after the schedstat correction. Per-run medians range 1.18-2.16 (CATCH v1 runs cost more). Python outside the kernel calls: median 0.014-0.024 s. A whole generation of the all-dead run lmax4_s1 takes 0.07 s. Note that '120 cells' means the time-averaged population body. Only s5/s6-type runs reach that late, and whole-run means of the costliest pilot runs were 76-98.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Single-thread kernel cost is about 1.25-1.41 us/cu, and cost per event (about 1.6-2.1 us) is the stable figure.",
+      "recheck": "Rebuilt a late generation of speck_s5: its 32 final parents plus 224 children made with evolve_life's crossover and mutate. Ran 256 lives at T 1024. Timed 11 single lives with thread CPU time and fit cost = a x events + b x cell-units (verify/gen_lives.py, sched_fit.py).",
+      "result": "Fit: 1.29 us/cu + 0.29 us/event. The predicted batch CPU of 51.7 s matches the measured 50.9 s. The per-cell-unit figure is confirmed. The per-event claim is refuted: per-event cost ranged 0.46-1.8 us. A 'chatty' mutant with 894k events (8x the mean, 6x the events per cell-unit) cost only about 2.5x a median life. Cell-time units predict cost better than events.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "A run uses threads efficiently up to about 32: 97% at 12, 96.5% at 16, 93% at 32, 87% at 64, 70% at 192.",
+      "recheck": "Exact simulation of schedule(dynamic,1) over the measured life costs: genome-major order with parents first, 3 lives per genome, the top 64 x 4 recheck lives as a second barrier, plus 0.07-0.15 s of serial Python (verify/sched_fit.txt).",
+      "result": "98.5-99.0% at 12, 97.3-97.9% at 16, 94.3-95.4% at 32, 89-91% at 64, 71-75% at 192. The report is right and slightly conservative. Caveat: the 256-life sample had no guard lives. Late generations have 0.3-1.5% guard lives (n_max 1024 or e_max 5M events), which would lengthen tails at 64 or more threads per run.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Prices: c8a.48xlarge $10.35 on-demand / $5.53 spot; c7a $9.85 / $3.40; hpc7a $7.20; GCP c3d-highcpu-360 $13.45 / $3.43; Modal $0.04716 per core-hour + $0.008 per GiB-hour, 3x non-preemptible. Plus the derived $/L-h.",
+      "recheck": "Re-opened instances.vantage.sh (c8a, c7a), sparecores.com (hpc7a, c3d-highcpu-360), aws.amazon.com/ec2/instance-types/c8a and modal.com/pricing on 2026-10-09. Recomputed $/L-h and the tables in cost_model.py by hand.",
+      "result": "c8a $10.35 / $5.54. c7a $9.85344 / $3.40. hpc7a $7.20 in Ohio (up to $8.56 elsewhere). c3d $13.4457 / $3.4259. c8a has no SMT, a 4.5 GHz maximum, and is 'up to 30%' faster than c7a. Modal: $0.0000131 per core-second, $0.00000222 per GiB-second, 3x non-preemptible, 1.15-1.75x for region pinning, $30/month on Starter. Every $/L-h figure and experiment row reproduces. The Hetzner AX162 price could not be verified (no price on the page, search budget used up).",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Per-thread speed relative to a loaded laptop CPU-second: c8a about 2.6x, c7a/hpc7a about 2.0x, c3d vCPU about 1.1x, Modal core about 2.0x.",
+      "recheck": "No server is available, and perf counters are blocked (perf_event_paranoid=4). I only checked plausibility: GB6 single-core c8a 2816 vs c7a 1984 (sparecores) against a loaded laptop thread of about 1000.",
+      "result": "Plausible to about \u00b125-30%. It has to be measured on the box (bench_cell.py fleet) before any large spend. Every $ and hour figure scales directly with this factor.",
+      "outcome": "unverifiable"
+     },
+     {
+      "claim": "Experiment tables: (b) 1 c8a box 5.1 h ($28 spot); 5 boxes 1.1 h ($29); Modal 4 h ($59). (a) 1-1.5 h ($8 spot).",
+      "recheck": "Re-derived the arithmetic. Then replaced the model's assumption 'longest run = 1.15 x mean' with the pilot's measured SPECK L4 spread (2.2-25.2 L-h, max/mean 1.71) in a fluid simulation of runs sharing a box, with static vs elastic threads (verify/box_tail.py).",
+      "result": "The arithmetic is right. One box barely changes: 5.4 h static (the 1.5x oversubscription absorbs the spread) and 4.4 h with elastic threads. The 5-box fleet is limited by the longest run: about 93 L-h at 24 threads gives about 1.5 h and about $43 spot, not 1.1 h / $29. Modal (b) is about 6 h, not 4, at the same cost. Modal c2 and the fleet c2 are about 1.5x longer for the same reason. (a) at 1-1.2 h on one box stands.",
+      "outcome": "corrected"
+     },
+     {
+      "claim": "src/run.py cannot resume, sweep.py reruns and overwrites everything, and the torch.Generator is the only random state in a run.",
+      "recheck": "Read main_life, evolve_life, Lineage and sweep.py, and grepped src/ for RNG use.",
+      "result": "curves.jsonl, lineage.jsonl and clones.jsonl are opened with 'w'. sweep.py has no skip or resume. Every torch rand/randn/randint call passes generator=gen. Life seeds, T and envelope are spec.hash64 values. np.random appears only in seeded analysis bootstraps.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Bitwise results on another machine need checking: glibc libm FMA variants, torch AVX2 vs AVX-512 kernels, unpinned requirements.",
+      "recheck": "Ran torch.randn(224, 8) with a seeded Generator under ATEN_CPU_CAPABILITY=default and avx2 (verify/randn_cap.py). Ran numpy.show_runtime. Ran nm -D on my own build of the kernel.",
+      "result": "The bits differ between the capabilities: 0.33737015724 vs 0.33737018704. Draws of fewer than 16 elements and torch.rand are identical. Mutation noise (224 x kmax) and founder sampling use the size-16 vectorized path, so they depend on the capability, and AVX-512 servers dispatch another kernel. NumPy dispatches X86_V3 here and X86_V4 on those servers. libm imports are exp, log and pow (GLIBC_2.29), sincos, tanh and others. requirements.txt uses only >= pins.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "A GPU port would not help: 768-1024 lives are about 24-32 warps, under 1% of an H100.",
+      "recheck": "Arithmetic check, and read the kernel's single OpenMP loop (kernel.c line 2206).",
+      "result": "32 warps out of 132 x 64 = 8,448 warp slots is 0.4%. The 50-100x per-thread slowdown is an estimate, but the conclusion holds even with generous assumptions.",
+      "outcome": "confirmed"
+     },
+     {
+      "claim": "Memory is not a constraint: a job peaks at about 0.43 GB.",
+      "recheck": "Read /proc/<pid>/status of the live jobs, and maxrss of my own rebuilt-generation run.",
+      "result": "VmHWM 430-437 MB. My 256-life process used 237 MB.",
+      "outcome": "confirmed"
+     }
+    ],
+    "corrected_recommendations": "Ranked by value per unit of effort:\n\n1. **Pin the environment and check bitwise portability before any rental.** Small effort; nothing rented is comparable to laptop runs without it.\n   - Set `ATEN_CPU_CAPABILITY=avx2`. I showed directly that the torch.randn bits differ between CPU-dispatch levels (DEFAULT vs AVX2). Mutation noise and founder draws go through that path, and an AVX-512 server would pick yet another kernel.\n   - Pin exact wheels and use the Ubuntu 24.04 image.\n   - Optionally also pin numpy's SIMD level (X86_V3 here, X86_V4 on servers).\n   - Run `bench_cell.py verify` and `replay_check.py` first on every machine type.\n\n2. **Rent one many-core box for bursts, and do not rent GPUs.** Small effort, big value.\n   - c8a.48xlarge at $5.54 spot, c7a spot at $3.40, or hpc7a on-demand at $7.20 (us-east-2) without resume. Prices are re-verified.\n   - Rerunning the pilot takes about 1-1.2 h instead of about 28 h on the laptop, for about $6-16.\n   - The 40-run x 1000-generation ablation takes about 4.5-5.5 h on one box, about $25-30 spot or $50-55 on-demand.\n   - The speed factor (c8a about 2.6x the loaded laptop) is unverified. Spend the first 15 minutes on the box running `bench_cell.py fleet`.\n   - One box is the better choice. A 5-box fleet is not about 1.1 h for $29: it is about 1.5 h and about $43, because the longest run is about 1.7x the mean, not 1.15x. Modal wall times are about 1.5x the report's (about 6 h for the ablation, same dollars).\n\n3. **Choose the job layout, and add elastic threads (the latter was missed).** Small effort.\n   - Keep the report's layout: one job per run, threads = ceil(1.5 x vCPU / runs) capped at 32, `OMP_WAIT_POLICY=PASSIVE`. My exact schedule simulation on measured life costs supports it: 95% efficiency at 32 threads, 89-91% at 64, 71-75% at 192.\n   - New: let each kernel call use min(cap, free cores / running runs) threads instead of the fixed `cfg.threads`. Results do not depend on the thread count.\n   - On one box this cuts the ablation from about 5.4 h to about 4.4 h.\n   - On the laptop it removes tails like the current one: speck_lmax4_s9 will run alone on 3 of 14 threads for about 8 h, and would take about 2-2.5 h at 12 threads.\n   - Also start the arms expected to run longest (SPECK L4) first.\n\n4. **Checkpoint and resume, as the report specifies.** Medium effort.\n   - This is what makes spot and preemptible capacity usable. c8a spot is 46% cheaper than on-demand, c7a spot 65%, and Modal preemptible 3x cheaper.\n   - Against hpc7a on-demand, it saves about 40-50% per experiment, which is $15-70 at the sizes above. It is worth doing if you will rent more than a few times, or use Modal.\n   - It also protects multi-hour laptop runs.\n   - The state analysis is correct: the torch.Generator is the only RNG state.\n\n5. **Record CPU time, host and CPU model, plus scheduler wait, in every row.** Small effort.\n   - Also record run-queue wait (`/proc/self/task/*/schedstat`). On this laptop 11-15% of pilot thread time is spent waiting for a CPU, which getrusage alone cannot show.\n   - Add the git fallback the report describes.\n\n6. **Kernel build flags (missed).** Small effort, gain of at most about 5-10%, unresolved under this load.\n   - -march=native, x86-64-v3, PGO and v3+PGO all gave all 5 hashes and the full ledger identical to the repo build on 16 lives.\n   - Timings came out at 0.88-1.07x of the reference across two rounds, which is within the load noise.\n   - Re-measure on an idle machine with `verify/variant_test.py` before changing `CFLAGS`.\n\n7. **Merge or overlap the side evaluations run every 10th generation.** Medium effort, about 4% of CPU. Matters only at 32 or more threads per run. Do it after resume.\n\n8. **Do not port to a GPU.** Agreed.",
+    "missed": "**1. Static threads leave tails, on the laptop now and on any rented box.**\n- The pilot is in its tail right now: only speck_lmax4_s9 is running, at 3 threads, at generation 92. It already has 68-cell bodies, so it projects to about 20-25 L-h and about 8 h alone.\n- That puts the pilot at about 225 L-h and about 28 h elapsed (the report said 217 and 24).\n- `sweep.py` has fixed threads per job and FIFO order. Elastic per-call threads plus longest-first ordering are cheap fixes that keep results exact.\n\n**2. The laptop is heavily shared, and that biases the L-h unit.**\n- Load was 30-58 during this check. Pilot threads waited for a CPU 11-15% of their life.\n- Recent generations ran 4-10x slower than normal (s6 generation 474: t_recheck 398 s against about 33 s).\n- Wall times from the last hours are unreliable. The 'loaded laptop CPU-second' unit drifts with load, so calibrate on the rented box instead of trusting the conversion.\n\n**3. Life cost is heavy-tailed, and per-event cost is not stable.**\n- One child life in 256 had 8x the mean events but cost only about 2.5x the mean.\n- Guard-tripping lives (0.3-1.5% of late genome-lives, n_max 1024 or e_max 5M events) were absent from my sample. They are what would hurt at 64 or more threads per run, which is another reason to cap at about 32.\n\n**4. The fleet and Modal estimates assume the longest run is 1.15x the mean.**\n- The pilot's SPECK L4 arm has max/mean 1.71.\n- Fleet and Modal wall times, and fleet cost when boxes are billed until the last run ends, should be about 1.5x higher.\n- One-box estimates move by 10% or less because of the 1.5x oversubscription.\n\n**5. Where generation time goes is an experiment-design choice, not something to optimise silently.**\n- The recheck is 25-30% of each generation (19.7 of 79 s in speck_s5 late; 32.6 of 108 s in s6).\n- The T draw averages 1109, 8% over 1024.\n- The side rounds add 4%.\n- These are the largest software levers, but changing them changes the experiment, so they are the user's decision.\n\n**6. The rent_box_setup.sh template can lose results.**\n- It ends with `sudo shutdown -h now`. On a spot instance whose shutdown behaviour is 'terminate', the root volume and outputs are deleted unless they were synced.\n- Set the instance-initiated shutdown behaviour to stop, or sync to S3 before shutdown.\n- Also check spot interruption rates for 48xlarge pools (AWS Spot Advisor). I did not check them.\n- c8a.48xlarge has 2 NUMA nodes. Pinning each run to one node (`numactl` or `taskset`) is a free tweak.\n\n**7. The kernel was never profiled.**\n- The report gives about 4-5k cycles per event, but no hotspot breakdown exists (perf is blocked here).\n- A profile on the rented box (perf is usually allowed there) or with callgrind could find gains that multiply every rental dollar.\n\n**Verification files** are under `/tmp/claude-1000/-home-jgon-project-ml-cell-dev/aefb0c66-3af5-49c4-936c-154d6434706c/scratchpad/compute/scaleout/verify/`:\n- `procs.py`, `procs_now.json`: per-thread schedstat breakdown of the pilot jobs.\n- `fit_check.py`: refit of the per-generation cost.\n- `gen_lives.py`, `gen_speck_lmax4_hexprism_sex_s5_T1024_L1.json`: per-life costs of a rebuilt late generation, plus the single-life calibration.\n- `sched_sim.py`, `sched_fit.py`, `sched_s5_T1024.txt`, `sched_fit_s5.txt`: thread-scaling simulation.\n- `randn_cap.py`: the torch.randn CPU-capability test.\n- `variant_test.py`, `variant_test2.txt`, `pgo_train.py`, `pgo_train3.py`, `variants/`: kernel build-flag A/B test (ready to rerun on an idle machine).\n- `box_tail.py`, `box_tail.txt`: one-box tail simulation."
+   }
+  }
+ ]
+}
