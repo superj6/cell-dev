@@ -1357,3 +1357,13 @@ re-checked by a skeptic; seeds 37.1M-37.8M.
 - **Recommendation:** make an integer ABI the next reference contract (folded into ABI 4): CPU speed (about 1.4-2.3x
   with fast mode, estimated), bitwise portability across machines, and the exact reference any FPGA or chip must
   match; then one cell processor, then a small spatial array; silicon only after the ABI is frozen.
+
+**Playground** (2026-10-09, `results/atlas/play/`, published in the atlas): `lifesim.js` is a JavaScript transcription
+of `src/life/reference.py` for CATCH bodies (GRN and program mode), with ports of glibc 2.39's FMA exp, log, sin, cos
+and tanh. On 8 bodies x 32 fresh lives (seeds from 39,200,000) it equals the kernel bitwise in every life (F, all 57
+ledger columns, the five hashes, rasters); the lateral_off fork at t 256 matches too (64/64). On top it adds an
+interactive world: up to 6 user-placed targets whose halos add, drag and remove, drift on or off, and any cell-side
+flag at any time. A target placed 3 units from a grown s5 is caught in 40/40 trials (median 12 time units; 0/40 with
+receptors off). `export_bodies.py` regenerates `bodies.json` and the ground truth the node tests read
+(`test_lifesim.js`, `test_playground.js`); `build_playground.py` inserts the playground into `atlas.html` as
+`atlas_play.html`.

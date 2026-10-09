@@ -1,0 +1,553 @@
+
+(() => {
+"use strict";
+const mount = document.getElementById("pg-mount"), dataEl = document.getElementById("pg-data");
+if (!mount) return;
+const Sim = typeof LifeSim !== "undefined" ? LifeSim : null;
+if (!Sim || !dataEl) { mount.textContent = "The live simulator did not load, so the playground is unavailable."; return }
+const PG = JSON.parse(dataEl.textContent), DOC = PG.doc, UI = PG.ui;
+
+/* ---------- constants ---------- */
+const S32 = Math.sqrt(3) / 2;
+const FLASH = 1.2;                       // a spike stays lit this many time units (as in the replays)
+const SPEEDS = [[30, "1×"], [120, "4×"]]; // time units per wall second, as in the replays
+const SKIP_T = UI.skipTo || 300;         // "Skip growth" runs the standard world up to this time
+const PLAY_BUDGET = 9, SKIP_BUDGET = 14; // ms of simulation per animation frame
+const TRAIL = 120;                       // time units of the dot's path that stay drawn
+const MARK_MS = 1100, DOUBLE_MS = 380;   // catch/miss marker life; double-tap window
+const PLANE_VAR = ["--t0", "--t1", "--t2"];
+const PLANE_NAME = ["touch the screen", "pull the body", "hidden"];
+const OFF = [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]];
+const TOKENS = ["--bg", "--surface", "--ink", "--ink-2", "--muted", "--rule", "--site", "--accent", "--loss", "--spike", "--t0", "--t1", "--t2", "--font-body", "--font-data"];
+const rmq = window.matchMedia ? matchMedia("(prefers-reduced-motion: reduce)") : null;
+let reduceMotion = !!(rmq && rmq.matches);
+const TOK = {};
+function readTokens() { const cs = getComputedStyle(document.documentElement); for (const n of TOKENS) TOK[n] = (cs.getPropertyValue(n) || "").trim() || "#888" }
+readTokens();
+
+/* ---------- helpers ---------- */
+const el = (tag, attrs = {}, kids = []) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v === true ? "" : String(v));
+  }
+  for (const c of [].concat(kids)) if (c != null) n.append(c);
+  return n;
+};
+const setIf = (node, prop, v) => { if (node[prop] !== v) node[prop] = v };
+const setAttrIf = (node, name, v) => { if (node.getAttribute(name) !== v) node.setAttribute(name, v) };
+const fmtInt = (v) => Math.floor(v).toLocaleString("en-US");
+const fmtNum = (v) => (Math.round(v * 100) / 100).toLocaleString("en-US");
+const signed = (v, d = 2) => (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(d);
+const hexRing = (a, b) => Math.max(Math.abs(a), Math.abs(b), Math.abs(a + b));
+const ckey = (a, b, z) => ((a + 2048) * 4096 + (b + 2048)) * 16 + z;
+function hexPath(ctx, x, y, size) { // pointy-top hexagon of flat-to-flat width `size`
+  const r = size / Math.sqrt(3); ctx.beginPath();
+  for (let k = 0; k < 6; k++) { const a = Math.PI / 6 + k * Math.PI / 3; const px = x + r * Math.cos(a), py = y + r * Math.sin(a); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py) }
+  ctx.closePath();
+}
+function sizeCanvas(c, W, H) {
+  const dpr = window.devicePixelRatio || 1, w = Math.max(1, Math.round(W * dpr)), h = Math.max(1, Math.round(H * dpr));
+  if (c.width !== w || c.height !== h) { c.width = w; c.height = h }
+  const ctx = c.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return ctx;
+}
+
+/* ---------- state ---------- */
+let bodyIdx = 0, seedIdx = 0, sim = null, info = null, st = null, maxTargets = 6;
+let playing = false, speed = SPEEDS[0][0], uiMode = "user", drift = false, lateralOff = false;
+let skip = null, raf = 0, inFrame = false, last = 0, rate = 1, litWindow = FLASH;
+let trail = [], marks = [], feedLines = [], feedDirty = true;
+let maxR = 2.5, maxRing = 3, Rv = 7.5, cam = null, V = null, sites = [], sitesRing = -1;
+let drag = null, lastTap = null, hoverId = null, flashMsg = "", flashUntil = 0;
+let ended = null, started = false, autoPaused = false, inView = true; // inView: some of the playground is on screen
+
+/* ---------- DOM ---------- */
+const picker = el("div", { class: "pg-picker", role: "group", "aria-label": "Body" });
+const note = el("p", { class: "pg-note" });
+const world = el("canvas", { class: "pg-world", id: "pg-world", role: "img",
+  "aria-label": "The screen around the body: targets with their glow, the dot's recent path, the cells touching the screen, the dashed catch zone, catches and missed clicks. Click or tap to place a target." });
+const hintBox = el("div", { class: "pg-hint", "aria-live": "polite" });
+const stage = el("div", { class: "pg-stage" }, [world, hintBox]);
+const legend = el("div", { class: "pg-legend", "aria-label": "Legend for the screen" }, [
+  el("span", { class: "pg-key" }, [el("span", { class: "pg-sw pg-sw-target" }), "target glow"]),
+  el("span", { class: "pg-key" }, [el("span", { class: "pg-sw pg-sw-zone" }), "catch zone"]),
+  el("span", { class: "pg-key" }, [el("span", { class: "pg-sw pg-sw-path" }), "path"]),
+  el("span", { class: "pg-key" }, [el("span", { class: "pg-sw pg-sw-ring" }), "catch"]),
+  el("span", { class: "pg-key" }, [el("span", { class: "pg-sw pg-sw-miss", text: "×" }), "missed click"]),
+  el("span", { class: "pg-key" }, [el("span", { class: "pg-sw pg-sw-grid" }), "grid square: 2 units"])]);
+const playBtn = el("button", { type: "button", class: "pg-play", id: "pg-play", text: "Play" });
+const speedBtns = SPEEDS.map(([v, lab], i) => el("button", { type: "button", id: `pg-speed-${i}`, text: lab, title: `${v} time units per second`, "aria-pressed": String(v === speed) }));
+const skipBtn = el("button", { type: "button", class: "pg-skip", id: "pg-skip", text: "Skip growth", title: `Fast-forward to t ${SKIP_T}, with targets appearing on their own` });
+const restartBtn = el("button", { type: "button", id: "pg-restart", text: "Restart", title: "A new life of this body, from its first cell" });
+const controls = el("div", { class: "pg-controls" }, [playBtn, el("div", { class: "pg-seg", role: "group", "aria-label": "Speed" }, speedBtns), skipBtn, restartBtn]);
+const ro = {};
+const readout = el("dl", { class: "pg-readout" }, [["t", "time"], ["n", "cells"], ["cap", "catches"], ["miss", "missed clicks"], ["F", "score per time unit"]].map(([k, lab]) => {
+  const v = el("dd", { class: "pg-v", text: "–" }), sub = el("dd", { class: "pg-sub", text: " " }); ro[k] = { v, sub };
+  return el("div", { class: `pg-ro pg-ro-${k}` }, [el("dt", { text: lab }), v, sub]);
+}));
+const modeBtns = [["user", "I place targets"], ["auto", "Targets appear on their own"]].map(([m, lab]) =>
+  el("button", { type: "button", id: `pg-mode-${m}`, text: lab, "aria-pressed": String(m === uiMode) }));
+const driftBox = el("input", { type: "checkbox", id: "pg-drift" });
+const latBox = el("input", { type: "checkbox", id: "pg-lateral" });
+const addBtn = el("button", { type: "button", id: "pg-add", text: "Add a target", title: "Drop a target a few units from the body" });
+const clearBtn = el("button", { type: "button", id: "pg-clear", text: "Clear targets" });
+const tissue = el("canvas", { role: "img", id: "pg-tissue", "aria-label": "The body's cell layers, side by side; a cell lights up when it fires" });
+const feed = el("ol", { class: "pg-feed", "aria-label": "Latest catches and missed clicks" });
+const fine = el("p", { class: "pg-fine", text: "This is the lab's simulator, transcribed to JavaScript: the same events, arithmetic and random draws. " +
+  "Choose “Targets appear on their own” and press Restart (with neighbour messages on), and the life is bit for bit the one the lab's kernel computes for the same seed. " +
+  "Your targets add up: under two glows a cell gets the receptor events of both. An empty screen does not stop every body: Speck s5 and the router keep wandering, while Speck s7 barely moves." });
+mount.replaceChildren(
+  el("div", { class: "pg-bodybar" }, [picker, note]),
+  el("div", { class: "pg-grid" }, [
+    el("div", { class: "pg-main" }, [stage, legend, controls, readout]),
+    el("div", { class: "pg-side" }, [
+      el("div", { class: "pg-group" }, [el("div", { class: "pg-label", text: "targets" }),
+        el("div", { class: "pg-seg", role: "group", "aria-label": "Who places the targets" }, modeBtns),
+        el("div", { class: "pg-row" }, [el("label", { class: "pg-toggle", for: "pg-drift" }, [driftBox, "targets drift"]), addBtn, clearBtn])]),
+      el("div", { class: "pg-group" }, [el("div", { class: "pg-label", text: "the body's layers" }),
+        el("div", { class: "pg-stage pg-tissue" }, [tissue]),
+        el("div", { class: "pg-row" }, [el("label", { class: "pg-toggle", for: "pg-lateral" }, [latBox, "neighbour messages off"])])]),
+      el("div", { class: "pg-group" }, [el("div", { class: "pg-label", text: "latest clicks" }), feed]),
+      fine])]));
+const pickBtns = UI.bodies.map((b, i) => {
+  const btn = el("button", { type: "button", id: `pg-body-${i}`, text: b.short, title: b.label, "aria-pressed": String(i === bodyIdx) });
+  btn.addEventListener("click", () => pickBody(i)); picker.append(btn); return btn;
+});
+
+/* ---------- the life ---------- */
+function readState() { // the only caller of sim.state(): it drains the event list, so every event passes here
+  const s = sim.state();
+  for (const e of s.events) onEvent(e, s);
+  st = s;
+  for (const c of s.cells) { const r = Math.hypot(c.x, c.y); if (r > maxR) maxR = r; const g = hexRing(c.a, c.b); if (g > maxRing) maxRing = g }
+  return s;
+}
+function onEvent(e) {
+  const now = performance.now();
+  if (e.kind === "capture") {
+    marks.push({ hit: true, x: e.x, y: e.y, at: now, text: "+" + fmtNum(e.income) });
+    pushFeed(true, e.t, (sim && st && st.mode === "auto" ? "caught the target" : "caught a target") + " · +" + fmtNum(e.income));
+  } else if (e.kind === "miss") {
+    marks.push({ hit: false, x: e.x, y: e.y, at: now, text: "−" + fmtNum(e.cost) });
+    pushFeed(false, e.t, "missed click · −" + fmtNum(e.cost));
+  }
+}
+function pushFeed(hit, t, text) { feedLines.unshift({ hit, t, text }); if (feedLines.length > 5) feedLines.length = 5; feedDirty = true }
+function newLife() {
+  const seed = UI.seeds[seedIdx % UI.seeds.length];
+  sim = Sim.create(DOC, { body: bodyIdx, seed, T: 2 ** 30, e_max: Infinity });
+  info = sim.info(); maxTargets = info.max_targets || 6;
+  if (lateralOff) sim.setFlag("lateral_off", true);
+  sim.setDrift(drift);
+  trail = []; marks = []; feedLines = []; feedDirty = true; ended = null; skip = null; drag = null; lastTap = null; hoverId = null;
+  maxR = 2.5; maxRing = 3; sitesRing = -1; cam = null; rate = 1;
+  readState();
+  if (uiMode === "user") enterUser();
+  const b = UI.bodies[bodyIdx], preset = DOC.bodies[bodyIdx].preset, task = preset === "catch_v1_l4" ? "Original task" : "Speck task";
+  note.replaceChildren(el("span", { class: "pg-task", text: `${task} · halo ${info.sigma} · a catch pays ${fmtNum(info.prices.R_cap)} · a missed click costs ${fmtNum(info.prices.c_miss)} · life seed ${seed.toLocaleString("en-US")}` }), el("br"), b.note);
+  pickBtns.forEach((btn, j) => setAttrIf(btn, "aria-pressed", String(j === bodyIdx)));
+  Rv = Math.max(7.5, maxR + 3.2);
+  kick();
+}
+function enterUser() { // "I place targets": only the reader's targets are on the screen
+  if (st.mode !== "user") sim.setMode("user");
+  for (const tg of readState().targets) sim.removeTarget(tg.id);
+  readState();
+}
+function takeOver(keepFirst) { // a tap on the screen while targets appear on their own switches to "I place targets"
+  uiMode = "user";
+  sim.setMode("user");
+  const s = readState();
+  if (keepFirst) return s.targets.length ? s.targets[0].id : null;
+  for (const tg of s.targets) sim.removeTarget(tg.id);
+  readState();
+  flash("You place the targets now. “Targets appear on their own” brings the automatic one back.");
+  return null;
+}
+function endText() {
+  let status = 0; try { status = sim.ledger().status } catch (e) { /* keep 0 */ }
+  if (status & 2) return `The body reached ${fmtInt(sim.life && sim.life.n_max || 1024)} cells, the simulator's limit, so this life ends here. Restart for a new one.`;
+  if (status & 1) return "Every cell has died, so this life is over. Restart for a new one.";
+  return "This life has ended. Restart for a new one.";
+}
+function checkEnded() {
+  if (ended) return;
+  if (sim.ended) ended = endText();
+  else if (st.stats.n === 0 && st.t > 0) ended = "Every cell has died, so this life is over. Restart for a new one.";
+  if (ended) { playing = false; skip = null; drag = null; pushFeed(false, st.t, "the life ended") }
+}
+
+/* ---------- stepping ---------- */
+function stepPlay(wallDt) {
+  const want = sim.t + wallDt * speed, from = sim.t, t0 = performance.now();
+  for (let guard = 0; sim.t < want && !sim.ended && guard < 10000; guard++) {
+    sim.advance(Math.min(0.5, want - sim.t), 3000);
+    if (performance.now() - t0 > PLAY_BUDGET) break;
+  }
+  if (wallDt > 0) rate = 0.9 * rate + 0.1 * Math.min(1, (sim.t - from) / (wallDt * speed));
+}
+function stepSkip() {
+  const t0 = performance.now();
+  for (let guard = 0; sim.t < skip.until && !sim.ended && guard < 10000; guard++) {
+    sim.advance(Math.min(2, skip.until - sim.t), 4000);
+    if (performance.now() - t0 > SKIP_BUDGET) break;
+  }
+}
+function startSkip(resume) {
+  if (skip) { finishSkip(); return }
+  if (ended || sim.t >= SKIP_T - 1) return;
+  drag = null;
+  if (st.mode !== "auto") { sim.setMode("auto"); readState() }
+  skip = { until: SKIP_T, resume: resume !== undefined ? resume : (playing || !reduceMotion) };
+  kick();
+}
+function finishSkip() { // also used to stop early: the life continues from wherever the skip got to
+  if (!skip) return;
+  const resume = skip.resume; skip = null;
+  readState();
+  if (uiMode === "user" && !sim.ended) enterUser();
+  trail = []; cam = null;
+  playing = resume && !ended;
+  if (playing && !inView) { playing = false; autoPaused = true } // the skip ended off screen: play on return
+  kick();
+}
+function frame(now) {
+  raf = 0; inFrame = true;
+  try { frameBody(now) } finally { inFrame = false }
+  if (skip || (playing && !ended) || drag || marks.length || settling || now < flashUntil) raf = requestAnimationFrame(frame);
+}
+let settling = false;
+function frameBody(now) {
+  const wallDt = Math.min(0.1, Math.max(0, (now - last) / 1000)); last = now;
+  const t0 = sim.t;
+  try {
+    if (skip) stepSkip();
+    else if (playing && !ended) stepPlay(wallDt);
+  } catch (err) {
+    console.error(err); ended = "The simulator stopped with an error. Restart for a new life."; playing = false; skip = null;
+  }
+  litWindow = Math.max(FLASH, sim.t - t0);
+  readState();
+  if (skip && (sim.t >= skip.until || sim.ended)) finishSkip();
+  checkEnded();
+  if (drag) applyDrag();
+  sampleTrail();
+  settling = moveCamera(!!(playing || skip));
+  if (!(skip && reduceMotion)) { drawWorld(now); drawTissue() }
+  syncUi(now);
+  marks = marks.filter((m) => now - m.at < MARK_MS);
+}
+function kick() { // one animation loop at most; inside a frame the frame itself decides whether to continue
+  if (!raf && !inFrame) { last = performance.now(); raf = requestAnimationFrame(frame) }
+}
+function sampleTrail() {
+  const t = st.t, d = st.dot;
+  if (!trail.length || t > trail[trail.length - 1][0]) trail.push([t, d.x, d.y]);
+  let k = 0; while (k < trail.length - 1 && trail[k][0] < t - TRAIL) k++;
+  if (k) trail.splice(0, k);
+}
+function moveCamera(animate) { // the camera follows the dot; it holds still while a target is being dragged
+  const d = st.dot;
+  if (!cam || skip) { cam = { x: d.x, y: d.y }; return false }
+  if (drag) return true;
+  const dx = d.x - cam.x, dy = d.y - cam.y;
+  if (!animate && Math.hypot(dx, dy) < 1e-6) return false;
+  if (Math.hypot(dx, dy) < 0.02 || Math.hypot(dx, dy) > 3 * Rv) { cam.x = d.x; cam.y = d.y; return false }
+  cam.x += dx * 0.3; cam.y += dy * 0.3;
+  return true;
+}
+
+/* ---------- drawing ---------- */
+function prepCells() {
+  const occ = new Set();
+  for (const c of st.cells) occ.add(ckey(c.a, c.b, c.z));
+  for (const c of st.cells) {
+    c.centre = c.a === 0 && c.b === 0 && c.z <= 1;
+    let nb = 0;
+    if (c.z <= 1 && !c.centre) for (const [da, db] of OFF) if (occ.has(ckey(c.a + da, c.b + db, c.z))) nb++;
+    c.inner = nb >= 6;
+    const age = st.t - c.lastSpike;
+    c.glow = age >= 0 && age < litWindow ? 1 - age / litWindow : 0;
+  }
+}
+function fillCell(ctx, c, x, y, size) {
+  const col = TOK[PLANE_VAR[Math.min(2, c.z)]];
+  hexPath(ctx, x, y, size);
+  if (c.glow > 0) {
+    ctx.fillStyle = col; ctx.fill();
+    ctx.globalAlpha = 0.35 + 0.65 * c.glow; ctx.fillStyle = TOK["--spike"]; ctx.fill(); ctx.globalAlpha = 1;
+  } else { ctx.globalAlpha = c.inner ? 0.5 : 1; ctx.fillStyle = col; ctx.fill(); ctx.globalAlpha = 1 }
+  if (c.centre) { ctx.strokeStyle = TOK["--ink"]; ctx.lineWidth = Math.max(1.5, size * 0.12); ctx.stroke() }
+}
+const toScreen = (x, y) => [V.W / 2 + (x - V.X) * V.s, V.W / 2 - (y - V.Y) * V.s];
+const toWorld = (px, py) => ({ x: V.X + (px - V.W / 2) / V.s, y: V.Y - (py - V.W / 2) / V.s });
+function xHandle(tg) { // screen position of a target's × button
+  const [x, y] = toScreen(tg.x, tg.y), d = Math.max(16, info.sigma * V.s) + 12;
+  return [x + d * Math.SQRT1_2, y - d * Math.SQRT1_2];
+}
+function drawWorld(now) {
+  const W = Math.round(world.clientWidth || 360), ctx = sizeCanvas(world, W, W);
+  const want = Math.max(7.5, maxR + 3.2);
+  Rv = playing || skip ? Rv + (want - Rv) * 0.15 : want;
+  const s = W / (2 * Rv);
+  V = { W, s, X: cam.x, Y: cam.y };
+  const X = V.X, Y = V.Y, sx = (x) => W / 2 + (x - X) * s, sy = (y) => W / 2 - (y - Y) * s;
+  ctx.fillStyle = TOK["--surface"]; ctx.fillRect(0, 0, W, W);
+  ctx.strokeStyle = TOK["--rule"]; ctx.lineWidth = 1; ctx.beginPath();
+  for (let g = Math.ceil((X - Rv) / 2) * 2; g <= X + Rv; g += 2) { ctx.moveTo(sx(g), 0); ctx.lineTo(sx(g), W) }
+  for (let g = Math.ceil((Y - Rv) / 2) * 2; g <= Y + Rv; g += 2) { ctx.moveTo(0, sy(g)); ctx.lineTo(W, sy(g)) }
+  ctx.stroke();
+  if (trail.length > 1) {
+    ctx.beginPath(); ctx.moveTo(sx(trail[0][1]), sy(trail[0][2]));
+    for (let j = 1; j < trail.length; j++) ctx.lineTo(sx(trail[j][1]), sy(trail[j][2]));
+    ctx.strokeStyle = TOK["--muted"]; ctx.lineWidth = 1.5; ctx.stroke();
+  }
+  const acc = TOK["--accent"], sig = info.sigma * s, dotX = sx(st.dot.x), dotY = sy(st.dot.y);
+  prepCells();
+  for (const c of st.cells) if (c.z === 0) fillCell(ctx, c, dotX + c.x * s, dotY - c.y * s, s * 0.94);
+  for (const tg of st.targets) { // drawn over the cells, so a target under the body stays visible
+    const gx = sx(tg.x), gy = sy(tg.y);
+    ctx.fillStyle = acc;
+    ctx.globalAlpha = 0.12; ctx.beginPath(); ctx.arc(gx, gy, 2 * sig, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 0.26; ctx.beginPath(); ctx.arc(gx, gy, sig, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 0.9; ctx.strokeStyle = acc; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(gx, gy, Math.max(3.5, 0.14 * s), 0, 2 * Math.PI); ctx.fill();
+    ctx.strokeStyle = TOK["--surface"]; ctx.lineWidth = 1.5; ctx.stroke();
+    if ((drag && drag.id === tg.id) || hoverId === tg.id) { ctx.strokeStyle = TOK["--ink"]; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(gx, gy, Math.max(10, sig) + 3, 0, 2 * Math.PI); ctx.stroke() }
+  }
+  ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = TOK["--ink"]; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(dotX, dotY, info.rho_c * s, 0, 2 * Math.PI); ctx.stroke(); ctx.restore();
+  for (const m of marks) {
+    const f = Math.min(1, (now - m.at) / MARK_MS), cx = sx(m.x), cy = sy(m.y);
+    ctx.globalAlpha = Math.max(0, 1 - f); ctx.lineWidth = 3;
+    if (m.hit) { ctx.strokeStyle = acc; ctx.beginPath(); ctx.arc(cx, cy, (0.6 + 2.6 * f) * s, 0, 2 * Math.PI); ctx.stroke() }
+    else { const h = 0.45 * s; ctx.strokeStyle = TOK["--loss"]; ctx.beginPath(); ctx.moveTo(cx - h, cy - h); ctx.lineTo(cx + h, cy + h); ctx.moveTo(cx + h, cy - h); ctx.lineTo(cx - h, cy + h); ctx.stroke() }
+    ctx.fillStyle = m.hit ? acc : TOK["--loss"]; ctx.font = `600 ${Math.max(11, Math.round(W / 40))}px ${TOK["--font-data"]}`; ctx.textAlign = "center";
+    ctx.fillText(m.text, cx, cy - (0.9 + 1.2 * f) * s);
+    ctx.globalAlpha = 1;
+  }
+  if (st.mode === "user") for (const tg of st.targets) {
+    const [hx, hy] = xHandle(tg);
+    if (hx < -10 || hy < -10 || hx > W + 10 || hy > W + 10) continue;
+    ctx.beginPath(); ctx.arc(hx, hy, 8, 0, 2 * Math.PI); ctx.fillStyle = TOK["--surface"]; ctx.fill();
+    ctx.strokeStyle = TOK["--muted"]; ctx.lineWidth = 1; ctx.stroke();
+    ctx.strokeStyle = TOK["--ink-2"]; ctx.lineWidth = 1.6; ctx.beginPath();
+    ctx.moveTo(hx - 3.2, hy - 3.2); ctx.lineTo(hx + 3.2, hy + 3.2); ctx.moveTo(hx + 3.2, hy - 3.2); ctx.lineTo(hx - 3.2, hy + 3.2); ctx.stroke();
+  }
+  for (const tg of st.targets) { // a target off the screen: an arrow on the edge pointing at it
+    const gx = sx(tg.x), gy = sy(tg.y);
+    if (gx >= 0 && gx <= W && gy >= 0 && gy <= W) continue;
+    const a = Math.atan2(gy - W / 2, gx - W / 2), k = (W / 2 - 14) / Math.max(Math.abs(Math.cos(a)), Math.abs(Math.sin(a)));
+    const ex = W / 2 + Math.cos(a) * k, ey = W / 2 + Math.sin(a) * k;
+    ctx.fillStyle = acc; ctx.beginPath();
+    ctx.moveTo(ex + 9 * Math.cos(a), ey + 9 * Math.sin(a));
+    ctx.lineTo(ex + 7 * Math.cos(a + 2.4), ey + 7 * Math.sin(a + 2.4)); ctx.lineTo(ex + 7 * Math.cos(a - 2.4), ey + 7 * Math.sin(a - 2.4));
+    ctx.closePath(); ctx.fill();
+  }
+}
+function drawTissue() {
+  const W = Math.round(tissue.clientWidth || 420), H = Math.round(W * 1.25 / 3), ctx = sizeCanvas(tissue, W, H);
+  ctx.fillStyle = TOK["--surface"]; ctx.fillRect(0, 0, W, H);
+  const pw = W / 3, labelH = 30, R = Math.max(3.2, maxR + 0.8), s = Math.min(pw - 6, H - labelH - 6) / (2 * R);
+  if (sitesRing !== maxRing) {
+    sitesRing = maxRing; sites = [];
+    for (let a = -maxRing - 1; a <= maxRing + 1; a++) for (let b = -maxRing - 1; b <= maxRing + 1; b++) if (hexRing(a, b) <= maxRing + 1) sites.push([a + b / 2, b * S32]);
+  }
+  const counts = [st.stats.n_S, st.stats.n_M, st.stats.n_H];
+  for (let p = 0; p < 3; p++) {
+    const cx = pw * (p + 0.5), cy = (H - labelH) / 2 + 3;
+    ctx.fillStyle = TOK["--site"];
+    for (const [x, y] of sites) { hexPath(ctx, cx + x * s, cy - y * s, s * 0.9); ctx.fill() }
+    const zs = p < 2 ? [p] : [2, 3];
+    for (const zz of zs) for (const c of st.cells) {
+      if (c.z !== zz) continue;
+      const grow = Math.min(1, 0.35 + (st.t - c.born) / 3);
+      fillCell(ctx, c, cx + c.x * s, cy - c.y * s, s * 0.9 * grow * (zz === 3 ? 0.6 : 1));
+    }
+    ctx.fillStyle = TOK["--ink-2"]; ctx.font = `600 ${Math.max(10, Math.round(W / 46))}px ${TOK["--font-body"]}`; ctx.textAlign = "center";
+    ctx.fillText(PLANE_NAME[p], cx, H - labelH + 12);
+    ctx.fillStyle = TOK["--muted"]; ctx.font = `${Math.max(9, Math.round(W / 52))}px ${TOK["--font-data"]}`;
+    ctx.fillText(`${counts[p]} cell${counts[p] === 1 ? "" : "s"}${p === 2 ? " (z 2–3)" : ` (z ${p})`}`, cx, H - labelH + 25);
+  }
+}
+
+/* ---------- readout, hint and controls ---------- */
+function hintText(now) {
+  if (ended) return ended;
+  if (skip) return `Skipping growth: targets appear on their own until t ${SKIP_T}. Tap the screen to stop early.`;
+  if (now < flashUntil) return flashMsg;
+  const young = !info.program && st.t < 150;
+  if (st.mode === "user" && st.targets.length === 0) {
+    if (st.t === 0 && !playing) return info.program ? "Tap the screen to drop a target, then press Play." : "One cell so far. Press Play to watch it grow, or Skip growth to jump to t " + SKIP_T + ". Tap the screen to drop a target.";
+    return young ? `Still growing. Tap the screen to drop a target, or Skip growth to jump to t ${SKIP_T}.` : "Tap the screen to drop a target.";
+  }
+  if (st.mode === "auto") return young ? `Still growing. Skip growth jumps to t ${SKIP_T}.` : "Targets appear on their own. Tap the screen to place your own.";
+  if (!playing && st.t > 0) return "Paused. Press Play to continue.";
+  return "";
+}
+function flash(msg) { flashMsg = msg; flashUntil = performance.now() + 3200; kick() }
+function syncUi(now) {
+  const h = hintText(now);
+  setIf(hintBox, "textContent", h); setIf(hintBox, "hidden", !h);
+  setIf(playBtn, "textContent", ended ? "New life" : playing || skip ? "Pause" : "Play");
+  setIf(skipBtn, "textContent", skip ? `Skipping… t ${fmtInt(sim.t)}` : "Skip growth");
+  setIf(skipBtn, "disabled", !skip && (!!ended || sim.t >= SKIP_T - 1));
+  speedBtns.forEach((b, i) => setAttrIf(b, "aria-pressed", String(SPEEDS[i][0] === speed)));
+  modeBtns.forEach((b) => setAttrIf(b, "aria-pressed", String(b.id === `pg-mode-${uiMode}`)));
+  const user = st.mode === "user", nT = st.targets.length;
+  setIf(addBtn, "disabled", !!ended || (user && nT >= maxTargets));
+  setIf(clearBtn, "disabled", !!ended || (user && nT === 0));
+  setIf(driftBox, "checked", drift); setIf(latBox, "checked", lateralOff);
+  const sp = SPEEDS.find((x) => x[0] === speed)[1];
+  setIf(ro.t.v, "textContent", `t ${fmtInt(st.t)}`);
+  setIf(ro.t.sub, "textContent", ended ? "ended" : skip ? "skipping growth" : playing ? (rate < 0.85 ? `slowed to ${(rate * speed / 30).toFixed(1)}×` : `playing at ${sp}`) : "paused");
+  setIf(ro.n.v, "textContent", String(st.stats.n));
+  setIf(ro.n.sub, "textContent", `${st.stats.n_S} · ${st.stats.n_M} · ${st.stats.n_H}`);
+  setAttrIf(ro.n.sub, "title", "touch the screen · pull the body · hidden");
+  setIf(ro.cap.v, "textContent", String(st.score.captures));
+  setIf(ro.cap.sub, "textContent", `income ${fmtNum(st.score.income)}`);
+  setIf(ro.miss.v, "textContent", String(st.score.misses));
+  setIf(ro.miss.sub, "textContent", `${fmtNum(info.prices.c_miss)} each`);
+  setIf(ro.F.v, "textContent", st.t > 0 ? signed(st.score.F) : "–");
+  setIf(ro.F.sub, "textContent", "whole life");
+  if (feedDirty) {
+    feedDirty = false;
+    feed.replaceChildren(...(feedLines.length ? feedLines.map((f) => el("li", {}, [el("span", { class: "pg-m " + (f.hit ? "pg-hit" : "pg-miss"), text: f.hit ? "○" : "×" }), `t ${f.t.toFixed(1)} · ${f.text}`]))
+      : [el("li", { class: "pg-empty", text: "No clicks yet." })]));
+  }
+}
+
+/* ---------- pointer: add, drag and remove targets ---------- */
+function local(ev) { const r = world.getBoundingClientRect(), k = V && r.width ? V.W / r.width : 1; return { x: (ev.clientX - r.left) * k, y: (ev.clientY - r.top) * k } }
+function hitTest(p, touch) {
+  if (!V || !st) return null;
+  const core = touch ? 16 : 12, xr = touch ? 18 : 10, big = Math.max(touch ? 26 : 16, info.sigma * V.s * 0.9);
+  let best = null, bd = Infinity;
+  for (const tg of st.targets) { const [x, y] = toScreen(tg.x, tg.y), d = Math.hypot(p.x - x, p.y - y); if (d <= core && d < bd) { best = tg; bd = d } }
+  if (best) return { kind: "target", id: best.id };
+  if (st.mode === "user") for (const tg of st.targets) { const [x, y] = xHandle(tg); if (Math.hypot(p.x - x, p.y - y) <= xr) return { kind: "x", id: tg.id } }
+  for (const tg of st.targets) { const [x, y] = toScreen(tg.x, tg.y), d = Math.hypot(p.x - x, p.y - y); if (d <= big && d < bd) { best = tg; bd = d } }
+  return best ? { kind: "target", id: best.id } : null;
+}
+function removeTarget(id) { if (drag && drag.id === id) drag = null; sim.removeTarget(id); readState(); kick() }
+function beginDrag(ev, id, ox, oy, p) {
+  drag = { id, pid: ev.pointerId, ox, oy, sx: p.x, sy: p.y };
+  try { world.setPointerCapture(ev.pointerId) } catch (e) { /* capture is optional */ }
+  kick();
+}
+function applyDrag() {
+  const tg = st && st.targets.find((t) => t.id === drag.id);
+  if (!tg || !V) { drag = null; return }
+  const w = toWorld(drag.sx, drag.sy), x = w.x - drag.ox, y = w.y - drag.oy;
+  if (x !== tg.x || y !== tg.y) { sim.moveTarget(drag.id, x, y); tg.x = x; tg.y = y }
+}
+world.addEventListener("pointerdown", (ev) => {
+  if (ev.button > 0) return;
+  ev.preventDefault();
+  if (!V || !st || (drag && drag.pid !== ev.pointerId)) return; // a second finger does not take over a drag
+  const p = local(ev), touch = ev.pointerType !== "mouse", now = performance.now();
+  if (skip) { finishSkip(); cam = { x: st.dot.x, y: st.dot.y }; Rv = Math.max(7.5, maxR + 3.2); V = { W: V.W, s: V.W / (2 * Rv), X: cam.x, Y: cam.y } }
+  if (ended) { kick(); return }
+  const hit = hitTest(p, touch);
+  if (hit && hit.kind === "x") { removeTarget(hit.id); lastTap = null; return }
+  if (hit) {
+    let id = hit.id;
+    if (st.mode !== "user") { id = takeOver(true); if (id == null) return }
+    if (lastTap && lastTap.id === id && now - lastTap.at < DOUBLE_MS && Math.hypot(p.x - lastTap.x, p.y - lastTap.y) < 28) { lastTap = null; removeTarget(id); return }
+    lastTap = { id, at: now, x: p.x, y: p.y };
+    const tg = st.targets.find((t) => t.id === id), w = toWorld(p.x, p.y);
+    beginDrag(ev, id, tg ? w.x - tg.x : 0, tg ? w.y - tg.y : 0, p);
+    return;
+  }
+  lastTap = null;
+  if (st.mode !== "user") takeOver(false);
+  if (st.targets.length >= maxTargets) { flash(`${maxTargets} targets is the most at once. Move one, or take one away with its ×.`); return }
+  const w = toWorld(p.x, p.y), id = sim.addTarget(w.x, w.y);
+  readState();
+  if (id != null) beginDrag(ev, id, 0, 0, p);
+});
+world.addEventListener("pointermove", (ev) => {
+  const p = local(ev);
+  if (drag && ev.pointerId === drag.pid) { drag.sx = p.x; drag.sy = p.y; applyDrag(); kick(); return }
+  if (ev.pointerType === "mouse" && !drag) {
+    const h = hitTest(p, false), id = h ? h.id : null, cur = h ? (h.kind === "x" ? "pointer" : "grab") : "crosshair";
+    if (world.style.cursor !== cur) world.style.cursor = cur;
+    if (id !== hoverId) { hoverId = id; kick() }
+  }
+});
+const endDrag = (ev) => { if (drag && ev.pointerId === drag.pid) { drag = null; try { world.releasePointerCapture(ev.pointerId) } catch (e) { /* already released */ } kick() } };
+world.addEventListener("pointerup", endDrag);
+world.addEventListener("pointercancel", endDrag);
+world.addEventListener("pointerleave", () => { if (hoverId !== null && !drag) { hoverId = null; kick() } });
+
+/* ---------- controls ---------- */
+function setPlaying(on) {
+  if (on && ended) { seedIdx++; newLife() }
+  if (skip && !on) { skip.resume = false; finishSkip() }
+  playing = !!on && !ended;
+  autoPaused = false;
+  kick();
+}
+function pickBody(i) { const was = playing || !!skip; bodyIdx = i; newLife(); playing = was; kick() }
+playBtn.addEventListener("click", () => setPlaying(!(playing || skip)));
+speedBtns.forEach((b, i) => b.addEventListener("click", () => { speed = SPEEDS[i][0]; rate = 1; kick() }));
+skipBtn.addEventListener("click", () => startSkip());
+restartBtn.addEventListener("click", () => { const was = playing || !!skip; seedIdx++; newLife(); playing = was; kick() });
+modeBtns.forEach((b) => b.addEventListener("click", () => {
+  const m = b.id === "pg-mode-auto" ? "auto" : "user";
+  if (skip) finishSkip();
+  uiMode = m;
+  if (!ended) { if (m === "user") enterUser(); else if (st.mode !== "auto") { sim.setMode("auto"); readState() } }
+  kick();
+}));
+driftBox.addEventListener("change", () => { drift = driftBox.checked; sim.setDrift(drift); readState(); kick() });
+latBox.addEventListener("change", () => { lateralOff = latBox.checked; sim.setFlag("lateral_off", lateralOff); kick() });
+addBtn.addEventListener("click", () => {
+  if (ended) return;
+  if (skip) finishSkip();
+  if (st.mode !== "user") takeOver(false);
+  if (st.targets.length >= maxTargets) return;
+  const a = Math.random() * 2 * Math.PI, r = 2.5 + Math.random() * 2.5;
+  sim.addTarget(st.dot.x + r * Math.cos(a), st.dot.y + r * Math.sin(a)); readState(); kick();
+});
+clearBtn.addEventListener("click", () => {
+  if (ended) return;
+  if (skip) finishSkip();
+  if (st.mode !== "user") takeOver(false); else { for (const tg of st.targets) sim.removeTarget(tg.id); readState() }
+  drag = null; kick();
+});
+
+/* ---------- page wiring ---------- */
+const redraw = () => { readTokens(); kick() };
+if (window.matchMedia) { const mq = matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", redraw) }
+if (rmq && rmq.addEventListener) rmq.addEventListener("change", () => { reduceMotion = rmq.matches; kick() });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw, () => {}); // canvas labels in the web fonts
+if (typeof MutationObserver !== "undefined") new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+if (typeof ResizeObserver !== "undefined") { const rsz = new ResizeObserver(() => kick()); rsz.observe(world); rsz.observe(tissue) }
+if (typeof IntersectionObserver !== "undefined") {
+  new IntersectionObserver((es) => { // first view of the screen: grow the body and start (unless motion is reduced)
+    for (const e of es) if (e.isIntersecting && !started) {
+      started = true;
+      if (!reduceMotion && sim.t === 0 && !playing && !skip && !(st.mode === "user" && st.targets.length)) startSkip(true);
+    }
+  }, { threshold: 0.3 }).observe(stage);
+  new IntersectionObserver((es) => { // pause while the whole playground is off screen, resume on return
+    for (const e of es) {
+      inView = e.isIntersecting;
+      if (e.isIntersecting) { if (autoPaused) { autoPaused = false; playing = !ended; kick() } }
+      else if (playing && !skip) { playing = false; autoPaused = true }
+    }
+  }, { threshold: 0 }).observe(mount);
+} else started = true;
+const addToc = () => { // a "Try it" link in the part-1 row of the table of contents
+  const g = document.querySelector && document.querySelector("#toc .toc-group");
+  if (!g || g.querySelector('a[href="#play"]')) return;
+  const a = el("a", { href: "#play", text: "Try it" }), first = g.querySelector("a");
+  if (first) g.insertBefore(a, first); else g.append(a);
+};
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", addToc); else addToc();
+mount.__pg = { get sim() { return sim }, get state() { return st }, get playing() { return playing }, get skipping() { return !!skip },
+  get ended() { return ended }, get view() { return V }, get uiMode() { return uiMode }, hint: () => hintBox.textContent };
+newLife();
+})();
