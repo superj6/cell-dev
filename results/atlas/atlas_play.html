@@ -124,6 +124,15 @@ summary { cursor: pointer; color: var(--ink); font-weight: 600 }
   .chips { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 }
 @media (max-width: 560px) { .life-stages { grid-template-columns: minmax(0, 1fr) } }
+/* What comes next */
+.next { display: grid; gap: 28px }
+.next-q { display: grid; gap: 8px }
+.next-q ol, .next-q ul { margin: 0; padding-left: 1.3em; display: grid; gap: 4px; max-width: 72ch; color: var(--ink-2) }
+.tracks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden }
+.track { background: var(--surface); padding: 16px 16px 18px; display: grid; gap: 6px; align-content: start; min-width: 0 }
+.track p { font-size: 0.9rem; color: var(--ink-2) }
+@media (max-width: 860px) { .tracks { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 560px) { .tracks { grid-template-columns: minmax(0, 1fr) } }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto } }
 </style>
 <style>.chart-card > *, .small-multiples > * { min-width: 0 }</style>
@@ -184,6 +193,17 @@ summary { cursor: pointer; color: var(--ink); font-weight: 600 }
  *   sim.addTarget(x, y) -> id      sim.moveTarget(id, x, y)      sim.removeTarget(id)     (user mode, at most 6)
  *   sim.setMode('auto' | 'user')   sim.setDrift(on [, id])       sim.setFlag('lateral_off', on)
  *   sim.info()  sim.ledger()  sim.hashes()  sim.raster()
+ *
+ * License. The math section (exp, log, sin, cos, expm1, tanh, their tables, and the pow(n, 0.5) exceptions) is a
+ * port of the GNU C Library 2.39 (sysdeps/ieee754/dbl-64), which is licensed under the GNU Lesser General Public
+ * License, version 2.1 or later; this file is therefore distributed under the LGPL-2.1-or-later (text: COPYING.LGPL-2.1
+ * next to this file). Origins of the ported glibc code:
+ *   - exp, log and their data tables: Copyright (C) 2018-2024 Free Software Foundation, Inc.; written by Szabolcs Nagy
+ *     (originally Arm Optimized Routines).
+ *   - sin, cos and sincostab: IBM Accurate Mathematical Library, Copyright (C) 2001-2024 Free Software Foundation, Inc.
+ *   - expm1, tanh (fdlibm): "Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved. Developed at SunPro, a
+ *     Sun Microsystems, Inc. business. Permission to use, copy, modify, and distribute this software is freely
+ *     granted, provided that this notice is preserved."
  *
  * Worlds. 'auto' is the standard CATCH world (one target, run and tumble, placements 2-6 units from the dot, timer
  * re-placements): bitwise the kernel's life for that seed while no interactive call is made. 'user' is the screen
@@ -2550,6 +2570,43 @@ newLife();
     <div id="body-specimens" style="display:grid; gap:56px"></div>
   </section>
 
+  <section class="next" id="next">
+    <div class="part-head">
+      <div class="eyebrow">what comes next · roadmap of 2026-10-09</div>
+      <h2>Where this goes next</h2>
+      <p class="lede">Evolution found real local algorithms, but not yet one that passes signals across the body better than a hand-built reflex, and hidden layers stay idle. Three studies followed the pilot: what limited it, how the cell logic could run on hardware, and which other kinds of cell would learn faster. Together they point to the plan below. The full roadmap, with costs and decisions, is <a href="https://github.com/superj6/cell-dev/blob/master/docs/ROADMAP.md">docs/ROADMAP.md</a>.</p>
+    </div>
+    <div class="next-q">
+      <h3>The questions worth answering</h3>
+      <ol>
+        <li>What blocks signals that travel across the body: the search, the cell's building blocks, or a world that never rewards it?</li>
+        <li>Can a body learn something while small and keep it as it grows?</li>
+        <li>Which worlds give hidden layers, memory and adaptation a job?</li>
+        <li>Do bodies cope with situations they were never trained on?</li>
+        <li>Is this kind of cell the right one, or does a learning or logic-gate cell get further, faster?</li>
+        <li>Can an evolved body run natively on a chip in real time?</li>
+      </ol>
+    </div>
+    <div class="tracks">
+      <article class="track"><div class="eyebrow">first · days · $0</div><h3>Fix the harness</h3><p>Random tie-breaking (a bug froze four runs for 250+ generations), resume after interruption, an exact 1.24–1.35× faster kernel mode, new read-outs, and a map of which world settings reward computation.</p></article>
+      <article class="track"><div class="eyebrow">first · 3 weeks · ≤ $150</div><h3>Spike-bit tissue</h3><p>Cells become small logic circuits that exchange spike bits, grow and divide. A neural cell trained by gradient on one GPU teaches them, then gets compiled into gates. What runs is the circuit, so it maps onto a chip as is. Milestones: grow and regrow, chase, regrow after losing half the body, learn around a mid-life motor flip.</p></article>
+      <article class="track"><div class="eyebrow">alongside · about $10</div><h3>What limited evolution</h3><p>Continue the four best runs to 1,000 generations, seed a run with the hand-built router to see if selection keeps it, compare 4× more lives per genome, and test evolution strategies against the current algorithm. Also: can spike-timing learning replace the chemistry every body used for direction?</p></article>
+      <article class="track"><div class="eyebrow">after week 3 · $15–45</div><h3>Richer building blocks</h3><p>Faster messages, a cleanup of the rules, gene duplication, and weights that depend on which face a spike arrives through. A 20-seed comparison, judged on counts of routers and mechanisms.</p></article>
+      <article class="track"><div class="eyebrow">after the world map</div><h3>Worlds that demand more</h3><p>A different world drawn for each life, worlds that change mid-life, wounds that remove cells, and targets that blink out or must be intercepted, so memory, prediction and regrowth pay. Later: following a mouse cursor, reading a text stream.</p></article>
+      <article class="track"><div class="eyebrow">later · months</div><h3>Cells in silicon</h3><p>An integer version of the model as the reference, then one cell processor, then a 37-cell array on a rented FPGA running a body in real time, then one cell on a shared chip run. Integer arithmetic already proved fitness-neutral on all 11 pilot bests.</p></article>
+    </div>
+    <div class="next-q">
+      <h3>What we can hope to see</h3>
+      <ul>
+        <li>The first body that beats the hand-built reflex by passing signals across itself, with a readable account of how.</li>
+        <li>A body that learns during its life: after its motors flip, its catches recover.</li>
+        <li>Regeneration: a body that loses half its cells, regrows and catches again.</li>
+        <li>Hidden layers that matter, once a world needs memory.</li>
+        <li>An evolved body running bit for bit on an FPGA, with measured gates and energy per cell.</li>
+      </ul>
+    </div>
+  </section>
+
   <section style="display:grid; gap:56px">
     <div class="part-head" id="part2">
       <div class="eyebrow">part 2 · the task ladder · 2026-10-06</div>
@@ -3139,7 +3196,7 @@ const B = DATA.body1;
 const tg1 = el("div", { class: "toc-group" }, [el("span", { class: "eyebrow", text: "part 1" })]);
 const tg2 = el("div", { class: "toc-group" }, [el("span", { class: "eyebrow", text: "part 2" })]);
 toc.append(tg1, tg2);
-tg1.append(el("a", { href: "#evolution", text: "Evolution" }));
+tg1.append(el("a", { href: "#next", text: "What's next" }), el("a", { href: "#evolution", text: "Evolution" }));
 B.specimens.forEach((info, i) => { tg1.append(el("a", { href: `#${info.id}`, text: info.short })); document.getElementById("body-specimens").append(bodySection(info, i)) });
 DATA.specimens.forEach((item, i) => {
   const spec = DATA.organisms[item.id];

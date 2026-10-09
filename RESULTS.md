@@ -1367,3 +1367,13 @@ flag at any time. A target placed 3 units from a grown s5 is caught in 40/40 tri
 receptors off). `export_bodies.py` regenerates `bodies.json` and the ground truth the node tests read
 (`test_lifesim.js`, `test_playground.js`); `build_playground.py` inserts the playground into `atlas.html` as
 `atlas_play.html`.
+
+## 2026-10-09 — Alternative substrates and the roadmap
+`docs/ALTERNATIVES.md` (workflow `alternative-paradigms`; record in `results/alternatives_study/`): five literature
+passes and four judges under two user clarifications (the organism's rollout must be hardware-native, the training
+loop may use anything; rank by compute to visible outcomes). Recommended first build: "spike-bit tissue", where each
+cell is a small shared logic circuit exchanging spike bits, taught by a gradient-trained neural cell with the same bit
+interface, compiled to gates and refined by evolution with many paired lives in a bit-exact engine (about three
+weeks, under $150), with side tests on the current kernel (STDP in place of the morphogen route for synapse
+direction; evolution strategies against the GA). `docs/ROADMAP.md` lays out every direction, its cost to a first
+visible result, the suggested order and the decisions needed; the atlas has a "Where this goes next" section.

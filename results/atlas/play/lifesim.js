@@ -22,6 +22,17 @@
  *   sim.setMode('auto' | 'user')   sim.setDrift(on [, id])       sim.setFlag('lateral_off', on)
  *   sim.info()  sim.ledger()  sim.hashes()  sim.raster()
  *
+ * License. The math section (exp, log, sin, cos, expm1, tanh, their tables, and the pow(n, 0.5) exceptions) is a
+ * port of the GNU C Library 2.39 (sysdeps/ieee754/dbl-64), which is licensed under the GNU Lesser General Public
+ * License, version 2.1 or later; this file is therefore distributed under the LGPL-2.1-or-later (text: COPYING.LGPL-2.1
+ * next to this file). Origins of the ported glibc code:
+ *   - exp, log and their data tables: Copyright (C) 2018-2024 Free Software Foundation, Inc.; written by Szabolcs Nagy
+ *     (originally Arm Optimized Routines).
+ *   - sin, cos and sincostab: IBM Accurate Mathematical Library, Copyright (C) 2001-2024 Free Software Foundation, Inc.
+ *   - expm1, tanh (fdlibm): "Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved. Developed at SunPro, a
+ *     Sun Microsystems, Inc. business. Permission to use, copy, modify, and distribute this software is freely
+ *     granted, provided that this notice is preserved."
+ *
  * Worlds. 'auto' is the standard CATCH world (one target, run and tumble, placements 2-6 units from the dot, timer
  * re-placements): bitwise the kernel's life for that seed while no interactive call is made. 'user' is the screen
  * with the user's targets (still by default, or run and tumble): the receptor rate at a sense cell's screen point is
