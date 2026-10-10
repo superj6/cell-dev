@@ -4,7 +4,226 @@
 that tested hand-built positive controls on fresh lives, and two critics who re-ran the key checks. Key artifacts are in
 `results/taskvar_study/` (the rest of the scratch work under `taskvar/` is not kept).*
 
+## 0. Revision (2026-10-10): admit worlds by what they pay, not by what we can build
+
+*This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
+`results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
+
+### 0.1 What changed and why
+
+- **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.
+  - That made our design skill the ceiling. Evolution was only ever asked for things we could already build.
+  - Memory, prediction, switching and discrimination were dropped because our bodies failed.
+  - A hand-built body is a *lower* bound on what a world pays. Failing to build one says nothing about the world.
+- **The new rule** (section 0.4) asks whether the *world pays* for computation, using measuring sticks that do not need
+  the solution.
+  - **Information-matched controller.** A central program sees only the receptor pings of its body's sense cells, its
+    own past actions and its own clock. It acts only through the body's own act cells and tap, at least one conduction
+    hop later. If it beats the reflex, the information is in the sense stream and the world pays for using it. Whether a
+    *local* tissue can do the same is what evolution has to discover.
+  - **Privileged ceiling.** The same, reading the true hidden state.
+  - **Do-less check.** The best quieter or smaller reflex. A world whose cheapest gain is doing less is rejected.
+- **Status of the measuring sticks.** They are measurement tools only, like the oracle cap; they never enter the
+  organism. Hand-built bodies become *yardsticks to beat* (section 0.6), never gates.
+- **How it was checked.**
+  - The harness (`results/open_headroom/harness/`) adds a controller mode to a scratch copy of the kernel. World
+    physics, pings and accounting are unchanged: a null controller equals an inert body bitwise in 32 of 32 cells, and
+    replaying a tissue reflex's spikes reproduces its life bitwise in 16 of 16 worlds.
+  - A verifier replayed a recorded ping stream into a copy of the controller in other lives and worlds. Every action was
+    bitwise identical, so it reads nothing but pings.
+
+### 0.2 The headline: the base world already pays far more than any body earns
+
+1,024 fresh paired lives, blocks 400-409. Δ is the paired difference from the best reflex (re-tuned in each world).
+
+| Body | Base F | Δ base | POOL F | Δ POOL | Cells |
+|---|---|---|---|---|---|
+| Best reflex (reflex@hollow3, re-tuned) | 9.25 | 0 | 4.79 | 0 | 56 |
+| **Information-matched controller C4**, same 56 cells | 22.56 | **+13.31 ± 0.14** | 18.01 | **+13.22 ± 0.13** | 56 |
+| C4 with tissue-like handicaps (one ping per 0.5, three hops, kappa grid) | 18.47 | +9.23 ± 0.20 | 14.39 | +9.59 ± 0.18 | 56 |
+| Hand program router@ring4 | 12.85 | +3.60 ± 0.11 | 7.69 | +2.90 ± 0.09 | 122 |
+| Hand GRN-grown router | 9.90 | +0.65 ± 0.11 | 5.80 | +1.01 ± 0.09 | 124 |
+| Evolved s5 (pilot) | 7.96 | -1.29 ± 0.10 | 5.95 | +1.15 ± 0.08 | 109 |
+| Evolved s7 (pilot) | 7.31 | -1.94 ± 0.10 | 5.21 | +0.41 ± 0.08 | 85 |
+
+- **Every body we have, evolved or hand-built, uses at most about a quarter of what the sense information allows.**
+  This holds even in the base world, so the bottleneck is reaching that computation, not a lack of tasks.
+- **What pays: active search driven by a belief about where the target is.**
+  - The belief is built from the body's own strokes (path integration), the known placement rule, pings *and the absence
+    of pings*, pooled across all sense cells and over time.
+  - Its 27 extra captures per life come from being on the target twice as often: 4.8% to 9.5% of the time in base.
+  - About 85% of the gain is steering and 15% is better tapping.
+  - Searching before any ping has localised the target is worth about 11 F.
+  - Using silence as evidence is worth about 7 F.
+  - Fewer wasted clicks and lower costs are not where the gain comes from.
+- **Bigger bodies pay only when they also compute.**
+  - On ring4 (the router's footprint), the memory study's controller C5 reaches +27.8 ± 0.19 F in base (T 1024, 512
+    lives).
+  - Tissue bodies of that size with reflex-like wiring gain only +2.3.
+  - This fits "growth bounded by physics plus costs": growth pays only as far as the circuitry uses it.
+- **The privileged ceiling (+75 to +92 F) is not a useful bar.** It is mostly perfect knowledge of where the target
+  is re-placed, which no sense stream carries.
+
+### 0.3 Capability worlds (512-1,024 fresh paired lives each)
+
+The **specific part** is the share of the information gap that needs the capability. It is measured by switching off
+only that part of the controller:
+- memory: the controller idles while it believes the target is dark;
+- switching: the flip detector is turned off.
+
+The info gaps use the best footprint (ring4 for memory, ring6 for switching), so they also include the footprint
+effect from 0.2.
+
+| World | Best reflex F | Info gap | At the reflex's footprint | Specific part | Do-less gap | Verdict |
+|---|---|---|---|---|---|---|
+| Flash (target bright for 5 after each placement, then dim 0.25) | 3.75 | +22.56 ± 0.21 | +8.04 | **memory +24.6 ± 0.2** | -0.05 | **Admit (memory)** |
+| Blink 20/20 (renewal) | 3.49 | +11.09 ± 0.16 | +5.66 | memory +3.6 ± 0.2 | -0.02 | Admit (memory secondary) |
+| Blink 20/10 | 5.21 | +15.63 ± 0.19 | +7.56 | memory +2.3 ± 0.2 | -0.02 | Admit (memory secondary) |
+| Blink 5/5 | 3.90 | +13.19 ± 0.17 | +6.14 | memory +4.0 ± 0.2 | 0.00 | Admit (memory secondary) |
+| Blink 10/30 | 0.97 | +5.30 ± 0.11 | +3.14 | memory +2.1 ± 0.1 | 0.00 | Admit (memory secondary) |
+| POOL + blink 20/20 | 1.51 | +14.33 ± 0.19 | +7.17 | memory +4.4 ± 0.2 | +0.79 | Admit (memory secondary) |
+| **Flip mix** (50% of lives flip the motor law at U[256, 768]) | 6.11 | +42.83 ± 0.12 | - | **switching +12.7 ± 0.5** | -0.14 | **Admit (switching)** |
+| Flip mid-life (every life flips) | 3.57 | +45.11 ± 0.10 | - | switching +26.3 ± 0.3 | 0.00 | Admit; flip mix is the honest version |
+| Flipped from the start | -0.63 | +50.02 ± 0.09 | - | 0 (nothing switches within a life) | +0.02 | Not a switching world |
+
+- **Flip mix is the world our hand trigger failed.**
+  - The hand trigger latched in 90% of unflipped lives and scored -3.02.
+  - The information-matched detector switches back after false alarms. It costs only -0.27 ± 0.06 F in unflipped lives
+    and comes within 0.5 F of switching at the true flip time.
+  - A blind clock switch (no sensing) loses 5.2 F.
+  - At the reflex's own footprint (hollow3) the switching part is still +4.4.
+- **Flash is the clean memory world.**
+  - 86% of the controller's extra captures there happen while the target is dim.
+  - Caveat: the dim target still sends weak pings, so "memory" here also includes integrating weak evidence.
+- **Not measured yet:** prediction (fast straight targets), discrimination (decoys), the 30-world map and the mutant
+  gradient test. They were cut to save time and stay out of round 1 *for lack of a measurement*, not because a hand body
+  failed. Each needs about 2-4 CPU-h on the same harness before round 2. An unverified first look in the fast-target
+  world gave the generic tracker C2 +3.7 and C4 +0.1.
+
+### 0.4 The admission rule (replaces every "positive control must pass" gate)
+
+A world, or a within-life change, enters selection when all of the following hold on at least 512 fresh paired lives,
+with tuning and scoring lives disjoint:
+1. **Information gap.** The best information-matched controller beats the best reflex by more than 3 SE *and* by at
+   least 1 F at the reflex's own footprint, so the gain is not just "be bigger".
+2. **Specific part.** For a world added for a capability, the part that disappears when only the controller's
+   capability-specific mechanism is switched off is more than 3 SE and at least 1 F.
+3. **Do-less.** The best quieter or smaller reflex variant gains less than a quarter of the information gap.
+4. **Gradient test** (reported, not required). In Phase 0, random mutants of evolved bests (s5, s7) are scored paired in
+   every admitted world: the fraction beneficial, and whether winners merely shrink or click less.
+
+Why these thresholds:
+- 1 F is about two captures per life, roughly 10% of base F.
+- 3 SE at 512 paired lives is about 0.3-0.6 F here, so the 1 F bar is the binding one.
+- No hand-built tissue body is required anywhere.
+
+### 0.5 Revised arms
+
+| Arm | World | Change from section 4.2 |
+|---|---|---|
+| **B** | base SPECK at d0 0.5 | unchanged; also reports the share of C4's gap captured |
+| **P** | POOL fixed | unchanged |
+| **F** | family per life: base 25%, POOL 25%, flip mix 25%, flash 12.5%, blink 20/20 12.5% | flip and flash replace bright, noisy, slow and quick. Those four were chosen by our router's lead, the bias this revision removes. |
+| **M** | POOL alternating with POOL + flip mix every E generations | the shared subproblem (tracking) stays and the switching demand comes and goes; fallback is POOL against noisy if the port is late |
+| **W** | F plus wounds | unchanged |
+| 1a | continuations of s5-s8 in B, P and F | unchanged |
+
+- B and P can launch before the port described in 0.7; F, M and W wait for it.
+- The cost in lives is unchanged (flip and flash lives cost about the same as base), so the budget in 4.3 stands:
+  about 750-1,950 CPU-h.
+
+### 0.6 "Beyond hand" success criteria (pre-registered alongside R1-R3 and G-1 to G-3)
+
+- **BH1, beats hand design.** In its training world, an evolved best beats the best hand-built tissue body on record
+  by more than 3 SE, on 1,024 fresh lives shared with that body.
+  - Base: router@ring4 (+3.60).
+  - POOL: the grown router as re-tuned by the prior study (+3.83) and router@ring4 (+2.90).
+- **BH2, a capability no hand body has.**
+  - In flip mix, flash or blink, an evolved best beats the best reflex by more than 3 SE. No hand-built tissue body
+    does today.
+  - The capability lesion must explain at least half of that gain:
+    - flip: the gain is in flipped lives, and a genes_blind or hidden_off fork after the flip removes it;
+    - flash and blink: at least 50% of the extra captures happen while the target is dim or dark.
+- **BH3, share of the information used.** For every best, (F_best - F_reflex) / (F_C4 - F_reflex) at the same
+  footprint. The pilot bests sit at -10% (base) to +9% (POOL). A best above 25% in base or POOL counts as progress.
+- **BH4, search signature (descriptive).**
+  - distance travelled while no pings arrive;
+  - share of time with the target inside the capture radius;
+  - clicks per capture;
+  - flip: recovery time after the flip;
+  - flash: captures while dim.
+
+### 0.7 Engineering changes
+
+- **New E9, port the within-life world changes into the real kernel as ABI 4.** This means the motor flip (t_flip),
+  blink and flash with the dim level, in kernel.c, reference.py and lifesim.js.
+  - The scratch patches are the starting point: `results/taskvar_study/engineering/kernel_x.diff` and
+    `results/open_headroom/harness/make_ckernel.py`.
+  - Effort: about 5-6 pd, including JS, truth lives and gates.
+  - Order: after E1 (resume) and E3 (family harness), before E7 (gates).
+- **E6 readouts gain** BH3 (it needs C4 scored on each best's footprint) and BH4.
+- **E7 gates gain three items:**
+  - **G5:** re-run the information gaps of every admitted world at T 768 and 1536 (only T 1024 was measured).
+  - **G2** becomes the gradient test for every admitted world, not just base and POOL.
+  - Measure prediction and discrimination.
+- **Dropped:** the scratch control track's C1-C3 (flip trigger, discrimination and memory bodies) as gates. Hand bodies
+  are now built only as yardsticks, when cheap.
+- **Total before launch:** about 15 pd instead of 9-10 (E9 adds 5-6).
+
+### 0.8 Open-ended track (after round 1): stop naming capabilities
+
+From the literature and design study (`results/open_headroom/data/open_ended_*.json`):
+- **First: co-evolving prey (arm C).** Targets get a small genome: an evasive policy within physical limits (a speed
+  cap, an energy cost, a sensing radius) that evolves to escape the population's bodies.
+  - Safeguards: reduced virulence, plus a hall of fame of past prey.
+  - Arms races raise the demand for prediction, memory and switching without anyone choosing the lesson.
+  - Cost: about 1.05-1.2x a generation.
+  - Steps: a scratch pilot of about a week on existing keys (3 seeds x 200 generations, about 36 CPU-h), then about
+    8-11 pd for reactive prey in all three engines.
+  - Controls: prey replayed without feedback, and prey drawn at random.
+- **Second: a world archive (arm A)** that admits new worlds by the rule in 0.4 (POET/PLR style).
+- **Deferred:** several bodies in one world (12-20 pd, about 2x CPU). Income sharing is declined, because it departs
+  from "fitness = task performance".
+
+### 0.9 Decisions (each explained, with a recommendation)
+
+1. **Replace the hand-built gates with the admission rule in 0.4.**
+   - What it means: worlds enter by what the sense information pays, measured by central controllers that are never
+     part of the organism.
+   - Recommendation: yes.
+2. **Port within-life world changes (motor flip, blink, flash) into the kernel as ABI 4.** This was Q4.
+   - What it means: the world itself changes during a life (the motor law flips, the target dims). The organism's rules
+     stay local, and it has to notice the change from its own senses.
+   - Recommendation: yes, about 5-6 pd.
+3. **The revised family and M pairing in 0.5.**
+   - Recommendation: yes.
+4. **A world that responds to the population** (co-evolving prey), first as a scratch pilot after round 1.
+   - What it means: no designer picks the direction or the steps, and no price moves. The prey change only because their
+     own fitness rewards escaping. That is the difference from the dropped c_miss ramp, which was a lesson plan.
+   - You would also set the prey's physical limits.
+   - Recommendation: yes, pilot only.
+5. Section 6 decisions 1-4 (raw-F family fitness, wounds, the switching calendar, renting) still stand.
+
+### 0.10 Risks
+
+1. **Central computation may be unreachable for a local tissue.**
+   - C4 integrates about 8,000 of its own strokes exactly and pools 19 sense cells at once. With tissue-like handicaps
+     it still keeps +9 F.
+   - BH3 and arms B and P make that outcome informative. If no arm captures more than a small share, the next lever is
+     the organism (face weights, plasticity, the spike-bit tissue), not the world.
+2. **Information gaps bound what a grown tissue gets from above.**
+   - Computation is free, and footprints pay no development cost; grown bodies lose 1.8-3.2 F against program bodies.
+   - The controllers are heuristics, so gaps are lower bounds on what the information allows.
+3. **Most of every gap is tracking, which base already pays for.** The within-life worlds add specific parts on top:
+   switching +12.7, flash memory +24.6.
+4. **Several pieces are not measured yet:** prediction, discrimination, the gradient test and life lengths other than
+   1024 (G5).
+5. **Lost and re-measured.** The reflex re-tunes recorded before 2026-10-10 were lost in a reboot. Every best reflex
+   above was re-tuned in this study.
+
 ## The short version
+
+*Sections 1-6 are the original plan. Section 0 above supersedes their hand-built gates.*
 
 - **Only two of the six target capabilities have proven headroom today.** Headroom here means a hand-built body with
   that capability beats the best reflex on fresh lives, using world settings that already exist.
@@ -56,6 +275,8 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 ## 1. What we target first, and why
 
 ### Where each capability stands (all on fresh, paired lives)
+
+*Superseded by section 0.3: these verdicts judged each world by whether our hand-built body won there.*
 
 | # | Capability | Best positive control vs best reflex | Verdict |
 |---|---|---|---|
@@ -207,6 +428,8 @@ share the rest equally.
 The flip, blink and payoff-swap worlds do open large F gaps (flip -5.5 F, blink 20/20 -5.0 F for the reflex), but no
 local body recovers them yet.
 
+*Superseded by section 0.4.*
+
 **Gate before any of them enters selection:** a GRN-grown control must beat both the best reflex and the best fixed
 alternative body by more than 3 SE on a 50/50 mixture of lives. A genes_blind fork after the switch must also remove
 that gain; this is the fixed-weight control of Soltoggio 2008.
@@ -299,6 +522,8 @@ Readouts produced by E6:
 
 **Total before launch:** about 9-10 pd, roughly 2 weeks on the laptop, with no rented compute. After the run: analysis
 2-3 pd; atlas and playground 2-3 pd.
+
+*Superseded by section 0.7.*
 
 **Scratch control track** (parallel, no repo edits, about 4-6 pd, 30-50 CPU-h). It unlocks capabilities 2-5 for round 2:
 - **C1, flip trigger:** a GRN annulus body with a slow gene (lambda about 1/128 per tick, integrating 100-300 time
@@ -530,6 +755,7 @@ hidden planes have so far been inert.
 8. **Four capabilities have no route yet.** Memory, prediction, context switching and discrimination stay out until
    the scratch controls pass. This round may show routing and regeneration only. Those two are the capabilities the
    measurements say are within reach.
+   *Superseded by section 0.3.*
 
 ---
 

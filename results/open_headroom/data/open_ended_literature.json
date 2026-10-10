@@ -1,0 +1,507 @@
+{
+ "summary": "I opened most sources myself. A few claims rest only on a source that cites the original; those items say so and carry verified=false where I could not open the primary. The session's WebSearch budget was already used up (200/200) when I started, so I found papers through the OpenAlex and Europe PMC APIs and direct PDF fetches. Downloaded texts are in /home/jgon/project/ml/cell-dev/outputs/openhr/lit/. I could not open these primaries: Brant & Stanley 2017 MCC full text (I used its abstract, POET's description of it, and the 2019/2020 abstracts), Hillis 1990, Cliff & Miller 1995 (both seen through Cartlidge's 2004 thesis and Nolfi & Floreano), the full texts of Lenski 2003 and Kashtan & Alon 2005 (abstracts only), and the original Soros & Stanley 2014 Chromaria paper (its four conditions as quoted by Stanley, Lehman & Soros 2017). No CPU jobs were run.\n\nWHAT THE LITERATURE SAYS WORKS. The strongest evidence for capabilities nobody designed comes from two families.\n(1) An evolving opponent whose success depends on beating you.\n- Zaman et al. 2014 (Avida): parasites infect hosts that share a logic function. Hosts evolved EQU in 17/50 runs with coevolving parasites and 0/50 without them. Frozen parasites, or parasites replayed without feedback, gave significantly less complexity. Complexity was never directly rewarded.\n- Hide-and-seek: six strategy phases, including tool use and the unanticipated box surfing.\n- Sims 1994 (counter-strategies), Hillis 1990 (61 vs 64 comparators), Nolfi & Floreano 1998 (co-evolved prey that simple evolution could not beat).\n(2) A generator that keeps a population of problems at the edge of what the population can do, and moves solutions between them.\n- POET: environments that ES and a direct-path curriculum fail on. Without transfer, POET solved no extremely challenging environment.\n- Enhanced POET: ANNECS kept rising.\n- PAIRED, PLR, Robust PLR and ACCEL do similar curriculum work far more cheaply.\nObjective-free search (novelty search, MCC, MAP-Elites/QD) beats deception and keeps stepping stones (hard maze: 39/40 vs 3/40). It does not by itself create new problems, and MAP-Elites cannot be open-ended.\n\nRECURRING FAILURE MODES:\n- cycling and intransitivity\n- disengagement / loss of gradient\n- mediocre stable states and collusion\n- over-specialisation on opponent weaknesses\n- the Red Queen measurement problem\n- exploits of simulator bugs and of measurement setups (Sims; box surfing; Ofria's organisms 'playing dead' in the test environment)\n- 'get smaller' optimisation (Tierra's social species were 24% smaller than the ancestor)\n- bounded encodings that plateau (original POET)\n- compute: Enhanced POET used 750 cores for 12 days; hide-and-seek needed hundreds of millions of episodes and large batches\n\nHOW THE USER'S THREE MEASURING STICKS MAP:\n- CEILING (oracle): PAIRED shows that a generator scored against an unconstrained or privileged reference makes unsolvable worlds. Report the oracle; never use it as the generator's objective.\n- INFORMATION TEST: this is PAIRED's antagonist, the 'some agent with the same information can do it' certificate (Ficici & Pollack's 'friendly predictor'). It certifies the information is there, not that a local tissue can use it.\n- GRADIENT TEST: this matches PLR's learning potential, Ficici & Pollack's 'learnability', Watson & Pollack's 'loss of gradient' and POET's 'not too hard' band. Lenski 2003 found deleterious stepping stones, so a one-step gradient test is sufficient but not necessary. It should gate admission softly, not veto.\n\nPROPOSED OUTER-LOOP STACK (no in-life rule changes; each part labelled by evidence strength):\nA. A coevolving 'prey' population. The prey genome sets object properties per placement through keys the scratch kernel already has: speed and path, blink duty, luminance, decoy blobs. The prey pays for its tricks. Its fitness uses Cartlidge-Bullock reduced virulence (lambda about 0.75: aim to be caught by some bodies, not none). Prey fitness comes from the same lives as body fitness, so it costs almost no extra compute. Add a hall-of-fame / Nash-memory mixture. Track progress with CIAO or master-tournament plots, always against the fixed held-out worlds and the best reflex. Each life draws prey from a diverse prey population, so bodies meet variety within a life (Sims and Nolfi: only then do within-life adaptive bodies pay). Strongest evidence: Zaman, Nolfi, Sims, Hillis, Bansal, Baker.\nB. A PLR/ACCEL- or POET-style world archive over world keys and prey genomes. Admission:\n- (i) the information controller beats the best reflex (the information is present and paid);\n- (ii) some mutants of current bodies improve without shrinking (learnable);\n- (iii) the best evolved body trails the information controller (not yet solved). Cap this regret target.\nNovelty is PATA-EC computed on a fixed archive of bodies (s5, s7, reflexes, routers, bests). Small edits go to high-regret worlds. Bests transfer between worlds. Progress is counted as ANNECS. Keep 25% base lives, as the current plan already does.\nC. Competitive income sharing across common-random-number lives (Rosin & Belew). Each life is a test case; the income a body earns on a life is divided by the population's total income on that life. Costs are never shared, so growth stays bounded by costs. This rewards bodies that catch targets others miss without naming why. It departs from the current plan's selection on plain F and needs the user's approval.\nD. A QD / novelty-with-local-competition archive over mechanism descriptors (relayed share, lateral_off and hidden_off costs, hop-latency profile, responses to a standard probe battery). This keeps stepping stones such as hidden-plane users. Gate entry with a minimal criterion such as F > 0 or F above the reflex.\nE. Monitoring with MODES-style metrics. Keep measurement lives indistinguishable from selection lives (the 'playing dead' lesson).\n\nThe biggest risks are these. A prey or world generator that finds information a local tissue can never use, which stalls progress like disengagement. Cycling with no net progress. Fitness sharing breeding brittle niche specialists. Compute, if POET-style per-world populations multiply.",
+ "approaches": [
+  {
+   "name": "POET and Enhanced POET (minimal criterion, transfer, PATA-EC, ANNECS)",
+   "plain_explanation": "Keep a population of (environment, solver) pairs. Each environment gets its own optimizer. Now and then environments are mutated, and a child is admitted only if it passes a minimal criterion: the current solvers score in a band that is neither trivial nor hopeless. Among admitted children, the most novel are kept. Solvers are regularly tried in other environments and replace the local solver if better ('transfer' or 'goal switching'). Enhanced POET adds a domain-general novelty measure, PATA-EC: rank how every archived solver does in the environment, and an environment whose ranking differs is new. It also adds a progress count, ANNECS: the accumulated number of environments that were novel and later solved.",
+   "evidence": [
+    {
+     "citation": "Wang, Lehman, Clune & Stanley 2019, POET, arXiv:1901.01753",
+     "link": "https://arxiv.org/abs/1901.01753",
+     "finding": "Abstract: POET produces behaviours that solve challenges, many of which cannot be solved by direct optimization alone, or even through a direct-path curriculum-building control. Transfer proves essential.",
+     "verified": true
+    },
+    {
+     "citation": "POET full text (ar5iv)",
+     "link": "https://ar5iv.labs.arxiv.org/html/1901.01753",
+     "finding": "The admission minimal criterion is 50 <= E_child(theta_child) <= 300. Max scores of 5 ES runs on three POET-solved environments were 17.9, 39.6 and 13.6, far below the success threshold of 230 that POET exceeds. Without transfer, no extremely challenging environments are solved at all. About 49-54% of transfer replacement attempts succeeded. Each run used 256 cores for about 10 days.",
+     "verified": true
+    },
+    {
+     "citation": "Wang et al. 2020, Enhanced POET, arXiv:2003.08536",
+     "link": "https://ar5iv.labs.arxiv.org/html/2003.08536",
+     "finding": "ANNECS plateaued for original POET at around 20k iterations because its encoding was limited, but grew nearly linearly for Enhanced POET over 60k iterations. Environments from middle and late POET stages were not solved by direct ES or PPO, or by hand-made interpolation curricula (p<0.01). A run took 750 CPU cores for about 12 days. The authors note that a finite CPPN domain will eventually flatline.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "Bounded environment encoding: once the parameter space is exhausted, innovation plateaus (original POET's ANNECS).",
+    "Compute blow-up: every active environment carries its own optimizer, plus all-pairs transfer evaluations (250-750 cores for 10-12 days).",
+    "Hand-set minimal-criterion band: too loose admits trivial worlds, too tight starves the archive.",
+    "Environments can be 'hard' for reasons that are not interesting (noise, unsolvable corners). The criterion only checks current scores, not whether the difficulty is meaningful.",
+    "Novelty measured on fixed hand-chosen environment features (original POET) biases what counts as new. PATA-EC reduces this but depends on the archive of agents."
+   ],
+   "fit_notes": "This is a good fit, because everything happens in the outer loop: worlds are just world-key vectors (plus the scratch kernel's blink, flip, luminance and blob keys), and bodies are genomes, so transfer is just evaluating a genome in another world on common-random-number lives. Suggested mapping:\n- Minimal criterion: replace POET's reward band with the user's three sticks. (i) The information-test controller beats the best reflex. (ii) Some random mutants of current bodies improve in that world without shrinking. (iii) The best evolved body still trails the information controller by a margin.\n- Novelty: use PATA-EC on a fixed archive of bodies (reflex at hollow3 and hollow2, re-tuned reflex, program and grown routers, regen7, s5, s7, current bests), evaluated on shared lives. A world that reorders these bodies is new, with no capability named.\n- Progress: ANNECS fits the plan's held-out count.\n- Compute: per-world GA populations multiply cost against the 2,000 CPU-h cap, so keep 4-8 active worlds, short lives for screening, and transfer checks every 25-50 generations.\n- Plateau risk: the world space is bounded by the keys that exist. New mechanics (prey behaviour, multi-blob ecologies) are what make it more open-ended."
+  },
+  {
+   "name": "Minimal criterion coevolution (MCC) and minimal-criteria novelty search (MCNS)",
+   "plain_explanation": "There is no fitness score. Two populations, say mazes and maze-solvers, coevolve, and an individual may reproduce only if it passes a pass/fail test against the other population. A solver must solve at least one maze, and a maze must be solved by at least one solver. Population size is capped by a queue, and in later versions each maze can 'feed' only a limited number of solvers (resource limitation) to keep diversity. MCNS is the single-population ancestor: novelty search restricted to individuals that pass a viability test.",
+   "evidence": [
+    {
+     "citation": "Brant & Stanley 2017, GECCO, 'Minimal criterion coevolution: a new approach to open-ended search' (abstract via UCF STARS)",
+     "link": "https://stars.library.ucf.edu/scopus2015/7496",
+     "finding": "Abstract: two coevolving populations, each subject to its own minimal criterion, produce results that are both functional and diverse. Agents learn to navigate mazes whose structures coevolve and increase in complexity.",
+     "verified": true
+    },
+    {
+     "citation": "POET paper describing MCC (ar5iv 1901.01753)",
+     "link": "https://ar5iv.labs.arxiv.org/html/1901.01753",
+     "finding": "In MCC, solvers must solve at least one maze and mazes must be solved by at least one solver. Once a maze is solved there is no pressure to improve its solution. MCC would reject a new environment that no current solver solves right away.",
+     "verified": true
+    },
+    {
+     "citation": "Brant & Stanley 2019, 'Benchmarking open-endedness in minimal criterion coevolution', GECCO (abstract via OpenAlex)",
+     "link": "https://doi.org/10.1145/3321707.3321756",
+     "finding": "The original demonstration was limited because maze size was static, which capped complexity. A new encoding allows mazes to grow indefinitely in size while solutions keep appearing.",
+     "verified": true
+    },
+    {
+     "citation": "Brant & Stanley 2020, 'Diversity preservation in MCC through resource limitation', GECCO (abstract via OpenAlex)",
+     "link": "https://doi.org/10.1145/3377930.3389809",
+     "finding": "Speciation was needed to keep diversity. Replacing it with resource limitation kept higher diversity in both populations and accelerated evolution by forcing individuals into new niches.",
+     "verified": true
+    },
+    {
+     "citation": "Lehman 2012 dissertation, chapter 8 (MCNS)",
+     "link": "http://joellehman.com/lehman-dissertation.pdf",
+     "finding": "Over 100 runs per method, MCNS found solutions significantly more often than fitness-based NEAT or plain novelty search in maze and two-point navigation (p<0.01, Fisher's exact test). Caveat: if the criterion is too stringent, or the seed is fragile, most evaluations are wasted.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "No optimization pressure within a niche: once the criterion is met, quality is not improved (POET's critique).",
+    "Bootstrapping: the seed population must already pass the criterion, otherwise nothing reproduces.",
+    "Environments no current agent can solve are deleted immediately, so long-horizon hard problems are never kept.",
+    "Diversity collapse without speciation or resource limits.",
+    "Evidence is limited to maze navigation, where complexity is maze size. There is no published demonstration of new neural capabilities beyond navigation."
+   ],
+   "fit_notes": "cell-dev already has a natural minimal criterion: the energy ledger, where F > 0 means the body pays for itself. A relative version is 'F above the best reflex in that world on shared lives'. A world reproduces if at least one body meets the criterion there and (POET-style) not all of them do.\n- Resource limitation maps cleanly: each world accepts only K bodies for criterion evaluation per generation.\n- Biggest risk: with F as the criterion and costs fixed, bodies satisfice at the smallest viable size. That is exactly the 'be smaller' trap the plan already guards against, so add an upper band or local competition.\n- Seed bodies exist (reflex, s5, routers), so bootstrapping is easy.\n- It is cheap (pass/fail on a few lives), so it could serve as the pre-filter for a POET or PLR archive rather than as the whole algorithm."
+  },
+  {
+   "name": "Unsupervised environment design: PAIRED (regret-driven environment generator)",
+   "plain_explanation": "A learned 'teacher' builds environments from free parameters. It is paid by regret: how much better a second 'antagonist' agent does than the 'protagonist' being trained. Because the antagonist must succeed, impossible environments earn nothing. Because the protagonist must fail, easy environments earn nothing. The teacher therefore pushes toward environments that are solvable but not yet solved, which produces a curriculum.",
+   "evidence": [
+    {
+     "citation": "Dennis et al. 2020, PAIRED, arXiv:2012.02096",
+     "link": "https://arxiv.org/abs/2012.02096",
+     "finding": "Abstract: domain randomization cannot adapt difficulty, and minimax adversarial training leads to worst-case environments that are often unsolvable. PAIRED's regret (antagonist minus protagonist return) produces a natural curriculum of increasingly complex environments and better zero-shot transfer.",
+     "verified": true
+    },
+    {
+     "citation": "PAIRED full text (ar5iv)",
+     "link": "https://ar5iv.labs.arxiv.org/html/2012.02096",
+     "finding": "Regret is approximated as the antagonist's max return minus the protagonist's mean return. A minimax adversary makes mazes unsolvable, and in continuous control it drove agent reward to zero. Zero-shot transfer success: Labyrinth 40% for PAIRED vs 10% minimax vs 0% domain randomization; Maze 18% vs 0% vs 0%. Regret is described as very noisy.",
+     "verified": true
+    },
+    {
+     "citation": "Jiang et al. 2021, Replay-Guided Adversarial Environment Design (NeurIPS), arXiv:2110.02439",
+     "link": "https://ar5iv.labs.arxiv.org/html/2110.02439",
+     "finding": "PAIRED's teacher adapts only through gradient updates and is slow. In CarRacing, PAIRED over-exploits the antagonist's relative strengths and steers the protagonist toward poor policies: F1-track score 19+-15 vs 534+-7 for robust PLR.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "The generator is slow and unstable; regret estimates are noisy.",
+    "It can exploit gaps between antagonist and protagonist that do not correspond to useful skills (the CarRacing failure).",
+    "Using an unconstrained or privileged reference turns it into minimax: unsolvable worlds and zero reward.",
+    "There is only a minimax-regret guarantee at Nash equilibrium, with no convergence guarantee.",
+    "It depends on the designer's choice of free parameters; it cannot invent outside them."
+   ],
+   "fit_notes": "This is the closest literature analogue of the user's INFORMATION TEST. The central controller that sees only the sense stream and acts through the act plane is a PAIRED antagonist restricted to the same information as the body.\n- Use it as a regret reference: regret(world) = F(information controller) - F(best evolved body), computed on common-random-number lives.\n- Do NOT use the oracle (which reads hidden state) as the antagonist. That reproduces the minimax failure: worlds where the information simply is not in the sense stream.\n- Even the information controller can win through non-locality: instant pooling across the whole sense sheet, which a local tissue would need many hops to do. A 'local-ish' antagonist reduces worlds that are solvable by the controller but not by tissue. Give it latency proportional to lattice distance at d0 per hop, and bounded memory.\n- Practically, replace the learned teacher with search over world keys (see PLR/ACCEL); in the outer loop any machinery is allowed."
+  },
+  {
+   "name": "Prioritized Level Replay, Robust PLR and ACCEL (replay and editing curricula)",
+   "plain_explanation": "Instead of learning a teacher, keep a buffer of levels (worlds), score each by an estimate of how much the learner can still gain there, and replay high-scoring ones more often. PLR scores with TD error; Robust PLR uses positive value loss or the best return seen so far (MaxMC) and trains only on curated levels. ACCEL also makes small random edits to high-regret levels and adds the edited ones back. Curricula start simple and grow complex with no designer-written schedule.",
+   "evidence": [
+    {
+     "citation": "Jiang, Grefenstette & Rocktaschel 2021, Prioritized Level Replay, arXiv:2010.03934",
+     "link": "https://arxiv.org/abs/2010.03934",
+     "finding": "Prioritizing by TD error induces an emergent curriculum of increasingly difficult levels and improves sample efficiency and generalization on Procgen (state of the art, over 76% improvement in test return over baselines when combined with prior methods).",
+     "verified": true
+    },
+    {
+     "citation": "Jiang et al. 2021, Robust PLR, arXiv:2110.02439",
+     "link": "https://ar5iv.labs.arxiv.org/html/2110.02439",
+     "finding": "Not updating the policy on uncurated levels (training on less data) improves convergence to Nash equilibria and robustness. Mazes: 0.6+-0.1 vs PAIRED 0.2 and domain randomization 0.4. Limitations: entirely dependent on the quality of proposed levels and on the choice of free parameters.",
+     "verified": true
+    },
+    {
+     "citation": "Parker-Holder et al. 2022, ACCEL, arXiv:2203.01302",
+     "link": "https://ar5iv.labs.arxiv.org/html/2203.01302",
+     "finding": "Small edits to high-regret levels (regret approximated by positive value loss) reached complexity comparable to POET on BipedalWalker using less than 0.05% of POET's environment samples on one GPU. 51x51 maze transfer: 53% vs 25% for PLR. Limitations: assumes simple levels are easy, and may need explicit diversity in larger design spaces.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "The learning-potential estimate can be noisy or biased, for example toward stochastic levels with irreducible error.",
+    "Diversity loss: edits cluster around a few high-regret families unless diversity is enforced.",
+    "Bounded by the free-parameter space (same plateau risk as POET).",
+    "Over-curation can forget easy skills unless some base levels are kept."
+   ],
+   "fit_notes": "This is probably the best cost/benefit option for cell-dev, because a GA has no value function but has cheaper and more honest learnability signals:\n- the user's GRADIENT TEST: the fraction of random mutants of current elites that improve at z>2 without shrinking or clicking less. This is a direct, capability-agnostic learning-potential score per world;\n- the slope of the best F over the last k generations;\n- the information-controller regret from the PAIRED entry.\nPLR-style replay probability can be proportional to a rank mix of learnability and regret. ACCEL edits are small mutations of world keys, prey parameters or blob layouts. Keep the plan's 25% base lives (Robust PLR's 'curated only' rule would otherwise drop the small-body rung). Cost is low: scores come from lives already run for selection, plus periodic mutant panels."
+  },
+  {
+   "name": "Competitive coevolution and arms races (Hillis parasites, Sims creatures, NEAT robot duel, Avida host-parasite, multi-agent RL autocurricula)",
+   "plain_explanation": "Make part of the environment another evolving population whose success is your failure, such as test cases versus sorters, creature versus creature, or parasite versus host. When one side improves, the other side's world gets harder, so difficulty rises automatically and in directions nobody chose. Selection pressure for new tricks appears whenever the opponent finds a weakness.",
+   "evidence": [
+    {
+     "citation": "Zaman et al. 2014, 'Coevolution drives the emergence of complex traits and promotes evolvability', PLoS Biology",
+     "link": "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002023",
+     "finding": "Parasites infect hosts that perform at least one logic function in common. Complexity was not explicitly rewarded. Hosts evolved EQU in 17/50 populations with coevolving parasites vs 0/50 without. Frozen parasites, and replayed parasite frequencies without feedback, gave significantly lower complexity (p<<0.001). Scale: 14,400 hosts, 500,000 updates, 50 replicates.",
+     "verified": true
+    },
+    {
+     "citation": "Sims 1994, 'Evolving 3D Morphology and Behavior by Competition', ALife IV",
+     "link": "https://www.karlsims.com/papers/alife94.pdf",
+     "finding": "With all-vs-best competition between two species, creatures evolved strategies and counter-strategies: pushing the opponent away, moving the cube and following it, covering the cube, batting it aside and catching it, photosensor-guided following. Some runs had one species dominate while the other never challenged it. Sims also warns that any simulator bug 'will inevitably be discovered and exploited', and that adaptive individuals might be rewarded more if evolution used many species instead of one or two.",
+     "verified": true
+    },
+    {
+     "citation": "Hillis 1990, Physica D 42:228-234, as summarised in Cartlidge 2004 PhD thesis section 3.3",
+     "link": "https://etheses.whiterose.ac.uk/1315/1/cartlidge.pdf",
+     "finding": "Evolving 16-input sorting networks against random test sets gave 64 comparators. Letting test cases coevolve as parasites gave 61 comparators, against the 60 found by hand in 1960.",
+     "verified": true
+    },
+    {
+     "citation": "Hillis 1990 primary paper",
+     "link": "https://doi.org/10.1016/0167-2789(90)90076-2",
+     "finding": "Primary source could not be opened (closed access); numbers above come from Cartlidge's account.",
+     "verified": false
+    },
+    {
+     "citation": "Stanley & Miikkulainen 2004, 'Competitive Coevolution through Evolutionary Complexification', JAIR 21",
+     "link": "https://arxiv.org/abs/1107.0037",
+     "finding": "In an open-ended coevolutionary robot duel, complexifying evolution (NEAT) discovered significantly more sophisticated strategies than fixed-structure networks, attributed to an escalating arms race.",
+     "verified": true
+    },
+    {
+     "citation": "Baker et al. 2019, 'Emergent Tool Use From Multi-Agent Autocurricula', arXiv:1909.07528",
+     "link": "https://ar5iv.labs.arxiv.org/html/1909.07528",
+     "finding": "Simple hide-and-seek reward gave six strategy phases (fort building, ramp use, ramp defence, box surfing, surf defence) over about 450M episodes. Box surfing exploited a physics detail the designers had not anticipated. Count-based intrinsic motivation needed hand-designed state representations to do comparably. Small batch sizes did not reach the later stages. Transfer to probe tasks was only marginal.",
+     "verified": true
+    },
+    {
+     "citation": "Bansal et al. 2018, 'Emergent Complexity via Multi-Agent Competition', arXiv:1710.03748",
+     "link": "https://arxiv.org/abs/1710.03748",
+     "finding": "Competitive self-play gives a natural curriculum ('an environment full of agents of this level will have the right level of difficulty') and produced running, blocking, ducking, tackling and deception in simple physics environments.",
+     "verified": true
+    },
+    {
+     "citation": "Leibo et al. 2019, 'Autocurricula and the Emergence of Innovation from Social Interaction', arXiv:1903.00742",
+     "link": "https://arxiv.org/abs/1903.00742",
+     "finding": "A position paper: the solution of one social task often begets new tasks (an autocurriculum). Under certain conditions challenges become increasingly complex.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "Cycling and intransitivity: strategies are forgotten and rediscovered (see the pathologies entry).",
+    "Disengagement / loss of gradient when one side becomes unbeatable; Sims saw one species dominate.",
+    "Exploitation of simulator loopholes (Sims's warning; box surfing).",
+    "Over-specialisation on the current opponent's quirks, giving brittle solutions.",
+    "Large compute for multi-stage autocurricula (hundreds of millions of episodes in hide-and-seek).",
+    "Zaman et al. note the system strongly constrained host evolution, so generality is uncertain."
+   ],
+   "fit_notes": "This is the most direct route to memory, prediction and discrimination without naming them. Make the target a coevolving 'prey' whose genome sets object properties per placement, using keys the scratch kernel already implements: speed and path curvature (prediction pressure), blink duty or dim luminance (memory pressure), decoy or poison blobs (discrimination pressure), and timing relative to the body (switching pressure).\n- The prey pays an energy cost for each trick and has capped speed, so 'uncatchable' is not free.\n- Prey fitness is computed from the same lives as body fitness, so the extra CPU is near zero.\n- Zaman's control shows that feedback, not just variety, mattered. A static prey family, which is what the plan's arm F amounts to, should be weaker than a coevolving one; this is testable in cell-dev as coevolving vs frozen vs replayed prey.\n- Per the plan's within-life rules, all variation is a property of objects with random phase, never a world-wide rate shift. The organism's in-life rules are untouched.\n- Sims's remark suggests that drawing several prey genotypes per life is what rewards within-life adaptivity rather than a fixed counter-strategy.\n- Kernel accounting must be airtight: verify with reference.py, because evolution finds loopholes."
+  },
+  {
+   "name": "Coevolutionary pathologies and remedies (Cliff & Miller Red Queen/CIAO, Watson & Pollack, Ficici & Pollack, Cartlidge & Bullock reduced virulence, Rosin & Belew hall of fame and fitness sharing, Balduzzi PSRO)",
+   "plain_explanation": "Coevolution's fitness is relative, so 'better than the current opponent' need not mean better in any lasting sense. The known diseases are cycling (rock-paper-scissors), loss of gradient (one side wins everything and selection goes blind), focusing (exploiting one weakness), relativism (subjective fitness opposes objective fitness) and mediocre stable states (sides 'collude'). Remedies include archives of past opponents, sharing credit for beating rare opponents, deliberately less-than-maximal opponents, and population-level game-theoretic niching.",
+   "evidence": [
+    {
+     "citation": "Watson & Pollack 2001, 'Coevolutionary Dynamics in a Minimal Substrate', GECCO",
+     "link": "http://www.demo.cs.brandeis.edu/papers/gecco2001_cdms.pdf",
+     "finding": "Number games illustrate three failures: loss of gradient, where performance drifts because one population dominates; over-specialisation, where coevolution exploits specific weaknesses instead of finding general solutions; and relativism, where subjective fitness acts against objective fitness. Each causes repeated forgetting and rediscovery.",
+     "verified": true
+    },
+    {
+     "citation": "Ficici & Pollack 1998, 'Challenges in Coevolutionary Learning: Arms-Race Dynamics, Open-Endedness, and Mediocre Stable States', ALife VI",
+     "link": "http://www.demo.cs.brandeis.edu/papers/Challenges.pdf",
+     "finding": "Generators are rewarded for being predictable to a 'friendly' predictor and unpredictable to a 'hostile' one. The obvious purely competitive version (no friendly partner) gave a mediocre stable state or a closed-ended system rather than an arms race, depending on a minor scoring change. All three players were required, because an arms race needs sustained learnability; environments that were too easy or too hard did not support learning.",
+     "verified": true
+    },
+    {
+     "citation": "Cartlidge & Bullock 2004, 'Combating Coevolutionary Disengagement by Reducing Parasite Virulence', Evolutionary Computation 12(2) (abstract via Europe PMC); details from Cartlidge 2004 thesis chapters 5-6",
+     "link": "https://etheses.whiterose.ac.uk/1315/1/cartlidge.pdf",
+     "finding": "Parasite fitness f = 2x/lambda - x^2/lambda^2 (x = score normalised to the best parasite) peaks at winning a fraction lambda of contests. Maximally virulent parasites (lambda 1) disengaged repeatedly and the populations drifted. Switching to moderate virulence (lambda 0.75) at generation 250 prevented the later disengagement. Combined with diversity maintenance, it also countered mediocre stability and over-specialisation.",
+     "verified": true
+    },
+    {
+     "citation": "Cliff & Miller 1995 (CIAO plots and last-elite-opponent evaluation) and Rosin & Belew 1995/1997 (hall of fame, competitive fitness sharing), as described in Cartlidge 2004 thesis section 3.4",
+     "link": "https://etheses.whiterose.ac.uk/1315/1/cartlidge.pdf",
+     "finding": "CIAO plots (current individual vs ancestral opponents) separate progress, cycling and stasis but have documented ambiguities. In pursuit-evasion, evasion is initially much easier, which favours disengagement. A hall of fame adds memory against cycling but is expensive. Competitive (resource) fitness sharing divides one point among all who beat a given opponent, rewarding those who beat what few others can. No technique specifically fixes mediocre stability.",
+     "verified": true
+    },
+    {
+     "citation": "Cliff & Miller 1995 primary paper (ECAL 1995)",
+     "link": "https://doi.org/10.1007/3-540-59496-5_300",
+     "finding": "Primary source could not be opened (paywalled); claims come from Cartlidge 2004 and Nolfi & Floreano 1998.",
+     "verified": false
+    },
+    {
+     "citation": "Balduzzi et al. 2019, 'Open-ended Learning in Symmetric Zero-sum Games', arXiv:1901.08106",
+     "link": "https://arxiv.org/abs/1901.08106",
+     "finding": "In nontransitive games 'we want agents to increase in strength, but against whom is unclear'. The paper proposes rectified Nash response (PSRO_rN), using game-theoretic niching to build diverse populations of effective agents.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "Remedies trade off: a hall of fame reduces cycles but can slow progress (Nolfi & Floreano), and it costs compute.",
+    "Reduced virulence needs lambda tuning and only addresses disengagement.",
+    "Fitness sharing breeds brittle specialists unless the population is read as a set.",
+    "Progress plots (CIAO) are ambiguous, so an objective yardstick is still needed."
+   ],
+   "fit_notes": "cell-dev has an advantage most coevolution papers lack: an absolute yardstick. Fixed prices, fixed held-out worlds, the best reflex, the oracle ceiling and the information controller can all be scored on fresh lives. So the Red Queen measurement problem can be handled by always reporting F against fixed worlds next to the coevolutionary score.\n- Use reduced virulence for the prey (aim to be caught by some fraction of bodies), plus a hall-of-fame or Nash-memory mixture of past prey on part of each body's lives.\n- Ficici's 'friendly predictor' maps onto a prey that must remain catchable by at least one archived body or by the information controller. That is a minimal criterion for prey and stops prey from becoming pure noise.\n- Disengagement is the main risk because evasion is easier than pursuit. Monitor the spread of F across the population; zero spread is loss of gradient."
+  },
+  {
+   "name": "Predator-prey coevolution of evolved neural controllers (Nolfi & Floreano; Cliff & Miller pursuit-evasion)",
+   "plain_explanation": "Two populations of neural robot controllers, a pursuer and an evader, evolve against each other. The question is whether this produces an escalating arms race of ever more general strategies, or loops through the same few tricks.",
+   "evidence": [
+    {
+     "citation": "Nolfi & Floreano 1998, 'Coevolving Predator and Prey Robots: Do Arms Races Arise in Artificial Evolution?', Artificial Life 4(4)",
+     "link": "https://infoscience.epfl.ch/record/63899",
+     "finding": "In the basic setup, the populations quickly fell into cycles between the same classes of strategies. When the prey was also given a camera, arms races produced better and better solutions for several generations without cycling. A hall of fame reduced limit cycles but did not necessarily produce better individuals, and standard coevolution sometimes beat it.",
+     "verified": true
+    },
+    {
+     "citation": "Nolfi & Floreano 1998, sections 2.6-3.1",
+     "link": "https://infoscience.epfl.ch/record/63899",
+     "finding": "Environmental richness (obstacles, arena shapes) delayed convergence to limit cycles. In one setup (ambient-light sensors, arena with obstacles), simple evolution against fixed co-evolved opponents could not match them, because genetic operators could not generate any individual able to beat them (the bootstrap problem). In three other setups, simple evolution easily beat the co-evolved champions. The authors suggest some tasks have no fully general strategy, and that ontogenetic plasticity might reduce cycling (untested). They quote Cliff & Miller: pursuers and evaders were 'rather specially adapted to their opponents' current counter-strategies'.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "Cycling or limit cycles when either side cannot improve further.",
+    "Co-evolved 'champions' are often beatable by simple specialists, so progress is apparent rather than real.",
+    "The effect depends on sensory and motor asymmetry and on environment richness, set by the designer.",
+    "The bootstrap problem: fixed hard opponents give no gradient."
+   ],
+   "fit_notes": "The cell-dev body is already a pursuer, so making the target an evader is the cheapest coevolution available.\n- Keep the fixed parts of the world rich: halo and noise statistics, wounds, the other world keys. Nolfi found richness slows cycling, and acquired abilities tied to the fixed world are not lost when the opponent shifts.\n- The 'no general strategy exists' warning means some prey tricks may only ever be met by specialists. Pair this with a QD archive and with competitive income sharing, so a population of specialists counts as success.\n- Measure with master-tournament plots on held-out lives.\n- Whether the prey should sense the body (a true pursuit-evasion game) or follow open-loop programs (cheaper, less disengagement risk) is a design choice. Start open-loop with reduced virulence."
+  },
+  {
+   "name": "Avida stepping-stone tasks and graded rewards (Lenski et al. 2003)",
+   "plain_explanation": "In Avida, self-replicating programs gain CPU time for computing logic functions on their inputs. When simpler functions are also rewarded, the hardest function (EQU) can be assembled from pieces that evolved earlier for their own sake, sometimes through mutations that were harmful when they appeared. No single path is required, but intermediate rewards make the climb possible.",
+   "evidence": [
+    {
+     "citation": "Lenski, Ofria, Pennock & Adami 2003, Nature 423:139 (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1038/nature01568",
+     "finding": "Complex functions evolved by building on simpler functions that had evolved earlier, provided that these were also selectively favoured. No particular intermediate was essential. The first EQU genotypes differed from their parents by one or two mutations. Some mutations that were deleterious when they appeared served as stepping stones.",
+     "verified": true
+    },
+    {
+     "citation": "Lehman et al. 2020, 'The Surprising Creativity of Digital Evolution', Artificial Life 26(2) / arXiv:1803.03453",
+     "link": "https://arxiv.org/abs/1803.03453",
+     "finding": "EQU evolved in about half the replicate populations, each time differently (17 to 43 instructions). Along the line of descent some mutations were deleterious, in two cases halving fitness. The same collection reports Ofria's Avida organisms 'playing dead' by recognising the isolated test environment's inputs to evade a measurement-based selection rule.",
+     "verified": true
+    },
+    {
+     "citation": "Lenski et al. 2003, environment with only EQU rewarded",
+     "link": "https://doi.org/10.1038/nature01568",
+     "finding": "Recalled but not verified (Nature full text could not be opened): when only EQU was rewarded, no population evolved EQU.",
+     "verified": false
+    }
+   ],
+   "failure_modes": [
+    "The designer chooses and prices the stepping-stone functions, which partly names the capabilities.",
+    "Fitness valleys mean single-step gradient tests can miss real paths.",
+    "Organisms exploit measurement procedures (the playing-dead anecdote)."
+   ],
+   "fit_notes": "Two lessons for cell-dev.\n1. Graded income is a stepping-stone engine. Mixed target populations already pay per capture, so easy targets keep the simple rung paid while hard ones pay the same 500 but are rarer to catch. Avoid naming capabilities by pricing nothing by type: let difficulty emerge from how often the population catches each target, through prey coevolution or income sharing.\n2. Deleterious stepping stones mean the user's GRADIENT TEST (random mutants sometimes improve) is sufficient evidence of learnability but not necessary. A world with no improving one-step mutants may still be reachable through drift. Use it to rank worlds, not as a hard veto.\nThe playing-dead story is a direct warning: probe lives, lateral_off forks and mutant panels must be indistinguishable to the organism from ordinary lives (same receptor statistics, no fixed seeds that it could learn)."
+  },
+  {
+   "name": "Modularly varying goals (Kashtan & Alon 2005; Kashtan, Noor & Alon 2007)",
+   "plain_explanation": "Switch the population's goal every so many generations between goals built from shared sub-goals in different combinations. Networks evolved this way become modular, contain reusable motifs and re-adapt quickly after each switch. Fixed goals give tangled, non-modular networks.",
+   "evidence": [
+    {
+     "citation": "Kashtan & Alon 2005, PNAS 102:13773 (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1073/pnas.0503610102",
+     "finding": "Repeatedly switching between goals made of different combinations of subgoals led to the spontaneous evolution of modular structure and network motifs. The resulting networks rapidly evolved to satisfy each goal.",
+     "verified": true
+    },
+    {
+     "citation": "Kashtan, Noor & Alon 2007, PNAS 104:13711 (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1073/pnas.0611630104",
+     "finding": "Temporally varying goals can, in certain cases, dramatically speed up evolution compared with a fixed goal. The speedup is highest for modularly varying goals and grows with goal complexity. The plan's figures of '10-1000x' and 'no speedup when scoring all goals at once' were not re-verified here (full text not opened).",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "The designer must choose goals that share subproblems, so modular structure partly reflects the designer's decomposition.",
+    "The switching period must sit in a working window; too fast or too slow loses the benefit.",
+    "Shown on small logic and feedforward networks, not developmental GRN tissues."
+   ],
+   "fit_notes": "Already in the plan as arm M. The automatic version replaces the hand-picked goal pair with pairs drawn from the generated world archive whose PATA-EC rankings partly overlap. Shared body rankings are a capability-agnostic proxy for 'shares subproblems'. A coevolving prey also makes goals vary automatically, but on the population's own clock rather than a fixed calendar. Keep the fixed-calendar arm as the clean control."
+  },
+  {
+   "name": "Novelty search (with minimal criteria and local competition)",
+   "plain_explanation": "Ignore the objective and reward being behaviourally different from everything in an archive. Because only so many simple behaviours exist, the search drifts toward more complex ones and escapes deceptive dead ends that fool objective search. Variants keep only viable individuals (minimal criteria) or combine novelty with competition among similar individuals (local competition).",
+   "evidence": [
+    {
+     "citation": "Lehman & Stanley 2011, 'Abandoning Objectives: Evolution Through the Search for Novelty Alone', Evolutionary Computation 19(2) (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1162/evco_a_00025",
+     "finding": "In maze navigation and biped walking, novelty search significantly outperformed objective-based search. Objective functions can actively misdirect search toward dead ends.",
+     "verified": true
+    },
+    {
+     "citation": "Lehman 2012 dissertation, chapter 4",
+     "link": "http://joellehman.com/lehman-dissertation.pdf",
+     "finding": "Hard maze: fitness-based NEAT succeeded in 3/40 runs, random selection 4/40, novelty search 39/40. Using fitness itself as the behaviour characterisation reduced novelty search to 11/40.",
+     "verified": true
+    },
+    {
+     "citation": "Lehman 2012 dissertation, chapter 9 (novelty search with local competition, virtual creatures)",
+     "link": "http://joellehman.com/lehman-dissertation.pdf",
+     "finding": "Local competition kept morphological diversity as well as novelty alone while matching fitness-only on maximum fitness. Global competition found the highest single fitness but covered niches worst.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "Everything depends on the behaviour characterisation, which is a designer choice. A poor one (for example one that mirrors fitness) loses the benefit.",
+    "In large or unbounded behaviour spaces, novelty rewards meaningless variety (Stanley, Lehman & Soros: 'jittery' novelty is not interesting).",
+    "It does not generate new problems, only new solutions to existing ones."
+   ],
+   "fit_notes": "Use it as a diversity pressure in the outer loop, not as the objective. In cell-dev novelty search without a viability floor would reward expensive, useless tissue, so use novelty with local competition on F, or minimal-criteria novelty search with F > 0 or F above the reflex.\nTo keep the behaviour characterisation from naming capabilities, describe a body by its responses to a fixed probe battery: motor and tap spike responses to standardised stimuli such as a brief flash then darkness, a moving spot, two spots, or a halo that reverses. Add mechanism readouts: relayed share, lateral_off and hidden_off costs, latency by hop count, number of cell types and size.\nCaveat: the probe battery is itself a design choice, but it measures what bodies do, not which capability they are graded on."
+  },
+  {
+   "name": "MAP-Elites and quality diversity",
+   "plain_explanation": "Choose a few behaviour dimensions, grid them, and keep the best individual found in each cell. Offspring of random elites fill or improve cells. You end with a map of the best solution for every kind of behaviour, which keeps stepping stones that a single-objective search would discard. It often finds a better overall best too.",
+   "evidence": [
+    {
+     "citation": "Mouret & Clune 2015, 'Illuminating search spaces by mapping elites', arXiv:1504.04909",
+     "link": "https://ar5iv.labs.arxiv.org/html/1504.04909",
+     "finding": "In a neural-network domain MAP-Elites beat a traditional EA and novelty search with local competition on global performance, reliability, precision and coverage (p<1e-7). Soft-robot locomotion showed higher reliability and coverage. The authors state it cannot exhibit open-ended evolution because the feature space is fixed, and that the user must choose the dimensions.",
+     "verified": true
+    },
+    {
+     "citation": "Cully, Clune, Tarapore & Mouret 2015, 'Robots that can adapt like animals', Nature / arXiv:1407.3501",
+     "link": "https://arxiv.org/abs/1407.3501",
+     "finding": "A precomputed MAP-Elites behaviour-performance map let damaged robots find compensatory behaviours in under two minutes without pre-specified contingency plans.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "The feature space is fixed and chosen by the user, so it is not open-ended.",
+    "Curse of dimensionality: cell count grows exponentially with dimensions and resolution.",
+    "Some cells are physically infeasible; coverage plateaus.",
+    "It keeps elites per cell but does not itself create new tasks."
+   ],
+   "fit_notes": "A good complement for keeping stepping stones. Suggested low-dimensional grid: (end size, relayed share, hidden-plane dependence measured as the hidden_off cost) with F as quality on the current world mixture. That would preserve, for example, hidden-plane users before they pay, which the plan notes are 'so far inert'. Combine with PATA-EC-style world novelty: bodies form the archive the world generator ranks against. Compute is modest if map cells reuse the generation's lives."
+  },
+  {
+   "name": "Open-ended evolution surveys and conditions (Stanley, Lehman & Soros 2017; Soros & Stanley 2014 conditions; Taylor et al. 2016; Packard et al. 2019; MODES; Lehman et al. 2020)",
+   "plain_explanation": "The field's own stock-take: what open-endedness means, what systems have shown it, how to measure it and what seems necessary. The common message is that a system must keep creating new problems, not just new solutions. It needs a non-trivial survival criterion, new individuals must create new opportunities for others, and phenotypes must be able to grow. Measuring 'interesting' novelty remains unsolved.",
+   "evidence": [
+    {
+     "citation": "Stanley, Lehman & Soros 2017, 'Open-endedness: The last grand challenge you've never heard of', O'Reilly Radar",
+     "link": "https://www.oreilly.com/radar/open-endedness-the-last-grand-challenge-youve-never-heard-of/",
+     "finding": "It quotes Soros & Stanley's four necessary conditions: (1) a non-trivial minimal criterion before reproduction; (2) the evolution of new individuals should create novel opportunities for satisfying the criterion; (3) individuals decide how and where they interact with the world; (4) phenotype size and complexity are in principle unbounded. The highest open-endedness needs new problems, not just new solutions. Novelty alone (for example 'jittery robot movements') is not enough.",
+     "verified": true
+    },
+    {
+     "citation": "Soros & Stanley 2014, Chromaria, ALife XIV (primary)",
+     "link": "https://doi.org/10.7551/978-0-262-32621-6-ch128",
+     "finding": "Primary paper not opened (403). The four conditions above are as quoted by its co-author in the O'Reilly piece.",
+     "verified": false
+    },
+    {
+     "citation": "Packard et al. 2019, 'An Overview of Open-Ended Evolution', Artificial Life 25(2), arXiv:1909.04430",
+     "link": "https://arxiv.org/abs/1909.04430",
+     "finding": "Proposes the 'Tokyo' categories (interesting new entities and interactions, evolution of evolvability, major transitions, semantic evolution). Channon shows indefinitely scalable maximum individual complexity in Geb under coevolutionary (biotic) selection, scaling only logarithmically. Introduces the MODES toolbox. Notes that statistics can only be gathered for entity kinds specified in advance. Concludes that biological levels of open-endedness remain out of reach.",
+     "verified": true
+    },
+    {
+     "citation": "Taylor et al. 2016, 'Open-Ended Evolution: Perspectives from the OEE Workshop in York', Artificial Life 22(3) (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1162/artl_a_00210",
+     "finding": "There is more than one kind of open-ended evolution, and observable hallmarks should be kept separate from hypothesised mechanisms.",
+     "verified": true
+    },
+    {
+     "citation": "Dolson, Vostinar, Wiser & Ofria 2019, 'The MODES Toolbox', Artificial Life 25(1) (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1162/artl_a_00280",
+     "finding": "Metrics for change potential, novelty potential, complexity potential and ecological potential, with C++ implementations, validated on NK landscapes and Avida.",
+     "verified": true
+    },
+    {
+     "citation": "Clune 2019, 'AI-GAs', arXiv:1905.10985",
+     "link": "https://arxiv.org/abs/1905.10985",
+     "finding": "Argues hand-designed solutions tend to be replaced by learned ones. Its third pillar is automatically generating effective learning environments.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "'Interestingness' has no agreed objective measure, so systems produce novelty that is trivial.",
+    "Bounded possibility spaces get exhausted (mazes, POET's terrain).",
+    "Complexity growth, where shown, is slow (logarithmic in Channon's Geb).",
+    "Easy to over-claim: observing something interesting is not open-endedness on nature's scale."
+   ],
+   "fit_notes": "Checking cell-dev against the four conditions:\n(1) Non-trivial minimal criterion: yes. The energy ledger exists; F > 0 or 'beats the reflex' is non-trivial.\n(2) New individuals create new opportunities: currently no. Worlds are fixed and organisms never change one another's world. This is the missing piece, and coevolving prey, shared-income competition or multi-organism arenas would supply it.\n(3) Individuals choose where to interact: partly. The body steers itself.\n(4) Unbounded phenotype: bounded by costs and lattice, by design.\nRecommend reporting MODES-style change, novelty, complexity and ecological potential per run, and claiming 'beyond hand design' only with the plan's fixed paired yardsticks."
+  },
+  {
+   "name": "Ecological ALife and intraspecific competition for shared resources (Tierra, Avida resources, Polyworld, Neural MMO)",
+   "plain_explanation": "Put many organisms in one world where resources (CPU time, food, depletable task rewards) are finite and shared. Then the main environment of each organism is the other organisms. Strategies that do well when rare do well (frequency-dependent selection), so niches split off and exploiters, cheaters and counter-exploiters appear. No designer names them.",
+   "evidence": [
+    {
+     "citation": "Ray 1991, 'An Approach to the Synthesis of Life', ALife II (Tierra)",
+     "link": "https://tomray.me/pubs/alife2/Ray1991AnApproachToTheSynthesisOfLife.pdf",
+     "finding": "Starting from an ancestor that could only self-replicate, competing for CPU time and memory produced parasites, immunity, hyper-parasites, sociality and cheating spontaneously. Ray argues that predefined fitness functions are 'dead ended'. Social species were 24% smaller than the ancestor, an instance of optimisation toward smaller size.",
+     "verified": true
+    },
+    {
+     "citation": "Chow, Wilke, Ofria, Lenski & Adami 2004, 'Adaptive radiation from resource competition in digital organisms', Science 305 (abstract via Europe PMC)",
+     "link": "https://doi.org/10.1126/science.1096307",
+     "finding": "With fixed population size and an influx of mixed limiting resources, frequency-dependent selection gave the most species at intermediate productivity, even in a spatially homogeneous environment. A diverse pool of limiting resources alone was sufficient to cause adaptive radiation.",
+     "verified": true
+    },
+    {
+     "citation": "Yaeger 1994, 'PolyWorld: Life in a New Context', ALife III",
+     "link": "http://shinyverse.org/larryy/Yaeger.ALife3.pdf",
+     "finding": "Neural organisms with vision, eating, mating and fighting. An ad hoc fitness-driven steady-state GA runs only until a 'successful behavior strategy' emerges; after that the only fitness is survival. Some runs never reached one. Foraging, following and simple flocking were purely emergent, as were 'species' such as edge-runners and 'dervishes'.",
+     "verified": true
+    },
+    {
+     "citation": "Yaeger 2009, HFSP Journal; Yaeger, Griffith & Sporns 2011, arXiv:1112.4906",
+     "link": "https://arxiv.org/abs/1112.4906",
+     "finding": "Neural complexity rose in a driven fashion only in some conditions and stayed stable in others. Neural complexity tracked behavioural adaptation only when produced by natural selection, not when generated randomly or optimised by a GA (2009 abstract).",
+     "verified": true
+    },
+    {
+     "citation": "Suarez, Du, Isola & Mordatch 2019, Neural MMO, arXiv:1903.00784",
+     "link": "https://arxiv.org/abs/1903.00784",
+     "finding": "Larger populations magnified and incentivised skilful behaviours, producing agents that beat those trained in smaller populations. Agents with unshared weights diverged to fill niches to avoid competition.",
+     "verified": true
+    },
+    {
+     "citation": "Open Ended Learning Team 2021 (XLand), arXiv:2107.12808",
+     "link": "https://arxiv.org/abs/2107.12808",
+     "finding": "Dynamically changing task distributions over a vast multi-agent game space produced agents with emergent experimentation, simple tool use, option switching and cooperation, with zero-shot transfer to hide-and-seek, capture the flag and tag.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "Drift toward cheaper and smaller organisms rather than more capable ones (Tierra's size reduction mirrors cell-dev's 'be smaller' trap).",
+    "Bootstrapping: worlds that never become self-sustaining (Polyworld runs without a successful strategy).",
+    "Complexity increase is conditional, not guaranteed (Yaeger et al.).",
+    "High compute for populations interacting in one world; multi-agent RL needs large scale.",
+    "Hard to measure progress; niches may be uninteresting."
+   ],
+   "fit_notes": "Two routes for cell-dev.\n(a) Cheap and immediate: competitive income sharing across common-random-number lives (Rosin & Belew style). Each fresh life is a 'resource'. A member's income on that life is divided by the population's total income there, while cell, spike, message and miss costs stay unshared, so 'growth bounded by physics plus costs' survives. Lives that only rare bodies cope with (a blink episode, a decoy layout, a fast straight pass) become valuable without anyone naming them. It needs no kernel change. It does change selection away from the plan's 'plain mean F', so the user must approve; always report raw F.\n(b) True intraspecific competition: several organisms in one arena competing for the same targets. This needs a multi-body kernel, a reference.py port and a JS port, which is costly and breaks today's single-body ABI. Defer unless (a) shows niche formation.\nTierra's size reduction is the cautionary tale: keep the plan's 'be smaller' guards."
+  },
+  {
+   "name": "Foundation-model task generation (OMNI-EPIC)",
+   "plain_explanation": "Use a large language model as the outer-loop task inventor. It writes code for new environments and reward functions judged 'interesting' and learnable given what the agent can already do, and keeps an archive of past tasks.",
+   "evidence": [
+    {
+     "citation": "Faldor, Zhang, Cully & Clune 2024, OMNI-EPIC, arXiv:2405.15568",
+     "link": "https://arxiv.org/abs/2405.15568",
+     "finding": "Foundation models autonomously generate code specifying the next learnable and interesting tasks (environments plus rewards), so in principle any simulatable task can be created.",
+     "verified": true
+    }
+   ],
+   "failure_modes": [
+    "It brings human notions of interestingness back in, which works against 'beyond hand creation'.",
+    "Generated world code could break kernel = reference = JS equivalence or the accounting.",
+    "Evidence is so far mostly qualitative demonstrations."
+   ],
+   "fit_notes": "The outer loop may use any machinery, so an LLM could propose new world mechanics as patches to the scratch kernel, each then passing the three sticks (ceiling, information test, gradient test) before admission. Because it re-imports human priors and needs code review for accounting loopholes, rank it below prey coevolution and replay curricula. Verified at abstract level only."
+  }
+ ]
+}

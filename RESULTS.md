@@ -1412,3 +1412,30 @@ lives:
 Plan: five arms on today's organism (base, POOL, a family per life, Kashtan-style switching every E generations,
 family plus wounds), 12 seeds x 500 generations, about $15-35 on one rented box, after about two weeks of engineering
 (resume, the family harness, gates).
+
+## 2026-10-10 — Open headroom: admit worlds by what the sense information pays, not by what we can build
+`docs/TASK_VARIATION_PLAN.md` section 0; record in `results/open_headroom/`. The earlier plan admitted a world only if
+a hand-built body beat the reflex there, which made our design skill the ceiling. The new measuring sticks are central
+controllers that see only the body's own sense pings, its own actions and its clock, and act through its own act cells.
+They are measurement tools only. A replay test shows the controller reads nothing but pings.
+- **Base already pays far more than any body earns.** On 1,024 fresh lives, an information-matched controller on the
+  reflex's 56 cells beats the best reflex by **+13.31 ± 0.14 F in base** (22.56 against 9.25) and **+13.22 ± 0.13 in
+  POOL**.
+  - With tissue-like handicaps (one ping per 0.5, three hops of latency) it keeps +9.2 / +9.6.
+  - Evolved s5 / s7 score -1.3 / -1.9 in base; the hand program router scores +3.6.
+  - What pays is active search from a belief built by path integration, pings and the absence of pings.
+- **Switching (motor flip mid-life) is admitted.** In the honest 50/50 flip mix, a flip detector adds **+12.7 ± 0.5 F**
+  over the same controller without it. False alarms cost -0.27, against -3.02 for the hand-built trigger.
+- **Memory is admitted.**
+  - In the flash world (target bright for 5 after each placement, then dim), acting while dim is worth **+24.6 ± 0.2**.
+  - In renewal blink worlds, memory is a secondary +2-4 F on top of tracking.
+- **Not measured yet:** prediction, discrimination and the mutant gradient test. They were cut for time and are queued
+  before round 2.
+- **Plan changes:** the admission rule replaces every hand-built gate.
+  - The family now includes flip mix and flash.
+  - New "beyond hand" success criteria: beat the best hand body on record; gain where no hand body does; the share of the
+    information gap captured.
+  - New E9: port flip, blink and flash into kernel, reference and JS as ABI 4.
+  - Open-ended track after round 1: co-evolving prey.
+- **Process note:** a reboot wiped `/tmp` mid-study. The harness was rebuilt from its agent's transcript, and long
+  studies now run in `outputs/`.
