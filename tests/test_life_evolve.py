@@ -1036,3 +1036,32 @@ def test_the_catch_founder_settings_are_the_recorded_tweaks():
     assert all(std[i] == 0 for i in fixed) and all(std[i] == 0.5 for i in range(spec.V3.P) if i not in fixed)
     bell = setup(_cfg())[1]  # BELL's founders are untouched
     assert torch.equal(bell.init_std, LifeLayout(LifeDims()).init_std)
+
+
+def test_rank_desc_breaks_exact_ties_at_random_and_leaves_distinct_scores_alone():
+    from src.evolve import rank_desc
+    f = torch.tensor([0.3, -0.02, 0.9, 0.1, 0.5], dtype=torch.float64)  # no ties: exactly the old ranking
+    for s in range(5):
+        assert torch.equal(rank_desc(f, torch.Generator().manual_seed(s)), f.argsort(descending=True, stable=True))
+    flat = torch.full((256,), -0.02, dtype=torch.float64)  # a frozen plateau: parents are indices 0-31
+    assert torch.equal(rank_desc(flat)[:32], torch.arange(32))  # without a generator: parents win every tie
+    tops = [set(rank_desc(flat, torch.Generator().manual_seed(s))[:32].tolist()) for s in range(4)]
+    assert all(len(t & set(range(32))) < 16 for t in tops) and len({frozenset(t) for t in tops}) == 4
+
+
+def test_elastic_threads_read_the_sweep_share(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    from src.life.evaluate import LifeEvaluator
+    ev = SimpleNamespace(threads=3)
+    monkeypatch.delenv("CELLDEV_THREADS_FILE", raising=False)
+    assert LifeEvaluator.kernel_threads(ev) == 3
+    f = tmp_path / "threads_now"
+    monkeypatch.setenv("CELLDEV_THREADS_FILE", str(f))
+    assert LifeEvaluator.kernel_threads(ev) == 3  # no file yet
+    f.write_text("12")
+    assert LifeEvaluator.kernel_threads(ev) == 12
+    f.write_text("2")
+    assert LifeEvaluator.kernel_threads(ev) == 3  # never below the run's own threads
+    f.write_text("garbage")
+    assert LifeEvaluator.kernel_threads(ev) == 3

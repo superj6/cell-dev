@@ -31,12 +31,13 @@ from src.life import spec
 KERNEL = spec.V3  # the contract kernel.c implements
 SRC = Path(__file__).with_name("kernel.c")
 CFLAGS = ("-O3", "-fopenmp", "-ffp-contract=off", "-fPIC", "-shared", "-std=c11")
+FAST_FLAGS = ("-DLIFE_FAST",)  # the fast build: same lives and ledger, no hashes (see ``run``'s ``fast``)
 RETURN_CODES = {-1: "size/ABI mismatch, missing or non-finite table, or genome_of outside its table",
                 -2: "invalid world vector", -3: "allocation failure",
                 -4: "invalid lattice table or initial body (duplicate sites, a cell outside the stack or the bound)"}
 
 _lock = threading.Lock()
-_lib = None
+_libs: dict[bool, ctypes.CDLL] = {}  # full build (False) and fast build (True)
 
 _i32, _i64, _u64, _f64 = ctypes.c_int32, ctypes.c_int64, ctypes.c_uint64, ctypes.c_double
 _P = ctypes.POINTER
@@ -46,22 +47,27 @@ def cache_dir() -> Path:
     return Path(os.environ.get("CELL_DEV_CACHE", Path.home() / ".cache" / "cell-dev")) / "life"
 
 
-def library_path() -> Path:
+def flags(fast: bool = False) -> tuple[str, ...]:
+    return CFLAGS + FAST_FLAGS if fast else CFLAGS
+
+
+def library_path(fast: bool = False) -> Path:
     """Cache path of the library: ``life_<first 16 hex digits of sha256(source + flags)>.so``."""
-    key = hashlib.sha256(SRC.read_bytes() + " ".join(CFLAGS).encode()).hexdigest()[:16]
+    key = hashlib.sha256(SRC.read_bytes() + " ".join(flags(fast)).encode()).hexdigest()[:16]
     return cache_dir() / f"life_{key}.so"
 
 
-def build(force: bool = False) -> Path:
-    """Compile kernel.c into the cache unless an up-to-date library exists; returns its path."""
-    out = library_path()
+def build(force: bool = False, fast: bool = False) -> Path:
+    """Compile kernel.c into the cache unless an up-to-date library exists; returns its path. ``fast`` builds the
+    ``LIFE_FAST`` variant (see ``run``)."""
+    out = library_path(fast)
     if out.exists() and not force:
         return out
     out.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(suffix=".so", dir=out.parent)
     os.close(fd)
     try:
-        cmd = ["gcc", *CFLAGS, "-o", tmp, str(SRC), "-lm"]
+        cmd = ["gcc", *flags(fast), "-o", tmp, str(SRC), "-lm"]
         res = subprocess.run(cmd, capture_output=True, text=True)
         if res.returncode != 0:
             raise RuntimeError(f"kernel build failed: {' '.join(cmd)}\n{res.stderr}")
@@ -103,12 +109,12 @@ def _declare(lib) -> None:
     lib.life_filled_footprint.argtypes = [_i32, _i64, _P(_i32), _P(_i32)]
 
 
-def load():
-    """The loaded kernel (built on first use), checked against ``KERNEL.version`` and ``KERNEL.SIZES``."""
-    global _lib
+def load(fast: bool = False):
+    """The loaded kernel (built on first use), checked against ``KERNEL.version`` and ``KERNEL.SIZES``. ``fast``: the
+    ``LIFE_FAST`` build (``run``'s ``fast``)."""
     with _lock:
-        if _lib is None:
-            lib = ctypes.CDLL(str(build()))
+        if fast not in _libs:
+            lib = ctypes.CDLL(str(build(fast=fast)))
             _declare(lib)
             if lib.life_abi_version() != KERNEL.version:
                 raise RuntimeError(f"kernel ABI {lib.life_abi_version()} != spec ABI {KERNEL.version}")
@@ -116,8 +122,8 @@ def load():
             lib.life_sizes(sizes)
             if list(sizes) != list(KERNEL.SIZES.values()):
                 raise RuntimeError(f"kernel sizes {list(sizes)} != spec.V3.SIZES {list(KERNEL.SIZES.values())}")
-            _lib = lib
-        return _lib
+            _libs[fast] = lib
+        return _libs[fast]
 
 
 def _ptr(a, t):
@@ -341,7 +347,8 @@ def _tables(genomes, programs, abi: spec.Abi) -> list:
 
 
 def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None, kind: str | None = None,
-        threads: int = 1, raster_cap: int = 0, fate_cap: int = 0, abi: spec.Abi | None = None) -> Lives:
+        threads: int = 1, raster_cap: int = 0, fate_cap: int = 0, abi: spec.Abi | None = None,
+        fast: bool = False) -> Lives:
     """Run ``n`` lives. ``worlds``: a ``spec.World`` (or a list, one per life). ``seeds``: life seeds or rows of 4.
 
     ``abi`` (``spec.CURRENT`` if None) is the ABI of the tables, bodies and outputs; the kernel itself is ABI 3.
@@ -352,6 +359,10 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
     ``genome_of``. ``init`` is one body for every life, or a list of bodies; ``None`` means one zygote at the origin.
     ABI 2 cells are ``(a, b)`` or ``(a, b, row)``; ABI 3 cells are ``(a, b)``, ``(a, b, z)`` or ``(a, b, z, row)``.
     The lattice comes from the worlds unless ``kind`` is given.
+
+    ``fast`` uses the ``LIFE_FAST`` build: the same lives, bitwise (ledger, raster, fate log; tests/test_life_fast.py),
+    about 1.25x faster, but it folds no hashes, so every hash family stays ``HASH_INIT``. Use it where hashes are not
+    read (evolution); gates, golden tests and anything comparing hashes keep the full build.
     """
     abi = _abi(abi)
     seeds = _seeds(seeds)
@@ -400,7 +411,7 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
         out.fate_i = np.zeros((n, fate_cap, KERNEL.FATE_I_SIZE), dtype=np.int64)
         out.fate_f = np.zeros((n, fate_cap, KERNEL.FATE_F_SIZE))
         out.fate_n = np.zeros(n, dtype=np.int64)
-    rc = load().life_run(
+    rc = load(fast).life_run(
         n, threads, _ptr(lat, _i32), _ptr(unit, _f64), n_rows[0], _ptr(genomes, _f64), n_rows[1], _ptr(programs, _f64),
         _ptr(genome_of, _i32), _ptr(cells, _i32), _ptr(counts, _i32), _ptr(wv, _f64), _ptr(seeds, _u64),
         _ptr(ledger, _f64), _ptr(hashes, _u64), raster_cap, _ptr(out.raster_t, _f64), _ptr(out.raster_uid, _u64),

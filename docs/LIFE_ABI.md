@@ -221,6 +221,15 @@ first 16 hex digits of the SHA-256 of the source text plus the flag string. The 
 linkage. The caller checks `life_abi_version()` and `life_sizes()` against the ABI the kernel implements before the
 first run (`build.KERNEL = spec.V3`: an ABI-3 kernel reports 3 and `spec.V3.SIZES`, whatever `spec.CURRENT` is).
 
+**Fast build** (2026-10-10; `build.run(..., fast=True)`, `life.fast_kernel` in the CATCH configs). The same source
+compiled with `-DLIFE_FAST` lives the same lives: every ledger column, the raster and the fate log are bitwise those of
+the full build (`tests/test_life_fast.py`; 288 of 288 pilot-body lives). It skips the hash folds (every family stays
+`HASH_INIT`), sends packets straight into the accountant's flight queue instead of through `R_PACKET` records (their
+only other uses are the packets count and the in-flight content at close, which is sorted before it is summed), and
+skips weights that are exactly zero in the GRN and readout sums (a sum that comes out exactly zero is redone in full,
+so the sign of zero is kept). About 1.2x faster. Gates, golden tests and anything that compares hashes use the full
+build, whose preprocessed source is unchanged.
+
 ### 4.2 Entry points
 ```c
 int32_t life_abi_version(void);

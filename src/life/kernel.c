@@ -167,6 +167,10 @@ static void decode(const double *y, double *th) {  // section 8
   th[K_ZETA] = q8(y[21]); th[K_GR] = q8(y[22]);
 }
 
+#ifdef LIFE_FAST
+static inline int nzbits(double x) { uint64_t u; memcpy(&u, &x, 8); return u != 0; }
+#endif
+
 static void readout(const double *gt, const double *g, double *y) {
   const double *A = gt + GO_A, *a0 = gt + GO_A0;
   for (int p = 0; p < NK; p++) {
@@ -270,6 +274,9 @@ typedef struct {
   double *gsnap; int64_t n_gsnap, cap_gsnap;
   int64_t *ridx; int64_t cap_ridx;
   int want_g;
+#ifdef LIFE_FAST
+  int n_ract; int8_t ract[NG]; int n_wj[NG]; int8_t wj[NG][NIN];  // nonzero readout columns, GRN inputs
+#endif
   // simulator counts (site-level, order-free) and oracle-cap counts; cap_count is n_alive + n_inflight at cap_t-
   int64_t n_alive_sim, n_inflight_sim, events, c_arrivals, c_arrdrop, c_ticks, cap_count;
   double cap_t;
@@ -584,12 +591,48 @@ static int prog_row(const Ctx *c, const Cell *X, int nv) {  // 7.5 selector
   return ROW_CONTACT;
 }
 
+#ifdef LIFE_FAST
+// Fast build (build.py fast=True): the readout skips gene columns whose weights are all exactly zero. A skipped term
+// adds +-0, which changes a sum only when the whole sum is zero (the sign of zero), so such knobs are redone in full;
+// the result is bitwise the full readout's.
+static void readout_fast(const Ctx *c, const double *g, double *y) {
+  const double *A = c->gt + GO_A, *a0 = c->gt + GO_A0;
+  const int n = c->n_ract;
+  int p = 0;
+  for (; p + 4 <= NK; p += 4) {
+    double v0 = a0[p], v1 = a0[p + 1], v2 = a0[p + 2], v3 = a0[p + 3];
+    for (int i = 0; i < n; i++) {
+      const int k = c->ract[i]; const double gk = g[k];
+      v0 = v0 + A[p * NG + k] * gk; v1 = v1 + A[(p + 1) * NG + k] * gk;
+      v2 = v2 + A[(p + 2) * NG + k] * gk; v3 = v3 + A[(p + 3) * NG + k] * gk;
+    }
+    y[p] = v0; y[p + 1] = v1; y[p + 2] = v2; y[p + 3] = v3;
+  }
+  for (; p < NK; p++) {
+    double v = a0[p];
+    for (int i = 0; i < n; i++) { const int k = c->ract[i]; v = v + A[p * NG + k] * g[k]; }
+    y[p] = v;
+  }
+  if (n < NG)
+    for (p = 0; p < NK; p++)
+      if (y[p] == 0.0) {  // sign of zero: redo this knob in full
+        double v = a0[p];
+        for (int k = 0; k < NG; k++) v = v + A[p * NG + k] * g[k];
+        y[p] = v;
+      }
+}
+#endif
+
 static void set_theta(const Ctx *c, Cell *X, int nv) {
   if (c->prog) {
     memcpy(X->th, c->pg + NK * prog_row(c, X, nv), NK * sizeof(double));
   } else {
     double y[NK];
+#ifdef LIFE_FAST
+    readout_fast(c, X->g, y);
+#else
     readout(c->gt, X->g, y);
+#endif
     decode(y, X->th);
   }
   X->tau = X->th[K_TAUM] * X->taumis;
@@ -766,6 +809,26 @@ static double contact_delay(const Ctx *c, int32_t si, const Cell *X, int d, uint
   return c->d0 * exp(c->delay_sd * normal_n(c->seed, S_DC, 3, keys));
 }
 
+#ifdef LIFE_FAST
+// Fast build: a packet goes straight into the accountant's flight queue instead of through an R_PACKET record (its
+// only uses are the packets count, the in-flight content at close, which is sorted before it is summed, and the hashes,
+// which the fast build does not keep).
+static void flight_push(Ctx *c, double t, uint64_t tsk, uint64_t sender, const double *amt) {
+  while (c->fl_n > 0 && c->fl_q[c->fl_head].t_arr < t) { c->fl_head = (c->fl_head + 1) % c->fl_cap; c->fl_n--; }
+  if (c->fl_n == c->fl_cap) {
+    int64_t nc = c->fl_cap ? 2 * c->fl_cap : 1024;
+    Flight *q = malloc((size_t)nc * sizeof(Flight));
+    if (!q) { c->fail |= FAIL_ALLOC; return; }
+    for (int64_t i = 0; i < c->fl_n; i++) q[i] = c->fl_q[(c->fl_head + i) % c->fl_cap];
+    free(c->fl_q);
+    c->fl_q = q; c->fl_cap = nc; c->fl_head = 0;
+  }
+  Flight *f = &c->fl_q[(c->fl_head + c->fl_n) % c->fl_cap];
+  f->t_send = t; f->t_arr = t + c->d_min; f->tsk = tsk; f->sender = sender; f->amt[0] = amt[0]; f->amt[1] = amt[1];
+  c->fl_n++;
+}
+#endif
+
 static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7.5 (program)
   Cell *X = &c->cells[ci];
   const int64_t fl = c->fl;
@@ -822,7 +885,13 @@ static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7
       for (int k = 0; k < NG; k++) {
         if (lam[k] == 0.0) { s[k] = 0.0; continue; }  // g + 0 * (s - g) == g exactly: skip the row
         double p = bb[k];
+#ifdef LIFE_FAST
+        const int nj = c->n_wj[k]; const int8_t *jj = c->wj[k];  // nonzero weights only; a zero sum is redone in full
+        for (int i = 0; i < nj; i++) p = p + W[k * NIN + jj[i]] * x[jj[i]];
+        if (p == 0.0 && nj < NIN) { p = bb[k]; for (int j = 0; j < NIN; j++) p = p + W[k * NIN + j] * x[j]; }
+#else
         for (int j = 0; j < NIN; j++) p = p + W[k * NIN + j] * x[j];
+#endif
         s[k] = sigma(p);
       }
       for (int k = 0; k < NG; k++)
@@ -877,11 +946,16 @@ static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7
       } else {
         lost_ev(c, ti, ta, X->uid, X->view[d], amt);
       }
+#ifdef LIFE_FAST
+      if (t >= c->t_open_abs) c->packets++;
+      flight_push(c, t, c->sites[c->sites[si].nbr[d]].sk, X->uid, amt);
+#else
       Rec *rp = emit(c, R_PACKET);
       if (rp) {
         rp->u1 = X->uid; rp->u2 = X->view[d]; rp->u3 = c->sites[c->sites[si].nbr[d]].sk;
         rp->x[0] = amt[0]; rp->x[1] = amt[1];
       }
+#endif
     }
     for (int i = 0; i < 2; i++) X->m[i] = X->m[i] - nvd * amt[i];
   }
@@ -1133,9 +1207,13 @@ static void batch(Ctx *c, int32_t si, double t, const int32_t *evs, int64_t n) {
 
 // ------------------------------------------------------------------------------------------- accountant
 static inline void fold(Ctx *c, int fam, const uint64_t *w, int n) {
+#ifdef LIFE_FAST
+  (void)c; (void)fam; (void)w; (void)n;  // the fast build keeps no hashes: every family stays HASH_INIT
+#else
   uint64_t h = c->H[fam];
   for (int i = 0; i < n; i++) h = splitmix64(h ^ w[i]);
   c->H[fam] = h;
+#endif
 }
 
 static void adv(Ctx *c, double t, int count) {  // 9.2
@@ -2073,6 +2151,21 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
   c->raster_cap = (raster_t && raster_uid) ? raster_cap : 0; c->raster_t = raster_t; c->raster_uid = raster_uid;
   c->fate_cap = (fate_i && fate_f) ? fate_cap : 0; c->fate_i = fate_i; c->fate_f = fate_f;
   c->want_g = c->fate_cap > 0 && !c->prog;
+#ifdef LIFE_FAST
+  if (!c->prog && c->gt) {  // the genome's nonzero readout columns and GRN weights (any bit set, so -0.0 counts)
+    const double *A = c->gt + GO_A, *W = c->gt + GO_W;
+    c->n_ract = 0;
+    for (int k = 0; k < NG; k++) {
+      int any = 0;
+      for (int q = 0; q < NK; q++) any |= nzbits(A[q * NG + k]);
+      if (any) c->ract[c->n_ract++] = (int8_t)k;
+    }
+    for (int k = 0; k < NG; k++) {
+      c->n_wj[k] = 0;
+      for (int j = 0; j < NIN; j++) if (nzbits(W[k * NIN + j])) c->wj[k][c->n_wj[k]++] = (int8_t)j;
+    }
+  }
+#endif
   if (map_rehash(c, 1024)) { ctx_free(c); free(c); return -3; }
   if (c->kind == WK_CATCH) catch_start(c);  // the world exists before the first time group (9.7.1)
   start_life(c, init, n_init);

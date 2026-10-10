@@ -24,6 +24,7 @@ genome:
   input_init: {is_S: 2.0, is_M: 2.0, n_view: 8.0}   # founder W std per input (BELL: 1, 1, 0)
 
 life:
+  fast_kernel: true             # LIFE_FAST kernel build: bitwise the same lives and ledger, about 1.25x faster, no hashes
   world: catch_v1_l4            # spec.PRESETS: catch_v1_l4 (L_max 4) | catch_v1_l2 (L_max 2)
   control: lmax4                # run-directory label; the two arms differ only in the world's L_max
   T: 1024                       # nominal life length: valid, held-out, final, clone and founder lives use it

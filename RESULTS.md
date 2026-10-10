@@ -1377,3 +1377,18 @@ interface, compiled to gates and refined by evolution with many paired lives in 
 weeks, under $150), with side tests on the current kernel (STDP in place of the morphogen route for synapse
 direction; evolution strategies against the GA). `docs/ROADMAP.md` lays out every direction, its cost to a first
 visible result, the suggested order and the decisions needed; the atlas has a "Where this goes next" section.
+
+## 2026-10-10 — Quick fixes: random tie-breaking, fast kernel build, elastic sweep threads
+- **Random tie-breaking** (`src/evolve.py`: `rank_desc`, `evolve.random_ties`, default on). Exact fitness ties in
+  selection and in both recheck stages are broken by a random permutation from a generator of their own (seed + 7,919,001),
+  so a generation without ties ranks exactly as before; `evolve.random_ties: false` restores index order. Fixes the
+  frozen plateaus where parents (listed first) always beat equal children (four v1 runs froze for 244-364 generations).
+- **Fast kernel build** (`-DLIFE_FAST`; `build.run(..., fast=True)`; `life.fast_kernel: true` in `configs/life_catch.yaml`
+  and so in SPECK): skips hash folds and per-packet records and exact-zero weights. Ledger, raster and fate log are
+  bitwise the full build's on random genomes, hand-built GRN genomes, program bodies, forks (`tests/test_life_fast.py`)
+  and on 288 of 288 pilot-body lives (6 bodies x 48 lives, T 1024); 1.21x faster there with logging on (the audit
+  measured 1.24x without). The full build's preprocessed source is unchanged, so gates and goldens are untouched.
+- **Elastic sweep threads** (`scripts/sweep.py --max-threads`, default 32): the sweep publishes jobs x threads /
+  running, capped, and every life run's kernel calls read it, so a run left alone at the end takes over the freed cores
+  (the pilot's last 2.5+ h ran one 3-thread job). Lives do not depend on the thread count. Child jobs also get
+  `OMP_WAIT_POLICY=PASSIVE`.

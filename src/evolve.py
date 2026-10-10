@@ -350,22 +350,37 @@ def pooled(a: Eval, b: Eval) -> Eval:
     return type(a)(**out, trial_scores=torch.from_numpy(ts), fitness=torch.from_numpy(ts.mean(axis=1)))
 
 
-def recheck(ev, everyone: torch.Tensor, res: Eval, g: int, mu: int, k: int, lives: int, key: str) -> dict:
+TIE_SEED = 7_919_001  # offset of the tie-breaking generator's seed from the run seed (its own stream)
+
+
+def rank_desc(fitness: torch.Tensor, tie_gen: torch.Generator | None = None) -> torch.Tensor:
+    """Indices by fitness, best first. Exact ties are broken by a random permutation drawn from ``tie_gen``, a stream of
+    its own, so a generation without ties ranks exactly as before. Without a generator ties keep index order: the old
+    rule, under which parents (listed first) always beat equal children and neutral drift stops on exact plateaus
+    (RESULTS.md 2026-10-09: four v1 populations froze for 244-364 generations at the lone-cell value)."""
+    if tie_gen is None:
+        return fitness.argsort(descending=True, stable=True)
+    perm = torch.randperm(fitness.shape[0], generator=tie_gen)
+    return perm[fitness[perm].argsort(descending=True, stable=True)]
+
+
+def recheck(ev, everyone: torch.Tensor, res: Eval, g: int, mu: int, k: int, lives: int, key: str,
+            tie_gen: torch.Generator | None = None) -> dict:
     """Two-stage selection of generation ``g``. ``res`` holds every genome on the generation's lives; the top ``k`` by
-    that mean (the shortlist, ties by index) live ``lives`` more lives (``recheck_draw``), and the ``mu`` parents are
-    the top of the shortlist by ``key`` (``all``: the mean over all its lives; ``recheck``: the recheck lives only;
-    ties keep shortlist order). Returns the parents' indices ``order``, their evaluation on all their lives ``chosen``
-    (rank order), the ``shortlist``, the recheck ``draw`` and its evaluation ``res`` (shortlist order), ``pick`` (the
-    parents' places in the shortlist), ``changed`` (parents the generation's lives alone would not have chosen) and
-    the kernel time ``t``."""
-    ranked = res.fitness.argsort(descending=True, stable=True)
+    that mean (the shortlist) live ``lives`` more lives (``recheck_draw``), and the ``mu`` parents are the top of the
+    shortlist by ``key`` (``all``: the mean over all its lives; ``recheck``: the recheck lives only). Exact ties are
+    broken by ``tie_gen`` (``rank_desc``), or by index without it. Returns the parents' indices ``order``, their
+    evaluation on all their lives ``chosen`` (rank order), the ``shortlist``, the recheck ``draw`` and its evaluation
+    ``res`` (shortlist order), ``pick`` (the parents' places in the shortlist), ``changed`` (parents the generation's
+    lives alone would not have chosen) and the kernel time ``t``."""
+    ranked = rank_desc(res.fitness, tie_gen)
     short = ranked[:k]
     draw = recheck_draw(ev, g, res.trial_scores.shape[1], lives)
     t0 = time.perf_counter()
     rres = ev(everyone[short], draw)
     t = time.perf_counter() - t0
     both = pooled(rows(res, short), rres)
-    pick = (both.fitness if key == "all" else rres.fitness).argsort(descending=True, stable=True)[:mu]
+    pick = rank_desc(both.fitness if key == "all" else rres.fitness, tie_gen)[:mu]
     order = short[pick]
     changed = mu - len(set(order.tolist()) & set(ranked[:mu].tolist()))
     return dict(order=order, chosen=rows(both, pick), shortlist=short, draw=draw, res=rres, pick=pick, changed=changed,
@@ -451,6 +466,8 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     gen = torch.Generator().manual_seed(int(cfg.seed))
     _, layout, _, ev = setup(cfg)
     e, lc, cc = cfg.evolve, cfg.life, cfg.get("clones") or {}
+    # exact ties broken at random (evolve.random_ties, default on); false restores index order (parents win)
+    tie_gen = torch.Generator().manual_seed(int(cfg.seed) + TIE_SEED) if e.get("random_ties", True) else None
     if getattr(ev, "T_choices", ()) and ev.T not in ev.T_choices:
         raise ValueError(f"life.T = {ev.T:g} is not one of life.T_choices {list(ev.T_choices)}: the nominal length "
                          "of the judged lives must be one of the selection lengths (override both, or T_choices=null)")
@@ -520,10 +537,10 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
         res = ev(everyone, draw)
         t_ev = time.perf_counter() - t_ev
         evals += everyone.shape[0]
-        order = res.fitness.argsort(descending=True, stable=True)[:mu]
+        order = rank_desc(res.fitness, tie_gen)[:mu]
         chosen, rc, onestage = rows(res, order), None, order  # the parents' evaluation, in rank order
         if k_re:
-            rc = recheck(ev, everyone, res, g, mu, k_re, l_re, key_re)
+            rc = recheck(ev, everyone, res, g, mu, k_re, l_re, key_re, tie_gen)
             order, chosen = rc["order"], rc["chosen"]
             rc_lives += len(rc["shortlist"]) * l_re
         pa_ids, pb_ids = ids[ia], (None if ib is None else ids[ib])

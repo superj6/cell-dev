@@ -36,7 +36,9 @@ fields (docs/ONE_LIFE_DESIGN.md, EVALUATION PROTOCOL; Code plan, src/evolve.py).
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, replace
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -121,6 +123,7 @@ class LifeEvaluator:
         self.T = float(lc.T)
         self.lives = int(lc.lives)
         self.threads = int(cfg.threads)
+        self.fast = bool(lc.get("fast_kernel", False))  # LIFE_FAST build: same ledger, no hashes (build.run)
         self.batch = int(cfg.evolve.get("batch", 256))
         self.envelope = _plain(cfg.get("envelope"))
         bad = [k for k in self.envelope if k not in ("enabled",) + ENVELOPE_KEYS]
@@ -213,7 +216,18 @@ class LifeEvaluator:
         worlds = [draw.worlds[life] for _ in range(B) for life in range(L)]
         seeds = [draw.seeds[life] for _ in range(B) for life in range(L)]
         return build.run(worlds, seeds, genomes=gt, genome_of=np.repeat(np.arange(B), L), kind=self.kind,
-                         threads=self.threads, abi=self.abi, **logs)
+                         threads=self.kernel_threads(), abi=self.abi, fast=self.fast, **logs)
+
+    def kernel_threads(self) -> int:
+        """``threads``, or more when a sweep publishes a larger share (``scripts/sweep.py`` elastic threads: the file
+        named by CELLDEV_THREADS_FILE). Lives do not depend on the thread count, so this never changes results."""
+        path = os.environ.get("CELLDEV_THREADS_FILE")
+        if path:
+            try:
+                return max(self.threads, int(Path(path).read_text().strip()))
+            except (OSError, ValueError):
+                pass
+        return self.threads
 
     @torch.inference_mode()
     def __call__(self, params, draw: LifeDraw) -> LifeEval:

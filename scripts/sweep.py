@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
+import os
 import subprocess
 import sys
 import time
@@ -122,6 +123,10 @@ if __name__ == "__main__":
     p.add_argument("--out", default="outputs", help="root of the run directories (relative to the repo or absolute)")
     p.add_argument("--logs", default="logs", help="root of the run logs (relative to the repo or absolute)")
     p.add_argument("--plan", action="store_true", help="print the runs in start order and exit")
+    p.add_argument("--max-threads", type=int, default=32,
+                   help="elastic threads: when fewer than --jobs runs are left, each life run's kernel calls use up to "
+                        "jobs x threads / running threads, capped here (results do not depend on the thread count); "
+                        "0 keeps --threads fixed")
     p.add_argument("overrides", nargs="*")
     args = p.parse_args()
     specs = [arm_spec(c) for c in args.config.split(",")]
@@ -140,13 +145,26 @@ if __name__ == "__main__":
     git = git_state()
     print(f"git {git['git_rev']} {'DIRTY' if git['git_dirty'] else 'clean'}; {len(runs)} runs", flush=True)
     pending, running, failed = list(runs), [], []
+    threads_file = logs / "threads_now"  # elastic threads: life runs read it at every kernel call
+    env = dict(os.environ, OMP_WAIT_POLICY=os.environ.get("OMP_WAIT_POLICY", "PASSIVE"))
+    if args.max_threads > 0:
+        env["CELLDEV_THREADS_FILE"] = str(threads_file)
+
+    def share() -> None:
+        n = max(1, len(running))
+        k = max(args.threads, min(args.max_threads, args.jobs * args.threads // n))
+        tmp = threads_file.with_suffix(".tmp")
+        tmp.write_text(str(k))
+        tmp.replace(threads_file)
+
     while pending or running:
         while pending and len(running) < args.jobs:
             r = pending.pop(0)
             cmd = command(r, args.threads, f"{args.out}/{args.name}/{r['run']}", args.overrides)
             fh = open(logs / f"{r['run']}.log", "w")
-            running.append((r, subprocess.Popen(cmd, cwd=repo_root, stdout=fh, stderr=subprocess.STDOUT), fh))
+            running.append((r, subprocess.Popen(cmd, cwd=repo_root, stdout=fh, stderr=subprocess.STDOUT, env=env), fh))
             print(f"started {r['run']}", flush=True)
+            share()
         for item in list(running):
             r, proc, fh = item
             if proc.poll() is not None:
@@ -157,5 +175,6 @@ if __name__ == "__main__":
                     failed.append(r["run"])
                 summary = headline(repo_root / args.out / args.name / r["run"] / "results.jsonl", r["mode"])
                 print(f"{status} {r['run']} {summary}".rstrip(), flush=True)
+                share()
         time.sleep(2)
     print(f"finished {len(runs)} runs, {len(failed)} failed: {failed}")
