@@ -1,0 +1,116 @@
+--- 
++++ 
+@@ -26 +26 @@
+-#define WORLD_SIZE 66
++#define WORLD_SIZE 78
+@@ -62 +62,2 @@
+-       W_B2MODE };
++       W_B2MODE, W_EPTA, W_EPTB, W_EPMOTOR, W_EPAMP0, W_EPAMP1, W_EPSWAP, W_EPVT, W_EPBG, W_FLHALF0,
++       W_FLLOW0, W_FLHALF1, W_FLLOW1 };
+@@ -83 +84 @@
+-       S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES };
++       S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES, S_EPOCH };
+@@ -252,0 +254,4 @@
++  // prototype: epochs (two-state telegraph) and flicker
++  double ep_ta, ep_tb, ep_motor, ep_amp0, ep_amp1, ep_vt, ep_bg, fl_half[2], fl_low[2];
++  int ep_on, ep_swap, ep_s; uint64_t ep_k; double ep_next;
++  double g_eff, amp_eff[2], vt_eff, bg_eff; int swap_eff;
+@@ -1274 +1279 @@
+-  blob_heading(c->seed, (uint64_t)b, B->h, c->v_t, &B->vx, &B->vy);
++  blob_heading(c->seed, (uint64_t)b, B->h, c->vt_eff, &B->vx, &B->vy);
+@@ -1279,0 +1285,35 @@
++}
++static inline double flick(const Ctx *c, int b, double t) {  // prototype: square-wave luminance factor
++  const double h = c->fl_half[b];
++  if (h == 0.0) return 1.0;
++  return fmod(floor((t - c->t0) / h), 2.0) == 1.0 ? c->fl_low[b] : 1.0;
++}
++static void ep_apply(Ctx *c, double t, int reanchor) {  // prototype: the effective world of state ep_s
++  const int B = c->ep_s;
++  c->g_eff = B ? c->g_n * c->ep_motor : c->g_n;
++  c->amp_eff[0] = B ? c->ep_amp0 : 1.0;
++  c->amp_eff[1] = B ? c->b2_amp * c->ep_amp1 : c->b2_amp;
++  c->bg_eff = B ? c->lam_bg * c->ep_bg : c->lam_bg;
++  c->swap_eff = B ? c->ep_swap : 0;
++  const double vt = B ? c->v_t * c->ep_vt : c->v_t;
++  if (vt != c->vt_eff) {
++    c->vt_eff = vt;
++    if (reanchor)
++      for (int b = 0; b < 2; b++) {
++        Blob *Bl = &c->blob[b];
++        if (!Bl->exists) continue;
++        double x, y;
++        blob_at(Bl, t, &x, &y);
++        Bl->x = x; Bl->y = y; Bl->t = t;
++        blob_heading(c->seed, (uint64_t)b, Bl->h - 1, vt, &Bl->vx, &Bl->vy);
++      }
++  }
++}
++static void ep_switch(Ctx *c) {  // prototype: a world event at ep_next
++  const double t = c->ep_next;
++  c->ep_s ^= 1;
++  ep_apply(c, t, 1);
++  const uint64_t w[3] = {14, dbits(t), (uint64_t)c->ep_s};
++  fold(c, H_WORLD, w, 3); fold(c, H_ALL, w, 3);
++  c->ep_next = poisson_next(c->seed, S_EPOCH, 1, c->ep_k, t, c->ep_s ? c->ep_tb : c->ep_ta);
++  c->ep_k += 1;
+@@ -1290,0 +1331 @@
++    if (c->ep_on && c->ep_next < best) { best = c->ep_next; kind = 2; bb = 0; }
+@@ -1293 +1334,2 @@
+-    else world_turn(c, bb);
++    else if (kind == 1) world_turn(c, bb);
++    else ep_switch(c);
+@@ -1312,0 +1355,6 @@
++  if (c->ep_on) {
++    c->ep_s = draw2(c->seed, S_EPOCH, 0, 0) * (c->ep_ta + c->ep_tb) < c->ep_tb;
++    ep_apply(c, c->t0, 0);
++    c->ep_next = poisson_next(c->seed, S_EPOCH, 1, 0, c->t0, c->ep_s ? c->ep_tb : c->ep_ta);
++    c->ep_k = 1;
++  }
+@@ -1316 +1364 @@
+-    blob_heading(c->seed, (uint64_t)b, 0, c->v_t, &B->vx, &B->vy);
++    blob_heading(c->seed, (uint64_t)b, 0, c->vt_eff, &B->vx, &B->vy);
+@@ -1347 +1395,6 @@
+-    if (cnt) { c->captures++; c->income = c->income + c->R_cap; }
++    if (cnt && !c->swap_eff) { c->captures++; c->income = c->income + c->R_cap; }
++    else if (cnt) {
++      c->b2_clicks++;
++      if (c->b2_value > 0.0) c->income = c->income + c->b2_value;
++      else if (c->b2_value < 0.0) c->cost = c->cost + (-c->b2_value);
++    }
+@@ -1360 +1413,2 @@
+-      if (cnt) {
++      if (cnt && c->swap_eff) { c->captures++; c->income = c->income + c->R_cap; }
++      else if (cnt) {
+@@ -1388 +1442 @@
+-    const double gdz = c->g_n * dz, ei = exp(-(t - s->tf) / c->tau_z);
++    const double gdz = c->g_eff * dz, ei = exp(-(t - s->tf) / c->tau_z);
+@@ -1529 +1583 @@
+-  double rate = c->lam_bg + c->lam_s * halo(px - x0, py - y0, c->sigma);
++  double rate = c->bg_eff + c->lam_s * ((c->amp_eff[0] * flick(c, 0, t)) * halo(px - x0, py - y0, c->sigma));
+@@ -1533 +1587 @@
+-    rate = rate + c->lam_s * (c->b2_amp * halo(px - x1, py - y1, c->b2_sigma));
++    rate = rate + c->lam_s * ((c->amp_eff[1] * flick(c, 1, t)) * halo(px - x1, py - y1, c->b2_sigma));
+@@ -1995,0 +2050,11 @@
++  if (!(w[W_EPTA] >= 0.0 && w[W_EPTA] <= TIME_MAX && w[W_EPTB] >= 0.0 && w[W_EPTB] <= TIME_MAX)) return 0;
++  if ((w[W_EPTA] > 0.0) != (w[W_EPTB] > 0.0)) return 0;
++  if ((w[W_EPTA] > 0.0 && w[W_EPTA] < STEP_MIN) || (w[W_EPTB] > 0.0 && w[W_EPTB] < STEP_MIN)) return 0;
++  if (!(w[W_EPMOTOR] >= -4.0 && w[W_EPMOTOR] <= 4.0 && w[W_EPAMP0] >= 0.0 && w[W_EPAMP0] <= 4.0 &&
++        w[W_EPAMP1] >= 0.0 && w[W_EPAMP1] <= 4.0 && (w[W_EPSWAP] == 0.0 || w[W_EPSWAP] == 1.0))) return 0;
++  if (!(w[W_EPVT] >= 0.0 && w[W_VT] * w[W_EPVT] <= SPEED_MAX && w[W_EPBG] >= 0.0)) return 0;
++  if (!(w[W_LAMBG] * w[W_EPBG] + w[W_LAMS] * (w[W_EPAMP0] + w[W_B2AMP] * w[W_EPAMP1]) <= RATE_MAX)) return 0;
++  for (int b = 0; b < 2; b++) {
++    const double h = w[W_FLHALF0 + 2 * b], lo = w[W_FLLOW0 + 2 * b];
++    if (!(h >= 0.0 && h <= TIME_MAX && (h == 0.0 || h >= STEP_MIN) && lo >= 0.0 && lo <= 1.0)) return 0;
++  }
+@@ -2053,0 +2119,10 @@
++  c->ep_ta = w[W_EPTA]; c->ep_tb = w[W_EPTB]; c->ep_motor = w[W_EPMOTOR]; c->ep_amp0 = w[W_EPAMP0];
++  c->ep_amp1 = w[W_EPAMP1]; c->ep_swap = (int)w[W_EPSWAP]; c->ep_vt = w[W_EPVT]; c->ep_bg = w[W_EPBG];
++  c->fl_half[0] = w[W_FLHALF0]; c->fl_low[0] = w[W_FLLOW0]; c->fl_half[1] = w[W_FLHALF1]; c->fl_low[1] = w[W_FLLOW1];
++  c->ep_on = c->ep_ta > 0.0;
++  if (c->ep_on) {
++    const double lb = c->lam_bg * c->ep_bg + c->lam_s * (c->ep_amp0 + c->b2_amp * c->ep_amp1);
++    if (lb > c->lam_max) c->lam_max = lb;
++  }
++  c->g_eff = c->g_n; c->amp_eff[0] = 1.0; c->amp_eff[1] = c->b2_amp; c->vt_eff = c->v_t; c->bg_eff = c->lam_bg;
++  c->swap_eff = 0;

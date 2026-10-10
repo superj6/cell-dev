@@ -1392,3 +1392,23 @@ visible result, the suggested order and the decisions needed; the atlas has a "W
   running, capped, and every life run's kernel calls read it, so a run left alone at the end takes over the freed cores
   (the pilot's last 2.5+ h ran one 3-thread job). Lives do not depend on the thread count. Child jobs also get
   `OMP_WAIT_POLICY=PASSIVE`.
+
+## 2026-10-10 — Task-variation design: which advanced circuits have headroom
+`docs/TASK_VARIATION_PLAN.md` (workflow `task-variation-design`; record and key scripts in `results/taskvar_study/`;
+seeds 40.1M-40.8M). Hand-built positive controls were tested against the reflex re-tuned in each world, on fresh paired
+lives:
+- **Routing has headroom, but only in the right world.** A GRN-grown router beats the best reflex by +0.06 F in today's
+  base SPECK, +0.55-0.60 with fast conduction (d0 0.5), and **+3.83 ± 0.14 in "POOL"** (sigma 0.4, lam_s 4, d0 0.5),
+  where it also beats s5 by +2.85. POOL is the only world where evolved bodies already beat the reflex (s5 +1.16). A
+  48-world niche map ranks POOL first in selection information per CPU-second.
+- **Regeneration has headroom:** a hand-built regenerating GRN router (`capabilities/regen7.py`) beats its
+  non-regenerating twin by +1.79 in wounded lives (existing `kill_t`/`kill_frac` keys) and costs nothing unwounded;
+  evolved bodies do not regrow the hotspot or centre.
+- **Memory, prediction, context switching and discrimination have no passing control yet** (blinking target, fast
+  straight targets, motor flip, b2 decoys): every hand-built body lost to the re-tuned reflex or latched on false
+  triggers.
+- **Literature:** goals that alternate over generations and share subproblems built modular circuits (Kashtan & Alon
+  2005, 2007); scoring a mixture of worlds at once gave little speedup.
+Plan: five arms on today's organism (base, POOL, a family per life, Kashtan-style switching every E generations,
+family plus wounds), 12 seeds x 500 generations, about $15-35 on one rented box, after about two weeks of engineering
+(resume, the family harness, gates).

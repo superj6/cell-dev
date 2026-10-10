@@ -1,0 +1,1024 @@
+{
+ "V1_ROUTE_family": {
+  "verdict": "PASS",
+  "lives": 1024,
+  "block": 12,
+  "best_reflex": "reflex@hollow3",
+  "F": {
+   "reflex@hollow3 rt": 7.83,
+   "reflex@ring3 rt": 7.48,
+   "router@ring4 rt": 11.23,
+   "reflex@hollow3": 7.98,
+   "reflex@ring3": 7.57,
+   "router@ring4": 10.96,
+   "reflex@hollow2": 5.64,
+   "s5": 6.6,
+   "s7": 5.85,
+   "router@ring4 rt lateral_off": 0.38
+  },
+  "router_lead": {
+   "mean": 3.25,
+   "se": 0.122,
+   "z": 26.6,
+   "n": 1024
+  },
+  "lateral_off_dF": {
+   "mean": -10.846,
+   "se": 0.157,
+   "z": -69.2,
+   "n": 1024
+  },
+  "lateral_off_share_of_lead": 3.34,
+  "per_member": {
+   "family": {
+    "lead": {
+     "mean": 3.25,
+     "se": 0.122,
+     "z": 26.6,
+     "n": 1024
+    },
+    "lateral_off_dF": {
+     "mean": -10.846,
+     "se": 0.157,
+     "z": -69.2,
+     "n": 1024
+    }
+   },
+   "base": {
+    "lead": {
+     "mean": 2.027,
+     "se": 0.196,
+     "z": 10.3,
+     "n": 256
+    },
+    "lateral_off_dF": {
+     "mean": -9.808,
+     "se": 0.198,
+     "z": -49.5,
+     "n": 256
+    }
+   },
+   "fast": {
+    "lead": {
+     "mean": 4.303,
+     "se": 0.311,
+     "z": 13.8,
+     "n": 128
+    },
+    "lateral_off_dF": {
+     "mean": -13.003,
+     "se": 0.314,
+     "z": -41.4,
+     "n": 128
+    }
+   },
+   "fast+bright": {
+    "lead": {
+     "mean": 6.261,
+     "se": 0.429,
+     "z": 14.6,
+     "n": 128
+    },
+    "lateral_off_dF": {
+     "mean": -17.605,
+     "se": 0.438,
+     "z": -40.2,
+     "n": 128
+    }
+   },
+   "fast+speck04": {
+    "lead": {
+     "mean": 3.83,
+     "se": 0.301,
+     "z": 12.7,
+     "n": 128
+    },
+    "lateral_off_dF": {
+     "mean": -9.001,
+     "se": 0.29,
+     "z": -31.0,
+     "n": 128
+    }
+   },
+   "fast+slow": {
+    "lead": {
+     "mean": 4.932,
+     "se": 0.348,
+     "z": 14.2,
+     "n": 128
+    },
+    "lateral_off_dF": {
+     "mean": -14.339,
+     "se": 0.325,
+     "z": -44.2,
+     "n": 128
+    }
+   },
+   "fast+noisy": {
+    "lead": {
+     "mean": 2.461,
+     "se": 0.252,
+     "z": 9.8,
+     "n": 128
+    },
+    "lateral_off_dF": {
+     "mean": -7.922,
+     "se": 0.248,
+     "z": -31.9,
+     "n": 128
+    }
+   },
+   "fast+quick": {
+    "lead": {
+     "mean": 0.163,
+     "se": 0.208,
+     "z": 0.8,
+     "n": 128
+    },
+    "lateral_off_dF": {
+     "mean": -5.283,
+     "se": 0.189,
+     "z": -27.9,
+     "n": 128
+    }
+   }
+  },
+  "s5": {
+   "lead_post256": {
+    "mean": -0.887,
+    "se": 0.124,
+    "z": -7.1,
+    "n": 1024
+   },
+   "lateral_share": 0.62
+  },
+  "s7": {
+   "lead_post256": {
+    "mean": -1.771,
+    "se": 0.117,
+    "z": -15.2,
+    "n": 1024
+   },
+   "lateral_share": 0.74
+  },
+  "smaller_reflex_hollow2_vs_best": {
+   "mean": -2.339,
+   "se": 0.103,
+   "z": -22.7,
+   "n": 1024
+  },
+  "chains": {
+   "router rt|base": {
+    "n_rec": 3375,
+    "rec_other_col": 0.49037037037037035,
+    "relayed": 0.49037037037037035,
+    "latency_by_hops": {
+     "1": 0.9993612162624004,
+     "2": 2.0248480761530345,
+     "3": 3.079838799495235,
+     "4": 4.187909387210315
+    },
+    "F": [
+     11.315809936523454,
+     11.75589257812498,
+     7.278578491210926
+    ]
+   },
+   "router rt|fast+bright": {
+    "n_rec": 4536,
+    "rec_other_col": 0.5650352733686067,
+    "relayed": 0.5650352733686067,
+    "latency_by_hops": {
+     "1": 0.49584840950677744,
+     "2": 1.011787677869279,
+     "3": 1.530078808032897,
+     "4": 1.9944467052960135
+    },
+    "F": [
+     18.052169433593765,
+     21.538338256835917,
+     17.49635571289061
+    ]
+   },
+   "reflex|base": {
+    "n_rec": 3656,
+    "rec_other_col": 0.0,
+    "relayed": 0.0,
+    "latency_by_hops": {
+     "1": 1.0050698746468143
+    },
+    "F": [
+     7.7383671875000175,
+     10.167299804687497,
+     10.538576171875004
+    ]
+   },
+   "reflex|fast+bright": {
+    "n_rec": 4096,
+    "rec_other_col": 0.0,
+    "relayed": 0.0,
+    "latency_by_hops": {
+     "1": 0.5048727943195672
+    },
+    "F": [
+     14.482385742187518,
+     17.447936523437498,
+     12.511386718750003
+    ]
+   }
+  }
+ },
+ "V2_WOUND_family": {
+  "verdict": "PASS",
+  "lives": 1024,
+  "block": 13,
+  "best_reflex": "reflex@hollow3 rt",
+  "F": {
+   "reflex@hollow3 rt": {
+    "family": 6.65,
+    "none": 8.68,
+    "wounded": 4.63
+   },
+   "reflex@ring3 rt": {
+    "family": 6.25,
+    "none": 8.26,
+    "wounded": 4.24
+   },
+   "reflex@hollow3": {
+    "family": 6.63,
+    "none": 8.65,
+    "wounded": 4.62
+   },
+   "reflex@hollow2": {
+    "family": 4.35,
+    "none": 5.51,
+    "wounded": 3.19
+   },
+   "router@ring4": {
+    "family": 8.11,
+    "none": 10.9,
+    "wounded": 5.32
+   },
+   "regen7": {
+    "family": 7.17,
+    "none": 8.62,
+    "wounded": 5.72
+   },
+   "regen7 twin": {
+    "family": 6.25,
+    "none": 8.56,
+    "wounded": 3.93
+   },
+   "s5": {
+    "family": 5.22,
+    "none": 6.92,
+    "wounded": 3.52
+   },
+   "s7": {
+    "family": 5.23,
+    "none": 6.8,
+    "wounded": 3.65
+   },
+   "regen7 (fork twin)": {
+    "family": 7.17,
+    "none": 8.62,
+    "wounded": 5.72
+   },
+   "regen7 division_off@wound": {
+    "family": 6.11,
+    "none": 8.62,
+    "wounded": 3.61
+   }
+  },
+  "regen_vs_best_reflex": {
+   "family": {
+    "mean": 0.512,
+    "se": 0.097,
+    "z": 5.3,
+    "n": 1024
+   },
+   "none": {
+    "mean": -0.064,
+    "se": 0.137,
+    "z": -0.5,
+    "n": 512
+   },
+   "k25": {
+    "mean": 1.395,
+    "se": 0.19,
+    "z": 7.3,
+    "n": 256
+   },
+   "k50": {
+    "mean": 0.782,
+    "se": 0.18,
+    "z": 4.3,
+    "n": 256
+   },
+   "wounded": {
+    "mean": 1.089,
+    "se": 0.132,
+    "z": 8.3,
+    "n": 512
+   }
+  },
+  "regen_minus_twin": {
+   "family": {
+    "mean": 0.918,
+    "se": 0.084,
+    "z": 10.9,
+    "n": 1024
+   },
+   "none": {
+    "mean": 0.051,
+    "se": 0.114,
+    "z": 0.4,
+    "n": 512
+   },
+   "k25": {
+    "mean": 2.255,
+    "se": 0.162,
+    "z": 13.9,
+    "n": 256
+   },
+   "k50": {
+    "mean": 1.317,
+    "se": 0.15,
+    "z": 8.8,
+    "n": 256
+   },
+   "wounded": {
+    "mean": 1.786,
+    "se": 0.112,
+    "z": 15.9,
+    "n": 512
+   }
+  },
+  "division_off_at_wound_dF": {
+   "family": {
+    "mean": -1.052,
+    "se": 0.057,
+    "z": -18.6,
+    "n": 1024
+   },
+   "none": {
+    "mean": 0.0,
+    "se": 0.0,
+    "z": 0.0,
+    "n": 512
+   },
+   "k25": {
+    "mean": -2.713,
+    "se": 0.133,
+    "z": -20.4,
+    "n": 256
+   },
+   "k50": {
+    "mean": -1.496,
+    "se": 0.116,
+    "z": -12.9,
+    "n": 256
+   },
+   "wounded": {
+    "mean": -2.105,
+    "se": 0.092,
+    "z": -22.8,
+    "n": 512
+   }
+  },
+  "n_end": {
+   "regen7": {
+    "none": 124.0,
+    "wounded": 125.0
+   },
+   "regen7 twin": {
+    "none": 124.0,
+    "wounded": 80.0
+   },
+   "reflex@hollow3 rt": {
+    "none": 56.0,
+    "wounded": 35.0
+   }
+  },
+  "router_ring4_vs_best": {
+   "family": {
+    "mean": 1.458,
+    "se": 0.096,
+    "z": 15.2,
+    "n": 1024
+   },
+   "wounded": {
+    "mean": 0.692,
+    "se": 0.116,
+    "z": 6.0,
+    "n": 512
+   }
+  },
+  "s5_vs_best": {
+   "none": {
+    "mean": -1.761,
+    "se": 0.136,
+    "z": -13.0,
+    "n": 512
+   },
+   "wounded": {
+    "mean": -1.11,
+    "se": 0.126,
+    "z": -8.8,
+    "n": 512
+   }
+  },
+  "s7_vs_best": {
+   "none": {
+    "mean": -1.877,
+    "se": 0.123,
+    "z": -15.3,
+    "n": 512
+   },
+   "wounded": {
+    "mean": -0.973,
+    "se": 0.119,
+    "z": -8.2,
+    "n": 512
+   }
+  },
+  "smaller_reflex_vs_best": {
+   "none": {
+    "mean": -3.169,
+    "se": 0.125,
+    "z": -25.4,
+    "n": 512
+   },
+   "wounded": {
+    "mean": -1.441,
+    "se": 0.104,
+    "z": -13.9,
+    "n": 512
+   }
+  }
+ },
+ "V5_POOL_SPECK": {
+  "verdict": "PASS",
+  "lives": 1024,
+  "block": 17,
+  "best_reflex": "reflex@hollow3 rt",
+  "F": {
+   "reflex@hollow3 rt": 4.92,
+   "reflex@ring3 rt": 4.52,
+   "router@ring4 rt": 10.75,
+   "reflex@hollow3": 4.69,
+   "reflex@ring3": 4.28,
+   "router@ring4": 7.65,
+   "reflex@hollow2": 4.5,
+   "s5": 6.08,
+   "s7": 5.24,
+   "router@ring4 rt lateral_off": -0.68
+  },
+  "router_lead": {
+   "mean": 5.831,
+   "se": 0.101,
+   "z": 57.8,
+   "n": 1024
+  },
+  "lateral_off_dF": {
+   "mean": -11.432,
+   "se": 0.101,
+   "z": -113.0,
+   "n": 1024
+  },
+  "lateral_off_share_of_lead": 1.96,
+  "s5": {
+   "lead_whole": {
+    "mean": 1.158,
+    "se": 0.083,
+    "z": 14.0,
+    "n": 1024
+   },
+   "lead_post256": {
+    "mean": 1.549,
+    "se": 0.099,
+    "z": 15.7,
+    "n": 1024
+   },
+   "lateral_share": 0.86
+  },
+  "s7": {
+   "lead_whole": {
+    "mean": 0.318,
+    "se": 0.073,
+    "z": 4.3,
+    "n": 1024
+   },
+   "lead_post256": {
+    "mean": 0.669,
+    "se": 0.087,
+    "z": 7.7,
+    "n": 1024
+   },
+   "lateral_share": 0.93
+  },
+  "smaller_reflex_hollow2_vs_best": {
+   "mean": -0.424,
+   "se": 0.073,
+   "z": -5.8,
+   "n": 1024
+  }
+ },
+ "V3_WIDTH_DECOY_family": {
+  "verdict": "FAIL (no circuit found)",
+  "lives": 512,
+  "block": 8,
+  "F": {
+   "reflex@hollow3 rt": {
+    "family": 5.72,
+    "base": 8.39,
+    "decoy": 3.05
+   },
+   "reflex@hollow3": {
+    "family": 5.73,
+    "base": 8.46,
+    "decoy": 3.01
+   },
+   "cs@hollow3 rt": {
+    "family": 5.68,
+    "base": 8.45,
+    "decoy": 2.9
+   },
+   "cs S.w1=0": {
+    "family": 5.68,
+    "base": 8.45,
+    "decoy": 2.9
+   },
+   "cs C.w1=0": {
+    "family": 5.78,
+    "base": 8.47,
+    "decoy": 3.09
+   },
+   "router@ring4": {
+    "family": 6.46,
+    "base": 10.82,
+    "decoy": 2.09
+   },
+   "s5": {
+    "family": 3.93,
+    "base": 6.98,
+    "decoy": 0.87
+   },
+   "s7": {
+    "family": 4.19,
+    "base": 6.73,
+    "decoy": 1.66
+   },
+   "reflex@hollow2": {
+    "family": 4.15,
+    "base": 5.63,
+    "decoy": 2.67
+   },
+   "cs@hollow3 rt lateral_off": {
+    "family": 5.78,
+    "base": 8.47,
+    "decoy": 3.09
+   }
+  },
+  "b2_clicks": {
+   "reflex@hollow3 rt": 42.1,
+   "reflex@hollow3": 48.2,
+   "cs@hollow3 rt": 48.1,
+   "cs S.w1=0": 48.1,
+   "cs C.w1=0": 50.0,
+   "router@ring4": 18.5,
+   "s5": 12.2,
+   "s7": 46.6,
+   "reflex@hollow2": 64.7,
+   "cs@hollow3 rt lateral_off": 50.0
+  },
+  "captures_decoy": {
+   "reflex@hollow3 rt": 10.7,
+   "reflex@hollow3": 11.0,
+   "cs@hollow3 rt": 11.0,
+   "cs S.w1=0": 11.0,
+   "cs C.w1=0": 11.5,
+   "router@ring4": 11.8,
+   "s5": 9.1,
+   "s7": 9.7,
+   "reflex@hollow2": 9.1,
+   "cs@hollow3 rt lateral_off": 11.5
+  },
+  "cs_lead": {
+   "mean": -0.048,
+   "se": 0.115,
+   "z": -0.4,
+   "n": 512
+  },
+  "cs_lateral_off_dF": {
+   "mean": 0.1,
+   "se": 0.082,
+   "z": 1.2,
+   "n": 512
+  },
+  "cs_tuned_knobs": {
+   "C.g_r": 1.0,
+   "C.tau_m": 1.0,
+   "C.b": 0.5,
+   "C.t_ref": 0.5,
+   "S.w1": -0.125,
+   "S.emit1": 0.0,
+   "J.g_r": 0.25,
+   "J.b": 0.625,
+   "J.tau_m": 2.0,
+   "J.t_ref": 1.0,
+   "J.w1": 0.0,
+   "C.w1": -0.5
+  },
+  "smaller_reflex_vs_reflex_rt": {
+   "base": {
+    "mean": -2.765,
+    "se": 0.168,
+    "z": -16.4,
+    "n": 256
+   },
+   "decoy": {
+    "mean": -0.385,
+    "se": 0.13,
+    "z": -3.0,
+    "n": 256
+   }
+  }
+ },
+ "V4_FLIP_family": {
+  "verdict": "FAIL (trigger); latch+broadcast hardware works when forced",
+  "lives": 512,
+  "block": 14,
+  "best_reflex": "reflex@hollow3 rt",
+  "F": {
+   "reflex@hollow3 rt": {
+    "family": 4.8,
+    "none": 8.59,
+    "from0": -1.54,
+    "mid": 3.57
+   },
+   "reflex@hollow3": {
+    "family": 4.77,
+    "none": 8.53,
+    "from0": -1.54,
+    "mid": 3.56
+   },
+   "annulus-norm": {
+    "family": 4.57,
+    "none": 8.25,
+    "from0": -1.67,
+    "mid": 3.46
+   },
+   "annulus-flip": {
+    "family": 0.43,
+    "none": -1.68,
+    "from0": 4.07,
+    "mid": 1.04
+   },
+   "annulus-both": {
+    "family": 0.22,
+    "none": 1.17,
+    "from0": -1.47,
+    "mid": -0.0
+   },
+   "annulus-norm coincC": {
+    "family": 4.31,
+    "none": 7.66,
+    "from0": -1.28,
+    "mid": 3.19
+   },
+   "annulus-flip coincC": {
+    "family": 0.73,
+    "none": -1.29,
+    "from0": 4.14,
+    "mid": 1.34
+   },
+   "switch forced": {
+    "family": -0.73,
+    "none": -2.3,
+    "from0": 1.71,
+    "mid": -0.05
+   },
+   "switch forced coincC": {
+    "family": -0.64,
+    "none": -2.21,
+    "from0": 1.89,
+    "mid": -0.04
+   },
+   "switch watchdog coincC": {
+    "family": -0.05,
+    "none": -1.3,
+    "from0": 1.74,
+    "mid": 0.67
+   },
+   "switch watchdog": {
+    "family": 1.78,
+    "none": 1.75,
+    "from0": 1.04,
+    "mid": 2.57
+   },
+   "switch no-trigger coincC": {
+    "family": 3.63,
+    "none": 6.98,
+    "from0": -1.96,
+    "mid": 2.51
+   },
+   "s5": {
+    "family": 3.21,
+    "none": 6.92,
+    "from0": -2.82,
+    "mid": 1.84
+   },
+   "s7": {
+    "family": 3.45,
+    "none": 7.01,
+    "from0": -2.15,
+    "mid": 1.94
+   },
+   "switch forced coincC hidden_off": {
+    "family": 3.63,
+    "none": 6.98,
+    "from0": -1.96,
+    "mid": 2.51
+   }
+  },
+  "vs_best": {
+   "annulus-flip": {
+    "family": {
+     "mean": -4.369,
+     "se": 0.313,
+     "z": -14.0,
+     "n": 512
+    },
+    "none": {
+     "mean": -10.275,
+     "se": 0.165,
+     "z": -62.2,
+     "n": 256
+    },
+    "from0": {
+     "mean": 5.61,
+     "se": 0.167,
+     "z": 33.6,
+     "n": 128
+    },
+    "mid": {
+     "mean": -2.538,
+     "se": 0.278,
+     "z": -9.1,
+     "n": 128
+    }
+   },
+   "switch forced": {
+    "family": {
+     "mean": -5.537,
+     "se": 0.283,
+     "z": -19.6,
+     "n": 512
+    },
+    "none": {
+     "mean": -10.89,
+     "se": 0.17,
+     "z": -64.1,
+     "n": 256
+    },
+    "from0": {
+     "mean": 3.253,
+     "se": 0.135,
+     "z": 24.2,
+     "n": 128
+    },
+    "mid": {
+     "mean": -3.62,
+     "se": 0.26,
+     "z": -13.9,
+     "n": 128
+    }
+   },
+   "switch forced coincC": {
+    "family": {
+     "mean": -5.445,
+     "se": 0.284,
+     "z": -19.2,
+     "n": 512
+    },
+    "none": {
+     "mean": -10.798,
+     "se": 0.166,
+     "z": -64.9,
+     "n": 256
+    },
+    "from0": {
+     "mean": 3.431,
+     "se": 0.127,
+     "z": 26.9,
+     "n": 128
+    },
+    "mid": {
+     "mean": -3.617,
+     "se": 0.267,
+     "z": -13.6,
+     "n": 128
+    }
+   },
+   "switch watchdog": {
+    "family": {
+     "mean": -3.022,
+     "se": 0.243,
+     "z": -12.4,
+     "n": 512
+    },
+    "none": {
+     "mean": -6.837,
+     "se": 0.287,
+     "z": -23.8,
+     "n": 256
+    },
+    "from0": {
+     "mean": 2.586,
+     "se": 0.159,
+     "z": 16.3,
+     "n": 128
+    },
+    "mid": {
+     "mean": -1.001,
+     "se": 0.295,
+     "z": -3.4,
+     "n": 128
+    }
+   },
+   "switch watchdog coincC": {
+    "family": {
+     "mean": -4.85,
+     "se": 0.27,
+     "z": -18.0,
+     "n": 512
+    },
+    "none": {
+     "mean": -9.89,
+     "se": 0.179,
+     "z": -55.3,
+     "n": 256
+    },
+    "from0": {
+     "mean": 3.283,
+     "se": 0.138,
+     "z": 23.8,
+     "n": 128
+    },
+    "mid": {
+     "mean": -2.901,
+     "se": 0.269,
+     "z": -10.8,
+     "n": 128
+    }
+   },
+   "switch forced coincC hidden_off": {
+    "family": {
+     "mean": -1.176,
+     "se": 0.1,
+     "z": -11.8,
+     "n": 512
+    },
+    "none": {
+     "mean": -1.61,
+     "se": 0.176,
+     "z": -9.1,
+     "n": 256
+    },
+    "from0": {
+     "mean": -0.417,
+     "se": 0.01,
+     "z": -43.8,
+     "n": 128
+    },
+    "mid": {
+     "mean": -1.066,
+     "se": 0.169,
+     "z": -6.3,
+     "n": 128
+    }
+   }
+  },
+  "oracle": {
+   "family": 2.09808349609375,
+   "none": 0.0,
+   "from0": 5.725860595703125,
+   "mid": 2.666473388671875
+  },
+  "latch": {
+   "switch watchdog coincC": {
+    "none": {
+     "median": 73.51344073736453,
+     "frac_latched": 1.0
+    },
+    "from0": {
+     "median": 36.16920661424133,
+     "frac_latched": 1.0
+    },
+    "mid": {
+     "median": 67.89315775804177,
+     "frac_latched": 1.0
+    },
+    "mid_delay_median": -493.8891714703087,
+    "mid_latched_before_flip": 1.0
+   },
+   "switch watchdog": {
+    "none": {
+     "median": 299.52871506724733,
+     "frac_latched": 0.8955223880597015
+    },
+    "from0": {
+     "median": 187.58638109798983,
+     "frac_latched": 0.9642857142857143
+    },
+    "mid": {
+     "median": 315.0468341446902,
+     "frac_latched": 0.9696969696969697
+    },
+    "mid_delay_median": -202.796441757455,
+    "mid_latched_before_flip": 0.6666666666666666
+   }
+  }
+ },
+ "V6_FLIP_CUE_family": {
+  "verdict": "FAIL (cue detector too weak, flip pathway weak under the cue)",
+  "lives": 512,
+  "best_reflex": "reflex@hollow3",
+  "W_w0_screened": 0.25,
+  "F": {
+   "reflex@hollow3 rt": {
+    "family": 3.37,
+    "none": 8.58,
+    "cue_flip": -1.85
+   },
+   "reflex@hollow3": {
+    "family": 3.42,
+    "none": 9.06,
+    "cue_flip": -2.23
+   },
+   "reflex@hollow2": {
+    "family": 1.93,
+    "none": 5.61,
+    "cue_flip": -1.75
+   },
+   "annulus-norm": {
+    "family": 3.15,
+    "none": 8.67,
+    "cue_flip": -2.37
+   },
+   "annulus-flip": {
+    "family": 0.32,
+    "none": -1.67,
+    "cue_flip": 2.3
+   },
+   "switch-cue": {
+    "family": 2.47,
+    "none": 7.99,
+    "cue_flip": -3.04
+   },
+   "switch-cue no-trigger": {
+    "family": 2.47,
+    "none": 7.99,
+    "cue_flip": -3.04
+   },
+   "s5": {
+    "family": 1.56,
+    "none": 6.96,
+    "cue_flip": -3.85
+   },
+   "s7": {
+    "family": 1.9,
+    "none": 6.94,
+    "cue_flip": -3.15
+   },
+   "switch-cue hidden_off": {
+    "family": 2.47,
+    "none": 7.99,
+    "cue_flip": -3.04
+   }
+  },
+  "oracle_vs_best": {
+   "mean": 2.069,
+   "se": 0.152,
+   "z": 13.6,
+   "n": 512
+  },
+  "latch": {
+   "none": {
+    "frac_latched": 0.0,
+    "median_t": 1024.0
+   },
+   "cue_flip": {
+    "frac_latched": 0.0,
+    "median_t": 1024.0
+   }
+  },
+  "cue_only_control": {
+   "switch-cue": 3.79,
+   "switch-cue no-trigger": 3.8,
+   "reflex@hollow3": 4.72
+  },
+  "diag_note": "f6_cue_diag.log: W.w0 0.25 b 0.25 latches in 31% of normal lives and 100% of cue lives (median t 160) but F in cue lives only -1.32; W.w0 0.375 latches in 88-100% of normal lives"
+ }
+}
