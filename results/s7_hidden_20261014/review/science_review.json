@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "reviewer": "review_structural",
+  "science_tests": 23,
+  "simulated_lives": 0,
+  "source_edits": false,
+  "lint": "passed",
+  "max_columns": 120,
+  "comparison_to_pinned_H_functions": {
+    "worlds": true,
+    "contrasts": true,
+    "validate_frozen": true
+  },
+  "files": {
+    "measure.py": "d8840c52a4c3c17318321b83ed8799b249a7de495ea0ec3d0b558e5f5fbc28eb",
+    "prepare.py": "d0c9aececd671cbb590412f4dd1de3bfa158be22a3b13da028e42608db84a6f2",
+    "test_measure.py": "c5431a6ee8f3a1596bb2c8ea37269c7a39b4f94b138477a3db75dba1e074f1b4",
+    "protocol.json": "9645eb61c343905bd870b5f7ef5329ef77c54fd2205fa739511e1798466b6545",
+    "PREREG.md": "f2b2019a0031ba11a9da4e63185c3e1b6747c5fb05cbaa433921b4ac0bcbac5b"
+  },
+  "checks": [
+    "Both fixed L generation16 rank0 checkpoints and all207 archived source artifacts are bound before measurement",
+    "Full recorded genetic replay and L confirmation hashes fix row29 and both descendants; no outcome-based reselection",
+    "Exact block103 namespace independently enumerated against all prior/prepared D-P schedules",
+    "T1536/fork768/open800 and four existing ABI flags match H/E; no new behavior or channels",
+    "Primary hidden interaction and secondary lateral/freeze contrasts subtract within seed and retain both signs",
+    "All3 frozen arms checked within genotype; guards retained in fitness and excluded only from constant-tissue validation",
+    "All12rows freeze before scoring; complete6144 count, partial-failure incomplete receipt, final release pins and exact parent checked",
+    "Startup numerical goldens occur only after released worker; tests mock every life call"
+  ],
+  "note": "First review run overlapped the announced prose-only PREREG refresh and correctly rejected stale pins. All23 cases passed after the final protocol was regenerated."
+}
