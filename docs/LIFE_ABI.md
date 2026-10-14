@@ -1,4 +1,98 @@
-# One-life kernel ABI and event semantics (ABI 3)
+# One-life kernel ABI and event semantics (ABI 4, with ABI 2/3 caller compatibility)
+
+## ABI 4 extension: target visibility (approved 2026-10-14)
+
+The current C kernel and Python reference implement ABI 4. `spec.V4` is the new explicit contract;
+`spec.CURRENT` remains `spec.V2`, and existing explicit `spec.V3` callers keep their previous outputs.
+The numbered sections below retain the ABI 3 contract. This extension changes only the following world
+fields, world events and ledger column; all genome, phenotype, cell-input, message and asynchronous cell
+rules remain as specified below. The approved scope is `docs/ABI4_VISIBILITY_PROPOSAL.md`.
+
+### Layout and validation
+
+Append four float64 world values after the existing 66:
+
+| Index | Field | Neutral value | Meaning |
+| --- | --- | ---: | --- |
+| 66 | `visibility_mode` | 0 | 0 steady, 1 flash after target placement, 2 renewal blink |
+| 67 | `visibility_on` | 0 | Flash bright duration or renewal mean bright duration |
+| 68 | `visibility_off` | 0 | Renewal mean low-light duration |
+| 69 | `visibility_low` | 1 | Multiplier for the target signal in the low-light phase |
+
+All four values must be finite. Mode must be an exact integer in {0,1,2}; the multiplier lies in [0,1].
+Mode 0 requires exactly `(0,0,0,1)`. Enabled modes require single-target CATCH (`world_kind=1`, `b2_amp=0`).
+Flash requires `visibility_on` in `[2^-10,2^30]` and `visibility_off=0`. Renewal requires both durations in
+`[2^-10,2^30]`. ABI 2/3 callers reject enabled visibility before calling the kernel. Invalid raw ABI 4 world
+vectors return -2. Neutral padding preserves previous valid-world behavior.
+
+Append `low_light_captures` at ledger index 57; the ledger has 58 columns. It counts successful target
+captures while visibility is low, at the click's pre-replacement state, inside the same accounting window
+as `captures`. It is zero in mode 0 and never exceeds `captures`. A low phase still counts as low when
+`visibility_low=1`; the column describes world phase, not the presence or absence of pings. Existing ledger
+columns, including `beats` and `P_int`, retain their original meanings. No new quantity enters fitness.
+
+Only `WORLD_SIZE` (70) and `LEDGER_SIZE` (58) differ from ABI 3's size vector. Genome/program/initial-body,
+lattice, raster and fate layouts, flags and the five hash families are unchanged.
+
+### Visibility dynamics and ordering
+
+Both enabled modes start bright at `t0`. Flash becomes low at placement time plus `visibility_on` after
+each initial, timer-driven or capture-driven target placement. A new placement restores brightness and
+replaces the pending deadline. Renewal alternates independent exponential bright and low intervals;
+the initial bright interval is exponential too. Its schedule continues across target placements.
+
+Append random stream `S_VISIBILITY=26`, with draws keyed by `(seed,26,0,k)` and the existing `poisson_next`
+arithmetic. `k=0` schedules the first renewal transition; every transition advances the counter once and
+uses the mean of the newly entered phase for the next interval. Flash and steady mode consume no draw
+from this stream. Existing streams, numbers and counters are unchanged.
+
+`world_to(t)` processes world events strictly before `t`, preserving the existing left-limit semantics.
+At equal world-event times, target respawn timers precede turns, which precede visibility. Thus a timer
+placement exactly at a flash deadline resets that deadline before it can expire. Clicks and receptor
+candidates at a transition time see the prior phase; deferred capture placements keep their existing
+order. A transition at the life end is not consumed. World deadlines are simulator bookkeeping, like
+target turns; no cell receives a shared tick, deadline, phase, position or clock input.
+
+A scheduled visibility transition folds `[14, dbits(t), 0, bright]` into both `world` and `all` hashes,
+where `bright` is the phase after the transition (0 or 1). Initial phase and flash resets need no extra
+record because the existing placement records determine them. Mode 0 emits no visibility records.
+
+The target's receptor-rate contribution becomes
+`lam_bg + factor * (lam_s * halo)`, where `factor` is 1 in the bright phase and `visibility_low` otherwise.
+Background pings continue in darkness. The original bright-state candidate-rate bound remains valid.
+The factor-1 path preserves the old floating-point arithmetic exactly. Target movement, placement,
+capture radius, rewards and costs follow the existing contract. A capture resets flash only through
+the target's ordinary replacement, with no dependence on population performance.
+
+### Presets, callers and compatibility
+
+`catch_speck_flash5_dim25_l4` sets `(1,5,0,0.25)`; `catch_speck_blink20_20_l4` sets `(2,20,20,0)`.
+Every other field comes from `catch_speck_l4`, including old conduction (`d0=1`, `d_min=0.5`).
+Use `build.run(..., abi=spec.V4)` or `reference.run(..., abi=spec.V4)` explicitly. Evolution configurations
+opt in with `life.abi: 4` and one of these `life.world` values; the existing ABI 3 genome layout is unchanged.
+Existing configurations retain their previous ABI. A requested ABI must match the configured genome layout.
+
+The kernel always allocates ABI 4 buffers. Its wrapper pads older worlds with the neutral tuple and returns
+the caller's shapes. In full mode, it reverses the extra close-ledger folds to recover ABI 3 and ABI 2 `all`
+hashes exactly; other hashes and logs already agree. Raw neutral ABI 4 `all` includes the extra zero-column
+fold and therefore differs from ABI 3 `all`. Fast mode is not replay evidence: raw ABI 3/4 hashes remain
+`HASH_INIT`; the ABI 2 wrapper deliberately preserves its old behavior of reversing 22 hypothetical ABI 3
+close folds, even in fast mode. Pre-port byte fixtures cover both conventions.
+
+Strict checkpoint source and numerical pins remain mandatory. The new implementation does not resume old
+checkpoints by weakening those checks. Historical scratch libraries must be loaded with their pinned ABI 3
+source environment and buffer layouts; importing the current `build.KERNEL` into an old unchecked raw-ctypes
+harness is unsafe. Pinned result bundles are unchanged.
+
+The maintained browser simulator accepts an explicit ABI 4 in automatic single-target mode. Default ABI 3
+keeps 57 columns and its original hashes. Enabled visibility rejects interactive user-target mode; ordinary
+mode-0 interaction is unchanged. Browser parity covers ledgers, all five hashes and spike logs; full fate-array
+parity is checked between C and Python because the browser exposes fate hashes, not that array API.
+
+These worlds are engineering capabilities. Their admission and scientific interpretation follow current
+`docs/TASK_VARIATION_PLAN.md` section 0. No hand-built organism's score gates a world.
+
+## Historical ABI 3 base contract (unchanged unless overridden above)
 
 This document is the contract between the C event kernel (`src/life/kernel.c`), the Python reference
 (`src/life/reference.py`) and the harness (`src/life/spec.py` and its callers). It fixes the array layouts, inputs,

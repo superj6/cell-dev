@@ -1,8 +1,9 @@
 """Smoke tests of the one-life C kernel (src/life/kernel.c through src/life/build.py): it builds, its test exports
 match spec.py bitwise, a lone cell pumps, and small bodies agree bitwise across schedulers (LIFE_ABI.md 11).
 
-The kernel implements ABI 3 (``build.KERNEL``); ``build.run`` speaks ``spec.CURRENT``'s ABI at its boundary. The raw
-``life_run`` calls below use ABI 3's arrays. The CATCH world (BODY-1 v1, LIFE_ABI.md 9.7) is tested at the end."""
+The kernel implements ABI 4 (``build.KERNEL``); ``build.run`` preserves the caller's ABI, defaulting to ABI 2.
+Raw ``life_run`` calls use the kernel ABI's buffers; explicit ABI 2/3 tests retain their legacy contracts.
+The CATCH world (BODY-1 v1, LIFE_ABI.md 9.7) is tested at the end."""
 import subprocess
 import sys
 from dataclasses import replace
@@ -61,7 +62,7 @@ def _conservation_error(res: build.Lives) -> np.ndarray:
 
 def test_kernel_builds_and_its_exports_match_spec_bitwise():
     lib = build.load()
-    assert lib.life_abi_version() == build.KERNEL.version == 3 and build.library_path().exists()
+    assert lib.life_abi_version() == build.KERNEL.version == 4 and build.library_path().exists()
     assert build.hash64(1, 2, 3, 4) == spec.hash64(1, 2, 3, 4) == 0x89F838C6080F2B76
     assert build.hash64(spec.MASK64, 7, -1) == 0x6BEEACB0A480F707
     assert build.normal(42, spec.S_CLK, spec.sitekey(0, 0), 0) == 0.25705196441331246
@@ -138,7 +139,7 @@ def test_forks_switch_off_spikes_and_packets_but_keep_the_charges():
 
 
 PM = spec.flags("program_mode")
-KV3 = build.KERNEL  # the kernel's own ABI (3): the layout of every raw life_run argument
+KABI = build.KERNEL  # the kernel ABI, independent of the explicit legacy V2/V3 caller contracts
 
 
 def _vector(world=(), flags: int = PM, abi=spec) -> np.ndarray:
@@ -152,26 +153,26 @@ def _vector(world=(), flags: int = PM, abi=spec) -> np.ndarray:
     return wv
 
 
-def _kernel_table(t, size3: int, pad):
-    """A table for the raw kernel: ABI-2 rows are padded neutrally to ABI 3 (LIFE_ABI.md 4.4, 4.5)."""
+def _kernel_table(t, kernel_size: int, pad):
+    """A table for the raw kernel: ABI-2 rows are padded neutrally to the kernel ABI (LIFE_ABI.md 4.4, 4.5)."""
     if t is None:
         return None
     t = np.atleast_2d(np.asarray(t, dtype=np.float64))
-    if t.shape[1] != size3:
+    if t.shape[1] != kernel_size:
         t = np.stack([pad(row) for row in t])
     return np.ascontiguousarray(t)
 
 
 def _call(world=(), *, lat=None, n_init=None, init=None, flags: int = PM, genomes=None, programs=_program(),
           genome_of: int = 0, kind: str = "hex") -> int:
-    """life_run on one life straight through ctypes with ABI-3 arrays (no build.run checks); returns its code."""
-    lat_k, unit = KV3.lattice_tables(kind)
+    """life_run directly through ctypes with kernel-sized arrays (no build.run checks); returns its code."""
+    lat_k, unit = KABI.lattice_tables(kind)
     lat = lat_k if lat is None else lat
-    gt = _kernel_table(genomes, KV3.GENOME_SIZE, lambda r: KV3.pad_genomes(r, spec.V2))
-    pg = _kernel_table(programs, KV3.PROGRAM_SIZE, lambda r: KV3.pad_program(r, spec.V2))
+    gt = _kernel_table(genomes, KABI.GENOME_SIZE, lambda r: KABI.pad_genomes(r, spec.V2))
+    pg = _kernel_table(programs, KABI.PROGRAM_SIZE, lambda r: KABI.pad_program(r, spec.V2))
     P = build._ptr
-    wv = _vector(world, flags, KV3)
-    led, hs = np.zeros((1, KV3.LEDGER_SIZE)), np.zeros((1, KV3.HASH_SIZE), dtype=np.uint64)
+    wv = _vector(world, flags, KABI)
+    led, hs = np.zeros((1, KABI.LEDGER_SIZE)), np.zeros((1, KABI.HASH_SIZE), dtype=np.uint64)
     seeds, go = np.zeros((1, 4), dtype=np.uint64), np.array([genome_of], dtype=np.int32)
     return build.load().life_run(
         1, 1, P(lat, build._i32), P(unit, build._f64), 0 if gt is None else len(gt), P(gt, build._f64),
@@ -193,9 +194,9 @@ def test_invalid_arguments_are_rejected_by_the_kernel():
     assert _call(flags=0, genomes=three, genome_of=2) == 0
     assert _call(genomes=three, genome_of=2) == -1  # a program life: its table has one row
     assert _call(genome_of=-1) == -1 and _call(genome_of=1) == -1
-    body = np.zeros((1, KV3.MAX_INIT, KV3.INIT_COLS), dtype=np.int32)
+    body = np.zeros((1, KABI.MAX_INIT, KABI.INIT_COLS), dtype=np.int32)
     assert _call(n_init=np.array([2], dtype=np.int32), init=body) == -4  # two cells on one site
-    bad = KV3.lattice_tables("hex")[0].copy()
+    bad = KABI.lattice_tables("hex")[0].copy()
     bad[1] = 5
     assert _call(lat=bad) == -4
     with pytest.raises(ValueError):
@@ -350,19 +351,20 @@ def test_the_kernel_fills_the_footprint_like_spec():  # LIFE_ABI.md 9.7.2, 15.61
             assert build.filled_footprint(cols, kind) == spec.filled_footprint(cols, kind), (kind, cols)
 
 
-def test_the_close_unfold_inverts_splitmix64():
+@pytest.mark.parametrize("source_abi,caller_abi", [(spec.V3, spec.V2), (spec.V4, spec.V2), (spec.V4, spec.V3)])
+def test_the_close_unfold_inverts_splitmix64(source_abi, caller_abi):
     x = np.random.default_rng(2).integers(0, 2 ** 63, 200, dtype=np.uint64) * np.uint64(3)
     mixed = np.array([spec.splitmix64(int(v)) for v in x], dtype=np.uint64)
     assert np.array_equal(build._unmix(mixed), x)
-    led = np.random.default_rng(3).normal(0, 9, (200, 57))
+    led = np.random.default_rng(3).normal(0, 9, (200, source_abi.LEDGER_SIZE))
     h = x.copy()
-    for c in range(35, 57):  # what the close of an ABI-3 life adds after ABI 2's 35 columns
+    for c in range(caller_abi.LEDGER_SIZE, source_abi.LEDGER_SIZE):
         h = np.array([spec.splitmix64(int(a) ^ int(b)) for a, b in zip(h, led[:, c].view(np.uint64))], dtype=np.uint64)
-    assert np.array_equal(build.unfold_close(h, led, 35), x)
+    assert np.array_equal(build.unfold_close(h, led, caller_abi.LEDGER_SIZE), x)
 
 
-def test_a_bell_life_through_the_abi3_kernel_is_abi2_bitwise():
-    # spec.CURRENT's (ABI 2) view of a life against the raw ABI-3 outputs of the padded tables (LIFE_ABI.md 15.33);
+def test_a_bell_life_keeps_abi2_and_abi3_views_bitwise_compatible():
+    # Explicit legacy caller views remain compatible through the current kernel (LIFE_ABI.md 15.33);
     # the saved ABI-2 library agreed with both on 103 BELL cases (program and GRN mode, every lattice and scheduler)
     prog, gt = _program(), _genome()
     panel = spec.world(T=96.0, flags=PM, noise_rate=0.2, drop_p=0.1)
@@ -562,7 +564,7 @@ def test_the_edges_of_the_abi3_world_ranges_run(ok):
 
 def test_invalid_3d_bodies_and_lattices_are_rejected():
     def body(*cells):
-        b = np.zeros((1, KV3.MAX_INIT, KV3.INIT_COLS), dtype=np.int32)
+        b = np.zeros((1, KABI.MAX_INIT, KABI.INIT_COLS), dtype=np.int32)
         b[0, :len(cells)] = cells
         return dict(n_init=np.array([len(cells)], dtype=np.int32), init=b)
 
@@ -578,7 +580,7 @@ def test_invalid_3d_bodies_and_lattices_are_rejected():
     assert build.run(spec.world(T=8.0, flags=PM), [0], programs=_program(), init=[(0, 0, 1)])["n_end"][0] == 1
     with pytest.raises(ValueError):  # ABI 2 (spec.CURRENT) refuses a CATCH world
         build.run(spec.world("catch_v1", flags=PM), [0], programs=_program())
-    lat = KV3.lattice_tables("hexprism")[0]
+    lat = KABI.lattice_tables("hexprism")[0]
     D = 8
     for idx, val in ((2 + 2 * D + 6, 0), (2 + 2 * D + 0, 1), (2 + 3 * D + 6, 6), (2 + 6 * D + 1, 8), (1, 6), (0, 6)):
         bad = lat.copy()
@@ -588,17 +590,17 @@ def test_invalid_3d_bodies_and_lattices_are_rejected():
 
 def _both(world=(), *, lat=None, cells=None, n_init=None, flags: int = CPM, genomes=None, programs=COLUMN,
           kind: str = "hexprism") -> tuple[int, int]:
-    """The return codes of the kernel (raw ctypes) and of the reference's ``life_run`` on the same ABI-3 arrays;
+    """The return codes of the kernel (raw ctypes) and of the reference on the same current-kernel ABI arrays;
     ``cells`` are initial rows (a, b, z, row), and ``n_init`` overrides their count (with ``cells`` None: no array)."""
     init = None
     if cells is not None:
-        init = np.zeros((1, KV3.MAX_INIT, KV3.INIT_COLS), dtype=np.int32)
+        init = np.zeros((1, KABI.MAX_INIT, KABI.INIT_COLS), dtype=np.int32)
         init[0, :len(cells)] = cells
     n = np.array([len(cells) if n_init is None else n_init], dtype=np.int32) if cells is not None or n_init else None
     k = _call(world, lat=lat, n_init=n, init=init, flags=flags, genomes=genomes, programs=programs, kind=kind)
-    lat_k, unit = KV3.lattice_tables(kind)
+    lat_k, unit = KABI.lattice_tables(kind)
     r = ref.life_run(lat_k if lat is None else lat, unit, genomes, programs, [0], init, n,
-                     _vector(world, flags, KV3), np.zeros((1, 4), dtype=np.uint64), abi=V3)["rc"]
+                     _vector(world, flags, KABI), np.zeros((1, 4), dtype=np.uint64), abi=KABI)["rc"]
     return k, r
 
 
@@ -609,7 +611,7 @@ def test_the_kernel_and_the_reference_refuse_the_same_arguments():
     ring2 = [(a, b, z, 0) for a, b in _hexdisk(2) for z in (0, 1)]
     nan = COLUMN.copy()
     nan[R3["contact"] * V3.P + V3.K["tau_m"]] = np.nan
-    zero = KV3.lattice_tables("hexprism")[0].copy()
+    zero = KABI.lattice_tables("hexprism")[0].copy()
     zero[2 + 0] = zero[2 + 3] = 0  # slots 0 and 3 both point at their own site; back[] still points back
     cases = [
         (dict(world=catch), 0),
@@ -620,8 +622,8 @@ def test_the_kernel_and_the_reference_refuse_the_same_arguments():
         (dict(world=catch, cells=[(0, 0, 0, 5)]), -4), (dict(world=catch, cells=[(0, 0, 0, -2)]), -4),
         (dict(world=catch, lat=zero), -4),
         (dict(world=catch, n_init=1), -1),  # initial cells announced, no array
-        (dict(world=catch, n_init=KV3.MAX_INIT + 1), -4),
-        (dict(world=catch, n_init=KV3.MAX_INIT + 1, programs=nan), -1),  # the table row is checked first
+        (dict(world=catch, n_init=KABI.MAX_INIT + 1), -4),
+        (dict(world=catch, n_init=KABI.MAX_INIT + 1, programs=nan), -1),  # the table row is checked first
         (dict(world={**catch, "T": 8.5}, lat=zero), -4),  # the lattice table before the world
         (dict(world={**catch, "T": 8.5}, programs=nan), -2),  # the world before the table row
         (dict(world=catch, cells=[(2 ** 22 + 1, 0, 0, 0)]), -4), (dict(world=catch, cells=[(0, 0, 4, 0)]), -4),

@@ -2249,3 +2249,31 @@ now exited. Independent analysis reconciles all 57 ledger columns, source/librar
 coverage and CPU accounting; 47 synthetic analyzer tests pass. The earlier 12 exact action replays and bounded
 T64 production parity remain the validation scope. `results/prediction_information_20261014/` preserves raw
 rows, independent contrasts, complete terminal evidence and prospective preparation. No large run was launched.
+
+## 2026-10-14 — Approved flash and irregular-blink worlds implemented and checked
+
+ABI 4 appends four world fields and `low_light_captures` without changing genomes, cell inputs, messages or
+local asynchronous rules. Flash weakens the target cue after each placement; renewal blink alternates irregular
+bright/dark intervals while the target continues moving. Both presets retain SPECK prices and old conduction.
+Callers opt in explicitly; ABI 2/3 defaults, ledger shapes and full-mode hashes remain compatible. Historical
+checkpoint source/numerical pins are not relaxed. Trace and ledger tools support the new readout explicitly.
+
+All **32 pre-port legacy execution fixtures** reproduce ledger/hash/raster/fate bytes. Sixteen T96 fixtures
+match between C, Python and maintained JS for every ledger byte, all five full-mode hashes and retained spike
+logs; C/Python also match full fate arrays. Six include low-light captures. Both worlds match across one/two
+threads, heap/window scheduling and C full/fast physical outputs. Six checkpoint tests pass, including exact
+3 + resume + 3 versus 6 searches in BELL, CATCH, flash and blink. These tiny searches are engineering validation.
+
+The twelve-case T64 bridge to retained scratch visibility physics matches all 55 unchanged physical ledger
+columns and complete spike/fate logs. Scratch dark captures map exactly to production column 57, with positive
+flash/blink cases. New visibility records intentionally change world/all hashes across this bridge. A portable
+replay pins its old source and checks raw ABI sizes before dispatch. Old unchecked controller harnesses must
+not import the new kernel's array sizes while loading ABI 3 libraries.
+
+The default regression suite covers **861 distinct tests** after targeted repairs: the initial non-checkpoint
+run passed 850/855; missing isolated-environment linkage, uncommitted historical logs and line-length style
+caused five failures. All 23 affected/related checks then pass; 127 slow tests were excluded. The unchanged
+historical logs were published as `859ddc8`. Earlier exact receipts and the two final docstring-only wraps are
+recorded rather than rewritten. `results/abi4_visibility_20261014/` preserves sources, truth, bridge outcomes,
+test receipts and a hash verifier. This is engineering evidence, with no new information-payoff or evolved-memory
+claim. Fresh payoff measurements and bounded evolution remain separate work; no large run or paid compute began.

@@ -27,7 +27,9 @@ from pathlib import Path
 
 import numpy as np
 
-from src.life import analysis, probe as P, reference as R, spec
+from src.life import analysis, spec
+from src.life import probe as P
+from src.life import reference as R
 
 V3 = spec.V3
 HERE = Path(__file__).resolve().parent
@@ -55,8 +57,34 @@ def hex64(u) -> str:
     return format(int(u) & spec.MASK64, "016x")
 
 
-def world_dict(w: spec.World) -> dict:
-    return {k: float(getattr(w, k)) for k in V3.WORLD_KEYS}
+def export_abi(abi=3):
+    """Browser exports are explicitly ABI 3 by default; visibility requires ABI 4."""
+    if abi in (3, spec.V3):
+        return spec.V3
+    if abi in (4, spec.V4):
+        return spec.V4
+    raise ValueError("browser exports support ABI 3 or 4")
+
+
+def world_dict(w: spec.World, abi=3) -> dict:
+    contract = export_abi(abi)
+    contract.validate_world(w)  # Do not silently discard enabled ABI-4 visibility fields.
+    return {k: float(getattr(w, k)) for k in contract.WORLD_KEYS}
+
+
+def body_record(org, w: spec.World, *, name=None, preset=None, abi=3) -> dict:
+    """Export one unchanged organism and an explicit world without simulating or writing files."""
+    contract = export_abi(abi)
+    record = dict(name=name or org.name, abi=contract.version, preset=preset or w.name,
+                  world=world_dict(w, contract), world_vec=[float(x) for x in contract.pack_world(w)],
+                  about=getattr(org, "about", ""))
+    if P.is_program(org):
+        record.update(mode="program", program=[float(x) for x in np.asarray(org.program, np.float64)],
+                      cells=[[int(v) for v in c] for c in org.cells])
+    else:
+        gt = contract.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
+        record.update(mode="grn", genome=[float(x) for x in gt])
+    return record
 
 
 def lattice() -> dict:
@@ -88,14 +116,7 @@ def export_bodies(with_kernel: bool = True) -> None:
     doc["drag"] = dict(drag_exp=de, table=[0.0] + [math.pow(float(n), de) for n in range(1, DRAG_N)])
     for name, org, preset in bodies():
         w = org.world(preset)
-        b = dict(name=name, preset=preset, world=world_dict(w), world_vec=[float(x) for x in V3.pack_world(w)])
-        if P.is_program(org):
-            b.update(mode="program", program=[float(x) for x in np.asarray(org.program, np.float64)],
-                     cells=[[int(v) for v in c] for c in org.cells], about=org.about)
-        else:
-            gt = V3.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
-            b.update(mode="grn", genome=[float(x) for x in gt], about=getattr(org, "about", ""))
-        doc["bodies"].append(b)
+        doc["bodies"].append(body_record(org, w, name=name, preset=preset))
     (HERE / "bodies.json").write_text(json.dumps(doc, separators=(",", ":")))
     print("wrote", HERE / "bodies.json", (HERE / "bodies.json").stat().st_size, "bytes")
     if with_kernel:

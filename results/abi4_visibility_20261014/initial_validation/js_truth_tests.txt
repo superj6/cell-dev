@@ -1,0 +1,29 @@
+pass: ABI 3 remains the default with 57 columns; explicit ABI 4 adds exactly one
+pass: visibility validation rejects malformed and unsupported worlds
+pass: enabled visibility refuses both initial and later user-target mode without mutation
+pass: flash starts bright at nonzero t0 and changes strictly after its deadline
+pass: flash placement before or at expiry replaces the deadline without a visibility event
+pass: timer placement at old flash expiry resets before the transition
+pass: equal-time renewal events are timer then turn then visibility
+pass: renewal uses stream 26 and retains its counter/deadline through placements
+pass: low light changes only the target signal and stays below the bright candidate bound
+pass: low-light capture count uses pre-replacement state and the accounting window
+pass: visibility transition exactly at end is outside the half-open life
+pass: neutral ABI 4 equals ABI 3 except the one additional close-hash fold
+pass: C/Python/JS truth: body0_neutral_abi3
+pass: C/Python/JS truth: body0_neutral_abi4
+pass: C/Python/JS truth: body0_flash_55040000
+pass: C/Python/JS truth: body0_renewal_55040000
+pass: C/Python/JS truth: body0_flash_55040001
+pass: C/Python/JS truth: body0_renewal_55040001
+pass: C/Python/JS truth: body7_neutral_abi3
+pass: C/Python/JS truth: body7_neutral_abi4
+pass: C/Python/JS truth: body7_flash_55040000
+pass: C/Python/JS truth: body7_renewal_55040000
+pass: C/Python/JS truth: body7_flash_55040001
+pass: C/Python/JS truth: body7_renewal_55040001
+pass: C/Python/JS truth: shifted_flash_open
+pass: C/Python/JS truth: shifted_renewal_open
+pass: C/Python/JS truth: flash_low_one
+pass: C/Python/JS truth: flash_at_end
+28 visibility checks passed

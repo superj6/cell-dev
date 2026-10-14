@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "replay_helper_sha256": "5ee5616416f0f929651fff8225e021fcb833654d04d64b41156bddcddb69afed",
+  "original_helper_sha256": "faeb984d0201e8164634dd77f676a3c16ad7a486aebddcad5a71b2336ef10a12",
+  "original_report_sha256": "9cc5367d34a8cf229f8e4e42bd0dc2001bc6ab29ccb01d9e0a32010f4a8f0437",
+  "final_replay_report_sha256": "31ac24ead2367f6f96709f86c8e961b967e59a8d9a510737b37f880f749214d7",
+  "fixed_cases_and_mapping_ast_identical": true,
+  "all_12_cases_all_arrays_match": true,
+  "output_path_rejections": [
+    {
+      "output": "/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/outputs/abi4_visibility_validation_20261014/scratch_bridge_replay_guarded",
+      "exit_code": 2,
+      "message": "already exists",
+      "no_files_created": true
+    },
+    {
+      "output": "/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/outputs/abi4_visibility_validation_20261014/scratch_bridge/forbidden_nested_output",
+      "exit_code": 2,
+      "message": "outside the read-only",
+      "no_files_created": true
+    },
+    {
+      "output": "/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/forbidden_outside_outputs",
+      "exit_code": 2,
+      "message": "beneath the imported",
+      "no_files_created": true
+    }
+  ],
+  "final_replay_validation_lives": 24,
+  "total_portable_validation_lives_including_first_version": 48,
+  "final_replay_cpu_seconds": 4.470409999999999
+}

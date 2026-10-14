@@ -5,6 +5,18 @@ who fires whom, along which paths, with what latency, and which messages the sco
 two hand-built SPECK bodies whose mechanism is known, `reflex@hollow3` and `router@ring4`, and smoke-tested on the
 evolved `speck_lmax4_hexprism_sex_s5`. Nothing in the toolkit writes into the repository.
 
+ABI 3 remains the default. For approved flash/blink worlds, pass `abi=spec.V4` explicitly to `trace`,
+`trace_kernel`, `development_end`, `lesion`, `lesion_ref` and `check_lesion_equivalence`. The organism's
+genome and local rules are unchanged. ABI 4 traces include pre-replacement `low_light` on each click,
+and receptor signal attribution accounts for the target's current visibility multiplier. These are
+observer records, never organism inputs.
+
+`readouts.validate_ledger(rows, abi=spec.V4)` accepts all 58 columns and verifies that low-light captures
+are finite and lie between zero and total captures. `readouts.search_signature` reconciles click observations
+against the ledger accounting window, then reports low-light captures for the requested analysis window.
+A capture during low light alone does not establish memory: residual light, motion and recent spikes can
+also contribute. Use appropriate causal comparisons before interpreting the algorithm.
+
 ```python
 # from the repository root (on a shared machine: nice -n 19 .venv/bin/python ...)
 from src.life import probe as P

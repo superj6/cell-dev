@@ -1,4 +1,4 @@
-// One-life event kernel, ABI v3. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
+// One-life event kernel, ABI v4. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
 //
 // One continuous, clockless life per genome (GRN mode) or phenotype program (program mode) on a sparse, unbounded
 // lattice fabric (or a dense disk): 2D lattices, or prisms of stacked planes z = 0 .. L_max - 1 (4.3). Sites process
@@ -16,15 +16,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ABI_VERSION 3
+#define ABI_VERSION 4
 #define NG 16          // gene slots
 #define NIN 25         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, rho/tau_tr, is_S, is_M
 #define NK 23          // phenotype knobs
 #define DMAX 10        // largest lattice degree (square8prism)
 #define GENOME_SIZE 875
 #define PROGRAM_SIZE 129
-#define WORLD_SIZE 66
-#define LEDGER_SIZE 57
+#define WORLD_SIZE 70
+#define LEDGER_SIZE 58
 #define HASH_SIZE 5
 #define MAX_INIT 1024
 #define FATE_I 7
@@ -59,7 +59,7 @@ enum { W_T, W_T0, W_TOPEN, W_TFORK, W_FLAGS, W_FORKFLAGS, W_DMIN, W_D0, W_DELAYS
        W_STUCKB, W_KILLRATE, W_WOUNDRATE, W_DRIFTTAU,
        W_WORLDKIND, W_LMAX, W_STUCKZ, W_SIGMA, W_LAMS, W_LAMBG, W_GN, W_DRAGEXP, W_THCLICK, W_THREL, W_RHOC, W_VT,
        W_TAUTURN, W_RMIN, W_RMAX, W_TRESP, W_RCAP, W_CMISS, W_CREC, W_B2AMP, W_B2SIGMA, W_B2VALUE, W_B2RHO, W_B2P,
-       W_B2MODE };
+       W_B2MODE, W_VISMODE, W_VISON, W_VISOFF, W_VISLOW };
 // ledger columns (4.9)
 enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIRTHS, L_REJECTS, L_REJWALL, L_DEATHS,
        L_KILLS, L_COST, L_GUARD, L_NET, L_F, L_NEND, L_NPEAK, L_TEND, L_STATUS, L_EVENTS, L_BEATS, L_PINT,
@@ -67,7 +67,7 @@ enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIR
        L_TICKS, L_TEXT,
        L_CAPTURES, L_MISSES, L_CLICKS, L_B2CLICKS, L_RESPAWNS, L_NUDGES, L_RECCAND, L_RECACCEPT, L_RECEVENTS,
        L_RECGAIN, L_SAMPLES, L_DISTSUM, L_ZONE, L_PATH, L_XEND, L_YEND, L_NSEND, L_NMEND, L_NHEND, L_LIVES, L_LIVEM,
-       L_LIVEH };
+       L_LIVEH, L_LOWCAPTURES };
 // flags (12)
 enum { F_CONTACTS_OFF = 1 << 0, F_CHEM_OFF = 1 << 1, F_APOPTOSIS_OFF = 1 << 2, F_DIVISION_OFF = 1 << 3,
        F_FREEZE = 1 << 4, F_GENES_BLIND = 1 << 5, F_IDENTITY_CLAMP = 1 << 6, F_PHENO_FIXED = 1 << 7,
@@ -80,7 +80,7 @@ enum { ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 
        ST_CHEM_CLAMP = 32, ST_MISMATCH = 64, ST_CAPACITY = 128, ST_WALL = 256 };
 // draw streams (3)
 enum { S_ZYG = 1, S_UID, S_TAU, S_CLK, S_PHASE, S_DC, S_JIT, S_DROP, S_TICK, S_DIE, S_DIV, S_PLACE, S_NOISE, S_NSIGN,
-       S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES };
+       S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES, S_VISIBILITY };
 // event groups and kinds (6.1)
 enum { G_CLAIM, G_NOTICE, G_PACKET, G_MEMB, G_TICK, G_EXO };
 enum { N_BORN, N_PRESENT, N_ACK, N_REJECT, N_DIED };
@@ -254,6 +254,11 @@ typedef struct {
   double sigma, lam_s, lam_bg, g_n, drag_exp, th_click, th_rel, rho_c, v_t, tau_turn, R_min, R_max, t_resp, R_cap,
       c_miss, c_rec, b2_amp, b2_sigma, b2_value, b2_rho, b2_p, lam_max, c_b2;
   int b2_mode;
+  // ABI 4 visibility belongs to the world; cells receive only the existing local receptor events.
+  int visibility_mode, bright;
+  double visibility_on, visibility_off, visibility_low, visibility_next;
+  uint64_t visibility_k;
+  int64_t low_light_captures;
   int64_t cap_cells;
   // fabric
   Site *sites; int64_t n_sites, cap_sites;
@@ -1330,6 +1335,10 @@ static void place(Ctx *c, int b, int cause, double t) {  // PLACE (9.7.3): aroun
   blob_place(c->seed, (uint64_t)b, B->q, X, Y, c->R_min, c->R_max, &B->x, &B->y);
   B->t = t;
   if (b == 1) B->present = draw2(c->seed, S_PPRES, 1, B->q) < c->b2_p;
+  if (b == 0 && c->visibility_mode == 1) {
+    c->bright = 1;
+    c->visibility_next = t + c->visibility_on;
+  }
   B->q += 1;
   const uint64_t w[7] = {12, dbits(t), (uint64_t)b, (uint64_t)cause, dbits(B->x), dbits(B->y), (uint64_t)B->present};
   fold(c, H_WORLD, w, 7); fold(c, H_ALL, w, 7);
@@ -1356,7 +1365,20 @@ static void world_turn(Ctx *c, int b) {  // a tumble of blob b, a world event at
   B->tau = poisson_next(c->seed, S_TURN, (uint64_t)b, B->k, t, c->tau_turn);
   B->k += 1;
 }
-static void world_to(Ctx *c, double t) {  // every world event below t, by (time, timer before turn, blob)
+static void world_visibility(Ctx *c) {
+  const double t = c->visibility_next;
+  if (c->visibility_mode == 1) {
+    c->bright = 0;
+    c->visibility_next = INFINITY;
+  } else {
+    c->bright = !c->bright;
+    c->visibility_next = poisson_next(c->seed, S_VISIBILITY, 0, c->visibility_k++, t,
+                                     c->bright ? c->visibility_on : c->visibility_off);
+  }
+  const uint64_t w[4] = {14, dbits(t), 0, (uint64_t)c->bright};
+  fold(c, H_WORLD, w, 4); fold(c, H_ALL, w, 4);
+}
+static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then visibility; blob breaks earlier ties
   for (;;) {
     double best = INFINITY;
     int kind = -1, bb = -1;
@@ -1366,9 +1388,11 @@ static void world_to(Ctx *c, double t) {  // every world event below t, by (time
         const double tt = k == 0 ? c->blob[b].r : c->blob[b].tau;
         if (tt < best) { best = tt; kind = k; bb = b; }
       }
+    if (c->visibility_next < best) { best = c->visibility_next; kind = 2; }
     if (!(best < t)) return;
     if (kind == 0) world_timer(c, bb);
-    else world_turn(c, bb);
+    else if (kind == 1) world_turn(c, bb);
+    else world_visibility(c);
   }
 }
 static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the left limit; measurement only
@@ -1386,6 +1410,7 @@ static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the
 }
 static void catch_start(Ctx *c) {  // 9.7.1, before the first time group
   c->X = c->Y = c->Fx = c->Fy = 0.0; c->t_x = c->t0; c->n_foot = 0; c->n_fill = 0; c->n_col = 0; c->armed = 1; c->gam = 1.0;
+  c->bright = 1; c->visibility_k = 0; c->visibility_next = INFINITY;
   c->blob[0].exists = 1; c->blob[0].present = 1;
   c->blob[1].exists = c->b2_amp > 0.0; c->blob[1].present = 0;
   for (int b = 0; b < 2; b++) {
@@ -1402,6 +1427,8 @@ static void catch_start(Ctx *c) {  // 9.7.1, before the first time group
   }
   for (int b = 0; b < 2; b++)
     if (c->blob[b].exists) place(c, b, PL_START, c->t0);
+  if (c->visibility_mode == 2)
+    c->visibility_next = poisson_next(c->seed, S_VISIBILITY, 0, c->visibility_k++, c->t0, c->visibility_on);
   c->next_sample = c->t0 + 1.0;
 }
 static void defer_place(Ctx *c, int b, int cause) {
@@ -1422,7 +1449,10 @@ static void catch_click(Ctx *c, double t) {  // 9.7.4: the screen registers a pr
   if (cnt) c->clicks++;
   if (d0 <= c->rho_c * c->rho_c) {  // capture: the target is re-placed after every record of the group
     outcome = 1;
-    if (cnt) { c->captures++; c->income = c->income + c->R_cap; }
+    if (cnt) {
+      c->captures++; c->income = c->income + c->R_cap;
+      if (!c->bright) c->low_light_captures++;
+    }
     defer_place(c, 0, PL_CLICK);
     if (c->blob[1].exists && c->b2_mode == 0) defer_place(c, 1, PL_WITH);
   } else {
@@ -1605,6 +1635,8 @@ static void catch_candidate(Ctx *c, const Rec *r, int cnt) {  // 9.7.5: thinning
   const double px = X + ox, py = Y + oy;
   blob_at(&c->blob[0], t, &x0, &y0);
   double rate = c->lam_bg + c->lam_s * halo(px - x0, py - y0, c->sigma);
+  if (c->visibility_mode != 0 && !c->bright)
+    rate = c->lam_bg + c->visibility_low * (c->lam_s * halo(px - x0, py - y0, c->sigma));
   if (c->blob[1].exists && c->blob[1].present) {
     double x1, y1;
     blob_at(&c->blob[1], t, &x1, &y1);
@@ -1912,6 +1944,7 @@ static void close_life(Ctx *c, double *L) {  // 9.5
   L[L_YEND] = c->Y; L[L_NSEND] = (double)c->n_plane[0]; L[L_NMEND] = (double)c->n_plane[1];
   L[L_NHEND] = (double)c->n_plane[2]; L[L_LIVES] = c->live_plane[0]; L[L_LIVEM] = c->live_plane[1];
   L[L_LIVEH] = c->live_plane[2];
+  L[L_LOWCAPTURES] = (double)c->low_light_captures;
   for (int i = 0; i < LEDGER_SIZE; i++) { uint64_t wv = dbits(L[i]); fold(c, H_ALL, &wv, 1); }
 }
 
@@ -2024,9 +2057,9 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
   if (w[W_KILLRATE] != 0.0 || w[W_WOUNDRATE] != 0.0 || w[W_DRIFTTAU] != 0.0) return 0;
   if (!(w[W_T] > 0.0) || !is_int(w[W_T]) || !is_int(w[W_T0])) return 0;
   if (w[W_T] > TIME_MAX || fabs(w[W_T0]) > TIME_MAX) return 0;
-  const int ints[10] = {W_NMAX, W_EMAX, W_FABRICR, W_ORACLE, W_STUCKA, W_STUCKB, W_WORLDKIND, W_LMAX, W_STUCKZ,
-                        W_B2MODE};
-  for (int i = 0; i < 10; i++) if (!is_int(w[ints[i]])) return 0;
+  const int ints[11] = {W_NMAX, W_EMAX, W_FABRICR, W_ORACLE, W_STUCKA, W_STUCKB, W_WORLDKIND, W_LMAX, W_STUCKZ,
+                        W_B2MODE, W_VISMODE};
+  for (int i = 0; i < 11; i++) if (!is_int(w[ints[i]])) return 0;
   if (!(w[W_TOPEN] >= 0.0 && w[W_TOPEN] < w[W_T])) return 0;
   for (int i = W_FLAGS; i <= W_FORKFLAGS; i++) {
     if (!is_int(w[i]) || w[i] < 0.0 || w[i] > (double)F_ALL) return 0;
@@ -2071,6 +2104,17 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
   if ((w[W_TAUTURN] > 0.0 && w[W_TAUTURN] < STEP_MIN) || (w[W_TRESP] > 0.0 && w[W_TRESP] < STEP_MIN)) return 0;
   if (!(w[W_RCAP] >= 0.0 && w[W_CMISS] >= 0.0 && w[W_CREC] >= 0.0)) return 0;
   if (!(w[W_B2P] >= 0.0 && w[W_B2P] <= 1.0 && (w[W_B2MODE] == 0.0 || w[W_B2MODE] == 1.0))) return 0;
+  // ABI 4: one neutral representation; enabled visibility applies only to a single CATCH target.
+  if (!(w[W_VISMODE] >= 0.0 && w[W_VISMODE] <= 2.0 && w[W_VISLOW] >= 0.0 && w[W_VISLOW] <= 1.0)) return 0;
+  if (w[W_VISMODE] == 0.0) {
+    if (w[W_VISON] != 0.0 || w[W_VISOFF] != 0.0 || w[W_VISLOW] != 1.0) return 0;
+  } else {
+    if (w[W_WORLDKIND] != WK_CATCH || w[W_B2AMP] != 0.0) return 0;
+    if (!(w[W_VISON] >= STEP_MIN && w[W_VISON] <= TIME_MAX)) return 0;
+    if (w[W_VISMODE] == 1.0) {
+      if (w[W_VISOFF] != 0.0) return 0;
+    } else if (!(w[W_VISOFF] >= STEP_MIN && w[W_VISOFF] <= TIME_MAX)) return 0;
+  }
   return 1;
 }
 
@@ -2128,6 +2172,8 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
   c->R_cap = w[W_RCAP]; c->c_miss = w[W_CMISS]; c->c_rec = w[W_CREC]; c->b2_amp = w[W_B2AMP];
   c->b2_sigma = w[W_B2SIGMA]; c->b2_value = w[W_B2VALUE]; c->b2_rho = w[W_B2RHO]; c->b2_p = w[W_B2P];
   c->b2_mode = (int)w[W_B2MODE];
+  c->visibility_mode = (int)w[W_VISMODE]; c->visibility_on = w[W_VISON];
+  c->visibility_off = w[W_VISOFF]; c->visibility_low = w[W_VISLOW];
   c->lam_max = c->lam_bg + c->lam_s * (1.0 + c->b2_amp);
   c->c_b2 = c->b2_value < 0.0 ? -c->b2_value : 0.0;
   c->seed = seeds[0]; c->tie_seed = seeds[1]; c->order_seed = seeds[2]; c->salt = seeds[3];

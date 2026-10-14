@@ -1,17 +1,18 @@
-"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 3), written independently of the C kernel.
+"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 4), written independently of the C kernel.
 
 Every handler of the ABI (sections 6-12) is transcribed here with the same float64 operations in the same order, so on
 the same libm its ledger, hashes, raster and fate log agree bitwise with ``kernel.c``. It is meant for tiny bodies
 (about 20 cells, T up to about 200) in tests: whole lives are seconds, not milliseconds.
 
-The handlers implement ABI 3: sites ``(a, b, z)`` in a stack of ``L_max`` planes, the prism lattices, the receptor
+The handlers implement ABI 4: sites ``(a, b, z)`` in a stack of ``L_max`` planes, the prism lattices, the receptor
 events RCAND and RECEPTOR (7.10), the plane cues and the receptor trace, vertical placement, the forks lateral_off,
 hidden_off, receptor_off and motor_off, and both world kinds: the BELL-1 lumen (9.2) and the CATCH world (9.7).
 Every entry point takes ``abi`` (default ``spec.CURRENT``):
+- ``spec.V4``: ABI-4 arrays in and out (world 70, ledger 58); flash/renewal visibility changes target cues only.
 - ``spec.V3``: ABI-3 arrays in and out (genome 875, program 129, world 66, ledger 57, 5 hashes, fate_i 7 columns).
-- ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 3 (``spec.V3.pad_genomes``,
-  ``pad_program``, the CATCH keys at their defaults, z = 0), the life runs through the ABI-3 handlers, and the outputs
-  are cut back to ABI 2's sizes, with the ``all`` hash folding 35 ledger columns. LIFE_ABI.md 15.33 says this is
+- ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 4 (``spec.V3.pad_genomes``,
+  ``pad_program``, the CATCH and visibility keys at their defaults, z = 0), and outputs are cut back to ABI 2's
+  sizes. The ``all`` hash folds only the caller's ledger columns. LIFE_ABI.md 15.33 says this is
   ABI 2 bitwise (gate GB1); the ABI-2 tests of this repository check it against the ABI-2 kernel.
 
 Both schedulers of section 11 are implemented: the heap (``window_h = 0``, ties permuted by the tie seed) and the
@@ -27,7 +28,7 @@ Where the ABI leaves a detail open, this file chooses:
 - a slot that points out of the stack holds EMPTY in the view (no cell ever answers from there) but is never open, so
   it is not counted in n_view and never claimed (4.3, worded so since cross-check round 1);
 - an RCAND is current iff its uid is the occupant at t- and its j is the cell's rec#;
-- world events at one time run in (time, timer before turn, blob) order, re-reading the earliest after each one;
+- world events at one time run in (time, timer before turn before visibility, blob) order, re-reading the earliest;
 - a click on a second blob with ``b2_value != 0`` books its income or cost only when the click is counted (like
   ``b2_clicks``, so ``cost`` and ``colcost`` agree; 9.7.4 now says so).
 Argument errors get the kernel's codes in the kernel's order (4.2, 15.57): an initial cell on a wall of a dense
@@ -46,7 +47,7 @@ import numpy as np
 from src import lattice as _lat
 from src.life import spec
 
-V2, V3 = spec.V2, spec.V3
+V2, V3, V4 = spec.V2, spec.V3, spec.V4
 EMPTY = spec.EMPTY
 _KIND_OF = {code: kind for kind, code in V3.LATTICE_CODES.items()}
 _INF = float("inf")
@@ -66,7 +67,7 @@ KILL, STUCK = 50, 51
 R_SPIKE, R_BIRTH, R_DEATH, R_CLAIM, R_RESOLVE, R_PACKET, R_LOST, R_TICK = 1, 2, 3, 4, 5, 6, 7, 8
 R_RCAND, R_RECEPT = 9, 10
 R_CHEM = 100
-W_CLICK, W_PLACE, W_TURN = 11, 12, 13  # world events of the CATCH accountant (first hash word)
+W_CLICK, W_PLACE, W_TURN, W_VISIBILITY = 11, 12, 13, 14  # CATCH accountant world-event first hash words
 H_ALL, H_SPIKES, H_FATE, H_CHEM, H_WORLD = 0, 1, 2, 3, 4
 _FAMILY = {R_SPIKE: H_SPIKES, R_BIRTH: H_FATE, R_DEATH: H_FATE, R_CLAIM: H_FATE, R_RESOLVE: H_FATE,
            R_PACKET: H_CHEM, R_LOST: H_CHEM}  # R_RCAND and R_RECEPT fold into the world family (_fold_world)
@@ -77,7 +78,7 @@ assert [V3.K[n] for n in V3.KNOBS] == list(range(V3.P)) and V3.KNOBS[KZETA] == "
 
 _F = V3.FLAGS
 _ST = spec.STATUS
-_LI = V3.L
+_LI = V4.L
 _NROW = len(spec.PROGRAM_ROWS)
 _PS = {name: i - _NROW * V3.P for name, i in V3.PROGRAM_SCALAR.items()}
 _ROW = V3.PROGRAM_ROW
@@ -86,10 +87,11 @@ _FLOAT_KEYS = ("T", "t0", "t_open", "t_fork", "d_min", "d0", "delay_sd", "jit", 
                "c_div", "c_sec", "window_h", "drop_p", "noise_rate", "kill_t", "kill_frac", "stuck_t", "e_max",
                "sigma", "lam_s", "lam_bg", "g_n", "drag_exp", "th_click", "th_rel", "rho_c", "v_t", "tau_turn",
                "R_min", "R_max", "t_resp", "R_cap", "c_miss", "c_rec", "b2_amp", "b2_sigma", "b2_value", "b2_rho",
-               "b2_p")
+               "b2_p", "visibility_on", "visibility_off", "visibility_low")
 _INT_KEYS = ("flags", "fork_flags", "n_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max",
-             "stuck_z", "b2_mode")
+             "stuck_z", "b2_mode", "visibility_mode")
 _V3_DEFAULTS = [float(getattr(spec.World(), k)) for k in V3.WORLD_KEYS[V2.WORLD_SIZE:]]
+_V4_DEFAULTS = [float(getattr(spec.World(), k)) for k in V4.WORLD_KEYS[V3.WORLD_SIZE:]]
 
 
 def bits(x: float) -> int:
@@ -135,7 +137,7 @@ class _Blob:
 
 @dataclass
 class LifeResult:
-    """Outputs of one life in the layouts of LIFE_ABI.md 4.9-4.11 (of ``abi``: ABI 3 or the ABI-2 cut)."""
+    """Outputs of one life in the caller's ABI 2, 3 or 4 layouts (LIFE_ABI.md 4.9-4.11)."""
     ledger: np.ndarray  # float64 [abi.LEDGER_SIZE], columns abi.LEDGER
     hashes: np.ndarray  # uint64 [abi.HASH_SIZE]: all, spikes, fate, chem (, world)
     raster_t: np.ndarray  # float64 [min(raster_n, cap)]
@@ -166,7 +168,7 @@ class _Accountant:
         self.n = 0
         self.n_plane = [0, 0, 0]  # live cells in the planes S (z = 0), M (z = 1) and H (z >= 2)
         self.inflight = 0
-        self.led = [0.0] * V3.LEDGER_SIZE
+        self.led = [0.0] * V4.LEDGER_SIZE
         self.led[_LI["last_birth"]] = life.t0
         self.led[_LI["t_ext"]] = -1.0
         self.status = 0
@@ -241,6 +243,12 @@ class _Accountant:
         self.O: set = set()  # act-plane (a, b) with a live occupant, at the left limit of the time group
         self.defer_O: list = []
         self.defer_place: list = []
+        self.bright = True
+        self.visibility_next = _INF
+        self.visibility_k = 0
+        if L.visibility_mode == 2:
+            self.visibility_next = spec.poisson_next(L.seed, spec.S_VISIBILITY, 0, 0, L.t0, L.visibility_on)
+            self.visibility_k = 1
         self.blobs = []
         for i in range(2 if L.b2_amp > 0 else 1):
             bl = _Blob()
@@ -303,6 +311,9 @@ class _Accountant:
         if i == 1:
             bl.present = spec.blob_present(L.seed, bl.q, L.b2_p)
         bl.q += 1
+        if i == 0 and L.visibility_mode == 1:
+            self.bright = True
+            self.visibility_next = t + L.visibility_on
         self._fold_world((W_PLACE, bits(t), i, cause, bits(bl.x), bits(bl.y), 1 if bl.present else 0))
 
     def _timer(self, bl: _Blob) -> None:
@@ -327,21 +338,38 @@ class _Accountant:
         bl.tau = spec.poisson_next(L.seed, spec.S_TURN, bl.i, bl.k, t, L.tau_turn)
         bl.k += 1
 
+    def _visibility(self) -> None:
+        L = self.life
+        t = self.visibility_next
+        self.bright = not self.bright
+        self._fold_world((W_VISIBILITY, bits(t), 0, int(self.bright)))
+        if L.visibility_mode == 2:
+            duration = L.visibility_on if self.bright else L.visibility_off
+            self.visibility_next = spec.poisson_next(L.seed, spec.S_VISIBILITY, 0, self.visibility_k, t, duration)
+            self.visibility_k += 1
+        else:
+            self.visibility_next = _INF
+
     def world_to(self, t: float) -> None:
-        """Run every world event with a time below t, in (time, timer before turn, blob) order."""
+        """Run world events strictly below t, with timers before turns before visibility at equal times."""
         while True:
             best = None
             for bl in self.blobs:
                 for key in ((bl.r, 0, bl.i), (bl.tau, 1, bl.i)):
                     if key[0] < t and (best is None or key < best):
                         best = key
+            key = (self.visibility_next, 2, 0)
+            if key[0] < t and (best is None or key < best):
+                best = key
             if best is None:
                 return
             bl = self.blobs[best[2]]
             if best[1] == 0:
                 self._timer(bl)
-            else:
+            elif best[1] == 1:
                 self._turn(bl)
+            else:
+                self._visibility()
 
     def sample(self, c: float) -> None:
         """9.7.6: the measurement-only sample at integer time c, at the left limit."""
@@ -377,6 +405,8 @@ class _Accountant:
             outcome = 1
             if counted:
                 led[_LI["captures"]] += 1.0
+                if L.visibility_mode and not self.bright:
+                    led[_LI["low_light_captures"]] += 1.0
                 led[_LI["income"]] = led[_LI["income"]] + L.R_cap
             self.defer_place.append((0, 1))
             if len(self.blobs) > 1 and L.b2_mode == 0:
@@ -435,7 +465,10 @@ class _Accountant:
         px = X + ox
         py = Y + oy
         x0, y0 = self.blob_at(0, t)
-        rate = L.lam_bg + L.lam_s * spec.halo(px - x0, py - y0, L.sigma)
+        signal = L.lam_s * spec.halo(px - x0, py - y0, L.sigma)
+        if L.visibility_mode:
+            signal = (1.0 if self.bright else L.visibility_low) * signal
+        rate = L.lam_bg + signal
         if len(self.blobs) > 1 and self.blobs[1].present:
             x1, y1 = self.blob_at(1, t)
             rate = rate + L.lam_s * (L.b2_amp * spec.halo(px - x1, py - y1, L.b2_sigma))
@@ -715,7 +748,7 @@ class _Life:
 
     def __init__(self, wv, lat: dict, gt, prog, init, seeds, raster_cap: int, fate_cap: int, keep_records: bool,
                  out_abi: spec.Abi = V3):
-        wi = V3.WORLD_INDEX
+        wi = V4.WORLD_INDEX
         wv = [float(x) for x in wv]
         for key in _FLOAT_KEYS:
             setattr(self, key, wv[wi[key]])
@@ -1531,8 +1564,8 @@ def _i64(u: int) -> int:
 # ------------------------------------------------------------------------------------------------------- arguments
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3):  # pragma: no cover
-        raise ValueError(f"the reference implements ABI 2 and 3, not {abi.version}")
+    if abi.version not in (2, 3, 4):  # pragma: no cover
+        raise ValueError(f"the reference implements ABI 2, 3 and 4, not {abi.version}")
     return abi
 
 
@@ -1593,7 +1626,7 @@ def _check_world(wv, abi=None) -> None:
 
 
 def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) -> tuple:
-    """Check one life's arguments (4.2) and convert them into ABI-3 inputs: (world, genome row, program, cells)."""
+    """Check one life's arguments (4.2) and convert them into ABI-4 inputs: (world, genome row, program, cells)."""
     _check_world(world_vec, abi)
     wv = [float(x) for x in np.asarray(world_vec, dtype=np.float64)]
     flags = int(wv[abi.WORLD_INDEX["flags"]])
@@ -1631,6 +1664,8 @@ def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) 
     if not v3:  # neutral padding into ABI 3 (LIFE_ABI.md 4.4, 4.5, 4.7, 15.33)
         wv = wv + _V3_DEFAULTS
         row = V3.pad_program(row, V2) if prog_mode else V3.pad_genomes(row[None], V2)[0]
+    if abi.version < 4:
+        wv = wv + _V4_DEFAULTS
     return wv, (None if prog_mode else row), (row if prog_mode else None), cells
 
 

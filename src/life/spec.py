@@ -5,13 +5,14 @@ document; every function here that computes a model quantity (hash draws, knob d
 world's closed forms) uses the same IEEE-754 float64 operations in the same order, so results agree bitwise on the
 same libm.
 
-Two ABIs live here side by side while BODY-1 is being built:
-- ``V2`` is ABI 2, the contract ``kernel.c`` and ``reference.py`` implement today (BELL-1 on 2D lattices).
-- ``V3`` is ABI 3 (LIFE_ABI.md as written now): BELL-1 plus BODY-1 v1 (the CATCH world, 3D prism lattices,
-  receptors, plane cues). The kernel and the reference implement it next.
-``CURRENT`` is the ABI the in-repo kernel implements, and every module-level layout name (``GENOME_SIZE``,
-``pack_world``, ``LEDGER``, ...) is ``CURRENT``'s. Switching the repo to ABI 3 is ``CURRENT = V3`` once both
-implementations pass the ABI-3 tests; nothing else in this file changes.
+Three caller ABIs coexist; the C kernel implements ABI 4:
+- ``V2`` is ABI 2 (BELL-1 on 2D lattices).
+- ``V3`` is ABI 3: BELL-1 plus BODY-1 v1 (the CATCH world, 3D prism lattices,
+  receptors, plane cues).
+- ``V4`` adds flash and renewal target visibility and a low-light capture readout, with unchanged cell rules.
+``CURRENT`` remains the legacy caller default, ABI 2. Every module-level layout name (``GENOME_SIZE``,
+``pack_world``, ``LEDGER``, ...) belongs to that default. New worlds require explicit ``V4``; existing ``V3``
+callers retain their earlier shapes and behavior.
 """
 from __future__ import annotations
 
@@ -50,6 +51,8 @@ STREAMS_V2 = dict(zyg=S_ZYG, uid=S_UID, tau=S_TAU, clk=S_CLK, phase=S_PHASE, dc=
                   tie=S_TIE, order=S_ORDER)
 STREAMS_V3 = dict(STREAMS_V2, rcand=S_RCAND, racc=S_RACC, turn=S_TURN, head=S_HEAD, rtime=S_RTIME, pang=S_PANG,
                   pdist=S_PDIST, ppres=S_PPRES)
+S_VISIBILITY = 26
+STREAMS_V4 = dict(STREAMS_V3, visibility=S_VISIBILITY)
 HASH_INIT = 0x243F6A8885A308D3  # initial value of every log-hash family
 
 
@@ -334,16 +337,22 @@ class World:
     b2_rho: float = 1.0
     b2_p: float = 1.0  # probability that the second blob is present after a placement
     b2_mode: int = 0  # 0 = placed with the target; 1 = its own timer and its own re-placement after a click
+    # ---- ABI 4: target visibility; these world states are never cell inputs.
+    visibility_mode: int = 0  # 0 steady, 1 flash after placement, 2 alternating exponential intervals
+    visibility_on: float = 0.0  # flash bright duration or mean renewal bright duration
+    visibility_off: float = 0.0  # mean renewal low-light duration
+    visibility_low: float = 1.0  # target-rate multiplier during low light; background stays unchanged
 
 
 _META = ("name", "stage", "implemented", "lattice", "lives")
 ALL_WORLD_KEYS = tuple(f.name for f in fields(World) if f.name not in _META)
-WORLD_KEYS_V3_NEW = ALL_WORLD_KEYS[ALL_WORLD_KEYS.index("world_kind"):]
+WORLD_KEYS_V3_NEW = ALL_WORLD_KEYS[ALL_WORLD_KEYS.index("world_kind"):ALL_WORLD_KEYS.index("visibility_mode")]
 WORLD_KEYS_V2 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("world_kind")]
-WORLD_KEYS_V3 = ALL_WORLD_KEYS
+WORLD_KEYS_V3 = WORLD_KEYS_V2 + WORLD_KEYS_V3_NEW
+WORLD_KEYS_V4 = ALL_WORLD_KEYS
 RESERVED_WORLD_KEYS = ("kill_rate", "wound_rate", "drift_tau")
 INT_WORLD_KEYS = ("n_max", "e_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max", "stuck_z",
-                  "b2_mode")
+                  "b2_mode", "visibility_mode")
 # world ranges (LIFE_ABI.md 4.7): time stays resolvable at 2^-21 or finer, and no delay or period is below STEP_MIN
 TIME_MAX = 2.0 ** 30  # bound on T and |t0|
 STEP_MIN = 2.0 ** -10  # smallest d_min and smallest possible tick period
@@ -383,6 +392,14 @@ PRESETS = {
 }
 
 
+for _name, _visibility in {
+    "catch_speck_flash5_dim25_l4": dict(visibility_mode=1, visibility_on=5.0, visibility_low=0.25),
+    "catch_speck_blink20_20_l4": dict(visibility_mode=2, visibility_on=20.0, visibility_off=20.0,
+                                    visibility_low=0.0),
+}.items():
+    PRESETS[_name] = replace(PRESETS["catch_speck_l4"], name=_name, stage="visibility-v4", **_visibility)
+
+
 def world(name: str = "bell_v1", **overrides) -> World:
     return replace(PRESETS[name], **overrides)
 
@@ -412,6 +429,8 @@ LEDGER_V3 = LEDGER_V2 + ("captures", "misses", "clicks", "b2_clicks", "respawns"
 
 STATUS = dict(extinct=1 << 0, guard_cells=1 << 1, guard_events=1 << 2, raster_overflow=1 << 3,
               fate_overflow=1 << 4, chem_clamp=1 << 5, ledger_mismatch=1 << 6, capacity=1 << 7, wall=1 << 8)
+LEDGER_V4 = LEDGER_V3 + ("low_light_captures",)
+
 HASHES_V2 = ("all", "spikes", "fate", "chem")
 HASHES_V3 = HASHES_V2 + ("world",)
 
@@ -428,7 +447,7 @@ LATTICE_CODES_V3 = dict(LATTICE_CODES_V2, hexprism=3, square4prism=4, square8pri
 
 # ========================================================================================================= the ABIs
 class Abi:
-    """Every constant, layout and packing function of one kernel ABI (2 or 3) of docs/LIFE_ABI.md.
+    """Every constant, layout and packing function of one kernel ABI (2, 3 or 4) of docs/LIFE_ABI.md.
 
     ABI 3 is ABI 2 with appended entries everywhere: knobs (zeta, g_r), gene inputs (rho, is_S, is_M), world keys,
     ledger columns, a fifth hash family, a z column in the fate log and in initial bodies, and the prism lattices.
@@ -436,7 +455,7 @@ class Abi:
     ``pad_program``)."""
 
     def __init__(self, version: int):
-        if version not in (2, 3):
+        if version not in (2, 3, 4):
             raise ValueError(f"unknown ABI {version}")
         v3 = version >= 3
         self.version = version
@@ -459,11 +478,11 @@ class Abi:
         self.FLAGS = FLAGS_V3 if v3 else FLAGS_V2
         self.BASE_ONLY_FLAGS = self.FLAGS["lockstep"] | self.FLAGS["program_mode"] | self.FLAGS["integer_twin"]
         self.UNSUPPORTED_FLAGS = self.FLAGS["integer_twin"]  # reserved (rejected by every ABI so far)
-        self.STREAMS = STREAMS_V3 if v3 else STREAMS_V2
-        self.WORLD_KEYS = WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2
+        self.STREAMS = STREAMS_V4 if version >= 4 else (STREAMS_V3 if v3 else STREAMS_V2)
+        self.WORLD_KEYS = WORLD_KEYS_V4 if version >= 4 else (WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2)
         self.WORLD_SIZE = len(self.WORLD_KEYS)
         self.WORLD_INDEX = {k: i for i, k in enumerate(self.WORLD_KEYS)}
-        self.LEDGER = LEDGER_V3 if v3 else LEDGER_V2
+        self.LEDGER = LEDGER_V4 if version >= 4 else (LEDGER_V3 if v3 else LEDGER_V2)
         self.L = {name: i for i, name in enumerate(self.LEDGER)}
         self.LEDGER_SIZE = len(self.LEDGER)
         self.HASHES = HASHES_V3 if v3 else HASHES_V2
@@ -738,6 +757,9 @@ class Abi:
         if abs(w.stuck_a) > INT_FIELD_MAX or abs(w.stuck_b) > INT_FIELD_MAX:
             raise ValueError("|stuck_a| and |stuck_b| must be at most 2^30")
         _validate_body_keys(w)
+        _validate_visibility_keys(w)
+        if v < 4 and w.visibility_mode != 0:
+            raise NotImplementedError(f"target visibility needs ABI v4; this is ABI v{v}")
 
     def pack_world(self, w) -> np.ndarray:
         """World (or a list of worlds, one per life) -> float64 ``[WORLD_SIZE]`` / ``[B, WORLD_SIZE]``."""
@@ -781,6 +803,27 @@ class Abi:
         led = np.asarray(led, dtype=np.float64)
         net = led[..., self.L["income"]] - self.column_cost(led, w) - self.guard_charge(led, w)
         return net / (w.T - w.t_open)
+
+
+def _validate_visibility_keys(w: World) -> None:
+    """ABI 4 world-only visibility; mode zero has one neutral representation."""
+    if w.visibility_mode not in (0, 1, 2):
+        raise ValueError("visibility_mode must be 0, 1 or 2")
+    if not 0 <= w.visibility_low <= 1:
+        raise ValueError("visibility_low must lie in [0, 1]")
+    if w.visibility_mode == 0:
+        if (w.visibility_on, w.visibility_off, w.visibility_low) != (0, 0, 1):
+            raise ValueError("steady visibility requires on=off=0 and low=1")
+        return
+    if w.world_kind != 1 or w.b2_amp != 0:
+        raise ValueError("enabled visibility requires a single-target CATCH world")
+    if not STEP_MIN <= w.visibility_on <= TIME_MAX:
+        raise ValueError("visibility_on must lie in [2^-10, 2^30]")
+    if w.visibility_mode == 1:
+        if w.visibility_off != 0:
+            raise ValueError("flash visibility requires visibility_off=0")
+    elif not STEP_MIN <= w.visibility_off <= TIME_MAX:
+        raise ValueError("renewal visibility_off must lie in [2^-10, 2^30]")
 
 
 def _validate_body_keys(w: World) -> None:
@@ -973,7 +1016,8 @@ def key_step(armed: bool, zt: float, zn: float, th_click: float, th_rel: float) 
 # ======================================================================================== the module-level ABI
 V2 = Abi(2)
 V3 = Abi(3)
-CURRENT = V2  # the ABI kernel.c and reference.py implement; set V3 when both pass the ABI-3 tests
+V4 = Abi(4)
+CURRENT = V2  # legacy caller default; explicit V3 and V4 contracts remain available
 
 ABI_VERSION = CURRENT.version
 S, P, NIN = CURRENT.S, CURRENT.P, CURRENT.NIN

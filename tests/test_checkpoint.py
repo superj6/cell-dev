@@ -27,8 +27,11 @@ def canonical_log(path):
     return "".join(json.dumps(clean(json.loads(line))) + "\n" for line in path.read_text().splitlines()).encode()
 
 
-@pytest.mark.parametrize("catch", [False, True])
-def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch):
+@pytest.mark.parametrize("catch,visibility_world", [
+    (False, None), (True, None),
+    (True, "catch_speck_flash5_dim25_l4"), (True, "catch_speck_blink20_20_l4"),
+], ids=["bell", "catch", "flash", "renewal"])
+def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, visibility_world):
     config = "configs/life_speck.yaml" if catch else "configs/life_smoke.yaml"
     opts = ["threads=1", "seed=45000123", "evolve.generations=6", "evolve.mu=4", "evolve.lam=6",
             "evolve.founders=2", "evolve.init_samples=8", "evolve.max_init_samples=16",
@@ -41,6 +44,8 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch):
             "clones.conditions=[contacts_off]", "world.n_max=48"]
     if catch:
         opts += ["evolve.breeding=asex", "evolve.random_ties=false"]
+    if visibility_world is not None:
+        opts += ["life.abi=4", f"life.world={visibility_world}"]
     full, split = tmp_path / "full" / "run", tmp_path / "split" / "run"
 
     def run(out, *flags):
@@ -53,6 +58,9 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch):
     run(split, "--stop-after", "3")
     mid = checkpoint.load(split / "checkpoint.pt")
     assert mid["state"]["generation"] == 3
+    if visibility_world is not None:
+        assert mid["config"]["life"]["abi"] == 4
+        assert mid["config"]["life"]["world"] == visibility_world
     assert not (split / "results.jsonl").exists()
     # A crash can leave complete or partial records after the checkpoint. Resume discards only that tail.
     for name in checkpoint.LOGS:

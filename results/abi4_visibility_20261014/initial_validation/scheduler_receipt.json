@@ -1,0 +1,45 @@
+{
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-o",
+    "addopts=",
+    "-q",
+    "tests/test_life_visibility_kernel.py::test_visibility_is_bitwise_equal_across_threads_and_schedulers",
+    "--basetemp=/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_validation_20261014/scheduler_pytest",
+    "--junitxml=/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_validation_20261014/scheduler_junit.xml"
+  ],
+  "cpu_seconds": 3.230498,
+  "junit_sha256": "a5c3b95d8ec28de3543b257b89695dc77b062b8a0e596db9a85713660c35b0d3",
+  "log_sha256": "686b4ed9a084cc13a88ea4749c9895e659d7faa3540b7c04eedf6fa858d9cc2c",
+  "omp_dynamic": false,
+  "omp_thread_limit": 2,
+  "omp_threads": 2,
+  "passed": true,
+  "phase": "scheduler",
+  "returncode": 0,
+  "runner_sha256": "36e329f2814542b23dbfb3722ea14ee5dea87ad5ccfb634764a22f79f8b41edc",
+  "source_pins_after": {
+    "src/life/build.py": "bb15a7fecf19c6c15a1822fc291b4a100ca59ba462da296bcab24bca0af7e811",
+    "src/life/kernel.c": "3b683af571ecda2faccbd1ab2506250095b8d30e9218e8d8e5d4528866cd8683",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "tests/test_checkpoint.py": "e1b406e5a34d575088ea1f6d67203d911869ee6ef4d21bac946a666b0e2cc027",
+    "tests/test_life_visibility_kernel.py": "20b27d3a72e608c8a097408d9c2548cac0b0a33d72b67fddf028e046095b1697"
+  },
+  "source_pins_before": {
+    "src/life/build.py": "bb15a7fecf19c6c15a1822fc291b4a100ca59ba462da296bcab24bca0af7e811",
+    "src/life/kernel.c": "3b683af571ecda2faccbd1ab2506250095b8d30e9218e8d8e5d4528866cd8683",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "tests/test_checkpoint.py": "e1b406e5a34d575088ea1f6d67203d911869ee6ef4d21bac946a666b0e2cc027",
+    "tests/test_life_visibility_kernel.py": "20b27d3a72e608c8a097408d9c2548cac0b0a33d72b67fddf028e046095b1697"
+  },
+  "source_pins_stable": true,
+  "test_counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 2
+  },
+  "wall_seconds": 3.141611864000879
+}

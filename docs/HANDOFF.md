@@ -30,7 +30,14 @@ does not isolate prediction; prediction-specific admission remains incomplete.
 
 **Limited ABI 4 port approved (2026-10-14).** The user approved flash and irregular renewal blink, the low-light
 capture readout, and C/Python/JS compatibility tests. The exact scope is `docs/ABI4_VISIBILITY_PROPOSAL.md`.
-Implementation is isolated in `outputs/abi4_visibility_20261014/` while U/V retain their pinned ABI 3 source.
+The port is implemented and integrated after isolated validation. Use explicit `spec.V4` or `life.abi: 4`;
+legacy defaults and caller outputs remain unchanged. All 861 default tests are covered after targeted fixes,
+16 C/Python/JS visibility fixtures agree, 32 pre-port legacy lives reproduce bytewise, and both new worlds pass
+thread/scheduler and checkpoint/resume checks. The retained prototype bridge matches physical ledgers and
+spike/fate logs, including low-light captures. Evidence is in `results/abi4_visibility_20261014/`.
+The isolated worktree and working evidence remain under `outputs/abi4_visibility_20261014/` and
+`outputs/abi4_visibility_validation_20261014/`. U/V keep their original ABI 3 source pins; do not bypass them.
+Old scratch controller harnesses require isolated pinned ABI 3 imports and checked raw buffer sizes.
 This does not approve motor flip, a large selection matrix, population-responsive worlds or rented compute.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but

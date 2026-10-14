@@ -1,4 +1,5 @@
-"""Probe toolkit for interpreting how CATCH bodies work (cell-dev, ABI 3). See docs/PROBE.md.
+"""Probe toolkit for interpreting CATCH bodies (ABI 3 by default; explicit ``abi=spec.V4`` for visibility).
+See docs/PROBE.md.
 
 Usage (from the repository root; on a shared machine under ``nice -n 19``):
 
@@ -33,7 +34,7 @@ import numpy as np
 import pandas as pd
 
 from src.genome import Layout
-from src.life import analysis, reference, spec
+from src.life import analysis, build, reference, spec
 from src.life import handbuilt as hb
 
 ROOT = Path(__file__).resolve().parents[2]  # the repository
@@ -123,6 +124,23 @@ def _world(org, preset: str, **world) -> spec.World:
     return org.world(preset, **world)
 
 
+def _abi(abi):
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4):
+        raise ValueError("CATCH probes require spec.V3 or spec.V4")
+    return abi
+
+
+def _kernel_run(org, seeds, preset, *, abi=V3, threads=1, raster_cap=0, fate_cap=0, **world):
+    """Explicit visibility opt-in without changing the organism wrappers' ABI-3 defaults."""
+    abi = _abi(abi)
+    if abi.version == 3:
+        return org.run(seeds, preset=preset, threads=threads, raster_cap=raster_cap, fate_cap=fate_cap, **world)
+    w = _world(org, preset, **world)
+    args = (dict(programs=org.program, init=list(org.cells)) if is_program(org)
+            else dict(genomes=abi.pack_genomes(np.asarray(org.genome)[None], w.lattice)))
+    return build.run(w, seeds, abi=abi, threads=threads, raster_cap=raster_cap, fate_cap=fate_cap, **args)
+
+
 # ============================================================================================ lesions (reference)
 @dataclass
 class Lesion:
@@ -176,7 +194,10 @@ class _TAcct(_R._Accountant):
     def _fold_world(self, words) -> None:
         k = words[0]
         if k == _R.W_CLICK:
-            self.t_click.append((_f(words[1]), int(words[2]), _f(words[3]), _f(words[4])))
+            row = (_f(words[1]), int(words[2]), _f(words[3]), _f(words[4]))
+            if self.life.out_abi.version >= 4:
+                row += (bool(self.life.visibility_mode and not self.bright),)
+            self.t_click.append(row)
         elif k == _R.W_PLACE:
             self.t_place.append((_f(words[1]), int(words[2]), int(words[3]), _f(words[4]), _f(words[5])))
         elif k == _R.W_TURN:
@@ -207,6 +228,8 @@ class _TAcct(_R._Accountant):
             ox, oy = L.planar(site.a, site.b)
             x0, y0 = self.blob_at(0, t)
             sig = L.lam_s * spec.halo(X + ox - x0, Y + oy - y0, L.sigma)
+            if L.visibility_mode:
+                sig = (1.0 if self.bright else L.visibility_low) * sig
             rate = L.lam_bg + sig
             if len(self.blobs) > 1 and self.blobs[1].present:
                 x1, y1 = self.blob_at(1, t)
@@ -330,22 +353,23 @@ class _TLife(_R._Life):
         super().send(src, d, t, ev)
 
 
-def _inputs(org, w: spec.World):
+def _inputs(org, w: spec.World, abi=V3):
     """Kernel-format inputs of one life of ``org`` in world ``w`` (as reference.run builds them)."""
-    lat, unit = V3.lattice_tables(w.lattice)
-    latd = _R._lattice(lat, unit, V3)
+    abi = _abi(abi)
+    lat, unit = abi.lattice_tables(w.lattice)
+    latd = _R._lattice(lat, unit, abi)
     if is_program(org):
         init = [tuple(int(v) for v in c) for c in org.cells]
-        wv, gt, prog, cells = _R._prepare(V3.pack_world(w), latd, None, np.asarray(org.program, np.float64), init, V3)
+        wv, gt, prog, cells = _R._prepare(abi.pack_world(w), latd, None, np.asarray(org.program, np.float64), init, abi)
     else:
-        gtab = V3.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
-        wv, gt, prog, cells = _R._prepare(V3.pack_world(w), latd, gtab, None, None, V3)
+        gtab = abi.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
+        wv, gt, prog, cells = _R._prepare(abi.pack_world(w), latd, gtab, None, None, abi)
     return wv, latd, gt, prog, cells
 
 
-def _life(org, seed: int, w: spec.World, log: bool, lesion: Lesion | None) -> _TLife:
-    wv, latd, gt, prog, cells = _inputs(org, w)
-    return _TLife(wv, latd, gt, prog, cells, (int(seed), 0, 0, 0), 0, 0, False, out_abi=V3, log=log, lesion=lesion)
+def _life(org, seed: int, w: spec.World, log: bool, lesion: Lesion | None, abi=V3) -> _TLife:
+    wv, latd, gt, prog, cells = _inputs(org, w, abi)
+    return _TLife(wv, latd, gt, prog, cells, (int(seed), 0, 0, 0), 0, 0, False, out_abi=abi, log=log, lesion=lesion)
 
 
 # ============================================================================================== traces
@@ -367,14 +391,14 @@ class Trace:
                receiver: up = from the cell above), sa, sb, sz (sender site), s_cid, s_sid (sender spike id, -1 if
                unknown), mask, contrib (w_eff . mask; 0 while refractory)
     receptors  t, cid, a, b, n_rec, g_r, refractory, step, p_signal, X, Y, tx, ty (delivered receptor events;
-               p_signal = lam_s halo / rate at the candidate, the probability that the event came from the target
+               p_signal = visible target signal / rate at the candidate, the probability that it came from the target
                rather than the background lam_bg)
     traj       t (integers 0..T-1), X, Y (dot), tx, ty (target, blob 0): the accountant's samples (left limits)
     strokes    t, a, b, cid, nx, ny (exposed face at the stroke), dz, zt, zn, pulled (dz > 0 and face != 0),
                X, Y, tx, ty: every act-plane twitch with kappa > 0
-    clicks     t, outcome (capture / miss / blob1), X, Y, tx, ty
+    clicks     t, outcome (capture / miss / blob1), X, Y, tx, ty; ABI 4 adds pre-replacement low_light
     placements t, blob, cause (0 start, 1 click, 2 timer, 3 with target), x, y
-    ledger     dict of the 57 ledger columns; F; status
+    ledger     dict of the caller's 57 or 58 ledger columns; F; status
     meta       seed, preset, org, seconds, kernel_F (when checked), n_blocked (lesion)
     """
     cells: pd.DataFrame
@@ -426,13 +450,15 @@ def _pos_cols(df: pd.DataFrame, pos: dict) -> pd.DataFrame:
     return df
 
 
-def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | None = None, **world) -> Trace:
+def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | None = None, abi=V3, **world) -> Trace:
     """One life of ``org`` (hb.GrnBody or hb.Body) with life seed ``seed`` in ``spec.world(preset, **world)``, fully
     logged by the observing reference simulator. ``check`` runs the same life in the kernel (no lesion) and raises if
-    F differs (bitwise). ``lesion`` (``Lesion``) blocks messages after its t_fork."""
+    F differs (bitwise). ``lesion`` (``Lesion``) blocks messages after its t_fork.
+    Visibility requires ``abi=spec.V4``."""
+    abi = _abi(abi)
     w = _world(org, preset, **world)
     t_start = time.time()
-    life = _life(org, seed, w, True, lesion)
+    life = _life(org, seed, w, True, lesion, abi)
     res = life.run()
     secs = time.time() - t_start
     A = life.acct
@@ -520,16 +546,18 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     else:
         sk.insert(3, "cid", pd.Series(dtype=int))
     sk["pulled"] = (sk.dz > 0) & ((sk.nx != 0) | (sk.ny != 0))
-    ck = pd.DataFrame(A.t_click, columns=["t", "outcome", "X", "Y"])
+    ck = pd.DataFrame(A.t_click, columns=["t", "outcome", "X", "Y"] + (["low_light"] if abi.version >= 4 else []))
     if len(ck):
         tg = [life_blob_at(A, pl, t) for t in ck.t]
         ck["tx"], ck["ty"] = [p[0] for p in tg], [p[1] for p in tg]
     ck["outcome"] = ck.outcome.map(OUTCOMES)
-    led = {name: float(res.ledger[i]) for i, name in enumerate(V3.LEDGER)}
+    led = {name: float(res.ledger[i]) for i, name in enumerate(abi.LEDGER)}
     meta = dict(seed=int(seed), preset=preset, org=getattr(org, "name", "?"), seconds=secs,
                 n_blocked=life.n_blocked, world=w)
+    if abi.version >= 4:
+        meta["abi"] = abi.version
     if check and lesion is None:
-        kl = org.run([int(seed)], threads=1, preset=preset, **world)
+        kl = _kernel_run(org, [int(seed)], preset, abi=abi, threads=1, **world)
         kF = float(kl["F"][0])
         meta["kernel_F"] = kF
         if kF != led["F"]:
@@ -567,10 +595,12 @@ class KTrace:
 
 
 def trace_kernel(org, seeds, preset: str, *, threads: int = 2, raster_cap: int = 400_000, fate_cap: int = 40_000,
-                 **world) -> list[KTrace]:
+                 abi=V3, **world) -> list[KTrace]:
     """Kernel lives with raster and fate log, as ``KTrace`` objects (one per seed)."""
+    abi = _abi(abi)
     t_start = time.time()
-    lv = org.run(list(seeds), threads=threads, preset=preset, raster_cap=raster_cap, fate_cap=fate_cap, **world)
+    lv = _kernel_run(org, list(seeds), preset, abi=abi, threads=threads, raster_cap=raster_cap, fate_cap=fate_cap,
+                     **world)
     secs = (time.time() - t_start) / max(len(seeds), 1)
     w = _world(org, preset, **world)
     gt = None if is_program(org) else V3.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
@@ -612,9 +642,11 @@ def trace_kernel(org, seeds, preset: str, *, threads: int = 2, raster_cap: int =
         sp["cls"] = cells.cls.to_numpy()[cidx]
         sp["mask"] = ((th[cidx, _KE0] != 0).astype(int) | 2 * (th[cidx, _KE1] != 0).astype(int))
         cells["n_spikes"] = np.bincount(cidx, minlength=n)
-        led = {name: float(lv.ledger[i, j]) for j, name in enumerate(V3.LEDGER)}
+        led = {name: float(lv.ledger[i, j]) for j, name in enumerate(abi.LEDGER)}
         out.append(KTrace(cells, kb, sp, led, dict(seed=int(s), preset=preset, org=getattr(org, "name", "?"),
                                                    seconds=secs)))
+        if abi.version >= 4:
+            out[-1].meta["abi"] = abi.version
     return out
 
 
@@ -1143,16 +1175,17 @@ def _flags(flags) -> int:
     return V3.flags(*flags)
 
 
-def development_end(org, preset: str, n_lives: int = 32, seed0: int = SEED0, threads: int = 2, **world) -> dict:
+def development_end(org, preset: str, n_lives: int = 32, seed0: int = SEED0, threads: int = 2, *, abi=V3,
+                    **world) -> dict:
     """When growth stops: quantiles of the last birth time and the end size over ``n_lives`` kernel lives."""
-    lv = org.run(analysis.fresh_seeds(n_lives, seed0), threads=threads, preset=preset, **world)
+    lv = _kernel_run(org, analysis.fresh_seeds(n_lives, seed0), preset, abi=abi, threads=threads, **world)
     lb, ne = lv["last_birth"], lv["n_end"]
     return dict(last_birth_q=tuple(np.round(np.quantile(lb, [0.5, 0.9, 1.0]), 1)),
                 n_end_q=tuple(np.round(np.quantile(ne, [0.1, 0.5, 0.9]), 1)))
 
 
 def lesion(org, preset: str, flagname, t_fork: float, n_lives: int = 128, seed0: int = SEED0, *, threads: int = 2,
-           t_open="fork", base_fork=0, **world) -> dict:
+           t_open="fork", base_fork=0, abi=V3, **world) -> dict:
     """Paired effect of a kernel fork: ``flagname`` (a V3 flag name, "a+b" or a list, e.g. "lateral_off",
     "hidden_off", "receptor_off", "motor_off", "contacts_off", "chem_off", "division_off", "freeze", "genes_blind")
     applied from t0 + t_fork (fork_flags), against the unchanged twin (fork_flags 0, same t_fork and t_open), on
@@ -1165,9 +1198,10 @@ def lesion(org, preset: str, flagname, t_fork: float, n_lives: int = 128, seed0:
     seeds = analysis.fresh_seeds(n_lives, seed0)
     t_start = time.time()
     bf = _flags(base_fork) if base_fork else 0
-    base = org.run(seeds, threads=threads, preset=preset, t_fork=t_fork, t_open=t_open, fork_flags=bf, **world)
-    les = org.run(seeds, threads=threads, preset=preset, t_fork=t_fork, t_open=t_open,
-                  fork_flags=bf | _flags(flagname), **world)
+    base = _kernel_run(org, seeds, preset, abi=abi, threads=threads, t_fork=t_fork, t_open=t_open, fork_flags=bf,
+                      **world)
+    les = _kernel_run(org, seeds, preset, abi=abi, threads=threads, t_fork=t_fork, t_open=t_open,
+                     fork_flags=bf | _flags(flagname), **world)
     out = dict(flag=str(flagname) + (f" | base {base_fork}" if base_fork else ""), t_fork=t_fork, t_open=t_open,
                n=n_lives, base=analysis.summary(base["F"]),
                lesion=analysis.summary(les["F"]), dF=analysis.paired(les["F"], base["F"]))
@@ -1177,18 +1211,18 @@ def lesion(org, preset: str, flagname, t_fork: float, n_lives: int = 128, seed0:
     return out
 
 
-_JOB = None  # (org, world, lesion) for lesion_ref's worker processes (inherited through fork)
+_JOB = None  # (org, world, lesion, abi) for lesion_ref's worker processes (inherited through fork)
 
 
 def _ref_job(seed: int):
-    org, w, les = _JOB
-    life = _life(org, seed, w, False, les)
+    org, w, les, abi = _JOB
+    life = _life(org, seed, w, False, les, abi)
     r = life.run()
     return float(r["F"]), float(r["captures"]), float(r["misses"]), life.n_blocked
 
 
 def lesion_ref(org, preset: str, les: Lesion, n_lives: int = 16, seed0: int = SEED0, *, t_open="fork",
-               threads: int = 2, procs: int = 1, **world) -> dict:
+               threads: int = 2, procs: int = 1, abi=V3, **world) -> dict:
     """Paired effect of a reference-simulator message lesion (``Lesion``: channel, slot, plane, site or predicate
     filters), which the kernel has no fork for. The twin is a kernel life (bitwise the unlesioned reference life);
     the lesioned arm runs in pure Python, in ``procs`` forked worker processes (keep procs <= 2 on a shared
@@ -1198,7 +1232,7 @@ def lesion_ref(org, preset: str, les: Lesion, n_lives: int = 16, seed0: int = SE
     seeds = analysis.fresh_seeds(n_lives, seed0)
     t_start = time.time()
     w = _world(org, preset, t_open=t_open, **world)
-    _JOB = (org, w, les)
+    _JOB = (org, w, les, _abi(abi))
     if procs > 1:
         import multiprocessing as mp
         with mp.get_context("fork").Pool(procs) as pool:
@@ -1206,7 +1240,7 @@ def lesion_ref(org, preset: str, les: Lesion, n_lives: int = 16, seed0: int = SE
     else:
         res = [_ref_job(s) for s in seeds]
     _JOB = None
-    base = org.run(seeds, threads=threads, preset=preset, t_open=t_open, **world)
+    base = _kernel_run(org, seeds, preset, abi=abi, threads=threads, t_open=t_open, **world)
     Fl = np.array([r[0] for r in res])
     return dict(lesion=les, n=n_lives, t_open=t_open, base=analysis.summary(base["F"]), lesioned=analysis.summary(Fl),
                 dF=analysis.paired(Fl, base["F"]),
@@ -1215,14 +1249,15 @@ def lesion_ref(org, preset: str, les: Lesion, n_lives: int = 16, seed0: int = SE
                 blocked_per_life=float(np.mean([r[3] for r in res])), seconds=time.time() - t_start)
 
 
-def check_lesion_equivalence(org, preset: str, t_fork: float, seeds, **world) -> list[tuple[float, float]]:
+def check_lesion_equivalence(org, preset: str, t_fork: float, seeds, *, abi=V3, **world) -> list[tuple[float, float]]:
     """Self-test of the reference lesion: Lesion(t_fork, slots="lateral") must equal the kernel's lateral_off fork
     bitwise. Returns (reference F, kernel F) per seed and raises if any differs."""
     w = _world(org, preset, **world)
-    kl = org.run(list(seeds), threads=1, preset=preset, t_fork=t_fork, fork_flags=V3.flags("lateral_off"), **world)
+    kl = _kernel_run(org, list(seeds), preset, abi=abi, threads=1, t_fork=t_fork,
+                     fork_flags=V3.flags("lateral_off"), **world)
     out = []
     for i, s in enumerate(seeds):
-        r = _life(org, s, w, False, Lesion(t_fork, slots="lateral")).run()
+        r = _life(org, s, w, False, Lesion(t_fork, slots="lateral"), abi).run()
         out.append((float(r["F"]), float(kl["F"][i])))
         if out[-1][0] != out[-1][1]:
             raise AssertionError(f"seed {s}: reference lesion F {out[-1][0]!r} != kernel lateral_off {out[-1][1]!r}")

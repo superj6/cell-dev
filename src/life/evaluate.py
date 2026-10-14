@@ -29,7 +29,8 @@ fields (docs/ONE_LIFE_DESIGN.md, EVALUATION PROTOCOL; Code plan, src/evolve.py).
   founder lives keep ``life.T`` (or ``founder_T``). The life seeds do not depend on the length and no cell reads T,
   so a shorter generation's lives are the first part of the same lives at a longer length. F is per unit time (the
   window is each life's own T - t_open, and the extinction charge runs to its own end), so lengths compare.
-- The kernel ABI is the layout's (``layout.abi``): ABI 2 for BELL-1 genomes (793 slots), ABI 3 for BODY-1 genomes
+- The caller ABI defaults to the layout's (``layout.abi``): ABI 2 for BELL-1 genomes (793 slots),
+  ABI 3 for BODY-1 genomes
   (875 slots, ``genome.LIFE_DIMS_ABI3``), which can also live in the CATCH world (``life.world: catch_v1_l4`` or
   ``catch_v1_l2``). A CATCH evaluation adds captures, misses and clicks per life and the cells per plane at the end
   (sense z = 0, act z = 1, hidden z >= 2).
@@ -112,12 +113,20 @@ def _plain(x) -> dict:
 class LifeEvaluator:
     """Runs genomes of a ``LifeLayout`` in the worlds built from the config (sections life, world, costs_life,
     envelope): BELL-1, or CATCH with an ABI-3 layout. Call it as ``ev(params, draw)``; ``draw(purpose, index)`` makes
-    the lives. ``abi`` is the layout's kernel ABI, and ``catch`` says whether the world is CATCH."""
+    the lives. ``abi`` defaults to the layout's ABI; ``life.abi=4`` enables visibility with the unchanged BODY-1
+    genome layout. ``catch`` says whether the world is CATCH."""
 
     def __init__(self, cfg, layout):
         self.cfg, self.layout = cfg, layout
         self.abi = getattr(layout, "abi", None) or spec.CURRENT
         lc = cfg.life
+        requested_abi = lc.get("abi", self.abi.version)
+        if requested_abi not in (2, 3, 4):
+            raise ValueError("life.abi must be 2, 3 or 4")
+        selected_abi = {2: spec.V2, 3: spec.V3, 4: spec.V4}[int(requested_abi)]
+        if selected_abi.GENOME_FIELDS != self.abi.GENOME_FIELDS:
+            raise ValueError("life.abi must use the configured genome layout")
+        self.abi = selected_abi
         self.kind = str(cfg.lattice.kind)
         self.seed = int(cfg.seed)
         self.T = float(lc.T)

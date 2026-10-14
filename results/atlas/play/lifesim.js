@@ -1,4 +1,4 @@
-/* lifesim.js: one life of a CATCH body (cell-dev, docs/LIFE_ABI.md ABI 3), simulated step by step in the browser.
+/* lifesim.js: one life of a CATCH body (cell-dev, docs/LIFE_ABI.md ABI 3/4), simulated step by step in the browser.
  *
  * A JavaScript transcription of src/life/reference.py (the pure-Python reference, bitwise equal to the C kernel
  * src/life/kernel.c): the same events, batch order, ties, quantisation (q8, q10), phenotype decode, hash-keyed draws
@@ -9,7 +9,7 @@
  * Browser: loaded as a classic script it defines window.LifeSim. Node: module.exports. No other globals, no Node APIs.
  *
  *   const sim = LifeSim.create(bodiesJson, {body: 0 | 'router@ring4', seed: 39100000, mode: 'auto' | 'user',
- *                                           targets: [[x, y], ...], drift: false, flags: 0, T: 1024, e_max});
+ *                                           targets: [[x, y], ...], drift: false, flags: 0, T: 1024, e_max, abi: 3});
  *     (or LifeSim.create(bodiesJson.bodies[i], opts): one body's JSON is enough; hexprism tables are built in)
  *   sim.advance(dt [, maxEvents])  every event up to t + dt (or up to a time group once maxEvents is reached)
  *   sim.state({membrane})          {t, ended, mode, drift, dot:{x,y}, targets:[{id,x,y,drift}],
@@ -39,7 +39,9 @@
  * lam_bg + lam_s * sum of halos, lambda_max = lam_bg + lam_s * max(1, n targets) (when it changes, each sense
  * cell's pending candidate has its residual wait rescaled by old / new), and a click captures the nearest target
  * within rho_c (removed, R_cap of income) or misses (c_miss). Every change happens at the current time t, between
- * steps; cells only ever see the world through their receptor events.
+ * steps; cells only ever see the world through their receptor events. ABI 4 adds automatic single-target flash
+ * and renewal visibility. Select it with opts.abi or exported body/doc.abi; ABI 3 remains the default. Enabled
+ * visibility is rejected in user-target mode; its world state is never supplied to cells.
  */
 (function (root, factory) {
   const api = factory();
@@ -369,7 +371,8 @@ const TWO_PI = 6.283185307179586;
 const S32 = 0.8660254037844386;
 const S_ZYG = 1, S_UID = 2, S_TAU = 3, S_CLK = 4, S_PHASE = 5, S_DC = 6, S_JIT = 7, S_DROP = 8, S_TICK = 9,
   S_DIE = 10, S_DIV = 11, S_PLACE = 12, S_NOISE = 13, S_NSIGN = 14, S_KILL = 15,
-  S_RCAND = 18, S_RACC = 19, S_TURN = 20, S_HEAD = 21, S_RTIME = 22, S_PANG = 23, S_PDIST = 24, S_PPRES = 25;
+  S_RCAND = 18, S_RACC = 19, S_TURN = 20, S_HEAD = 21, S_RTIME = 22, S_PANG = 23, S_PDIST = 24, S_PPRES = 25,
+  S_VISIBILITY = 26;
 const N_STREAMS = 26;
 
 function u01() { return (HH * 2097152 + ((HL >>> 11) | 1)) * TWO_M53; } // of (HH, HL)
@@ -434,7 +437,8 @@ const LEDGER = ['income', 'live_time', 'sec_int', 'spikes', 'kappa_sum', 'contac
   't_ext', 'captures', 'misses', 'clicks', 'b2_clicks', 'respawns', 'nudges', 'rec_cand', 'rec_accept',
   'rec_events', 'rec_gain', 'samples', 'dist_sum', 'zone_samples', 'path', 'X_end', 'Y_end', 'n_S_end', 'n_M_end',
   'n_H_end', 'live_S', 'live_M', 'live_H'];
-const LI = {}; LEDGER.forEach((n, i) => { LI[n] = i; });
+const LEDGER_V4 = LEDGER.concat(['low_light_captures']);
+const LI = {}; LEDGER_V4.forEach((n, i) => { LI[n] = i; });
 const ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 8, ST_CHEM_CLAMP = 32,
   ST_MISMATCH = 64, ST_WALL = 256;
 const H_ALL = 0, H_SPIKES = 1, H_FATE = 2, H_CHEM = 3, H_WORLD = 4;
@@ -536,6 +540,25 @@ class Life {
     opts = opts || {};
     const doc = body.__doc || {};
     const w = body.world;
+    this.abi = opts.abi !== undefined ? opts.abi : (body.abi !== undefined ? body.abi : (doc.abi !== undefined ? doc.abi : 3));
+    if (this.abi !== 3 && this.abi !== 4) throw new Error('lifesim.js supports ABI 3 or 4');
+    this.ledgerNames = this.abi === 4 ? LEDGER_V4 : LEDGER;
+    this.visibility_mode = w.visibility_mode === undefined ? 0 : w.visibility_mode;
+    this.visibility_on = w.visibility_on === undefined ? 0 : w.visibility_on;
+    this.visibility_off = w.visibility_off === undefined ? 0 : w.visibility_off;
+    this.visibility_low = w.visibility_low === undefined ? 1 : w.visibility_low;
+    const vm = this.visibility_mode, von = this.visibility_on, voff = this.visibility_off, vlo = this.visibility_low;
+    if (![vm, von, voff, vlo].every(Number.isFinite) || !Number.isInteger(vm) || vm < 0 || vm > 2 || vlo < 0 || vlo > 1)
+      throw new Error('invalid visibility mode, duration or multiplier');
+    if (vm === 0) {
+      if (von !== 0 || voff !== 0 || vlo !== 1) throw new Error('steady visibility requires on=off=0 and low=1');
+    } else {
+      if (this.abi !== 4) throw new Error('enabled visibility requires ABI 4');
+      if (w.world_kind !== 1 || w.b2_amp !== 0) throw new Error('enabled visibility requires single-target CATCH');
+      if (von < 2 ** -10 || von > 2 ** 30 || (vm === 1 ? voff !== 0 : voff < 2 ** -10 || voff > 2 ** 30))
+        throw new Error('invalid visibility duration');
+      if (opts.mode === 'user') throw new Error('enabled visibility is not supported in user-target mode');
+    }
     this.body = body;
     this.name = body.name;
     // world keys (4.7)
@@ -1155,7 +1178,7 @@ function pkCmp(p, q) { // inbox order: (t_arr, sender uid)
 const P = Life.prototype;
 
 P.acct_init = function (opts) {
-  this.led = new Float64Array(LEDGER.length);
+  this.led = new Float64Array(this.ledgerNames.length);
   this.led[LI.last_birth] = this.t0; this.led[LI.t_ext] = -1.0;
   this.status = 0; this.extinct = false; this.n = 0; this.n_plane = [0, 0, 0]; this.n_peak = 0; this.inflight = 0;
   this.hh = new Uint32Array(5).fill(HASH_INIT_H); this.hl = new Uint32Array(5).fill(HASH_INIT_L);
@@ -1167,6 +1190,13 @@ P.acct_init = function (opts) {
   this.mode = 'auto';
   this.drift = opts.drift !== undefined ? !!opts.drift : false; // user targets: still (default) or run and tumble
   this.nextTargetId = 1;
+  this.visibility_bright = true;
+  this.visibility_next = Infinity;
+  this.visibility_k = 0;
+  if (this.visibility_mode === 2) {
+    this.visibility_next = this.poissonNext(S_VISIBILITY, 0, 0, this.t0, this.visibility_on);
+    this.visibility_k = 1;
+  }
   this.blobs = [];
   const bl = this.newBlob(0, 0);
   bl.vx = 0; bl.vy = 0; this.heading(bl);
@@ -1235,6 +1265,10 @@ P.place = function (bl, cause, t) {
   this.hash2(S_PDIST, 0, bl.i, 0, bl.q);
   const r = this.R_min + u01() * (this.R_max - this.R_min);
   bl.x = this.DX + r * cos(th); bl.y = this.DY + r * sin(th); bl.t = t; bl.q += 1;
+  if (this.visibility_mode === 1 && bl.i === 0) {
+    this.visibility_bright = true;
+    this.visibility_next = t + this.visibility_on;
+  }
   if (this.hashes) {
     this.foldI(H_WORLD, 12); this.foldF(H_WORLD, t); this.foldI(H_WORLD, bl.i); this.foldI(H_WORLD, cause);
     this.foldF(H_WORLD, bl.x); this.foldF(H_WORLD, bl.y); this.foldI(H_WORLD, 1);
@@ -1256,15 +1290,32 @@ P.turn = function (bl) {
   }
   bl.tau = this.poissonNext(S_TURN, bl.i, bl.k, t, this.tau_turn); bl.k += 1;
 };
-P.worldTo = function (t) { // every world event below t, in (time, timer before turn, blob) order
+P.visibilityTransition = function () {
+  const t = this.visibility_next;
+  this.visibility_bright = !this.visibility_bright;
+  if (this.visibility_mode === 2) {
+    const mean = this.visibility_bright ? this.visibility_on : this.visibility_off;
+    this.visibility_next = this.poissonNext(S_VISIBILITY, 0, this.visibility_k, t, mean);
+    this.visibility_k += 1;
+  } else this.visibility_next = Infinity;
+  if (this.hashes) {
+    this.foldI(H_WORLD, 14); this.foldF(H_WORLD, t); this.foldI(H_WORLD, 0);
+    this.foldI(H_WORLD, this.visibility_bright ? 1 : 0);
+  }
+  this.evlog.push({ t, kind: 'visibility', bright: this.visibility_bright });
+};
+P.worldTo = function (t) { // strictly before t; equal-time timer, turn, then visibility
   for (;;) {
     let best = null, bt = Infinity, bk = 2, bid = Infinity;
     for (const bl of this.blobs) {
       if (bl.r < t && (bl.r < bt || (bl.r === bt && (bk > 0 || bl.id < bid)))) { best = bl; bt = bl.r; bk = 0; bid = bl.id; }
       if (bl.tau < t && (bl.tau < bt || (bl.tau === bt && (bk > 1 || (bk === 1 && bl.id < bid))))) { best = bl; bt = bl.tau; bk = 1; bid = bl.id; }
     }
+    if (this.visibility_next < t && this.visibility_next < bt) {
+      best = this; bt = this.visibility_next; bk = 2;
+    }
     if (best === null) return;
-    if (bk === 0) this.timer(best); else this.turn(best);
+    if (bk === 0) this.timer(best); else if (bk === 1) this.turn(best); else this.visibilityTransition();
   }
 };
 P.sample = function (c) {
@@ -1293,7 +1344,10 @@ P.click = function (t, counted) {
     if (d0 <= this.rho_c * this.rho_c && d0 < hd) { hit = bl; hd = d0; }
   }
   if (hit !== null) {
-    if (counted) { led[LI.captures] += 1.0; led[LI.income] = led[LI.income] + this.R_cap; }
+    if (counted) {
+      led[LI.captures] += 1.0; led[LI.income] = led[LI.income] + this.R_cap;
+      if (this.visibility_mode !== 0 && !this.visibility_bright) led[LI.low_light_captures] += 1.0;
+    }
     if (this.mode === 'auto') this.defer_place.push(hit); else this.defer_remove.push(hit);
   } else if (counted) { led[LI.misses] += 1.0; led[LI.cost] = led[LI.cost] + this.c_miss; }
   if (this.hashes) {
@@ -1325,7 +1379,8 @@ P.stroke = function (t, site, dz, zt, zn, counted) {
 P.rate = function (px, py, t) { // receptor rate at screen point (px, py) at the left limit
   if (this.mode === 'auto') {
     const bl = this.blobs[0], dx = px - this.blobX(bl, t), dy = py - this.blobY(bl, t);
-    return this.lam_bg + this.lam_s * exp(-(dx * dx + dy * dy) / (2.0 * this.sigma * this.sigma));
+    const signal = this.lam_s * exp(-(dx * dx + dy * dy) / (2.0 * this.sigma * this.sigma));
+    return this.lam_bg + (this.visibility_mode !== 0 && !this.visibility_bright ? this.visibility_low * signal : signal);
   }
   let S = 0.0;
   for (const bl of this.blobs) {
@@ -1555,7 +1610,8 @@ P.close = function (t_end, guard_bits) { // 9.5
   led[LI.arrivals] = this.n_arr; led[LI.arrivals_dropped] = this.n_drop; led[LI.ticks] = this.n_ticks;
   led[LI.status] = this.status;
   led[LI.n_S_end] = this.n_plane[0]; led[LI.n_M_end] = this.n_plane[1]; led[LI.n_H_end] = this.n_plane[2];
-  if (this.hashes) for (let i = 0; i < LEDGER.length; i++) this.foldF(-1, led[i]);
+  // ABI 3 closes over its original 57 columns; ABI 4 additionally folds low_light_captures.
+  if (this.hashes) for (let i = 0; i < this.ledgerNames.length; i++) this.foldF(-1, led[i]);
   this.ended = true; this.t_end = t_end; this.t = t_end;
   this.evlog.push({ t: t_end, kind: 'end', F: led[LI.F] });
 };
@@ -1626,6 +1682,7 @@ P.updateLamMax = function (t) {
 P.anchorBlobs = function (t) { for (const bl of this.blobs) { bl.x = this.blobX(bl, t); bl.y = this.blobY(bl, t); bl.t = t; } };
 P.setMode = function (m) {
   if (m !== 'auto' && m !== 'user') throw new Error('mode is "auto" or "user"');
+  if (m === 'user' && this.visibility_mode !== 0) throw new Error('enabled visibility is not supported in user-target mode');
   if (m === this.mode) return;
   const t = this.t;
   this.worldTo(t);
@@ -1732,14 +1789,14 @@ P.state = function (opts) {
   };
 };
 P.info = function () { // static facts for a page: the body, the world's sizes and prices
-  return { name: this.name, mode: this.mode, program: this.program, T: this.T, t0: this.t0, sigma: this.sigma,
+  return { name: this.name, abi: this.abi, mode: this.mode, program: this.program, T: this.T, t0: this.t0, sigma: this.sigma,
     rho_c: this.rho_c, lam_bg: this.lam_bg, lam_s: this.lam_s, v_t: this.v_t, tau_turn: this.tau_turn,
     R_min: this.R_min, R_max: this.R_max, t_resp: this.t_resp, d_min: this.d_min, L_max: this.L_max,
     prices: { R_cap: this.R_cap, c_miss: this.c_miss, c_rec: this.c_rec, c_live: this.c_live, c_spike: this.c_spike,
       c_tw: this.c_tw, c_msg: this.c_msg, c_div: this.c_div, c_sec: this.c_sec },
     max_targets: MAX_TARGETS, flags: Object.keys(FLAGS).filter(n => this.flags & FLAGS[n]) };
 };
-P.ledger = function () { const o = {}; LEDGER.forEach((n, i) => { o[n] = this.led[i]; }); return o; };
+P.ledger = function () { const o = {}; this.ledgerNames.forEach((n, i) => { o[n] = this.led[i]; }); return o; };
 P.hashHex = function () { const o = {}; ['all', 'spikes', 'fate', 'chem', 'world'].forEach((n, i) => { o[n] = hex64(this.hh[i], this.hl[i]); }); return o; };
 
 // ---- public API -------------------------------------------------------------------------------------------
@@ -1773,5 +1830,5 @@ function create(bodyOrDoc, opts) {
     raster: () => ({ t: life.raster_t, uid: life.raster_uid, n: life.raster_n || 0 }),
   };
 }
-return { create, prepare, Life, LEDGER, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.0' };
+return { create, prepare, Life, LEDGER, LEDGER_V4, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.1' };
 });

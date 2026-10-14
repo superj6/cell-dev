@@ -4,14 +4,12 @@ The library is built with ``gcc -O3 -fopenmp -ffp-contract=off -fPIC -shared -st
 under ``~/.cache/cell-dev/life`` (override with ``CELL_DEV_CACHE``) by the SHA-256 of the source plus the flags, and
 loaded with ctypes. ``run`` packs worlds, seeds, genomes or programs and initial bodies into the kernel arrays.
 
-The kernel implements ABI 3 (``KERNEL = spec.V3``). ``run`` speaks the caller's ABI, ``spec.CURRENT`` by default:
-- ABI 3: tables, bodies and outputs in ABI 3's shapes (CATCH worlds, prism lattices, the 57-column ledger).
-- ABI 2 (the repo's ``spec.CURRENT`` until the switch): ABI-2 genome and program tables are padded neutrally
-  (``spec.V3.pad_genomes`` / ``pad_program``), bodies get z = 0, and the outputs are cut back to ABI 2's shapes: ledger
-  columns 0-34, hashes ``all, spikes, fate, chem``, fate-log columns 0-5. ABI 3 folds 57 ledger columns into ``all``
-  at close where ABI 2 folded 35 (LIFE_ABI.md 9.6). Every fold is the bijection ``h -> splitmix64(h ^ w)``, so ABI 2's
-  ``all`` is recovered exactly by undoing the 22 extra folds. A BELL life therefore returns ABI 2's outputs bitwise
-  iff its records and ledger columns 0-34 are ABI 2's (LIFE_ABI.md 15.33, gate GB1).
+The kernel implements ABI 4 (``KERNEL = spec.V4``). ``run`` speaks an explicit caller ABI, preserving the
+legacy ``spec.CURRENT`` default (ABI 2). ABI 3 keeps its 66 world fields and 57 ledger columns; ABI 4 appends
+four target-visibility fields and one capture readout. Older worlds pad neutrally. ABI 2 genome/program/body
+inputs also retain their earlier neutral padding. Returned arrays use the caller's shapes, and undoing the
+extra close-ledger folds recovers older full-mode ``all`` hashes exactly. Fast mode preserves each older
+adapter's existing hash behavior; its hashes are not replay evidence.
 """
 from __future__ import annotations
 
@@ -28,7 +26,7 @@ import numpy as np
 
 from src.life import spec
 
-KERNEL = spec.V3  # the contract kernel.c implements
+KERNEL = spec.V4  # the contract kernel.c implements
 SRC = Path(__file__).with_name("kernel.c")
 CFLAGS = ("-O3", "-fopenmp", "-ffp-contract=off", "-fPIC", "-shared", "-std=c11")
 FAST_FLAGS = ("-DLIFE_FAST",)  # the fast build: same lives and ledger, no hashes (see ``run``'s ``fast``)
@@ -121,7 +119,7 @@ def load(fast: bool = False):
             sizes = (_i32 * 10)()
             lib.life_sizes(sizes)
             if list(sizes) != list(KERNEL.SIZES.values()):
-                raise RuntimeError(f"kernel sizes {list(sizes)} != spec.V3.SIZES {list(KERNEL.SIZES.values())}")
+                raise RuntimeError(f"kernel sizes {list(sizes)} != kernel ABI sizes {list(KERNEL.SIZES.values())}")
             _libs[fast] = lib
         return _libs[fast]
 
@@ -132,8 +130,8 @@ def _ptr(a, t):
 
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, KERNEL.version):
-        raise ValueError(f"build.run speaks ABI 2 and ABI {KERNEL.version}, not ABI {abi.version}")
+    if abi.version not in (2, 3, 4):
+        raise ValueError(f"build.run speaks ABI 2, 3 and {KERNEL.version}, not ABI {abi.version}")
     return abi
 
 
@@ -245,7 +243,7 @@ def unfold_close(h: np.ndarray, ledger: np.ndarray, start: int) -> np.ndarray:
 @dataclass
 class Lives:
     """Kernel outputs for a batch of lives (LIFE_ABI.md 4.9-4.11), in the shapes of ``abi`` (``spec.CURRENT`` if
-    None): ABI 2 has 35 ledger columns, 4 hashes and 6 fate-log columns, ABI 3 has 57, 5 and 7."""
+    None): ABI 2 has 35 ledger columns, 4 hashes and 6 fate-log columns; ABI 3 has 57/5/7 and ABI 4 has 58/5/7."""
     ledger: np.ndarray  # float64 [n, LEDGER_SIZE]
     hashes: np.ndarray  # uint64 [n, HASH_SIZE]: all, spikes, fate, chem (, world)
     raster_t: np.ndarray | None = None  # [n, cap]
@@ -304,7 +302,7 @@ def _init(init, n: int, abi: spec.Abi) -> tuple[np.ndarray | None, np.ndarray | 
             sites = [tuple(c[:nsite]) for c in body]
             rows = [c[nsite] if len(c) > nsite else -1 for c in body]
             rows3 = abi.pack_init(sites, rows)
-            if abi is not KERNEL:  # ABI 2 (a, b, row) -> (a, b, 0, row)
+            if abi.version < 3:  # ABI 2 (a, b, row) -> (a, b, 0, row)
                 old, cnt = rows3
                 new = np.zeros((KERNEL.MAX_INIT, KERNEL.INIT_COLS), dtype=np.int32)
                 new[:len(old), 0:2] = old[:, 0:2]
@@ -351,7 +349,7 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
         fast: bool = False) -> Lives:
     """Run ``n`` lives. ``worlds``: a ``spec.World`` (or a list, one per life). ``seeds``: life seeds or rows of 4.
 
-    ``abi`` (``spec.CURRENT`` if None) is the ABI of the tables, bodies and outputs; the kernel itself is ABI 3.
+    ``abi`` (``spec.CURRENT`` if None) is the ABI of the tables, bodies and outputs; the kernel itself is ABI 4.
     ``genomes`` is a packed genome table ``[G, GENOME_SIZE]`` (``abi.pack_genomes``), ``programs`` a program table
     ``[P, PROGRAM_SIZE]`` or one row (``abi.pack_program``); the two may have different row counts. ``genome_of[i]``
     picks the row of life i in the table its mode uses (program mode: ``programs``, else ``genomes``). By default a
@@ -361,8 +359,10 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
     The lattice comes from the worlds unless ``kind`` is given.
 
     ``fast`` uses the ``LIFE_FAST`` build: the same lives, bitwise (ledger, raster, fate log; tests/test_life_fast.py),
-    about 1.25x faster, but it folds no hashes, so every hash family stays ``HASH_INIT``. Use it where hashes are not
-    read (evolution); gates, golden tests and anything comparing hashes keep the full build.
+    about 1.25x faster, but it folds no hashes, so the raw families stay ``HASH_INIT``. ABI 2 preserves its legacy
+    adapter's transformed ``all`` value (undoing the 22 ABI-3 close folds even in fast mode); ABI 3/4 return the
+    constants. None is replay evidence. Use fast mode where hashes are not read (evolution); golden tests and
+    anything comparing hashes keep the full build.
     """
     abi = _abi(abi)
     seeds = _seeds(seeds)
@@ -418,10 +418,14 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
         _ptr(out.raster_n, _i64), fate_cap, _ptr(out.fate_i, _i64), _ptr(out.fate_f, _f64), _ptr(out.fate_n, _i64))
     if rc != 0:
         raise ValueError(f"life_run returned {rc}: {RETURN_CODES.get(rc, 'unknown error')}")
-    if abi is not KERNEL:  # back to ABI 2's shapes, with ABI 2's all hash (module docstring)
+    if abi is not KERNEL:  # caller shapes and compatible close hash (module docstring)
         L2, H2 = abi.LEDGER_SIZE, abi.HASH_SIZE
         h = hashes[:, :H2].copy()
-        h[:, 0] = unfold_close(hashes[:, 0], ledger, L2)
+        if not fast:
+            h[:, 0] = unfold_close(hashes[:, 0], ledger, L2)
+        elif abi.version == 2:
+            # Retain the legacy ABI-2 fast adapter exactly; ABI 3/4 fast hashes stay HASH_INIT.
+            h[:, 0] = unfold_close(hashes[:, 0], ledger[:, :spec.V3.LEDGER_SIZE], L2)
         out.ledger, out.hashes = np.ascontiguousarray(ledger[:, :L2]), np.ascontiguousarray(h)
         if fate_cap > 0:
             out.fate_i = np.ascontiguousarray(out.fate_i[:, :, :abi.FATE_I_SIZE])

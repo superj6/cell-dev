@@ -1,0 +1,308 @@
+........................................................................ [  8%]
+........................................................................ [ 16%]
+.....................................FF................................. [ 25%]
+........................................................................ [ 33%]
+........................................................................ [ 42%]
+........................................................................ [ 50%]
+........................................................................ [ 58%]
+........................................................................ [ 67%]
+........................................................................ [ 75%]
+........................................................................ [ 84%]
+.........................F.FF........................................... [ 92%]
+...............................................................          [100%]
+=================================== FAILURES ===================================
+__________________ test_the_catch_pilot_matrix_is_set_per_arm __________________
+
+    def test_the_catch_pilot_matrix_is_set_per_arm():
+        """scripts/run_catch_pilot.sh: arms with seed counts (PILOT_ARMS), interleaved by seed; the default runs the v1
+        arms and the SPECK arms (29 runs on 4 jobs x 3 threads); bad arms are refused before anything runs."""
+        script = (ROOT / "scripts/run_catch_pilot.sh").read_text()
+        for part in ('ARMS=${PILOT_ARMS:-v1_l4:10 v1_l2:3 v1_seeded:3:300 speck_l4:10 speck_seeded:3:300}',
+                     "v1_l4) echo configs/life_catch.yaml",
+                     "v1_l2) echo configs/life_catch_l2.yaml", "v1_seeded) echo configs/life_catch_seeded.yaml",
+                     "speck_l4) echo configs/life_speck.yaml", "speck_seeded) echo configs/life_speck_seeded.yaml",
+                     "PILOT_GENERATIONS:-500", "PILOT_JOBS:-4", "PILOT_THREADS:-3", "NAME=catch_pilot", "scripts/sweep.py",
+                     'evolve.generations="$GENERATIONS"', "scripts/aggregate.py", '--out "${ROOT}outputs"'):
+            assert part in script, part
+        assert subprocess.run(["bash", "-n", str(ROOT / "scripts/run_catch_pilot.sh")]).returncode == 0
+    
+        def runs(out):  # the plan's numbered rows (the last line is the count per config)
+            return [line.split()[1] for line in out.splitlines() if line[:3].strip().isdigit() and "runs:" not in line]
+    
+        default = _pilot()
+>       assert default.returncode == 0, default.stderr
+E       AssertionError: /home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/scripts/run_catch_pilot.sh: line 96: .venv/bin/python: No such file or directory
+E         
+E       assert 127 == 0
+E        +  where 127 = CompletedProcess(args=['bash', '/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/scripts/run_catch_pilo...v/outputs/abi4_visibility_20261014/scripts/run_catch_pilot.sh: line 96: .venv/bin/python: No such file or directory\n').returncode
+
+tests/test_life_evolve.py:823: AssertionError
+_______________ test_the_sweep_runs_the_first_n_seeds_of_an_arm ________________
+
+    def test_the_sweep_runs_the_first_n_seeds_of_an_arm():
+        from scripts.sweep import arm_spec, matrix
+    
+        assert arm_spec("configs/life_catch.yaml") == ("configs/life_catch.yaml", None, None)
+        assert arm_spec("configs/life_catch.yaml:3") == ("configs/life_catch.yaml", 3, None)
+        assert arm_spec("configs/life_catch.yaml:3:250") == ("configs/life_catch.yaml", 3, 250)
+        assert arm_spec("/abs/a:b.yaml") == ("/abs/a:b.yaml", None, None)  # not a count
+        for bad in ("configs/life_catch.yaml:0", "configs/life_catch.yaml:2:0"):
+            with pytest.raises(ValueError):
+                arm_spec(bad)
+        l4, sd = (load_config(str(ROOT / c)) for c in ("configs/life_catch.yaml", "configs/life_catch_seeded.yaml"))
+        runs = matrix([("a", l4, 3), ("b", sd, 1, 250)], None, None, ["0", "1", "2"])
+        assert [r["run"] for r in runs] == ["lmax4_hexprism_sex_s0", "seeded_hexprism_sex_s0", "lmax4_hexprism_sex_s1",
+                                            "lmax4_hexprism_sex_s2"]
+        assert [r["generations"] for r in runs] == [None, 250, None, None]
+        from scripts.sweep import command
+    
+        cmd = command(runs[1], 4, "o/x/seeded", ["evolve.generations=500", "evolve.mu=4"])
+        assert cmd[-3:] == ["evolve.generations=500", "evolve.mu=4", "evolve.generations=250"]  # the arm's wins
+        assert "evolve.generations=250" not in command(runs[0], 4, "o/x/l4", ["evolve.generations=500"])
+        assert matrix([("a", l4, None), ("b", sd)], None, None, ["4", "7"]) == matrix([("a", l4), ("b", sd)], None, None,
+                                                                                        ["4", "7"])
+        with pytest.raises(ValueError, match="3 seeds asked"):
+            matrix([("a", l4, 3)], None, None, ["0", "1"])
+>       plan = subprocess.run([str(ROOT / ".venv/bin/python"), "scripts/sweep.py", "--config",
+                               "configs/life_catch.yaml:2,configs/life_catch_seeded.yaml:1", "--seeds", "5,6", "--name",
+                               "x", "--plan"], cwd=ROOT, capture_output=True, text=True, timeout=120)
+
+tests/test_life_evolve.py:869: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: 255 args: ['/home/jgon/project/ml/cell-dev/outputs/abi4_...>
+args = ['/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/.venv/bin/python', 'scripts/sweep.py', '--config', 'configs/life_catch.yaml:2,configs/life_catch_seeded.yaml:1', '--seeds', '5,6', ...]
+executable = b'/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/.venv/bin/python'
+preexec_fn = None, close_fds = True, pass_fds = ()
+cwd = PosixPath('/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014')
+env = None, startupinfo = None, creationflags = 0, shell = False, p2cread = -1
+p2cwrite = -1, c2pread = 11, c2pwrite = 12, errread = 13, errwrite = 14
+restore_signals = True, gid = None, gids = None, uid = None, umask = -1
+start_new_session = False, process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       restore_signals,
+                       gid, gids, uid, umask,
+                       start_new_session, process_group):
+        """Execute program (POSIX version)"""
+    
+        if isinstance(args, (str, bytes)):
+            args = [args]
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = [args]
+        else:
+            args = list(args)
+    
+        if shell:
+            # On Android the default shell is at '/system/bin/sh'.
+            unix_shell = ('/system/bin/sh' if
+                      hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+            args = [unix_shell, "-c"] + args
+            if executable:
+                args[0] = executable
+    
+        if executable is None:
+            executable = args[0]
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        if (_USE_POSIX_SPAWN
+                and os.path.dirname(executable)
+                and preexec_fn is None
+                and not close_fds
+                and not pass_fds
+                and cwd is None
+                and (p2cread == -1 or p2cread > 2)
+                and (c2pwrite == -1 or c2pwrite > 2)
+                and (errwrite == -1 or errwrite > 2)
+                and not start_new_session
+                and process_group == -1
+                and gid is None
+                and gids is None
+                and uid is None
+                and umask < 0):
+            self._posix_spawn(args, executable, env, restore_signals,
+                              p2cread, p2cwrite,
+                              c2pread, c2pwrite,
+                              errread, errwrite)
+            return
+    
+        orig_executable = executable
+    
+        # For transferring possible exec failure from child to parent.
+        # Data format: "exception name:hex errno:description"
+        # Pickle is not used; it is complex and involves memory allocation.
+        errpipe_read, errpipe_write = os.pipe()
+        # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+        low_fds_to_close = []
+        while errpipe_write < 3:
+            low_fds_to_close.append(errpipe_write)
+            errpipe_write = os.dup(errpipe_write)
+        for low_fd in low_fds_to_close:
+            os.close(low_fd)
+        try:
+            try:
+                # We must avoid complex work that could involve
+                # malloc or free in the child process to avoid
+                # potential deadlocks, thus we do all this here.
+                # and pass it to fork_exec()
+    
+                if env is not None:
+                    env_list = []
+                    for k, v in env.items():
+                        k = os.fsencode(k)
+                        if b'=' in k:
+                            raise ValueError("illegal environment variable name")
+                        env_list.append(k + b'=' + os.fsencode(v))
+                else:
+                    env_list = None  # Use execv instead of execve.
+                executable = os.fsencode(executable)
+                if os.path.dirname(executable):
+                    executable_list = (executable,)
+                else:
+                    # This matches the behavior of os._execvpe().
+                    executable_list = tuple(
+                        os.path.join(os.fsencode(dir), executable)
+                        for dir in os.get_exec_path(env))
+                fds_to_keep = set(pass_fds)
+                fds_to_keep.add(errpipe_write)
+                self.pid = _fork_exec(
+                        args, executable_list,
+                        close_fds, tuple(sorted(map(int, fds_to_keep))),
+                        cwd, env_list,
+                        p2cread, p2cwrite, c2pread, c2pwrite,
+                        errread, errwrite,
+                        errpipe_read, errpipe_write,
+                        restore_signals, start_new_session,
+                        process_group, gid, gids, uid, umask,
+                        preexec_fn, _USE_VFORK)
+                self._child_created = True
+            finally:
+                # be sure the FD is closed no matter what
+                os.close(errpipe_write)
+    
+            self._close_pipe_fds(p2cread, p2cwrite,
+                                 c2pread, c2pwrite,
+                                 errread, errwrite)
+    
+            # Wait for exec to fail or succeed; possibly raising an
+            # exception (limited in size)
+            errpipe_data = bytearray()
+            while True:
+                part = os.read(errpipe_read, 50000)
+                errpipe_data += part
+                if not part or len(errpipe_data) > 50000:
+                    break
+        finally:
+            # be sure the FD is closed no matter what
+            os.close(errpipe_read)
+    
+        if errpipe_data:
+            try:
+                pid, sts = os.waitpid(self.pid, 0)
+                if pid == self.pid:
+                    self._handle_exitstatus(sts)
+                else:
+                    self.returncode = sys.maxsize
+            except ChildProcessError:
+                pass
+    
+            try:
+                exception_name, hex_errno, err_msg = (
+                        errpipe_data.split(b':', 2))
+                # The encoding here should match the encoding
+                # written in by the subprocess implementations
+                # like _posixsubprocess
+                err_msg = err_msg.decode()
+            except ValueError:
+                exception_name = b'SubprocessError'
+                hex_errno = b'0'
+                err_msg = 'Bad exception data from child: {!r}'.format(
+                              bytes(errpipe_data))
+            child_exception_type = getattr(
+                    builtins, exception_name.decode('ascii'),
+                    SubprocessError)
+            if issubclass(child_exception_type, OSError) and hex_errno:
+                errno_num = int(hex_errno, 16)
+                if err_msg == "noexec:chdir":
+                    err_msg = ""
+                    # The error must be from chdir(cwd).
+                    err_filename = cwd
+                elif err_msg == "noexec":
+                    err_msg = ""
+                    err_filename = None
+                else:
+                    err_filename = orig_executable
+                if errno_num != 0:
+                    err_msg = os.strerror(errno_num)
+                if err_filename is not None:
+>                   raise child_exception_type(errno_num, err_msg, err_filename)
+E                   FileNotFoundError: [Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/.venv/bin/python'
+
+/usr/lib/python3.12/subprocess.py:1955: FileNotFoundError
+_________________________ test_the_study_data_is_kept __________________________
+
+    def test_the_study_data_is_kept():
+        for name in ("fwd/esc_g12.json", "fwd/esc_g12_r16.json", "fwd/esc_g12_r32.json", "fwd/bodies_g30.json",
+                     "fwd50/esc_g12_A_b.json", "fwd50/esc_g12_B1644_b.json", "fwd50/esc_g12_B2644.json",
+                     "logs/fwd50_A.log", "logs/fwd50_B1644.log", "logs/fwd50_B2644.log", "pops/esc_hex_s0_g12.npz",
+                     "pops/hex_s0_g30.npz"):
+>           assert (DATA / name).is_file(), name
+E           AssertionError: logs/fwd50_A.log
+E           assert False
+E            +  where False = is_file()
+E            +    where is_file = (PosixPath('/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014/results/selection_study/data') / 'logs/fwd50_A.log').is_file
+
+tests/test_selection_study.py:28: AssertionError
+____________________ test_fifty_generations_from_the_escape ____________________
+
+    def test_fifty_generations_from_the_escape():
+        rows = defaultdict(dict)
+        for f in sorted(DATA.glob("logs/fwd50_*.log")):
+            for line in f.read_text().splitlines():
+                r = json.loads(line)
+                rows[r["scheme"]][(r["rep"], r["gens"])] = r
+        reps = range(24)
+        end = {s: [v[(rep, 50)] for rep in reps] for s, v in rows.items()}  # every scheme finished all 24
+        body = {s: sum(r["body_share"] >= 0.5 for r in v) for s, v in end.items()}
+        beat = {s: sum(r["mean_F"] > LONE + 0.0005 for r in v) for s, v in end.items()}
+        mean_F = {s: round(sum(r["mean_F"] for r in v) / 24, 4) for s, v in end.items()}
+>       assert body == {"A": 19, CHOSEN: 12, RECHECK_ONLY: 5}
+E       AssertionError: assert {} == {'A': 19, 'B1... 'B2:64:4': 5}
+E         
+E         Right contains 3 more items:
+E         {'A': 19, 'B1:64:4': 12, 'B2:64:4': 5}
+E         Use -v to get more diff
+
+tests/test_selection_study.py:54: AssertionError
+____________________ test_no_new_lines_over_120_characters _____________________
+
+    def test_no_new_lines_over_120_characters():
+        found = long_lines()
+        grown = {f: (n, LEGACY.get(f, 0)) for f, n in found.items() if n > LEGACY.get(f, 0)}
+>       assert not grown, f"files with more lines over {LIMIT} characters than allowed (found, allowed): {grown}"
+E       AssertionError: files with more lines over 120 characters than allowed (found, allowed): {'src/life/evaluate.py': (1, 0), 'src/life/probe.py': (1, 0), 'tests/data/abi4_legacy/capture_legacy.py': (3, 0)}
+E       assert not {'src/life/evaluate.py': (1, 0), 'src/life/probe.py': (1, 0), 'tests/data/abi4_legacy/capture_legacy.py': (3, 0)}
+
+tests/test_style.py:29: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_life_evolve.py::test_the_catch_pilot_matrix_is_set_per_arm
+FAILED tests/test_life_evolve.py::test_the_sweep_runs_the_first_n_seeds_of_an_arm
+FAILED tests/test_selection_study.py::test_the_study_data_is_kept - Assertion...
+FAILED tests/test_selection_study.py::test_fifty_generations_from_the_escape
+FAILED tests/test_style.py::test_no_new_lines_over_120_characters - Assertion...
+5 failed, 850 passed, 127 deselected in 116.36s (0:01:56)

@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "worktree": "/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_20261014",
+  "source_sha256": {
+    "results/atlas/play/lifesim.js": "6ce1c6b4652f4fef2e1db0267624baccc90782ce196fe1cca3677048e99c8256",
+    "results/atlas/play/export_bodies.py": "1e7a5709598f238ca23aa31d5926ad9409c724c84dcd3dfafb7a2f37ee210f23",
+    "results/atlas/play/export_visibility.py": "13e27c7828293a3f8a00f15595aac8a8a7017efe03d8b91451e08b92ef5eddf5",
+    "results/atlas/play/test_visibility.js": "a50709531248c107a900ba4c2275ed1882c7d761d07f499a027f7ce620b3feee",
+    "results/atlas/play/test_export_visibility.py": "1360cbb2c04e6fe02c11f1321f0faa33f1ef4faa94b73fd45ef51d811f065bd6"
+  },
+  "artifact_sha256": {
+    "js/truth.json": "9ec79cf4dd8b2a99310c6a6be5ca99b903a0d8a79a0f2fb44245f0950d471d26",
+    "js_export_truth.txt": "4856ba3460664cd0084b98a1c187c7b98e321d9654c55d3ff3f20dce9ae26e3b",
+    "js_truth_tests.txt": "977f7dabfa984bb84e24dd4b77808a79585a6b2a05a8a31328e1986e6fbd35d6",
+    "js_legacy_tests.txt": "f27f920de93365f9da1aeb24ebd808cd30792a3f3f95572ea335445fdb29ee6d",
+    "js_boundary_tests.txt": "c1acc0feebd622c01c10bb6784460d19697a0c734e53168ce73d7243c65fe620",
+    "js_export_tests.txt": "59f19b91445f38efd316bc20ca6bfc9219224e4add360d60ad0d415baccbaffc"
+  },
+  "fixture_source_sha256": {
+    "src/life/spec.py": "6d9b57b3b2714cfa3d01e0e2c4f6c8076154bd3c7dc5f190c24827b5999cfe99",
+    "src/life/kernel.c": "3b683af571ecda2faccbd1ab2506250095b8d30e9218e8d8e5d4528866cd8683",
+    "src/life/build.py": "34d16494ca348e469c95150726972bd0baca3f7996a534f737c3bc9de386a85c",
+    "src/life/reference.py": "8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662",
+    "results/atlas/play/lifesim.js": "6ce1c6b4652f4fef2e1db0267624baccc90782ce196fe1cca3677048e99c8256",
+    "results/atlas/play/export_visibility.py": "13e27c7828293a3f8a00f15595aac8a8a7017efe03d8b91451e08b92ef5eddf5",
+    "results/atlas/play/export_bodies.py": "1e7a5709598f238ca23aa31d5926ad9409c724c84dcd3dfafb7a2f37ee210f23"
+  },
+  "truth_cases": 16,
+  "T": 96,
+  "unchanged_atlas_body_indices": [
+    0,
+    7
+  ],
+  "fixture_C_lives": 16,
+  "fixture_Python_lives": 16,
+  "fixture_export_process_cpu_seconds": 40.633464991000004,
+  "JS_truth_lives": 32,
+  "JS_truth_execution": "Every case once whole and once under capped stepping.",
+  "C_Python_parity": [
+    "Every ledger byte",
+    "All five meaningful full-mode hashes",
+    "Retained spike raster bytes and total",
+    "Full fate arrays with no C fate overflow"
+  ],
+  "JS_parity": [
+    "Every ledger byte",
+    "All five meaningful full-mode hashes",
+    "Retained spike raster bytes and total",
+    "Capped-step hash invariance"
+  ],
+  "low_light_capture_cases": [
+    "body0_flash_55040000",
+    "body7_flash_55040000",
+    "body7_flash_55040001",
+    "body7_renewal_55040001",
+    "shifted_flash_open",
+    "flash_low_one"
+  ],
+  "focused_boundary_checks": 12,
+  "truth_checks": 16,
+  "export_unit_tests": 5,
+  "legacy_checks": {
+    "compact_standard_lives": 8,
+    "wound_lives": 33,
+    "interactive_checks": 18
+  },
+  "threads_per_simulation": 1,
+  "cache": "/home/jgon/project/ml/cell-dev/outputs/abi4_visibility_build_20261014/kernel-cache",
+  "limits": [
+    "Engineering fixtures use existing bodies; no behavioral capability or world information-payoff conclusion.",
+    "JS exposes fate hashes, not a full fate-array API; full fate-array byte parity is C versus Python.",
+    "JS still supports its previous restricted world subset and rejects second blobs, window/lockstep scheduling and other preexisting unsupported features.",
+    "Enabled visibility is only supported for automatic single-target mode. Legacy mode-zero interaction remains available.",
+    "No pinned historical viewer copies or committed bodies/truth were rewritten. No commit was made."
+  ]
+}

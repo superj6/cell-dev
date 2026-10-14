@@ -1,0 +1,44 @@
+{
+  "status": "approved_with_explicit_analysis_helper_limits",
+  "blocking_findings": [],
+  "new_research_lives": 0,
+  "bridge_report_sha256": "9cc5367d34a8cf229f8e4e42bd0dc2001bc6ab29ccb01d9e0a32010f4a8f0437",
+  "bridge_cases": 12,
+  "bridge_backend_validation_lives": 24,
+  "source_pins": {
+    "src/life/spec.py": "6d9b57b3b2714cfa3d01e0e2c4f6c8076154bd3c7dc5f190c24827b5999cfe99",
+    "src/life/build.py": "34d16494ca348e469c95150726972bd0baca3f7996a534f737c3bc9de386a85c",
+    "src/life/evaluate.py": "416b5c9502f23ac81989aa910ee2ac7604eaa51c5f088ce612b99d5ba08de026",
+    "src/life/reference.py": "8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662",
+    "src/life/readouts.py": "218ea5275b5a858a4591a15ee7b80c2f9f75843d2a120c6bbba122ca971223bf",
+    "src/life/probe.py": "5480bb58d5ece0164650f04adc11f15493e3971e8f81f9733496f91df04e6087",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+    "src/genome.py": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+    "results/atlas/play/export_bodies.py": "1e7a5709598f238ca23aa31d5926ad9409c724c84dcd3dfafb7a2f37ee210f23"
+  },
+  "findings": [
+    "V4 only appends world fields 66..69 and ledger column 57; genome fields, inputs, knobs and local flags agree with V3.",
+    "CURRENT remains V2. Enabled visibility requires explicit V4; prior caller schemas retain old sizes.",
+    "build._init pads only ABI2 bodies; ABI3 bodies retain their z and program row columns.",
+    "Full hashes unfold the extra ledger suffix; fast ABI2 preserves the old 57-to-35 unfolding behavior, while fast ABI3 retains HASH_INIT.",
+    "V3-to-V4 program/genome tables copy the unchanged layout neutrally.",
+    "LifeEvaluator explicitly accepts life.abi 4 only with the existing V3-sized genome layout and propagates the selected ABI into world validation, packing, output statistics and kernel calls.",
+    "Checkpoint numerical_identity still pins all Python sources and kernel bytes; no old-checkpoint resume bypass was introduced.",
+    "Browser world export accepts explicit ABI4 and refuses to silently discard visibility under ABI3."
+  ],
+  "limitations": [
+    "readouts.validate_ledger still explicitly requires 57 columns; it refuses ABI4 rows rather than processing them silently.",
+    "probe._inputs still explicitly packs V3, so enabled visibility worlds are refused by the existing tracing/lesion API.",
+    "These helper limitations do not block core ABI4 simulation. Extend or document them before those helpers are used for an ABI4 scientific study.",
+    "Scratch bridge establishes physics compatibility only. It does not test or admit any evolved algorithm."
+  ],
+  "commands_reviewed": [
+    "pytest tests/test_life_visibility_reference.py: 22 passed",
+    "pytest tests/test_life_reference_smoke.py: 19 non-slow passed",
+    "scratch_bridge/bridge.py: 12 fixed cases pass"
+  ],
+  "bridge_files": {
+    "bridge.py": "faeb984d0201e8164634dd77f676a3c16ad7a486aebddcad5a71b2336ef10a12",
+    "README.md": "5fa3fa08e628b54662fc75c1925996fa6d5f7373b7da4a86e40010e441740300"
+  }
+}

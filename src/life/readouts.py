@@ -52,12 +52,21 @@ development to isolate adult circuitry. The plan's R1 criterion uses share_of_re
     return out
 
 
-def validate_ledger(ledger) -> dict:
-    """Reject guards, failed accounting, capacity failures and truncated logs; retain ordinary wall/extinction flags."""
+def validate_ledger(ledger, *, abi=spec.V3) -> dict:
+    """Check complete caller-ledger rows; ABI 4 is explicit and low-light captures must be a subset of captures.
+
+Reject guards, failed accounting, capacity failures and truncated logs; retain ordinary wall/extinction flags.
+"""
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4):
+        raise ValueError("ledger readouts require spec.V3 or spec.V4")
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
-    if led.ndim != 2 or led.shape[1] != spec.V3.LEDGER_SIZE or not len(led) or not np.isfinite(led).all():
-        raise ValueError("need finite, complete ABI-3 ledger rows")
-    statuses = led[:, spec.V3.L["status"]].astype(np.int64)
+    if led.ndim != 2 or led.shape[1] != abi.LEDGER_SIZE or not len(led) or not np.isfinite(led).all():
+        raise ValueError(f"need finite, complete ABI-{abi.version} ledger rows")
+    if abi.version >= 4:
+        low, captures = led[:, abi.L["low_light_captures"]], led[:, abi.L["captures"]]
+        if np.any(low < 0) or np.any(low > captures):
+            raise ValueError("low_light_captures must lie between zero and captures")
+    statuses = led[:, abi.L["status"]].astype(np.int64)
     names = ("guard_cells", "guard_events", "raster_overflow", "fate_overflow", "ledger_mismatch", "capacity")
     invalid = sum(spec.STATUS[k] for k in names)
     if np.any(statuses & invalid):
@@ -65,6 +74,15 @@ def validate_ledger(ledger) -> dict:
                for k in names if np.any(statuses & spec.STATUS[k])}
         raise ValueError(f"invalid or incomplete measurement lives: {bad}")
     return {k: int(np.count_nonzero(statuses & v)) for k, v in spec.STATUS.items() if np.any(statuses & v)}
+
+
+def _validate_trace_ledger(tr):
+    version = tr.meta.get("abi", 3)
+    if version not in (3, 4):
+        raise ValueError("trace metadata must name ABI 3 or 4")
+    abi = spec.V4 if version == 4 else spec.V3
+    validate_ledger([tr.ledger[k] for k in abi.LEDGER], abi=abi)
+    return abi
 
 
 @dataclass(frozen=True)
@@ -143,7 +161,7 @@ cannot reconstruct subthreshold integration. Lesions supply the complementary ca
         raise ValueError("max_depth must be positive")
     rows = []
     for tr in traces:
-        validate_ledger([tr.ledger[k] for k in spec.V3.LEDGER])
+        _validate_trace_ledger(tr)
         if not len(tr.spikes):
             rows.append(dict(seed=tr.meta["seed"], groups=[]))
             continue
@@ -203,7 +221,7 @@ def search_signature(tr: probe.Trace, *, silence_window: float, start: float | N
 The observation-only motion log supports exact integration through gaps, even while force direction changes.
 """
     w = tr.meta["world"]
-    validate_ledger([tr.ledger[k] for k in spec.V3.LEDGER])
+    abi = _validate_trace_ledger(tr)
     start = w.t0 + w.t_open if start is None else float(start)
     end = float(tr.ledger["t_end"])
     gaps = silent_intervals(tr.receptors.t, start, end, silence_window, life_start=w.t0)
@@ -214,7 +232,7 @@ The observation-only motion log supports exact integration through gaps, even wh
     # The ABI samples at t0 + 1, t0 + 2, ...; probe.traj also includes an initial placement, which is not a sample.
     samples = tr.traj[(tr.traj.t > w.t0) & (tr.traj.t >= start) & (tr.traj.t < end)]
     inside = (samples.X - samples.tx) ** 2 + (samples.Y - samples.ty) ** 2 <= w.rho_c ** 2
-    return dict(seed=tr.meta["seed"], start=start, end=end, silence_window=silence_window,
+    out = dict(seed=tr.meta["seed"], start=start, end=end, silence_window=silence_window,
                 silent_time=sum(hi - lo for lo, hi in gaps), silent_distance=motion_distance(tr.motion, gaps),
                 total_distance=motion_distance(tr.motion, [(start, end)]), zone_samples=int(inside.sum()),
                 samples=len(samples), capture_zone_sample_share=float(inside.mean()) if len(samples) else None,
@@ -222,6 +240,19 @@ The observation-only motion log supports exact integration through gaps, even wh
                 flip_recovery=None, dim_captures=None,
                 unavailable="ABI 3 has no flip or dim state; flip recovery also needs a registered definition",
                 occupancy_method="integer-time left-limit samples; excludes the initial placement")
+    if abi.version >= 4:
+        if "low_light" not in tr.clicks or not tr.clicks.low_light.isin([True, False]).all():
+            raise ValueError("ABI-4 search readouts need pre-replacement low_light observations on every click")
+        counted = tr.clicks[(tr.clicks.t >= w.t0 + w.t_open) & (tr.clicks.t < end)]
+        counted_low = int(((counted.outcome == "capture") & counted.low_light.astype(bool)).sum())
+        if counted_low != tr.ledger["low_light_captures"]:
+            raise ValueError("observed low-light captures disagree with the accounting-window ledger")
+        low = int(((clicks.outcome == "capture") & clicks.low_light.astype(bool)).sum())
+        out.update(dim_captures=low, low_light_captures=low,
+                   low_light_capture_share=low / captures if captures else None,
+                   unavailable="flip recovery is unmeasured and needs a registered definition",
+                   low_light_method="pre-replacement visibility at each capture within the requested window")
+    return out
 
 
 def json_safe(value):

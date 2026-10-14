@@ -39,6 +39,12 @@ with the low-light capture readout and compatibility tests. `docs/ABI4_VISIBILIT
 contract. Motor flip and the large task-family selection matrix remain separate decisions. The port starts
 in an isolated checkout so active U/V studies keep their original source and numerical pins.
 
+*2026-10-14 ABI 4 port completed:* flash and irregular renewal blink are integrated with explicit caller opt-in.
+Legacy byte fixtures, C/Python/JS truth, prototype physics, scheduling/threads and resume checks pass;
+`results/abi4_visibility_20261014/` preserves the engineering evidence. Cell inputs, genomes and asynchronous
+rules are unchanged. This completes the limited implementation step, not world admission or a memory claim.
+Fresh information-payoff measurement is the next preparation; no large selection matrix is released.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.

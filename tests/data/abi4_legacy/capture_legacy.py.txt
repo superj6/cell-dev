@@ -1,0 +1,45 @@
+"""Bounded pre-port ABI2/3 execution fixtures, intentionally reusing validation seeds0/11."""
+from dataclasses import asdict
+from pathlib import Path
+import hashlib
+import json
+import resource
+import time
+import numpy as np
+from src.life import build, handbuilt as hb, spec
+
+ROOT = Path.cwd()
+OUT = ROOT / 'outputs/abi4_visibility_validation_20261014/legacy'
+assert not OUT.exists()
+OUT.mkdir()
+start = time.process_time()
+org = hb.speck_body('reflex@hollow3')
+cases = []
+for name, overrides in [('speck', {}), ('decoy', dict(b2_amp=1., b2_sigma=1.2, b2_value=-50., b2_mode=1)),
+                        ('fork', dict(t_fork=32., t_open=40., fork_flags=spec.V3.flags('freeze','lateral_off'))),
+                        ('shifted', dict(t0=7.))]:
+ cases.append((name, spec.V3, org.world('catch_speck_l4', T=64., **overrides),
+               dict(programs=org.program, init=list(org.cells))))
+g = hb.column_genome()
+cases.append(('growing', spec.V3, spec.world('catch_speck_l4', T=64.),
+              dict(genomes=spec.V3.pack_genomes(g, 'hexprism'))))
+cases.append(('wound', spec.V3, spec.world('catch_speck_l4', T=64., kill_t=40., kill_frac=.5),
+              dict(genomes=spec.V3.pack_genomes(g, 'hexprism'))))
+for name, extra in [('bell', {}), ('guard', dict(e_max=50))]:
+ w=spec.world('bell_v1', T=64., flags=spec.V2.flags('program_mode'), **extra)
+ cases.append((name, spec.V2, w, dict(programs=spec.V2.pack_program(spec.V2.theta(b=.75, emit0=1., kappa=1.)))))
+records=[]
+for name, abi, world, kwargs in cases:
+ np.savez_compressed(OUT/(name+'_inputs.npz'), **{k:np.asarray(v) for k,v in kwargs.items()})
+ for fast in (False, True):
+  result=build.run(world, [0,11], threads=1, raster_cap=512, fate_cap=128, abi=abi, fast=fast, **kwargs)
+  arrays={key:getattr(result,key) for key in ['ledger','hashes','raster_t','raster_uid','raster_n','fate_i','fate_f','fate_n']}
+  path=OUT/(name+('_fast' if fast else '_full')+'.npz');np.savez_compressed(path,**arrays)
+  records.append({'name':name,'abi':abi.version,'world':asdict(world),'fast':fast,'seeds':[0,11],
+                  'file':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'inputs':name+'_inputs.npz'})
+usage=resource.getrusage(resource.RUSAGE_CHILDREN)
+receipt={'status':'complete','validation_lives':32,'T':64,'cpu_seconds':time.process_time()-start+usage.ru_utime+usage.ru_stime,
+         'cases':records,'source_pins':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in
+          ['src/life/spec.py','src/life/kernel.c','src/life/reference.py','src/life/build.py','results/atlas/play/lifesim.js']}}
+(OUT/'manifest.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print({k:v for k,v in receipt.items() if k not in ['cases','source_pins']})
