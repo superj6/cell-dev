@@ -31,17 +31,29 @@ one zygote ──divide / specialise / die──> a layered body on a hex-prism 
 - **Evolution:** (32+224) with crossover and a two-stage recheck, about 1,000 lives per generation
   (`src/life/evaluate.py`, `src/run.py`, `src/evolve.py`).
 
-**What we found** (RESULTS.md, 2026-10-09): in the SPECK world 7 of 10 runs reached the skill bar. Every body regrew
-the column reflex, and lineages added genuine local computation on top (neighbour voting with an antenna fringe,
-cooperative detection with feedback inhibition, gain set by crowding), built direction-specific synapses out of
-morphogen gradients, and stopped growing by contact inhibition. No evolved body yet routes signals like the
-hand-built router or beats the hand-built reflex; hidden layers stay unused.
+**What we found.** The original SPECK pilot reached its skill bar in 7 of 10 runs and evolved local neighbor voting,
+cooperative detection with feedback inhibition, and growth limited by contact. Later measurements show that useful
+sense information remains far beyond what these bodies exploit. Worlds are judged by what that information pays;
+failure to hand-build a winning body does not exclude a world.
+
+As of 2026-10-14, two fixed 16-generation continuations in fast POOL add **+0.633 ± 0.188** and **+0.756 ± 0.202 F**
+over an already improved founder on fresh lives, averaging three durations within each seed. Both earn more capture
+income despite higher costs and larger bodies. The founder's earlier gain also retains added dependence on lateral
+spikes after tissue growth is frozen. These are confirmed improvements and conditional message effects; a new
+algorithm, functional hidden layer and matched-footprint share of the available information remain unestablished.
+
+Read the [continuation results](results/continuation_20261013/README.md),
+[fixed-tissue experiment](results/frozen_20261013/README.md), and
+[decoy information measurement](results/discrimination_20261013/README.md).
+The [current plan](docs/TASK_VARIATION_PLAN.md#0-revision-2026-10-10-admit-worlds-by-what-they-pay-not-by-what-we-can-build)
+and [handoff](docs/HANDOFF.md) distinguish completed evidence, running studies and unanswered decisions.
 
 ### Documents
 | file | what it is |
 |---|---|
 | `RESULTS.md` | the lab notebook: every experiment, newest at the bottom |
-| `docs/ROADMAP.md` | next research directions, costs, decisions |
+| `docs/HANDOFF.md`, `docs/TASK_VARIATION_PLAN.md` section 0 | current state, active plan and pending decisions |
+| `docs/ROADMAP.md` | broader research directions, costs, decisions |
 | `docs/POST_PILOT_CALLS.md` | what worked and what did not in the BODY-1 pilot, ranked calls |
 | `docs/ALTERNATIVES.md` | alternative substrates (neural CA, learning synapses, logic tissue, grown wires) |
 | `docs/HARDWARE_PATH.md` | running the cell logic natively on FPGA / custom silicon |

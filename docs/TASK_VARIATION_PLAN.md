@@ -39,6 +39,11 @@ mutant panel using every original s5/s7 mutant, and exhaustive single-gene knock
 genes in both structural-search endpoints are preregistered in `results/taskvar/prereg.md` (H/I/J). Fresh blocks
 separate selection from confirmation. No study changes the selection family or makes an admission decision.
 
+*2026-10-14 structural-policy result:* two16-generation searches with silent duplication/deletion show no resolved
+advantage over matched ordinary continuations: −0.252 ± 0.209 and +0.325 ± 0.193 F on fresh duration-mixture lives.
+Both improve over row38; each retains one active copied-origin gene. Function awaits the prospectively registered
+J interventions. Evidence: `results/structural_20261013/`,37,548 research lives within 3.04 worker CPU-hours.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

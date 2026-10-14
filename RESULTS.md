@@ -1707,3 +1707,43 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - **Next:** a bounded mutant diagnostic can test accessibility in this existing world without adding it to the
   selection family or requiring a hand-built tissue win. The structural-policy runs are already underway;
   fixed-tissue hidden-message measurements are being prepared independently of their outcome.
+## 2026-10-14 — Duplication and deletion add no resolved advantage in two fixed searches
+
+- **Design:** two 16-generation searches from s5 row38 use the existing silent-duplication/deletion policy
+  (rates 0.02/0.01, split off), against the two completed ordinary D continuations. Initialization, run seeds,
+  production selection, life-length draws, physics and prices match; structural draws then change the subsequent
+  mutation paths. This compares whole search policies, including gene-count-scaled point mutation, not the isolated
+  effect of a duplication event. The protocol was committed before launch in `e380214`.
+- **Fresh confirmation:** all six fixed genotypes (original s5, row38, both D endpoints and both G endpoints)
+  share 256 new block93 seeds at T768/1024/1536. Each contrast averages durations within a seed before estimating
+  SE over 256 seed clusters. Both final population-rank0 endpoints are retained, without validation reselection.
+
+| Search seed | Structural minus ordinary endpoint, F ± SE | Structural endpoint minus row38, F ± SE |
+|---|---:|---:|
+| 51089 | −0.252 ± 0.209 | +0.745 ± 0.189 |
+| 51090 | +0.325 ± 0.193 | +1.197 ± 0.192 |
+
+- Neither primary policy contrast clears 3 SE or +0.5 F. Both structural searches nevertheless improve over row38
+  beyond both thresholds; total gains over original s5 are +1.477 ± 0.166 and +1.928 ± 0.179 F. Unresolved policy
+  effects do not establish equivalence, and two fixed search replicates cannot estimate general superiority.
+- **Accounting:** versus row38, capture income increases by +1.236 ± 0.192 and +2.175 ± 0.193 F, exceeding additional
+  costs of 0.490 ± 0.027 and 0.979 ± 0.022. The second endpoint's unresolved advantage over its ordinary counterpart
+  instead consists of almost unchanged capture income (−0.003 ± 0.192) plus 0.328 ± 0.030 F cost savings. This is
+  ledger decomposition, not evidence of a new circuit or capability.
+- **Structural history:** exact genetic replay records 73/37 and 71/45 duplication/deletion events across the two
+  searches. Each fixed endpoint has9 active genes, compared with 8 in its ordinary counterpart. Each retains one
+  active duplicated-origin gene: slot 14 / origin 56 and slot 9 / origin 21. Counts and ancestry alone do not establish
+  use. The already registered J study will delete every eligible gene and independently confirm its effect;
+  its rule was fixed before these endpoints were inspected.
+- **Validation and evidence:** all 18 dedicated neutrality lives preserve full ledgers, event hashes, spikes and
+  fate records bitwise, except the added gene's state column, which matches its source. Full crossover/mutation/
+  duplication/deletion replay reconstructs every stored population and origin registry. Search invalid/mismatch
+  counters are zero; ordinary guarded mutants keep their production penalty. Confirmation contains no guards or
+  extinction. `results/structural_20261013/` preserves the endpoint/checkpoint/lineage evidence, all confirmation
+  ledgers, independent analysis and figures. Root separately recomputed all six duration-mixture contrasts from
+  the 18 hashed raw rows.
+- **Budget:** all 37,548 research lives completed in 10,942.922121 worker CPU-seconds (3.04 CPU-hours), within the
+  fixed 14,400-second/four-worker cap. The 18 neutrality lives and numerical startup replays are validation, with
+  their CPU included. H's fixed-tissue hidden/lateral measurements and I's decoy mutant screen are now running;
+  J's copied-gene interventions and K's descriptive traces remain queued. No organism rule, ABI, price or
+  selection world changed.

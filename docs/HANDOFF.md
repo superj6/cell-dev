@@ -69,19 +69,25 @@ and T1024; central computation is free. `results/discrimination_20261013/` archi
 independent reanalysis, using 496.441665 of 1,800 CPU-seconds. Its erratum corrects fast hashes: constant initial
 values, not zero, and neither supplies replay evidence. Pinned preparation bytes remain unchanged.
 
-**Running and prepared studies.** G is running the documented silent-duplication plus deletion policy against D,
-with matched initialization/run seeds and fresh block93 endpoint confirmation (two 16-generation runs, 37,548
-research lives plus 18 neutrality checks, cap14,400 worker CPU-seconds). All 18 neutrality lives passed in
-5.406 CPU-seconds. Two evolution jobs use four simulation workers; do not add simulation work until slots free.
-The monitor waits for both endpoints before confirmation. H is queued for fixed-tissue hidden/lateral lesions
-of row38 and both D endpoints on block94 (6,144 lives, cap3,600 CPU-seconds). I is registered to score both
-complete original 64-mutant panels in the existing decoy world on blocks95–97 (11,328 lives, cap3,600 CPU-seconds).
-H and I each use two workers after G finishes. J is registered before seeing G endpoints: knock out every active
-duplicated-origin gene, then independently confirm the largest loss per endpoint on blocks98–99 (at most19,456
-lives, cap7,200 CPU-seconds). J waits for both H and I, then uses two workers. An empty endpoint branch is reported
-as not applicable. K adds12 descriptive reference traces of row38 and both D endpoints on four block89 seeds,
-with12 C validation lives (cap1,800 CPU-seconds, one worker). It waits for H/I and may run beside J. All ledger
-columns and saved trace-table round-trips must match. These studies change no selection worlds or organism rules.
+**Structural policy completed (2026-10-14).** G's two fixed final endpoints differ from matched ordinary D
+endpoints by **−0.252 ± 0.209** and **+0.325 ± 0.193 F**, averaging three durations within 256 fresh shared seeds.
+Neither establishes a policy advantage. Both improve over row38 (+0.745 ± 0.189 and +1.197 ± 0.192 F), beyond 3 SE
+and +0.5 F. Each ends with 9 active genes and one active duplicated-origin gene, whose functional contribution is
+still unmeasured. All18 silent-duplication neutrality lives and full recorded-genetics replay pass. The 37,548
+research lives finished in 10,942.922121 of 14,400 worker CPU-seconds; evidence is in `results/structural_20261013/`.
+
+**Running and prepared studies.** H is running fixed-tissue hidden/lateral lesions of row38 and both D endpoints
+on block94 (6,144 lives, cap 3,600 CPU-seconds). I is running both complete original 64-mutant panels in the existing
+decoy world on blocks95–97 (11,328 lives, cap 3,600 CPU-seconds). They each use two simulation workers: do not add
+simulation work until one finishes. J was registered before seeing G endpoints: knock out every active
+copied-origin gene, then independently confirm the largest loss per endpoint on blocks98–99 (maximum 19,456
+lives, cap 7,200 CPU-seconds). G has one eligible gene per endpoint, implying 4,096 research lives if all receipts
+verify. J waits for both H/I, then uses two workers. K adds 12 descriptive reference traces of row38 and both D
+endpoints on four block89 seeds, with 12 C validation lives (cap 1,800 CPU-seconds, one worker). It also waits for
+H/I and may run beside J. All ledger columns and saved trace-table round-trips must match. L is registered for two
+ordinary 16-generation continuations from fixed s7 row29, using search seeds 51891/51892 and fresh block90
+confirmation (36,012 research lives, cap 14,400 CPU-seconds, four workers after J/K complete). It does not depend
+on their scientific outcomes. These studies change no selection worlds or organism rules.
 Read each working `budget.json` and `ready.json` before starting anything. Preserve pinned engine/search/helper
 sources while active. Working directories are `outputs/autonomous_structural_20261013/` and
 `outputs/autonomous_hidden_20261014/`, `outputs/autonomous_decoy_gradient_20261014/` and
@@ -292,7 +298,7 @@ truth lives. Only the fast build may skip hashes.
   policy comparison, block94 for hidden/lateral lesions, blocks95–97 for the decoy mutant panel and blocks98–99
   for duplicated-origin gene knockouts. Search seeds51089/51090
   use the production hash namespaces; they are not decimal blocks89/90. Block89 now holds K traces; block90
-  remains unallocated.
+  is reserved for L s7 confirmation.
 - Use 45M or above for new work.
 
 **The controller harness.**

@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "G_outcomes_read": false,
+  "tests": 29,
+  "lint": "passed",
+  "line_limit": 120,
+  "command": ".venv/bin/python -m pytest -q outputs/autonomous_duplicate_use_20261014/test_analysis.py --basetemp outputs/audit_j_20261014/analysis_tests",
+  "files": {
+    "analyze.py": "ff11de33d78dfab68219ba796c7e4c601a9e383cbbc8577b351e80296c3ceca2",
+    "analysis_common.py": "78e5c3c7bb461cfafbd2d17125ba80c97433b1b79596b289a80d0eece501ff3a",
+    "genome_audit.py": "eb0543b9f2760b4e68b5bec0c8b49b939366a42f4370edcfc3b92fd6d74abaed",
+    "test_analysis.py": "9f3e4af0cc931d412f040f1bb351a5666f3f704fa7b4937761f56d4e4f3ad62b",
+    "prepare_analysis.py": "e5bde5d1d3d2bee07068eaf05ec38869a05bedcc566d2c7493a9063c98831477"
+  },
+  "coverage": [
+    "full raw/production ledger reconstruction including guards and extinction",
+    "paired covariance and additive costs",
+    "fixed tie-break and negative screen winner",
+    "both single-empty positions plus both-empty/both-applicable workflows",
+    "raw hash, aggregate, selection, report, contrast, count and budget corruption",
+    "full candidate/deletion/runtime-hash comparison against pinned runner",
+    "NumPy replay of two synthetic generations with inherited duplicate origins",
+    "scaled point count and17crossover-units versus2mutation-blocks",
+    "export round trip preserves immutable preparation and raw bytes"
+  ],
+  "independent_review": {
+    "agent": "review_structural",
+    "status": "no_blockers",
+    "tests": 29,
+    "additional_packing_genomes": 64,
+    "additional_replay_generations": 4,
+    "additional_replay_offspring": 896,
+    "additional_replay_duplications": 710,
+    "additional_replay_deletions": 170,
+    "notes": "Additional reviewer-only synthetic operations cover boundary/extreme decoder values, all raw genomes/origins/counters and scaled point counts {2,3}."
+  }
+}
