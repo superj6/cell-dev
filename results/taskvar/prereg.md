@@ -81,7 +81,7 @@ Use `fresh_seeds(n, seed0=51_000_000 + 10_000*block)`, at most 10,000 lives per 
 | Blocks | Purpose |
 |---|---|
 | 0–9 | Bounded validation only; 0 gradient, 1/2 capability smoke, 3/4 replay |
-| 10 | G2 screen, shared across parents/worlds for pairing |
+| 10 | G2 screen, shared across parents/worlds; start at 51,100,002 (first two seeds spent in validation) |
 | 11–12 | G2 re-score and independent confirmation |
 | 20 | Prediction fresh measurement |
 | 30 | Discrimination fresh measurement |
@@ -93,6 +93,11 @@ Use `fresh_seeds(n, seed0=51_000_000 + 10_000*block)`, at most 10,000 lives per 
 
 Recovered knobs used historical 44.2M/44.6M tuning blocks; their ranges are recorded in the measurement configs.
 New tuning must preserve the disjointness above and record any additional seed use before scoring.
+
+Validation correction (2026-10-13): a second-step CLI smoke accidentally used block10 seeds 51,100,000 and
+51,100,001 for four genomes at T32 (eight lives). They are spent, even though these were plumbing checks.
+The scientific G2 screen must start at 51,100,002 or use a newly registered block. The final smoke CLI uses
+validation blocks8/9. No scientific blocks85–88 were used for validation.
 
 ## Success criteria retained from the plan
 
@@ -199,3 +204,22 @@ scores. They change neither organism rules nor production search/world defaults,
   production ledgers, source/numerical identity, seeds and genome hashes. Keep valid extinction/guard penalties;
   reject capacity/mismatch/corrupt or unexplained incomplete lives. Do not edit pinned engine/search sources during
   the measurements. Commit artifacts and results at the milestone, then continue with the next useful experiment.
+
+### C. Separate the two discovered s5 changes
+
+- Question: does the confirmed s5 improvement require both mutations together, or is there a useful intermediate
+  step? Measure the original parent, mutation A alone, mutation B alone and the observed pair AB. A is flat
+  slot41 (`W[1,16]`, chemical m0 input); B is slot124 (`W[4,24]`, local is_M input). Copy the exact float32 alleles
+  from archived row38. Verify that AB reconstructs that winner bitwise. These are measurement reversions of
+  discovered alleles; no designed circuit or new allele value enters evolution.
+- Fix 512 shared fresh lives from block88, T1024, in both base-fast and POOL, with prices and all other constants
+  unchanged: 4 genotypes × 2 worlds × 512 = 4,096 lives. No tuning, selection or extension follows these scores.
+- The primary contrast in each world is the per-life fitness interaction `AB - A - B + parent`, with mean and SE
+  across the paired lives. This asks whether the combined effect differs from the sum of the two separate effects.
+  Also report A-parent, B-parent, AB-A, AB-B and AB-parent, plus captures, cost/income rates and body size.
+- Label a contrast positive or negative only beyond 3 SE; unresolved does not mean zero. Report both orders of
+  mutation acquisition. Fitness interaction or a useful intermediate does not establish a new algorithm, and
+  these growth-network changes need not act only in mature tissue. These measurements do not gate worlds.
+- Use a separate 0.5-CPU-hour cap, two workers, with no more than four simulation workers across all studies.
+  Start when the shared worker budget permits. Store all raw rows and identity pins under the existing
+  `outputs/autonomous_followthrough_20261013/factorial/` directory and archive results at the next milestone.

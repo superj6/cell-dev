@@ -220,6 +220,7 @@ truth lives. Only the fast build may skip hashes.
 - 49M: a design diagnostic.
 - 45.05M: short JS wound truth cases; 46M: E6 readout validation.
 - 51M + 10,000·block: E7, reserved in `results/taskvar/prereg.md`; blocks 0-9 are validation only.
+  A T32 validation smoke also spent block10's first two seeds; future G2 must start at 51,100,002.
 - Use 45M or above for new work.
 
 **The controller harness.**
