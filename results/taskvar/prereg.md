@@ -111,3 +111,35 @@ New tuning must preserve the disjointness above and record any additional seed u
   and dim captures. Missing ABI 4 readouts remain unmeasured.
 - Keep the plan's generalisation comparison and K1/K2/K3 stop rules. No mechanism readout steers evolution.
   Money limits describe a future approved run, not permission to rent or spend now.
+
+## Bounded autonomous diagnostic (2026-10-13)
+
+The user authorized autonomous work on the most promising direction after the initial engineering report. This
+addendum fixes a smaller exploratory cohort before seeing its mutant scores. It does not complete the full G2
+protocol above or authorize the evolution matrix, paid compute, ABI changes or new organism rules.
+
+- Question: are useful improvements near pilot s5/s7, and does POOL make them easier to find than base?
+- Worlds: existing ABI 3 SPECK, both with d0=0.5/d_min=0.25; POOL additionally sigma=0.4/lam_s=4. All prices frozen.
+  These are explicit diagnostic overrides; production presets remain unchanged. T=1024 throughout.
+- Screen: 64 random mutants per parent, identical genomes across worlds, 32 paired lives. Existing pilot mutation
+  operator and deterministic seeds 51005/51007. This finite batch is distinct from the registered 256-mutant cohort;
+  changing torch batch size need not preserve a mutation prefix. Retain every mutant and guard penalty.
+- Re-score: the top ceil(5% * 64)=4 mutants per parent/world, by screen mean, ties by mutant index, on 512 fresh
+  paired lives with their parent. Choose exactly one winner per parent/world from this stage, regardless of sign.
+- Confirmation: winner and parent on another 512 paired lives. Report all four comparisons, even failed ones.
+  A positive confirmed gain must exceed 3 paired SE; label gains >=0.5 F as practically substantial in this
+  diagnostic. Report raw effects and SE regardless of these labels. No additional candidate search after looking.
+- Lesion: parent and chosen winner, each intact and lateral_off from t=256, on 256 new paired lives. All four
+  arms use t_open=0, so they measure the same full-life fitness. Report the paired interaction
+  (winner-parent)_intact - (winner-parent)_lateral_off. This measures how much incremental gain depends on messages
+  after t=256, not whether a novel algorithm evolved. Remaining development may also be affected by the lesion.
+- Report fitness change as more income minus cost change and extinction-charge change. Report captures, misses,
+  cell-time, end size and guard frequency. Cost reduction or size/click associations alone do not prove computation.
+- Seeds: reserve formerly unallocated 51M blocks 80(screen), 81(re-score), 82(confirmation), 83(lesion), 84(optional
+  descriptive context). The same stage seeds are shared across parents and worlds; stage sets are disjoint.
+  Block5 held 32 parent-only benchmark lives; these never enter scoring or candidate selection.
+- Compute: 8,320 screen + 10,240 re-score + 4,096 confirmation + 4,096 lesion lives = 26,752 total. A 32-life
+  benchmark estimates 0.136 CPU-s/life (~1.01 CPU-h); mutant growth can cost more. At most four worker threads,
+  stop at two CPU-hours across the study, preserving completed rows. No extension based on favorable results.
+- Artifacts: outputs/autonomous_pool_20261013/; freeze genomes, candidate indices, source/numerical identities,
+  raw per-life arrays and resource accounting. Commit concise results and selected genomes after analysis.
