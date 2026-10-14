@@ -1,0 +1,102 @@
+{
+  "parity": {
+    "status": "passed",
+    "comparison": "bitwise",
+    "stepped_and_state_read": true,
+    "cases": [
+      {
+        "world": "pool",
+        "body": "pilot_s5",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "pool",
+        "body": "founder_row38",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "pool",
+        "body": "s51089_final_rank0",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "pool",
+        "body": "s51090_final_rank0",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "base",
+        "body": "pilot_s5",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "base",
+        "body": "founder_row38",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "base",
+        "body": "s51089_final_rank0",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "base",
+        "body": "s51090_final_rank0",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      }
+    ]
+  },
+  "kernel_lives": 8,
+  "browser_engine_lives": 8,
+  "duration": 32,
+  "default_seed": 51840000,
+  "research_lives": 0,
+  "html_sha256": "57ea0de857de5b7d84edc3ca4f7cc586b4a8b456483ed27b9d281359ee355552",
+  "engine_sha256": "123723cd011ad4987c1d4477bbdbb450985aedf43193363d76d0529fe7d793d3",
+  "scope": "Short validation only; no new full-life parity or scientific evidence.",
+  "budget": {
+    "status": "complete",
+    "cpu_seconds": 9.331078999999999,
+    "cap_cpu_seconds": 15.0,
+    "wall_seconds": 5.664546680000058,
+    "exit_code": 0,
+    "simulation_workers": 1
+  },
+  "ui": {
+    "syntax": "passed",
+    "synthetic_interactions": "passed",
+    "finite_canvas_calls": 16057,
+    "scientific_lives_run": 0,
+    "genome_count": 4,
+    "default_pair": [
+      "founder_row38",
+      "s51089_final_rank0"
+    ],
+    "default_seed": 51840000,
+    "engine_sha256": "123723cd011ad4987c1d4477bbdbb450985aedf43193363d76d0529fe7d793d3"
+  }
+}

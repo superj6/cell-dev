@@ -44,6 +44,14 @@ advantage over matched ordinary continuations: −0.252 ± 0.209 and +0.325 ± 0
 Both improve over row38; each retains one active copied-origin gene. Function awaits the prospectively registered
 J interventions. Evidence: `results/structural_20261013/`,37,548 research lives within 3.04 worker CPU-hours.
 
+*2026-10-14 hidden-message result:* after freezing tissue at 768, ordinary endpoint D51090 loses
++0.956 ± 0.172 F when new hidden-cell spike sends are suppressed during the 800..1536 measurement. Its added loss
+relative to row38 is +0.794 ± 0.207 F, beyond 3 SE; D51089's added loss is unresolved (−0.193 ± 0.190 F).
+Both endpoints gain lateral dependence (+2.842 ± 0.194 and +2.470 ± 0.202 F). Freeze also removes
++0.914 ± 0.214 F of D51090's normal gain, but stops GRN/phenotype updates as well as growth. This establishes
+conditional hidden-message contribution in one fixed endpoint, not a circuit mechanism, maturity or matched
+footprint. Evidence: `results/hidden_20261014/`,6,144 lives on 512 shared seeds within 2,674.948141 CPU-seconds.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

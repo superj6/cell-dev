@@ -1,4 +1,4 @@
-# Handoff: cell-dev (2026-10-13)
+# Handoff: cell-dev (2026-10-14)
 
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
@@ -76,24 +76,34 @@ and +0.5 F. Each ends with 9 active genes and one active duplicated-origin gene,
 still unmeasured. All18 silent-duplication neutrality lives and full recorded-genetics replay pass. The 37,548
 research lives finished in 10,942.922121 of 14,400 worker CPU-seconds; evidence is in `results/structural_20261013/`.
 
-**Running and prepared studies.** H is running fixed-tissue hidden/lateral lesions of row38 and both D endpoints
-on block94 (6,144 lives, cap 3,600 CPU-seconds). I is running both complete original 64-mutant panels in the existing
-decoy world on blocks95–97 (11,328 lives, cap 3,600 CPU-seconds). They each use two simulation workers: do not add
-simulation work until one finishes. J was registered before seeing G endpoints: knock out every active
+**Hidden-message contribution measured (2026-10-14).** H completed all 6,144 lives on 512 shared block94 seeds,
+using 2,674.948141 of 3,600 CPU-seconds. With tissue frozen at 768 and accounting over 800..1536, D51090 loses
+**0.956 ± 0.172 F** when new hidden-cell sends stop. Its added loss over row38 is **+0.794 ± 0.207 F**, beyond 3 SE;
+D51089's added loss is unresolved (−0.193 ± 0.190 F). Both gain lateral dependence (+2.842 ± 0.194 and
++2.470 ± 0.202 F). Freeze removes 0.914 ± 0.214 F of D51090's normal gain; it also stops gene-regulatory and
+phenotype updates, so that contrast does not isolate development. All frozen triplets have constant tissue;
+no guards, extinction or invalid flags occurred. `results/hidden_20261014/` preserves independent raw-data audits.
+This establishes hidden-message contribution in one fixed descendant, not its algorithm or matched-footprint use.
+
+**Running and prepared studies.** I completed both original 64-mutant panels in the existing decoy world on
+blocks95–97 (11,328 lives, 3,105.780628 of 3,600 CPU-seconds); independent analysis is underway. J is now running
+and was registered before seeing G endpoints: knock out every active
 copied-origin gene, then independently confirm the largest loss per endpoint on blocks98–99 (maximum 19,456
 lives, cap 7,200 CPU-seconds). G has one eligible gene per endpoint, implying 4,096 research lives if all receipts
-verify. J waits for both H/I, then uses two workers. K adds 12 descriptive reference traces of row38 and both D
-endpoints on four block89 seeds, with 12 C validation lives (cap 1,800 CPU-seconds, one worker). It also waits for
-H/I and may run beside J. All ledger columns and saved trace-table round-trips must match. L is registered for two
+verify. J uses two workers after H/I completion. K is running 12 descriptive reference traces of row38 and both D
+endpoints on four block89 seeds, with 12 C validation lives (cap 1,800 CPU-seconds, one worker). It also waited for
+H/I and runs beside J. All ledger columns and saved trace-table round-trips must match. L is released and queued for two
 ordinary 16-generation continuations from fixed s7 row29, using search seeds 51891/51892 and fresh block90
 confirmation (36,012 research lives, cap 14,400 CPU-seconds, four workers after J/K complete). It does not depend
 on their scientific outcomes. These studies change no selection worlds or organism rules.
 Read each working `budget.json` and `ready.json` before starting anything. Preserve pinned engine/search/helper
 sources while active. Working directories are `outputs/autonomous_structural_20261013/` and
 `outputs/autonomous_hidden_20261014/`, `outputs/autonomous_decoy_gradient_20261014/` and
-`outputs/autonomous_duplicate_use_20261014/` and `outputs/autonomous_traces_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
-`results/continuation_20261013/watch.html` is prepared with four fixed genomes; its new short parity run remains
-pending worker availability. No unanswered approval decision has been assumed resolved.
+`outputs/autonomous_duplicate_use_20261014/`, `outputs/autonomous_traces_20261014/` and
+`outputs/autonomous_s7_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
+`results/continuation_20261013/watch.html` now has eight C plus eight JS T32 validation lives: all 57 ledger
+columns and five event hashes match bitwise, within 9.331079 of 15 validation CPU-seconds. Full animations are
+illustrations, not measured confirmation. No unanswered approval decision has been assumed resolved.
 
 ## 1. What the project is
 

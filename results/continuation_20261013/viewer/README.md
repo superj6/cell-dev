@@ -22,11 +22,11 @@ swapped comparisons, same-genome comparisons, world switching, speed, background
 engine is syntax-checked and its bytes hashed; these control checks run no simulator lives. A browser rendering
 check has not been performed.
 
-Actual parity is deferred until one worker is explicitly released by the root scheduler. The fixed plan is eight
-T32 cases: four genomes in both worlds on the default descriptive seed. Each C life is compared byte for byte
-with stepped execution and state reads in the embedded JS engine, checking all 57 ledger columns and five hashes.
-The sequential one-worker check has a 15 CPU-second cap. It creates `validation.json` only if all cases pass
-within that cap. This is short plumbing validation, not full-life parity or new research evidence.
+The released parity check passed all eight T32 cases: four genomes in both worlds on the fixed descriptive seed.
+Each C life matched stepped execution and state reads in the embedded JS engine byte for byte across all 57 ledger
+columns and five hashes. The sequential one-worker check used 9.331079 CPU-seconds within its 15-second cap;
+`validation.json` and `parity_budget.json` retain the evidence. These 8 C lives and 8 JS replays are short validation,
+not full-life parity or new research evidence. The original prospective plan remains in `parity_plan.json`.
 
 From the repository root, preparation and synthetic checks are:
 

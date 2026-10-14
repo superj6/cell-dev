@@ -1,0 +1,45 @@
+{
+  "status": "offline_analysis_prepared",
+  "study": "outputs/autonomous_s7_20261014",
+  "simulated_lives": 0,
+  "real_outcomes_read": false,
+  "tests_passed": 33,
+  "validation": {
+    "tests": ".venv/bin/python -m pytest -q outputs/autonomous_s7_20261014/test_analyze.py --basetemp outputs/audit_l_20261014/analyzer_release",
+    "ruff": "passed",
+    "max_120_columns": "passed",
+    "real_early_gate_status": "not_started",
+    "independent_review": "outputs/audit_l_20261014/analyzer_review.json"
+  },
+  "artifacts": {
+    "analyze.py": {
+      "sha256": "41b97ad3f22db01778d21fe3bb52952016423cb83f453aa1449743d36884c7bd",
+      "bytes": 46593
+    },
+    "test_analyze.py": {
+      "sha256": "2348603d4146fffbe1b0a292eb17416100153a9831d662c0a52d9b6d765c7645",
+      "bytes": 20158
+    },
+    "sources/D_analyze.py": {
+      "sha256": "78a21cde2e65cf733ba072e51f09be043d681640a696b00f43462fdf4d3fd497",
+      "bytes": 38011
+    },
+    "sources/G_audit_search.py": {
+      "sha256": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+      "bytes": 13780
+    }
+  },
+  "analysis_command": ".venv/bin/python outputs/autonomous_s7_20261014/analyze.py --study outputs/autonomous_s7_20261014 --export",
+  "archive_reanalysis_command": ".venv/bin/python results/s7_continuation_20261014/analyze.py --study results/s7_continuation_20261014 --out outputs/s7_continuation_reanalysis",
+  "checks": [
+    "Completion gate precedes outcome reads",
+    "Frozen source, helper, configuration, numerical, input and predecessor pins",
+    "Prospective 32-genome initialization matches recorded mutation operations bitwise",
+    "All 16 generations of complete genetic inheritance reconstruct final populations",
+    "All 12 raw 256-life confirmation ledgers and all paired contrast arrays audited",
+    "Duration mixture clusters all three durations by the same 256 seeds",
+    "Both endpoints and both effect signs retained",
+    "Public preparation preserved under prelaunch",
+    "Copied archive independently reproduces summary and contrast bytes before final provenance"
+  ]
+}

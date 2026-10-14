@@ -38,13 +38,17 @@ failure to hand-build a winning body does not exclude a world.
 
 As of 2026-10-14, two fixed 16-generation continuations in fast POOL add **+0.633 ± 0.188** and **+0.756 ± 0.202 F**
 over an already improved founder on fresh lives, averaging three durations within each seed. Both earn more capture
-income despite higher costs and larger bodies. The founder's earlier gain also retains added dependence on lateral
-spikes after tissue growth is frozen. These are confirmed improvements and conditional message effects; a new
-algorithm, functional hidden layer and matched-footprint share of the available information remain unestablished.
+income despite higher costs and larger bodies. Both descendants depend more on lateral spikes with tissue held
+fixed. One also gains useful hidden-cell messaging: suppressing hidden outputs costs it **0.956 ± 0.172 F**, with
+**0.794 ± 0.207 F** more dependence than its founder. This establishes conditional hidden-message contribution in
+one fixed endpoint; the computation it performs and its share of available information remain unestablished.
 
 Read the [continuation results](results/continuation_20261013/README.md),
-[fixed-tissue experiment](results/frozen_20261013/README.md), and
+[fixed-tissue experiment](results/frozen_20261013/README.md),
+[hidden-message experiment](results/hidden_20261014/README.md), and
 [decoy information measurement](results/discrimination_20261013/README.md).
+The [continuation viewer](results/continuation_20261013/watch.html) compares the founder and both descendants on
+a fixed illustrative life; its eight short C/JavaScript comparisons match all ledger columns and event hashes.
 The [current plan](docs/TASK_VARIATION_PLAN.md#0-revision-2026-10-10-admit-worlds-by-what-they-pay-not-by-what-we-can-build)
 and [handoff](docs/HANDOFF.md) distinguish completed evidence, running studies and unanswered decisions.
 

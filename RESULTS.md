@@ -1747,3 +1747,36 @@ They are measurement tools only. A replay test shows the controller reads nothin
   their CPU included. H's fixed-tissue hidden/lateral measurements and I's decoy mutant screen are now running;
   J's copied-gene interventions and K's descriptive traces remain queued. No organism rule, ABI, price or
   selection world changed.
+
+## 2026-10-14 — One ordinary descendant gains useful hidden-cell messaging
+
+- **Design:** fixed row38 and both ordinary D endpoints share 512 fresh block94 seeds in fast POOL, T1536.
+  Four arms are normal, freeze, freeze+lateral_off and freeze+hidden_off. Interventions begin at 768; accounting
+  uses 800..1536 after a fixed settling interval. Both endpoints and all contrasts were registered before scoring.
+- **Primary result:** D51090's added hidden-message dependence over row38 is **+0.794 ± 0.207 F**, beyond 3 SE.
+  Its own frozen hidden-message loss is +0.956 ± 0.172 F, compared with row38's unresolved +0.162 ± 0.109 F.
+  D51089's added dependence is unresolved at −0.193 ± 0.190 F; its own loss is −0.031 ± 0.147 F. Both signs and
+  both endpoints are retained. These are life-level uncertainties for fixed genomes, not estimates across searches.
+- **What pays:** D51090's primary interaction consists of +0.783 ± 0.207 F capture income and
+  +0.011 ± 0.006 F cost savings, with zero guard/extinction terms. Hidden sends can affect other planes indirectly;
+  this identifies conditional message contribution, not the computation performed by the hidden cells.
+- **Lateral dependence:** added loss relative to row38 is +2.842 ± 0.194 F for D51089 and +2.470 ± 0.202 F
+  for D51090, both beyond 3 SE. Their own frozen lateral losses are +10.255 ± 0.152 and +9.883 ± 0.160 F.
+- **Freeze matters differently:** D51089's normal/frozen gains over row38 are +0.972 ± 0.176 and
+  +0.814 ± 0.180 F; the loss under freeze is unresolved. D51090's gains are +1.341 ± 0.173 and
+  +0.427 ± 0.190 F; freeze removes +0.914 ± 0.214 F of its normal gain. Freeze stops GRN/phenotype updates
+  as well as new division/death decisions, so this does not isolate development from ongoing regulation.
+- **Intervention limits:** hidden_off prevents new spike sends from z≥2, while cells still receive, fire and pay
+  their ordinary would-be charges. In-flight messages and chemicals continue. Frozen genotypes retain different
+  bodies and earlier states. This establishes neither mature tissue, a new algorithm nor matched-footprint
+  information use. The ordinary D endpoints here are distinct from the structural G endpoints in study J.
+- **Validation and budget:** all 6,144 research lives completed in 2,674.948141 of 3,600 CPU-seconds. All
+  three sets of 512 frozen triplets pass constant-cell checks; no guards, extinction or invalid flags occur.
+  `results/hidden_20261014/` preserves all 12 raw rows, independent reconstruction of 57 ledger columns and 20
+  paired contrast vectors, source/numerical pins, figures and a standalone public reanalysis. Root separately
+  recomputed the six interaction contrasts from hashed raw ledgers. Thirty pure analysis tests pass.
+- **Watchable validation:** `results/continuation_20261013/watch.html` now compares original s5, row38 and both
+  descendants. Eight T32 C lives and eight JS replays match all 57 ledger columns and five event hashes bitwise,
+  using 9.331079 of 15 validation CPU-seconds. Full animations use a fixed descriptive seed and are illustrations;
+  this bounded check does not establish universal long-life parity or a browser-render test. L's independent
+  second-lineage evolution study is queued; its offline analyzer has 33 independently checked pure tests.

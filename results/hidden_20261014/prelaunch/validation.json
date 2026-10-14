@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "utc": "2026-10-14T16:51:03.306027+00:00",
+  "tests_passed": 31,
+  "simulated_lives": 0,
+  "validation_kind": "synthetic paired arrays, mocked entire twelve-arm scoring and subprocesses",
+  "ruff": "passed",
+  "line_length_max": 120,
+  "dry_runs": [
+    "measure.py",
+    "run_budgeted.py"
+  ],
+  "independent_semantics_review": "audit_de checked existing C hidden_off/freeze behavior and settling bound",
+  "tests_command": ".venv/bin/pytest -o addopts='' -q outputs/autonomous_hidden_20261014/test_measure.py outputs/autonomous_hidden_20261014/test_monitor.py",
+  "tested_sources": {
+    "measure.py": "3af98edd9ec7cbd0a6a64dbb323016437ad069ff8115e92509fc1473deb14855",
+    "run_budgeted.py": "a3053a4a94b76d9a18e5d02cfc81e3be66a7424770ece1d89be5098b8ebfd82f",
+    "prepare.py": "d7749d6601014a245414851c839c5d086c4db3747f67e1685f554cd55d2887bd",
+    "prepare_archive.py": "a2e741e2be52d9729d450b3bf890be6037aa2f02b412b330f8ead1b26ea6924a",
+    "test_measure.py": "de65f8f04f0036930023ce9a2c66519e00aabc044c1df45fd5d8dbc2bbcbbe74",
+    "test_monitor.py": "6a88e7b629e100f3b1fee915c7fe8a5e5fd1bab8fa4e18fedb539990d4bc0d29"
+  },
+  "independent_code_review": "review_discrimination checked kernel semantics, paired arithmetic, full guarded accounting, all three frozen-arm tissue checks and monitor; independently repeated all 31 tests and ruff without simulations"
+}
