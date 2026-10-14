@@ -103,15 +103,22 @@ K's twelve reference traces match twelve C validation lives bitwise in all 57 le
 lateral-hop shares among attributed receptor-origin chains; four descriptive seeds cannot identify an algorithm. All raw tables are preserved in
 `results/traces_20261014/`; reanalysis needs the pinned repository source.
 
-**Running and prepared studies.** L's two ordinary 16-generation continuations from fixed s7 row29 and their
-fresh confirmation have completed in 7,695.470841 of 14,400 CPU-seconds. Independent reanalysis is pending;
-no scientific conclusion is recorded yet. M and N are now running with two simulation workers each.
+**Second lineage completed (2026-10-14).** Both ordinary s7 continuations improve over fixed row29:
+**+0.900 ± 0.143** and **+1.072 ± 0.145 F**, averaging three durations within 256 fresh paired seeds.
+Total gains over original s7 are +1.267 ± 0.146 and +1.439 ± 0.146 F. All six duration-specific gains over
+row29 exceed 3 SE. Capture income rises more than costs; both grow larger, click and move more. This establishes
+further adaptation in two searches from the second lineage, not a new algorithm or general search reliability.
+All 36,012 research lives finished in 7,695.470841 of 14,400 CPU-seconds. Full recorded genetics and public raw
+reanalysis pass; fresh confirmation has no guards/invalids. Initial-search guards (16/21 lives) retain penalties.
+Evidence is in `results/s7_continuation_20261014/`.
+
+**Running and prepared studies.** M and N are running with two simulation workers each.
 M tests the G51090 copy/source four-arm interaction (2,048 lives, 1,800 CPU-seconds); a source proof resolves
 G51089 without simulation. The original 4,096-life preparation is preserved with a dated amendment.
 N measures the unchanged external controller and five fixed references at T768/T1536 in base and POOL
 (12,288 research plus 40 validation lives, 3,600 CPU-seconds). Do not exceed four simulation workers.
 O's three-arm structure-held regulation study is reviewed and prepared (4,608 lives, 3,600 CPU-seconds,
-two workers), waiting for both M and N. Its readiness has not yet been released. The next ordinary
+two workers), released and waiting for both M and N. The next ordinary
 adaptation step from each fixed D endpoint is a draft only, with no registration or release.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.

@@ -1851,3 +1851,30 @@ They are measurement tools only. A replay test shows the controller reads nothin
   `results/traces_20261014/` preserves approximately 41 MB of lossless raw event tables, all readouts and source
   receipts. Its public reanalysis requires the pinned repository sources and is not a standalone package.
   Both s7 continuation runs have now started under L's registered four-worker/14,400-second cap.
+
+## 2026-10-14 — Both ordinary s7 continuations earn further capture-driven gains
+
+- **Design:** L starts from the original s7 POOL mutant winner, row29, whose original confirmation was weak.
+  Two fixed seeds, 51891/51892, each initialize one exact founder and 31 ordinary point-mutated copies, then
+  run the unchanged 32+224 sexual search for 16 generations with 3+4 scoring and T768/1024/1536 draws.
+  Neither founder nor endpoint is selected using the intervening H/I/J/K results. Final population rank0
+  from each complete search is fixed before either fresh confirmation; no validation-best reselection occurs.
+- **Fresh gains:** on 256 shared block90 seeds, averaging the three duration differences within each seed,
+  endpoints improve over row29 by **+0.900 ± 0.143** and **+1.072 ± 0.145 F**. Both exceed 3 SE and 0.5 F.
+  Total gains over original s7 are **+1.267 ± 0.146** and **+1.439 ± 0.146 F**. All six separate duration
+  effects over row29 also exceed 3 SE: +0.946/+0.882/+0.873 and +1.174/+1.075/+0.967 F at T768/1024/1536.
+- **Accounting:** extra capture income is +1.279 ± 0.144 and +1.864 ± 0.148 F, exceeding additional costs
+  of 0.378 ± 0.014 and 0.792 ± 0.017 F. Mean captures rise by 2.820 ± 0.310 and 4.081 ± 0.316 per life;
+  terminal cells rise by 14.048 ± 0.543 and 25.221 ± 0.625. Both click and move more. These gains come from
+  obtaining more task reward despite higher costs. Income uses each duration's own denominator before averaging.
+- **Interpretation:** ordinary production search now has confirmed further gains in both original starting
+  lineages, with two fixed searches from each nearby winner. This does not establish a new algorithm or general
+  search reliability, and it does not make a controlled comparison between lineages. Different founders,
+  mutations, duration draws and search costs remain. No message lesion has yet identified the s7 mechanisms.
+- **Integrity and budget:** all 36,012 research lives completed in 7,695.470841 of 14,400 CPU-seconds. The
+  prospective initial populations and every recorded genetic operation replay exactly. Each search retains
+  eight active genes, with no duplication/deletion. Initial evaluation has 16/21 guarded lives with penalties
+  retained; invalid/mismatch counts are zero. All 3,072 fresh confirmation lives have status zero. Startup
+  golden checks are separate validation within the cap. `results/s7_continuation_20261014/` preserves 207
+  artifacts, full checkpoints and lineage, every raw confirmation row, and exact public reanalysis. Root
+  separately verified all artifact hashes/sizes and recomputed all four headline paired estimates.

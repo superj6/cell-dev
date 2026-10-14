@@ -80,6 +80,14 @@ structure held fixed, the same with five local GRN inputs masked, and broad free
 endpoints. Its 3,600 CPU-second/two-worker allocation waits for M/N. These measurements change no admission
 rule, organism behavior or selection world.
 
+
+*2026-10-14 second-lineage result:* both ordinary s7 continuations confirm further gains over their fixed row29
+founder: +0.900 ± 0.143 and +1.072 ± 0.145 F, averaging T768/1024/1536 within 256 fresh seed clusters.
+Both earn more capture income despite higher costs, and every separate duration effect exceeds 3 SE.
+Total gains over original s7 are +1.267 ± 0.146 and +1.439 ± 0.146 F. Ordinary search has now found further
+adaptation in two searches from each original lineage; this does not identify a new algorithm or estimate
+general reliability. `results/s7_continuation_20261014/` preserves all 36,012 lives within 7,695.470841 CPU-seconds.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

@@ -1,0 +1,42 @@
+{
+  "status": "complete",
+  "cpu_seconds": 786.219558,
+  "cap_cpu_seconds": 1800,
+  "cpu_budget_exhausted": false,
+  "exit_code": 0,
+  "wall_seconds": 788.8636138009997,
+  "running": {},
+  "queued": [],
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "ready": {
+    "status": "template_not_released",
+    "files": {
+      "measure.py": "83224b1b369246ef5befdf1ff915be19063fac2b0c0d84a27d481437fa7daebb",
+      "run_budgeted.py": "e01a826087230920479371e7057cd32ee9a75015e2f709de175ada5befb69a55",
+      "protocol.json": "732dbc281c42206e2c0bd8d2ddff026f5218979bf1fb9b43ea5f48925faa7ea3"
+    },
+    "dependencies": {
+      "outputs/autonomous_hidden_20261014": {
+        "protocol.json": "912ca333b1d5504ef07f222d10d5b36294176679e4747a3a5c9029aedd5a48f5",
+        "run_budgeted.py": "a3053a4a94b76d9a18e5d02cfc81e3be66a7424770ece1d89be5098b8ebfd82f"
+      },
+      "outputs/autonomous_decoy_gradient_20261014": {
+        "protocol.json": "68e36ac5e85981cdd6d1eff2d4ee6d1fc23d1dfe5c88559583601561d99cf22e",
+        "run_budgeted.py": "f9569e9fc0b240476bdc0e3383629e7ab8722d3fdd3d4b6673c5e07499ec8680"
+      }
+    }
+  }
+}
