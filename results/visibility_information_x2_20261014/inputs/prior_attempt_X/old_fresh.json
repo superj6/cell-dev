@@ -1,0 +1,23 @@
+{
+  "case": "old_fresh",
+  "equal_expected": false,
+  "differences": {
+    "runtime_libraries": {
+      "expected": {
+        "/home/jgon/project/ml/cell-dev/.venv/lib/python3.12/site-packages/torch/lib/libgomp.so.1": "dcb9bd5cc517b0a23cf5923864abeee11ee00ba11abe9b3089388f50f7ba4628",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "3a15d66867d83762c7f2f1e37359cb8f6c5743edb369c65285cb0b1c4f7498bf",
+        "/usr/lib/x86_64-linux-gnu/libm.so.6": "fce00b6f25f459cf4ae0b7fae4257909a1a8a86f9149e7c029a5d617baf1ccd0"
+      },
+      "actual": {
+        "/usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0": "135f3c8f006d2fe5e68e51281c7974cb991a03de3bfb3593d68d174dfcf854d1",
+        "/usr/lib/x86_64-linux-gnu/libc.so.6": "3a15d66867d83762c7f2f1e37359cb8f6c5743edb369c65285cb0b1c4f7498bf",
+        "/usr/lib/x86_64-linux-gnu/libm.so.6": "fce00b6f25f459cf4ae0b7fae4257909a1a8a86f9149e7c029a5d617baf1ccd0"
+      }
+    }
+  },
+  "src_modules": [],
+  "torch_loaded": false,
+  "compiled_libraries": 0,
+  "simulation_calls": 0,
+  "candidate_source_sha256": "56c561252e1f7cd81512705cc2676611cbeca857ae2c9004b201082762e3e5fd"
+}

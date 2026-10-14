@@ -1,0 +1,109 @@
+{
+  "status": "source_comparison_and_explicit_historical_evidence_reuse",
+  "protocol_sha256": "a2e3699ca131b0091473097607be054d6908c4470aadd1996ad5f2acc0a75d99",
+  "new_scientific_calls": 0,
+  "new_kernel_compilations": 0,
+  "prior_test_evidence": "Copied exact historical X receipts. These tests are not claimed as rerun on X2.",
+  "prior_monitor_tests": 48,
+  "prior_mock_validation_tests": 6,
+  "new_preparation_tests": "Author reports 77 passing; x2_preparation_tests.txt is the unmodified actual stdout, with the final test source pinned by X2 protocol. No fabricated JUnit or rerun receipt.",
+  "new_preparation_test_source_sha256": "bf56bf4a220b4671d997d157e40fb1d16e9e6485ad119ec3b28f55ab1b7bfd9b",
+  "unchanged_source_sha256": {
+    "measure.py": "f4aea79e598709847459e12f26b6900bb481877f80eb83e02365c7e362f2c86f",
+    "common.py": "8ea0f3d77a3e916855f3307bae963c9fcfe29c5863093e4a499e2db2fad7974d",
+    "raw.py": "496363744019cd13b4fda8366b72f50c2b1d36ef6c35f378ac32e61fec530a8f",
+    "frozen.py": "484d8df08990ee6ad1cbdb29f744b5b2adcc2d1ea622d0a1dda45dd0924d2124",
+    "production_run.py": "34ade61cda3b0da888a82f7f2e95d802b8f86264bae5c43b469154a3ee5fbd99",
+    "production_snapshot.py": "435b7156d45db95b68e5f79fd18b1b8ffa8a36a60572356a9f9e7213c4fa7a5b"
+  },
+  "monitor_delta": "Only CAP/VALIDATION_CAP reduced 3600/180 to3599/179; all scheduler/CPU/teardown code byte-identical.",
+  "validate_delta": "Only X2 docstring and dry-run displayed validation cap179; orchestration body byte-identical.",
+  "numerical_delta": "One import torch at start of identity; independent startup review and all original metadata probes archived.",
+  "identical_protocol_fields_checked": [
+    "T",
+    "n",
+    "worlds",
+    "seeds",
+    "validation_seeds",
+    "abi3_sizes",
+    "numerical_identity",
+    "analysis"
+  ],
+  "source_sha256": {
+    "monitor.py": {
+      "prior_X": "80e838aa719f31d34b7ee7acb7de56c3fb6e80d30c22dfa134b53169b6f9f316",
+      "X2": "e9c14647abef03d99f86d6962cfc49df71c4a9ca436dae6180b968c49184bcb3"
+    },
+    "validate.py": {
+      "prior_X": "915ece294a82794fb6368cff4168f68abe162b3beed15cc74c7d2ab3e89e844a",
+      "X2": "342356e06c64cfa83f746636b96086314b284fc4819fd418de2ed208d240091d"
+    },
+    "numerical.py": {
+      "prior_X": "56c561252e1f7cd81512705cc2676611cbeca857ae2c9004b201082762e3e5fd",
+      "X2": "ff28ae762e5585a3e8588a169bc17309893e921433d0dd04ebcdbe2aba84f88c"
+    }
+  },
+  "canonical_copies": {
+    "release_review/prior_X/monitor_review.json": {
+      "sha256": "c1f8b1592ed1e13981d277694b5d5a64a566d2dfb8c62f932bb40c0eb051b1c0",
+      "source": "outputs/autonomous_visibility_information_20261014/release_review/monitor_review.json"
+    },
+    "release_review/prior_X/root_process_cleanup_review.json": {
+      "sha256": "334270a30b96fb1dddec9d30d4d13ca0cc2874600ab550ddeda213c2dacc6659",
+      "source": "outputs/autonomous_visibility_information_20261014/release_review/root_process_cleanup_review.json"
+    },
+    "release_review/prior_X/check_process_cleanup.py": {
+      "sha256": "c620428791b78387f597318b1a88db37ee8ff3db04ad23791f74ca9a3f006281",
+      "source": "outputs/autonomous_visibility_information_20261014/release_review/check_process_cleanup.py"
+    },
+    "release_review/prior_X/test_monitor.py": {
+      "sha256": "cec5f0e62a91727a871cb156bee29e450962f1cc2b8948ed5cb2f2354c8af9a1",
+      "source": "outputs/autonomous_visibility_information_20261014/release_review/test_monitor.py"
+    },
+    "release_review/prior_X/monitor_junit.xml": {
+      "sha256": "6c83ef9934651bcefb86484dce7bef695f27a4663330b0ce725580a8e3fc65ab",
+      "source": "outputs/autonomous_visibility_information_20261014/release_review/monitor_junit.xml"
+    },
+    "release_review/prior_X/validation_orchestration_junit.xml": {
+      "sha256": "bbbcd26028665076314bc466121d8808e6c9cb1c2c767d204c18d12621c94bfa",
+      "source": "outputs/autonomous_visibility_information_20261014/release_review/validation_orchestration_junit.xml"
+    },
+    "release_review/prior_X/guard_review.json": {
+      "sha256": "f50c1ccc035cb3445f2fe0cc2014b5b53f7d810c213e30cc654bf42c5a142155",
+      "source": "outputs/autonomous_visibility_information_20261014/analysis/guard_review.json"
+    },
+    "release_review/prior_X/guard_review.md": {
+      "sha256": "ef8a13cac7a88d8c6e42067c6d8a5ab9bf07d7e091722d9edc30833c75e394b7",
+      "source": "outputs/autonomous_visibility_information_20261014/analysis/guard_review.md"
+    },
+    "release_review/prior_X/test_validation_orchestration.py": {
+      "sha256": "50b1558a6c33c4d1be0314fbe2e86c779ffb8e9f332144bf478031e585d395fe",
+      "source": "outputs/autonomous_visibility_information_20261014/analysis/test_validation_orchestration.py"
+    },
+    "release_review/prior_X/source/monitor.py": {
+      "sha256": "80e838aa719f31d34b7ee7acb7de56c3fb6e80d30c22dfa134b53169b6f9f316",
+      "source": "outputs/autonomous_visibility_information_20261014/monitor.py"
+    },
+    "release_review/prior_X/source/validate.py": {
+      "sha256": "915ece294a82794fb6368cff4168f68abe162b3beed15cc74c7d2ab3e89e844a",
+      "source": "outputs/autonomous_visibility_information_20261014/validate.py"
+    },
+    "release_review/prior_X/source/numerical.py": {
+      "sha256": "56c561252e1f7cd81512705cc2676611cbeca857ae2c9004b201082762e3e5fd",
+      "source": "outputs/autonomous_visibility_information_20261014/numerical.py"
+    },
+    "release_review/numerical_startup_independent_review.json": {
+      "sha256": "db4fe2a630925ddaae2439cf0164f21f3e609171b5303fbf49206c42b694e9b3",
+      "source": "outputs/audit_visibility_information_20261014/numerical_startup_independent_review.json"
+    },
+    "release_review/x2_preparation_tests.txt": {
+      "sha256": "0fad0a991838d695f5b48bbf12bcd6b46118e3a0347be88208246da3c20abc37",
+      "source": "outputs/audit_visibility_information_20261014/x2_preparation_tests.txt"
+    },
+    "release_review/archive.py": {
+      "sha256": "22d3032e7cd22df4934a1e262fe1384ed10f65480e479354c05f45f66256b7f1",
+      "source": "outputs/audit_visibility_information_x2_20261014/archive.py"
+    }
+  },
+  "release_authorization": "Not granted by this receipt; root ready is required."
+}

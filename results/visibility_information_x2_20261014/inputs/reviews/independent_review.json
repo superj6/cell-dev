@@ -1,0 +1,172 @@
+{
+  "status": "approve_bounded_preparation_only_not_release",
+  "simulated_lives": 0,
+  "compiled_libraries": 0,
+  "proposal_sha256": "a2dccda142a4e888a45e11a6ff4ac33094cd7a7a5712b12f3215a7459a5d213a",
+  "recovered_inputs_sha256": "82f33d815e3a9ed56f99642a6a68ec64960b80c505884b2d6a3c2278e81e4174",
+  "namespace_inventory_sha256": "a83daeda25330bbd08ca3621593ee03aabc95e8fc3043599602159f42ac8dae1",
+  "scope": {
+    "worlds": [
+      "flash5_dim25",
+      "blink20"
+    ],
+    "duration": 1024,
+    "paired_seeds_per_world": 512,
+    "fixed_candidates_per_world": 13,
+    "research_calls": 13312,
+    "validation_calls": 82,
+    "total_calls": 13394,
+    "total_cpu_cap_seconds": 3600,
+    "validation_included_cpu_cap_seconds": 180,
+    "max_workers": 2,
+    "threads_per_worker": 1
+  },
+  "verified": {
+    "all_recovered_source_hashes_match": true,
+    "world_parameter_vectors": {
+      "flash5_dim25": {
+        "parameter_count": 30,
+        "sha256": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+        "visibility_tuple": [
+          1,
+          5,
+          0,
+          0.25
+        ],
+        "retune_source": "memory/retune_reflex_mem.py budget 100 (screen block 116 x48, hill block 117 x128)"
+      },
+      "blink20": {
+        "parameter_count": 30,
+        "sha256": "7a971009e5bc301995b7a1a6c790afa5bcb81f18cff80dd1a9ee8958a72bdc35",
+        "visibility_tuple": [
+          2,
+          20,
+          20,
+          0
+        ],
+        "retune_source": "memory/retune_reflex_mem.py budget 100 (screen block 116 x48, hill block 117 x128)"
+      }
+    },
+    "cross_world_parameter_differences": [
+      9,
+      10,
+      21
+    ],
+    "controller_id": 1102,
+    "controller_name": "C5 Bayes memory tracker",
+    "controller_source_sha256": "35e41256f9fcb84f2192531615c1002e5132a510ec3070ccb6127f696ad25816",
+    "matched_physical_footprint": {
+      "shape": "hollow3",
+      "sense_cells": 19,
+      "act_cells": 37,
+      "hidden_cells": 0,
+      "total": 56,
+      "scope": "Definition checked; exact serialized candidate arrays still require preparation and pinning."
+    },
+    "fixed_roles": [
+      "R0",
+      "R1",
+      "I",
+      "A",
+      "B",
+      "D0",
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6",
+      "D7"
+    ],
+    "do_less_definitions_match_retained_t8_score": true,
+    "historical_cpu_estimate_seconds": 1536.2630649999994,
+    "abi3_sizes_from_frozen_C_defines": [
+      3,
+      875,
+      129,
+      66,
+      57,
+      5,
+      23,
+      1024,
+      7,
+      18
+    ],
+    "abi3_bundle_has_full_python_source_package": true,
+    "current_quarter_gap_rule_and_whole_mean_reference_selection": true,
+    "fixed_paired_contrasts_reported_separately_from_selected_descriptive_summary": true,
+    "no_tissue_positive_control_admission_gate": true,
+    "provisional_namespace_inventory": {
+      "blocks": [
+        113,
+        114,
+        115,
+        116
+      ],
+      "ranges_half_open": [
+        [
+          52130000,
+          52140000
+        ],
+        [
+          52140000,
+          52150000
+        ],
+        [
+          52150000,
+          52160000
+        ],
+        [
+          52160000,
+          52170000
+        ]
+      ],
+      "json_files": 29575,
+      "npz_files": 21257,
+      "named_seed_arrays": 7666,
+      "numeric_matches": 0,
+      "malformed_real_json": 0,
+      "malformed_synthetic_json": 6050,
+      "npz_errors": 0,
+      "reserved": false,
+      "scope": "All numeric integer values in results/ and outputs/ JSON, and numeric NPZ arrays whose keys include seed. Includes prior explicit hashed and held allocations and worktree copies. Excludes this design directory and its own unreleased preparation directory and .git/.venv/__pycache__/node_modules. Text-only formula declarations still require review before reservation.",
+      "inventory_script_sha256": "3dba6632c98c5feb3d4e3c24fb7986311d74bee411870c1c8e678f91f13ffa1f"
+    }
+  },
+  "review_fixes_in_current_proposal": [
+    "ABI3 max_init corrected from4096 to1024 and fate_f from4 to18; ordered ten-entry tuple stated explicitly.",
+    "Tentative blocks110\u2013112 left to prediction-gradient design; visibility suggestions now113\u2013116.",
+    "Truth-access statement narrowed to C5; source also contains the unselected privileged M1 controller."
+  ],
+  "interpretation": [
+    "I is a frozen external information yardstick with free central computation, not an evolved tissue algorithm or attainable score ceiling.",
+    "A removes the darkness model and changes evidence/placement filtering while temporal mechanisms remain. B preserves state but suppresses steering and tapping in believed darkness. Neither is a memory-only deletion.",
+    "Specific-part admission remains incomplete regardless of numeric effects; weak-ping integration, persistent movement, firing changes and cost savings remain alternative explanations.",
+    "T768/T1536 extension is held. Primary T1024 evidence cannot close G5; even a duration extension cannot turn these broad ablations into memory-specific evidence.",
+    "Same512seedclusters across worlds/candidates is deliberate pairing. Duration blocks differ, so cross-duration effects are descriptive rather than paired duration interventions."
+  ],
+  "release_requirements": [
+    "Pin integrated ABI4 complete worlds and reviewed physical bridge; compare every inherited field.",
+    "Freeze exact arrays for all26 candidate/world rows, physical cell/site order, all30 C5parameters, action/latency/charging configuration and per-world reflex knobs.",
+    "Implement and review isolated frozen ABI3 imports, exact library tuple/buffer-stride guards before data calls, no implicit build fallback, and rejection tests for ABI4/70-world/58-ledger mismatches.",
+    "Refresh namespace inventory at registration and review text/formula declarations; provisional blocks113\u2013116 scan has zero numeric overlaps and zero unreadable real seed sources. The design and its own unreleased preparation are excluded; neither is a previous experiment.",
+    "Complete exactly82validation/calibrationcalls under reviewed monitor afterrootrelease; require physical bridge, full/fast equality and C5-specific callback replay. No use of C4/PF replay as a substitute.",
+    "Pin monitor, analyzer, sources and explicit root resource clearance; no retries, resume, hidden numerical goldens or sample-size extension."
+  ],
+  "not_authorized_by_review": [
+    "launch",
+    "compilation",
+    "world admission",
+    "evolution family matrix",
+    "paid compute",
+    "controller redesign"
+  ],
+  "evidence": {
+    "docs/TASK_VARIATION_PLAN.md": "bcbba59d1e43e74b5c458ab028b23a665d80c72164d0ced3cea5519cdd9b1edd",
+    "results/open_headroom/controllers/t8_score.py": "7767372f2fdd0b625211fbde234a13942f596c43e8c7b19ae437f097f62b19ef",
+    "results/open_headroom/controllers/mem_ctl.c": "35e41256f9fcb84f2192531615c1002e5132a510ec3070ccb6127f696ad25816",
+    "results/open_headroom/harness/harness.py": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+    "results/prediction_information_20261014/original/src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+    "outputs/audit_prediction_gradient_20261014/recommendation.json": "2d3336ba37259f3a9bd776b0c1f1a8eadf6025efa774a4fc34ce8e1b8bbb2515"
+  }
+}

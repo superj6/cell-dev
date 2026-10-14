@@ -2306,3 +2306,15 @@ and budget remain preserved. X will not be reset or resumed. A separate X2 prepa
 Torch consistently before recording/checking runtime identity, retain strict equality and the same scientific
 matrix, and verify the actual fresh-process environment before release. Its proposed caps of 3,599 total and
 179 validation CPU-seconds conservatively include X's failed startup within the original 3,600/180 allocations.
+
+## 2026-10-14 — Corrected flash/blink initialization prepared as X2
+
+X2 consistently imports Torch before recording/checking numerical-library identity. All 77 preparation tests
+pass, including actual fresh worker startup, frozen-source-first startup, production-import-first startup
+and rejection of a deliberately different OpenMP runtime. Exact equality remains required. The complete
+world/candidate arrays, seeds, analysis and expected numerical identity are unchanged from X.
+
+The separate preparation in `results/visibility_information_x2_20261014/` transfers the registered but
+unconsumed blocks113/116 and binds X's terminal no-life evidence. Its 3,599/179 total/validation CPU-second
+caps leave both attempts within the original 3,600/180 allocation. No X2 compilation or simulated life has
+occurred at this milestone. This repairs measurement initialization and produces no scientific result.

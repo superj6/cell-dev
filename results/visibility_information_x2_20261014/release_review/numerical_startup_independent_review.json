@@ -1,0 +1,58 @@
+{
+  "status": "approved_minimal_initialization_fix",
+  "old_numerical_sha256": "56c561252e1f7cd81512705cc2676611cbeca857ae2c9004b201082762e3e5fd",
+  "new_numerical_sha256": "ff28ae762e5585a3e8588a169bc17309893e921433d0dd04ebcdbe2aba84f88c",
+  "exact_change": "one import torch statement at start of identity(), before libgomp resolution; entire equality check unchanged",
+  "fresh_process_cases": [
+    {
+      "case": "old_fresh",
+      "equal_expected": false,
+      "differing_identity_keys": [
+        "runtime_libraries"
+      ]
+    },
+    {
+      "case": "candidate_fresh",
+      "equal_expected": true,
+      "differing_identity_keys": []
+    },
+    {
+      "case": "candidate_frozen_first",
+      "equal_expected": true,
+      "differing_identity_keys": []
+    },
+    {
+      "case": "candidate_production_first",
+      "equal_expected": true,
+      "differing_identity_keys": []
+    },
+    {
+      "case": "candidate_system_first",
+      "equal_expected": false,
+      "differing_identity_keys": [
+        "runtime_libraries"
+      ]
+    }
+  ],
+  "old_failure_reproduced": true,
+  "all_supported_initialization_orders_match_same_expected_identity": true,
+  "deliberate_system_gomp_first_still_rejected": true,
+  "no_runtime_library_pin_filtering": true,
+  "evidence_pins": {
+    "outputs/audit_visibility_information_20261014/numerical_startup/candidate_fresh.json": "fe8e06297e3ae08176c7eeedf63661fb400c62212782490de33bc647cec3261a",
+    "outputs/audit_visibility_information_20261014/numerical_startup/candidate_frozen_first.json": "962f067be3b2f34a643e92b8cba64b9f182414a3abfa4ad556cbe2f8422d9552",
+    "outputs/audit_visibility_information_20261014/numerical_startup/candidate_production_first.json": "cbef8cdf146e2919c9f3fc2ba7c76ae905276911fa326a7e58e11397a0a82881",
+    "outputs/audit_visibility_information_20261014/numerical_startup/candidate_system_first.json": "fd818fe318953a518772660a907e9e6b47939ee929cd6577ec88dc745dea938e",
+    "outputs/audit_visibility_information_20261014/numerical_startup/old_fresh.json": "1726593a7105dbe64229a5bd102fee6c7a5175d78c54fa4ebcb61520ab00fe45",
+    "outputs/audit_visibility_information_20261014/numerical_startup/probe.py": "66bdbf9adfde53011f0598e97f8da9079d73d102273e0fb6bf364fc23399a4e2",
+    "outputs/audit_visibility_information_20261014/numerical_startup/probe_run.log": "ed88e9a0db578e8fc6ccbb1effd822a80808857929c280e8945a6c5439bb61b8",
+    "outputs/audit_visibility_information_20261014/numerical_startup/receipt.json": "ed88e9a0db578e8fc6ccbb1effd822a80808857929c280e8945a6c5439bb61b8",
+    "outputs/audit_visibility_information_20261014/numerical_startup/run_probes.py": "4c38080bd6f72649f9367dbbea7fce971e3534ed66c76311554dde7782805d77"
+  },
+  "review_simulation_calls": 0,
+  "review_compilations": 0,
+  "probes_source_review": "Only metadata imports/maps/hashes; no C builder or life entry point called. Python compile(source) executes the candidate Python identity helper, not a kernel build.",
+  "old_X_inputs_unchanged": true,
+  "scientific_matrix_change": false,
+  "scope_limit": "Approves consistent initialization and retained strict identity; it does not authorize release or claim a numerical/scientific result."
+}

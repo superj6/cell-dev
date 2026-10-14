@@ -1,0 +1,75 @@
+{
+  "status": "approved_independent_offline_analysis_X2",
+  "protocol_sha256": "a2e3699ca131b0091473097607be054d6908c4470aadd1996ad5f2acc0a75d99",
+  "simulations": 0,
+  "compiled_libraries": 0,
+  "engine_modules_imported": false,
+  "source_pins": {
+    "analyze.py": "f3a0cf9cb8010e386c8fc99d15158543add4086d1666d139959b2551cc8e2503",
+    "accounting.py": "1906b67d73ed1a023048792d18a158ae56ce3e7f2ee49d1bf064a442b8488461",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_analyze.py": "8492064f8caaae3bcc47fe5e12f1a0582293cbe18744d7e41848bf0e880d8555",
+    "test_accounting.py": "e0b2ab9c31ac68f83714e4b2f0ca4416b467e4355f164a8c8357cc6dc20fc55e",
+    "ANALYSIS_README.md": "f3a511be67936e4579b5103a69deb01e2603f3bb31b4676873ccd44ebbe94dcd",
+    "test_execution.txt": "f9d496c26bac98c384d561c0ed5a26951c5825fcea9dcd4340f7a3fbad6ea900",
+    "analysis_junit.xml": "97739b23330167e1741a534e73bf8894b7c079dfb160e41f760457c4fa549c84",
+    "analyzer_diff.txt": "9c9141f1dc0e7a255eb94e312aa1c21054e78953cdbb3e2a4eb84fbcf481aed2"
+  },
+  "previous_analysis_review_sha256": "b717009a8069dc94eb40cded63ca2f90ee20d163be47b0e348ac5662bae4e353",
+  "verified_changes": [
+    "Exact protocol SHA and study label",
+    "Total cap3599; validationcap179",
+    "Derived stop thresholds3589 and169"
+  ],
+  "scientific_accounting_and_candidate_reconstruction_byte_identical": true,
+  "world_candidate_seed_analysis_numeric_identity_equality_to_X": true,
+  "verification": {
+    "local_protocol_pins": 77,
+    "production_pins": 28,
+    "world_vectors_independently_repacked": 2,
+    "candidates": {
+      "candidate_count": 26,
+      "body_and_program_bytes_reconstructed": true,
+      "controller_source_sha256": "35e41256f9fcb84f2192531615c1002e5132a510ec3070ccb6127f696ad25816",
+      "full_parameter_bytes_sha256": {
+        "flash5_dim25": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+        "blink20": "7a971009e5bc301995b7a1a6c790afa5bcb81f18cff80dd1a9ee8958a72bdc35"
+      }
+    },
+    "research_seed_ids": 512,
+    "validation_seed_ids": 2,
+    "research_calls_required": 13312,
+    "validation_calls_required": 82,
+    "synthetic_tests_passed": 154,
+    "ruff": "passed",
+    "junit_pass_count_verified": true,
+    "first_attempt_only": true,
+    "unstarted_study_emits_no_scientific_outcomes": true
+  },
+  "prior_attempt": {
+    "budget_sha256": "38cb702e92d8c95ad172c5c4e6618ba8dce3ed71f4f38f81bb9e165669b579f3",
+    "cpu_seconds": 0.716548,
+    "simulation_calls": 0,
+    "independent_failure_review_sha256": "19dc91f37cd802da106ab8961d05ee778902695ace64334a6547103f462024c3",
+    "independent_startup_review_sha256": "db4fe2a630925ddaae2439cf0164f21f3e609171b5303fbf49206c42b694e9b3",
+    "combined_max_total_cpu_seconds": 3599.716548,
+    "combined_max_validation_cpu_seconds": 179.716548,
+    "seed_policy": "Explicit transfer of registered unconsumed113/116 IDs; no scientific outcomes existed to select from."
+  },
+  "limitations": [
+    "This is fixed external-controller information-payoff measurement, not evolved behavior.",
+    "A removes the broad visibility model; B suppresses actions while believed dark. Neither isolates memory or a specific capability.",
+    "The information/reference contrast combines sensing, state estimation, model assumptions and action policy.",
+    "Reference and do-less winners are selected by whole-sample mean. Paired SEs are descriptive, conditional on selection; fixed contrasts are also retained.",
+    "Matching seed IDs pairs exogenous random streams, but actions change subsequent trajectories and capture-triggered replacements.",
+    "Scratch 57-column ledgers are labelled as scratch; dark captures map to production low-light captures only through the accepted physical bridge.",
+    "G5 duration extension and capability-specific admission remain incomplete; no automatic admission or memory claim follows.",
+    "CPU is the monitor total including validation and compilation. Row process CPU omits wrapper/compression/monitor overhead."
+  ],
+  "current_study_status": {
+    "status": "incomplete",
+    "scientific_outcomes_emitted": false,
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_information_x2_20261014/operations/ready.json'"
+  },
+  "launch_authorized_by_this_receipt": false
+}

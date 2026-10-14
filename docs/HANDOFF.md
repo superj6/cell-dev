@@ -48,9 +48,10 @@ are registered; the duration extension remains held. Prospective evidence is in
 `results/visibility_information_20261014/`. Its first attempt stopped at the numerical-identity guard in
 0.716548 CPU-seconds, before compilation or any life: preparation had loaded Torch's OpenMP library, while
 the fresh worker loaded the system copy. X remains terminal and incomplete. A separate X2 initialization
-repair is being prepared with the same scientific matrix and unconsumed seeds; its 3,599-second total and
-179-second validation caps keep both attempts below the original combined allocations. Both ablations are broad;
-memory-specific admission remains incomplete regardless of their effect. This is an external measurement,
+repair is registered with the same scientific matrix and unconsumed seeds; its 3,599-second total and
+179-second validation caps keep both attempts below the original combined allocations.
+`results/visibility_information_x2_20261014/` preserves the corrected preparation and fresh-process checks.
+Both ablations are broad; memory-specific admission remains incomplete regardless of their effect. This is an external measurement,
 with no new organism behavior or hand-built winning-body gate.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but

@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "cases": [
+    {
+      "case": "old_fresh",
+      "equal_expected": false,
+      "compiled_libraries": 0,
+      "simulation_calls": 0
+    },
+    {
+      "case": "candidate_fresh",
+      "equal_expected": true,
+      "compiled_libraries": 0,
+      "simulation_calls": 0
+    },
+    {
+      "case": "candidate_frozen_first",
+      "equal_expected": true,
+      "compiled_libraries": 0,
+      "simulation_calls": 0
+    },
+    {
+      "case": "candidate_production_first",
+      "equal_expected": true,
+      "compiled_libraries": 0,
+      "simulation_calls": 0
+    },
+    {
+      "case": "candidate_system_first",
+      "equal_expected": false,
+      "compiled_libraries": 0,
+      "simulation_calls": 0
+    }
+  ],
+  "environment_overrides": {
+    "ATEN_CPU_CAPABILITY": "avx2",
+    "OMP_WAIT_POLICY": "PASSIVE",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONUNBUFFERED": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "source_sha256": {
+    "probe.py": "66bdbf9adfde53011f0598e97f8da9079d73d102273e0fb6bf364fc23399a4e2",
+    "run_probes.py": "4c38080bd6f72649f9367dbbea7fce971e3534ed66c76311554dde7782805d77"
+  },
+  "note": "Frozen X files unchanged; old fresh startup fails exactly as recorded, all consistent-start cases pass, deliberate wrong-library-first remains rejected."
+}

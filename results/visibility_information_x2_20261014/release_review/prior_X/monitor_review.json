@@ -1,0 +1,52 @@
+{
+  "status": "synthetic_validation_passed_not_released",
+  "simulated_lives": 0,
+  "compiled_libraries": 0,
+  "test_counts": {
+    "tests": 48,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "pytest_seconds": 1.177,
+  "files": {
+    "outputs/autonomous_visibility_information_20261014/monitor.py": "80e838aa719f31d34b7ee7acb7de56c3fb6e80d30c22dfa134b53169b6f9f316",
+    "outputs/audit_visibility_information_20261014/test_monitor.py": "cec5f0e62a91727a871cb156bee29e450962f1cc2b8948ed5cb2f2354c8af9a1",
+    "outputs/audit_visibility_information_20261014/monitor_junit.xml": "6c83ef9934651bcefb86484dce7bef695f27a4663330b0ce725580a8e3fc65ab"
+  },
+  "lint": "ruff check passed",
+  "scope": {
+    "cap_cpu_seconds": 3600,
+    "validation_cap_cpu_seconds": 180,
+    "stop_thresholds": [
+      170,
+      3590
+    ],
+    "max_workers": 2,
+    "simulation_threads_per_worker": 1,
+    "research_lives": 13312,
+    "validation_lives": 82
+  },
+  "tested": [
+    "dryrun no execution or attempt claim",
+    "explicit root release/pins/production binding/clearance",
+    "exclusive first-attempt claim and refusal of prior artifacts",
+    "validation gates research",
+    "cumulative CPU and launch-time child limits",
+    "validation/research stop thresholds and terminal CPU races",
+    "source/raw-row changes fail closed",
+    "two live workers terminated on budget",
+    "failed spawn cleans remaining owned worker",
+    "leader-exit descendants killed and reaped",
+    "cleanup failure retains live group and accounted CPU",
+    "exact parent-death binding and RLIMIT_CPU",
+    "prior process identity and group clearance"
+  ],
+  "limits": "Synthetic Popen and /proc fixtures; this did not run scientific workers or compile libraries. Root/reviewer source approval and actual pinned worker interface remain required.",
+  "independent_live_linux_teardown_review": {
+    "path": "outputs/audit_visibility_information_20261014/root_process_cleanup_review.json",
+    "sha256": "334270a30b96fb1dddec9d30d4d13ca0cc2874600ab550ddeda213c2dacc6659",
+    "status": "passed_by_root",
+    "simulated_lives": 0
+  }
+}

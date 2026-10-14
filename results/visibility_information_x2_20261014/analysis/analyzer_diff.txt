@@ -1,0 +1,68 @@
+--- X/analyze.py
++++ X2/analyze.py
+@@ -25,13 +25,13 @@
+ 
+ 
+ A, C = helper("accounting"), helper("candidates")
+-REVIEWED_PROTOCOL_SHA256 = "14ed106bd6664c3ad4888c46c990beef3fbb8a7b93989da0e0c0bd625cfcbfa5"
++REVIEWED_PROTOCOL_SHA256 = "a2e3699ca131b0091473097607be054d6908c4470aadd1996ad5f2acc0a75d99"
+ ROLES, WORLDS = C.ROLES, C.WORLDS
+ SEEDS = list(range(52_130_000, 52_130_512))
+ VALIDATION_SEEDS = [52_160_000, 52_160_001]
+ SCOPE = dict(
+-    total_cpu_seconds=3600,
+-    validation_cpu_seconds=180,
++    total_cpu_seconds=3599,
++    validation_cpu_seconds=179,
+     max_workers=2,
+     threads_per_worker=1,
+     research_lives=13312,
+@@ -186,7 +186,7 @@
+     if sha(path) != REVIEWED_PROTOCOL_SHA256:
+         raise ValueError("protocol is not the independently reviewed fixed registration")
+     p = read(path)
+-    if p["format"] != 1 or p["study"] != "X visibility information" or p["T"] != 1024 or p["n"] != 512:
++    if p["format"] != 1 or p["study"] != "X2 visibility information" or p["T"] != 1024 or p["n"] != 512:
+         raise ValueError("study scope changed")
+     if (
+         p["seeds"] != SEEDS
+@@ -312,8 +312,8 @@
+         ("phase", "research"),
+         ("running", {}),
+         ("queued", []),
+-        ("cap_cpu_seconds", 3600),
+-        ("validation_cap_cpu_seconds", 180),
++        ("cap_cpu_seconds", 3599),
++        ("validation_cap_cpu_seconds", 179),
+         ("ready", ready),
+     ]:
+         if key not in budget or budget[key] != want:
+@@ -344,8 +344,8 @@
+         x["pgid"] for x in children
+     ]:
+         raise ValueError("owned process groups do not match workers")
+-    total = number(budget["cpu_seconds"], "total CPU", 3590)
+-    vcpu = number(budget["validation_cpu_seconds"], "validation CPU", 170)
++    total = number(budget["cpu_seconds"], "total CPU", 3589)
++    vcpu = number(budget["validation_cpu_seconds"], "validation CPU", 169)
+     if total < vcpu:
+         raise ValueError("total CPU smaller than validation CPU")
+     number(budget["wall_seconds"], "monitor wall time")
+@@ -353,7 +353,7 @@
+     if vb != {
+         "status": "complete",
+         "cpu_seconds": budget["validation_cpu_seconds"],
+-        "cap_cpu_seconds": 180,
++        "cap_cpu_seconds": 179,
+         "report_sha256": sha(base / "validation/report.json"),
+         "protocol_sha256": sha(base / "protocol.json"),
+     }:
+@@ -641,7 +641,7 @@
+         summary = dict(
+             status="complete",
+             protocol_sha256=sha(base / "protocol.json"),
+-            study="X visibility information",
++            study="X2 visibility information",
+             simulation_calls=13394,
+             research_lives=13312,
+             validation=validation,

@@ -1222,3 +1222,20 @@ The independent analyzer reconstructs candidates and all 57 scratch ledger colum
 Both callbacks and requested actions must replay exactly; the production low-light readout is bridged explicitly.
 Root release follows reviewed preparation, terminal U/V resource clearance and public prospective publication.
 At registration, no X library has been compiled and no X life has been simulated.
+
+### X2. Initialization repair with the same fixed scientific comparison (2026-10-14)
+
+X stopped at its runtime-identity check before compilation or any life, consuming 0.716548 CPU-seconds.
+Its immutable first-attempt archive is `results/visibility_information_20261014/`; no result is inferred.
+X2 is separately registered at `results/visibility_information_x2_20261014/`. It imports Torch before
+discovering/checking numerical libraries, consistently with preparation. Exact runtime equality remains
+required. Fresh, frozen-source-first and production-import-first processes now agree; a deliberately
+system-OpenMP-first process remains rejected. No controller, organism, world or scoring behavior changes.
+
+All 26 candidate definitions, both packed worlds, the 13,312 + 82 call matrix, analysis rules and seed lists
+remain byte-for-byte unchanged. Registered but unconsumed blocks113/116 transfer to X2; no new seed search
+occurs, and blocks114/115 remain held and unreserved. The new total/validation caps are 3,599/179 CPU-seconds,
+so adding X's failed startup gives maxima 3,599.716548/179.716548, below the original 3,600/180 allocations.
+X2 retains its own first-attempt lock, no resume/replacement, complete-batch analysis and process cleanup.
+Its resource clearance binds X's terminal budget in addition to U/V. At this amendment, X2 has compiled no
+library and simulated no life. The real fixed validation package still precedes every research row.
