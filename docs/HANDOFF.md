@@ -3,6 +3,10 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
+**Wrap-up requested (2026-10-14).** Finish the already released P/Q/R studies and consolidate the evidence.
+S's scoring-budget comparison is fully prepared but held: no readiness marker or run exists. Do not add or launch
+further experiments during this wrap-up. Prepared plans are not completed results or authorization to restart.
+
 **Pickup progress (2026-10-13).** E1, E5 and E6 tooling are implemented; see the newest `RESULTS.md` entries. Life runs now
 checkpoint every 25 generations; `src.run --resume` restores both RNGs and verified log offsets with strict source
 and numerical pins. Use `--stop-after` with the original total generation target for a controlled interruption.
@@ -241,7 +245,7 @@ creation can do, that's the whole point".
 | `docs/LIFE_ABI.md`, `LIFE_GATES.md`, `PROBE.md` | the simulation contract, gate verdicts, the probe toolkit |
 | `results/catch_pilot/` | pilot analysis, mechanisms, compute audit |
 | `results/taskvar_study/` | hand-built headroom study; `engineering/kernel_x.diff` holds the prototype blink/flip kernel |
-| `results/open_headroom/` | latest study: controller harness, controllers, data (see its README) |
+| `results/open_headroom/` | original information-payoff harness, controllers and data (see its README) |
 | `outputs/` (gitignored) | run outputs; `outputs/catch_pilot/*/best_genome.json`, `population.json`; `outputs/openhr/` |
 
 ## 4. Where the findings stand
@@ -255,12 +259,14 @@ creation can do, that's the whole point".
   - Routing pays in POOL (sigma 0.4, lam_s 4, d0 0.5, d_min 0.25).
   - Regeneration pays.
   - Its gates were then replaced; see the next item.
-- **Open headroom (2026-10-10, latest).**
+- **Open headroom (2026-10-10, historical measurement).**
   - **The tool.** A central controller that sees only the body's own pings, actions and clock (measurement only) is
     replay-checked for leakage.
   - **Base and POOL, 1,024 fresh lives:** it beats the best reflex by **+13.3 F in base and +13.2 in POOL**. With
     tissue-like handicaps it keeps +9.2 / +9.6.
-  - **Our bodies use a quarter or less of that:** the evolved s5/s7 score -1.3 / -1.9 in base, the hand router +3.6.
+  - **Historical score comparisons:** evolved s5/s7 were −1.3 / −1.9 F relative to the base reflex,
+    the hand router +3.6. Their footprints differ; these are not information-share measurements. Matched BH3
+    remains unmeasured.
   - **What pays** is active search from a belief (path integration of its own strokes, pings and the absence of
     pings).
   - **Switching:** in the motor-flip mix (50% of lives flip mid-life), the flip detector adds +12.7 F.
@@ -269,10 +275,13 @@ creation can do, that's the whole point".
   - **Later measurements:** bounded base/POOL gradients and decoy information are now measured above. Prediction,
     full all-world gradients and capability-world duration transfer remain pending; N completes base/POOL duration checks.
 
-## 5. Decisions the user has not answered yet
+## 5. Decision status and remaining approvals
 
-From `docs/TASK_VARIATION_PLAN.md` 0.9. My recommendation is yes on each.
-1. Replace the hand-built gates with the admission rule (0.4).
+Historical numbering from `docs/TASK_VARIATION_PLAN.md` 0.9 is retained for cross-references.
+The standing admission principle is already instructed; the other decisions remain unassumed.
+1. The user already requires judging worlds by information payoff, never by whether we can hand-build a
+   winning body. The larger selection rollout and unanswered implementation decisions below remain unapproved;
+   the standing principle is not a reason to reintroduce the old gates.
 2. Port within-life world changes (motor flip, blink, flash) into kernel, reference and JS as ABI 4 (about 5-6 pd).
 3. The revised family (base 25%, POOL 25%, flip mix 25%, flash 12.5%, blink 12.5%), with arm M as POOL alternating
    with POOL plus flip mix.
@@ -363,7 +372,10 @@ truth lives. Only the fast build may skip hashes.
   policy comparison, block94 for hidden/lateral lesions, blocks95–97 for the decoy mutant panel and blocks98–99
   for duplicated-origin gene knockouts. Search seeds51089/51090
   use the production hash namespaces; they are not decimal blocks89/90. Block89 now holds K traces; block90
-  is reserved for L s7 confirmation.
+  is reserved for L s7 confirmation. Block100 holds M gene interactions; 101 holds O regulation; 102–104
+  are allocated to released P/Q/R. Block105 is reserved for held S preparation and has not been simulated.
+  Blocks40–41 hold N duration-information measurements. P/S reuse search seeds52091/52092 intentionally;
+  the S namespace audit records every overlap. Do not reuse decimal blocks or hashed IDs without a full audit.
 - Use 45M or above for new work.
 
 **The controller harness.**

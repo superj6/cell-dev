@@ -74,10 +74,10 @@ algorithm. Evidence: `results/duplicate_use_20261014/` (4,096 lives, 1,197.68333
 with 2,048 lives. A source proof resolves the G51089 physical/fitness interaction without simulation; the
 original 4,096-life preparation and the post-J amendment are preserved. N measures the unchanged default C4
 controller and five existing references at T768/T1536 in the original fast base/POOL worlds, using 12,288
-research lives plus 40 validation lives. These two-worker studies wait for L and have separate caps of 1,800
-and 3,600 CPU-seconds. L has now completed, and M/N have started. O is also registered: 4,608 lives compare
-structure held fixed, the same with five local GRN inputs masked, and broad freeze for row38 and both D
-endpoints. Its 3,600 CPU-second/two-worker allocation waits for M/N. These measurements change no admission
+research lives plus 40 validation lives. These two-worker studies were registered to wait for L, with separate
+caps of 1,800 and 3,600 CPU-seconds. O was registered for 4,608 lives comparing structure held fixed, the same with five
+local GRN inputs masked, and broad freeze for row38 and both D endpoints, after M/N, under a 3,600 CPU-second
+cap. L, M, N and O have since completed; the results appear below. These measurements change no admission
 rule, organism behavior or selection world.
 
 
@@ -163,8 +163,10 @@ ABI or world-admission criterion changes.
 | Evolved s5 (pilot) | 7.96 | -1.29 ± 0.10 | 5.95 | +1.15 ± 0.08 | 109 |
 | Evolved s7 (pilot) | 7.31 | -1.94 ± 0.10 | 5.21 | +0.41 ± 0.08 | 85 |
 
-- **Every body we have, evolved or hand-built, uses at most about a quarter of what the sense information allows.**
-  This holds even in the base world, so the bottleneck is reaching that computation, not a lack of tasks.
+- **The external controller demonstrates substantial information payoff in the base world.**
+  The table mixes body footprints, so its score differences cannot measure what fraction of available
+  information any evolved body uses. That matched-footprint measurement remains uncompleted. The information
+  payoff motivates improving search and computation without requiring a new task.
 - **What pays: active search driven by a belief about where the target is.**
   - The belief is built from the body's own strokes (path integration), the known placement rule, pings *and the absence
     of pings*, pooled across all sense cells and over time.
@@ -262,7 +264,9 @@ Why these thresholds:
     - flip: the gain is in flipped lives, and a genes_blind or hidden_off fork after the flip removes it;
     - flash and blink: at least 50% of the extra captures happen while the target is dim or dark.
 - **BH3, share of the information used.** For every best, (F_best - F_reflex) / (F_C4 - F_reflex) at the same
-  footprint. The pilot bests sit at -10% (base) to +9% (POOL). A best above 25% in base or POOL counts as progress.
+  footprint. This has not yet been measured for the evolved bodies. The historical −10% (base) to +9% (POOL)
+  ratios compared different footprints and are not BH3 measurements. A matched-footprint best above 25% in base
+  or POOL counts as progress.
 - **BH4, search signature (descriptive).**
   - distance travelled while no pings arrive;
   - share of time with the target inside the capture radius;

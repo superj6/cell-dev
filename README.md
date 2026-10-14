@@ -7,7 +7,7 @@ cells.
 
 **See it:** `results/atlas/atlas_play.html` (open in a browser) replays evolved bodies, explains how each one works,
 and has a live playground where you drop targets and an evolved body chases them. The playground's simulator is a
-JavaScript port that matches the C kernel bit for bit.
+JavaScript port validated bitwise against the C kernel on the retained parity cases.
 
 ## The current model: one continuous life (BODY-1)
 

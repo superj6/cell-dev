@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "scope": "author validation; independent monitor review passed; final prepared protocol and zero-life dry-run passed",
+  "simulated_lives": 0,
+  "pure_mock_tests_passed": 87,
+  "source_sha256": {
+    "run_budgeted.py": "c8cd24034642c7d055ba1b185258bc7ff44217b2c29e7c611f1b240428ca987a",
+    "test_monitor.py": "ed09474a932a08fea11275987ef3e096260ef923471063f74a89f51cdc5e496e"
+  },
+  "ruff": "passed",
+  "max_columns": 120,
+  "resource_scope": {
+    "max_cpu_seconds": 14400,
+    "max_simulation_threads": 4,
+    "phases": [
+      "reference freeze (pure)",
+      "two2-thread searches",
+      "two-thread confirmation"
+    ],
+    "planned_genome_lives": 37484,
+    "confirmation_genome_lives": 4608,
+    "startup_golden_lives_inside_cap": 6
+  },
+  "safeguards": [
+    "Only R complete and empty permits phase0; exact registered dependency source pins",
+    "Phase0 fixed reference labels/mapping and every file hash frozen before any search",
+    "Reference report and files snapshotted in budget,checked before every later spawn/final completion",
+    "Cumulative own/waiting/phase0/reaped/live-descendant CPU,including final source/reference audits",
+    "Parent-captured remaining RLIMIT,exact-parent PDEATHSIG,TERM/groupKILL cleanup evenafterleaderexit",
+    "No budget/log/run/reference/pending-reference reset; ownership persisted before Popen",
+    "Two fixed8gen searches only; allthree4608 confirmation counters required for final success",
+    "Authoritative final saved CPU sample rejects at-cap or over-cap completion and forces nonzero exit"
+  ],
+  "scientific_source_edits": false,
+  "readiness_or_launch_created": false,
+  "prepared_protocol_sha256": "a935a20d3e9dff962c79bb65e9586076484a595b157e6fa186133a86dba212cd",
+  "prepared_protocol_check": "passed",
+  "prepared_zero_life_dry_run": "passed",
+  "independent_review": "outputs/audit_s_20261014/monitor_review.json"
+}

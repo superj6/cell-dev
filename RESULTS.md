@@ -1645,7 +1645,8 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - **Watchable comparison:** `results/continuation_20261013/watch.html` embeds the four fixed genomes and unchanged
   JS engine, starts paused, and uses descriptive seed51,840,000 without choosing a favorable life. Either side is
   selectable; base-world playback is labeled a transfer illustration. Synthetic controls and exact data/engine
-  hashes pass. The separate eight-case T32 C/JS parity check awaits a free worker; no browser rendering check
+  hashes pass. At this entry, the eight-case T32 C/JS parity check was awaiting a free worker; its later pass
+  is recorded below. No browser rendering check
   has been performed. Animations are illustrations, not research scoring.
 
 ## 2026-10-14 — The first gain retains added lateral dependence with tissue held fixed
@@ -2019,3 +2020,39 @@ They are measurement tools only. A replay test shows the controller reads nothin
   Normal growing traces also differ from the tissue-clamped mechanism studies.
 - `results/phenotype_updates_20261014/` publishes per-life, property, age and time-bin counts, 11 synthetic tests,
   an independent raw-event recount of all twelve lives and a portable reanalysis. No additional lives were run.
+
+## 2026-10-14 — Copied genes acquired connections during search, without demonstrated final use
+
+- A completed-data reconstruction of both G searches finds 73 and 71 duplication events. Five and fourteen
+  new origins survive their birth generation. Four and eleven origins later occur in offspring with nonzero
+  coefficient paths to phenotype readouts; two and seven have such paths in retained genomes.
+- G51089's final copy remains disconnected, as M proved. Earlier carriers of that same origin include twelve
+  connected offspring, one retained. G51090's final copy reaches only emit1, agreeing with M. J/M's final-copy
+  knockout effects remain zero; intermediate variants were not tested for fitness dependence.
+- These paths show potential coupling, not reachable cell-property changes, positive selection, fitness use or
+  expanded computation. Copies, carriers and related candidates are not independent trials; crossover can erase
+  or combine paths. The final nulls do not imply that copied genes never acquired connections.
+- `results/copy_connectivity_20261014/` preserves every carrier and mutation-opportunity record. Final populations
+  and origins reproduce exactly. Independent packed-coefficient checks cover 8,194 genome observations and
+  4,755 copy records, with 944 synthetic graphs plus seven semantic tests. No new lives were run.
+
+## 2026-10-14 — Scoring-budget comparison prepared, held for wrap-up
+
+- S is fully prepared and independently reviewed but **not released**. It would compare eight generations with
+  6+8 scoring against P's sixteen generations with 3+4, using exactly matched initial populations and RNG states.
+  Both policies spend 16,384 selection genome-lives per branch; duration exposure and actual CPU costs differ.
+- All six fixed D/P/S roles would receive fresh block105 confirmation. The plan covers 37,484 research lives
+  under a 14,400 CPU-second cap, with at most four simulation workers after R. It freezes both completed P
+  references before either S search. No outcome-dependent founder or endpoint replacement is allowed.
+- All 103 pure/mock preparation checks pass. `results/scoring_budget_20261014/` preserves the exact protocols,
+  initialization/namespace audits and independent science/resource reviews. There is no readiness marker,
+  resource record, reference freeze or simulation output. The user's wrap-up request puts this study on hold.
+
+## 2026-10-14 — Wrap-up interpretation corrections
+
+- The older plan's quarter-of-information claim and pilot −10%/+9% ratios mixed body footprints. They are now
+  explicitly labeled historical unmatched-footprint comparisons, not BH3 measurements. The external controller
+  still demonstrates substantial information payoff; evolved bodies' matched-footprint share remains unmeasured.
+- Historical running-status text is marked as superseded, and the README's simulator parity statement is bounded
+  to retained validation cases. No scientific data, pinned study source or result changed. The standing user rule
+  against hand-built admission gates remains in force; broader unanswered execution decisions remain open.

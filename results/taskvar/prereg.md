@@ -1133,3 +1133,23 @@ Preparation runs only source checks, saved D genetic replay and pure/mock tests.
 are reused. The two standard numerical-identity startup goldens run only after worker release, reuse seed 11
 at T200, are separate from 4,608 research lives, and count toward the same CPU cap. No extra validation lives,
 readiness marker or launch is created by preparation.
+
+### S. Scoring-budget comparison — prepared and held (2026-10-14)
+
+The complete prospective protocol and independent reviews are preserved in
+`results/scoring_budget_20261014/`. S is **held at the user's wrap-up request**. No readiness marker, reference
+freeze, resource record or simulation exists; this preparation is not authorization to launch.
+
+The comparison uses the same D founders, run seeds 52091/52092, initial 32 genomes and post-initialization RNG
+states as P. S would run eight generations with six initial and eight recheck lives, against P's sixteen with
+three and four. Both spend 16,384 selection genome-lives per branch. Duration-weighted exposure differs
+(S 18,944 T1024-equivalent lives per branch; P 20,480/17,920), and actual CPU would be reported separately.
+Both completed P generation 16 rank0 references must be audited and frozen together before either S search.
+Both S generation 8 rank0 endpoints are fixed before fresh six-role D/P/S confirmation.
+
+Block 105 is reserved: 52,050,000 through 52,050,255, shared across three durations and all six roles. Primary
+effects compare each S endpoint with its matched P endpoint, with durations averaged within each seed before
+SE. Secondary S/P−ownD comparisons retain both branches and every sign. The proposed scope is 37,484 research
+lives under 14,400 cumulative CPU-seconds, at most four search threads, with R as a resource dependency.
+All 103 pure/mock checks pass; no research lives were simulated by preparation. The copied full PREREG and
+protocol control the detailed accounting, source pins, incomplete-study rules and limitations.

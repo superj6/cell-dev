@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "active_study_outcomes_read": false,
+  "reviewed_analyzer_sha256": "f31c0a9775def2d50e81ff87e893284d6de06abd88a39cb573c7df2ea6224902",
+  "reviewed_summary_sha256": "a7481b909f35dc67af5c0c3272060938a1a1c45260987083979f8d18fda95355",
+  "review_script_sha256": "b4eec6c0223e29644308ed243b0417431e039b8474913a7ab3851e722f46c02d",
+  "helper_sha256": "4a2d38965d87ec5bdabb7ab39947e99da35a49a7d827a025291def659b5c91ab",
+  "G_archive_provenance_sha256": "412c53ce2a6c2baa8a7816eb3c8db24b01188fb4bebea78e9ed512ec9db0e59a",
+  "endpoint_archive_provenance": {
+    "results/duplicate_use_20261014": "ba53c7b752fa167ea23a5ad04a863058295fa556440f9266f330db4d37dc9d05",
+    "results/gene_interaction_20261014": "f8ced4e1e96a66fa83cde1017518b98773b6f40099dc71fac123755a2a5ee51d"
+  },
+  "synthetic_graph_cases": 944,
+  "observed_genomes_checked": 8194,
+  "copied_gene_records_checked": 4755,
+  "complete_summary_replay_identical": true,
+  "endpoints": {
+    "51089": {
+      "raw_sha256": "a0189b8ab760844a4235eeab12808412b8654f657d97ca9a233f5767409251bb",
+      "copy_connectivity": [
+        {
+          "generation": 15,
+          "individual": 3512,
+          "slot": 14,
+          "origin": 56,
+          "retained": true,
+          "direct_readout_rows": [],
+          "other_gene_targets": [],
+          "reachable_active_genes": [
+            14
+          ],
+          "reachable_readout_rows": [],
+          "has_readout_path": false
+        }
+      ]
+    },
+    "51090": {
+      "raw_sha256": "23a38a4f43194195912b69c10ddfe3f7008b0c54c25d65a6c811014bb791e077",
+      "copy_connectivity": [
+        {
+          "generation": 15,
+          "individual": 3530,
+          "slot": 9,
+          "origin": 21,
+          "retained": true,
+          "direct_readout_rows": [
+            6
+          ],
+          "other_gene_targets": [],
+          "reachable_active_genes": [
+            9
+          ],
+          "reachable_readout_rows": [
+            6
+          ],
+          "has_readout_path": true
+        }
+      ]
+    }
+  },
+  "source_semantics": [
+    "W[target,source] feeds the target gene update; A[readout,gene] feeds phenotype.",
+    "Independent Boolean transitive closure checks every observed copy on packed, inactive-masked coefficients.",
+    "Whole-gene crossover precedes point mutation and structural operations; point mutations cannot target act.",
+    "Copy origin follows its gene unit; outgoing W rows belong to regulated genes and may cross separately.",
+    "Mutation opportunities count post-crossover carriers before structural operations, including later deletions."
+  ],
+  "limitations": [
+    "Nonzero graph paths are potential coupling, not reachable activation, phenotype change or fitness.",
+    "Repeated related genotypes/carriers are not independent samples; no probability or evolutionary SE inferred.",
+    "Retention and connectivity alone do not show positive selection or expanded computation.",
+    "Origins label copied gene units, not the ancestry of each outgoing edge."
+  ],
+  "reviewed_test_sha256": "faccadbf606cf408842a41d169bc73391699721f8575ba98cc87c227900b08a8",
+  "independently_rerun_semantic_tests_passed": 7,
+  "ruff": "passed",
+  "max_columns": 120
+}

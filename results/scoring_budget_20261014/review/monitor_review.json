@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "reviewer": "audit_de independent read-only monitor review",
+  "simulated_lives": 0,
+  "active_P_outcomes_read": false,
+  "tests_passed": 87,
+  "lint": "passed",
+  "actual_protocol_check_and_zero_life_dry_run": "passed",
+  "sha256": {
+    "run_budgeted.py": "c8cd24034642c7d055ba1b185258bc7ff44217b2c29e7c611f1b240428ca987a",
+    "test_monitor.py": "ed09474a932a08fea11275987ef3e096260ef923471063f74a89f51cdc5e496e",
+    "protocol.json": "a935a20d3e9dff962c79bb65e9586076484a595b157e6fa186133a86dba212cd"
+  },
+  "checks": [
+    "Waits only exact registered R completion with empty active/queued work and pinned dependency sources.",
+    "No restart when budget/logs/runs/confirmation/references or partial staging artifacts exist.",
+    "Before any S search, one pinned freeze-references worker must complete both fixed P references; exact labels/run mapping and all listed bytes are snapshotted then rechecked before later spawns/final completion.",
+    "Two search workers use two threads each, followed by a single two-thread confirmation; phases never overlap.",
+    "All source/config/helper/input/initialization/preparation/reference pins are checked before launch and final completion.",
+    "Monitor own/waiting/reaped child/live descendant CPU share the14400 cap; remaining RLIMIT and parent PID captured in parent.",
+    "Exact-parent PDEATHSIG, owned process-group TERM/KILL and final descendant cleanup retained.",
+    "Final confirmation requires status complete plus planned/genome/completed counts4608.",
+    "Authoritative CPU sample saved in the final record itself must be below cap; otherwise incomplete and nonzero exit.",
+    "Focused mocks cross only at final saved CPU sample (exact cap and cap+1), proving corrected boundary behavior."
+  ],
+  "resolved_issue": "Initial version checked cap before record(), whose later CPU sample could exceed cap while still claiming complete. Guard now uses exact saved final sample and sets nonlocal failure reason.",
+  "limitations": [
+    "Scientific validity of phase0 endpoint freezing belongs to pinned measure.py and its separate science review.",
+    "Current protocol dry-run is recorded by hash; future preparation schema changes require rechecking before release."
+  ],
+  "final_preparation_science_review_sha256": "40a4d127cf183b45bdf9f39ebd16bfa8087412c3f98820e68953b6c0066af8ba"
+}
