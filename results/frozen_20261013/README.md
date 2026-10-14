@@ -1,42 +1,34 @@
-# Lateral dependence with tissue held fixed: preparation
+# Lateral dependence with tissue held fixed
 
-This archive prepares a fixed experiment; it contains no block-92 scientific results yet. The working directory
-remains `outputs/autonomous_frozen_20261013/`, including when the archived monitor is used. Launch requires root's
-explicit `ready.json`; preparation only writes `ready.template.json`.
+Positive added lateral dependence in the frozen descendant tissue.
 
-The experiment compares the original s5 parent with its already selected row-38 descendant in fast POOL.
-Each genotype receives the same 512 new seeds under four conditions: normal, frozen, lateral transmission off,
-and both frozen and lateral transmission off. There are 4,096 genome-lives. Life ends at 1536; interventions
-begin at 768 and fitness is counted over 800–1536. The primary effect subtracts the winner's advantage with
-frozen lateral transmission off from its advantage in the intact frozen condition, within each seed before
-estimating uncertainty. See the [frozen protocol excerpt](protocol_excerpt.md) and [protocol data](protocol.json).
+Primary interaction: **+1.6922 ± 0.1782 F** (512 paired lives).
 
-Freeze prevents further gene, phenotype and effective-weight updates, division claims and death decisions.
-Claims already sent can still produce newborns. Under these fixed settings, their structural notices finish
-before 768.75; the bounded spike delays place pre-fork deliveries before 771.003. Opening accounting at 800
-excludes this settling interval. It does not erase earlier dynamical state. Membrane activity, receptors,
-vertical spikes and chemical transport continue. `lateral_off` prevents creation of new in-plane spike
-messages; outgoing-message charges remain and messages already in flight are processed normally.
+| Contrast | Mean ± SE |
+|---|---:|
+| unfrozen gain | +0.9883 ± 0.1596 |
+| frozen gain | +0.9445 ± 0.1589 |
+| unfrozen lateral off gain | -1.5093 ± 0.0843 |
+| frozen lateral off gain | -0.7477 ± 0.0899 |
+| unfrozen lateral interaction | +2.4976 ± 0.1744 |
+| frozen lateral interaction | +1.6922 ± 0.1782 |
+| gain lost under freeze | +0.0439 ± 0.2038 |
+| interaction change under freeze | +0.8055 ± 0.2170 |
+| parent frozen lateral loss | +5.5052 ± 0.1310 |
+| parent unfrozen lateral loss | +5.7935 ± 0.1363 |
+| winner frozen lateral loss | +7.1974 ± 0.1535 |
+| winner unfrozen lateral loss | +8.2911 ± 0.1472 |
 
-The analysis will check zero post-open births/deaths and equal frozen tissue counts across paired lesion arms,
-including the expected constant-population cell-time integral on guard-free complete lives. Guard and extinction
-penalties remain in fitness. Parent and descendant may have different tissue footprints, and freeze itself changes
-computation. This tests conditional function of held-fixed tissue, without claiming maturity or a new circuit.
+Scientific genome-lives: 4,096. Monitored CPU: 1216.191 seconds. The separate 16-life preparation validation is not included in these estimates.
 
-The monitor waits until the continuation study has no queued jobs and at most one two-worker job. Its pinned
-state machine can subsequently launch at most one two-worker confirmation, so E's two workers keep the combined
-maximum at four. Pure file hashes are checked before and after waiting; numerical golden replay only happens
-inside the scientific runner after that slot is available. The monitor checks at two-second intervals, requests
-termination at 3,588 child CPU-seconds, forces termination after a two-second grace period, and applies a Linux
-process CPU soft/hard limit of 3,599/3,600 seconds. Existing budget records or unexplained cached results block
-automatic restart.
+Both genotypes retain their own frozen tissue footprints. Freeze changes gene regulation as well as development. These comparisons do not establish a new algorithm, mature tissue, or matched-footprint information use. A small or unresolved interaction is not evidence of exact zero.
 
-Validation includes 16 mock monitor checks with zero simulated lives, plus root's previously completed 16
-validation-only full-length genome-lives on block 8 (3.874 process CPU-seconds). Those lives passed the frozen
-tissue checks and are preserved as aggregate ledgers. They are not block-92 evidence. Measured sources, prior
-inputs, monitor dependency, protocol and tests are hashed in `provenance.json`.
+All four arms use the same 736-unit accounting window. Production guard/extinction charges remain in fitness; constant-tissue integration checks use only complete guard-free pairs. Whole-life end counts, path and last-birth descriptors are labelled separately from windowed fitness/captures/costs.
+
+At t=768, the lateral lesion suppresses creation of new in-plane spike arrival messages; already scheduled messages, vertical spikes and chemical transport continue. The accounting window starts at 800 after pending structural claims and messages have settled. Prior dynamic state is retained.
+
+[Preparation and validation](PREPARATION.md) · [Frozen protocol](protocol_excerpt.md)
 
 ```bash
-.venv/bin/python results/frozen_20261013/run_budgeted.py
-.venv/bin/pytest -q results/frozen_20261013/test_run_budgeted.py
+.venv/bin/python results/frozen_20261013/analyze.py --study results/frozen_20261013
 ```

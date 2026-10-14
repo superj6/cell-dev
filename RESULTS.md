@@ -1613,3 +1613,57 @@ They are measurement tools only. A replay test shows the controller reads nothin
   across all three durations. A separately preregistered lateral lesion with tissue held fixed is queued to separate
   some developmental effects from later message dependence. Neither has a result yet. No organism rule, ABI, world
   default or price changed, and no rental or large evolution matrix was launched.
+
+## 2026-10-14 — Two ordinary continuations add confirmed gains
+
+- **Design:** two fixed 16-generation sexual searches from the previously confirmed s5 row38 founder in fast POOL.
+  Each starts with one exact founder and 31 ordinary mutants, uses production 32+224 / 3+4 selection and the normal
+  T768/1024/1536 draws, and keeps no protected founder. Final population rank0 is frozen before confirmation;
+  checkpoint/population identity is verified. The protocol was committed before launch in `aa79221`/`7462bbf`.
+- **Fresh confirmation:** both endpoints, row38 and original s5 share 256 new seeds at all three durations. Effects
+  average durations within each seed before estimating SE over 256 clusters; correlated durations are not treated
+  as independent lives. All endpoints are retained, with no validation-best reselection.
+
+| Search seed | Additional gain over row38, F ± SE | Total gain over original s5, F ± SE |
+|---|---:|---:|
+| 51089 | +0.633 ± 0.188 | +1.602 ± 0.173 |
+| 51090 | +0.756 ± 0.202 | +1.726 ± 0.182 |
+
+- Both primary contrasts clear 3 SE and +0.5 F. T768 alone is unresolved (+0.500 ± 0.223 and +0.680 ± 0.246);
+  T1024 and T1536 each clear 3 SE. This confirms additional accumulation beyond the earlier single mutation
+  cohort's unresolved second step. Two fixed exploratory replicates do not estimate general search reliability.
+- **What pays:** additional capture income is +1.162 ± 0.187 and +1.947 ± 0.203 F, exceeding additional total costs
+  of 0.529 ± 0.023 and 1.191 ± 0.026 F. Both bodies end about 47 cells larger than row38. The first gains captures
+  while clicking less (−8.83 ± 0.50 clicks) and travelling less; the second captures more while clicking more
+  (+12.97 ± 0.53) and travelling farther. These are duration-averaged paired descriptions, not circuit mechanisms.
+- **Evidence and budget:** `results/continuation_20261013/` preserves the complete lineage, final checkpoints and
+  populations, configurations and numerical pins, full confirmation ledgers, independent analyzer and figure.
+  All 36,012 research lives finished in 10,013.037438 monitored CPU-seconds (2.78 CPU-hours), within the three-hour
+  cap and four-worker limit. Search invalid/mismatch counts are zero; valid guarded mutants retain their normal
+  penalty. Confirmation contains no guards or extinction. Fitness progress alone establishes no new algorithm,
+  functional hidden layer or share of the available information at a matched footprint.
+
+## 2026-10-14 — The first gain retains added lateral dependence with tissue held fixed
+
+- **Design:** fixed original s5 and row38, each under normal, freeze, lateral-off and combined interventions.
+  All eight arms share 512 fresh block92 lives in fast POOL, T1536. Interventions start at768; all fitness and
+  capture/cost comparisons use800..1536 after a fixed settling interval. This study was registered independently
+  of the continuation outcomes. No intervention enters evolution.
+- **Primary result:** the winner's additional lateral dependence under freeze is **+1.692 ± 0.178 F**, beyond
+  3 SE. Its frozen gain over the parent is +0.944 ± 0.159 F; suppressing new lateral messages reverses that gain
+  to −0.748 ± 0.090 F. The primary interaction is almost entirely capture income (+1.710 F), with −0.018 F from
+  cost savings. Ordinary accounting and production guard/extinction penalties remain intact.
+- Without freeze, gain is +0.988 ± 0.160 F and added lateral dependence is +2.498 ± 0.174 F. Gain lost under
+  freeze is unresolved (+0.044 ± 0.204 F), while the reduction in lateral interaction is +0.805 ± 0.217 F.
+  Unresolved does not mean zero. Both genotypes pass constant-tissue checks in all 512 frozen pairs: no measured
+  births/deaths, equal end counts between their frozen arms, and integrated cell-time matching constant size.
+- **Interpretation:** added message dependence persists after this intervention holds tissue fixed. Freeze also
+  stops gene-regulatory/phenotype updates; the two genotypes keep their own different footprints and earlier
+  dynamic state. This does not identify mature tissue, a new algorithm, or matched-footprint information use.
+  The lateral lesion prevents new in-plane spike messages but retains their charge; previously emitted messages,
+  vertical spikes and chemicals continue. The settling interval does not erase prior state.
+- **Evidence and budget:** `results/frozen_20261013/` preserves all full ledgers, paired contrasts, structural
+  checks, source/numerical pins and independent reanalysis. All 4,096 research lives finished without guards in
+  1,216.191173 monitored CPU-seconds (0.34 CPU-hours), within the one-hour/two-worker cap. The separately archived
+  16-life validation is excluded from scientific estimates. No organism rule, ABI, fitness price or world default
+  changed. The next bounded studies measure existing decoy information and test the approved structural operators.

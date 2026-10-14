@@ -45,17 +45,30 @@ four workers. Separate validation used 294 T32 lives. The offline `results/follo
 the original s5 beside row38 on fixed descriptive seed 51,840,000. Its four T32 C lives plus four JS replays matched
 all ledger bytes and hashes, costing 6.72 additional CPU-seconds; full animations remain illustrations.
 
-**Currently running / queued.** After protocol commit `7462bbf`, two ordinary 16-generation sexual continuations
-from the same row38 founder are running at `outputs/autonomous_continuation_20261013/`, seeds 51089/51090, four
-workers total, shared cap 10,800 CPU-seconds. Read `budget.json` for live status; do not start another simulation
-while all four workers are occupied. Initial populations contain one exact founder plus 31 point-mutated copies;
-no founder is permanently protected. Each final population rank0 is frozen before fresh three-duration confirmation
-against row38 and original s5 on block91. Checkpoints are every four generations with target16 fixed from startup.
-Preserve engine/search and measurement-helper source pins while active; exact resume uses the E1 checkpoint.
-The existing-ABI tissue-freeze/lateral experiment E is preregistered at `outputs/autonomous_frozen_20261013/` on
-block92, but scientific scoring has not started. Its two workers wait until D has at most one two-worker job left.
-Its tooling passed 16 short validation lives, separate from A/B/C's validation counts above. No D/E scientific result
-exists yet. See `results/taskvar/prereg.md` for both fixed protocols and `RESULTS.md` for A/B/C.
+**Completed continuations and fixed-tissue experiment (2026-10-14).** Both ordinary 16-generation sexual
+continuations finished, including fresh confirmation. Relative to row38, final rank0 gains are **+0.633 ± 0.188**
+and **+0.756 ± 0.202 F**, averaging T768/1024/1536 within each of 256 shared seeds. Both exceed 3 SE and +0.5 F;
+T768 alone remains unresolved. Their total gains over original s5 are +1.602 ± 0.173 and +1.726 ± 0.182 F.
+Both earn more capture income despite higher costs and larger bodies. One clicks and moves less, the other more.
+This establishes additional progress in two fixed continuations, not general search reliability or a new algorithm.
+`results/continuation_20261013/` records the 36,012-life study, final checkpoints, populations and lineage;
+the monitor used 10,013.037438 of 10,800 CPU-seconds. No invalid/mismatched search evaluations occurred.
+
+The first-step row38 gain also remains with tissue frozen after t768: +0.944 ± 0.159 F during t800..1536.
+Its added lateral dependence is **+1.692 ± 0.178 F**, versus +2.498 ± 0.174 without freeze. All 512 pairs per
+genotype pass constant-tissue checks; no guards occurred. This narrows the developmental explanation, but the
+parent and winner keep different footprints and freeze also stops gene-regulatory computation. It establishes
+neither adult maturity nor a new algorithm. `results/frozen_20261013/` archives 4,096 research lives using
+1,216.191173 of 3,600 CPU-seconds; the separate 16-life validation is labeled.
+
+**Next prepared studies.** F measures the existing decoy-aware external controller on 512 shared lives against
+fixed reflex and ablated controls (3,584 lives, two workers, 1,800 CPU-seconds). G compares the documented silent
+duplication plus deletion policy against D, using matched initialization/run seeds and fresh block93
+endpoint confirmation (two 16-generation runs, 37,548 research lives plus 18 neutrality checks, 14,400 CPU-seconds).
+Neither has launched yet. Read each working `budget.json` and `ready.json` before starting anything; use at most
+four simulation workers across studies. G waits for F. Preserve all pinned engine/search/helper sources once
+released. The working paths are `outputs/autonomous_{discrimination,structural}_20261013/`; public preparation
+is under the corresponding `results/` directories. No unanswered approval decision has been assumed resolved.
 
 ## 1. What the project is
 
@@ -254,8 +267,9 @@ truth lives. Only the fast build may skip hashes.
 - 51M + 10,000·block: E7, reserved in `results/taskvar/prereg.md`; blocks 0-9 are validation only.
   A T32 validation smoke also spent block10's first two seeds; future G2 must start at 51,100,002.
   Blocks80–83 hold the completed nearby-mutant study; block84 is reserved for fixed descriptive viewer lives;
-  blocks85–88 hold completed transfer/second-step/factorial scoring. Block91 is reserved for the running
-  continuations' endpoint confirmation, and block92 for the queued frozen-tissue lesion. Search seeds51089/51090
+  blocks85–88 hold completed transfer/second-step/factorial scoring. Blocks91 and92 hold completed continuation
+  confirmation and frozen-tissue measurements. Block30 is reserved for discrimination, block93 for the structural
+  policy comparison. Search seeds51089/51090
   use the production hash namespaces; they are not decimal blocks89/90, which remain unallocated.
 - Use 45M or above for new work.
 

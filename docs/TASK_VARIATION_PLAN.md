@@ -21,8 +21,11 @@ larger 12+16 scoring both select the same genotype, whose fresh additional gain 
 confirm another accumulation step or separate the scoring budgets' winner quality. The first of the two original
 s5 alleles alone supplies a useful intermediate in both worlds; the second allele's added effect is unresolved.
 Evidence: `results/followthrough_20261013/`, 20,124 research lives and 1.17 monitored CPU-hours. Two preregistered
-16-generation production continuations are running within a three-CPU-hour cap; a fixed-tissue lateral lesion is
-queued. Their results are pending. Full G2 and the approval-dependent work below remain pending; these bounded
+16-generation production continuations have now finished: fresh duration-mixture gains over row38 are
++0.633 ± 0.188 and +0.756 ± 0.202 F, both beyond 3 SE and +0.5 F. The first-step row38 gain persists with tissue
+held fixed (+0.944 ± 0.159 F); added lateral dependence remains +1.692 ± 0.178 F. These establish further
+adaptation in two runs and message dependence after freeze, not a new algorithm or matched-footprint information
+use. Evidence: `results/continuation_20261013/` and `results/frozen_20261013/`. Full G2 and the approval-dependent work below remain pending; these bounded
 studies change no admission rule, organism behavior, ABI or price.
 
 ### 0.1 What changed and why
