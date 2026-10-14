@@ -12,9 +12,18 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *2026-10-13 measurement update:* a separate bounded 64-mutant/32-life diagnostic now has fresh 512-life confirmation
 and lateral lesions in base-fast and POOL. Three of four parent/world comparisons clear +0.5 F and 3 SE, with extra
 capture income and increased lateral-spike dependence; the s7/POOL comparison does not. See
-`results/pool_mutants_20261013/` and the latest `RESULTS.md` entry. These nearby improvements do not establish a new
-algorithm, robustness across life lengths, or long-term accumulation. Full G2 and the approval-dependent work below
-remain pending; this diagnostic changes no admission rule or organism behavior.
+`results/pool_mutants_20261013/` and `RESULTS.md`. These nearby improvements do not establish a new algorithm or
+long-term accumulation.
+
+*2026-10-13 follow-through:* the unchanged winners now retain positive average gains across T768/1024/1536 under
+fast conduction; old-conduction effects remain unresolved. In one fixed second mutation cohort, ordinary 3+4 and
+larger 12+16 scoring both select the same genotype, whose fresh additional gain is +0.064 ± 0.142 F. It does not
+confirm another accumulation step or separate the scoring budgets' winner quality. The first of the two original
+s5 alleles alone supplies a useful intermediate in both worlds; the second allele's added effect is unresolved.
+Evidence: `results/followthrough_20261013/`, 20,124 research lives and 1.17 monitored CPU-hours. Two preregistered
+16-generation production continuations are running within a three-CPU-hour cap; a fixed-tissue lateral lesion is
+queued. Their results are pending. Full G2 and the approval-dependent work below remain pending; these bounded
+studies change no admission rule, organism behavior, ABI or price.
 
 ### 0.1 What changed and why
 

@@ -1534,10 +1534,13 @@ They are measurement tools only. A replay test shows the controller reads nothin
   The paired accounting includes living, spiking, movement, messaging, division, secretion, missed-click and receptor
   costs, plus production guard/extinction charges. Size and allele changes alone do not identify the mechanism.
 - **The gains depend on lateral spikes.** In the first three comparisons, blocking them after 256 reverses the
-  mutant's advantage; the four-arm interaction exceeds 3 SE. This blocks in-plane spike arrivals while vertical
-  spikes and chemical packets continue. The lesion can change later development, so it does not isolate an adult
-  circuit or demonstrate a new routing algorithm. The selected mutations affect gene regulation and initial gene
-  levels; the s5 winner changes a chemical-input coefficient and a local motor-plane-input coefficient.
+  mutant's advantage; the four-arm interaction exceeds 3 SE. Under ABI 3, the lesion suppresses creation of new
+  in-plane spike messages after the fork; already emitted messages still arrive, and outgoing-message costs remain
+  charged. Vertical spikes and chemical packets continue. The lesion can change later development, so it does not
+  isolate an adult circuit or demonstrate a new routing algorithm. The selected mutations affect gene regulation
+  and initial gene levels; the s5 winner changes a chemical-input coefficient and a local motor-plane-input coefficient.
+  See the [lesion-semantics erratum](results/pool_mutants_20261013/ERRATA.md); the earlier archive's pinned files
+  remain unchanged for reproducibility.
 - **Exploratory selection-noise check:** splitting the independent s5 confirmation pairs into disjoint three-life
   batches ranks the winner no better than its parent in 30.0% of base batches and 31.8% of POOL batches. Actual search
   shortlists 64 of 256 on 3 lives, evaluates 4 more lives, then keeps 32 using the pooled 7-life mean. This readout is
@@ -1552,3 +1555,61 @@ They are measurement tools only. A replay test shows the controller reads nothin
   The public archive reanalysis reproduced the entire summary and cross-world results exactly. Confirmation tooling
   passed 39 focused tests, including source/seed checks, frozen selection, guard/extinction accounting and atomic
   resume. No organism rule, ABI, world default or fitness price changed; no rented compute or evolution matrix ran.
+
+## 2026-10-13 — Transfer persists; a second mutation cohort does not confirm another gain
+
+- **Scope:** three preregistered follow-ups to the nearby-mutant study, using existing worlds, prices and ordinary
+  mutations. Public scores, genomes, protocols, paired analysis and figures are in `results/followthrough_20261013/`.
+  Outcomes never changed the chosen first-step genotypes, second-step founder, candidate count or scoring budget.
+- **A: transfer of the unchanged first-step winners.** Each winner and its original parent share 256 fresh seeds
+  at fast-conduction T768, T1024 and T1536, plus old-conduction T1024. The equal-duration effect averages the three
+  differences within each seed before estimating SE; these are 256 paired clusters, not 768 independent lives.
+
+| Fixed winner | Equal-duration ΔF ± SE | Old-conduction T1024 ΔF ± SE | Fast minus old T1024 gain ± SE |
+|---|---:|---:|---:|
+| s5 / base | +0.586 ± 0.167 | -0.132 ± 0.166 | +0.768 ± 0.241 |
+| s5 / POOL | +0.953 ± 0.170 | +0.212 ± 0.136 | +0.721 ± 0.227 |
+| s7 / base | +0.532 ± 0.160 | -0.011 ± 0.164 | +0.574 ± 0.245 |
+| s7 / POOL | +0.440 ± 0.120 | +0.107 ± 0.113 | +0.316 ± 0.172 |
+
+  All four duration averages exceed 3 SE; s7/POOL still misses the separate +0.5-F practical threshold. This does
+  not mean every individual duration clears 3 SE. The old-conduction gains are unresolved. The fast-minus-old
+  interaction clears 3 SE for the same s5 genotype in both worlds, supporting conduction-dependent expression of
+  its advantage. Old-conduction POOL does not recreate the original base-world training distribution. Four
+  comparisons involve three unique selected genotypes; they are not four independent discoveries.
+- **B: no confirmed second accumulation step.** A fixed POOL/T1024 cohort contains 224 ordinary mutants of s5
+  row38 and 32 copies of that founder in the selector. All 225 candidate rows share 28 lives; the actual production
+  top64/keep32 ranking is replayed with either 3+4 or 12+16 lives, including all three random tie permutations.
+  Both rules select the identical candidate row148. On 512 independent paired confirmation lives, its additional
+  gain over row38 is **+0.064 ± 0.142 F**, while its total lead over original s5 is +1.012 ± 0.129 F. Higher-budget
+  minus lower-budget choice is exactly zero because the genotype is identical. The first-step founder itself
+  remains +0.948 ± 0.124 F above original s5 on these lives. This cohort does not demonstrate another useful step
+  or a winner-quality advantage from more scoring. It is one fixed candidate pool, not a multi-generation run or
+  a comparison at equal compute. The inconclusive second-step result was retained without extending the search.
+- **C: one discovered allele already provides a useful intermediate.** Four fixed genotypes copy the original
+  parent, evolved allele A alone (`W[1,16]`, first internal chemical input), allele B alone (`W[4,24]`, local
+  motor-plane cue), or the exact observed pair AB. There is no allele tuning. Each world uses 512 fresh shared lives.
+
+| World | A minus parent, F ± SE | B minus parent | AB minus parent | Interaction AB − A − B + parent |
+|---|---:|---:|---:|---:|
+| base-fast | +0.548 ± 0.138 | -0.143 ± 0.053 | +0.550 ± 0.140 | +0.145 ± 0.075 |
+| POOL | +1.064 ± 0.115 | -0.009 ± 0.042 | +0.984 ± 0.112 | -0.071 ± 0.065 |
+
+  A alone clears 3 SE and +0.5 F in both worlds. B's added effect on A is +0.001 ± 0.058 F in base and
+  -0.080 ± 0.050 F in POOL; neither it nor the interaction clears 3 SE. The gain does not require both changes
+  together on this evidence. Unresolved effects are not zero effects. These gene-regulation changes can alter
+  development, so the experiment does not identify an adult circuit or a new routing algorithm.
+- **Budget and evidence:** A used 8,192, B 7,836 and C 4,096 research genome-lives: **20,124 total**. B's identical
+  choices share one confirmation evaluation, with both roles retained. Completed external monitors record
+  **4,216.849317 CPU-seconds (1.17 CPU-hours)** across A/B and C; row timings alone total 4,196.367151 seconds.
+  At most four research workers ran, within the registered two-hour A/B and half-hour C caps. Separate plumbing
+  checks used 294 T32 lives; a smoke consumed reserved G2 seeds 51,100,000 and 51,100,001, which future G2 must omit.
+  The new `watch.html` embeds the unchanged JS engine and exact parent/row38 genomes on fixed illustrative seed
+  51,840,000. Four T32 C lives and four JS replays matched all 57 ledger columns and five hashes, costing a further
+  6.72 CPU-seconds. These checks and user-driven animations are not research evidence or example selection.
+- **Direction:** retain the demonstrated first step and test whether ordinary evolution can accumulate more.
+  Two preregistered 16-generation sexual continuations from row38 are now running under a shared three-CPU-hour
+  cap; final population rank0 from each will be compared with the unchanged founder and original s5 on fresh lives
+  across all three durations. A separately preregistered lateral lesion with tissue held fixed is queued to separate
+  some developmental effects from later message dependence. Neither has a result yet. No organism rule, ABI, world
+  default or price changed, and no rental or large evolution matrix was launched.

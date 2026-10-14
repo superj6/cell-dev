@@ -12,8 +12,8 @@ documented in `docs/PROBE.md`; BH3 on matched evolved footprints is still unmeas
 E7 preparation is in `results/taskvar/`: preregistration, recovered controllers, strict admission checks, bounded
 replay/parity evidence, and measurement/gradient commands that default to dry-run. Full G0-G5 measurements are still
 pending; see its gate table for approval/ABI dependencies. Prediction's recovered ablation measures the broader
-moving-target model, so it cannot yet isolate prediction. No pending decision below has been assumed answered,
-and no large study or rented compute has launched.
+moving-target model, so it cannot yet isolate prediction. No pending decision below has been assumed answered;
+the work below uses bounded local studies, with no rented compute or large evolution matrix.
 
 **Latest bounded measurement (2026-10-13).** `results/pool_mutants_20261013/` records a preregistered 64-mutant screen
 per parent (s5/s7) in base-fast and POOL, with fresh 512-life confirmation and 256-life four-arm lateral lesions.
@@ -21,9 +21,41 @@ Gains are +0.846 ± 0.136 (s5/base), +0.638 ± 0.116 (s5/POOL), +0.755 ± 0.129 
 The first three clear 3 SE and +0.5 F, earn more capture income despite higher costs, and depend more on lateral
 spikes. s5 selects the same genotype in both worlds. This establishes nearby improvements, not a new algorithm or
 sustained accumulation. All 26,752 planned lives finished within 1.44 CPU-hours; the raw public archive reanalyzes
-exactly. This is a separate bounded exploration, not the full G2/all-world study. Before continuations, check the
-winners across T=768/1024/1536; then a fixed second-generation candidate pool can test accumulation and scoring noise.
-Production selection shortlists on 3 lives, rechecks on 4 more, and keeps parents by their pooled 7-life mean.
+exactly. This is a separate bounded exploration, not the full G2/all-world study. Production selection shortlists on
+3 lives, rechecks on 4 more, and keeps parents by their pooled 7-life mean.
+The [lesion-semantics erratum](../results/pool_mutants_20261013/ERRATA.md) corrects the older archive's wording:
+`lateral_off` suppresses new in-plane spike sends after the fork, retains their charge, and leaves already emitted
+messages in flight. Vertical spikes and chemical packets continue. The archive's pinned bytes remain unchanged.
+
+**Completed follow-through (2026-10-13).** `results/followthrough_20261013/` preserves three further fixed experiments:
+
+- A: the unchanged winners have positive effects beyond 3 SE when averaged across T768/1024/1536 in fast conduction.
+  The four paired gains are +0.586 ± 0.167, +0.953 ± 0.170, +0.532 ± 0.160 and +0.440 ± 0.120 F in the order above.
+  Old-conduction T1024 effects remain unresolved; s5's fast-minus-old interaction clears 3 SE in both worlds.
+- B: 224 new ordinary mutants of row38 compete with 32 founder copies. Both 3+4 and 12+16 scoring select row148.
+  Its fresh additional gain is **+0.064 ± 0.142 F: no confirmed second step**. It remains +1.012 ± 0.129 F above
+  original s5. This one cohort offers no winner-quality separation between scoring budgets or evidence of their
+  relative efficiency at equal compute.
+- C: the first chemical-input allele alone improves F by +0.548 ± 0.138 in base and +1.064 ± 0.115 in POOL.
+  The second allele's added effect and the interaction remain unresolved. Both changes are not required together
+  for a useful intermediate; this does not identify the circuit mechanism.
+
+A/B/C completed 20,124 research genome-lives in 4,216.849317 monitored CPU-seconds (1.17 CPU-hours), with at most
+four workers. Separate validation used 294 T32 lives. The offline `results/followthrough_20261013/watch.html` shows
+the original s5 beside row38 on fixed descriptive seed 51,840,000. Its four T32 C lives plus four JS replays matched
+all ledger bytes and hashes, costing 6.72 additional CPU-seconds; full animations remain illustrations.
+
+**Currently running / queued.** After protocol commit `7462bbf`, two ordinary 16-generation sexual continuations
+from the same row38 founder are running at `outputs/autonomous_continuation_20261013/`, seeds 51089/51090, four
+workers total, shared cap 10,800 CPU-seconds. Read `budget.json` for live status; do not start another simulation
+while all four workers are occupied. Initial populations contain one exact founder plus 31 point-mutated copies;
+no founder is permanently protected. Each final population rank0 is frozen before fresh three-duration confirmation
+against row38 and original s5 on block91. Checkpoints are every four generations with target16 fixed from startup.
+Preserve engine/search and measurement-helper source pins while active; exact resume uses the E1 checkpoint.
+The existing-ABI tissue-freeze/lateral experiment E is preregistered at `outputs/autonomous_frozen_20261013/` on
+block92, but scientific scoring has not started. Its two workers wait until D has at most one two-worker job left.
+Its tooling passed 16 short validation lives, separate from A/B/C's validation counts above. No D/E scientific result
+exists yet. See `results/taskvar/prereg.md` for both fixed protocols and `RESULTS.md` for A/B/C.
 
 ## 1. What the project is
 
@@ -162,7 +194,7 @@ Staged, so that arms B and P can launch before the ABI 4 port lands.
 | E4 | Generation calendar for arm M: phase = floor(g / E) mod 2 | section 6 decision 3 | hours |
 | E5 | **Implemented and parity-tested:** KILL (wounds) port to lifesim.js and embedded atlas | none | done |
 | E6 | **Tooling implemented:** lateral shares, relay chains, BH3 data contract and ABI-3 BH4 readouts | none | matched BH3 scoring pending |
-| E7 | **Tooling and bounded base/POOL diagnostic complete:** fresh mutant confirmation/lesions archived | none for tooling; report before large runs | full G0-G5/all-world studies pending |
+| E7 | **Tooling and bounded diagnostics complete:** confirmations, transfer, second-step cohort and allele effects archived | none for tooling; report before large runs | full G0-G5/all-world studies pending |
 | E8 | Rental kit: pinned image, bitwise replay check on the new host | renting decision | hours |
 
 E1 in detail:
@@ -221,6 +253,10 @@ truth lives. Only the fast build may skip hashes.
 - 45.05M: short JS wound truth cases; 46M: E6 readout validation.
 - 51M + 10,000·block: E7, reserved in `results/taskvar/prereg.md`; blocks 0-9 are validation only.
   A T32 validation smoke also spent block10's first two seeds; future G2 must start at 51,100,002.
+  Blocks80–83 hold the completed nearby-mutant study; block84 is reserved for fixed descriptive viewer lives;
+  blocks85–88 hold completed transfer/second-step/factorial scoring. Block91 is reserved for the running
+  continuations' endpoint confirmation, and block92 for the queued frozen-tissue lesion. Search seeds51089/51090
+  use the production hash namespaces; they are not decimal blocks89/90, which remain unallocated.
 - Use 45M or above for new work.
 
 **The controller harness.**

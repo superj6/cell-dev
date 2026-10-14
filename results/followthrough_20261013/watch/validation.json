@@ -1,0 +1,64 @@
+{
+  "ui": {
+    "syntax": "passed",
+    "synthetic_interactions": "passed",
+    "finite_canvas_calls": 11907,
+    "scientific_lives_run": 0,
+    "default_seed": 51840000,
+    "engine_sha256": "123723cd011ad4987c1d4477bbdbb450985aedf43193363d76d0529fe7d793d3"
+  },
+  "browser_visual_inspection": "unavailable; no browser binary installed",
+  "parity": {
+    "status": "passed",
+    "comparison": "bitwise",
+    "stepped_and_state_read": true,
+    "cases": [
+      {
+        "world": "pool",
+        "body": "parent",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "pool",
+        "body": "descendant",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "base",
+        "body": "parent",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      },
+      {
+        "world": "base",
+        "body": "descendant",
+        "seed": 51840000,
+        "T": 32,
+        "ledger_columns": 57,
+        "matching_hashes": 5
+      }
+    ]
+  },
+  "kernel_lives": 4,
+  "browser_engine_lives": 4,
+  "duration": 32,
+  "default_seed": 51840000,
+  "active_scientific_workers_before_check": 0,
+  "html_sha256": "3c743c1bcc8ea92b22e98bcfaa9371586bfedd3fc5a5ea0a6120bb3af5c4d45c",
+  "engine_sha256": "123723cd011ad4987c1d4477bbdbb450985aedf43193363d76d0529fe7d793d3",
+  "scope": "Short validation only; no claim of new long-life parity.",
+  "validation_process_cpu_seconds": 6.72,
+  "validation_process_user_cpu_seconds": 6.37,
+  "validation_process_system_cpu_seconds": 0.35,
+  "validation_process_wall_seconds": 4.68,
+  "maximum_validation_workers": 1,
+  "command": ".venv/bin/python outputs/autonomous_followthrough_20261013/watch/validate_watch.py --simulate"
+}

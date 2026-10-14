@@ -1,0 +1,65 @@
+{
+  "selector_independent_replay_comparisons": 8,
+  "checks": [
+    {
+      "fixture": "all_ties",
+      "initial": 3,
+      "extra": 4,
+      "winner": 0,
+      "match": true
+    },
+    {
+      "fixture": "all_ties",
+      "initial": 12,
+      "extra": 16,
+      "winner": 0,
+      "match": true
+    },
+    {
+      "fixture": "integer_ties",
+      "initial": 3,
+      "extra": 4,
+      "winner": 24,
+      "match": true
+    },
+    {
+      "fixture": "integer_ties",
+      "initial": 12,
+      "extra": 16,
+      "winner": 24,
+      "match": true
+    },
+    {
+      "fixture": "continuous",
+      "initial": 3,
+      "extra": 4,
+      "winner": 153,
+      "match": true
+    },
+    {
+      "fixture": "continuous",
+      "initial": 12,
+      "extra": 16,
+      "winner": 75,
+      "match": true
+    },
+    {
+      "fixture": "first_stage_outlier",
+      "initial": 3,
+      "extra": 4,
+      "winner": 180,
+      "match": true
+    },
+    {
+      "fixture": "first_stage_outlier",
+      "initial": 12,
+      "extra": 16,
+      "winner": 180,
+      "match": true
+    }
+  ],
+  "simulated_lives": 0,
+  "analysis_sha256": "2c149731dcd11f02b8b2c78dbc1bc4509625d4e4c7b57a624bf9b6fe195ac50f",
+  "validator_sha256": "60a51a49bc12978e2553e5e9079b891edcdbac777697dab89c28c9951acfb66d",
+  "selector_source_sha256": "aa19ea6d34f98c6576b80e9221b355e5c4a0f85751f739338a662f6d05f635d2"
+}

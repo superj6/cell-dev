@@ -1,0 +1,70 @@
+{
+  "status": "complete",
+  "simulated_lives": 146,
+  "cpu_seconds": 0.45100284400000046,
+  "seed_blocks": {
+    "screen": 8,
+    "confirm": 9
+  },
+  "row_hashes_and_mtimes_unchanged": true,
+  "frozen_selection_bytes_unchanged": true,
+  "threads_changed_on_resume": [
+    1,
+    2
+  ],
+  "source_sha256": "aa19ea6d34f98c6576b80e9221b355e5c4a0f85751f739338a662f6d05f635d2",
+  "focused_tests": "34 tests passed: second_step, confirm, transfer, repository style",
+  "prior_validation_seed_collision": {
+    "path": "second_step_smoke",
+    "T": 32,
+    "screen_seeds": [
+      51090000,
+      51090001,
+      51090002,
+      51090003,
+      51090004,
+      51090005,
+      51090006,
+      51090007,
+      51090008,
+      51090009,
+      51090010,
+      51090011,
+      51090012,
+      51090013,
+      51090014,
+      51090015,
+      51090016,
+      51090017,
+      51090018,
+      51090019,
+      51090020,
+      51090021,
+      51090022,
+      51090023,
+      51090024,
+      51090025,
+      51090026,
+      51090027
+    ],
+    "confirmation_seeds": [
+      51100000,
+      51100001
+    ],
+    "note": "Block-10 reservation arrived after smoke. Keep these two seeds out of future G2 inference.",
+    "screen_genome_lives": 140,
+    "confirmation_genome_lives": 8,
+    "total_genome_lives": 148,
+    "source_sha256": "fc9402a709b516c234f1cb3fa6c67d97ac93f45f30808fa97292fe37493becf9"
+  },
+  "stdout": "{\n  \"status\": \"complete\",\n  \"candidate_rows\": 5,\n  \"cpu_seconds\": 0.45100284400000046\n}\n",
+  "executed_validation_commands": [
+    ".venv/bin/python -m scripts.taskvar_second_step --smoke --threads 1 --max-cpu-seconds 120 --out outputs/autonomous_followthrough_20261013/validation/second_step_smoke",
+    ".venv/bin/python -m scripts.taskvar_second_step --smoke --threads 2 --max-cpu-seconds 120 --out outputs/autonomous_followthrough_20261013/validation/second_step_smoke",
+    ".venv/bin/python -m scripts.taskvar_second_step --smoke --threads 1 --max-cpu-seconds 120 --out outputs/autonomous_followthrough_20261013/validation/second_step_smoke_final",
+    ".venv/bin/python -m scripts.taskvar_second_step --smoke --threads 2 --max-cpu-seconds 120 --out outputs/autonomous_followthrough_20261013/validation/second_step_smoke_final"
+  ],
+  "validation_only_total_genome_lives": 294,
+  "actual_scientific_seed_blocks_consumed": [],
+  "scientific_seed_collision_note": "Two seeds reserved for future G2 were consumed only at T32: 51,100,000 and 51,100,001. Future G2 must exclude them."
+}
