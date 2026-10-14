@@ -61,6 +61,30 @@ scripts/run_catch_pilot.sh                                           # the 29-ru
 The kernel compiles itself on first use (gcc with OpenMP). Mechanism probes: `from src.life import probe as P`
 (`docs/PROBE.md`). Atlas: `results/atlas/` (`extract.py`, `build2.py`, `play/build_playground.py`).
 
+Life runs now save `checkpoint.pt` every 25 generations and at a controlled stop or the final generation. Resume
+with the same configuration and output directory:
+
+```bash
+ATEN_CPU_CAPABILITY=avx2 .venv/bin/python -m src.run --config outputs/my_study/run/config.yaml --resume
+```
+
+For a short replay check, set the intended total once (`evolve.generations=6`), run with `--stop-after 3`, then use
+`--resume`. The resumed process completes the remaining three generations; diagnostic timing follows the original
+six-generation schedule. `--stop-after` counts additional generations in the current invocation. A controlled stop
+writes a checkpoint without doing final scoring. Resume can also recover a crash during final scoring.
+
+- `checkpoint.pt` saves genomes, ids, breeds, gene origins, next ids, both random generators, generation counts,
+  diagnostics and durable log offsets. Resume checks all saved log prefixes before removing trailing crash output.
+- `determinism.json` pins torch/NumPy/Python, AVX2 torch dispatch, mutation-noise bytes, libm binary and resolved
+  implementation offsets (including FMA dispatch), kernel binaries/flags and Python search sources. Every start
+  replays an existing CATCH golden life and compares the fast kernel ledger with the full build.
+- A mismatch refuses resume before changing logs. Keep the original source/environment and both kernel `.so` files
+  when moving a run. The CLI selects `ATEN_CPU_CAPABILITY=avx2` by default; set it before importing torch when calling
+  `main` from another program. This pin requires an AVX2-capable host with the matching libm path.
+- Keep target generations and search settings fixed. Only output location and checkpoint frequency may change;
+  copy the run directory, including its logs, to relocate it. Old `population.json` files lack RNG state and cannot
+  be resumed exactly. New runs refuse to overwrite an existing checkpoint.
+
 ### Layout
 ```
 src/life/   kernel.c (C), reference.py, spec.py (ABI, decode, presets), build.py, evaluate.py, handbuilt.py,

@@ -159,9 +159,12 @@ def fill(founders: torch.Tensor, n: int, layout: Layout, gen: torch.Generator, e
     return pop
 
 
-def evolve(cfg, log=print, out: Path | None = None) -> dict:
+def evolve(cfg, log=print, out: Path | None = None, *, resume: dict | None = None,
+           checkpoint=None, stop_after: int | None = None) -> dict:
     if run_mode(cfg) == "life":
-        return evolve_life(cfg, log, out)
+        return evolve_life(cfg, log, out, resume=resume, checkpoint=checkpoint, stop_after=stop_after)
+    if resume is not None or checkpoint is not None or stop_after is not None:
+        raise ValueError("checkpoint/resume is supported only in life mode")
     torch.set_num_threads(int(cfg.threads))
     gen = torch.Generator().manual_seed(int(cfg.seed))
     valid_gen = torch.Generator().manual_seed(int(cfg.seed) + 5_000)  # fresh trials from the training distribution
@@ -226,12 +229,12 @@ class Lineage:
     survivors' fitness is then their mean over all their lives. ``clones`` rows go to clones.jsonl.
     """
 
-    def __init__(self, out: Path | None, mode: str = "survivors"):
+    def __init__(self, out: Path | None, mode: str = "survivors", *, append: bool = False):
         if mode not in ("survivors", "all"):
             raise ValueError(f"logging.lineage must be survivors or all, got {mode!r}")
         self.mode = mode
-        self.fh = open(out / "lineage.jsonl", "w") if out is not None else None
-        self.clones_fh = open(out / "clones.jsonl", "w") if out is not None else None
+        self.fh = open(out / "lineage.jsonl", "a" if append else "w") if out is not None else None
+        self.clones_fh = open(out / "clones.jsonl", "a" if append else "w") if out is not None else None
 
     @staticmethod
     def _dump(fh, row: dict) -> None:
@@ -438,7 +441,8 @@ def seed_genome(cfg, layout) -> torch.Tensor:
     return g.reshape(1, -1).to(torch.float32)
 
 
-def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
+def evolve_life(cfg, log=print, out: Path | None = None, *, resume: dict | None = None,
+                checkpoint=None, stop_after: int | None = None) -> dict:
     """(mu+lambda) evolution of one-life genomes (module docstring); the loop mirrors ``evolve``. With
     ``evolve.seed_genome`` the population descends from that one genome instead of sampled founders (seeded control).
     Each generation row carries its wall time ``t_gen``, the population's kernel time ``t_eval`` (seconds) and the
@@ -473,28 +477,30 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
                          "of the judged lives must be one of the selection lengths (override both, or T_choices=null)")
     mu, lam, G = int(e.mu), int(e.lam), layout.dims.genes_max
     k_re, l_re, key_re = recheck_plan(e, mu, mu + lam)
-    lin = Lineage(out, str(cfg.logging.get("lineage", "survivors")))
+    lin = Lineage(out, str(cfg.logging.get("lineage", "survivors")), append=resume is not None)
     mut_kw = dict(dup_rate=float(e.get("dup_rate", 0.0)), del_rate=float(e.get("del_rate", 0.0)),
                   split=bool(e.get("dup_split", False)), scale_n_mut=bool(e.get("n_mut_scale", True)))
 
-    if e.get("seed_genome"):
-        founders, evals, info = seed_genome(cfg, layout), 0, {"sampled": 0, "seeded": str(e.seed_genome)}
-    else:
-        batches, sampled = itertools.count(), []
-        sample = lambda g: ev.draw("founders", next(batches), int(lc.founder_lives), float(lc.founder_T))  # noqa: E731
-        founders, evals, info = sample_founders(cfg, ev, layout, sample, gen, collect=sampled)
-        info.update(life_census(sampled, float(e.get("min_founder_score", 0.0))))
-    nf = founders.shape[0]
-    fill_ops = []
-    pop = fill(founders, mu, layout, gen, e, ops=fill_ops)
-    ids = torch.arange(mu)
-    breeds = ids % nf
-    slot = torch.arange(G)[None, :]
-    origins = torch.where(layout.active(pop), breeds[:, None] * G + slot, torch.tensor(-1))  # innovation ids
-    next_id, next_innov = mu, nf * G
-    log({"event": "founders", **info})
-    lin.write({"event": "founders", **info, "ids": list(range(nf)),
-               "copies": [{"id": int(i), "parent": int(i % nf), "ops": fill_ops[i - nf]} for i in range(nf, mu)]})
+    if resume is None:
+        if e.get("seed_genome"):
+            founders, evals, info = seed_genome(cfg, layout), 0, {"sampled": 0, "seeded": str(e.seed_genome)}
+        else:
+            batches, sampled = itertools.count(), []
+            def sample(g):
+                return ev.draw("founders", next(batches), int(lc.founder_lives), float(lc.founder_T))
+            founders, evals, info = sample_founders(cfg, ev, layout, sample, gen, collect=sampled)
+            info.update(life_census(sampled, float(e.get("min_founder_score", 0.0))))
+        nf = founders.shape[0]
+        fill_ops = []
+        pop = fill(founders, mu, layout, gen, e, ops=fill_ops)
+        ids = torch.arange(mu)
+        breeds = ids % nf
+        slot = torch.arange(G)[None, :]
+        origins = torch.where(layout.active(pop), breeds[:, None] * G + slot, torch.tensor(-1))  # innovation ids
+        next_id, next_innov = mu, nf * G
+        log({"event": "founders", **info})
+        lin.write({"event": "founders", **info, "ids": list(range(nf)),
+                   "copies": [{"id": int(i), "parent": int(i % nf), "ops": fill_ops[i - nf]} for i in range(nf, mu)]})
 
     heldout_list = list(lc.get("heldout") or [])
     clones_every = int(cc.get("every", 0) or 0)
@@ -507,8 +513,33 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
     def counted():
         return evals + rc_lives / int(lc.lives) if rc_lives else evals
 
+    start = 0
+    fitness = None
+    if resume is not None:
+        pop, ids, breeds, origins = (resume[k] for k in ("population", "ids", "breeds", "origins"))
+        next_id, next_innov = resume["next_id"], resume["next_innov"]
+        evals, rc_lives, info = resume["evals"], resume["rc_lives"], resume["founders"]
+        curves, valid, heldout = resume["curves"], resume["valid"], resume["heldout"]
+        fitness, start = resume["fitness"], resume["generation"]
+        gen.set_state(resume["generator"])
+        if tie_gen is not None:
+            tie_gen.set_state(resume["tie_generator"])
     n_gen = int(e.generations)
-    for g in range(n_gen):
+    end = n_gen if stop_after is None else min(n_gen, start + stop_after)
+    if stop_after is not None and stop_after < 1:
+        raise ValueError("stop_after must be positive")
+    every = int(cfg.logging.get("checkpoint_every", 25))
+    if every < 1:
+        raise ValueError("logging.checkpoint_every must be positive")
+
+    def snapshot(generation):
+        return {"generation": generation, "population": pop, "ids": ids, "breeds": breeds,
+                "origins": origins, "next_id": next_id, "next_innov": next_innov,
+                "generator": gen.get_state(), "tie_generator": None if tie_gen is None else tie_gen.get_state(),
+                "evals": evals, "rc_lives": rc_lives, "founders": info, "curves": curves,
+                "valid": valid, "heldout": heldout, "fitness": fitness}
+
+    for g in range(start, end):
         t_start = time.perf_counter()
         draw = ev.draw("gen", g)
         ia = torch.randint(mu, (lam,), generator=gen)
@@ -610,8 +641,13 @@ def evolve_life(cfg, log=print, out: Path | None = None) -> dict:
                                "F_base": [float(res.fitness[i]) for i in short],
                                "F_recheck": [float(x) for x in rc["res"].fitness], "changed": rc["changed"]}
         lin.write(lrow)
+        fitness = chosen.fitness
+        if checkpoint is not None and ((g + 1) % every == 0 or g + 1 == end):
+            checkpoint(snapshot(g + 1))
+    if checkpoint is not None and start == end:
+        checkpoint(snapshot(end))
     lin.close()
-    fitness = None if chosen is None else chosen.fitness
     return {"best": pop[0], "population": pop, "ids": ids, "breeds": breeds, "origins": origins, "fitness": fitness,
-            "curves": curves, "evals": counted(), "valid": valid, "heldout": heldout, "rung": None, "founders": info,
+            "complete": end == n_gen, "curves": curves, "evals": counted(), "valid": valid, "heldout": heldout,
+            "rung": None, "founders": info,
             "lattice": None, "layout": layout, "task": None, "evaluator": ev}

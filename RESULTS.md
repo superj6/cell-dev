@@ -1439,3 +1439,19 @@ They are measurement tools only. A replay test shows the controller reads nothin
   - Open-ended track after round 1: co-evolving prey.
 - **Process note:** a reboot wiped `/tmp` mid-study. The harness was rebuilt from its agent's transcript, and long
   studies now run in `outputs/`.
+
+## 2026-10-13 — E1: deterministic checkpoint and resume
+- Life runs save the population, ids/breeds, slot origins and next ids, completed generation, mutation and tie RNG
+  states, evaluation counters, diagnostics and durable log offsets every 25 generations and at a controlled stop/end.
+  `src.run --resume` continues the saved search; `--stop-after` permits a bounded interruption without changing the
+  total generation target or adding premature final diagnostics.
+- Startup pins AVX2 torch dispatch, torch/NumPy/Python versions, mutation-noise bytes, libm binary and resolved
+  implementations, both kernel binaries/build flags, and search sources. The existing ring-1 CATCH golden hash
+  `ebb3ad6fcad2d938` must replay, and the fast/full ledgers must agree byte for byte.
+- Validation: real CLI runs of **3 + resume + 3 = 6** in BELL (sex/random ties) and SPECK (asex/legacy ties), with
+  rechecks, structural mutations, variable life lengths and nontrivial diagnostic schedules. Population/genome bytes,
+  logs, both RNG states and final results match after wall times are stripped. Partial crash tails are removed only
+  after every log prefix is verified; a completed checkpoint can repeat final scoring without repeating evolution.
+- Limits: exact resume requires the original generation target and numerical/source pins. Old pilot populations lack
+  saved RNG state and remain continuations, not exact resumes. Host migration and rented-compute replay are untested.
+  These checks used tiny populations and short lives; no large study or rental was launched.

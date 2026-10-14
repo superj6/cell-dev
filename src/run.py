@@ -17,9 +17,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import time
 from pathlib import Path
+
+# Must precede torch's first CPU dispatch; resume checks the actual selected implementation too.
+os.environ.setdefault("ATEN_CPU_CAPABILITY", "avx2")
 
 import torch
 from omegaconf import OmegaConf
@@ -57,9 +61,11 @@ def write_gifs(r: dict, out: Path, gen: torch.Generator, n_trials: int = 2) -> N
                      trials.window[e], trials.target[e], gifs / f"activity_{e}.gif", label=rung.name)
 
 
-def main(cfg) -> Path:
+def main(cfg, *, resume: bool = False, stop_after: int | None = None) -> Path:
     if run_mode(cfg) == "life":
-        return main_life(cfg)
+        return main_life(cfg, resume=resume, stop_after=stop_after)
+    if resume or stop_after is not None:
+        raise ValueError("checkpoint/resume is supported only in life mode")
     out = Path(cfg.logging.output_dir)
     out.mkdir(parents=True, exist_ok=True)
     OmegaConf.save(cfg, out / "config.yaml")
@@ -400,22 +406,44 @@ def life_settings(cfg, curves: list[dict]) -> dict:
     return out
 
 
-def main_life(cfg) -> Path:
+def main_life(cfg, *, resume: bool = False, stop_after: int | None = None) -> Path:
     """Life-mode run: evolve, then save the best genome and the population and write the life results row."""
+    from src import checkpoint
+
     out = Path(cfg.logging.output_dir)
     out.mkdir(parents=True, exist_ok=True)
+    path = out / "checkpoint.pt"
+    if not resume and path.exists():
+        raise ValueError(f"{path} already exists; use --resume or a new output directory")
+    if stop_after is not None and stop_after < 1:
+        raise ValueError("stop_after must be positive")
+    identity = checkpoint.numerical_identity()
+    saved = checkpoint.load(path) if resume else None
+    if saved is not None:
+        checkpoint.validate(saved, cfg, identity)
+        checkpoint.restore_logs(out, saved["logs"])
+    checkpoint.write_identity(out, identity)
     OmegaConf.save(cfg, out / "config.yaml")
-    git = git_state()  # at the start: the code that is loaded
+    git = saved["state"]["git"] if saved is not None else git_state()
+    elapsed = saved["state"]["elapsed"] if saved is not None else 0.0
     t0 = time.time()
-    with open(out / "curves.jsonl", "w") as curves_fh:
+    with open(out / "curves.jsonl", "a" if resume else "w") as curves_fh:
         def log(row):
             log_event(**row)
             if "gen" in row:
                 curves_fh.write(json.dumps(row) + "\n")
                 curves_fh.flush()
 
-        r = evolve(cfg, log=log, out=out)
-    wall = time.time() - t0
+        def save(state):
+            state.update(git=git, elapsed=elapsed + time.time() - t0)
+            checkpoint.save(path, cfg=cfg, identity=identity, state=state)
+
+        r = evolve(cfg, log=log, out=out, resume=None if saved is None else saved["state"],
+                   checkpoint=save, stop_after=stop_after)
+    wall = elapsed + time.time() - t0
+    if not r["complete"]:
+        log_event(event="checkpoint", generation=len(r["curves"]), path=str(path))
+        return path
     r["layout"].save(r["best"], out / "best_genome.json")
     save_population(r, out / "population.json")
     t1 = time.time()
@@ -441,6 +469,8 @@ def main_life(cfg) -> Path:
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--config", required=True)
+    p.add_argument("--resume", action="store_true", help="resume checkpoint.pt in logging.output_dir")
+    p.add_argument("--stop-after", type=int, help="checkpoint after this many more generations, without final scoring")
     p.add_argument("overrides", nargs="*")
     args = p.parse_args()
-    main(load_config(args.config, args.overrides))
+    main(load_config(args.config, args.overrides), resume=args.resume, stop_after=args.stop_after)

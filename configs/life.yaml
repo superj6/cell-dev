@@ -80,5 +80,6 @@ evolve:
 
 logging:
   output_dir: outputs/life
+  checkpoint_every: 25         # save the complete search state and durable log offsets; also at stop/final generation
   gif: false
   lineage: survivors            # lineage.jsonl children: survivors (kept by selection) | all
