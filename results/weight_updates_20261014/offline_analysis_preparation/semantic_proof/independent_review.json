@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "reviewer": "audit_de independent read-only source review",
+  "simulated_lives": 0,
+  "O_outcomes_read": false,
+  "source_proof_sha256": "b80fc9028fad185b1f8bf7b720417fbaeee589d2a7de162abf0bccbda3c1db9b",
+  "proof_sha256": "6f554717d8625ddcc72cf510ed699cdc9cab4be41025b0356748ed21b01c7106",
+  "source_sha256": {
+    "src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+    "src/life/reference.py": "6f6ff465278e3c5c52b984e5fee63a82d9a6122dfd7755d55a82a2163fde835b",
+    "src/life/spec.py": "bdd06966fe7068bbac0d4a0269583aa6e7029bdee6556bb57c7e33e30b109c07",
+    "docs/LIFE_ABI.md": "94df5a1e12d7ddadcae8a4ed53dd66736a1102c6ddd73c47f246a91ba89f4094",
+    "outputs/autonomous_s7_hidden_20261014/protocol.json": "9645eb61c343905bd870b5f7ef5329ef77c54fd2205fa739511e1798466b6545"
+  },
+  "review_script_sha256": "76025e139e3c37d3960fb9643a27699723c1c6b88b4ce50bd95118385b5b3b68",
+  "checks": [
+    "C204 and F16 skip identical GRN, phenotype, new division and apoptosis branches; only derive differs.",
+    "derive writes sd and weff; sd only feeds disabled division, while arrivals use current weff.",
+    "GRN mode theta is unchanged; no modeled GRN/readout/derive computation fee exists.",
+    "Claims copy daughter genes at send; resolution never rereads mother. Birth decodes/derives in both arms.",
+    "Pre-fork partition follows theta decode, so identity_clamp alone can reset phenotype after fork.",
+    "C/F preserve local chemistry, contact updates, membrane and spike paths; feedback can propagate differences.",
+    "Reference implementation flag paths agree with C; POOL kill/stuck defaults are disabled.",
+    "Bounded tick/spike/claim/notice timing is below800; old state and early causal changes persist.",
+    "Complete matched-triplet structural checks exclude guards only from checks, never fitness."
+  ],
+  "interpretation": "Conditional ongoing effective receive-weight update effect from local chemical/contact state, including early transient carryover and subsequent feedback; not pure memory or learning.",
+  "limitations": [
+    "No simulation validates a new parameter regime; existing fixed physics is reused.",
+    "No event-hash, host-CPU or cross-genotype footprint equality is claimed."
+  ]
+}

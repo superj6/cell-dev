@@ -1987,3 +1987,35 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - `results/trace_hidden_20261014/` publishes all 48 full-life/post800 descriptions and a portable NumPy-only
   analyzer. It reproduces the earlier independently reviewed rows exactly; a second review checks raw input
   hashes, mask semantics, zeros and public reanalysis. No new lives were simulated.
+
+## 2026-10-14 — Rechecking often changes which parents survive
+
+- The completed D/G/L search logs preserve all 6,144 shortlisted candidates across 96 generations in six
+  searches. Adding four fresh recheck lives to the initial three replaces **1,120 of 3,072 parent slots (36.5%)**.
+  In 76 generations, no initial maximum-score candidate remains among the recorded pooled maxima; the recorded
+  survivor cutoff resolves every such comparison. There are no tie-only leader swaps or ambiguous comparisons.
+- Rechecking consumes 25% of selection genome-lives. Its logged share of evaluation wall time is 25.2%; that is
+  not a CPU estimate. Recheck-minus-initial means range from −1.739 to −0.979 F across searches, conditional on
+  having passed the initial shortlist. These are not estimates of unconditional fitness noise.
+- The records show that small samples change immediate selection. They do not establish that rechecking improves
+  independent fitness, or that more scoring beats more generations at a fixed budget. Related candidates, shared
+  life seeds, varying durations and adaptive generations prevent treating candidate rows as independent replicates.
+- `results/selection_noise_20261014/` preserves every candidate, generation, run and duration breakdown, two
+  independent reviews and 16 synthetic checks. Public reanalysis reproduces the tables exactly. No new lives
+  or active-study outcome reads were used. This motivates a prospective comparison of scoring policies.
+
+## 2026-10-14 — Cells alive at time 800 keep changing neural properties
+
+- An analysis of K's twelve saved normal-growing traces fixes the cohort to cells alive at time 800, then counts
+  logged quantized changes through 1536. The mean fraction changing a neural property is **96.78% for row38,
+  98.21% for D51089 and 97.71% for D51090**. Fractions average four lives per genotype; cells are not independent
+  replicates. Later births are counted separately and cannot inflate this cohort.
+- The nine named neural properties include receive-weight parameters, bias, membrane/refractory constants,
+  emission channels, delay and receptor gain. Bias and receptor gain often change; emission channels never
+  switch after 800 in this cohort. Changes continue in the final time bin, and repeated reversals are retained.
+- Every transition chain and all 20 terminal gridded properties agree exactly with the saved traces. Continuous
+  asymmetry and secretion updates are unlogged; effective incoming weights are a separate local calculation.
+  These observations establish ongoing updates, not their fitness value, maturity, learning or sensory adaptation.
+  Normal growing traces also differ from the tissue-clamped mechanism studies.
+- `results/phenotype_updates_20261014/` publishes per-life, property, age and time-bin counts, 11 synthetic tests,
+  an independent raw-event recount of all twelve lives and a portable reanalysis. No additional lives were run.

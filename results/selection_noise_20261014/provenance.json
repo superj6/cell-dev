@@ -1,0 +1,203 @@
+{
+  "status": "complete_descriptive_audit",
+  "simulated_lives": 0,
+  "active_P_outcomes_read": false,
+  "artifacts": {
+    "README.md": {
+      "sha256": "f2780f3124b7499aaf7fdc18bc97a083a36f2fc8a2f0b272a4e4c11613c80976",
+      "bytes": 5673
+    },
+    "analysis_provenance.json": {
+      "sha256": "bdc61d63818706b345fa4e8377e5cf10244b727bff5513943b9fb3bc0df7c013",
+      "bytes": 5970
+    },
+    "analyze.py": {
+      "sha256": "e7eb322ea487fcfb7aeca801bd357d5564646c7a15165658197d2d5c843fba2c",
+      "bytes": 24001
+    },
+    "candidates.csv": {
+      "sha256": "4eca07dc87dbea5eb37ab8fb9c10b17828f5ad92a56ea9dc4df44d45a836dbe1",
+      "bytes": 712790
+    },
+    "generations.json": {
+      "sha256": "c3ea94a041c00c85f201f48e9c650eb395a2303eb3d9f0bc3e21e2b82d096884",
+      "bytes": 176519
+    },
+    "review/check_counts.py": {
+      "sha256": "5abce85955cb47c136b313ff267eab09f03fa7cbdceb48733a1a13db6551ef5f",
+      "bytes": 4649
+    },
+    "review/count_review.json": {
+      "sha256": "345b8da740309ae760c2ccc575ebf234eb796648f6bb4f6e8fce9c5b1a82558c",
+      "bytes": 5571
+    },
+    "review/interpretation_review.json": {
+      "sha256": "841a87b82d2164207a6f4686b86a87f611d31207f43e0907383231bfa91a4bac",
+      "bytes": 2329
+    },
+    "summary.json": {
+      "sha256": "e5c8c48e9fc88a2b3773053d676a95d137596375b91cd79d77a6d396763c2010",
+      "bytes": 63683
+    },
+    "test_analyze.py": {
+      "sha256": "f5b5bd42574383ffd6087bafa4ea5593472963dfaf7aba75ae66b8b5f1a21aa3",
+      "bytes": 7185
+    }
+  },
+  "total_artifact_bytes": 1008370,
+  "analysis_source_sha256": "e7eb322ea487fcfb7aeca801bd357d5564646c7a15165658197d2d5c843fba2c",
+  "source_archives": {
+    "D": {
+      "path": "results/continuation_20261013",
+      "verified_artifacts": 85,
+      "files": {
+        "provenance.json": {
+          "sha256": "06306cbf2a5332579e6631fd1c088bd1f3c1b3cf82ecfadc4cd899ab17bd4fff",
+          "bytes": 20685
+        },
+        "operations/budget.json": {
+          "sha256": "67545e29e298b56b356a2d198583fa8c8fbaa885367fffc0b92a02c655ab8d59",
+          "bytes": 477
+        },
+        "protocol.json": {
+          "sha256": "08ad7e46f5bcd496d8a8232898bb7099c0446dad535f88ab90b4fcf5569ec612",
+          "bytes": 10543
+        },
+        "sources/src/evolve.py": {
+          "sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+          "bytes": 39190
+        },
+        "runs/s51089/lineage.jsonl": {
+          "sha256": "2d5ee6c16fd6cb8f2aced9a6814c0e2d3b25f70b34eb4bc8c4eb504988b8eb37",
+          "bytes": 739886
+        },
+        "runs/s51089/curves.jsonl": {
+          "sha256": "2891f8cbb9adad10dad8960c12f66bcec8d20775a289ea1d145397e44f0cd2db",
+          "bytes": 18174
+        },
+        "runs/s51089/config.yaml": {
+          "sha256": "180df4b72ba213215f921b9d98e0990cc523d62906d4a1916d0d6672924c0b83",
+          "bytes": 2334
+        },
+        "runs/s51090/lineage.jsonl": {
+          "sha256": "ff4ed8487cf8a0d98e6d62ef8b341fc3c862b59c794e15c714a5dbcf147898da",
+          "bytes": 739783
+        },
+        "runs/s51090/curves.jsonl": {
+          "sha256": "a399c51fb9be99f85bff86e0cf8bbfcbe4cfff1c1f7b832a39d13978846c00f0",
+          "bytes": 18089
+        },
+        "runs/s51090/config.yaml": {
+          "sha256": "107d997b7617cf51a1438b616cf809fbe7d67013b2938eee53bebb386183629d",
+          "bytes": 2334
+        }
+      }
+    },
+    "G": {
+      "path": "results/structural_20261013",
+      "verified_artifacts": 189,
+      "files": {
+        "provenance.json": {
+          "sha256": "412c53ce2a6c2baa8a7816eb3c8db24b01188fb4bebea78e9ed512ec9db0e59a",
+          "bytes": 33519
+        },
+        "operations/budget.json": {
+          "sha256": "0f33212c1535d6c1d392f2ef23f6395ccc2a732cb9ea686f617e62d0d51c8fd8",
+          "bytes": 563
+        },
+        "protocol.json": {
+          "sha256": "ee91757af9a6a0124dffcca2a0e3b874c49802b419db2684e4bb2e093506db86",
+          "bytes": 17849
+        },
+        "sources/src/evolve.py": {
+          "sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+          "bytes": 39190
+        },
+        "runs/s51089/lineage.jsonl": {
+          "sha256": "ed677889df4e001e4f0c55d009ced048dab621d8b683ec13cb50f09237c055ee",
+          "bytes": 742301
+        },
+        "runs/s51089/curves.jsonl": {
+          "sha256": "b668b1c40b4447713059c52d83a80f756b2f843519be8be71a3b914a5a346430",
+          "bytes": 18267
+        },
+        "runs/s51089/config.yaml": {
+          "sha256": "f6f3e54da892fa91a4c65a7f6d5ecab8fccce9ecbb19778bdf7b76647e968b7a",
+          "bytes": 2333
+        },
+        "runs/s51090/lineage.jsonl": {
+          "sha256": "1bc051cf45267d704398bcb219715c8b401ccca4b18df5debb8d1f8e86398936",
+          "bytes": 749962
+        },
+        "runs/s51090/curves.jsonl": {
+          "sha256": "f3028237d349f9eded043cb0caae43f6850182b55d36381c6f013f52f126cdc8",
+          "bytes": 18127
+        },
+        "runs/s51090/config.yaml": {
+          "sha256": "9b48e0f073cb91fe1a874631a6b099b4c7835e702ce48bbe6bd3307b071e2312",
+          "bytes": 2333
+        }
+      }
+    },
+    "L": {
+      "path": "results/s7_continuation_20261014",
+      "verified_artifacts": 207,
+      "files": {
+        "provenance.json": {
+          "sha256": "5dcdb0bf906eb0f5c7b2e0c6b28bd0054a3e748a698363569cfd6fcdb3d418a5",
+          "bytes": 39814
+        },
+        "operations/budget.json": {
+          "sha256": "452c7ad75e77a3d74742384eeed50aa67a757d3ed06a3af622f0056c18677fc5",
+          "bytes": 1692
+        },
+        "protocol.json": {
+          "sha256": "f54a6bb7ab248db034a77ecef78b62717902428156cf7f5e2808eef879624de3",
+          "bytes": 18029
+        },
+        "sources/src/evolve.py": {
+          "sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+          "bytes": 39190
+        },
+        "runs/s51891/lineage.jsonl": {
+          "sha256": "e6a92680718a79b4e84e2ad94a927b7dc7d7bbec427cbe93deb6db4341179acf",
+          "bytes": 740146
+        },
+        "runs/s51891/curves.jsonl": {
+          "sha256": "2a837c33979b987a2c00299a2fa69356cd120c271a65d9661f23784512d0750c",
+          "bytes": 18019
+        },
+        "runs/s51891/config.yaml": {
+          "sha256": "f29f2c3b77553e89c1ec3ba6e3906aafb5bb267626d98f6b4e0491af0427a800",
+          "bytes": 2317
+        },
+        "runs/s51892/lineage.jsonl": {
+          "sha256": "f9b41fed21735947e6d1146198683bc3919ff36cf31603dc483bf9797e325061",
+          "bytes": 740063
+        },
+        "runs/s51892/curves.jsonl": {
+          "sha256": "33865e31c76fbd2df79bdfc0b05adefe33edbbf9f44b67954a2137ad4bbea5ba",
+          "bytes": 17908
+        },
+        "runs/s51892/config.yaml": {
+          "sha256": "8531525d48e20a173369cd9e5666d5d19dea2831d12bf509751d7e458e13fb46",
+          "bytes": 2317
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Every candidate was shortlisted using its initial three-life mean; the observed score changes are conditional.",
+    "Four recheck lives use fresh shared seeds at the same T. World difficulty and common seeds correlate candidates.",
+    "Repeated and related genomes, sequential selection, and varying T prevent treating candidate rows as independent.",
+    "D and G use matched run/life seeds; their records are not independent replicates.",
+    "Logged changed counts use the recheck shortlist ranking, not the separate earlier one-stage tie draw.",
+    "Recorded survivor order and pooled fitness are authoritative; saved stage means are only a consistency audit.",
+    "Missing per-life scores prevent an exact pooling-error bound; the reconstruction tolerance is empirical.",
+    "Exact top-score sets are shown among logged candidates; a full tied set may extend beyond a recorded cutoff.",
+    "Mean, median, RMS and rank summaries describe conditional disagreement, not an unconditional noise sigma or SE.",
+    "No individual training-life scores are in these lineage records; per-genotype life variance is not recoverable.",
+    "Parent or leader turnover does not establish improved fresh fitness or equal-compute search efficiency.",
+    "No active P outcomes, research simulations, new protocol, source changes, or new selection policy were used."
+  ]
+}

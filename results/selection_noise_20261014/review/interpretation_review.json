@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "scope": "independent source-grounded interpretation and tie/ranking review",
+  "simulated_lives": 0,
+  "active_P_outcomes_read": false,
+  "source_edits": false,
+  "pure_tests_passed": 16,
+  "files_sha256": {
+    "analyze.py": "e7eb322ea487fcfb7aeca801bd357d5564646c7a15165658197d2d5c843fba2c",
+    "test_analyze.py": "f5b5bd42574383ffd6087bafa4ea5593472963dfaf7aba75ae66b8b5f1a21aa3",
+    "README.md": "f2780f3124b7499aaf7fdc18bc97a083a36f2fc8a2f0b272a4e4c11613c80976",
+    "summary.json": "e5c8c48e9fc88a2b3773053d676a95d137596375b91cd79d77a6d396763c2010",
+    "generations.json": "c3ea94a041c00c85f201f48e9c650eb395a2303eb3d9f0bc3e21e2b82d096884"
+  },
+  "selection_source_sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+  "checks": [
+    "Recheck.ids first32 defines logged base parents; distinct earlier tie draw is not conflated",
+    "Recorded selected order and pooled fitness are authoritative; exact ties retain sets rather than arbitrary ranks",
+    "Strict displacement uses disjoint known top sets and recorded cutoff below maximum,not reconstructed means",
+    "Unselected initial leaders have recorded cutoff as an upper bound; positive displacement margin is source-valid",
+    "All96 generations,6144 conditional shortlisted records and both signs retained; no per-candidate SE claim",
+    "Run/T summaries and D/G matched draw dependence are explicit",
+    "Empirical pooling tolerance is not presented as a rigorous rounding bound or used for strict leader classification",
+    "No unconditional noise sigma,reliability,equal-CPU efficiency or improved fresh-fitness inference",
+    "Evaluation elapsed-time share is distinguished from CPU budget and future cost prediction"
+  ],
+  "descriptive_checked": {
+    "generations": 96,
+    "changed_parent_slots": 1120,
+    "strict_top_displacements": 76,
+    "smallest_recorded_displacement_margin_lower_bound": 6.697012669043545e-05
+  },
+  "limitation": "Full raw-count/provenance replication is separately owned by audit_de; this review focuses interpretation and source/tie semantics.",
+  "previous_reviewed_analysis_sha256": "d9a8125a219551e06c0d888bd10bd902bcc3a8ff5a9a2a73d9018f10eb926f58",
+  "final_prose_change": "Only README reproduction command adjusted to public analyzer and outputs destination."
+}

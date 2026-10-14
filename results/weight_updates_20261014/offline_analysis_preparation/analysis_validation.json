@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "scope": "author pure/synthetic validation; independent peer review pending",
+  "simulated_lives": 0,
+  "active_R_outcomes_read": false,
+  "released_preparation_edited": false,
+  "tests": {
+    "full_initial_suite": 68,
+    "additional_ROOT_None_standalone_input_audit": 1
+  },
+  "source_sha256": {
+    "analyze.py": "a94c28279379c25192ba0283512079c8a29c7da657825fa0c4ee106bb928f2f2",
+    "genome_audit.py": "4a2d38965d87ec5bdabb7ab39947e99da35a49a7d827a025291def659b5c91ab",
+    "test_analysis.py": "8d27133eaf6ae291cda36800e9c4126334257ed385f3cbc653ea3b7c1fab55d1",
+    "test_analysis_workflow.py": "08b66fed64209374a8ab5fbb9fb4f9f3a540e11473c7ac3f11954e0f0d6948c5"
+  },
+  "protocol_sha256": "648e187590a304d773f7c03081e6b7ffc5dd688b3232f30fe1cd8d576730ebdd",
+  "public_preparation_provenance_sha256": "2512ae9c36f3775b18184deaa1d8a2721eed96d92c0da65231507af795c0a981",
+  "original_public_artifacts_verified_unchanged": 109,
+  "ruff": "passed",
+  "max_source_columns": 120,
+  "validation": [
+    "Actual frozen D input/ancestry/source audit uses no active R outcomes",
+    "Synthetic9-row complete workflow independently reconstructs16 signed paired contrasts",
+    "All57 ledger/60 scored columns, income/cost/guard/extinction pieces checked",
+    "All3 arms compared structurally; guarded fitness retained; unequal S secretion allowed",
+    "Incomplete gate, exact4608 counters, corruption/missing row rejection, timing/cap checks",
+    "Original preparation bytes preserved, copied public rows reanalyzed, hashes/README/vector bytes checked",
+    "Separate actual frozen input/source copy validates with module ROOT=None"
+  ],
+  "limitations": [
+    "No simulation validates scientific effects; no R outcomes were read.",
+    "Recorded genetics replay reconstructs endpoint bytes but does not deserialize checkpoints or replay RNG draws."
+  ]
+}

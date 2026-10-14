@@ -137,6 +137,14 @@ also masked, so this establishes specified input dependence, not learning or use
 `results/regulation_20261014/` contains the raw audit. The separate completed-data trace reanalysis in
 `results/trace_hidden_20261014/` suggests inhibitory hidden-to-act feedback but does not establish its fitness role.
 
+**Completed-data diagnostics (2026-10-14).** Rechecking changes 36.5% of parent slots across all 96 completed
+D/G/L generations, with 76 strict displacements of the initial top score. This shows selection sensitivity to
+finite samples, not better final fitness or a reason by itself to increase scoring. The full audit is in
+`results/selection_noise_20261014/`. In K's saved normal-growing traces, 96.78%/98.21%/97.71% of cells alive at
+t800 later change a quantized neural property for row38/D51089/D51090. Later births are excluded; the
+counts establish continued updates, not their fitness value. `results/phenotype_updates_20261014/` contains
+all twelve raw-event checks and per-life tables. Both analyses simulate zero new lives.
+
 **Running and prepared studies.** P is running after O: another ordinary 16-generation step from each fixed D
 endpoint, 37,548 research lives under a 14,400 CPU-second cap, at most four simulation workers. Q is released and
 waiting for P: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives

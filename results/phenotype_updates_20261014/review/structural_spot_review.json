@@ -1,0 +1,25 @@
+{
+  "status": "passed_spot_review",
+  "reviewed_analyzer_sha256": "306499bacf0d6fe72b88a7bb3ecd371843227dbf5dbf8127370c2aa002dc7539",
+  "scope": "Read-only source/cohort review and independent first-trace counts; not an independent recount of all 12 traces.",
+  "simulated_lives": 0,
+  "active_outcomes_read": false,
+  "trace": {
+    "label": "founder_row38",
+    "seed": 51890000,
+    "sha256": "c167a91e313274c7ef9534425b323586208be9e8ed771ecaeb21fb63e6ebe42f",
+    "alive_at800_cells": 117,
+    "gridded_events": 8098,
+    "gridded_changed_cells": 116,
+    "neural_events": 1844,
+    "neural_changed_cells": 112,
+    "emission_switches": 0,
+    "later_born_cells": 5
+  },
+  "checks": [
+    "Independent loops/sets reproduced all listed cohort/event counts directly from saved K trace",
+    "Right-limit cohort born<=800 and death>800 with events800<t<=1536; later births separately retained",
+    "All recorded gridded transitions checked from birth and reconstructed against terminal phenotype",
+    "No effective receive-weight, continuous secretion/asymmetry, mechanism or fitness attribution claim"
+  ]
+}

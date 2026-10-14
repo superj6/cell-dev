@@ -48,6 +48,12 @@ Two further searches from the second starting lineage, s7, add **+0.900 ± 0.143
 its selected mutant founder. Both gains again come from extra capture income despite higher costs. This broadens
 the evidence for further ordinary adaptation; the s7 mechanisms have not yet been tested.
 
+With s5 tissue composition held fixed, masking five local gene-network inputs causes **+2.849 ± 0.175** and
+**+2.940 ± 0.176 F** more loss in the descendants than in their founder. Those inputs include static contact
+information, so this establishes input dependence rather than learning. Full freeze is much less disruptive;
+the next mechanism study separates continued cell-property updates from updates to incoming spike strengths.
+See the [regulation results](results/regulation_20261014/README.md).
+
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),
 [hidden-message experiment](results/hidden_20261014/README.md), and
