@@ -1,0 +1,37 @@
+{
+  "world": "discrimination",
+  "T": 1024,
+  "n": 512,
+  "missing": [],
+  "verdict": "pass",
+  "checks": {
+    "information_gap": true,
+    "do_less": true,
+    "specific_part": true
+  },
+  "best_reflex": "retuned",
+  "information_controller": "full",
+  "information_gap": {
+    "mean": 11.75357083795864,
+    "se": 0.16969326723472494,
+    "n": 512
+  },
+  "best_do_less": "smaller_frozen",
+  "do_less_gap": {
+    "mean": 0.9664883918762207,
+    "se": 0.10748997149606165,
+    "n": 512
+  },
+  "capability_controller": "full",
+  "ablation": "ablated",
+  "ablation_gap": {
+    "mean": 9.90206184046142,
+    "se": 0.19443098822136046,
+    "n": 512
+  },
+  "specific_part": {
+    "mean": 9.90206184046142,
+    "se": 0.19443098822136046,
+    "n": 512
+  }
+}

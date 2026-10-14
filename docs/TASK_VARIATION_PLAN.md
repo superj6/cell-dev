@@ -28,6 +28,12 @@ adaptation in two runs and message dependence after freeze, not a new algorithm 
 use. Evidence: `results/continuation_20261013/` and `results/frozen_20261013/`. Full G2 and the approval-dependent work below remain pending; these bounded
 studies change no admission rule, organism behavior, ABI or price.
 
+*2026-10-14 decoy measurement:* the unchanged recovered external controller clears all descriptive 0.4 checks at
+hollow3: full minus best reflex +11.754 ± 0.170 F, full minus broad decoy-model ablation +9.902 ± 0.194 F,
+and best measured do-less gain +0.966 ± 0.107 F. All seven candidates share 512 fresh lives at old conduction and
+T1024. Evidence: `results/discrimination_20261013/`. This measures information payoff, with free controller
+computation and a limited do-less set; it does not automatically admit the world or demonstrate an evolved circuit.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.
@@ -114,10 +120,10 @@ effect from 0.2.
 - **Flash is the clean memory world.**
   - 86% of the controller's extra captures there happen while the target is dim.
   - Caveat: the dim target still sends weak pings, so "memory" here also includes integrating weak evidence.
-- **Not measured yet:** prediction (fast straight targets), discrimination (decoys), the 30-world map and the mutant
-  gradient test. They were cut to save time and stay out of round 1 *for lack of a measurement*, not because a hand body
-  failed. Each needs about 2-4 CPU-h on the same harness before round 2. An unverified first look in the fast-target
-  world gave the generic tracker C2 +3.7 and C4 +0.1.
+- **Updated measurement status:** discrimination now has the fixed-controller result above; prediction (fast straight
+  targets), the 30-world map and full all-world gradients remain unmeasured. Bounded base/POOL gradients are archived.
+  These omissions reflect missing measurements, never failed hand-built gates. An unverified first look in the
+  fast-target world gave the generic tracker C2 +3.7 and C4 +0.1.
 
 ### 0.4 The admission rule (replaces every "positive control must pass" gate)
 
@@ -235,8 +241,8 @@ From the literature and design study (`results/open_headroom/data/open_ended_*.j
    - The controllers are heuristics, so gaps are lower bounds on what the information allows.
 3. **Most of every gap is tracking, which base already pays for.** The within-life worlds add specific parts on top:
    switching +12.7, flash memory +24.6.
-4. **Several pieces are not measured yet:** prediction, discrimination, the gradient test and life lengths other than
-   1024 (G5).
+4. **Several pieces are not measured yet:** prediction, full all-world gradients and controller information gaps at
+   life lengths other than1024 (G5). Bounded genome transfer does not substitute for G5.
 5. **Lost and re-measured.** The reflex re-tunes recorded before 2026-10-10 were lost in a reboot. Every best reflex
    above was re-tuned in this study.
 

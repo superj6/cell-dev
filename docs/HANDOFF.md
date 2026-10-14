@@ -61,14 +61,26 @@ parent and winner keep different footprints and freeze also stops gene-regulator
 neither adult maturity nor a new algorithm. `results/frozen_20261013/` archives 4,096 research lives using
 1,216.191173 of 3,600 CPU-seconds; the separate 16-life validation is labeled.
 
-**Next prepared studies.** F measures the existing decoy-aware external controller on 512 shared lives against
-fixed reflex and ablated controls (3,584 lives, two workers, 1,800 CPU-seconds). G compares the documented silent
-duplication plus deletion policy against D, using matched initialization/run seeds and fresh block93
-endpoint confirmation (two 16-generation runs, 37,548 research lives plus 18 neutrality checks, 14,400 CPU-seconds).
-Neither has launched yet. Read each working `budget.json` and `ready.json` before starting anything; use at most
-four simulation workers across studies. G waits for F. Preserve all pinned engine/search/helper sources once
-released. The working paths are `outputs/autonomous_{discrimination,structural}_20261013/`; public preparation
-is under the corresponding `results/` directories. No unanswered approval decision has been assumed resolved.
+**Decoy information measurement completed (2026-10-14).** The existing external controller beats the better
+reflex at its own 56-cell footprint by **+11.754 ± 0.170 F** in the existing harmful-decoy world. Disabling its
+broad decoy model removes **+9.902 ± 0.194 F**; the best of three do-less variants gains +0.966 ± 0.107 F.
+All descriptive plan-0.4 checks pass, without automatically admitting a selection world. It uses old conduction
+and T1024; central computation is free. `results/discrimination_20261013/` archives all 3,584 lives and the
+independent reanalysis, using 496.441665 of 1,800 CPU-seconds. Its erratum corrects fast hashes: constant initial
+values, not zero, and neither supplies replay evidence. Pinned preparation bytes remain unchanged.
+
+**Running and prepared studies.** G is running the documented silent-duplication plus deletion policy against D,
+with matched initialization/run seeds and fresh block93 endpoint confirmation (two 16-generation runs, 37,548
+research lives plus 18 neutrality checks, cap14,400 worker CPU-seconds). All 18 neutrality lives passed in
+5.406 CPU-seconds. Two evolution jobs use four simulation workers; do not add simulation work until slots free.
+The monitor waits for both endpoints before confirmation. H is preparing fixed-tissue hidden/lateral lesions
+of row38 and both D endpoints on block94 (6,144 lives, cap3,600 CPU-seconds), waiting until G finishes. A decoy
+mutant diagnostic is also in preparation. Neither changes selection worlds or organism rules.
+Read each working `budget.json` and `ready.json` before starting anything. Preserve pinned engine/search/helper
+sources while active. Working directories are `outputs/autonomous_structural_20261013/` and
+`outputs/autonomous_hidden_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
+`results/continuation_20261013/watch.html` is prepared with four fixed genomes; its new short parity run remains
+pending worker availability. No unanswered approval decision has been assumed resolved.
 
 ## 1. What the project is
 
@@ -176,7 +188,8 @@ creation can do, that's the whole point".
   - **Switching:** in the motor-flip mix (50% of lives flip mid-life), the flip detector adds +12.7 F.
   - **Memory:** in the flash world, acting on memory while the target is dim adds +24.6 F. In renewal blink worlds it
     adds +2-4.
-  - **Not yet measured:** prediction, discrimination, and the mutant gradient test.
+  - **Later measurements:** bounded base/POOL gradients and decoy information are now measured above. Prediction,
+    full all-world gradients and controller duration transfer remain pending.
 
 ## 5. Decisions the user has not answered yet
 
@@ -268,8 +281,8 @@ truth lives. Only the fast build may skip hashes.
   A T32 validation smoke also spent block10's first two seeds; future G2 must start at 51,100,002.
   Blocks80–83 hold the completed nearby-mutant study; block84 is reserved for fixed descriptive viewer lives;
   blocks85–88 hold completed transfer/second-step/factorial scoring. Blocks91 and92 hold completed continuation
-  confirmation and frozen-tissue measurements. Block30 is reserved for discrimination, block93 for the structural
-  policy comparison. Search seeds51089/51090
+  confirmation and frozen-tissue measurements. Block30 holds discrimination; block93 is reserved for the structural
+  policy comparison and block94 for hidden/lateral lesions. Search seeds51089/51090
   use the production hash namespaces; they are not decimal blocks89/90, which remain unallocated.
 - Use 45M or above for new work.
 

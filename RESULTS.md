@@ -1642,6 +1642,11 @@ They are measurement tools only. A replay test shows the controller reads nothin
   cap and four-worker limit. Search invalid/mismatch counts are zero; valid guarded mutants retain their normal
   penalty. Confirmation contains no guards or extinction. Fitness progress alone establishes no new algorithm,
   functional hidden layer or share of the available information at a matched footprint.
+- **Watchable comparison:** `results/continuation_20261013/watch.html` embeds the four fixed genomes and unchanged
+  JS engine, starts paused, and uses descriptive seed51,840,000 without choosing a favorable life. Either side is
+  selectable; base-world playback is labeled a transfer illustration. Synthetic controls and exact data/engine
+  hashes pass. The separate eight-case T32 C/JS parity check awaits a free worker; no browser rendering check
+  has been performed. Animations are illustrations, not research scoring.
 
 ## 2026-10-14 — The first gain retains added lateral dependence with tissue held fixed
 
@@ -1667,3 +1672,38 @@ They are measurement tools only. A replay test shows the controller reads nothin
   1,216.191173 monitored CPU-seconds (0.34 CPU-hours), within the one-hour/two-worker cap. The separately archived
   16-life validation is excluded from scientific estimates. No organism rule, ABI, fitness price or world default
   changed. The next bounded studies measure existing decoy information and test the approved structural operators.
+
+## 2026-10-14 — Decoy information pays at the reflex footprint
+
+- **Design:** the unchanged recovered D2 controller and its matched ablation are external measuring tools only.
+  Seven fixed candidates share 512 new T1024 lives in the existing harmful-decoy SPECK world (b2_amp1,
+  b2_sigma1.2, b2_value−50, b2_p1, b2_mode1), with old conduction d0=1 / d_min=0.5 and unchanged prices.
+  Full and ablated controllers use the same 56-cell hollow3 footprint as the frozen and retuned reflexes.
+  The protocol and exact inputs were committed before scoring in `e380214`; there was no new tuning.
+- **Information gap:** full controller minus the better whole reflex (retuned) is **+11.754 ± 0.170 F**;
+  full minus the frozen reflex is +12.084 ± 0.173 F. The full controller scores 12.616 F versus 0.862 for the
+  retuned reflex. Reference selection uses whole-candidate means, never a different reference per life.
+- **Decoy-model contribution:** full minus ablated is **+9.902 ± 0.194 F**. The single existing model switch
+  removes decoy belief, attribution of pings, steering avoidance and tap veto, while retaining ordinary target
+  tracking. It measures this broad decoy-aware mechanism, not one classifier, tap rule or evolved algorithm.
+- **Do-less check:** the best of three fixed smaller/quieter variants gains +0.966 ± 0.107 F, below one quarter
+  of the information gap (2.938 F). All three descriptive plan-0.4 checks pass. This does not automatically
+  admit the world into selection; the limited do-less set is not an exhaustive optimum.
+- **What pays:** versus the retuned reflex, the controller adds 21.346 captures per life. The paired F gain
+  decomposes into +10.423 capture income, +1.386 poison-cost savings, −0.008 missed-click savings and −0.046
+  other-cost savings. Removing its decoy model loses +6.555 F capture income and +2.812 F poison-cost savings,
+  plus +0.543 F missed-click savings, offset by −0.008 F other-cost savings.
+- **Limits:** central computation is free, though cells, pings, virtual relay spikes and actions pay. Parameters
+  were transferred from ring5 without tuning at hollow3. This establishes useful sense information at the tested
+  footprint, conduction and duration, not local-tissue attainability or duration transfer. Both fixed-reflex
+  contrasts are retained; uncertainty for outcome-selected references is conditional and descriptive.
+- **Evidence and budget:** all 3,584 lives completed without invalid/guarded lives in 496.441665 monitored
+  CPU-seconds, below the 1,800-second/two-worker cap. `results/discrimination_20261013/` preserves full ledgers,
+  controller diagnostics, generated C/library, source/configuration receipts and independent analysis. All
+  seven raw files round-trip byte for byte; all 57 ledger columns reconcile; 12 earlier bounded callback-replay
+  checks still verify. Fourteen independent analysis/archive tests pass. These T64 audits do not prove universal
+  long-duration parity. The preparation incorrectly called fast event hashes zero: the fast build retains its
+  constant initializer. An erratum corrects that wording while preserving all pinned preparation bytes.
+- **Next:** a bounded mutant diagnostic can test accessibility in this existing world without adding it to the
+  selection family or requiring a hand-built tissue win. The structural-policy runs are already underway;
+  fixed-tissue hidden-message measurements are being prepared independently of their outcome.

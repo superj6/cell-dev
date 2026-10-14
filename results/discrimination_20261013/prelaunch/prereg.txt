@@ -1,0 +1,63 @@
+F. Existing discrimination controller at the reflex footprint (2026-10-13; prepared, not launched)
+
+Question: at the same 56-cell footprint, does interpreting which glow belongs to a harmful decoy earn more
+than ordinary target tracking? Use the existing recovered D2 controller unchanged as an external measuring
+tool. It never enters an organism or changes its local asynchronous rules. No new controller is designed.
+
+Use the registered discrimination world: existing ABI 3 SPECK with b2_amp=1, b2_sigma=1.2, b2_value=-50,
+b2_p=1, b2_mode=1 and T=1024. Preserve old conduction d0=1, d_min=0.5, every other world constant and every
+price. The second blob has its own replacement process; no scratch blinking, decoy epochs or motor flip
+is enabled. The existing parity-checked adapter disables the prototype's otherwise aliased decoy-epoch fields.
+
+Freeze seven candidates in the existing taskvar_measure order: frozen hollow3 reflex; recovered retuned
+hollow3 reflex; frozen hollow2 reflex; hollow3 reflex knobs transferred to hollow2; recovered hollow3 reflex
+with K.t_ref=8; full D2 at hollow3; its matched ablation at hollow3. Full and ablated differ only at parameter
+25, model 1 versus model 0. Keep all other recovered parameters, including transfer from their ring5 tuning.
+The ablation removes the whole decoy model: ping attribution, decoy belief, steering avoidance and tap veto.
+It isolates broad decoy-aware inference and action, not a single classifier or tap rule. Ordinary target
+tracking remains. Failure of this fixed transferred controller does not establish that the information is useless.
+
+Score every candidate on the same 512 fresh block-30 seeds, 51,300,000 through 51,300,511: 3,584 candidate-lives
+in total. No fresh tuning or extensions chosen after seeing outcomes. These lives are disjoint from recorded
+controller/reflex tuning and existing validation. Keep every candidate, including negative results. Controller
+actions retain the existing d0 latency, relay charging, t_ref_min=0.5, unquantized kappa and privileged=false.
+Cells, receptor pings, virtual relay spikes and actions pay; central controller computation remains free.
+
+Primary contrasts: full minus the better whole frozen/retuned hollow3 reflex, and full minus matched ablated
+D2. Pick the better reflex by its fresh whole-candidate mean, never per life. Apply the existing plan 0.4
+criteria descriptively: at least 1 F and strictly more than 3 paired SE for both contrasts; the best of the
+three specified do-less candidates must gain less than one quarter of the information gap. This limited
+do-less set is not an exhaustive optimum. Compute differences within each shared life before estimating
+uncertainty. The chosen-reflex SE is conditional and descriptive, not adjusted for selecting that reference
+on these same outcomes. Also report full D2 minus each fixed frozen and retuned reflex separately.
+
+Report paired fitness, captures, clicks, misses, poison clicks, travel and capture-zone samples. Decompose
+fitness into extra capture income, poison-cost saving, miss-cost saving and other costs. These accounting
+pieces do not establish an evolved algorithm. No verdict automatically admits this world into selection.
+Any compute guard, capacity failure, ledger mismatch, corrupt result or unexplained incomplete life rejects
+the entire affected candidate batch and leaves the study incomplete. Preserve the failed raw evidence when
+available; never selectively drop or replace individual lives. Negative, valid scores remain in the analysis.
+
+Existing audits remain source/config identical: two T=64 lives per full/ablated variant, three replay contexts
+each (12 bytewise comparisons), production tissue ledger/world parity and null/inert world parity. Saved
+callback/action NPZs are checked before use. This bounded evidence is not universal long-duration parity.
+No additional validation or scientific lives run during preparation. Numerical pinning reads Python,
+NumPy/torch, compiler, libm and source identities without calling golden_life. The generated scratch source
+and fast library are hashed before scientific scoring. Fast event hashes are zero and never claimed as
+replay evidence; atomic candidate-file SHA256 receipts protect stored ledgers and diagnostics.
+
+Use at most two simulation workers and no more than four across all active studies. Launch only after root
+reports this protocol and releases source pins in ready.json. A separate monitor enforces one cumulative
+1,800 CPU-second cap, including worker startup, compilation and monitoring. Historical hollow3 controller
+and reflex timings suggest roughly 750 CPU-seconds; charging both controllers at the old ring5 rate gives
+1,365 CPU-seconds. Those old epoch-aliased scores supply timing estimates only, not scientific evidence here.
+Stop 10 CPU-seconds before the cap and terminate only this worker's process group. Preserve completed
+candidate checkpoints and report incomplete on cap/failure. Do not increase the cap or lives after seeing scores.
+
+Atomic candidate directories contain full ledgers, diagnostics, exact candidate/seed/library/protocol identity,
+timing and a byte-hash receipt. Resume verifies all pins and committed candidates. Only an uncommitted
+interrupted candidate may repeat within the original cumulative budget; a candidate that failed validation
+cannot be replaced automatically. Explicit --resume is required after a finalized interruption/failure.
+A running/unfinalized old budget record requires resource reconciliation; the wrapper refuses to reset it.
+Complete studies cannot be rescored. Long-running artifacts stay under outputs/autonomous_discrimination_20261013/.
+The public preparation archive is results/discrimination_20261013/ and provides an offline hash/protocol checker.
