@@ -132,7 +132,7 @@ reanalysis are in `results/information_duration_20261014/`; capability-world G5 
 **Running and prepared studies.** O's three-arm structure-held regulation study is running with two workers
 (4,608 research lives, 3,600 CPU-seconds) after M/N completion. Do not exceed four simulation workers.
 P is independently reviewed and prepared: another ordinary 16-generation step from each fixed D endpoint,
-37,548 research lives under a 14,400 CPU-second cap, four workers after O. It awaits public registration and
+37,548 research lives under a 14,400 CPU-second cap, four workers after O. It is publicly registered and awaits
 root release. Q's s7 frozen-message follow-up is in pure preparation, with no readiness or launch.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.

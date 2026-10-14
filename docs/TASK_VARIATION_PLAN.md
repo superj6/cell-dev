@@ -105,6 +105,13 @@ the base/POOL portion of G5, with capability worlds still pending and no admissi
 plus 40 validation lives finished in 1,385.715510 CPU-seconds; `results/information_duration_20261014/` preserves
 independent raw accounting, replay/parity checks and every fixed comparison.
 
+
+*2026-10-14 next ordinary step registered:* P seeds a new ordinary population from each fixed D endpoint and
+runs 16 generations with unchanged 32+224/3+4 production evolution. Both endpoints are retained before fresh
+six-role confirmation on block102. Primary effects compare each new endpoint with its own D founder, averaging
+three durations within seed. The 37,548-life/14,400 CPU-second allocation waits for O and permits at most four
+simulation workers. There is no automatic extension or founder selection using later mechanism studies.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

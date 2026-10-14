@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "independent_tests_passed": 50,
+  "real_protocol_dry_run": "passed; no readiness, budget or worker created",
+  "source_sha256": {
+    "outputs/autonomous_next_step_20261014/run_budgeted.py": "7c30a8ca961df1483eefba08f6a0ba149f1ae0fbac1dd39cd98ec0283c31f101",
+    "outputs/autonomous_next_step_20261014/test_monitor.py": "8db5455d513dc8e762d89e01fb4b99812085db6784c47a68d0cfff1f83e89d4e",
+    "outputs/autonomous_next_step_20261014/protocol.json": "2b4628a0ef6c2bef186641e5302eae9eaa1c41a98c1aa7218e9c95c378c70cfa",
+    "outputs/autonomous_next_step_20261014/prepare.py": "26f5c2b42b3adb83e7d15c68472e58194d33b920984188158ce3e8c58d4f3e36",
+    "outputs/autonomous_next_step_20261014/measure.py": "59c2c8f62933a406f5aa91e9bf0701b50f75bd2c6a0fa457a79a7c288fb198c8",
+    "outputs/autonomous_next_step_20261014/initialization.json": "288eca08c67f62b750a3b10bd5c3529629e0fcbe1aa186e7f43ec5090409326b",
+    "outputs/autonomous_next_step_20261014/seed_audit.json": "73dd8c5c54bc932a7e5ea3ba252d0be08f23b86a2ec2150fc4d11198c4c63b27"
+  },
+  "reviewed_scope": {
+    "runs": [
+      52091,
+      52092
+    ],
+    "generations": 16,
+    "research_genome_lives": 37548,
+    "confirmation_genome_lives": 4608,
+    "cap_cpu_seconds": 14400,
+    "stop_reserve_seconds": 20,
+    "maximum_search_simulation_threads": 4,
+    "confirmation_threads": 2,
+    "dependency": [
+      "outputs/autonomous_regulation_20261014"
+    ]
+  },
+  "checks": [
+    "Read-only review; all50 supplied pure mocks passed and real zero-life dry run accepts current prepared schema.",
+    "Exact two fixed searches run first, both must exit successfully before one fixed confirmation subprocess.",
+    "Only registered O dependency; complete status and empty active/queued work required, abnormal terminal status fails.",
+    "CPU includes monitor, all reaped children and live descendant trees; waiting consumes same cap; no search-to-confirmation reset.",
+    "Parent captures remaining RLIMIT_CPU allocation before fork; exact expected-parent race check plus PDEATHSIG kill.",
+    "At most two two-thread searches or one two-thread confirmation, fixed CPUs0-11 intersection and no dynamic thread file.",
+    "Before-spawn budget receipt; refuses existing budget and unaccounted logs/runs/confirmation, no automatic restart.",
+    "Source, helper, config, fixed founder/reference, exact initialization run/array and O readiness pins rechecked before work and final completion.",
+    "Cap/failure paths cancel queues, TERM then group KILL, including final group kill when the direct child already exits.",
+    "Final completion requires successful worker exits, empty work, within-cap accounting and exact4608 completed confirmation lives."
+  ],
+  "limitations": [
+    "The resource monitor enforces operational scope; numerical validation and endpoint/history correctness remain the pinned production and confirmation runner responsibility.",
+    "Fixed CPU allocation may leave this study incomplete for developed founders; no extension or replacement is authorized."
+  ],
+  "blockers": []
+}
