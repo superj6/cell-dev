@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "scientific_preparation_and_validation_mock_tests": 17,
+  "simulated_lives": 0,
+  "source_edits": false,
+  "files": {
+    "measure.py": "4186e9d3d4e037e036a163d72f5c26a304e71d86dc2868d55694c94c63acde7c",
+    "validate.py": "f21ee7dd06b773368438db2dd565f953ea05c9284dacf4eb08e98e6f19ce561a",
+    "prepare.py": "749323468477a14a13bedbafc1ca6edfe14610642ee839ffcacb4d5ef55ce395",
+    "test_prepared.py": "62489433a677054ba25fc14c488fec11be35a91f182e5be0100e8cd7ba064b0c",
+    "test_validation.py": "6f10d849ca233f0743a14c15b710b34d87c951f114a74c73119c41da5b8556f6",
+    "protocol.json": "43453144aa4239ff8ac00321af630f1a11d98e571db45f4d4622b9902d69e6d1"
+  },
+  "reviewed": [
+    "Fixed recovered default C4 and all five references unchanged at both durations and both worlds",
+    "Exactly 12288 candidate lives, separate 512-seed blocks 40/41, no within-life best-reference selection",
+    "Both fixed full-versus-reflex contrasts retained with within-seed covariance and negative effects",
+    "Bounded 40-life T64 validation with builtin-copy identity, saved-ping action replay across life/world, nonidentical control, production ledger parity and null-world parity",
+    "Scratch ledger exceptions 21/22 and whole-reference selection limits explicit",
+    "All row checkpoints retain raw ledger and diagnostics; invalid or incomplete candidate fails without censoring",
+    "Worker requires exact parent monitor environment, no measurement restart, source/readiness rechecks throughout",
+    "Protocol pins recovered inputs, source, numerical identity and exact L dependency; no admission or organism change"
+  ]
+}

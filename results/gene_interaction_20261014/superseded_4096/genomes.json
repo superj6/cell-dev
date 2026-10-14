@@ -1,0 +1,2484 @@
+{
+  "labels": [
+    "s51089_intact",
+    "s51089_copy_KO",
+    "s51089_source_KO",
+    "s51089_double_KO",
+    "s51090_intact",
+    "s51090_copy_KO",
+    "s51090_source_KO",
+    "s51090_double_KO"
+  ],
+  "branches": {
+    "51089": {
+      "copy_slot": 14,
+      "copy_origin_id": 56,
+      "source_slot": 5,
+      "source_origin_id": 5,
+      "duplication_event": {
+        "origin_id": 56,
+        "generation": 9,
+        "child_id": 2104,
+        "source_slot": 5,
+        "destination_slot": 14,
+        "source_origin_id": 5,
+        "child_retained": true
+      },
+      "origins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        56,
+        -1
+      ],
+      "rows": {
+        "intact": {
+          "row": 0,
+          "deleted_slots": [],
+          "raw_sha256": "a0189b8ab760844a4235eeab12808412b8654f657d97ca9a233f5767409251bb",
+          "runtime_table_sha256": "9aad87f86ba96bac5ad2c84ce93872cba5566eaecaa38c63e149c98fa95beea7",
+          "active_slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            14
+          ]
+        },
+        "copy_KO": {
+          "row": 1,
+          "deleted_slots": [
+            14
+          ],
+          "raw_sha256": "ba78008e2b42e872ce6e1ef701034d37040878ae5d4fa5d4ca84edf6ee8f7abd",
+          "runtime_table_sha256": "f4dfdca4224095006cd4c09511c7dd671ee87dc560d470014a79395ad94d3b73",
+          "active_slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "source_KO": {
+          "row": 2,
+          "deleted_slots": [
+            5
+          ],
+          "raw_sha256": "ba44d7e24e09bfbf7466b0e22d6171c5d2a85a1cd8eba7ba01be385a68bbf920",
+          "runtime_table_sha256": "7c51295568251cd985c699793db729ef2950e0fcec8bab0d914643697a5d29f5",
+          "active_slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            7,
+            14
+          ]
+        },
+        "double_KO": {
+          "row": 3,
+          "deleted_slots": [
+            14,
+            5
+          ],
+          "raw_sha256": "b4b2790d0ada366fb990111da26f4100798f6c666abddd2b532919e3eefb6e1c",
+          "runtime_table_sha256": "f1da887e660fc799f53e34ea1fbb0ecad5b4fe8aa5c75c0443a2bcab28092040",
+          "active_slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            7
+          ]
+        }
+      }
+    },
+    "51090": {
+      "copy_slot": 9,
+      "copy_origin_id": 21,
+      "source_slot": 0,
+      "source_origin_id": 0,
+      "duplication_event": {
+        "origin_id": 21,
+        "generation": 1,
+        "child_id": 454,
+        "source_slot": 0,
+        "destination_slot": 9,
+        "source_origin_id": 0,
+        "child_retained": true
+      },
+      "origins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        -1,
+        21,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "rows": {
+        "intact": {
+          "row": 4,
+          "deleted_slots": [],
+          "raw_sha256": "23a38a4f43194195912b69c10ddfe3f7008b0c54c25d65a6c811014bb791e077",
+          "runtime_table_sha256": "7413f256f9f548d379db86f096c37090239e1ea58509abaf2f6c971b112cb3c4",
+          "active_slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9
+          ]
+        },
+        "copy_KO": {
+          "row": 5,
+          "deleted_slots": [
+            9
+          ],
+          "raw_sha256": "9bee969c81dba8a581b90bc5b3be7161832d2cfc586f2c97dfd00a24515c0d9c",
+          "runtime_table_sha256": "d454d79e4589dab22fec7b10aaac5f71eb582b2888a3a53a2157cbf182f1ee01",
+          "active_slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "source_KO": {
+          "row": 6,
+          "deleted_slots": [
+            0
+          ],
+          "raw_sha256": "35f3ac34d3798f18529061a0cb4278be903a345f3ad4e52fa16f096a4e31c4c8",
+          "runtime_table_sha256": "980421efb59d4d7fec2ccda9dcbe369f3812c61075b841616d24f141be28639c",
+          "active_slots": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9
+          ]
+        },
+        "double_KO": {
+          "row": 7,
+          "deleted_slots": [
+            9,
+            0
+          ],
+          "raw_sha256": "bf4f18f4bc379ca09708376cb30635868c5b3c24596eb3d798ee0d4abc582d8c",
+          "runtime_table_sha256": "2392bae5e56d7b96fe9946d532c01adb65236bde488b99af19d869b9f057b71c",
+          "active_slots": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      }
+    }
+  },
+  "endpoint_audits": {
+    "51089": {
+      "checkpoint_sha256": "1105623da24ba02531f7d1933e855ef05bbd2bdb4f2654dd4ffff9f17542bbc1",
+      "lineage_sha256": "ed677889df4e001e4f0c55d009ced048dab621d8b683ec13cb50f09237c055ee",
+      "health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 7231,
+        "duplication_events": 73,
+        "deletion_events": 37,
+        "retained_children_with_duplication": 5,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [
+          {
+            "origin_id": 16,
+            "generation": 0,
+            "child_id": 82,
+            "source_slot": 4,
+            "destination_slot": 14,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 17,
+            "generation": 0,
+            "child_id": 123,
+            "source_slot": 0,
+            "destination_slot": 13,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 18,
+            "generation": 0,
+            "child_id": 152,
+            "source_slot": 3,
+            "destination_slot": 15,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 19,
+            "generation": 0,
+            "child_id": 191,
+            "source_slot": 5,
+            "destination_slot": 11,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 20,
+            "generation": 0,
+            "child_id": 202,
+            "source_slot": 3,
+            "destination_slot": 9,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 21,
+            "generation": 0,
+            "child_id": 207,
+            "source_slot": 0,
+            "destination_slot": 8,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 22,
+            "generation": 1,
+            "child_id": 301,
+            "source_slot": 6,
+            "destination_slot": 13,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 23,
+            "generation": 1,
+            "child_id": 457,
+            "source_slot": 1,
+            "destination_slot": 14,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 24,
+            "generation": 2,
+            "child_id": 498,
+            "source_slot": 7,
+            "destination_slot": 8,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 25,
+            "generation": 2,
+            "child_id": 511,
+            "source_slot": 6,
+            "destination_slot": 15,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 26,
+            "generation": 2,
+            "child_id": 580,
+            "source_slot": 6,
+            "destination_slot": 10,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 27,
+            "generation": 2,
+            "child_id": 625,
+            "source_slot": 3,
+            "destination_slot": 11,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 28,
+            "generation": 3,
+            "child_id": 705,
+            "source_slot": 7,
+            "destination_slot": 8,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 29,
+            "generation": 3,
+            "child_id": 728,
+            "source_slot": 7,
+            "destination_slot": 11,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 30,
+            "generation": 3,
+            "child_id": 754,
+            "source_slot": 3,
+            "destination_slot": 15,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 31,
+            "generation": 3,
+            "child_id": 795,
+            "source_slot": 3,
+            "destination_slot": 12,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 32,
+            "generation": 3,
+            "child_id": 829,
+            "source_slot": 1,
+            "destination_slot": 9,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 33,
+            "generation": 4,
+            "child_id": 1081,
+            "source_slot": 5,
+            "destination_slot": 9,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 34,
+            "generation": 4,
+            "child_id": 1092,
+            "source_slot": 1,
+            "destination_slot": 11,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 35,
+            "generation": 4,
+            "child_id": 1104,
+            "source_slot": 7,
+            "destination_slot": 15,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 36,
+            "generation": 4,
+            "child_id": 1113,
+            "source_slot": 5,
+            "destination_slot": 14,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 37,
+            "generation": 5,
+            "child_id": 1189,
+            "source_slot": 6,
+            "destination_slot": 8,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 38,
+            "generation": 5,
+            "child_id": 1204,
+            "source_slot": 3,
+            "destination_slot": 11,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 39,
+            "generation": 5,
+            "child_id": 1254,
+            "source_slot": 2,
+            "destination_slot": 14,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 40,
+            "generation": 5,
+            "child_id": 1303,
+            "source_slot": 4,
+            "destination_slot": 15,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 41,
+            "generation": 5,
+            "child_id": 1318,
+            "source_slot": 6,
+            "destination_slot": 12,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 42,
+            "generation": 5,
+            "child_id": 1345,
+            "source_slot": 3,
+            "destination_slot": 9,
+            "source_origin_id": 3,
+            "child_retained": true
+          },
+          {
+            "origin_id": 43,
+            "generation": 5,
+            "child_id": 1359,
+            "source_slot": 2,
+            "destination_slot": 10,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 44,
+            "generation": 6,
+            "child_id": 1403,
+            "source_slot": 1,
+            "destination_slot": 13,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 45,
+            "generation": 6,
+            "child_id": 1417,
+            "source_slot": 0,
+            "destination_slot": 8,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 46,
+            "generation": 7,
+            "child_id": 1610,
+            "source_slot": 4,
+            "destination_slot": 15,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 47,
+            "generation": 7,
+            "child_id": 1750,
+            "source_slot": 0,
+            "destination_slot": 11,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 48,
+            "generation": 7,
+            "child_id": 1796,
+            "source_slot": 0,
+            "destination_slot": 14,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 49,
+            "generation": 8,
+            "child_id": 1868,
+            "source_slot": 2,
+            "destination_slot": 11,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 50,
+            "generation": 8,
+            "child_id": 1869,
+            "source_slot": 4,
+            "destination_slot": 12,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 51,
+            "generation": 8,
+            "child_id": 1991,
+            "source_slot": 6,
+            "destination_slot": 15,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 52,
+            "generation": 9,
+            "child_id": 2050,
+            "source_slot": 2,
+            "destination_slot": 12,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 53,
+            "generation": 9,
+            "child_id": 2058,
+            "source_slot": 7,
+            "destination_slot": 10,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 54,
+            "generation": 9,
+            "child_id": 2066,
+            "source_slot": 7,
+            "destination_slot": 13,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 55,
+            "generation": 9,
+            "child_id": 2083,
+            "source_slot": 5,
+            "destination_slot": 15,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 56,
+            "generation": 9,
+            "child_id": 2104,
+            "source_slot": 5,
+            "destination_slot": 14,
+            "source_origin_id": 5,
+            "child_retained": true
+          },
+          {
+            "origin_id": 57,
+            "generation": 9,
+            "child_id": 2190,
+            "source_slot": 4,
+            "destination_slot": 11,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 58,
+            "generation": 9,
+            "child_id": 2198,
+            "source_slot": 1,
+            "destination_slot": 8,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 59,
+            "generation": 9,
+            "child_id": 2270,
+            "source_slot": 4,
+            "destination_slot": 14,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 60,
+            "generation": 10,
+            "child_id": 2282,
+            "source_slot": 1,
+            "destination_slot": 15,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 61,
+            "generation": 10,
+            "child_id": 2284,
+            "source_slot": 2,
+            "destination_slot": 13,
+            "source_origin_id": 2,
+            "child_retained": true
+          },
+          {
+            "origin_id": 62,
+            "generation": 10,
+            "child_id": 2350,
+            "source_slot": 7,
+            "destination_slot": 11,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 63,
+            "generation": 10,
+            "child_id": 2413,
+            "source_slot": 0,
+            "destination_slot": 10,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 64,
+            "generation": 10,
+            "child_id": 2423,
+            "source_slot": 5,
+            "destination_slot": 12,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 65,
+            "generation": 10,
+            "child_id": 2424,
+            "source_slot": 1,
+            "destination_slot": 8,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 66,
+            "generation": 10,
+            "child_id": 2426,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 67,
+            "generation": 10,
+            "child_id": 2457,
+            "source_slot": 3,
+            "destination_slot": 11,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 68,
+            "generation": 10,
+            "child_id": 2459,
+            "source_slot": 5,
+            "destination_slot": 8,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 69,
+            "generation": 11,
+            "child_id": 2521,
+            "source_slot": 1,
+            "destination_slot": 12,
+            "source_origin_id": 1,
+            "child_retained": true
+          },
+          {
+            "origin_id": 70,
+            "generation": 11,
+            "child_id": 2547,
+            "source_slot": 2,
+            "destination_slot": 10,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 71,
+            "generation": 11,
+            "child_id": 2632,
+            "source_slot": 5,
+            "destination_slot": 15,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 72,
+            "generation": 11,
+            "child_id": 2674,
+            "source_slot": 0,
+            "destination_slot": 11,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 73,
+            "generation": 13,
+            "child_id": 3030,
+            "source_slot": 3,
+            "destination_slot": 10,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 74,
+            "generation": 13,
+            "child_id": 3054,
+            "source_slot": 0,
+            "destination_slot": 11,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 75,
+            "generation": 13,
+            "child_id": 3099,
+            "source_slot": 1,
+            "destination_slot": 8,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 76,
+            "generation": 14,
+            "child_id": 3173,
+            "source_slot": 7,
+            "destination_slot": 12,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 77,
+            "generation": 14,
+            "child_id": 3185,
+            "source_slot": 3,
+            "destination_slot": 13,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 78,
+            "generation": 14,
+            "child_id": 3187,
+            "source_slot": 7,
+            "destination_slot": 15,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 79,
+            "generation": 14,
+            "child_id": 3199,
+            "source_slot": 4,
+            "destination_slot": 11,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 80,
+            "generation": 14,
+            "child_id": 3233,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 81,
+            "generation": 14,
+            "child_id": 3235,
+            "source_slot": 0,
+            "destination_slot": 8,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 82,
+            "generation": 14,
+            "child_id": 3259,
+            "source_slot": 4,
+            "destination_slot": 15,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 83,
+            "generation": 14,
+            "child_id": 3309,
+            "source_slot": 5,
+            "destination_slot": 8,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 84,
+            "generation": 15,
+            "child_id": 3516,
+            "source_slot": 9,
+            "destination_slot": 12,
+            "source_origin_id": 42,
+            "child_retained": false
+          },
+          {
+            "origin_id": 85,
+            "generation": 15,
+            "child_id": 3533,
+            "source_slot": 5,
+            "destination_slot": 11,
+            "source_origin_id": 5,
+            "child_retained": true
+          },
+          {
+            "origin_id": 86,
+            "generation": 15,
+            "child_id": 3577,
+            "source_slot": 7,
+            "destination_slot": 15,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 87,
+            "generation": 15,
+            "child_id": 3598,
+            "source_slot": 4,
+            "destination_slot": 8,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 88,
+            "generation": 15,
+            "child_id": 3600,
+            "source_slot": 7,
+            "destination_slot": 10,
+            "source_origin_id": 7,
+            "child_retained": false
+          }
+        ],
+        "deletions": [
+          {
+            "generation": 0,
+            "child_id": 185,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 0,
+            "child_id": 216,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 1,
+            "child_id": 300,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 1,
+            "child_id": 444,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 514,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 621,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 673,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 700,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 770,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 873,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 883,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 917,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 932,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1025,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1078,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1095,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1126,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1146,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 5,
+            "child_id": 1166,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 5,
+            "child_id": 1290,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 5,
+            "child_id": 1313,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 6,
+            "child_id": 1466,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 6,
+            "child_id": 1485,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 7,
+            "child_id": 1670,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 7,
+            "child_id": 1805,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 8,
+            "child_id": 1944,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 8,
+            "child_id": 2004,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 9,
+            "child_id": 2126,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 10,
+            "child_id": 2336,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 10,
+            "child_id": 2435,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 11,
+            "child_id": 2501,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 12,
+            "child_id": 2786,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 13,
+            "child_id": 3134,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 13,
+            "child_id": 3163,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 14,
+            "child_id": 3198,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "generation": 15,
+            "child_id": 3562,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 15,
+            "child_id": 3600,
+            "slot": 10,
+            "origin_id": 88,
+            "child_retained": false
+          }
+        ],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 6,
+            "deletion_events": 2,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 2,
+            "deletion_events": 2,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 4,
+            "deletion_events": 4,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 5,
+            "deletion_events": 4,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 4,
+            "duplication_events": 4,
+            "deletion_events": 6,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 5,
+            "duplication_events": 7,
+            "deletion_events": 3,
+            "mean_active_genes": 8.03125,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 1
+          },
+          {
+            "generation": 6,
+            "duplication_events": 2,
+            "deletion_events": 2,
+            "mean_active_genes": 8.15625,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 1
+          },
+          {
+            "generation": 7,
+            "duplication_events": 3,
+            "deletion_events": 2,
+            "mean_active_genes": 8.125,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 1
+          },
+          {
+            "generation": 8,
+            "duplication_events": 3,
+            "deletion_events": 2,
+            "mean_active_genes": 8.1875,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 1
+          },
+          {
+            "generation": 9,
+            "duplication_events": 8,
+            "deletion_events": 1,
+            "mean_active_genes": 8.21875,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 2
+          },
+          {
+            "generation": 10,
+            "duplication_events": 9,
+            "deletion_events": 2,
+            "mean_active_genes": 8.4375,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 3
+          },
+          {
+            "generation": 11,
+            "duplication_events": 4,
+            "deletion_events": 1,
+            "mean_active_genes": 8.5,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 4
+          },
+          {
+            "generation": 12,
+            "duplication_events": 0,
+            "deletion_events": 1,
+            "mean_active_genes": 8.5,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 4
+          },
+          {
+            "generation": 13,
+            "duplication_events": 3,
+            "deletion_events": 2,
+            "mean_active_genes": 8.5625,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 2
+          },
+          {
+            "generation": 14,
+            "duplication_events": 8,
+            "deletion_events": 1,
+            "mean_active_genes": 8.53125,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 2
+          },
+          {
+            "generation": 15,
+            "duplication_events": 5,
+            "deletion_events": 2,
+            "mean_active_genes": 8.5,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 3
+          }
+        ],
+        "final_rank_zero_active_genes": 9,
+        "final_rank_zero_duplicate_slots": [
+          14
+        ],
+        "final_rank_zero_duplicate_origin_ids": [
+          56
+        ],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "genome_raw_sha256": "a0189b8ab760844a4235eeab12808412b8654f657d97ca9a233f5767409251bb"
+    },
+    "51090": {
+      "checkpoint_sha256": "be9421e58f5e86ba027c5f009560ed3e6bf7134d79f25185ec03e0cf384f1bf6",
+      "lineage_sha256": "1bc051cf45267d704398bcb219715c8b401ccca4b18df5debb8d1f8e86398936",
+      "health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 7426,
+        "duplication_events": 71,
+        "deletion_events": 45,
+        "retained_children_with_duplication": 14,
+        "retained_children_with_deletion": 1,
+        "duplication_origins": [
+          {
+            "origin_id": 16,
+            "generation": 0,
+            "child_id": 63,
+            "source_slot": 4,
+            "destination_slot": 9,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 17,
+            "generation": 0,
+            "child_id": 122,
+            "source_slot": 2,
+            "destination_slot": 10,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 18,
+            "generation": 0,
+            "child_id": 141,
+            "source_slot": 1,
+            "destination_slot": 8,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 19,
+            "generation": 0,
+            "child_id": 164,
+            "source_slot": 0,
+            "destination_slot": 14,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 20,
+            "generation": 0,
+            "child_id": 219,
+            "source_slot": 7,
+            "destination_slot": 11,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 21,
+            "generation": 1,
+            "child_id": 454,
+            "source_slot": 0,
+            "destination_slot": 9,
+            "source_origin_id": 0,
+            "child_retained": true
+          },
+          {
+            "origin_id": 22,
+            "generation": 1,
+            "child_id": 469,
+            "source_slot": 0,
+            "destination_slot": 11,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 23,
+            "generation": 2,
+            "child_id": 549,
+            "source_slot": 7,
+            "destination_slot": 12,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 24,
+            "generation": 2,
+            "child_id": 595,
+            "source_slot": 0,
+            "destination_slot": 15,
+            "source_origin_id": 0,
+            "child_retained": true
+          },
+          {
+            "origin_id": 25,
+            "generation": 2,
+            "child_id": 607,
+            "source_slot": 5,
+            "destination_slot": 11,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 26,
+            "generation": 2,
+            "child_id": 608,
+            "source_slot": 1,
+            "destination_slot": 14,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 27,
+            "generation": 2,
+            "child_id": 687,
+            "source_slot": 6,
+            "destination_slot": 8,
+            "source_origin_id": 6,
+            "child_retained": true
+          },
+          {
+            "origin_id": 28,
+            "generation": 2,
+            "child_id": 691,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 29,
+            "generation": 3,
+            "child_id": 741,
+            "source_slot": 0,
+            "destination_slot": 12,
+            "source_origin_id": 0,
+            "child_retained": true
+          },
+          {
+            "origin_id": 30,
+            "generation": 3,
+            "child_id": 846,
+            "source_slot": 4,
+            "destination_slot": 14,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 31,
+            "generation": 3,
+            "child_id": 862,
+            "source_slot": 6,
+            "destination_slot": 11,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 32,
+            "generation": 3,
+            "child_id": 871,
+            "source_slot": 7,
+            "destination_slot": 10,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 33,
+            "generation": 4,
+            "child_id": 1068,
+            "source_slot": 5,
+            "destination_slot": 13,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 34,
+            "generation": 4,
+            "child_id": 1070,
+            "source_slot": 4,
+            "destination_slot": 11,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 35,
+            "generation": 4,
+            "child_id": 1083,
+            "source_slot": 0,
+            "destination_slot": 14,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 36,
+            "generation": 4,
+            "child_id": 1112,
+            "source_slot": 1,
+            "destination_slot": 8,
+            "source_origin_id": 1,
+            "child_retained": true
+          },
+          {
+            "origin_id": 37,
+            "generation": 4,
+            "child_id": 1132,
+            "source_slot": 1,
+            "destination_slot": 10,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 38,
+            "generation": 5,
+            "child_id": 1246,
+            "source_slot": 2,
+            "destination_slot": 13,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 39,
+            "generation": 5,
+            "child_id": 1302,
+            "source_slot": 3,
+            "destination_slot": 11,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 40,
+            "generation": 6,
+            "child_id": 1419,
+            "source_slot": 1,
+            "destination_slot": 15,
+            "source_origin_id": 1,
+            "child_retained": true
+          },
+          {
+            "origin_id": 41,
+            "generation": 6,
+            "child_id": 1433,
+            "source_slot": 4,
+            "destination_slot": 11,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 42,
+            "generation": 6,
+            "child_id": 1452,
+            "source_slot": 7,
+            "destination_slot": 12,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 43,
+            "generation": 6,
+            "child_id": 1596,
+            "source_slot": 7,
+            "destination_slot": 13,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 44,
+            "generation": 7,
+            "child_id": 1684,
+            "source_slot": 3,
+            "destination_slot": 13,
+            "source_origin_id": 3,
+            "child_retained": true
+          },
+          {
+            "origin_id": 45,
+            "generation": 7,
+            "child_id": 1723,
+            "source_slot": 6,
+            "destination_slot": 14,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 46,
+            "generation": 8,
+            "child_id": 1882,
+            "source_slot": 5,
+            "destination_slot": 14,
+            "source_origin_id": 5,
+            "child_retained": true
+          },
+          {
+            "origin_id": 47,
+            "generation": 8,
+            "child_id": 1941,
+            "source_slot": 5,
+            "destination_slot": 12,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 48,
+            "generation": 8,
+            "child_id": 1950,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 49,
+            "generation": 8,
+            "child_id": 1967,
+            "source_slot": 2,
+            "destination_slot": 11,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 50,
+            "generation": 8,
+            "child_id": 1981,
+            "source_slot": 1,
+            "destination_slot": 11,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 51,
+            "generation": 8,
+            "child_id": 1991,
+            "source_slot": 1,
+            "destination_slot": 12,
+            "source_origin_id": 1,
+            "child_retained": true
+          },
+          {
+            "origin_id": 52,
+            "generation": 9,
+            "child_id": 2048,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 53,
+            "generation": 9,
+            "child_id": 2071,
+            "source_slot": 7,
+            "destination_slot": 11,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 54,
+            "generation": 9,
+            "child_id": 2165,
+            "source_slot": 5,
+            "destination_slot": 14,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 55,
+            "generation": 9,
+            "child_id": 2234,
+            "source_slot": 1,
+            "destination_slot": 12,
+            "source_origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "origin_id": 56,
+            "generation": 10,
+            "child_id": 2328,
+            "source_slot": 0,
+            "destination_slot": 11,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 57,
+            "generation": 10,
+            "child_id": 2333,
+            "source_slot": 4,
+            "destination_slot": 14,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 58,
+            "generation": 10,
+            "child_id": 2335,
+            "source_slot": 3,
+            "destination_slot": 12,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 59,
+            "generation": 10,
+            "child_id": 2341,
+            "source_slot": 7,
+            "destination_slot": 10,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 60,
+            "generation": 10,
+            "child_id": 2381,
+            "source_slot": 6,
+            "destination_slot": 11,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 61,
+            "generation": 10,
+            "child_id": 2390,
+            "source_slot": 6,
+            "destination_slot": 14,
+            "source_origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "origin_id": 62,
+            "generation": 10,
+            "child_id": 2437,
+            "source_slot": 7,
+            "destination_slot": 10,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 63,
+            "generation": 10,
+            "child_id": 2450,
+            "source_slot": 5,
+            "destination_slot": 12,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 64,
+            "generation": 10,
+            "child_id": 2468,
+            "source_slot": 4,
+            "destination_slot": 15,
+            "source_origin_id": 4,
+            "child_retained": true
+          },
+          {
+            "origin_id": 65,
+            "generation": 10,
+            "child_id": 2476,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 66,
+            "generation": 11,
+            "child_id": 2533,
+            "source_slot": 8,
+            "destination_slot": 11,
+            "source_origin_id": 36,
+            "child_retained": false
+          },
+          {
+            "origin_id": 67,
+            "generation": 11,
+            "child_id": 2534,
+            "source_slot": 7,
+            "destination_slot": 12,
+            "source_origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "origin_id": 68,
+            "generation": 11,
+            "child_id": 2551,
+            "source_slot": 2,
+            "destination_slot": 14,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 69,
+            "generation": 11,
+            "child_id": 2680,
+            "source_slot": 5,
+            "destination_slot": 10,
+            "source_origin_id": 5,
+            "child_retained": true
+          },
+          {
+            "origin_id": 70,
+            "generation": 11,
+            "child_id": 2714,
+            "source_slot": 3,
+            "destination_slot": 14,
+            "source_origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "origin_id": 71,
+            "generation": 12,
+            "child_id": 2759,
+            "source_slot": 9,
+            "destination_slot": 14,
+            "source_origin_id": 21,
+            "child_retained": false
+          },
+          {
+            "origin_id": 72,
+            "generation": 12,
+            "child_id": 2795,
+            "source_slot": 2,
+            "destination_slot": 11,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 73,
+            "generation": 12,
+            "child_id": 2827,
+            "source_slot": 2,
+            "destination_slot": 12,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 74,
+            "generation": 12,
+            "child_id": 2842,
+            "source_slot": 5,
+            "destination_slot": 11,
+            "source_origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "origin_id": 75,
+            "generation": 13,
+            "child_id": 2945,
+            "source_slot": 7,
+            "destination_slot": 11,
+            "source_origin_id": 7,
+            "child_retained": true
+          },
+          {
+            "origin_id": 76,
+            "generation": 13,
+            "child_id": 2978,
+            "source_slot": 3,
+            "destination_slot": 14,
+            "source_origin_id": 3,
+            "child_retained": true
+          },
+          {
+            "origin_id": 77,
+            "generation": 13,
+            "child_id": 3035,
+            "source_slot": 9,
+            "destination_slot": 12,
+            "source_origin_id": 21,
+            "child_retained": false
+          },
+          {
+            "origin_id": 78,
+            "generation": 14,
+            "child_id": 3339,
+            "source_slot": 4,
+            "destination_slot": 12,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 79,
+            "generation": 14,
+            "child_id": 3355,
+            "source_slot": 0,
+            "destination_slot": 14,
+            "source_origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "origin_id": 80,
+            "generation": 15,
+            "child_id": 3417,
+            "source_slot": 6,
+            "destination_slot": 12,
+            "source_origin_id": 6,
+            "child_retained": true
+          },
+          {
+            "origin_id": 81,
+            "generation": 15,
+            "child_id": 3437,
+            "source_slot": 8,
+            "destination_slot": 11,
+            "source_origin_id": 36,
+            "child_retained": false
+          },
+          {
+            "origin_id": 82,
+            "generation": 15,
+            "child_id": 3469,
+            "source_slot": 4,
+            "destination_slot": 12,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 83,
+            "generation": 15,
+            "child_id": 3520,
+            "source_slot": 4,
+            "destination_slot": 10,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 84,
+            "generation": 15,
+            "child_id": 3553,
+            "source_slot": 2,
+            "destination_slot": 12,
+            "source_origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "origin_id": 85,
+            "generation": 15,
+            "child_id": 3579,
+            "source_slot": 4,
+            "destination_slot": 13,
+            "source_origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "origin_id": 86,
+            "generation": 15,
+            "child_id": 3607,
+            "source_slot": 5,
+            "destination_slot": 11,
+            "source_origin_id": 5,
+            "child_retained": false
+          }
+        ],
+        "deletions": [
+          {
+            "generation": 0,
+            "child_id": 45,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 0,
+            "child_id": 92,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 1,
+            "child_id": 307,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 1,
+            "child_id": 429,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 560,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 577,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 688,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 2,
+            "child_id": 701,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 705,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 746,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": true
+          },
+          {
+            "generation": 3,
+            "child_id": 767,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 3,
+            "child_id": 886,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 954,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1013,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1113,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 4,
+            "child_id": 1150,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 5,
+            "child_id": 1243,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 5,
+            "child_id": 1318,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 5,
+            "child_id": 1334,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 6,
+            "child_id": 1471,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 7,
+            "child_id": 1786,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "generation": 8,
+            "child_id": 1899,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 8,
+            "child_id": 1900,
+            "slot": 2,
+            "origin_id": 2,
+            "child_retained": false
+          },
+          {
+            "generation": 8,
+            "child_id": 1935,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 8,
+            "child_id": 2044,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 9,
+            "child_id": 2061,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 9,
+            "child_id": 2102,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 9,
+            "child_id": 2187,
+            "slot": 9,
+            "origin_id": 21,
+            "child_retained": false
+          },
+          {
+            "generation": 9,
+            "child_id": 2212,
+            "slot": 8,
+            "origin_id": 36,
+            "child_retained": false
+          },
+          {
+            "generation": 10,
+            "child_id": 2277,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 10,
+            "child_id": 2368,
+            "slot": 1,
+            "origin_id": 1,
+            "child_retained": false
+          },
+          {
+            "generation": 11,
+            "child_id": 2523,
+            "slot": 8,
+            "origin_id": 36,
+            "child_retained": false
+          },
+          {
+            "generation": 11,
+            "child_id": 2656,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 11,
+            "child_id": 2678,
+            "slot": 5,
+            "origin_id": 5,
+            "child_retained": false
+          },
+          {
+            "generation": 11,
+            "child_id": 2712,
+            "slot": 8,
+            "origin_id": 36,
+            "child_retained": false
+          },
+          {
+            "generation": 12,
+            "child_id": 2787,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 13,
+            "child_id": 3003,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 13,
+            "child_id": 3028,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 13,
+            "child_id": 3147,
+            "slot": 9,
+            "origin_id": 21,
+            "child_retained": false
+          },
+          {
+            "generation": 14,
+            "child_id": 3179,
+            "slot": 7,
+            "origin_id": 7,
+            "child_retained": false
+          },
+          {
+            "generation": 14,
+            "child_id": 3184,
+            "slot": 4,
+            "origin_id": 4,
+            "child_retained": false
+          },
+          {
+            "generation": 14,
+            "child_id": 3232,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          },
+          {
+            "generation": 14,
+            "child_id": 3282,
+            "slot": 3,
+            "origin_id": 3,
+            "child_retained": false
+          },
+          {
+            "generation": 15,
+            "child_id": 3418,
+            "slot": 6,
+            "origin_id": 6,
+            "child_retained": false
+          },
+          {
+            "generation": 15,
+            "child_id": 3470,
+            "slot": 0,
+            "origin_id": 0,
+            "child_retained": false
+          }
+        ],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 5,
+            "deletion_events": 2,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 2,
+            "deletion_events": 2,
+            "mean_active_genes": 8.03125,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 1
+          },
+          {
+            "generation": 2,
+            "duplication_events": 6,
+            "deletion_events": 4,
+            "mean_active_genes": 8.15625,
+            "min_active_genes": 8,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 3
+          },
+          {
+            "generation": 3,
+            "duplication_events": 4,
+            "deletion_events": 4,
+            "mean_active_genes": 8.1875,
+            "min_active_genes": 7,
+            "max_active_genes": 9,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 3
+          },
+          {
+            "generation": 4,
+            "duplication_events": 5,
+            "deletion_events": 4,
+            "mean_active_genes": 8.3125,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 3
+          },
+          {
+            "generation": 5,
+            "duplication_events": 2,
+            "deletion_events": 3,
+            "mean_active_genes": 8.3125,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 10,
+            "population_distinct_duplicate_origins": 2
+          },
+          {
+            "generation": 6,
+            "duplication_events": 4,
+            "deletion_events": 1,
+            "mean_active_genes": 8.59375,
+            "min_active_genes": 8,
+            "max_active_genes": 10,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 3
+          },
+          {
+            "generation": 7,
+            "duplication_events": 2,
+            "deletion_events": 1,
+            "mean_active_genes": 9.15625,
+            "min_active_genes": 8,
+            "max_active_genes": 11,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 4
+          },
+          {
+            "generation": 8,
+            "duplication_events": 6,
+            "deletion_events": 4,
+            "mean_active_genes": 9.46875,
+            "min_active_genes": 8,
+            "max_active_genes": 11,
+            "rank_zero_active_genes": 11,
+            "population_distinct_duplicate_origins": 6
+          },
+          {
+            "generation": 9,
+            "duplication_events": 4,
+            "deletion_events": 4,
+            "mean_active_genes": 9.375,
+            "min_active_genes": 8,
+            "max_active_genes": 11,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 4
+          },
+          {
+            "generation": 10,
+            "duplication_events": 10,
+            "deletion_events": 2,
+            "mean_active_genes": 9.59375,
+            "min_active_genes": 8,
+            "max_active_genes": 11,
+            "rank_zero_active_genes": 10,
+            "population_distinct_duplicate_origins": 5
+          },
+          {
+            "generation": 11,
+            "duplication_events": 5,
+            "deletion_events": 4,
+            "mean_active_genes": 9.6875,
+            "min_active_genes": 8,
+            "max_active_genes": 11,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 5
+          },
+          {
+            "generation": 12,
+            "duplication_events": 4,
+            "deletion_events": 1,
+            "mean_active_genes": 9.8125,
+            "min_active_genes": 9,
+            "max_active_genes": 12,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 5
+          },
+          {
+            "generation": 13,
+            "duplication_events": 3,
+            "deletion_events": 3,
+            "mean_active_genes": 9.90625,
+            "min_active_genes": 8,
+            "max_active_genes": 12,
+            "rank_zero_active_genes": 11,
+            "population_distinct_duplicate_origins": 7
+          },
+          {
+            "generation": 14,
+            "duplication_events": 2,
+            "deletion_events": 4,
+            "mean_active_genes": 9.875,
+            "min_active_genes": 9,
+            "max_active_genes": 12,
+            "rank_zero_active_genes": 10,
+            "population_distinct_duplicate_origins": 7
+          },
+          {
+            "generation": 15,
+            "duplication_events": 7,
+            "deletion_events": 2,
+            "mean_active_genes": 9.75,
+            "min_active_genes": 8,
+            "max_active_genes": 11,
+            "rank_zero_active_genes": 9,
+            "population_distinct_duplicate_origins": 6
+          }
+        ],
+        "final_rank_zero_active_genes": 9,
+        "final_rank_zero_duplicate_slots": [
+          9
+        ],
+        "final_rank_zero_duplicate_origin_ids": [
+          21
+        ],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "genome_raw_sha256": "23a38a4f43194195912b69c10ddfe3f7008b0c54c25d65a6c811014bb791e077"
+    }
+  },
+  "genotypes_raw_sha256": "58705f629f7e25362c1c163bf7fdac015fdcfed61264e7ce51643210cb114cde",
+  "simulated_lives": 0
+}

@@ -1,0 +1,56 @@
+{
+ "base": {
+  "knobs": {
+   "S.g_r": 1.0,
+   "S.tau_m": 4.0,
+   "S.t_ref": 0.5,
+   "S.b": 0.625,
+   "C.g_r": 1.0,
+   "C.tau_m": 4.0,
+   "C.b": 0.5,
+   "C.t_ref": 0.5,
+   "M.w0": 1.5,
+   "M.kappa": 1.0,
+   "M.t_ref": 0.5,
+   "K.w0": 1.5,
+   "K.kappa": 1.0,
+   "K.t_ref": 4.0,
+   "S.delta": 0.0,
+   "M.tau_m": 2.0,
+   "M.b": 0.25,
+   "K.tau_m": 2.0,
+   "K.b": 0.0
+  },
+  "hill_F": 9.505485855102538,
+  "frozen_hill_F": 9.406396842956543,
+  "sec": 419.68661761283875,
+  "source": "verify_headline job_tissue.py: tune_knobs n_rand 40 budget 100, screen block 410 x48, hill block 411 x128"
+ },
+ "pool": {
+  "knobs": {
+   "S.g_r": 0.875,
+   "S.tau_m": 2.0,
+   "S.t_ref": 0.5,
+   "S.b": 0.875,
+   "C.g_r": 1.0,
+   "C.tau_m": 4.0,
+   "C.b": 0.0,
+   "C.t_ref": 4.0,
+   "M.w0": 1.5,
+   "M.kappa": 1.0,
+   "M.t_ref": 0.5,
+   "K.w0": 1.5,
+   "K.kappa": 1.0,
+   "K.t_ref": 4.0,
+   "S.delta": 1.0,
+   "M.tau_m": 2.0,
+   "M.b": 0.25,
+   "K.tau_m": 2.0,
+   "K.b": 0.5
+  },
+  "hill_F": 5.041094024658202,
+  "frozen_hill_F": 4.808281005859374,
+  "sec": 596.3605272769928,
+  "source": "verify_headline job_tissue.py: tune_knobs n_rand 40 budget 100, screen block 410 x48, hill block 411 x128"
+ }
+}

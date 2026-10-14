@@ -1,0 +1,50 @@
+{
+  "inputs/headline.json": {
+    "source": "results/open_headroom/data/headline.json",
+    "sha256": "1c6f9589d8efdd86a9404fdf3f8dfffec0d4bd81d29233f18656c20d94c67f78"
+  },
+  "inputs/reflex_knobs_verify.json": {
+    "source": "outputs/openhr/verify_headline/reflex_knobs_verify.json",
+    "sha256": "a5efd2b00360ce49e23581d7a7a1e0069bad781905181717b08c9c43f4adbabf"
+  },
+  "inputs/c4_tuned_retained_not_used.json": {
+    "source": "outputs/openhr/verify_headline/c4_tuned.json",
+    "sha256": "ca357ff5fde5645cd7eb2a1fcd236b1d716c0a2e8df5107bf1c8eab3a319ec58"
+  },
+  "inputs/historical_identity.json": {
+    "source": "outputs/openhr/verify_headline/test_v4_identity.json",
+    "sha256": "a355a2789413e76c1e46150847a21993c18e20c2640ed93242e33dcefc7f784d"
+  },
+  "inputs/historical_replay.json": {
+    "source": "outputs/openhr/verify_headline/test_replay_leak.json",
+    "sha256": "95549d99637a448dd19e090ebc76be94b9910567b5540be7737e6d7fe8d50ed8"
+  },
+  "inputs/historical_job_c4.py": {
+    "source": "outputs/openhr/verify_headline/job_c4.py",
+    "sha256": "2fc5f3686f9f4c56c5eb240ec497e774c561b06f2a5e40d884a1126745e0a37d"
+  },
+  "inputs/historical_job_tissue.py": {
+    "source": "outputs/openhr/verify_headline/job_tissue.py",
+    "sha256": "4e3776ff6e549dbc5292fb29f83dc33442ff9ee02fcf45173b07797d33f9a1a5"
+  },
+  "inputs/namespace_audit.json": {
+    "source": "outputs/prospective_g5_20261014/namespace_audit.json",
+    "sha256": "6afaed50b5f85a9698a6c48a7185e85a2283826466313c1b552053722abbac66"
+  },
+  "inputs/feasibility.json": {
+    "source": "outputs/prospective_g5_20261014/feasibility.json",
+    "sha256": "106f51514ee39e46c7ad5497e9ae4313ce3321dbb7281eb76707d618f90a27eb"
+  },
+  "sources/F_measure.py": {
+    "source": "results/discrimination_20261013/operations/measure.py",
+    "sha256": "453356a4ca121862d521eb0eec5507c9a3118893748ace169c5c81d02439e077"
+  },
+  "sources/vctl.c": {
+    "source": "outputs/openhr/verify_headline/vctl.c",
+    "sha256": "1b6372a3bb1e787fcfd3150fe988d945efbe49a2028a288b1905fcf5f4436b0b"
+  },
+  "sources/make_vctl.py": {
+    "source": "results/open_headroom/controllers/make_vctl.py",
+    "sha256": "8df30085cf5a135c0522b3153f3034ba635d45f75572de6fd560acc5fed9fd07"
+  }
+}

@@ -1,0 +1,4492 @@
+{
+ "tests": {
+  "test_v4_identity": {
+   "base": {
+    "c4_lib_equal": true,
+    "v4_equals_c4": true,
+    "diag_equal": true,
+    "eff_vs_true_end_maxabs": [
+     2.6290081223123707e-13,
+     2.0250467969162855e-13
+    ],
+    "path_mean": 707.8275044076257,
+    "F": 20.606832821281852
+   },
+   "pool": {
+    "c4_lib_equal": true,
+    "v4_equals_c4": true,
+    "diag_equal": true,
+    "eff_vs_true_end_maxabs": [
+     1.4210854715202004e-13,
+     1.0658141036401503e-13
+    ],
+    "path_mean": 707.0666392461526,
+    "F": 17.79701814179392
+   }
+  },
+  "test_replay_leak": {
+   "base": [
+    {
+     "seed": 47170000,
+     "pings": 1767,
+     "logged_actions": 4230,
+     "strokes": 6952,
+     "path": 618.9386818519082,
+     "captures": 66.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 6952,
+      "clicks_cmd": 136,
+      "path": 618.9386818519082,
+      "n_fires": 4230,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 66.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 6952,
+      "clicks_cmd": 136,
+      "path": 618.9386818519082,
+      "n_fires": 4230,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 6952,
+      "clicks_cmd": 136,
+      "path": 618.9386818519082,
+      "n_fires": 4230,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170001,
+     "pings": 1605,
+     "logged_actions": 4198,
+     "strokes": 8039,
+     "path": 696.3032316325458,
+     "captures": 57.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8039,
+      "clicks_cmd": 104,
+      "path": 696.3032316325458,
+      "n_fires": 4198,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 57.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8039,
+      "clicks_cmd": 104,
+      "path": 696.3032316325458,
+      "n_fires": 4198,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8039,
+      "clicks_cmd": 104,
+      "path": 696.3032316325458,
+      "n_fires": 4198,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170002,
+     "pings": 1542,
+     "logged_actions": 4195,
+     "strokes": 8385,
+     "path": 709.0421016939232,
+     "captures": 46.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8385,
+      "clicks_cmd": 101,
+      "path": 709.0421016939232,
+      "n_fires": 4195,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 46.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8385,
+      "clicks_cmd": 101,
+      "path": 709.0421016939232,
+      "n_fires": 4195,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8385,
+      "clicks_cmd": 101,
+      "path": 709.0421016939232,
+      "n_fires": 4195,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170003,
+     "pings": 1664,
+     "logged_actions": 4200,
+     "strokes": 7745,
+     "path": 669.320527983461,
+     "captures": 55.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 7745,
+      "clicks_cmd": 106,
+      "path": 669.320527983461,
+      "n_fires": 4200,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 55.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 7745,
+      "clicks_cmd": 106,
+      "path": 669.320527983461,
+      "n_fires": 4200,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 3.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 7745,
+      "clicks_cmd": 106,
+      "path": 669.320527983461,
+      "n_fires": 4200,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170004,
+     "pings": 1569,
+     "logged_actions": 4192,
+     "strokes": 8091,
+     "path": 683.7126967835237,
+     "captures": 53.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8091,
+      "clicks_cmd": 98,
+      "path": 683.7126967835237,
+      "n_fires": 4192,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 53.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8091,
+      "clicks_cmd": 98,
+      "path": 683.7126967835237,
+      "n_fires": 4192,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8091,
+      "clicks_cmd": 98,
+      "path": 683.7126967835237,
+      "n_fires": 4192,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170005,
+     "pings": 1707,
+     "logged_actions": 4204,
+     "strokes": 8024,
+     "path": 679.1232659909222,
+     "captures": 56.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8024,
+      "clicks_cmd": 110,
+      "path": 679.1232659909222,
+      "n_fires": 4204,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 56.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8024,
+      "clicks_cmd": 110,
+      "path": 679.1232659909222,
+      "n_fires": 4204,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 2.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8024,
+      "clicks_cmd": 110,
+      "path": 679.1232659909222,
+      "n_fires": 4204,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170006,
+     "pings": 1646,
+     "logged_actions": 4199,
+     "strokes": 8156,
+     "path": 687.6020188388319,
+     "captures": 56.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8156,
+      "clicks_cmd": 105,
+      "path": 687.6020188388319,
+      "n_fires": 4199,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 56.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8156,
+      "clicks_cmd": 105,
+      "path": 687.6020188388319,
+      "n_fires": 4199,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8156,
+      "clicks_cmd": 105,
+      "path": 687.6020188388319,
+      "n_fires": 4199,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170007,
+     "pings": 1530,
+     "logged_actions": 4181,
+     "strokes": 8374,
+     "path": 714.2194682814325,
+     "captures": 43.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8374,
+      "clicks_cmd": 85,
+      "path": 714.2194682814325,
+      "n_fires": 4181,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 43.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8374,
+      "clicks_cmd": 85,
+      "path": 714.2194682814325,
+      "n_fires": 4181,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 2.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8374,
+      "clicks_cmd": 85,
+      "path": 714.2194682814325,
+      "n_fires": 4181,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    }
+   ],
+   "pool": [
+    {
+     "seed": 47170000,
+     "pings": 1429,
+     "logged_actions": 4177,
+     "strokes": 8522,
+     "path": 704.0934641311572,
+     "captures": 45.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8522,
+      "clicks_cmd": 83,
+      "path": 704.0934641311572,
+      "n_fires": 4177,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 45.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8522,
+      "clicks_cmd": 83,
+      "path": 704.0934641311572,
+      "n_fires": 4177,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8522,
+      "clicks_cmd": 83,
+      "path": 704.0934641311572,
+      "n_fires": 4177,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170001,
+     "pings": 1473,
+     "logged_actions": 4185,
+     "strokes": 8103,
+     "path": 692.5119624438394,
+     "captures": 41.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8103,
+      "clicks_cmd": 90,
+      "path": 692.5119624438394,
+      "n_fires": 4185,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 41.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8103,
+      "clicks_cmd": 90,
+      "path": 692.5119624438394,
+      "n_fires": 4185,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8103,
+      "clicks_cmd": 90,
+      "path": 692.5119624438394,
+      "n_fires": 4185,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170002,
+     "pings": 1640,
+     "logged_actions": 4211,
+     "strokes": 7363,
+     "path": 616.4591675765955,
+     "captures": 62.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 7363,
+      "clicks_cmd": 117,
+      "path": 616.4591675765955,
+      "n_fires": 4211,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 62.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 7363,
+      "clicks_cmd": 117,
+      "path": 616.4591675765955,
+      "n_fires": 4211,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 7363,
+      "clicks_cmd": 117,
+      "path": 616.4591675765955,
+      "n_fires": 4211,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170003,
+     "pings": 1333,
+     "logged_actions": 4170,
+     "strokes": 8558,
+     "path": 698.2028712666809,
+     "captures": 30.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8558,
+      "clicks_cmd": 76,
+      "path": 698.2028712666809,
+      "n_fires": 4170,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 30.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8558,
+      "clicks_cmd": 76,
+      "path": 698.2028712666809,
+      "n_fires": 4170,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 2.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8558,
+      "clicks_cmd": 76,
+      "path": 698.2028712666809,
+      "n_fires": 4170,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170004,
+     "pings": 1421,
+     "logged_actions": 4178,
+     "strokes": 8217,
+     "path": 676.2073776339661,
+     "captures": 40.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8217,
+      "clicks_cmd": 84,
+      "path": 676.2073776339661,
+      "n_fires": 4178,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 40.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8217,
+      "clicks_cmd": 84,
+      "path": 676.2073776339661,
+      "n_fires": 4178,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 2.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8217,
+      "clicks_cmd": 84,
+      "path": 676.2073776339661,
+      "n_fires": 4178,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170005,
+     "pings": 1299,
+     "logged_actions": 4157,
+     "strokes": 8473,
+     "path": 727.3526782796356,
+     "captures": 38.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 8473,
+      "clicks_cmd": 63,
+      "path": 727.3526782796356,
+      "n_fires": 4157,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 38.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 8473,
+      "clicks_cmd": 63,
+      "path": 727.3526782796356,
+      "n_fires": 4157,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 8473,
+      "clicks_cmd": 63,
+      "path": 727.3526782796356,
+      "n_fires": 4157,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170006,
+     "pings": 1322,
+     "logged_actions": 4149,
+     "strokes": 9250,
+     "path": 758.400696801053,
+     "captures": 25.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 9250,
+      "clicks_cmd": 55,
+      "path": 758.400696801053,
+      "n_fires": 4149,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 25.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 9250,
+      "clicks_cmd": 55,
+      "path": 758.400696801053,
+      "n_fires": 4149,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 2.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 9250,
+      "clicks_cmd": 55,
+      "path": 758.400696801053,
+      "n_fires": 4149,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "control_closed_loop_other_life_identical": false
+    },
+    {
+     "seed": 47170007,
+     "pings": 1356,
+     "logged_actions": 4162,
+     "strokes": 9141,
+     "path": 759.6032807347498,
+     "captures": 35.0,
+     "A_same_life": {
+      "identical": true,
+      "strokes": 9141,
+      "clicks_cmd": 68,
+      "path": 759.6032807347498,
+      "n_fires": 4162,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 35.0
+     },
+     "B_other_life": {
+      "identical": true,
+      "strokes": 9141,
+      "clicks_cmd": 68,
+      "path": 759.6032807347498,
+      "n_fires": 4162,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 0.0
+     },
+     "C_other_world": {
+      "identical": true,
+      "strokes": 9141,
+      "clicks_cmd": 68,
+      "path": 759.6032807347498,
+      "n_fires": 4162,
+      "real_pings_seen": 0,
+      "captures_in_that_world": 1.0
+     },
+     "control_closed_loop_other_life_identical": false
+    }
+   ],
+   "all_identical": true,
+   "controls_differ": true
+  }
+ },
+ "main": {
+  "base": {
+   "best_reflex": "reflex@hollow3 rt",
+   "reflex_F": {
+    "frozen": {
+     "mean": 9.236919310569764,
+     "se": 0.08822557601718689,
+     "n": 1024
+    },
+    "rt": {
+     "mean": 9.250120467185974,
+     "se": 0.08670256582716605,
+     "n": 1024
+    }
+   },
+   "rows": {
+    "reflex_frozen": {
+     "F": {
+      "mean": 9.236919310569764,
+      "se": 0.08822557601718689,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": -0.013201156616210907,
+      "se": 0.04812663524135385,
+      "n": 1024
+     },
+     "captures": 22.1884765625,
+     "d_captures": {
+      "mean": -0.02734375,
+      "se": 0.09829443840843319,
+      "n": 1024
+     },
+     "misses": 46.84375,
+     "d_misses": {
+      "mean": 0.0,
+      "se": 0.09161277630338295,
+      "n": 1024
+     },
+     "clicks": 69.0322265625,
+     "d_clicks": {
+      "mean": -0.02734375,
+      "se": 0.1236610935184618,
+      "n": 1024
+     },
+     "spikes": 2530.35546875,
+     "d_spikes": {
+      "mean": -31.146484375,
+      "se": 2.4501552934610396,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 288.7201430067473,
+     "d_path": {
+      "mean": -0.01793698193556162,
+      "se": 0.19116445095648718,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": -0.0133514404296875,
+       "se": 0.047995331254117764,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.0,
+       "se": 0.0008946560185877241,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0001208877563476562,
+       "se": 1.4218023747977507e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 2.9396057128906238e-05,
+       "se": 5.219832966842883e-06,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 3.838075690598686e-17,
+       "se": 3.595450733595145e-17,
+       "n": 1024
+      }
+     }
+    },
+    "reflex_rt": {
+     "F": {
+      "mean": 9.250120467185974,
+      "se": 0.08670256582716605,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "captures": 22.2158203125,
+     "d_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "misses": 46.84375,
+     "d_misses": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "clicks": 69.0595703125,
+     "d_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "spikes": 2561.501953125,
+     "d_spikes": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 288.73807998868284,
+     "d_path": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      }
+     }
+    },
+    "c4_default": {
+     "F": {
+      "mean": 22.557329021960925,
+      "se": 0.13599007080367087,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 13.307208554774952,
+      "se": 0.14076434499444407,
+      "n": 1024
+     },
+     "captures": 49.60546875,
+     "d_captures": {
+      "mean": 27.3896484375,
+      "se": 0.29086839094861106,
+      "n": 1024
+     },
+     "misses": 50.2353515625,
+     "d_misses": {
+      "mean": 3.3916015625,
+      "se": 0.30818434947088935,
+      "n": 1024
+     },
+     "clicks": 99.8408203125,
+     "d_clicks": {
+      "mean": 30.78125,
+      "se": 0.5081104260840432,
+      "n": 1024
+     },
+     "spikes": 9794.748046875,
+     "d_spikes": {
+      "mean": 7233.24609375,
+      "se": 17.12343364852494,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 696.627905867743,
+     "d_path": {
+      "mean": 407.8898258790601,
+      "se": 1.351389246294985,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 13.373851776123047,
+       "se": 0.14202558151787648,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": -0.03312110900878906,
+       "se": 0.003009612787801654,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.9233746539892849e-16,
+       "se": 1.5744250730472453e-16,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03549500414686217,
+       "se": 8.451742744072846e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 0.001972891807556152,
+       "se": 1.0999883769066757e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 7.422448072835763e-16,
+       "se": 6.219164268210821e-17,
+       "n": 1024
+      }
+     }
+    },
+    "c4_tuned": {
+     "F": {
+      "mean": 22.529789839421806,
+      "se": 0.14641078483455258,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 13.279669372235832,
+      "se": 0.1471831545061789,
+      "n": 1024
+     },
+     "captures": 49.34765625,
+     "d_captures": {
+      "mean": 27.1318359375,
+      "se": 0.30357363956926964,
+      "n": 1024
+     },
+     "misses": 39.7177734375,
+     "d_misses": {
+      "mean": -7.1259765625,
+      "se": 0.2942897205259373,
+      "n": 1024
+     },
+     "clicks": 89.0654296875,
+     "d_clicks": {
+      "mean": 20.005859375,
+      "se": 0.49728341320872216,
+      "n": 1024
+     },
+     "spikes": 10805.1123046875,
+     "d_spikes": {
+      "mean": 8243.6103515625,
+      "se": 16.15930665365292,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 698.6345226394403,
+     "d_path": {
+      "mean": 409.89644265075765,
+      "se": 1.4120957217227945,
+      "n": 1024
+     },
+     "zone_frac": 0.08990389021260997,
+     "mean_dist": 5.0837614071383745,
+     "respawns": 20.4931640625,
+     "captures_per_zone_time": 0.5365527346860766,
+     "clicks_per_capture": 1.8048563286630255,
+     "dF_components": {
+      "income_captures": {
+       "mean": 13.247966766357422,
+       "se": 0.14822931619593244,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.06958961486816406,
+       "se": 0.002873923052011107,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.9233746539892849e-16,
+       "se": 1.5744250730472453e-16,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03988720067829182,
+       "se": 8.079421839734554e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0020001916885375977,
+       "se": 1.0903251101714842e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 7.248975725238083e-16,
+       "se": 6.511402266325617e-17,
+       "n": 1024
+      }
+     }
+    },
+    "s5": {
+     "F": {
+      "mean": 7.962682134403622,
+      "se": 0.08750328070762453,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": -1.2874383327823538,
+      "se": 0.09835683052359828,
+      "n": 1024
+     },
+     "captures": 21.76171875,
+     "d_captures": {
+      "mean": -0.4541015625,
+      "se": 0.2030970184629471,
+      "n": 1024
+     },
+     "misses": 19.470703125,
+     "d_misses": {
+      "mean": -27.373046875,
+      "se": 0.2348505400823727,
+      "n": 1024
+     },
+     "clicks": 41.232421875,
+     "d_clicks": {
+      "mean": -27.8271484375,
+      "se": 0.31109840449198667,
+      "n": 1024
+     },
+     "spikes": 4706.63671875,
+     "d_spikes": {
+      "mean": 2145.134765625,
+      "se": 36.59704861159936,
+      "n": 1024
+     },
+     "n_end": 108.9326171875,
+     "d_n_end": {
+      "mean": 52.9326171875,
+      "se": 0.39583054054979744,
+      "n": 1024
+     },
+     "path": 214.1644110179291,
+     "d_path": {
+      "mean": -74.57366897075379,
+      "se": 0.7378204064087575,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": -0.22172927856445312,
+       "se": 0.09916846604636088,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.2673149108886719,
+       "se": 0.002293462305491921,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -0.9469800010942204,
+       "se": 0.00751746696579364,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.021834892272949217,
+       "se": 0.00028681488524307636,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.05119463539123535,
+       "se": 0.00046250262741691643,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.3130144363481674,
+       "se": 0.001138890641623051,
+       "n": 1024
+      }
+     }
+    },
+    "s7": {
+     "F": {
+      "mean": 7.305334393361353,
+      "se": 0.081867004620024,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": -1.9447860738246219,
+      "se": 0.09514523720973124,
+      "n": 1024
+     },
+     "captures": 19.240234375,
+     "d_captures": {
+      "mean": -2.9755859375,
+      "se": 0.1976867594929892,
+      "n": 1024
+     },
+     "misses": 22.478515625,
+     "d_misses": {
+      "mean": -24.365234375,
+      "se": 0.27540979770669555,
+      "n": 1024
+     },
+     "clicks": 41.71875,
+     "d_clicks": {
+      "mean": -27.3408203125,
+      "se": 0.360690518653346,
+      "n": 1024
+     },
+     "spikes": 1753.505859375,
+     "d_spikes": {
+      "mean": -807.99609375,
+      "se": 14.817608205169693,
+      "n": 1024
+     },
+     "n_end": 85.4736328125,
+     "d_n_end": {
+      "mean": 29.4736328125,
+      "se": 0.295384949222532,
+      "n": 1024
+     },
+     "path": 130.69393424405172,
+     "d_path": {
+      "mean": -158.04414574463118,
+      "se": 0.9177890372578653,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": -1.4529228210449219,
+       "se": 0.09652673803368612,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.23794174194335938,
+       "se": 0.002689548805729449,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -0.5569651507113706,
+       "se": 0.005759475353421462,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0012364578247070312,
+       "se": 0.00011541000293509578,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.009169820785522462,
+       "se": 0.00010971553453680352,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.16490648105087338,
+       "se": 0.0005731387865819091,
+       "n": 1024
+      }
+     }
+    },
+    "router@ring4": {
+     "F": {
+      "mean": 12.846990532636642,
+      "se": 0.10028084683400518,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 3.596870065450668,
+      "se": 0.1097356111129007,
+      "n": 1024
+     },
+     "captures": 32.330078125,
+     "d_captures": {
+      "mean": 10.1142578125,
+      "se": 0.2246333696216753,
+      "n": 1024
+     },
+     "misses": 47.0283203125,
+     "d_misses": {
+      "mean": 0.1845703125,
+      "se": 0.18081865294117216,
+      "n": 1024
+     },
+     "clicks": 79.3583984375,
+     "d_clicks": {
+      "mean": 10.298828125,
+      "se": 0.2796562700897256,
+      "n": 1024
+     },
+     "spikes": 4233.892578125,
+     "d_spikes": {
+      "mean": 1672.390625,
+      "se": 10.735621813266443,
+      "n": 1024
+     },
+     "n_end": 122.0,
+     "d_n_end": {
+      "mean": 66.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 300.66721541545405,
+     "d_path": {
+      "mean": 11.929135426771204,
+      "se": 0.5535240546237873,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 4.938602447509766,
+       "se": 0.10968426251058364,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": -0.0018024444580078125,
+       "se": 0.0017658071576286344,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.3200000000000003,
+       "se": 4.863511824253907e-16,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.00805361557006836,
+       "se": 5.512068248323093e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.014830109596252443,
+       "se": 6.024275801403588e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 0.002953787565231337,
+       "se": 7.470751196702782e-06,
+       "n": 1024
+      }
+     }
+    },
+    "router_grn": {
+     "F": {
+      "mean": 9.904405743662037,
+      "se": 0.09377780416881246,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.6542852764760643,
+      "se": 0.10660632422709404,
+      "n": 1024
+     },
+     "captures": 26.3330078125,
+     "d_captures": {
+      "mean": 4.1171875,
+      "se": 0.21586151862867128,
+      "n": 1024
+     },
+     "misses": 48.361328125,
+     "d_misses": {
+      "mean": 1.517578125,
+      "se": 0.20192761600653242,
+      "n": 1024
+     },
+     "clicks": 74.6943359375,
+     "d_clicks": {
+      "mean": 5.634765625,
+      "se": 0.2669293208285749,
+      "n": 1024
+     },
+     "spikes": 4555.8447265625,
+     "d_spikes": {
+      "mean": 1994.3427734375,
+      "se": 16.550711037012938,
+      "n": 1024
+     },
+     "n_end": 123.673828125,
+     "d_n_end": {
+      "mean": 67.673828125,
+      "se": 0.2627038949469388,
+      "n": 1024
+     },
+     "path": 273.52218882594434,
+     "d_path": {
+      "mean": -15.215891162738561,
+      "se": 0.5448228980573744,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 2.010345458984375,
+       "se": 0.10540113214290589,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": -0.014820098876953125,
+       "se": 0.001971949375063793,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.2576164762342783,
+       "se": 0.005011548049923841,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.00987504768371582,
+       "se": 8.454299934992336e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.015927557945251466,
+       "se": 9.4990404975665e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.05782100176811221,
+       "se": 0.00012148535542746733,
+       "n": 1024
+      }
+     }
+    }
+   }
+  },
+  "pool": {
+   "best_reflex": "reflex@hollow3 rt",
+   "reflex_F": {
+    "frozen": {
+     "mean": 4.710327217102051,
+     "se": 0.05902241028429977,
+     "n": 1024
+    },
+    "rt": {
+     "mean": 4.794033719778061,
+     "se": 0.06220752586026842,
+     "n": 1024
+    }
+   },
+   "rows": {
+    "reflex_frozen": {
+     "F": {
+      "mean": 4.710327217102051,
+      "se": 0.05902241028429977,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": -0.08370650267601018,
+      "se": 0.05844982485441886,
+      "n": 1024
+     },
+     "captures": 12.8046875,
+     "d_captures": {
+      "mean": -0.162109375,
+      "se": 0.11907500511503151,
+      "n": 1024
+     },
+     "misses": 41.3251953125,
+     "d_misses": {
+      "mean": 0.4169921875,
+      "se": 0.0907487606752285,
+      "n": 1024
+     },
+     "clicks": 54.1298828125,
+     "d_clicks": {
+      "mean": 0.2548828125,
+      "se": 0.12127292565516,
+      "n": 1024
+     },
+     "spikes": 2340.8974609375,
+     "d_spikes": {
+      "mean": 50.7099609375,
+      "se": 3.281747428082339,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 267.3718748025108,
+     "d_path": {
+      "mean": -2.6633803591788148,
+      "se": 0.23470953445276516,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": -0.07915496826171875,
+       "se": 0.05814209234132398,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": -0.0040721893310546875,
+       "se": 0.0008862183659690282,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.00028815078735351565,
+       "se": 1.9183040529200204e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -2.4164199829101543e-05,
+       "se": 7.937244192488974e-06,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.0001670300960540977,
+       "se": 5.033047682489128e-07,
+       "n": 1024
+      }
+     }
+    },
+    "reflex_rt": {
+     "F": {
+      "mean": 4.794033719778061,
+      "se": 0.06220752586026842,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "captures": 12.966796875,
+     "d_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "misses": 40.908203125,
+     "d_misses": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "clicks": 53.875,
+     "d_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "spikes": 2290.1875,
+     "d_spikes": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 270.0352551616896,
+     "d_path": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 1024
+      }
+     }
+    },
+    "c4_default": {
+     "F": {
+      "mean": 18.0099509863055,
+      "se": 0.1268403520384439,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 13.21591726652744,
+      "se": 0.12908883037672292,
+      "n": 1024
+     },
+     "captures": 40.0908203125,
+     "d_captures": {
+      "mean": 27.1240234375,
+      "se": 0.2664314833811996,
+      "n": 1024
+     },
+     "misses": 40.2275390625,
+     "d_misses": {
+      "mean": -0.6806640625,
+      "se": 0.2620007608794086,
+      "n": 1024
+     },
+     "clicks": 80.318359375,
+     "d_clicks": {
+      "mean": 26.443359375,
+      "se": 0.44480606539910783,
+      "n": 1024
+     },
+     "spikes": 9727.7900390625,
+     "d_spikes": {
+      "mean": 7437.6025390625,
+      "se": 16.52736159756237,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 703.2597314550479,
+     "d_path": {
+      "mean": 433.2244762933583,
+      "se": 1.3685797859771291,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 13.244152069091797,
+       "se": 0.13009349774472637,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.0066471099853515625,
+       "se": 0.0025586011804629746,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.9233746539892849e-16,
+       "se": 1.5744250730472453e-16,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.036634544929240405,
+       "se": 8.0944906728295e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019196624755859375,
+       "se": 9.823306683716971e-06,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.00016703009605327246,
+       "se": 5.033047682469073e-07,
+       "n": 1024
+      }
+     }
+    },
+    "c4_tuned": {
+     "F": {
+      "mean": 18.161179587980804,
+      "se": 0.13215316490182266,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 13.36714586820274,
+      "se": 0.13447000668651887,
+      "n": 1024
+     },
+     "captures": 40.0224609375,
+     "d_captures": {
+      "mean": 27.0556640625,
+      "se": 0.2763482566327052,
+      "n": 1024
+     },
+     "misses": 20.822265625,
+     "d_misses": {
+      "mean": -20.0859375,
+      "se": 0.21701377179045392,
+      "n": 1024
+     },
+     "clicks": 60.8447265625,
+     "d_clicks": {
+      "mean": 6.9697265625,
+      "se": 0.3916674890777522,
+      "n": 1024
+     },
+     "spikes": 10885.80078125,
+     "d_spikes": {
+      "mean": 8595.61328125,
+      "se": 17.975461416612795,
+      "n": 1024
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 699.1290653851956,
+     "d_path": {
+      "mean": 429.09381022350595,
+      "se": 1.4275876384697768,
+      "n": 1024
+     },
+     "zone_frac": 0.07422734145894429,
+     "mean_dist": 5.429518950735858,
+     "respawns": 20.4931640625,
+     "captures_per_zone_time": 0.5270650873876307,
+     "clicks_per_capture": 1.5202644999145987,
+     "dF_components": {
+      "income_captures": {
+       "mean": 13.210773468017578,
+       "se": 0.13493567218393807,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.1961517333984375,
+       "se": 0.0021192751151411513,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.9233746539892849e-16,
+       "se": 1.5744250730472453e-16,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.041562660554354446,
+       "se": 8.96083099486962e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": 0.001950357437133789,
+       "se": 9.608125255058355e-06,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.00016703009605325945,
+       "se": 5.03304768250294e-07,
+       "n": 1024
+      }
+     }
+    },
+    "s5": {
+     "F": {
+      "mean": 5.946350103275742,
+      "se": 0.07854490963388507,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 1.1523163834976813,
+      "se": 0.08378328900849882,
+      "n": 1024
+     },
+     "captures": 17.54296875,
+     "d_captures": {
+      "mean": 4.576171875,
+      "se": 0.17105746369305738,
+      "n": 1024
+     },
+     "misses": 16.76171875,
+     "d_misses": {
+      "mean": -24.146484375,
+      "se": 0.19450705094402415,
+      "n": 1024
+     },
+     "clicks": 34.3046875,
+     "d_clicks": {
+      "mean": -19.5703125,
+      "se": 0.24296471913273543,
+      "n": 1024
+     },
+     "spikes": 3829.9892578125,
+     "d_spikes": {
+      "mean": 1539.8017578125,
+      "se": 29.321481398508446,
+      "n": 1024
+     },
+     "n_end": 109.0830078125,
+     "d_n_end": {
+      "mean": 53.0830078125,
+      "se": 0.39469736264602806,
+      "n": 1024
+     },
+     "path": 185.8550732507637,
+     "d_path": {
+      "mean": -84.18018191092588,
+      "se": 0.6408836380223681,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 2.2344589233398438,
+       "se": 0.08352415219387567,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.23580551147460938,
+       "se": 0.001899482919375236,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -0.9468847932096224,
+       "se": 0.0074532082515846865,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.01650666046142578,
+       "se": 0.00022978245176656179,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.04126992416381836,
+       "se": 0.000371692758549744,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.3132866734819051,
+       "se": 0.001132048962689195,
+       "n": 1024
+      }
+     }
+    },
+    "s7": {
+     "F": {
+      "mean": 5.208938331911008,
+      "se": 0.06550537874359724,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.41490461213294716,
+      "se": 0.07532838308644837,
+      "n": 1024
+     },
+     "captures": 14.830078125,
+     "d_captures": {
+      "mean": 1.86328125,
+      "se": 0.1551951790664664,
+      "n": 1024
+     },
+     "misses": 15.9345703125,
+     "d_misses": {
+      "mean": -24.9736328125,
+      "se": 0.22984801644490904,
+      "n": 1024
+     },
+     "clicks": 30.7646484375,
+     "d_clicks": {
+      "mean": -23.1103515625,
+      "se": 0.2818391689867218,
+      "n": 1024
+     },
+     "spikes": 1283.0654296875,
+     "d_spikes": {
+      "mean": -1007.1220703125,
+      "se": 10.890654100694947,
+      "n": 1024
+     },
+     "n_end": 86.1083984375,
+     "d_n_end": {
+      "mean": 30.1083984375,
+      "se": 0.2932567452967128,
+      "n": 1024
+     },
+     "path": 103.39630545513836,
+     "d_path": {
+      "mean": -166.63894970655122,
+      "se": 0.721809242112289,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.9098052978515625,
+       "se": 0.07577889602854804,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.2438831329345703,
+       "se": 0.002244609535594815,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -0.5691783355375346,
+       "se": 0.005714380931647596,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0033911914825439453,
+       "se": 8.412809433587913e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.006713274002075196,
+       "se": 8.342775587549306e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.16628340059611976,
+       "se": 0.0005683492220459755,
+       "n": 1024
+      }
+     }
+    },
+    "router@ring4": {
+     "F": {
+      "mean": 7.6891182819604875,
+      "se": 0.08058754882239981,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 2.895084562182426,
+      "se": 0.08806357740130777,
+      "n": 1024
+     },
+     "captures": 21.6201171875,
+     "d_captures": {
+      "mean": 8.6533203125,
+      "se": 0.17953068673555744,
+      "n": 1024
+     },
+     "misses": 40.08203125,
+     "d_misses": {
+      "mean": -0.826171875,
+      "se": 0.11179767209029172,
+      "n": 1024
+     },
+     "clicks": 61.7021484375,
+     "d_clicks": {
+      "mean": 7.8271484375,
+      "se": 0.16827904075383132,
+      "n": 1024
+     },
+     "spikes": 3823.9765625,
+     "d_spikes": {
+      "mean": 1533.7890625,
+      "se": 9.344534465286056,
+      "n": 1024
+     },
+     "n_end": 122.0,
+     "d_n_end": {
+      "mean": 66.0,
+      "se": 0.0,
+      "n": 1024
+     },
+     "path": 271.51312803628616,
+     "d_path": {
+      "mean": 1.4778728745966188,
+      "se": 0.45104869044416845,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 4.225254058837891,
+       "se": 0.08766146813259641,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.008068084716796875,
+       "se": 0.001091774141506755,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.3200000000000003,
+       "se": 4.863511824253907e-16,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.007366073608398437,
+       "se": 4.7037439299218615e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.013557960510253908,
+       "se": 5.673652569434182e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": 0.0026864527463912567,
+       "se": 7.43304902782805e-06,
+       "n": 1024
+      }
+     }
+    },
+    "router_grn": {
+     "F": {
+      "mean": 5.80076691061608,
+      "se": 0.07736754409079688,
+      "n": 1024
+     },
+     "dF_vs_best_reflex": {
+      "mean": 1.006733190838018,
+      "se": 0.08772547166568653,
+      "n": 1024
+     },
+     "captures": 17.7548828125,
+     "d_captures": {
+      "mean": 4.7880859375,
+      "se": 0.17622235851580986,
+      "n": 1024
+     },
+     "misses": 40.0947265625,
+     "d_misses": {
+      "mean": -0.8134765625,
+      "se": 0.10329566519206575,
+      "n": 1024
+     },
+     "clicks": 57.849609375,
+     "d_clicks": {
+      "mean": 3.974609375,
+      "se": 0.17497834230224257,
+      "n": 1024
+     },
+     "spikes": 4114.1416015625,
+     "d_spikes": {
+      "mean": 1823.9541015625,
+      "se": 14.260323456914191,
+      "n": 1024
+     },
+     "n_end": 123.673828125,
+     "d_n_end": {
+      "mean": 67.673828125,
+      "se": 0.2627038949469388,
+      "n": 1024
+     },
+     "path": 248.91058475865893,
+     "d_path": {
+      "mean": -21.124670403030674,
+      "se": 0.47258224067022137,
+      "n": 1024
+     },
+     "dF_components": {
+      "income_captures": {
+       "mean": 2.337932586669922,
+       "se": 0.08604607349404779,
+       "n": 1024
+      },
+      "miss_cost": {
+       "mean": 0.007944107055664062,
+       "se": 0.001008746730391267,
+       "n": 1024
+      },
+      "live_cost": {
+       "mean": -1.2576164762342783,
+       "se": 0.005011548049923841,
+       "n": 1024
+      },
+      "spike_twitch_cost": {
+       "mean": -0.009071443557739258,
+       "se": 7.34516456836536e-05,
+       "n": 1024
+      },
+      "msg_receptor_cost": {
+       "mean": -0.014335567474365235,
+       "se": 8.239027776798456e-05,
+       "n": 1024
+      },
+      "other(div/sec)": {
+       "mean": -0.058120015621185295,
+       "se": 0.00012225350390153588,
+       "n": 1024
+      }
+     }
+    }
+   }
+  }
+ },
+ "ablations": {
+  "base": {
+   "reference": "reflex@hollow3 rt (same choice as the 1024-life run)",
+   "rows": {
+    "C0": {
+     "F": {
+      "mean": 9.36753839111328,
+      "se": 0.14296909212235223,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.1285941263834635,
+      "se": 0.11086663775056432,
+      "n": 384
+     },
+     "captures": 22.455729166666668,
+     "d_captures": {
+      "mean": 0.2604166666666667,
+      "se": 0.2269623343207395,
+      "n": 384
+     },
+     "misses": 46.9609375,
+     "d_misses": {
+      "mean": -0.0026041666666666665,
+      "se": 0.21364524933415446,
+      "n": 384
+     },
+     "clicks": 69.41666666666667,
+     "d_clicks": {
+      "mean": 0.2578125,
+      "se": 0.30689021156345964,
+      "n": 384
+     },
+     "spikes": 2746.7109375,
+     "d_spikes": {
+      "mean": 185.90104166666666,
+      "se": 7.164946802461994,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 289.2086710839806,
+     "d_path": {
+      "mean": 0.7030044577067279,
+      "se": 0.4497292597257461,
+      "n": 384
+     },
+     "zone_frac": 0.048504195177582275,
+     "mean_dist": 5.517149687511279,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4525558937755852,
+     "clicks_per_capture": 3.0912675402992,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.12715657552083334,
+       "se": 0.11082145230504858,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 2.5431315104166668e-05,
+       "se": 0.002086379388028852,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.00075079345703125,
+       "se": 3.919185426560395e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.002162913004557292,
+       "se": 1.2308664877660852e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 5.227300074276778e-16,
+       "se": 6.542863211961985e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4": {
+     "F": {
+      "mean": 22.28119853509051,
+      "se": 0.22109934036728804,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 13.042254270360699,
+      "se": 0.23422770430480758,
+      "n": 384
+     },
+     "captures": 49.03125,
+     "d_captures": {
+      "mean": 26.8359375,
+      "se": 0.48395901669650315,
+      "n": 384
+     },
+     "misses": 49.778645833333336,
+     "d_misses": {
+      "mean": 2.8151041666666665,
+      "se": 0.4901240745316953,
+      "n": 384
+     },
+     "clicks": 98.80989583333333,
+     "d_clicks": {
+      "mean": 29.651041666666668,
+      "se": 0.8306523982108464,
+      "n": 384
+     },
+     "spikes": 9840.533854166666,
+     "d_spikes": {
+      "mean": 7279.723958333333,
+      "se": 27.377099812214094,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 699.4105386398802,
+     "d_path": {
+      "mean": 410.9048720136063,
+      "se": 2.177717926815065,
+      "n": 384
+     },
+     "zone_frac": 0.09465878543499512,
+     "mean_dist": 5.044503291463385,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.5063331988705123,
+     "clicks_per_capture": 2.0152432547270025,
+     "dF_components": {
+      "income_captures": {
+       "mean": 13.103485107421875,
+       "se": 0.2363081136213394,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.027491251627604168,
+       "se": 0.004786367915348587,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.035721773340474036,
+       "se": 0.00013472984340641628,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019821879069010415,
+       "se": 1.8106637716259932e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 8.193677218197119e-16,
+       "se": 1.0243496991234779e-16,
+       "n": 384
+      }
+     }
+    },
+    "c4_both_reflexlike": {
+     "F": {
+      "mean": 9.36753839111328,
+      "se": 0.14296909212235223,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.1285941263834635,
+      "se": 0.11086663775056432,
+      "n": 384
+     },
+     "captures": 22.455729166666668,
+     "d_captures": {
+      "mean": 0.2604166666666667,
+      "se": 0.2269623343207395,
+      "n": 384
+     },
+     "misses": 46.9609375,
+     "d_misses": {
+      "mean": -0.0026041666666666665,
+      "se": 0.21364524933415446,
+      "n": 384
+     },
+     "clicks": 69.41666666666667,
+     "d_clicks": {
+      "mean": 0.2578125,
+      "se": 0.30689021156345964,
+      "n": 384
+     },
+     "spikes": 2746.7109375,
+     "d_spikes": {
+      "mean": 185.90104166666666,
+      "se": 7.164946802461994,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 289.2086710839806,
+     "d_path": {
+      "mean": 0.7030044577067279,
+      "se": 0.4497292597257461,
+      "n": 384
+     },
+     "zone_frac": 0.048504195177582275,
+     "mean_dist": 5.517149687511279,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4525558937755852,
+     "clicks_per_capture": 3.0912675402992,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.12715657552083334,
+       "se": 0.11082145230504858,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 2.5431315104166668e-05,
+       "se": 0.002086379388028852,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.00075079345703125,
+       "se": 3.919185426560395e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.002162913004557292,
+       "se": 1.2308664877660852e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 5.227300074276778e-16,
+       "se": 6.542863211961985e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_conservative": {
+     "F": {
+      "mean": 18.469655840555827,
+      "se": 0.18161173810488157,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 9.230711575826009,
+      "se": 0.2019624413266523,
+      "n": 384
+     },
+     "captures": 41.294270833333336,
+     "d_captures": {
+      "mean": 19.098958333333332,
+      "se": 0.4170655150167426,
+      "n": 384
+     },
+     "misses": 53.268229166666664,
+     "d_misses": {
+      "mean": 6.3046875,
+      "se": 0.5624326158900385,
+      "n": 384
+     },
+     "clicks": 94.5625,
+     "d_clicks": {
+      "mean": 25.403645833333332,
+      "se": 0.8007745639044924,
+      "n": 384
+     },
+     "spikes": 9134.526041666666,
+     "d_spikes": {
+      "mean": 6573.716145833333,
+      "se": 21.796928015280933,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 674.7801545094086,
+     "d_path": {
+      "mean": 386.27448788313467,
+      "se": 2.52643930236222,
+      "n": 384
+     },
+     "zone_frac": 0.08499307592049528,
+     "mean_dist": 4.889874096300892,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.47493111297472146,
+     "clicks_per_capture": 2.2899665762754617,
+     "dF_components": {
+      "income_captures": {
+       "mean": 9.325663248697916,
+       "se": 0.20364527100426885,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.0615692138671875,
+       "se": 0.005492506014551157,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03526317087809245,
+       "se": 0.00011814708491676552,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.001880711873372396,
+       "se": 1.7651518090874985e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 9.165122364744131e-16,
+       "se": 9.427986962653812e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_dead0.5": {
+     "F": {
+      "mean": 20.84030031831624,
+      "se": 0.22515707314790342,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 11.60135605358642,
+      "se": 0.23772392272558474,
+      "n": 384
+     },
+     "captures": 46.052083333333336,
+     "d_captures": {
+      "mean": 23.856770833333332,
+      "se": 0.49167018663528633,
+      "n": 384
+     },
+     "misses": 48.328125,
+     "d_misses": {
+      "mean": 1.3645833333333333,
+      "se": 0.5510971823739536,
+      "n": 384
+     },
+     "clicks": 94.38020833333333,
+     "d_clicks": {
+      "mean": 25.221354166666668,
+      "se": 0.8904065477507284,
+      "n": 384
+     },
+     "spikes": 9935.90625,
+     "d_spikes": {
+      "mean": 7375.096354166667,
+      "se": 29.349899400686112,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 699.6962963150562,
+     "d_path": {
+      "mean": 411.19062968878217,
+      "se": 2.458747714573346,
+      "n": 384
+     },
+     "zone_frac": 0.09356162430759205,
+     "mean_dist": 4.98659538480559,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.48114490939761656,
+     "clicks_per_capture": 2.049423207419136,
+     "dF_components": {
+      "income_captures": {
+       "mean": 11.648813883463541,
+       "se": 0.24007333331801095,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.013326009114583334,
+       "se": 0.00538180842162064,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03608508817790273,
+       "se": 0.00014430835095274915,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019532674153645833,
+       "se": 1.7999771049429662e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 7.01406525453289e-16,
+       "se": 9.645674868185214e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_latency1.0": {
+     "F": {
+      "mean": 21.43264425829858,
+      "se": 0.2125878423116208,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 12.193699993568766,
+      "se": 0.21994445862463752,
+      "n": 384
+     },
+     "captures": 47.388020833333336,
+     "d_captures": {
+      "mean": 25.192708333333332,
+      "se": 0.4552103498072295,
+      "n": 384
+     },
+     "misses": 54.786458333333336,
+     "d_misses": {
+      "mean": 7.822916666666667,
+      "se": 0.5396584311850823,
+      "n": 384
+     },
+     "clicks": 102.17447916666667,
+     "d_clicks": {
+      "mean": 33.015625,
+      "se": 0.8507851120327069,
+      "n": 384
+     },
+     "spikes": 9278.0,
+     "d_spikes": {
+      "mean": 6717.190104166667,
+      "se": 25.239092649602345,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 685.6770577932308,
+     "d_path": {
+      "mean": 397.17139116695694,
+      "se": 2.402167102869987,
+      "n": 384
+     },
+     "zone_frac": 0.09346998207885304,
+     "mean_dist": 4.924196884307004,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4955879949888338,
+     "clicks_per_capture": 2.1561246359289994,
+     "dF_components": {
+      "income_captures": {
+       "mean": 12.301127115885416,
+       "se": 0.22227067861681127,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.07639567057291667,
+       "se": 0.0052701018670418195,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03294744702368383,
+       "se": 0.0001265959733742281,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019159952799479168,
+       "se": 1.7777263962400832e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 9.234511303783204e-16,
+       "se": 1.003907325115218e-16,
+       "n": 384
+      }
+     }
+    },
+    "c4_latency1.5": {
+     "F": {
+      "mean": 19.942967143676764,
+      "se": 0.207801508506546,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 10.704022878946944,
+      "se": 0.22140702278245475,
+      "n": 384
+     },
+     "captures": 44.3984375,
+     "d_captures": {
+      "mean": 22.203125,
+      "se": 0.4586360380600499,
+      "n": 384
+     },
+     "misses": 58.114583333333336,
+     "d_misses": {
+      "mean": 11.151041666666666,
+      "se": 0.559826712468891,
+      "n": 384
+     },
+     "clicks": 102.51302083333333,
+     "d_clicks": {
+      "mean": 33.354166666666664,
+      "se": 0.8772809746846566,
+      "n": 384
+     },
+     "spikes": 8749.4609375,
+     "d_spikes": {
+      "mean": 6188.651041666667,
+      "se": 22.695787635127434,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 670.7006412308634,
+     "d_path": {
+      "mean": 382.1949746045895,
+      "se": 2.3743577796972213,
+      "n": 384
+     },
+     "zone_frac": 0.08819291707396545,
+     "mean_dist": 4.925608412812393,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4921056429499206,
+     "clicks_per_capture": 2.3089330752536807,
+     "dF_components": {
+      "income_captures": {
+       "mean": 10.84136962890625,
+       "se": 0.22394337795900873,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.10889689127604167,
+       "se": 0.005467057738954014,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.030336618123367454,
+       "se": 0.00011612259064137137,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0018867594401041667,
+       "se": 1.882705023646923e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 7.962380754733545e-16,
+       "se": 9.794298738721858e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_no_negative_evidence": {
+     "F": {
+      "mean": 14.770993469240524,
+      "se": 0.21463238328860795,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 5.532049204510709,
+      "se": 0.2177647168438813,
+      "n": 384
+     },
+     "captures": 34.755208333333336,
+     "d_captures": {
+      "mean": 12.559895833333334,
+      "se": 0.44373527013633474,
+      "n": 384
+     },
+     "misses": 107.515625,
+     "d_misses": {
+      "mean": 60.552083333333336,
+      "se": 0.41109436191025645,
+      "n": 384
+     },
+     "clicks": 142.27083333333334,
+     "d_clicks": {
+      "mean": 73.11197916666667,
+      "se": 0.5156268372058505,
+      "n": 384
+     },
+     "spikes": 4767.776041666667,
+     "d_spikes": {
+      "mean": 2206.9661458333335,
+      "se": 12.284119993014277,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 540.2936646313941,
+     "d_path": {
+      "mean": 251.78799800512022,
+      "se": 0.6962942130036174,
+      "n": 384
+     },
+     "zone_frac": 0.059353616813294235,
+     "mean_dist": 6.627236361179843,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.5723966375021444,
+     "clicks_per_capture": 4.093511164393826,
+     "dF_components": {
+      "income_captures": {
+       "mean": 6.132761637369792,
+       "se": 0.21666761237125726,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.5913289388020834,
+       "se": 0.004014593378029849,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.011705881752312616,
+       "se": 6.61982355774631e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0023223876953125003,
+       "se": 1.6475868595232958e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 8.656270145124267e-16,
+       "se": 7.650860232592583e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_no_steer": {
+     "F": {
+      "mean": -0.6103552398681642,
+      "se": 0.02646305358151732,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": -9.849299504597983,
+      "se": 0.13794761899083685,
+      "n": 384
+     },
+     "captures": 1.09375,
+     "d_captures": {
+      "mean": -21.1015625,
+      "se": 0.2828100056268595,
+      "n": 384
+     },
+     "misses": 1.5078125,
+     "d_misses": {
+      "mean": -45.455729166666664,
+      "se": 0.3300114000720284,
+      "n": 384
+     },
+     "clicks": 2.6015625,
+     "d_clicks": {
+      "mean": -66.55729166666667,
+      "se": 0.44395063881952107,
+      "n": 384
+     },
+     "spikes": 1652.5729166666667,
+     "d_spikes": {
+      "mean": -908.2369791666666,
+      "se": 10.924648030135941,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 0.0,
+     "d_path": {
+      "mean": -288.5056666262739,
+      "se": 0.6123771425638694,
+      "n": 384
+     },
+     "zone_frac": 0.003184567448680352,
+     "mean_dist": 5.092461180275671,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.33573141486810554,
+     "clicks_per_capture": 2.3785714285714286,
+     "dF_components": {
+      "income_captures": {
+       "mean": -10.303497314453125,
+       "se": 0.13809082305999,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.4439036051432292,
+       "se": 0.003222767578828402,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.008465423583984376,
+       "se": 5.323696710115076e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0018287811279296875,
+       "se": 2.1960430863802112e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -5.941427905220564e-17,
+       "se": 4.4876731233686195e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_steer_only_confident": {
+     "F": {
+      "mean": 10.843695916117333,
+      "se": 0.165924478964235,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 1.604751651387516,
+      "se": 0.1638604009365461,
+      "n": 384
+     },
+     "captures": 25.0,
+     "d_captures": {
+      "mean": 2.8046875,
+      "se": 0.33904703338324643,
+      "n": 384
+     },
+     "misses": 23.763020833333332,
+     "d_misses": {
+      "mean": -23.200520833333332,
+      "se": 0.46373283146485783,
+      "n": 384
+     },
+     "clicks": 48.763020833333336,
+     "d_clicks": {
+      "mean": -20.395833333333332,
+      "se": 0.6687364180260515,
+      "n": 384
+     },
+     "spikes": 1867.7864583333333,
+     "d_spikes": {
+      "mean": -693.0234375,
+      "se": 10.393701879684244,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 136.32122778998823,
+     "d_path": {
+      "mean": -152.1844388362857,
+      "se": 1.2065428538050273,
+      "n": 384
+     },
+     "zone_frac": 0.0470684669273379,
+     "mean_dist": 5.942086720735217,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.5191995673336939,
+     "clicks_per_capture": 1.9505208333333333,
+     "dF_components": {
+      "income_captures": {
+       "mean": 1.369476318359375,
+       "se": 0.16555030926916328,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.22656758626302084,
+       "se": 0.0045286409322740015,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.006171496968570552,
+       "se": 5.7508669562816865e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0025362497965494796,
+       "se": 1.547047155131241e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 6.667120559337528e-16,
+       "se": 6.499981933920099e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_steer_reflexlike": {
+     "F": {
+      "mean": 9.794149175008139,
+      "se": 0.1403828709354835,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.5552049102783203,
+      "se": 0.11952469706959636,
+      "n": 384
+     },
+     "captures": 23.015625,
+     "d_captures": {
+      "mean": 0.8203125,
+      "se": 0.24721855622201416,
+      "n": 384
+     },
+     "misses": 31.283854166666668,
+     "d_misses": {
+      "mean": -15.6796875,
+      "se": 0.5118642544421892,
+      "n": 384
+     },
+     "clicks": 54.299479166666664,
+     "d_clicks": {
+      "mean": -14.859375,
+      "se": 0.6212813998054619,
+      "n": 384
+     },
+     "spikes": 2729.4036458333335,
+     "d_spikes": {
+      "mean": 168.59375,
+      "se": 8.248453148115194,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 289.53972532062625,
+     "d_path": {
+      "mean": 1.0340586943523413,
+      "se": 0.49551845934172567,
+      "n": 384
+     },
+     "zone_frac": 0.04607822173346367,
+     "mean_dist": 5.513432916356086,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.488260317109552,
+     "clicks_per_capture": 2.359244172889794,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.400543212890625,
+       "se": 0.12071218565528037,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.1531219482421875,
+       "se": 0.004998674359787004,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.0006307474772135415,
+       "se": 4.5953757357233526e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.002170496622721354,
+       "se": 1.3868778422970517e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 6.077314577505414e-16,
+       "se": 6.281083701939463e-17,
+       "n": 384
+      }
+     }
+    },
+    "c4_tap_reflexlike": {
+     "F": {
+      "mean": 17.536504580243147,
+      "se": 0.18421842964022042,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 8.297560315513328,
+      "se": 0.19462776108822472,
+      "n": 384
+     },
+     "captures": 39.130208333333336,
+     "d_captures": {
+      "mean": 16.934895833333332,
+      "se": 0.3966701828717431,
+      "n": 384
+     },
+     "misses": 41.861979166666664,
+     "d_misses": {
+      "mean": -5.1015625,
+      "se": 0.31986043610675996,
+      "n": 384
+     },
+     "clicks": 80.9921875,
+     "d_clicks": {
+      "mean": 11.833333333333334,
+      "se": 0.43862401716107535,
+      "n": 384
+     },
+     "spikes": 7530.963541666667,
+     "d_spikes": {
+      "mean": 4970.153645833333,
+      "se": 42.06572813673804,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 551.4461450281209,
+     "d_path": {
+      "mean": 262.940478401847,
+      "se": 3.2127628708721474,
+      "n": 384
+     },
+     "zone_frac": 0.07443130905832519,
+     "mean_dist": 5.026890970043942,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.5139026642498034,
+     "clicks_per_capture": 2.0698123253028085,
+     "dF_components": {
+      "income_captures": {
+       "mean": 8.268992106119791,
+       "se": 0.19368661273034335,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.0498199462890625,
+       "se": 0.003123637071355078,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.02334583784767395,
+       "se": 0.00021584855667187457,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0020941009521484376,
+       "se": 1.632854226048138e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 8.193677218197119e-16,
+       "se": 9.473634541753089e-17,
+       "n": 384
+      }
+     }
+    },
+    "reflex_frozen": {
+     "F": {
+      "mean": 9.249498257954915,
+      "se": 0.14262872690330441,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.010553993225097693,
+      "se": 0.07668776651628799,
+      "n": 384
+     },
+     "captures": 22.216145833333332,
+     "d_captures": {
+      "mean": 0.020833333333333332,
+      "se": 0.1561892469647669,
+      "n": 384
+     },
+     "misses": 46.942708333333336,
+     "d_misses": {
+      "mean": -0.020833333333333332,
+      "se": 0.14906131563740216,
+      "n": 384
+     },
+     "clicks": 69.15885416666667,
+     "d_clicks": {
+      "mean": 0.0,
+      "se": 0.18107087649607426,
+      "n": 384
+     },
+     "spikes": 2526.0416666666665,
+     "d_spikes": {
+      "mean": -34.768229166666664,
+      "se": 3.7623621052822793,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 288.36735929600803,
+     "d_path": {
+      "mean": -0.13830733026588424,
+      "se": 0.3020387140830583,
+      "n": 384
+     },
+     "zone_frac": 0.04849655832518736,
+     "mean_dist": 5.526460205018068,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.44779801585218626,
+     "clicks_per_capture": 3.112999648341343,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.010172526041666666,
+       "se": 0.07626428074451509,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.00020345052083333334,
+       "se": 0.0014556769105215058,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.00014137776692708335,
+       "se": 2.1821714832783112e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 3.6638895670572896e-05,
+       "se": 8.030594504315606e-06,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -1.0986582014519778e-17,
+       "se": 5.594445416931474e-17,
+       "n": 384
+      }
+     }
+    },
+    "reflex_rt": {
+     "F": {
+      "mean": 9.238944264729817,
+      "se": 0.13768864916540638,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "captures": 22.1953125,
+     "d_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "misses": 46.963541666666664,
+     "d_misses": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "clicks": 69.15885416666667,
+     "d_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "spikes": 2560.8098958333335,
+     "d_spikes": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 288.5056666262739,
+     "d_path": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "zone_frac": 0.04839727924405344,
+     "mean_dist": 5.530967991617652,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.44829581317062905,
+     "clicks_per_capture": 3.1159216238413703,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      }
+     }
+    }
+   }
+  },
+  "pool": {
+   "reference": "reflex@hollow3 rt (same choice as the 1024-life run)",
+   "rows": {
+    "C0": {
+     "F": {
+      "mean": 4.70221413675944,
+      "se": 0.09534866297571293,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": -0.10348257223765067,
+      "se": 0.10085004496550107,
+      "n": 384
+     },
+     "captures": 12.791666666666666,
+     "d_captures": {
+      "mean": -0.203125,
+      "se": 0.20538861402313366,
+      "n": 384
+     },
+     "misses": 41.6171875,
+     "d_misses": {
+      "mean": 0.5,
+      "se": 0.15474965042963426,
+      "n": 384
+     },
+     "clicks": 54.408854166666664,
+     "d_clicks": {
+      "mean": 0.296875,
+      "se": 0.20425994271435577,
+      "n": 384
+     },
+     "spikes": 2561.609375,
+     "d_spikes": {
+      "mean": 275.5494791666667,
+      "se": 7.223709054395495,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 267.0489567675871,
+     "d_path": {
+      "mean": -2.710967742156454,
+      "se": 0.4049049259618418,
+      "n": 384
+     },
+     "zone_frac": 0.03263227028347996,
+     "mean_dist": 5.169372510821973,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.38318121538341526,
+     "clicks_per_capture": 4.253460912052117,
+     "dF_components": {
+      "income_captures": {
+       "mean": -0.09918212890625,
+       "se": 0.10028740919098324,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.0048828125,
+       "se": 0.001511227054976897,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.0011946004231770833,
+       "se": 3.861824877778382e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019434611002604168,
+       "se": 1.2601754981644976e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848388925,
+       "se": 8.330601570923655e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4": {
+     "F": {
+      "mean": 18.185964241449895,
+      "se": 0.2036247150507299,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 13.380267532452805,
+      "se": 0.209645470889767,
+      "n": 384
+     },
+     "captures": 40.450520833333336,
+     "d_captures": {
+      "mean": 27.455729166666668,
+      "se": 0.4322366741199349,
+      "n": 384
+     },
+     "misses": 40.192708333333336,
+     "d_misses": {
+      "mean": -0.9244791666666666,
+      "se": 0.4148470649565263,
+      "n": 384
+     },
+     "clicks": 80.64322916666667,
+     "d_clicks": {
+      "mean": 26.53125,
+      "se": 0.70168008023445,
+      "n": 384
+     },
+     "spikes": 9718.552083333334,
+     "d_spikes": {
+      "mean": 7432.4921875,
+      "se": 26.138391819876986,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 702.2633319384992,
+     "d_path": {
+      "mean": 432.50340742875574,
+      "se": 2.18989864721119,
+      "n": 384
+     },
+     "zone_frac": 0.0840715623981753,
+     "mean_dist": 5.379323736832011,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.47032640949554894,
+     "clicks_per_capture": 1.9936264726710873,
+     "dF_components": {
+      "income_captures": {
+       "mean": 13.406117757161459,
+       "se": 0.21105306353512449,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.009028116861979166,
+       "se": 0.004051240868716077,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03661538399769709,
+       "se": 0.0001281447520374612,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.001903533935546875,
+       "se": 1.5651813012644762e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.0001664915084830814,
+       "se": 8.330601570796833e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_both_reflexlike": {
+     "F": {
+      "mean": 4.70221413675944,
+      "se": 0.09534866297571293,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": -0.10348257223765067,
+      "se": 0.10085004496550107,
+      "n": 384
+     },
+     "captures": 12.791666666666666,
+     "d_captures": {
+      "mean": -0.203125,
+      "se": 0.20538861402313366,
+      "n": 384
+     },
+     "misses": 41.6171875,
+     "d_misses": {
+      "mean": 0.5,
+      "se": 0.15474965042963426,
+      "n": 384
+     },
+     "clicks": 54.408854166666664,
+     "d_clicks": {
+      "mean": 0.296875,
+      "se": 0.20425994271435577,
+      "n": 384
+     },
+     "spikes": 2561.609375,
+     "d_spikes": {
+      "mean": 275.5494791666667,
+      "se": 7.223709054395495,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 267.0489567675871,
+     "d_path": {
+      "mean": -2.710967742156454,
+      "se": 0.4049049259618418,
+      "n": 384
+     },
+     "zone_frac": 0.03263227028347996,
+     "mean_dist": 5.169372510821973,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.38318121538341526,
+     "clicks_per_capture": 4.253460912052117,
+     "dF_components": {
+      "income_captures": {
+       "mean": -0.09918212890625,
+       "se": 0.10028740919098324,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.0048828125,
+       "se": 0.001511227054976897,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.0011946004231770833,
+       "se": 3.861824877778382e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019434611002604168,
+       "se": 1.2601754981644976e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848388925,
+       "se": 8.330601570923655e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_conservative": {
+     "F": {
+      "mean": 14.392477701822918,
+      "se": 0.17511035392772042,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 9.586780992825826,
+      "se": 0.18473075333293143,
+      "n": 384
+     },
+     "captures": 32.71875,
+     "d_captures": {
+      "mean": 19.723958333333332,
+      "se": 0.381264219007247,
+      "n": 384
+     },
+     "misses": 42.197916666666664,
+     "d_misses": {
+      "mean": 1.0807291666666667,
+      "se": 0.44725994519627865,
+      "n": 384
+     },
+     "clicks": 74.91666666666667,
+     "d_clicks": {
+      "mean": 20.8046875,
+      "se": 0.6807408238544197,
+      "n": 384
+     },
+     "spikes": 8834.143229166666,
+     "d_spikes": {
+      "mean": 6548.083333333333,
+      "se": 19.695593511161068,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 686.0446076342711,
+     "d_path": {
+      "mean": 416.2846831245276,
+      "se": 2.4890338462357633,
+      "n": 384
+     },
+     "zone_frac": 0.07605286738351255,
+     "mean_dist": 5.23292431729822,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.420538224661936,
+     "clicks_per_capture": 2.2897166507481694,
+     "dF_components": {
+      "income_captures": {
+       "mean": 9.630839029947916,
+       "se": 0.18616416943713232,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.010553995768229166,
+       "se": 0.004367772902307409,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.035112213134765625,
+       "se": 0.0001066066211820589,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0017746632893880208,
+       "se": 1.6044942618873585e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848319473,
+       "se": 8.33060157091425e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_dead0.5": {
+     "F": {
+      "mean": 15.779721566234457,
+      "se": 0.18345062130324236,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 10.974024857237366,
+      "se": 0.18696383439692776,
+      "n": 384
+     },
+     "captures": 35.442708333333336,
+     "d_captures": {
+      "mean": 22.447916666666668,
+      "se": 0.3860864678324184,
+      "n": 384
+     },
+     "misses": 36.088541666666664,
+     "d_misses": {
+      "mean": -5.028645833333333,
+      "se": 0.4102808487975969,
+      "n": 384
+     },
+     "clicks": 71.53125,
+     "d_clicks": {
+      "mean": 17.419270833333332,
+      "se": 0.669405431861903,
+      "n": 384
+     },
+     "spikes": 9968.088541666666,
+     "d_spikes": {
+      "mean": 7682.028645833333,
+      "se": 27.028764822082422,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 714.6463925225729,
+     "d_path": {
+      "mean": 444.8864680128293,
+      "se": 2.453686203586681,
+      "n": 384
+     },
+     "zone_frac": 0.08367444607363962,
+     "mean_dist": 5.323950882430971,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.41405536963796774,
+     "clicks_per_capture": 2.018221895664952,
+     "dF_components": {
+      "income_captures": {
+       "mean": 10.960896809895834,
+       "se": 0.18851878312129805,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.049107869466145836,
+       "se": 0.004006648914039032,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.037665264413329784,
+       "se": 0.00013312574068298283,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.001851933797200521,
+       "se": 1.574712847485222e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848305132,
+       "se": 8.33060157086441e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_latency1.0": {
+     "F": {
+      "mean": 17.225495524913157,
+      "se": 0.19609069345538505,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 12.419798815916065,
+      "se": 0.208659951000757,
+      "n": 384
+     },
+     "captures": 38.5546875,
+     "d_captures": {
+      "mean": 25.559895833333332,
+      "se": 0.430640007313025,
+      "n": 384
+     },
+     "misses": 44.078125,
+     "d_misses": {
+      "mean": 2.9609375,
+      "se": 0.4368616664733119,
+      "n": 384
+     },
+     "clicks": 82.6328125,
+     "d_clicks": {
+      "mean": 28.520833333333332,
+      "se": 0.7255021057243749,
+      "n": 384
+     },
+     "spikes": 9060.598958333334,
+     "d_spikes": {
+      "mean": 6774.5390625,
+      "se": 23.376075575471408,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 692.4051647722496,
+     "d_path": {
+      "mean": 422.64524026250615,
+      "se": 2.2870428767698563,
+      "n": 384
+     },
+     "zone_frac": 0.08059934017595308,
+     "mean_dist": 5.373777837244069,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4675952245594088,
+     "clicks_per_capture": 2.143262411347518,
+     "dF_components": {
+      "income_captures": {
+       "mean": 12.480417887369791,
+       "se": 0.21027344107081297,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.0289154052734375,
+       "se": 0.004266227211653436,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.03339762795956588,
+       "se": 0.00011667869478761397,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0018604532877604168,
+       "se": 1.5974345863230962e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848320398,
+       "se": 8.330601570877982e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_latency1.5": {
+     "F": {
+      "mean": 16.42029773853292,
+      "se": 0.18881115073047072,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 11.614601029535828,
+      "se": 0.1964814069779751,
+      "n": 384
+     },
+     "captures": 36.973958333333336,
+     "d_captures": {
+      "mean": 23.979166666666668,
+      "se": 0.4058247283129021,
+      "n": 384
+     },
+     "misses": 47.794270833333336,
+     "d_misses": {
+      "mean": 6.677083333333333,
+      "se": 0.45482346203562735,
+      "n": 384
+     },
+     "clicks": 84.76822916666667,
+     "d_clicks": {
+      "mean": 30.65625,
+      "se": 0.7193031983945481,
+      "n": 384
+     },
+     "spikes": 8450.1640625,
+     "d_spikes": {
+      "mean": 6164.104166666667,
+      "se": 21.86596665299926,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 674.8077176389321,
+     "d_path": {
+      "mean": 405.0477931291886,
+      "se": 2.357116571124948,
+      "n": 384
+     },
+     "zone_frac": 0.07723912512218964,
+     "mean_dist": 5.299608142131371,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4679322391404654,
+     "clicks_per_capture": 2.2926468516692493,
+     "dF_components": {
+      "income_captures": {
+       "mean": 11.708577473958334,
+       "se": 0.19815660562153425,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.06520589192708333,
+       "se": 0.004441635371441674,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.030414384066361665,
+       "se": 0.00011092086394782545,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0018103230794270836,
+       "se": 1.6552063415418767e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848314153,
+       "se": 8.330601570948069e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_no_negative_evidence": {
+     "F": {
+      "mean": 11.941880506865,
+      "se": 0.20428389761525365,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 7.13618379786791,
+      "se": 0.19489182955228918,
+      "n": 384
+     },
+     "captures": 28.8671875,
+     "d_captures": {
+      "mean": 15.872395833333334,
+      "se": 0.39625321904444877,
+      "n": 384
+     },
+     "misses": 102.76041666666667,
+     "d_misses": {
+      "mean": 61.643229166666664,
+      "se": 0.3985747085234352,
+      "n": 384
+     },
+     "clicks": 131.62760416666666,
+     "d_clicks": {
+      "mean": 77.515625,
+      "se": 0.44954516476031386,
+      "n": 384
+     },
+     "spikes": 4872.533854166667,
+     "d_spikes": {
+      "mean": 2586.4739583333335,
+      "se": 11.44755993438154,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 567.2823976368969,
+     "d_path": {
+      "mean": 297.5224731271533,
+      "se": 0.6209676917374531,
+      "n": 384
+     },
+     "zone_frac": 0.04855256190941675,
+     "mean_dist": 6.835341555277502,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.5811880669008546,
+     "clicks_per_capture": 4.559765448804691,
+     "dF_components": {
+      "income_captures": {
+       "mean": 7.750193277994792,
+       "se": 0.19348301711154725,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.6019846598307291,
+       "se": 0.0038923311379241714,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.014000286388579844,
+       "se": 6.0289850762896734e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.002141957600911458,
+       "se": 1.4619240290210273e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848321208,
+       "se": 8.330601570825641e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_no_steer": {
+     "F": {
+      "mean": -0.6583941497802734,
+      "se": 0.025075494947813963,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": -5.464090858777364,
+      "se": 0.10036941025022043,
+      "n": 384
+     },
+     "captures": 0.9869791666666666,
+     "d_captures": {
+      "mean": -12.0078125,
+      "se": 0.20453970782053554,
+      "n": 384
+     },
+     "misses": 1.1223958333333333,
+     "d_misses": {
+      "mean": -39.994791666666664,
+      "se": 0.267450032943845,
+      "n": 384
+     },
+     "clicks": 2.109375,
+     "d_clicks": {
+      "mean": -52.002604166666664,
+      "se": 0.3047504895538833,
+      "n": 384
+     },
+     "spikes": 1596.1692708333333,
+     "d_spikes": {
+      "mean": -689.890625,
+      "se": 10.19626049159544,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 0.0,
+     "d_path": {
+      "mean": -269.7599245097435,
+      "se": 0.5565626438316736,
+      "n": 384
+     },
+     "zone_frac": 0.004831581948517433,
+     "mean_dist": 5.071646250724678,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.19968387776606955,
+     "clicks_per_capture": 2.137203166226913,
+     "dF_components": {
+      "income_captures": {
+       "mean": -5.863189697265625,
+       "se": 0.09987290420924588,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.3905741373697917,
+       "se": 0.0026118167279672363,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0071475626627604165,
+       "se": 4.7188750198620425e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0015436299641927085,
+       "se": 2.154290921526581e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848390822,
+       "se": 8.330601570911262e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_steer_only_confident": {
+     "F": {
+      "mean": 8.099920761278346,
+      "se": 0.14814825626909814,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 3.2942240522812547,
+      "se": 0.14842296581962963,
+      "n": 384
+     },
+     "captures": 19.25,
+     "d_captures": {
+      "mean": 6.255208333333333,
+      "se": 0.3063082148286807,
+      "n": 384
+     },
+     "misses": 17.40625,
+     "d_misses": {
+      "mean": -23.7109375,
+      "se": 0.3717303248179771,
+      "n": 384
+     },
+     "clicks": 36.65625,
+     "d_clicks": {
+      "mean": -17.455729166666668,
+      "se": 0.5511729878710507,
+      "n": 384
+     },
+     "spikes": 1581.203125,
+     "d_spikes": {
+      "mean": -704.8567708333334,
+      "se": 8.058668079610587,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 99.02130260643685,
+     "d_path": {
+      "mean": -170.73862190330667,
+      "se": 1.0461755836279736,
+      "n": 384
+     },
+     "zone_frac": 0.03789151596611274,
+     "mean_dist": 5.880946933388557,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.4966073228081962,
+     "clicks_per_capture": 1.9042207792207793,
+     "dF_components": {
+      "income_captures": {
+       "mean": 3.0543009440104165,
+       "se": 0.14956455802181678,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.2315521240234375,
+       "se": 0.0036301789533005574,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.006206309170598004,
+       "se": 4.5271514540912963e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.002331166585286458,
+       "se": 1.4331125381210626e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848346709,
+       "se": 8.330601570827259e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_steer_reflexlike": {
+     "F": {
+      "mean": 5.091063547770182,
+      "se": 0.10216245061638829,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.2853668387730915,
+      "se": 0.10553087944271633,
+      "n": 384
+     },
+     "captures": 13.182291666666666,
+     "d_captures": {
+      "mean": 0.1875,
+      "se": 0.2163256965921808,
+      "n": 384
+     },
+     "misses": 21.3515625,
+     "d_misses": {
+      "mean": -19.765625,
+      "se": 0.41486424434292407,
+      "n": 384
+     },
+     "clicks": 34.533854166666664,
+     "d_clicks": {
+      "mean": -19.578125,
+      "se": 0.47468881699406096,
+      "n": 384
+     },
+     "spikes": 2533.3776041666665,
+     "d_spikes": {
+      "mean": 247.31770833333334,
+      "se": 7.508053063214125,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 266.91705633563737,
+     "d_path": {
+      "mean": -2.8428681741061923,
+      "se": 0.4081254858185449,
+      "n": 384
+     },
+     "zone_frac": 0.030557592049527533,
+     "mean_dist": 5.231939744472283,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.42169276907697434,
+     "clicks_per_capture": 2.619715527459502,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.091552734375,
+       "se": 0.10562778153915077,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.193023681640625,
+       "se": 0.004051408636161368,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.0009990539550781248,
+       "se": 4.056909967820946e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0019559682210286457,
+       "se": 1.284217130401303e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848384236,
+       "se": 8.330601570880692e-07,
+       "n": 384
+      }
+     }
+    },
+    "c4_tap_reflexlike": {
+     "F": {
+      "mean": 12.277599992257782,
+      "se": 0.15533495021515226,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 7.471903283260693,
+      "se": 0.16080653861110591,
+      "n": 384
+     },
+     "captures": 28.255208333333332,
+     "d_captures": {
+      "mean": 15.260416666666666,
+      "se": 0.3273709120876273,
+      "n": 384
+     },
+     "misses": 36.911458333333336,
+     "d_misses": {
+      "mean": -4.205729166666667,
+      "se": 0.19272611200127018,
+      "n": 384
+     },
+     "clicks": 65.16666666666667,
+     "d_clicks": {
+      "mean": 11.0546875,
+      "se": 0.29837931147763713,
+      "n": 384
+     },
+     "spikes": 7018.190104166667,
+     "d_spikes": {
+      "mean": 4732.130208333333,
+      "se": 43.526724610766294,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 529.7176634225548,
+     "d_path": {
+      "mean": 259.9577389128112,
+      "se": 3.3746996589270206,
+      "n": 384
+     },
+     "zone_frac": 0.061955237862495925,
+     "mean_dist": 5.552749015238261,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.445804914126058,
+     "clicks_per_capture": 2.3063594470046085,
+     "dF_components": {
+      "income_captures": {
+       "mean": 7.451375325520833,
+       "se": 0.1598490781677868,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.041071573893229164,
+       "se": 0.001882090937512404,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": -6.649773324577761e-17,
+       "se": 2.6441057701938673e-16,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.0224804368193651,
+       "se": 0.0002209751422502319,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0021033121744791668,
+       "se": 1.4967011972445107e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.0001664915084830814,
+       "se": 8.330601570924021e-07,
+       "n": 384
+      }
+     }
+    },
+    "reflex_frozen": {
+     "F": {
+      "mean": 4.698695091247559,
+      "se": 0.09557807029927325,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": -0.1070016177495321,
+      "se": 0.09669845306599036,
+      "n": 384
+     },
+     "captures": 12.783854166666666,
+     "d_captures": {
+      "mean": -0.2109375,
+      "se": 0.19693435620936553,
+      "n": 384
+     },
+     "misses": 41.471354166666664,
+     "d_misses": {
+      "mean": 0.3541666666666667,
+      "se": 0.14933475318507838,
+      "n": 384
+     },
+     "clicks": 54.255208333333336,
+     "d_clicks": {
+      "mean": 0.14322916666666666,
+      "se": 0.1972656726854906,
+      "n": 384
+     },
+     "spikes": 2344.8802083333335,
+     "d_spikes": {
+      "mean": 58.8203125,
+      "se": 5.146472008028705,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 267.06308454683034,
+     "d_path": {
+      "mean": -2.6968399629132143,
+      "se": 0.3891568621405915,
+      "n": 384
+     },
+     "zone_frac": 0.033077753339850115,
+     "mean_dist": 5.122390428350252,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.37778974911497615,
+     "clicks_per_capture": 4.244041556325117,
+     "dF_components": {
+      "income_captures": {
+       "mean": -0.102996826171875,
+       "se": 0.09615935361785426,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": -0.0034586588541666665,
+       "se": 0.001458347199073031,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": -0.0003355204264322916,
+       "se": 3.0080473482454423e-05,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": -4.4120788574218726e-05,
+       "se": 1.2423034423753285e-05,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": -0.00016649150848395235,
+       "se": 8.330601570884174e-07,
+       "n": 384
+      }
+     }
+    },
+    "reflex_rt": {
+     "F": {
+      "mean": 4.805696708997091,
+      "se": 0.09846918852727365,
+      "n": 384
+     },
+     "dF_vs_best_reflex": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "captures": 12.994791666666666,
+     "d_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "misses": 41.1171875,
+     "d_misses": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "clicks": 54.111979166666664,
+     "d_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "spikes": 2286.0598958333335,
+     "d_spikes": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "n_end": 56.0,
+     "d_n_end": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "path": 269.7599245097435,
+     "d_path": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 384
+     },
+     "zone_frac": 0.0317463954056696,
+     "mean_dist": 5.377200219370164,
+     "respawns": 20.450520833333332,
+     "captures_per_zone_time": 0.40012829765054925,
+     "clicks_per_capture": 4.164128256513026,
+     "dF_components": {
+      "income_captures": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "miss_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "live_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "spike_twitch_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "msg_receptor_cost": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      },
+      "other(div/sec)": {
+       "mean": 0.0,
+       "se": 0.0,
+       "n": 384
+      }
+     }
+    }
+   }
+  }
+ },
+ "reflex_knobs_verify": {
+  "base": {
+   "knobs": {
+    "S.g_r": 1.0,
+    "S.tau_m": 4.0,
+    "S.t_ref": 0.5,
+    "S.b": 0.625,
+    "C.g_r": 1.0,
+    "C.tau_m": 4.0,
+    "C.b": 0.5,
+    "C.t_ref": 0.5,
+    "M.w0": 1.5,
+    "M.kappa": 1.0,
+    "M.t_ref": 0.5,
+    "K.w0": 1.5,
+    "K.kappa": 1.0,
+    "K.t_ref": 4.0,
+    "S.delta": 0.0,
+    "M.tau_m": 2.0,
+    "M.b": 0.25,
+    "K.tau_m": 2.0,
+    "K.b": 0.0
+   },
+   "hill_F": 9.505485855102538,
+   "frozen_hill_F": 9.406396842956543,
+   "sec": 419.68661761283875,
+   "source": "verify_headline job_tissue.py: tune_knobs n_rand 40 budget 100, screen block 410 x48, hill block 411 x128"
+  },
+  "pool": {
+   "knobs": {
+    "S.g_r": 0.875,
+    "S.tau_m": 2.0,
+    "S.t_ref": 0.5,
+    "S.b": 0.875,
+    "C.g_r": 1.0,
+    "C.tau_m": 4.0,
+    "C.b": 0.0,
+    "C.t_ref": 4.0,
+    "M.w0": 1.5,
+    "M.kappa": 1.0,
+    "M.t_ref": 0.5,
+    "K.w0": 1.5,
+    "K.kappa": 1.0,
+    "K.t_ref": 4.0,
+    "S.delta": 1.0,
+    "M.tau_m": 2.0,
+    "M.b": 0.25,
+    "K.tau_m": 2.0,
+    "K.b": 0.5
+   },
+   "hill_F": 5.041094024658202,
+   "frozen_hill_F": 4.808281005859374,
+   "sec": 596.3605272769928,
+   "source": "verify_headline job_tissue.py: tune_knobs n_rand 40 budget 100, screen block 410 x48, hill block 411 x128"
+  }
+ },
+ "c4_tuned": {
+  "base": {
+   "x": [
+    0.6,
+    2.0,
+    0.05,
+    0.1,
+    5.0,
+    2.0,
+    6.0,
+    50.0,
+    1.0,
+    0.0,
+    0.0,
+    0.5,
+    0.2,
+    7.0,
+    2.0,
+    1.073589343851939,
+    1.0,
+    0.4504254444317984,
+    0.0,
+    0.3987957204185139,
+    0.0
+   ],
+   "names": [
+    "sigma",
+    "lam_s",
+    "lam_bg",
+    "v_t",
+    "tau_eff",
+    "R_min",
+    "R_max",
+    "t_resp",
+    "rho_c",
+    "blink_on",
+    "blink_off",
+    "dt",
+    "h",
+    "W",
+    "blur_every",
+    "gain",
+    "kmax",
+    "min_align",
+    "tol",
+    "q_tap",
+    "steer_min"
+   ],
+   "F_tune": 23.20007074693953,
+   "F_default_tune": 22.360619922614312,
+   "sec": 405.90800642967224,
+   "how": "es_tune iters 5 popsize 8 lives_per_gen 48 on blocks 412-413 (128), mask gain kmax min_align tol q_tap steer_min, seed 7"
+  },
+  "pool": {
+   "x": [
+    0.4,
+    4.0,
+    0.05,
+    0.1,
+    5.0,
+    2.0,
+    6.0,
+    50.0,
+    1.0,
+    0.0,
+    0.0,
+    0.5,
+    0.2,
+    7.0,
+    2.0,
+    0.9262708888756097,
+    0.9594366793152596,
+    0.3394924334010119,
+    0.009990377805408263,
+    0.5509341426073182,
+    0.0
+   ],
+   "names": [
+    "sigma",
+    "lam_s",
+    "lam_bg",
+    "v_t",
+    "tau_eff",
+    "R_min",
+    "R_max",
+    "t_resp",
+    "rho_c",
+    "blink_on",
+    "blink_off",
+    "dt",
+    "h",
+    "W",
+    "blur_every",
+    "gain",
+    "kmax",
+    "min_align",
+    "tol",
+    "q_tap",
+    "steer_min"
+   ],
+   "F_tune": 18.407870649077907,
+   "F_default_tune": 18.504796822788038,
+   "sec": 379.85586977005005,
+   "how": "es_tune iters 5 popsize 8 lives_per_gen 48 on blocks 412-413 (128), mask gain kmax min_align tol q_tap steer_min, seed 7"
+  }
+ }
+}

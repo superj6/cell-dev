@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "tests_passed": 51,
+  "science_tests": 17,
+  "monitor_tests": 34,
+  "ruff": "passed",
+  "max_120_columns": "passed",
+  "dry_runs": "both exit0 with simulated_lives0",
+  "simulated_lives": 0,
+  "startup_goldens_executed": false,
+  "ready_json_created": false,
+  "budget_json_created": false,
+  "artifacts": {
+    "measure.py": {
+      "sha256": "de0066dc35e9fb96fea477e8eee59d076ccecd4fbcac0f17d1e6a50db4e28a69",
+      "bytes": 14146
+    },
+    "prepare.py": {
+      "sha256": "7531d82d76fad7d361bcdb8db2c1bf8b94fab528dc71c2e07fd7239f105cf916",
+      "bytes": 6198
+    },
+    "run_budgeted.py": {
+      "sha256": "d6d41825affb028d691669c6e1722cc04e979da0d5c47d787318c22d1fd37da6",
+      "bytes": 9536
+    },
+    "test_measure.py": {
+      "sha256": "fdbb430a158b7944db5fc9d4625ab000551bead1ed6e8ff1ccc16ce266fff355",
+      "bytes": 9294
+    },
+    "test_monitor.py": {
+      "sha256": "39bceaab8dc4d0691958ad89b02a53db0d9c828e91550bfad610c0d07ef0ae8d",
+      "bytes": 15986
+    },
+    "PREREG.md": {
+      "sha256": "e09a0ebc6362a41f4e4d21319e486727759c14f2041c7522e66ef7b874691392",
+      "bytes": 5230
+    },
+    "protocol.json": {
+      "sha256": "fd2727aa048c2e2915f67881ea2b9d92cbf21770356e210941149dc28d81bc6d",
+      "bytes": 21233
+    },
+    "genomes.json": {
+      "sha256": "49ebd3b8b3c8e8510febca2dc4cd6a1051578ceebde9c13d31f4efb07ccfa1d7",
+      "bytes": 68284
+    },
+    "genotypes.npy": {
+      "sha256": "e09cac0f7b2c40093576412bf2ba16ecf6910f0e78e57bd796ee64c595ea3d89",
+      "bytes": 28128
+    },
+    "seed_audit.json": {
+      "sha256": "e447e57c895c9b5ce07715c74af999792092d15dd23ae33ce84b54224824fa16",
+      "bytes": 19166
+    }
+  },
+  "independent_science_tests": 17,
+  "independent_monitor_tests": 34,
+  "public_copy_tests_passed": 51,
+  "all_reviewed_file_hashes_match_final_preparation": true
+}

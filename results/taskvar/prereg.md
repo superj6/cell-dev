@@ -673,3 +673,200 @@ L waits until both J (`outputs/autonomous_duplicate_use_20261014`) and K (`outpu
 complete with no active or queued work. Their outcomes do not change L. Dependency protocol/monitor hashes are fixed
 in the readiness template. Abnormal predecessors stop the queue for operational review. This preparation creates
 no readiness marker and launches nothing; root must finish review, register and release the concrete study first.
+
+### M. Whole-life interaction between a copied gene and its source lineage
+
+This amended study measures the fixed G51090 endpoint. Its four interventions are intact, delete its active
+copied-origin gene, delete the extant gene carrying that duplication's source origin, and delete both. All four
+prescribed roles share 512 new seeds at T1024 in fast POOL, for 2,048 research lives. There is no candidate
+selection, tuning, replacement endpoint, role deduplication or outcome-dependent extension.
+
+Before any release or M measurement, J's exactly zero observed copy-knockout effects motivated a source audit.
+G51089's copy is analytically disconnected in both relevant backgrounds, so its physical and fitness interaction
+is zero without simulation. G51090 retains a possible emit1 output; a bounded-state counterexample prevents a
+universal decoder-silence proof, without establishing reachability. AMENDMENT.md and analytical_proof/PROOF.md
+record this rationale. The original 4,096-life preparation is preserved under superseded_4096/ in the public
+archive. It is superseded and is not the current launch scope.
+
+The endpoint is G51090's final population rank 0 at generation 16. Completed G archive provenance, original
+founder, configuration, checkpoint and complete recorded genetic operations are verified before preparation.
+Genetic replay must reconstruct every retained population and origin registry exactly. The eligible copied
+gene is the unique active gene with innovation origin >=16. Its recorded source_origin_id is resolved against
+the final active origins, never its former slot number. The mapping and all four raw genomes and runtime-table
+hashes are frozen in genomes.json/genotypes.npy before any scoring.
+
+The fixed mapping is copy slot 9/origin 21 with source slot 0/origin 0. If it cannot be verified, preparation stops
+without substituting another gene. The extant source may have changed since duplication. J results motivated
+the documented pre-release audit; no J score or selection record enters the scientific runner or selects an arm.
+
+Each knockout uses existing Layout.delete from the untouched intact endpoint. The double knockout applies both
+deletions, and both deletion orders must give identical raw bytes. Packed runtime tables must equal a canonical
+copy of the intact genome with exactly the prescribed active bits cleared. Genes are removed from birth in every
+cell; development, shape, physiology and later computation may all change. Ordinary task accounting determines
+fitness, with no direct reward for deleting a gene.
+
+The proposed block 100 contains seeds 52,000,000 through 52,000,511. It is fixed only after the independently
+recorded namespace audit checks previous and prepared training, confirmation and validation seed registrations.
+All four roles use this same ordered list. Existing helper block-number guards are not changed; the new runner
+passes the explicit audited list to the existing RowStore. World parameters are catch_speck_l4, d0=.5,
+d_min=.25, sigma=.4 and lam_s=4, T1024, full-life accounting, no fork, and all existing prices unchanged.
+
+The primary paired vector is
+`F_intact - F_copyKO - F_sourceKO + F_doubleKO`.
+Mean and sample SE are calculated from these 512 within-seed contrasts, preserving covariance among all four
+arms. Both signs are retained. Descriptive flags are abs(mean)>3SE and abs(mean)>=0.5F;
+an exact zero is unresolved. There is no equivalence claim from a small or unresolved result and no extra lives.
+
+Secondary results retain each intact-minus-single/double-knockout loss, full ledger columns, income and costs,
+guard/extinction charges, capture/action counts, integrated cell-time and terminal sense/motor/hidden counts.
+Invalid capacity or accounting mismatches stop measurement as incomplete. Penalized guarded and extinct lives
+remain in the comparisons. Morphology and resource differences are described alongside the interactions.
+
+The interaction measures nonadditivity of these gene deletions in whole-life task fitness. Either sign can arise
+through development or nonlinear fitness, so sign alone is not a categorical redundancy or complementarity label.
+The study does not isolate an adult mechanism, establish expanded computation or a new algorithm, demonstrate
+that duplication was necessary for a function to evolve, or establish structural-search policy superiority.
+Uncertainty across fresh life seeds does not estimate variation across independent evolutionary searches.
+
+The cumulative cap is 1,800 CPU-seconds with two simulation threads, including measurement startup, all incomplete
+rows and the monitor's own CPU. The monitor counts its process tree and reaped children, stops at 1,788 seconds,
+sends TERM then KILL after at most two wall seconds, and independently applies a parent-computed remaining CPU
+limit and exact-parent-death binding. No reset or automatic restart is permitted. Success requires worker exit 0,
+a complete scientific report with exactly 2,048 research lives, unchanged release pins, and total CPU below cap.
+
+M waits for outputs/autonomous_s7_20261014 to finish with status complete and empty running/queued records;
+L's scientific outcome does not alter M. An abnormal predecessor blocks launch and leaves a failure receipt.
+Preparation performs pure genome operations and synthetic/mocked tests only. Numerical startup golden checks
+occur only after worker release; their lives are separate from research counts and their CPU is inside the cap.
+No organism channel, clock, behavior, ABI, selection world or price changes. No readiness marker or simulation
+is created by preparation. Root review, public registration and release precede launch.
+
+### N. Fixed information/reference comparison at two durations (2026-10-14)
+
+Prepared on 2026-10-14, before any N simulation or score. This document fixes a
+measurement of the retained external C4 controller and existing reflex bodies.
+It does not change an organism, an ABI, an evolutionary selection world, or any
+in-life rule. The external controller remains an instrument for measuring the
+value of sensory information.
+
+#### Question and fixed inputs
+
+Does the recovered default C4 controller's advantage over fixed reflex bodies
+remain at T=768 and T=1536 in the original headline base and POOL worlds?
+
+The original headline used **d0=0.5 and d_min=0.25**. Those values are retained in
+both worlds. POOL additionally has sigma=0.4 and lam_s=4; all other world values
+and prices are the original `catch_speck_l4` values. Consequently this is a
+duration transfer relative to those headline worlds, not relative to the old
+conduction settings of experiment F. Full world dictionaries are frozen in
+`protocol.json`.
+
+Every world/duration cell has exactly these six fixed candidates:
+
+1. Default C4, built-in controller id 5, with its exact recovered 21 parameters
+   and hollow3 footprint (56 cells). The retained separately tuned C4 parameters
+   are archived for provenance but are never used.
+2. Frozen hollow3 reflex (56 cells).
+3. The retained per-world retuned hollow3 reflex (56 cells).
+4. Frozen hollow2 reflex (32 cells).
+5. The same retained per-world retuned knobs transferred to hollow2 (32 cells).
+6. The retained per-world retuned hollow3 reflex with the existing `K.t_ref=8`
+   quieter setting.
+
+All parameters, exact program hashes and body cells are fixed before scoring.
+There is no retuning, body search, candidate replacement, winner follow-up, or
+new controller behavior. The original recovered C4 source and replay wrapper
+are copied byte-for-byte. Controller action costs, relay charges and delivery
+latency use the existing measurement harness; computation is free.
+
+#### Samples, counts and comparisons
+
+All six candidates receive the same ordered 512 seeds in both worlds for each
+duration. T=768 uses block 40, seeds **51,400,000–51,400,511**. T=1536 uses block
+41, seeds **51,410,000–51,410,511**. The prospective namespace audit found no
+overlap with retained earlier smoke/validation samples or the enumerated pilot,
+D/G and L training/validation seeds. Its source receipts are archived. Distinct
+duration blocks mean that duration changes are not paired across durations.
+
+Research count is **6 × 2 worlds × 2 durations × 512 = 12,288 candidate lives**.
+Every fixed comparison is retained, including negative effects. Primary
+comparisons are C4 minus frozen reflex and C4 minus retuned reflex, separately
+in each of the four world/duration cells. Means and SEs are calculated from
+within-seed differences; no life or candidate is selected away.
+
+All three smaller/quieter contrasts against the best whole frozen/retuned
+reference are also reported, along with all five C4-minus-reference contrasts.
+“Best” means greatest mean fitness over the whole 512-life candidate, never the
+best reference separately for each life. Exact mean ties use listed candidate
+order. The fixed comparisons carry the primary interpretation. Best-reference
+SEs reuse the scored sample and are descriptive, without selection correction.
+
+For continuity with the plan, report whether the C4 gap over the best whole
+frozen/retuned reference exceeds three SEs and reaches 1 F, and whether the best
+smaller/quieter gain is below one quarter of that gap. These are descriptive
+checks, not a world-admission decision. Also retain full income, poison/miss,
+cost, cell and event accounting for every contrast. This narrow measurement
+does not establish full G5 across capability worlds or what evolution can use.
+
+#### Bounded validation inside the same resource cap
+
+Before research scoring, run exactly **40 T=64 validation lives** at one worker,
+using seeds 51,099,000–51,099,003 (block 9, offset 9000). They are separate from
+the previous block-9 smoke seeds and all research samples. No validation seed
+or case is replaced if it fails.
+
+For each world, two seeds compare built-in C4 with its unchanged logged copy.
+Each copy's retained ping sequence is then replayed with real receptors disabled
+in the same life, another life, and the existing altered-world leak check;
+recorded actions must be byte-identical. Closed-loop controls on two different
+seeds must establish sensitivity to changed ping input. This accounts for 12
+controller lives per world. Two scratch reflex and two production reflex lives
+check world parity, and two null-controller and two inert-body lives check world
+stream parity, bringing the count to 20 per world and 40 total.
+
+The existing scratch harness uses historical diagnostics in ledger columns
+21/22; these columns and the combined all-state hash are excluded only from the
+documented scratch-versus-production identity check. Every other ledger column
+and component hash must match. Controller-copy checks compare every ledger
+column, all five hashes and the first 12 diagnostic columns. Replay retains
+every ping and action; an empty, truncated or oversized log fails validation.
+
+The research fast library and full validation library are built from unchanged
+pinned source. Generated C/library hashes are recorded before research rows.
+Full per-life validation arrays, logs and all research arrays are retained.
+
+#### Failure, resource and scheduling rules
+
+The total hard allocation is **3,600 CPU-seconds and at most two workers**,
+including compilation, validation, monitor work and research. The monitor stops
+at a 3,588-second threshold to leave termination room; it accounts for live
+compiler/worker descendants, binds worker lifetime to its exact parent process,
+and applies the remaining CPU limit before launch. No automatic retry, resource
+reset or cap extension is allowed. A failed or incomplete study remains so.
+
+The queue waits only for exact pinned L completion with no active or queued
+work. It can then share the four-worker allocation with another two-worker
+measurement. Readiness is a separate explicit release artifact. Preparation,
+pure mocks and dry runs create no readiness or scientific work.
+
+Guards, capacity failures, source/ABI/numerical mismatches or incomplete lives
+fail the entire affected candidate and study. No failed life is omitted from an
+otherwise scored candidate. Each 512-life row is validated and saved atomically;
+source and release pins are rechecked before each row and before completion.
+The final monitor requires all 12,288 research lives and all 40 validation lives,
+as well as successful process exit and unchanged pins. No outcome determines
+additional samples or a change of direction within this experiment.
+
+#### Reproducibility and checks before release
+
+`protocol.json` freezes worlds, candidates, seeds, source hashes, numerical
+identity and the L dependency. `input_sources.json` identifies recovered
+artifacts; `inputs/` and `sources/` retain their bytes. The release template
+additionally pins the scientific scripts, this preregistration and the pure
+science tests. The public preparation preserves the numerical source snapshot.
+
+The pure test suite covers the complete 24-row workflow, complete 40-life
+validation workflow, fixed sample/candidate mapping, retained negative effects,
+failure handling, exact-parent binding, cumulative CPU accounting, dependency
+and source checks, no restart, and final actual-count enforcement. These tests
+use synthetic arrays and mocked launch functions; they simulate no lives.

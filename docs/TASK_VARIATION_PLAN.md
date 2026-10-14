@@ -69,6 +69,14 @@ traces match full C ledgers bitwise; descriptive paths omit subthreshold integra
 algorithm. Evidence: `results/duplicate_use_20261014/` (4,096 lives, 1,197.683334 CPU-seconds) and
 `results/traces_20261014/` (12 reference plus 12 C validation lives, 786.219558 CPU-seconds).
 
+
+*2026-10-14 registered follow-ups:* M tests the G51090 copied gene in both intact and source-deleted backgrounds
+with 2,048 lives. A source proof resolves the G51089 physical/fitness interaction without simulation; the
+original 4,096-life preparation and the post-J amendment are preserved. N measures the unchanged default C4
+controller and five existing references at T768/T1536 in the original fast base/POOL worlds, using 12,288
+research lives plus 40 validation lives. These two-worker studies wait for L and have separate caps of 1,800
+and 3,600 CPU-seconds. They change no admission rule, organism behavior or selection world.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

@@ -106,8 +106,12 @@ lateral-hop shares among attributed receptor-origin chains; four descriptive see
 **Running and prepared studies.** L's two ordinary 16-generation continuations from fixed s7 row29 are running,
 using search seeds 51891/51892 and fresh block90 confirmation (36,012 research lives, cap 14,400 CPU-seconds,
 four simulation workers). They were released after J/K completion and do not depend on their scientific outcomes.
-Do not add simulation workers while both searches run. Additional gene-interaction (M), controller-duration (N)
-and structure-held regulation (O) studies are in preparation, with no readiness marker or launch yet.
+Do not exceed four simulation workers. M is prepared for the G51090 copy/source four-arm interaction
+(2,048 lives, 1,800 CPU-seconds); a source proof resolves G51089 without simulation. The original 4,096-life
+preparation is preserved with a dated amendment. N is prepared to measure the unchanged external controller
+and five fixed references at T768/T1536 in base and POOL (12,288 research plus 40 validation lives, 3,600
+CPU-seconds). Both wait for L and use two workers each. Structure-held regulation (O) remains in preparation.
+No M/N/O readiness marker or launch has occurred yet.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
 The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:
