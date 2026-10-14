@@ -9,6 +9,17 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
+*2026-10-14 objective clarification:* the user's ultimate goal is to advance the sophistication of generated
+algorithms we can make emerge, especially in more interesting environments. Organize future research around
+that objective. Candidate demands include retaining information when cues disappear, combining evidence over
+time or space, predicting useful actions, and changing behavior with context. These are candidate capabilities
+to reward through task performance, not prescribed implementations or confirmed achievements.
+Mechanism analysis and independent searches should help choose environments and establish what evolved; they
+are not gates requiring us to finish explaining or optimizing the current task first. Admit worlds by what sense
+information pays, never by whether we can hand-build a winning body. Local asynchronous organism rules and
+evolution-discovered behavior remain required. This clarification launches no study and changes no existing
+approval boundary; the completed batch stays closed.
+
 *2026-10-13 measurement update:* a separate bounded 64-mutant/32-life diagnostic now has fresh 512-life confirmation
 and lateral lesions in base-fast and POOL. Three of four parent/world comparisons clear +0.5 F and 3 SE, with extra
 capture income and increased lateral-spike dependence; the s7/POOL comparison does not. See

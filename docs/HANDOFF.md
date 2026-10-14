@@ -3,6 +3,11 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
+**Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
+make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.
+Use mechanism analysis and search replication to guide and measure that progress; they are not prerequisites
+that must be exhausted before exploring richer environments. The closed research batch remains closed.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with
@@ -174,7 +179,9 @@ Full animations are illustrations. No unanswered approval decision has been assu
 ## 1. What the project is
 
 - **Goal, in the user's words:** evolve "genetic codes" for how cells divide and change, so that the grown tissue runs
-  "some message passing algorithm that performs a task using the cells".
+  "some message passing algorithm that performs a task using the cells". The ultimate goal is to advance the
+  sophistication of those evolved algorithms, especially in more interesting environments. Higher scores on the
+  present task are useful evidence, but do not by themselves establish progress toward that goal.
 - **The model (BODY-1, ABI 3).**
   - Every cell runs the same genome: a 16-gene regulatory network (GRN) plus a leaky integrate-and-fire neuron.
   - The genome grows one zygote into a layered body on a hex-prism lattice:

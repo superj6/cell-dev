@@ -2104,8 +2104,9 @@ project-wide multiple-testing guarantee. Different genotypes keep different bodi
 gene and phenotype computation as well as growth. H lacks a combined hidden-plus-lateral arm, so its two lesions
 cannot establish independent pathway contributions.
 
-My direction recommendation is to consolidate ordinary-search repeatability and explain the evolved message
-and regulatory mechanisms before expanding task or genome complexity. The base/POOL information payoff already
+At wrap-up I recommended consolidating ordinary-search repeatability and explaining the evolved message
+and regulatory mechanisms before expanding task or genome complexity. The user's subsequent objective
+clarification below supersedes that sequencing recommendation. The base/POOL information payoff already
 justifies that work. The held scoring-allocation design addresses a concrete uncertainty, but the noisy-selection
 audit does not prejudge its answer. ABI 4, task-family rollout, population-responsive worlds and rented compute
 remain separate decisions; no unanswered approval has been inferred. No further experiments are being added
@@ -2132,3 +2133,20 @@ during this wrap-up.
   Future cost estimates should use developed founders and reserve confirmation CPU before allocating search.
   This allocation failure provides no evidence for or against an evolutionary plateau. Q/R's absent results
   must not be treated as null biological effects. The full review above is the final evidence inventory.
+
+## 2026-10-14 — Objective clarified: more sophisticated algorithms in richer environments
+
+The user clarified: "my ultimate goal is to advance the sophistication of generated algorithms we are able to
+make emerge, especially in more interesting environments".
+
+This corrects the emphasis of my earlier consolidation recommendation. Future research should prioritize
+conditions that reward richer evolved computation. Mechanism studies and independent search replicates support
+that goal by helping choose the next challenge and verify the capability that emerged; they are not prerequisites
+to exploring richer environments. Better fitness on the current task alone does not demonstrate increased
+algorithmic sophistication, and larger genomes or bodies do not establish it either.
+
+Candidate capabilities include retaining information after cues disappear, combining distributed or temporally
+separated evidence, prediction, and context-dependent behavior. The task should reward successful behavior while
+evolution discovers its implementation. World admission remains based on information payoff, without a
+hand-built-body gate. Local asynchronous rules, existing approval boundaries and the closed-batch status are
+unchanged. No experiment was prepared, released or restarted for this clarification.
