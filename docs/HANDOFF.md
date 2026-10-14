@@ -129,12 +129,19 @@ decision. C4 is an external instrument with free computation, not an evolved org
 40 validation lives completed in 1,385.715510 of 3,600 CPU-seconds. Full replay/parity evidence and independent
 reanalysis are in `results/information_duration_20261014/`; capability-world G5 remains pending.
 
-**Running and prepared studies.** O's three-arm structure-held regulation study is running with two workers
-(4,608 research lives, 3,600 CPU-seconds) after M/N completion. Do not exceed four simulation workers.
-P is released and waiting for O: another ordinary 16-generation step from each fixed D endpoint,
-37,548 research lives under a 14,400 CPU-second cap, at most four workers. Q is independently reviewed and
-released and waiting for P: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives
-under a 3,600 CPU-second cap, two workers after P.
+**Regulation study completed (2026-10-14).** With cell composition held fixed, the five-input gene-network
+mask removes **+2.849 ± 0.175** and **+2.940 ± 0.176 F** more from D51089/D51090 than row38. All 4,608 lives
+completed in 2,283.250535 of 3,600 CPU-seconds, with constant tissue and no guards/invalids. Own input losses
+are 10.326/13.175/13.265 F; own full-freeze losses are only 0.111/0.290/0.604 F. Static contact information is
+also masked, so this establishes specified input dependence, not learning or use of changing evidence.
+`results/regulation_20261014/` contains the raw audit. The separate completed-data trace reanalysis in
+`results/trace_hidden_20261014/` suggests inhibitory hidden-to-act feedback but does not establish its fitness role.
+
+**Running and prepared studies.** P is running after O: another ordinary 16-generation step from each fixed D
+endpoint, 37,548 research lives under a 14,400 CPU-second cap, at most four simulation workers. Q is released and
+waiting for P: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives
+under a 3,600 CPU-second cap, two workers. R is in pure preparation: separate continued effective-weight updates
+from other phenotype updates using existing combined clamps. No R readiness or simulations yet.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
 The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:

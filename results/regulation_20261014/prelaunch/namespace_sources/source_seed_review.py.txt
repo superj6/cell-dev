@@ -1,0 +1,92 @@
+"""Read completed genetic records and pure seed schedules; never simulate or inspect active outcomes."""
+import hashlib
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+G = ROOT / 'results/structural_20261013'
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+read = lambda p: json.loads(p.read_text())
+provenance = read(G / 'provenance.json')
+assert provenance['status'] == 'complete'
+pairs = {}
+for seed in (51089, 51090):
+    paths = {name: G / f'runs/s{seed}/{name}' for name in ('lineage.jsonl', 'population.json', 'best_genome.json')}
+    for p in paths.values():
+        assert sha(p) == provenance['artifacts'][str(p.relative_to(G))]['sha256']
+    lines = [json.loads(line) for line in paths['lineage.jsonl'].read_text().splitlines()]
+    saved = read(paths['population.json'])
+    initial = np.where(np.asarray(read(G / 'inputs/founder_row38.json')['params']['act']) > .5, np.arange(16), -1)
+    origins = {i: initial.copy() for i in range(32)}
+    innovation, events = 16, {}
+    for line in lines[1:]:
+        candidates = {i: row.copy() for i, row in origins.items()}
+        for child in line['children']:
+            bits = np.array([(child['mask'] >> i) & 1 for i in range(16)], dtype=bool)
+            row = np.where(bits, origins[child['pa']], origins[child['pb']]).copy()
+            if 'dup' in child['ops']:
+                source, destination = child['ops']['dup']
+                assert row[source] >= 0 and row[destination] < 0
+                events[innovation] = {'origin_id': innovation, 'generation': line['gen'], 'child_id': child['id'],
+                                      'source_slot_at_birth': source, 'source_origin_id': int(row[source]),
+                                      'copy_slot_at_birth': destination}
+                row[destination] = innovation
+                innovation += 1
+            if 'del' in child['ops']:
+                row[child['ops']['del']] = -1
+            candidates[child['id']] = row
+        origins = {i: candidates[i] for i in line['survivors']}
+    matrix = np.stack(list(origins.values()))
+    assert list(origins) == saved['ids'] and np.array_equal(matrix, np.asarray(saved['origins']))
+    final = matrix[0]
+    assert np.array_equal(final >= 0, np.asarray(saved['genomes'][0]['act']) > .5)
+    pair_rows = []
+    for slot in np.flatnonzero(final >= 16):
+        event = events[int(final[slot])]
+        source = np.flatnonzero(final == event['source_origin_id']).tolist()
+        assert len(source) == 1
+        pair_rows.append({**event, 'final_copy_slot': int(slot), 'final_source_slot': source[0]})
+    assert len(pair_rows) == 1
+    pairs[str(seed)] = {'pairs': pair_rows, 'final_rank_zero_id': saved['ids'][0],
+                        'final_origins': final.tolist(), 'origin_replay_exact': True,
+                        'source_sha256': {name: sha(p) for name, p in paths.items()}}
+
+helper = ROOT / 'outputs/autonomous_s7_20261014/sources/D_prepare.py'
+spec = importlib.util.spec_from_file_location('m_audit_seed_helper', helper)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+pilot = module.pilot_life_seeds()
+continuation = set().union(*(set(module.run_life_seeds(s)) for s in (51089, 51090, 51891, 51892)))
+blocks = {'M_block100': set(range(52_000_000, 52_000_512)),
+          'O_block101': set(range(52_010_000, 52_010_512)),
+          'N_T768_block40': set(range(51_400_000, 51_400_512)),
+          'N_T1536_block41': set(range(51_410_000, 51_410_512))}
+for seeds in blocks.values():
+    assert not seeds & pilot and not seeds & continuation
+for label, seeds in blocks.items():
+    assert not seeds & set().union(*(other for key, other in blocks.items() if key != label))
+seed_receipt = {'status': 'passed', 'pure_hashed_pilot_seeds_checked': len(pilot),
+                'pure_hashed_D_G_L_seeds_checked': len(continuation), 'helper_sha256': sha(helper),
+                'ranges': {name: {'first': min(seeds), 'last': max(seeds), 'count': len(seeds),
+                                  'pilot_overlap': 0, 'D_G_L_overlap': 0} for name, seeds in blocks.items()},
+                'registered_decimal_ranges_reviewed': ['30..31.35M', '39..39.1M', '40.1..40.8M', '42.0..42.2M',
+                  '43M+10K*(0..49,100..179,200..239,300..419)', '49M', '45.05M JS', '46M E6',
+                  '51M blocks0..12 validation/G2', '51M block20 prediction', '51M block30 discrimination',
+                  '51M blocks80..99 studies/viewers'],
+                'N_reservation': 'Blocks40/41 are already reserved for G5 and no earlier smoke allocation names them.',
+                'M_reservation': 'Block100 extends the decimal namespace beyond previous0..99; no prior registration found.',
+                'validation_excluded_from_N_scoring': True,
+                'scope': 'Declared historical ranges, raw genetic origin replay, current prospective production seed lists and targeted namespace source/config search; no active science outcomes read.',
+                'simulated_lives': 0}
+out = {'status': 'passed', 'source_pairs': pairs, 'seed_audit': seed_receipt, 'simulated_lives': 0,
+       'candidate_seeds': list(range(52_000_000, 52_000_512)),
+       'candidate_101': {'seeds': list(range(52_010_000, 52_010_512)), 'pilot_overlap': 0, 'D_G_L_overlap': 0}}
+Path(__file__).with_name('source_seed_review.json').write_text(json.dumps(out, indent=2) + '\n')
+(ROOT / 'outputs/prospective_g5_20261014/namespace_audit.json').write_text(json.dumps(seed_receipt, indent=2) + '\n')
+print(json.dumps({key: value for key, value in out.items()
+                  if key not in ('candidate_seeds', 'candidate_101')}, indent=2))

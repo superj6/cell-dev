@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "pure_tests": {
+    "scientific_preparation_and_monitor": 49,
+    "independent_completion_contract": 4,
+    "offline_analysis": 39,
+    "total": 92
+  },
+  "simulated_lives": 0,
+  "scientific_or_monitor_source_edits": false,
+  "analysis_preparation_only": true,
+  "files": {
+    "measure.py": "762d193495febf24e1cad7210634d6fc85e596ea79c39763d2b85d0232ef317e",
+    "run_budgeted.py": "527b8424345ec3bf031436095306c99c972564fb0e701f6967314ec927d9e80d",
+    "prepare.py": "2c969016854f32b67799d9c7cc345798b0079ad2c4434b2b073903d5f7bd6934",
+    "prepare_archive.py": "1064f394918917b54e4844fbf873d228f711c716563217cb2b27733ebd6c1c63",
+    "protocol.json": "f9fd8bad33153c5b92c94e71443a99fb36d36f2954fa4ea6a2e59a81cf92ac06",
+    "ready.template.json": "c4b936989d32fbff6d00be9f596e9e5da33e214684f9314e9fb0ca0796e95bb9",
+    "PREREG.md": "3b4ad7ec4268522d4cd0fc699f32e7c36be1561da8df10ea1ec69ee898f0cf20",
+    "README.md": "7d001df2dfb1b9fa3793fa1efda982732a5b0cbe080de46156196fce8d37d2cd",
+    "seed_review.json": "e447e57c895c9b5ce07715c74af999792092d15dd23ae33ce84b54224824fa16",
+    "test_measure.py": "8b55a22702ea916c6bd9144001ffd064ec533e30c5650a79f30de4b50b50e2cd",
+    "test_monitor.py": "0c29ca8ae482dcf0b6334810f64af06ae288c1b75621836c8e3a419c7921be39",
+    "test_monitor_review.py": "1ac4d6caf1680ee1cd0cc3c703f42b8f7c45fe7e82e2dd3e418e2be778189f61",
+    "analyze.py": "953240e90da51db703d80c2fafad42d97cc99ac232df048895a6c1666fa1a170",
+    "test_analysis.py": "6667c8b5895a13369a625f753a26e772120075e6b08fc6a56ae147a0dfb98f1c"
+  },
+  "release_files_present": [],
+  "checks": [
+    "Exact final M protocol c489f9e5 and monitor 840523f2, final N protocol 43453144 and monitor b78819a5 match readiness template",
+    "All three exact fixed H genotypes bind to D generation 16 rank0 genome and checkpoint hashes",
+    "All three worlds match D fast POOL world and prices except existing flags 12/44/16 and fork 768/open 800",
+    "C/reference semantics mask only GRN inputs 18 through 22; genes, morphogens, plane cues and ordinary neural receptor/spike activity remain",
+    "Every scored arm requires zero births/deaths and lastbirth before 800; complete within-genotype triplets require equal total/per-plane counts and constant cell-time",
+    "Both fixed endpoints and all 16 within-seed contrasts retained, with guard/extinction penalties and no invalid-life censoring",
+    "Complete scientific workflow mock records all nine arms and 4608 lives, including every scored column",
+    "Exact 4608 completion contract independently rejects missing count, 4607, 4609 and 2048",
+    "Full latest M-derived monitor safeguards retained with two exact M/N dependencies and cap 3600/stop 3588",
+    "Offline analyzer refuses outcome reads before terminal completion and reconstructs every contrast cost/penalty piece with paired covariance",
+    "Public preparation writer includes exact sources, H/D provenance, namespace receipt, tests and non-releasing template"
+  ],
+  "limitations": [
+    "Static contact information is masked too; effects alone do not establish adaptation, memory or changing-evidence use",
+    "Different genotypes retain different tissue and prior state; full freeze also changes phenotype/effective-weight updating",
+    "All tests used synthetic rows or fake processes; O scientific outcomes remain unobserved"
+  ]
+}

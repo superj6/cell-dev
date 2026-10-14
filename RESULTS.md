@@ -1953,3 +1953,37 @@ They are measurement tools only. A replay test shows the controller reads nothin
   bytes are now committed; scientific manifests, measurements and conclusions are unchanged.
 - The same check caught and repaired 24 namespace-audit inputs in Q's preparation before Q was released.
   Future archive checks must verify Git-index coverage in addition to local file hashes and sizes.
+
+## 2026-10-14 — Fixed-tissue descendants depend more on local gene-network inputs
+
+- **Design:** O fixes row38 and both D generation-16 rank-zero descendants, crossing each with structure held,
+  structure held plus `genes_blind`, and full freeze. All nine arms share 512 fresh block101 seeds, fast POOL,
+  T1536, fork at 768 and accounting over 800..1536. The mask zeros gene-network inputs 18–22: own and incoming spike
+  traces, contact fraction and receptor trace. Neural receptors, spikes, morphogens and plane cues remain.
+- **Primary result:** added input dependence over row38 is **+2.849 ± 0.175 F** for D51089 and
+  **+2.940 ± 0.176 F** for D51090, both beyond 3 SE. Their structure-held gains over row38 are
+  +0.851 ± 0.174 and +1.094 ± 0.173 F; with masked inputs those contrasts become −1.998 ± 0.037 and
+  −1.845 ± 0.040 F. All descendants and effect signs are retained.
+- **Own losses:** masking costs row38 +10.326 ± 0.135 F, D51089 +13.175 ± 0.155 and D51090 +13.265 ± 0.146.
+  Full freeze costs much less relative to structure held: +0.111 ± 0.144, +0.290 ± 0.165 and +0.604 ± 0.180 F.
+  Added structure-minus-freeze effects over row38 remain unresolved at 3 SE: +0.179 ± 0.219 and +0.493 ± 0.230.
+- **Interpretation:** successful fixed tissues depend on the specified local gene-network inputs. This does not
+  establish memory, learning or use of changing evidence: the mask also removes static contact information.
+  Full freeze stops gene, phenotype and effective-weight updates together. Different genotypes retain different
+  bodies and pre-fork states; this is not a matched-footprint information-share measurement.
+- **Validation and resources:** all 4,608 research lives completed in 2,283.250535 of 3,600 CPU-seconds. All 1,536
+  three-arm tissue checks pass; no guards, extinction, invalid status or post-open births/deaths occurred.
+  Independent offline analysis checks the full raw ledgers and every paired contrast; root separately reproduced
+  all 16 means and SEs directly from the nine raw rows. Evidence is in `results/regulation_20261014/`.
+
+## 2026-10-14 — Saved traces suggest inhibitory hidden-to-act feedback
+
+- An exploratory reanalysis of K's twelve completed traces finds predominantly negative hidden-to-act membrane
+  inputs and positive act-to-hidden inputs. After t800, D51090 has 536–968 nonrefractory hidden-to-act arrivals
+  per saved life, 95.7–100% negative. Row38 also has negative hidden-to-act inputs, with 119–362 arrivals.
+- These are four descriptive lives per genotype, with different bodies and states. Events are not independent
+  replicates. The signs are consistent with inhibitory feedback but do not explain H's causal hidden-message
+  effect: these traces are normal growing lives, while H froze tissue. No new algorithm or memory claim follows.
+- `results/trace_hidden_20261014/` publishes all 48 full-life/post800 descriptions and a portable NumPy-only
+  analyzer. It reproduces the earlier independently reviewed rows exactly; a second review checks raw input
+  hashes, mask semantics, zeros and public reanalysis. No new lives were simulated.

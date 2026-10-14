@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "descriptive_rows_exactly_reproduced": 48,
+  "trace_files_verified": 12,
+  "artifact_hashes_and_sizes_verified": 8,
+  "saved_README_and_summary_bytes_exactly_reproduced": true,
+  "source_sha256": {
+    "results/trace_hidden_20261014/analyze.py": "2431df30816d54258d43fa98c99abd03b9d06d2a1edf688c07af33948d2d2164",
+    "results/trace_hidden_20261014/README.md": "81bdb636f941f207731594b7b6f9b557a86bc9ba289c3b0814310f743e4aec5e",
+    "results/trace_hidden_20261014/summary.json": "5587abc2ecdd2fa80f0885fcf4a30f6892cd203dbdaeef6a6260510c61bdda7e",
+    "results/trace_hidden_20261014/provenance.json": "7c2b714f2e5f260e5d9fc872bad2115232eb4e68b679630b3ffb88c92b7d61bd",
+    "src/life/probe.py": "5480bb58d5ece0164650f04adc11f15493e3971e8f81f9733496f91df04e6087"
+  },
+  "source_archive_provenance_sha256": "6ab3b6a5d4f5f0db561cf5ca37a191a8f824065720583de7e63a6de74e7106ed",
+  "checks": [
+    "Pinned completed K provenance, report and every trace NPZ hash/size bind all12 fixed genotype/seed lives.",
+    "Independent reexecution exactly reproduces published summary/README and all48 previously reviewed descriptive rows.",
+    "Probe.membrane records delivered w_eff dot mask contribution and receptor refractory state; cells are indexed by cid and arrivals by membrane-step index.",
+    "Actual12 trace arrays have integral valid indices, boolean refractory fields and finite arrival times within0..1536.",
+    "Synthetic direct check verifies t800 boundary, refractory exclusion, both directional plane masks, zero retention and signed fractions.",
+    "No event-level uncertainty is claimed; four lives per genotype remain separate. README distinguishes normal growing K traces from frozen H causal lesions."
+  ],
+  "interpretation": "Predominantly negative hidden-to-act and positive act-to-hidden inputs are consistent with inhibitory feedback, also present in the founder; these descriptions do not identify a causal fitness mechanism, memory or algorithm.",
+  "blockers": []
+}
