@@ -94,6 +94,7 @@ def confirm_endpoints():
         raise ValueError("confirmation numerical identity differs from the original measurement")
     paths = [ROOT / protocol["pilot_file"], ROOT / protocol["founder_file"]]
     checkpoint_hashes = {}
+    search_health = {}
     for seed in protocol["runs"]:
         folder = STUDY / f"runs/s{seed}"
         cfg = OmegaConf.load(ROOT / protocol["configs"][str(seed)]["path"])
@@ -102,6 +103,15 @@ def confirm_endpoints():
         checkpoint.validate(saved, cfg, identity)
         if saved["state"]["generation"] != protocol["generations"]:
             raise ValueError("refuse endpoint measurement of an incomplete continuation")
+        curves = saved["state"]["curves"]
+        if [row["gen"] for row in curves] != list(range(protocol["generations"])):
+            raise ValueError("checkpoint lacks the complete ordered search history")
+        search_health[str(seed)] = {
+            key: max(float(row[key]) for row in curves)
+            for key in ("pop_invalid", "pop_mismatch", "recheck_invalid")}
+        save(STUDY / "search_health.json", search_health)
+        if any(value != 0 for value in search_health[str(seed)].values()):
+            raise ValueError("invalid or mismatched search lives require investigation before endpoint inference")
         selected = folder / "best_genome.json"
         _, genome = Layout.load(selected)
         if genome.numpy().tobytes() != saved["state"]["population"][0].numpy().tobytes():
@@ -119,7 +129,8 @@ def confirm_endpoints():
     manifest = {"format": 1, "labels": labels, "seeds": seeds, "seed_block": 91,
                 "genotype_sha256": {label: hashlib.sha256(genome.tobytes()).hexdigest()
                                     for label, genome in zip(labels, genomes)},
-                "checkpoint_sha256": checkpoint_hashes, "protocol_sha256": sha(STUDY / "protocol.json"),
+                "checkpoint_sha256": checkpoint_hashes, "search_health": search_health,
+                "protocol_sha256": sha(STUDY / "protocol.json"),
                 "numerical_identity": identity, "ready": ready,
                 "worlds": {name: asdict(world) for name, world in worlds.items()},
                 "selection": "Exactly final population rank0 from each completed16-generation run; no reselection"}
