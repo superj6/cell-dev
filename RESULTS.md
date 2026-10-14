@@ -2226,3 +2226,26 @@ The s7 initial-generation evaluation includes three guards with production penal
 do not recover every recheck guard count. All processes/groups exited. Full artifacts and independent reanalysis
 are in `results/decoy_evolution_20261014/`, including the prospective preparation, raw outcomes and figure.
 This is further adaptation from two fixed founders, mostly economy, without a new algorithm claim.
+
+## 2026-10-14 — Moving-target information pays chiefly through additional captures
+
+V completed all seven fixed candidates on 512 shared fresh T1024 lives in the existing fast persistent-target
+world. The unchanged external controller beats the better whole reflex at its 56-cell footprint by
+**+17.168891 ± 0.217671 F**; versus the frozen whole reflex it gains +17.258915 ± 0.218154. Broad motion-model
+ablation loses **12.958032 ± 0.224547 F**. The best of the fixed smaller/quieter references gains only
++0.341977 ± 0.077174 over the better whole reflex. All comparisons use paired life-seed SE; best-reference
+selection remains descriptive and conditional on this fixed set.
+
+The full controller gains 34.486328 ± 0.446245 captures while making 4.816406 ± 0.554675 fewer clicks per life
+than the better whole reflex. Capture income accounts for +16.839027 F, fewer misses +0.383816, and other costs
+−0.053952. The broad ablation loses 26.033203 ± 0.461465 captures. These results establish substantial useful
+information in this world. They do not isolate prediction: the ablation removes filtering, tracking,
+propagation, tapping and steering together. Prediction-specific admission remains incomplete. The controller
+is an external instrument with free central computation, not an evolved algorithm or a proven performance ceiling.
+
+All **3,584 research lives** finished on the first attempt in **320.819621 of 3,600 CPU-seconds**, including
+11.558131 calibration seconds. Readiness followed verified U process clearance; every V process/group has
+now exited. Independent analysis reconciles all 57 ledger columns, source/library identity, seeds, checkpoint
+coverage and CPU accounting; 47 synthetic analyzer tests pass. The earlier 12 exact action replays and bounded
+T64 production parity remain the validation scope. `results/prediction_information_20261014/` preserves raw
+rows, independent contrasts, complete terminal evidence and prospective preparation. No large run was launched.

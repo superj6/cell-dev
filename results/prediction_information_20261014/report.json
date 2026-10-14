@@ -1,0 +1,321 @@
+{
+  "status": "complete",
+  "admission": {
+    "world": "prediction",
+    "T": 1024,
+    "n": 512,
+    "missing": [
+      "ablation isolating the named capability"
+    ],
+    "verdict": "incomplete",
+    "checks": {
+      "information_gap": true,
+      "do_less": true
+    },
+    "best_reflex": "retuned",
+    "information_controller": "full",
+    "information_gap": {
+      "mean": 17.168891409625235,
+      "se": 0.2176712510657922,
+      "n": 512
+    },
+    "best_do_less": "smaller_tuned",
+    "do_less_gap": {
+      "mean": 0.3419769172668453,
+      "se": 0.07717390422428998,
+      "n": 512
+    },
+    "capability_controller": "full",
+    "ablation": "ablated",
+    "ablation_gap": {
+      "mean": 12.958032083302843,
+      "se": 0.2245472959345204,
+      "n": 512
+    }
+  },
+  "candidate_lives": 3584,
+  "full_vs_reflex": {
+    "F": {
+      "mean": 17.168891409625235,
+      "se": 0.2176712510657922,
+      "n": 512
+    },
+    "captures": {
+      "mean": 34.486328125,
+      "se": 0.4462446600618611,
+      "n": 512
+    },
+    "clicks": {
+      "mean": -4.81640625,
+      "se": 0.554674660615646,
+      "n": 512
+    },
+    "b2_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "misses": {
+      "mean": -39.302734375,
+      "se": 0.31094326152035917,
+      "n": 512
+    },
+    "spikes": {
+      "mean": 11718.2578125,
+      "se": 37.51994689084995,
+      "n": 512
+    },
+    "path": {
+      "mean": 570.9812016637022,
+      "se": 1.52200199539521,
+      "n": 512
+    },
+    "zone_samples": {
+      "mean": 98.666015625,
+      "se": 1.3442567604036482,
+      "n": 512
+    },
+    "samples": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "fitness_pieces": {
+      "capture_income": {
+        "mean": 16.839027404785156,
+        "se": 0.21789290042083062,
+        "n": 512
+      },
+      "poison_cost_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "miss_cost_saving": {
+        "mean": 0.3838157653808594,
+        "se": 0.0030365552882847583,
+        "n": 512
+      },
+      "other_cost_saving": {
+        "mean": -0.05395176054078196,
+        "se": 0.00019648150072203315,
+        "n": 512
+      }
+    }
+  },
+  "full_vs_frozen_reflex": {
+    "F": {
+      "mean": 17.258915249575793,
+      "se": 0.21815437498549237,
+      "n": 512
+    },
+    "captures": {
+      "mean": 34.66796875,
+      "se": 0.4471757951621608,
+      "n": 512
+    },
+    "clicks": {
+      "mean": -4.783203125,
+      "se": 0.554351364129212,
+      "n": 512
+    },
+    "b2_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "misses": {
+      "mean": -39.451171875,
+      "se": 0.3126881729007882,
+      "n": 512
+    },
+    "spikes": {
+      "mean": 11738.947265625,
+      "se": 37.31535272615311,
+      "n": 512
+    },
+    "path": {
+      "mean": 571.3872542077752,
+      "se": 1.507231390172001,
+      "n": 512
+    },
+    "zone_samples": {
+      "mean": 99.25390625,
+      "se": 1.3318266981651996,
+      "n": 512
+    },
+    "samples": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "fitness_pieces": {
+      "capture_income": {
+        "mean": 16.927719116210938,
+        "se": 0.21834755623152385,
+        "n": 512
+      },
+      "poison_cost_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "miss_cost_saving": {
+        "mean": 0.3852653503417969,
+        "se": 0.00305359543848426,
+        "n": 512
+      },
+      "other_cost_saving": {
+        "mean": -0.05406921697693919,
+        "se": 0.00019441941423346888,
+        "n": 512
+      }
+    }
+  },
+  "full_vs_retuned_reflex": {
+    "F": {
+      "mean": 17.168891409625235,
+      "se": 0.2176712510657922,
+      "n": 512
+    },
+    "captures": {
+      "mean": 34.486328125,
+      "se": 0.4462446600618611,
+      "n": 512
+    },
+    "clicks": {
+      "mean": -4.81640625,
+      "se": 0.554674660615646,
+      "n": 512
+    },
+    "b2_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "misses": {
+      "mean": -39.302734375,
+      "se": 0.31094326152035917,
+      "n": 512
+    },
+    "spikes": {
+      "mean": 11718.2578125,
+      "se": 37.51994689084995,
+      "n": 512
+    },
+    "path": {
+      "mean": 570.9812016637022,
+      "se": 1.52200199539521,
+      "n": 512
+    },
+    "zone_samples": {
+      "mean": 98.666015625,
+      "se": 1.3442567604036482,
+      "n": 512
+    },
+    "samples": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "fitness_pieces": {
+      "capture_income": {
+        "mean": 16.839027404785156,
+        "se": 0.21789290042083062,
+        "n": 512
+      },
+      "poison_cost_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "miss_cost_saving": {
+        "mean": 0.3838157653808594,
+        "se": 0.0030365552882847583,
+        "n": 512
+      },
+      "other_cost_saving": {
+        "mean": -0.05395176054078196,
+        "se": 0.00019648150072203315,
+        "n": 512
+      }
+    }
+  },
+  "full_vs_ablated": {
+    "F": {
+      "mean": 12.958032083302843,
+      "se": 0.2245472959345204,
+      "n": 512
+    },
+    "captures": {
+      "mean": 26.033203125,
+      "se": 0.46146464888147154,
+      "n": 512
+    },
+    "clicks": {
+      "mean": 1.30078125,
+      "se": 0.7013364801538668,
+      "n": 512
+    },
+    "b2_clicks": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "misses": {
+      "mean": -24.732421875,
+      "se": 0.4596218268556831,
+      "n": 512
+    },
+    "spikes": {
+      "mean": -1179.69140625,
+      "se": 40.38043024093537,
+      "n": 512
+    },
+    "path": {
+      "mean": -64.01633129061398,
+      "se": 2.2806512854698693,
+      "n": 512
+    },
+    "zone_samples": {
+      "mean": 61.630859375,
+      "se": 1.439252782034783,
+      "n": 512
+    },
+    "samples": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 512
+    },
+    "fitness_pieces": {
+      "capture_income": {
+        "mean": 12.711524963378906,
+        "se": 0.22532453558665605,
+        "n": 512
+      },
+      "poison_cost_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "miss_cost_saving": {
+        "mean": 0.24152755737304688,
+        "se": 0.00448849440288753,
+        "n": 512
+      },
+      "other_cost_saving": {
+        "mean": 0.004979562550889904,
+        "se": 0.00019337666760596708,
+        "n": 512
+      }
+    }
+  },
+  "limitations": [
+    "Broad moving-target-model ablation; prediction-specific admission remains incomplete.",
+    "Best reflex is selected on these same fresh lives; its SE is conditional/descriptive, not selection-adjusted. Both fixed-reflex comparisons are also reported.",
+    "Parameters transferred from ring4; only three do-less candidates were tested.",
+    "Controller computation is free; footprint, sensing, virtual relay and actions pay.",
+    "This evidence never admits a world to selection automatically.",
+    "Replay/parity evidence is bounded to the registered T64 validation lives."
+  ]
+}

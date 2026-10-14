@@ -11,8 +11,8 @@ that must be exhausted before exploring richer environments. The closed research
 **Autonomous work resumed (2026-10-14).** At the user's request, new bounded studies now prioritize richer
 existing ABI 3 environments. U completed: two four-generation ordinary searches from the fixed
 I decoy winners, then four-condition fresh confirmation, under 7,200 CPU-seconds with half reserved for
-confirmation. See `results/decoy_evolution_20261014/`. V is independently reviewed and prepared for an unchanged external moving-target
-information measurement; it is now running after U process clearance. Neither restarts the closed
+confirmation. See `results/decoy_evolution_20261014/`. V also completed its unchanged external moving-target
+information measurement after U process clearance. Neither restarts the closed
 P/Q/R batch or releases held S. No ABI change, new organism behavior, paid compute or population-responsive
 world is authorized by these registrations.
 
@@ -20,6 +20,13 @@ world is authorized by these registrations.
 endpoint makes 1.373 ± 0.315 fewer harmful clicks and has a +1.080 ± 0.177 width-swap interaction; changed
 signal geometry prevents a classifier claim. Added frozen lateral dependence is unresolved in both.
 All 16,460 research lives completed in 2,919.475449 CPU-seconds with independent raw and genetic replay.
+
+**V result:** at the same 56-cell footprint, the external moving-target controller gains +17.169 ± 0.218 F
+over the better whole reflex; broad motion-model ablation loses 12.958 ± 0.225 F. Extra captures explain most
+of the gain. All 3,584 research lives completed in 320.819621 CPU-seconds, including calibration; all processes
+exited. Full independent raw analysis is in `results/prediction_information_20261014/`. This establishes a large
+information payoff with free central computation, not evolved prediction or local attainability. The ablation
+does not isolate prediction; prediction-specific admission remains incomplete.
 
 **Limited ABI 4 port approved (2026-10-14).** The user approved flash and irregular renewal blink, the low-light
 capture readout, and C/Python/JS compatibility tests. The exact scope is `docs/ABI4_VISIBILITY_PROPOSAL.md`.

@@ -26,6 +26,14 @@ trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal change
 not prove discrimination. Neither adds resolved frozen lateral dependence. All 16,460 research lives complete
 within 2,919.475449 CPU-seconds; evidence is in `results/decoy_evolution_20261014/`.
 
+*2026-10-14 V completed:* in the existing fast persistent-target world, the unchanged external controller
+beats the better whole reflex at the same footprint by +17.169 ± 0.218 F, mostly from additional captures.
+Broad motion-model ablation loses 12.958 ± 0.225 F. The best fixed do-less gain is +0.342 ± 0.077 F.
+All 3,584 research lives completed in 320.819621 CPU-seconds, including calibration, with full independent
+raw reconciliation. `results/prediction_information_20261014/` preserves the evidence. This supports the
+environment's information payoff; the broad ablation cannot establish prediction-specific admission or an
+evolved algorithm. Both U and V processes have exited.
+
 *2026-10-14 limited ABI 4 approval:* the user approved flash and irregular renewal blink in C/Python/JS,
 with the low-light capture readout and compatibility tests. `docs/ABI4_VISIBILITY_PROPOSAL.md` is the scoped
 contract. Motor flip and the large task-family selection matrix remain separate decisions. The port starts
