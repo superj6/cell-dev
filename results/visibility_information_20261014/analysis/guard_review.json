@@ -1,0 +1,154 @@
+{
+  "status": "source_and_synthetic_review_passed_not_release",
+  "simulated_lives": 0,
+  "compiled_libraries": 0,
+  "protocol_sha256": "14ed106bd6664c3ad4888c46c990beef3fbb8a7b93989da0e0c0bd625cfcbfa5",
+  "reviewed_files": {
+    "outputs/autonomous_visibility_information_20261014/common.py": "8ea0f3d77a3e916855f3307bae963c9fcfe29c5863093e4a499e2db2fad7974d",
+    "outputs/autonomous_visibility_information_20261014/frozen.py": "484d8df08990ee6ad1cbdb29f744b5b2adcc2d1ea622d0a1dda45dd0924d2124",
+    "outputs/autonomous_visibility_information_20261014/raw.py": "496363744019cd13b4fda8366b72f50c2b1d36ef6c35f378ac32e61fec530a8f",
+    "outputs/autonomous_visibility_information_20261014/measure.py": "f4aea79e598709847459e12f26b6900bb481877f80eb83e02365c7e362f2c86f",
+    "outputs/autonomous_visibility_information_20261014/production_snapshot.py": "435b7156d45db95b68e5f79fd18b1b8ffa8a36a60572356a9f9e7213c4fa7a5b",
+    "outputs/autonomous_visibility_information_20261014/production_run.py": "34ade61cda3b0da888a82f7f2e95d802b8f86264bae5c43b469154a3ee5fbd99",
+    "outputs/autonomous_visibility_information_20261014/prepare.py": "bb684746f9a32759a812a783cf2abb27a94c74d10bc8977e6a2e2e0a4c5a578d",
+    "outputs/autonomous_visibility_information_20261014/numerical.py": "56c561252e1f7cd81512705cc2676611cbeca857ae2c9004b201082762e3e5fd",
+    "outputs/autonomous_visibility_information_20261014/validate.py": "915ece294a82794fb6368cff4168f68abe162b3beed15cc74c7d2ab3e89e844a",
+    "outputs/autonomous_visibility_information_20261014/test_prepared.py": "0dd47fe10b64b156f21a2e8333e77eb4fc0de37fb0613ae60f10148889ae93aa",
+    "outputs/autonomous_visibility_information_20261014/monitor.py": "80e838aa719f31d34b7ee7acb7de56c3fb6e80d30c22dfa134b53169b6f9f316",
+    "outputs/autonomous_visibility_information_20261014/PREREG.md": "d58d8e6847b45100037d94aff72727778ce5a83b6d35c0be03cb6c09e92f846d",
+    "outputs/autonomous_visibility_information_20261014/README.md": "d5390cceb699be677621270944c9d3eae4f7a7475f42cdcf2435d5f55f9346b9",
+    "outputs/autonomous_visibility_information_20261014/protocol.json": "14ed106bd6664c3ad4888c46c990beef3fbb8a7b93989da0e0c0bd625cfcbfa5",
+    "outputs/autonomous_visibility_information_20261014/bundle.json": "5e5a907c4441a9c044bd09fa64dda91205aedaeff8ca23d707b68ec14406e2b4"
+  },
+  "all_study_pins_verified": 67,
+  "all_production_pins_verified": 28,
+  "candidate_reconstruction": {
+    "candidate_count": 26,
+    "body_and_program_bytes_reconstructed": true,
+    "controller_source_sha256": "35e41256f9fcb84f2192531615c1002e5132a510ec3070ccb6127f696ad25816",
+    "full_parameter_bytes_sha256": {
+      "flash5_dim25": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+      "blink20": "7a971009e5bc301995b7a1a6c790afa5bcb81f18cff80dd1a9ee8958a72bdc35"
+    }
+  },
+  "raw_boundary": {
+    "scratch_abi_sizes": [
+      3,
+      875,
+      129,
+      66,
+      57,
+      5,
+      23,
+      1024,
+      7,
+      18
+    ],
+    "world_float64_shape": [
+      "n",
+      66
+    ],
+    "ledger_float64_shape": [
+      "n",
+      57
+    ],
+    "hashes_uint64_shape": [
+      "n",
+      5
+    ],
+    "initial_cells_int32_shape": [
+      "n",
+      1024,
+      4
+    ],
+    "controller_float64_shape": [
+      "n",
+      30
+    ],
+    "threads_per_call": 1,
+    "ctypes_dispatch_matches_pinned_C_signatures": true,
+    "all_loaded_scratch_src_modules_frozen_and_hashed": true,
+    "implicit_harness_and_build_loaders_disabled": true,
+    "production_separate_process_and_full_loaded_src_module_closure_pinned": true,
+    "production_module_pins": {
+      "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "src/lattice.py": "d2019da35fa78882c81b2c4e7e1913a3d314590b4fcffd4c3702a61b4622be5d",
+      "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+      "src/life/__init__.py": "7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf",
+      "src/life/build.py": "bb15a7fecf19c6c15a1822fc291b4a100ca59ba462da296bcab24bca0af7e811"
+    }
+  },
+  "ownership": {
+    "exclusive_monitor_attempt_identity": true,
+    "environment_monitor_pid": true,
+    "live_pid_start_ticks": true,
+    "direct_child_session_and_group": true,
+    "production_nested_parent_chain_and_group": true,
+    "active_budget_phase": true,
+    "does_not_depend_on_racy_running_map_publication": true
+  },
+  "instrumentation": {
+    "unchanged_C5_sha256": "35e41256f9fcb84f2192531615c1002e5132a510ec3070ccb6127f696ad25816",
+    "unchanged_archived_replay_template_sha256": "4b9ac63a918f7c860476256bf5f559bf9f6142e89d99f68bd5ce9a85316a284f",
+    "generated_additions": [
+      "count attempted truth calls without changing return values",
+      "record actual delivered replay callbacks"
+    ],
+    "required_checks": [
+      "recording full ledger/hash/diagnostic/latency equals unchanged full C5",
+      "callback bytes and requested action bytes equal for same-life, other-life and altered-world replay",
+      "physical receptor pings suppressed during replay",
+      "no attempted truth access",
+      "different-seed closed-loop sensitivity control differs"
+    ],
+    "model_ablations_do_not_isolate_memory": true
+  },
+  "fixed_validation_calls": {
+    "tissue_bridge": 16,
+    "full_fast": 24,
+    "replay": 30,
+    "cost_calibration": 12,
+    "total": 82,
+    "production_lives": 8,
+    "scratch_lives": 74,
+    "T128_lives": 70,
+    "T1024_lives": 12,
+    "no_new_goldens_or_retry_calls": true
+  },
+  "tests": {
+    "author_source_boundary_ownership_suite": {
+      "tests": 72,
+      "reported_passed": true,
+      "output_sha256": "b701e7dd8d0f0fd498c8169c56e853fee0a80dbdcc9c7fda669fb3106e46d96b"
+    },
+    "independent_mocked_validation_orchestration": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "independent_test_sha256": "50b1558a6c33c4d1be0314fbe2e86c779ffb8e9f332144bf478031e585d395fe",
+    "independent_junit_sha256": "bbbcd26028665076314bc466121d8808e6c9cb1c2c767d204c18d12621c94bfa",
+    "independent_test_scope": [
+      "exact82count and fixed modes/durations",
+      "delivered callback mismatch rejection",
+      "action mismatch rejection",
+      "physical bridge mismatch rejection",
+      "truth-access rejection",
+      "first-attempt refusal"
+    ],
+    "independent_test_seconds": 0.364
+  },
+  "resolved_findings": [
+    "Replay originally compared actions without tracing delivered callbacks; generated wrapper now records and compares both.",
+    "Caller-supplied parent PID alone allowed direct worker invocation; workers now bind to active fsynced monitor identity and owned process hierarchy.",
+    "Production source pin list omitted lattice/package imports; snapshot now pins every loaded src module and bridge worker verifies the closure."
+  ],
+  "remaining_release_gates": [
+    "Root resource clearance and ready marker, final seed registration/refresh, and independently reviewed analyzer.",
+    "The actual fixed82validationcalls under monitor must pass within its180CPU allocation before research starts.",
+    "Full/fast/parity/replay success has not been established by this source-only review; no scientific outcome is claimed."
+  ],
+  "current_run_artifacts_absent": true,
+  "actual_study_shared_libraries": 0
+}

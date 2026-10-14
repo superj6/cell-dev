@@ -1,0 +1,25 @@
+{
+  "format": "tool-output execution record; not a generated JUnit report",
+  "test_session_id": 30524,
+  "initial_tool_chunk_id": "d95ff4",
+  "final_tool_chunk_id": "7f8488",
+  "command": ".venv/bin/ruff format outputs/audit_visibility_information_20261014/{analyze,test_analyze}.py\n.venv/bin/ruff check outputs/audit_visibility_information_20261014/{accounting,candidates,analyze,test_accounting,test_analyze}.py\n.venv/bin/python -m pytest outputs/audit_visibility_information_20261014/test_accounting.py outputs/audit_visibility_information_20261014/test_analyze.py --basetemp=outputs/audit_visibility_information_20261014/test_analysis_frozen -q",
+  "observed_output_chunks": [
+    "1 file reformatted, 1 file left unchanged\nAll checks passed!\n........................................................................ [ 46%]\n....................",
+    ".................................................... [ 93%]\n..........                                                               [100%]\n"
+  ],
+  "exit_code": 0,
+  "test_cases": 154,
+  "simulated_lives": 0,
+  "source_pins": {
+    "analyze.py": "cafeca3cef60b16e29e3b976eadff10ea06da836a910091abafa62db69cdea5d",
+    "accounting.py": "1906b67d73ed1a023048792d18a158ae56ce3e7f2ee49d1bf064a442b8488461",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_analyze.py": "08b2239f2658adbda79134756879c620dc7700551f49cbfe5c71540a36dd2f1c",
+    "test_accounting.py": "e0b2ab9c31ac68f83714e4b2f0ca4416b467e4355f164a8c8357cc6dc20fc55e",
+    "ANALYSIS_README.md": "fa6453dd18bf570f960df8b40e958f992cd88021bc9c6fe1a10a3288f05239db",
+    "analysis_review.json": "b717009a8069dc94eb40cded63ca2f90ee20d163be47b0e348ac5662bae4e353"
+  },
+  "junit_file": null,
+  "note": "The completed test output was captured by the execution tool. No JUnit file was requested during this run, and no tests were rerun to create one."
+}

@@ -1,0 +1,2688 @@
+{
+ "rescore": "cd /home/jgon/project/ml/cell-dev && PYTHONPATH=.:outputs/openhr/harness:outputs/openhr/memory .venv/bin/python outputs/openhr/memory/t8_score.py blink20_10,blink20,blink10_30,blink5_5,flash5_dim25,pool_blink20,base1 --n 512 --block 100 --threads 3 && PYTHONPATH=.:outputs/openhr/harness:outputs/openhr/memory .venv/bin/python outputs/openhr/memory/t9_summarize.py --block 100",
+ "method": "Collect scores8/<world>_b<block>.json + _F.npz (t8_score.py) into results.json and print a markdown table.\n\nPer world, all on the same lives (paired per-life differences, mean +- SE):\n  best reflex   better (on these lives) of reflex@hollow3 frozen and the in-world re-tune 'rt-mem'\n  ceiling       C1 privileged pursuit - best reflex (C1 is a heuristic, so a lower bound on the true ceiling)\n  info          best information-matched row (C5 ring4 / C5 hollow3, chosen on these lives) - best reflex\n  do-less       best of the eight quieter / smaller reflex variants - best reflex (max over 8 on these lives)\n  bigger body   best of router@ring4 / reflex@ring4 tissue bodies (no central computation) - best reflex\n  memory        dark share = (dark captures info - dark captures reflex) / (captures info - captures reflex), the\n                share of the info-matched controller's extra captures made while the target is dark (ledger col 21;\n                bootstrap SE); C5 - [B: idles while it believes the target dark]; C5 - [A: no dark model];\n                info gap here - info gap in base1 (per-life paired on the same seeds); privileged M1 decomposition\nVerdict: ADMIT if info > 3 SE and >= 1 F and the do-less gap is clearly smaller (info - do-less > 3 SE, paired, and\ndo-less < half the info gap); NO_HEADROOM if the best known ceiling (max of C1 and info) is < 1 F over the reflex;\nUNCLEAR otherwise.\nusage: t9_summarize.py [--block 100] [--out results.json]",
+ "worlds": [
+  {
+   "world": "blink20_10",
+   "keys": "base1 + blink renewal on 20 / off 20->10 (blink_on 20, blink_off 10)",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 rt-mem",
+    "F": 5.209223775863648,
+    "se": 0.09590907321443856,
+    "candidates": {
+     "reflex@hollow3 frozen": 5.1898005027771,
+     "reflex@hollow3 rt-mem": 5.209223775863648
+    },
+    "rt_minus_frozen": {
+     "mean": 0.019423273086547864,
+     "se": 0.019299971115543827,
+     "sd": 0.43670849448017723,
+     "z": 1.0063887127222035,
+     "n": 512
+    }
+   },
+   "ceiling_C1": {
+    "F": 84.34512822428236,
+    "gap": {
+     "mean": 79.1359044484187,
+     "se": 0.12285610636393839,
+     "sd": 2.779916349443731,
+     "z": 644.1348891034629,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 20.841627030149045,
+    "gap": {
+     "mean": 15.632403254285398,
+     "se": 0.18572474634857075,
+     "sd": 4.202471282471228,
+     "z": 84.16973807543282,
+     "n": 512
+    },
+    "params_source": "tuned/blink20_10_ring4.json (block 110 x 128; knobs searched: q_tap,gain,tau_eff,vel_gain,dt,min_align,tol; F_tune +21.297 from start +20.866)",
+    "rows": {
+     "C5 ring4": {
+      "F": 20.841627030149045,
+      "gap": {
+       "mean": 15.632403254285398,
+       "se": 0.18572474634857075,
+       "sd": 4.202471282471228,
+       "z": 84.16973807543282,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 12.769848108598008,
+      "gap": {
+       "mean": 7.56062433273436,
+       "se": 0.14954540058497962,
+       "sd": 3.383826139164729,
+       "z": 50.55738460132723,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)",
+    "gap": {
+     "mean": -0.019423273086547864,
+     "se": 0.019299971115543827,
+     "sd": 0.43670849448017723,
+     "z": -1.0063887127222035,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 15.651826527371945,
+     "se": 0.1854348081875432,
+     "sd": 4.195910730798033,
+     "z": 84.40608686337981,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": -1.6094499626159666,
+      "se": 0.10304603899111839,
+      "sd": 2.3316656942410625,
+      "z": -15.618746517318208,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": -1.7504732036590571,
+      "se": 0.10169665407254529,
+      "sd": 2.3011325989977376,
+      "z": -17.212692193494956,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": -1.7666726791858673,
+      "se": 0.09996616451454961,
+      "sd": 2.2619760901583374,
+      "z": -17.67270643787415,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -4.853876672267914,
+      "se": 0.09689555380597822,
+      "sd": 2.192496101217062,
+      "z": -50.09390505148691,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -6.34777724647522,
+      "se": 0.09592563579609753,
+      "sd": 2.170549361953651,
+      "z": -66.17393977943757,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.38474808979034425,
+      "se": 0.07596828939810171,
+      "sd": 1.7189661628332746,
+      "z": -5.06458803849226,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": -0.019423273086547864,
+      "se": 0.019299971115543827,
+      "sd": 0.43670849448017723,
+      "z": -1.0063887127222035,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.17947685623168946,
+      "se": 0.0880299096504074,
+      "sd": 1.9918894739533497,
+      "z": -2.0388167719863026,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": 0.8777298491001129,
+     "se": 0.10335366940344562,
+     "sd": 2.338626575862048,
+     "z": 8.492488502501596,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": 0.8777298491001129,
+      "se": 0.10335366940344562,
+      "sd": 2.338626575862048,
+      "z": 8.492488502501596,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -4.094085288047791,
+      "se": 0.10226868165347859,
+      "sd": 2.314076105605855,
+      "z": -40.03263972757522,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 14.754673405185285,
+     "se": 0.1810522107464488,
+     "sd": 4.096743870964156,
+     "z": 81.49402509007852,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 12.769848108598008,
+    "gap": {
+     "mean": 7.56062433273436,
+     "se": 0.14954540058497962,
+     "sd": 3.383826139164729,
+     "z": 50.55738460132723,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.20969535245719367,
+     "se": 0.0034068508844121996,
+     "dark_info": 8.78125,
+     "dark_reflex": 1.4140625,
+     "cap_info": 49.009765625,
+     "cap_reflex": 13.876953125
+    },
+    "C5_minus_B_idle_while_believed_dark": {
+     "mean": 2.3446229633103473,
+     "se": 0.20134048247500022,
+     "sd": 4.555815055534205,
+     "z": 11.64506479019425,
+     "n": 512
+    },
+    "B_vs_best_reflex": {
+     "mean": 13.28778029097505,
+     "se": 0.1815046086778704,
+     "sd": 4.1069804676074515,
+     "z": 73.20905175778678,
+     "n": 512
+    },
+    "C5_minus_A_no_dark_model": {
+     "mean": 0.3142812659659735,
+     "se": 0.193545662614739,
+     "sd": 4.379438416132019,
+     "z": 1.623809398361791,
+     "n": 512
+    },
+    "A_vs_best_reflex": {
+     "mean": 15.318121988319426,
+     "se": 0.1733908344399075,
+     "sd": 3.923386714497682,
+     "z": 88.34447355767394,
+     "n": 512
+    },
+    "priv_memory_value(M1 extrapolate - M1 idle-in-dark)": {
+     "mean": 4.466726318047339,
+     "se": 0.06564180529275054,
+     "sd": 1.4853045008585894,
+     "z": 68.04697552309158,
+     "n": 512
+    },
+    "priv_knowing_in_dark(C1 - M1 extrapolate)": {
+     "mean": 22.15817333358479,
+     "se": 0.20143391393481636,
+     "sd": 4.5579291681361935,
+     "z": 110.00219824331634,
+     "n": 512
+    },
+    "priv_M1_idle_in_dark_vs_best_reflex": {
+     "mean": 52.51100479678658,
+     "se": 0.20243817979444398,
+     "sd": 4.580653110518812,
+     "z": 259.3927926545592,
+     "n": 512
+    },
+    "memory_part_verdict": "MEMORY_PART",
+    "dark_time_fraction": 0.3333333333333333,
+    "info_gap_minus_base1_info_gap": {
+     "mean": -12.17735773292365,
+     "se": 0.25871574978158113,
+     "n": 512,
+     "base1_info_gap": {
+      "mean": 27.809760987209046,
+      "se": 0.19474737056804836,
+      "sd": 4.406629963101327,
+      "z": 142.79916029722105,
+      "n": 512
+     }
+    }
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 5.1898005027771,
+     "captures": 13.833984375,
+     "misses": 43.677734375,
+     "dark_caps": 1.412109375,
+     "cpu_per_life": 0.04406287109375
+    },
+    "reflex@hollow3 rt-mem": {
+     "F": 5.209223775863648,
+     "captures": 13.876953125,
+     "misses": 43.837890625,
+     "dark_caps": 1.4140625,
+     "cpu_per_life": 0.05123950390625001
+    },
+    "priv C1 truth": {
+     "F": 84.34512822428236,
+     "captures": 175.1640625,
+     "misses": 3.599609375,
+     "dark_caps": 58.205078125,
+     "cpu_per_life": 0.03288971093749998
+    },
+    "C5 ring4": {
+     "F": 20.841627030149045,
+     "captures": 49.009765625,
+     "misses": 56.3359375,
+     "dark_caps": 8.78125,
+     "cpu_per_life": 0.42088227148437496
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 3.5997738132476806,
+     "captures": 9.556640625,
+     "misses": 42.55078125,
+     "dark_caps": 1.00390625,
+     "cpu_per_life": 0.03283546679687499
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 3.4587505722045897,
+     "captures": 9.287109375,
+     "misses": 43.357421875,
+     "dark_caps": 0.96484375,
+     "cpu_per_life": 0.032588501953124904
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 3.4425510966777804,
+     "captures": 9.494140625,
+     "misses": 42.70703125,
+     "dark_caps": 0.927734375,
+     "cpu_per_life": 0.04694782031250011
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.3553471035957336,
+     "captures": 0.845703125,
+     "misses": 1.794921875,
+     "dark_caps": 0.06640625,
+     "cpu_per_life": 0.0012506738281249374
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": -1.1385534706115723,
+     "captures": 0.0,
+     "misses": 0.0,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.05880615234374997
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 4.824475686073303,
+     "captures": 12.681640625,
+     "misses": 23.5,
+     "dark_caps": 1.095703125,
+     "cpu_per_life": 0.0561897246093751
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 5.1898005027771,
+     "captures": 13.833984375,
+     "misses": 43.677734375,
+     "dark_caps": 1.412109375,
+     "cpu_per_life": 0.04462359960937501
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 5.0297469196319575,
+     "captures": 13.501953125,
+     "misses": 43.69140625,
+     "dark_caps": 1.474609375,
+     "cpu_per_life": 0.044516941406249955
+    },
+    "C5 ring4 abl B idle while believed dark": {
+     "F": 18.4970040668387,
+     "captures": 44.037109375,
+     "misses": 51.685546875,
+     "dark_caps": 6.484375,
+     "cpu_per_life": 0.43802678320312505
+    },
+    "C5 ring4 abl A no dark model": {
+     "F": 20.52734576418307,
+     "captures": 48.123046875,
+     "misses": 43.88671875,
+     "dark_caps": 5.802734375,
+     "cpu_per_life": 0.28549964843749986
+    },
+    "priv M1 extrapolate": {
+     "F": 62.186954890697564,
+     "captures": 130.2578125,
+     "misses": 27.734375,
+     "dark_caps": 23.166015625,
+     "cpu_per_life": 0.02159673632812531
+    },
+    "priv M1 hold": {
+     "F": 61.69314759952553,
+     "captures": 129.279296875,
+     "misses": 29.416015625,
+     "dark_caps": 21.982421875,
+     "cpu_per_life": 0.020556044921874683
+    },
+    "priv M1 idle-in-dark": {
+     "F": 57.72022857265023,
+     "captures": 120.6015625,
+     "misses": 2.431640625,
+     "dark_caps": 5.537109375,
+     "cpu_per_life": 0.01780030859375037
+    },
+    "C5 hollow3": {
+     "F": 12.769848108598008,
+     "captures": 29.546875,
+     "misses": 48.826171875,
+     "dark_caps": 5.232421875,
+     "cpu_per_life": 0.25171386328124923
+    },
+    "big router@ring4 frozen": {
+     "F": 6.08695362496376,
+     "captures": 18.41015625,
+     "misses": 43.87109375,
+     "dark_caps": 2.00390625,
+     "cpu_per_life": 0.128153916015625
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": 1.1151384878158568,
+     "captures": 8.171875,
+     "misses": 38.248046875,
+     "dark_caps": 0.97265625,
+     "cpu_per_life": 0.126702166015625
+    }
+   }
+  },
+  {
+   "world": "blink20",
+   "keys": "base1 + blink_on 20, blink_off 20",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 rt-mem",
+    "F": 3.485176965713501,
+    "se": 0.08556092838370567,
+    "candidates": {
+     "reflex@hollow3 frozen": 3.460192008972168,
+     "reflex@hollow3 rt-mem": 3.485176965713501
+    },
+    "rt_minus_frozen": {
+     "mean": 0.02498495674133302,
+     "se": 0.010325548734809365,
+     "sd": 0.23364049695538813,
+     "z": 2.4197219327534656,
+     "n": 512
+    }
+   },
+   "ceiling_C1": {
+    "F": 84.34625884333141,
+    "gap": {
+     "mean": 80.86108187761792,
+     "se": 0.11560002513387357,
+     "sd": 2.615729973679915,
+     "z": 699.490175577165,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 14.57690076335698,
+    "gap": {
+     "mean": 11.091723797643478,
+     "se": 0.15727160454531117,
+     "sd": 3.5586501779865145,
+     "z": 70.52591489551355,
+     "n": 512
+    },
+    "params_source": "tuned/blink20_ring4.json (block 110 x 128; knobs searched: q_tap,gain,tau_eff,vel_gain,dt,min_align,tol; F_tune +14.485 from start +14.485)",
+    "rows": {
+     "C5 ring4": {
+      "F": 14.57690076335698,
+      "gap": {
+       "mean": 11.091723797643478,
+       "se": 0.15727160454531117,
+       "sd": 3.5586501779865145,
+       "z": 70.52591489551355,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 9.147013241317083,
+      "gap": {
+       "mean": 5.661836275603583,
+       "se": 0.13309005353246728,
+       "sd": 3.0114841395612237,
+       "z": 42.5413930292122,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)",
+    "gap": {
+     "mean": -0.02498495674133302,
+     "se": 0.010325548734809365,
+     "sd": 0.23364049695538813,
+     "z": -2.4197219327534656,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 11.116708754384812,
+     "se": 0.1575645824415895,
+     "sd": 3.5652795110167923,
+     "z": 70.55334759958424,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": -0.9145546607971189,
+      "se": 0.08566554233985463,
+      "sd": 1.9383899488811043,
+      "z": -10.675875454904297,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": -1.1683569717407225,
+      "se": 0.08473664060739733,
+      "sd": 1.9173713020306566,
+      "z": -13.78809642872162,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": -1.1120896890163423,
+      "se": 0.0859035782138618,
+      "sd": 1.9437760858627409,
+      "z": -12.945790060662343,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -3.188839495754242,
+      "se": 0.08597695257056746,
+      "sd": 1.9454363580288776,
+      "z": -37.089468751953405,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -4.622528038024902,
+      "se": 0.08557985348406638,
+      "sd": 1.9364510314091048,
+      "z": -54.01420836605597,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.26991446208953856,
+      "se": 0.06033940859555318,
+      "sd": 1.3653249597024484,
+      "z": -4.473269930415433,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": -0.02498495674133302,
+      "se": 0.010325548734809365,
+      "sd": 0.23364049695538813,
+      "z": -2.4197219327534656,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.14116599845886232,
+      "se": 0.07746721308630712,
+      "sd": 1.7528829341744327,
+      "z": -1.8222676773151456,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": 0.24754386043548582,
+     "se": 0.1040334593002871,
+     "sd": 2.354008465328887,
+     "z": 2.3794638965235553,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": 0.24754386043548582,
+      "se": 0.1040334593002871,
+      "sd": 2.354008465328887,
+      "z": 2.3794638965235553,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -3.4368608188629155,
+      "se": 0.09129035921975956,
+      "sd": 2.065665025959931,
+      "z": -37.64757689899654,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 10.844179937207992,
+     "se": 0.15294711158030772,
+     "sd": 3.460798072362596,
+     "z": 70.9015019974016,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 9.147013241317083,
+    "gap": {
+     "mean": 5.661836275603583,
+     "se": 0.13309005353246728,
+     "sd": 3.0114841395612237,
+     "z": 42.5413930292122,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.2497724514563107,
+     "se": 0.004383358231941639,
+     "dark_info": 7.736328125,
+     "dark_reflex": 1.3046875,
+     "cap_info": 36.080078125,
+     "cap_reflex": 10.330078125
+    },
+    "C5_minus_B_idle_while_believed_dark": {
+     "mean": 3.554820894459609,
+     "se": 0.16251251645870396,
+     "sd": 3.67723847730048,
+     "z": 21.874136047625132,
+     "n": 512
+    },
+    "B_vs_best_reflex": {
+     "mean": 7.536902903183869,
+     "se": 0.1540548011492529,
+     "sd": 3.48586222614342,
+     "z": 48.923518429535285,
+     "n": 512
+    },
+    "C5_minus_A_no_dark_model": {
+     "mean": 0.5289575925528969,
+     "se": 0.15460961756489122,
+     "sd": 3.4984162885373866,
+     "z": 3.421246368007398,
+     "n": 512
+    },
+    "A_vs_best_reflex": {
+     "mean": 10.56276620509058,
+     "se": 0.16526592509304977,
+     "sd": 3.739541002635632,
+     "z": 63.91375717131901,
+     "n": 512
+    },
+    "priv_memory_value(M1 extrapolate - M1 idle-in-dark)": {
+     "mean": 4.994564326733288,
+     "se": 0.06569855530821095,
+     "sd": 1.4865886071230532,
+     "z": 76.02243768226471,
+     "n": 512
+    },
+    "priv_knowing_in_dark(C1 - M1 extrapolate)": {
+     "mean": 37.203446380174675,
+     "se": 0.2719707293062925,
+     "sd": 6.1539951032553715,
+     "z": 136.79209698436438,
+     "n": 512
+    },
+    "priv_M1_idle_in_dark_vs_best_reflex": {
+     "mean": 38.66307117070997,
+     "se": 0.2604057116390271,
+     "sd": 5.892308625909272,
+     "z": 148.47243913107596,
+     "n": 512
+    },
+    "memory_part_verdict": "MEMORY_PART",
+    "dark_time_fraction": 0.5,
+    "info_gap_minus_base1_info_gap": {
+     "mean": -16.718037189565568,
+     "se": 0.2509386972053121,
+     "n": 512,
+     "base1_info_gap": {
+      "mean": 27.809760987209046,
+      "se": 0.19474737056804836,
+      "sd": 4.406629963101327,
+      "z": 142.79916029722105,
+      "n": 512
+     }
+    }
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 3.460192008972168,
+     "captures": 10.27734375,
+     "misses": 43.056640625,
+     "dark_caps": 1.283203125,
+     "cpu_per_life": 0.0610537421875
+    },
+    "reflex@hollow3 rt-mem": {
+     "F": 3.485176965713501,
+     "captures": 10.330078125,
+     "misses": 43.134765625,
+     "dark_caps": 1.3046875,
+     "cpu_per_life": 0.053434533203124995
+    },
+    "priv C1 truth": {
+     "F": 84.34625884333141,
+     "captures": 175.1640625,
+     "misses": 3.599609375,
+     "dark_caps": 86.9921875,
+     "cpu_per_life": 0.030651498046875017
+    },
+    "C5 ring4": {
+     "F": 14.57690076335698,
+     "captures": 36.080078125,
+     "misses": 51.296875,
+     "dark_caps": 7.736328125,
+     "cpu_per_life": 0.406254177734375
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 2.570622304916382,
+     "captures": 7.4453125,
+     "misses": 42.40625,
+     "dark_caps": 0.861328125,
+     "cpu_per_life": 0.03470285937500006
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 2.3168199939727785,
+     "captures": 6.94140625,
+     "misses": 43.072265625,
+     "dark_caps": 0.84375,
+     "cpu_per_life": 0.03044519335937501
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 2.3730872766971585,
+     "captures": 7.296875,
+     "misses": 42.435546875,
+     "dark_caps": 0.93359375,
+     "cpu_per_life": 0.039462208984375025
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.296337469959259,
+     "captures": 0.72265625,
+     "misses": 1.685546875,
+     "dark_caps": 0.05078125,
+     "cpu_per_life": 0.0010562421875000005
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": -1.1373510723114015,
+     "captures": 0.0,
+     "misses": 0.0,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.05595780859374999
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 3.2152625036239626,
+     "captures": 9.37109375,
+     "misses": 22.857421875,
+     "dark_caps": 0.884765625,
+     "cpu_per_life": 0.045199037109374895
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 3.460192008972168,
+     "captures": 10.27734375,
+     "misses": 43.056640625,
+     "dark_caps": 1.283203125,
+     "cpu_per_life": 0.06181403124999996
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 3.3440109672546385,
+     "captures": 10.03515625,
+     "misses": 43.0546875,
+     "dark_caps": 1.291015625,
+     "cpu_per_life": 0.05641109179687509
+    },
+    "C5 ring4 abl B idle while believed dark": {
+     "F": 11.022079868897368,
+     "captures": 28.369140625,
+     "misses": 35.798828125,
+     "dark_caps": 4.25390625,
+     "cpu_per_life": 0.42615289257812494
+    },
+    "C5 ring4 abl A no dark model": {
+     "F": 14.047943170804082,
+     "captures": 34.71484375,
+     "misses": 36.990234375,
+     "dark_caps": 4.509765625,
+     "cpu_per_life": 0.35244937304687474
+    },
+    "priv M1 extrapolate": {
+     "F": 47.14281246315675,
+     "captures": 99.40625,
+     "misses": 26.126953125,
+     "dark_caps": 19.8984375,
+     "cpu_per_life": 0.028167185546874585
+    },
+    "priv M1 hold": {
+     "F": 46.67707453172843,
+     "captures": 98.47265625,
+     "misses": 27.173828125,
+     "dark_caps": 19.021484375,
+     "cpu_per_life": 0.027658224609374837
+    },
+    "priv M1 idle-in-dark": {
+     "F": 42.14824813642346,
+     "captures": 88.689453125,
+     "misses": 1.83203125,
+     "dark_caps": 4.25390625,
+     "cpu_per_life": 0.02710600585937506
+    },
+    "C5 hollow3": {
+     "F": 9.147013241317083,
+     "captures": 22.064453125,
+     "misses": 45.529296875,
+     "dark_caps": 4.328125,
+     "cpu_per_life": 0.31110331250000023
+    },
+    "big router@ring4 frozen": {
+     "F": 3.7327208261489866,
+     "captures": 13.568359375,
+     "misses": 43.21484375,
+     "dark_caps": 1.833984375,
+     "cpu_per_life": 0.13704431835937503
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": 0.04831614685058577,
+     "captures": 5.9609375,
+     "misses": 37.494140625,
+     "dark_caps": 0.98046875,
+     "cpu_per_life": 0.16121893945312502
+    }
+   }
+  },
+  {
+   "world": "blink10_30",
+   "keys": "base1 + blink_on 10, blink_off 30",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 frozen",
+    "F": 0.9684484272003173,
+    "se": 0.05582434078122908,
+    "candidates": {
+     "reflex@hollow3 frozen": 0.9684484272003173,
+     "reflex@hollow3 rt-mem": 0.9684484272003173
+    },
+    "rt_minus_frozen": {
+     "mean": 0.0,
+     "se": 0.0,
+     "sd": 0.0,
+     "z": 0.0,
+     "n": 512
+    }
+   },
+   "ceiling_C1": {
+    "F": 84.34796534052381,
+    "gap": {
+     "mean": 83.37951691332349,
+     "se": 0.09415372630011026,
+     "sd": 2.130455626905285,
+     "z": 885.567891891559,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 6.263888652270322,
+    "gap": {
+     "mean": 5.295440225070005,
+     "se": 0.11122695035460847,
+     "sd": 2.51677858708618,
+     "z": 47.60932677006188,
+     "n": 512
+    },
+    "params_source": "tuned/blink10_30_ring4.json (block 110 x 128; knobs searched: q_tap,gain,tau_eff,vel_gain,dt,min_align,tol; F_tune +6.152 from start +6.152)",
+    "rows": {
+     "C5 ring4": {
+      "F": 6.263888652270322,
+      "gap": {
+       "mean": 5.295440225070005,
+       "se": 0.11122695035460847,
+       "sd": 2.51677858708618,
+       "z": 47.60932677006188,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 4.111599735276094,
+      "gap": {
+       "mean": 3.1431513080757774,
+       "se": 0.08937387203008305,
+       "sd": 2.022299871147854,
+       "z": 35.16857037387615,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)",
+    "gap": {
+     "mean": 0.0,
+     "se": 0.0,
+     "sd": 0.0,
+     "z": 0.0,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 5.295440225070005,
+     "se": 0.11122695035460847,
+     "sd": 2.51677858708618,
+     "z": 47.60932677006188,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": -0.04418997764587386,
+      "se": 0.05858357964154283,
+      "sd": 1.3255950857829475,
+      "z": -0.7543065465828557,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": -0.0790573196411131,
+      "se": 0.06080056309206554,
+      "sd": 1.3757596947955222,
+      "z": -1.3002728201941613,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": -0.18756017351150517,
+      "se": 0.0644947394875222,
+      "sd": 1.4593493645595759,
+      "z": -2.9081468504542523,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -0.8106726012229919,
+      "se": 0.05522732616611767,
+      "sd": 1.249651738843618,
+      "z": -14.678831250757618,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -2.1042947177886964,
+      "se": 0.05583739251656161,
+      "sd": 1.2634559645515424,
+      "z": -37.68612076870448,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.11005581378936768,
+      "se": 0.03951554113557385,
+      "sd": 0.8941346271750477,
+      "z": -2.7851273353888093,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": 0.0,
+      "se": 0.0,
+      "sd": 0.0,
+      "z": 0.0,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.0038843975067138596,
+      "se": 0.05513936016021375,
+      "sd": 1.2476612953463841,
+      "z": -0.07044690934801014,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": -0.6902731966972351,
+     "se": 0.06701405081691016,
+     "sd": 1.5163548725573461,
+     "z": -10.30042488526978,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": -0.6902731966972351,
+      "se": 0.06701405081691016,
+      "sd": 1.5163548725573461,
+      "z": -10.30042488526978,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -2.4160689868927,
+      "se": 0.060499446973658486,
+      "sd": 1.3689462148195157,
+      "z": -39.93538962339042,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 5.985713421767239,
+     "se": 0.11068540643012852,
+     "sd": 2.504524846884255,
+     "z": 54.07861446979275,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 4.111599735276094,
+    "gap": {
+     "mean": 3.1431513080757774,
+     "se": 0.08937387203008305,
+     "sd": 2.022299871147854,
+     "z": 35.16857037387615,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.45403539059128184,
+     "se": 0.007313416543765947,
+     "dark_info": 7.578125,
+     "dark_reflex": 1.4140625,
+     "cap_info": 18.732421875,
+     "cap_reflex": 5.15625
+    },
+    "C5_minus_B_idle_while_believed_dark": {
+     "mean": 2.0824316968567746,
+     "se": 0.11055985286582574,
+     "sd": 2.501683894029195,
+     "z": 18.835333467601405,
+     "n": 512
+    },
+    "B_vs_best_reflex": {
+     "mean": 3.213008528213229,
+     "se": 0.10644061349361104,
+     "sd": 2.4084761470396385,
+     "z": 30.18592643123093,
+     "n": 512
+    },
+    "C5_minus_A_no_dark_model": {
+     "mean": 1.589124610740972,
+     "se": 0.11231785064440385,
+     "sd": 2.5414628428465855,
+     "z": 14.14845994313148,
+     "n": 512
+    },
+    "A_vs_best_reflex": {
+     "mean": 3.706315614329032,
+     "se": 0.10853344818111418,
+     "sd": 2.4558315902215875,
+     "z": 34.1490635047746,
+     "n": 512
+    },
+    "priv_memory_value(M1 extrapolate - M1 idle-in-dark)": {
+     "mean": 5.999887565254454,
+     "se": 0.06489942519185404,
+     "sd": 1.4685063567446095,
+     "z": 92.44900933279051,
+     "n": 512
+    },
+    "priv_knowing_in_dark(C1 - M1 extrapolate)": {
+     "mean": 58.41329950797609,
+     "se": 0.23137430085366498,
+     "sd": 5.235402788029533,
+     "z": 252.46234907013366,
+     "n": 512
+    },
+    "priv_M1_idle_in_dark_vs_best_reflex": {
+     "mean": 18.966329840092946,
+     "se": 0.19958440239882064,
+     "sd": 4.516079499368663,
+     "z": 95.02911856906219,
+     "n": 512
+    },
+    "memory_part_verdict": "MEMORY_PART",
+    "dark_time_fraction": 0.75,
+    "info_gap_minus_base1_info_gap": {
+     "mean": -22.514320762139043,
+     "se": 0.23396900624003988,
+     "n": 512,
+     "base1_info_gap": {
+      "mean": 27.809760987209046,
+      "se": 0.19474737056804836,
+      "sd": 4.406629963101327,
+      "z": 142.79916029722105,
+      "n": 512
+     }
+    }
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 0.9684484272003173,
+     "captures": 5.15625,
+     "misses": 42.298828125,
+     "dark_caps": 1.4140625,
+     "cpu_per_life": 0.055991306640625016
+    },
+    "reflex@hollow3 rt-mem": {
+     "F": 0.9684484272003173,
+     "captures": 5.15625,
+     "misses": 42.298828125,
+     "dark_caps": 1.4140625,
+     "cpu_per_life": 0.0546550078125001
+    },
+    "priv C1 truth": {
+     "F": 84.34796534052381,
+     "captures": 175.1640625,
+     "misses": 3.599609375,
+     "dark_caps": 130.728515625,
+     "cpu_per_life": 0.030382810546875083
+    },
+    "C5 ring4": {
+     "F": 6.263888652270322,
+     "captures": 18.732421875,
+     "misses": 35.712890625,
+     "dark_caps": 7.578125,
+     "cpu_per_life": 0.4119637714843749
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 0.9242584495544433,
+     "captures": 4.06640625,
+     "misses": 42.111328125,
+     "dark_caps": 1.1171875,
+     "cpu_per_life": 0.030644500000000185
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 0.889391107559204,
+     "captures": 4.001953125,
+     "misses": 42.36328125,
+     "dark_caps": 1.095703125,
+     "cpu_per_life": 0.032440816406250184
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 0.7808882536888122,
+     "captures": 4.02734375,
+     "misses": 42.103515625,
+     "dark_caps": 1.013671875,
+     "cpu_per_life": 0.04505910351562492
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.15777582597732542,
+     "captures": 0.435546875,
+     "misses": 1.51953125,
+     "dark_caps": 0.076171875,
+     "cpu_per_life": 0.0010240136718748793
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": -1.135846290588379,
+     "captures": 0.0,
+     "misses": 0.0,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.04288509375000027
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 0.8583926134109496,
+     "captures": 4.537109375,
+     "misses": 22.640625,
+     "dark_caps": 1.068359375,
+     "cpu_per_life": 0.0496653886718752
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 0.9684484272003173,
+     "captures": 5.15625,
+     "misses": 42.298828125,
+     "dark_caps": 1.4140625,
+     "cpu_per_life": 0.04769462890625009
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 0.9645640296936034,
+     "captures": 5.140625,
+     "misses": 42.107421875,
+     "dark_caps": 1.435546875,
+     "cpu_per_life": 0.05275772460937489
+    },
+    "C5 ring4 abl B idle while believed dark": {
+     "F": 4.181456955413546,
+     "captures": 14.005859375,
+     "misses": 19.412109375,
+     "dark_caps": 3.763671875,
+     "cpu_per_life": 0.36914134374999996
+    },
+    "C5 ring4 abl A no dark model": {
+     "F": 4.6747640415293485,
+     "captures": 15.177734375,
+     "misses": 19.9453125,
+     "dark_caps": 3.841796875,
+     "cpu_per_life": 0.3362998691406247
+    },
+    "priv M1 extrapolate": {
+     "F": 25.934665832547715,
+     "captures": 55.98046875,
+     "misses": 27.189453125,
+     "dark_caps": 20.982421875,
+     "cpu_per_life": 0.014933738281249997
+    },
+    "priv M1 hold": {
+     "F": 25.416869256925132,
+     "captures": 54.947265625,
+     "misses": 28.58984375,
+     "dark_caps": 19.833984375,
+     "cpu_per_life": 0.023545068359374977
+    },
+    "priv M1 idle-in-dark": {
+     "F": 19.93477826729326,
+     "captures": 43.1640625,
+     "misses": 0.87109375,
+     "dark_caps": 4.1953125,
+     "cpu_per_life": 0.021763503906250037
+    },
+    "C5 hollow3": {
+     "F": 4.111599735276094,
+     "captures": 11.416015625,
+     "misses": 29.169921875,
+     "dark_caps": 4.337890625,
+     "cpu_per_life": 0.27291882812500035
+    },
+    "big router@ring4 frozen": {
+     "F": 0.2781752305030821,
+     "captures": 6.46484375,
+     "misses": 42.3203125,
+     "dark_caps": 1.734375,
+     "cpu_per_life": 0.10836992968750003
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": -1.4476205596923828,
+     "captures": 2.859375,
+     "misses": 36.373046875,
+     "dark_caps": 0.986328125,
+     "cpu_per_life": 0.14095067968749997
+    }
+   }
+  },
+  {
+   "world": "blink5_5",
+   "keys": "base1 + blink_on 5, blink_off 5",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 frozen",
+    "F": 3.902425554275513,
+    "se": 0.0792584946123521,
+    "candidates": {
+     "reflex@hollow3 frozen": 3.902425554275513,
+     "reflex@hollow3 rt-mem": 3.8784706649780274
+    },
+    "rt_minus_frozen": {
+     "mean": -0.023954889297485335,
+     "se": 0.043540164885378,
+     "sd": 0.9852014670217979,
+     "z": -0.5501791130223775,
+     "n": 512
+    }
+   },
+   "ceiling_C1": {
+    "F": 84.34627693644056,
+    "gap": {
+     "mean": 80.44385138216505,
+     "se": 0.10576565599457444,
+     "sd": 2.3932036022530307,
+     "z": 760.5857556094736,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 17.09281843573051,
+    "gap": {
+     "mean": 13.190392881454997,
+     "se": 0.1667094266411107,
+     "sd": 3.7722037141008213,
+     "z": 79.12205774572699,
+     "n": 512
+    },
+    "params_source": "tuned/blink5_5_ring4.json (block 110 x 128; knobs searched: q_tap,gain,tau_eff,vel_gain,dt,min_align,tol; F_tune +17.350 from start +16.894)",
+    "rows": {
+     "C5 ring4": {
+      "F": 17.09281843573051,
+      "gap": {
+       "mean": 13.190392881454997,
+       "se": 0.1667094266411107,
+       "sd": 3.7722037141008213,
+       "z": 79.12205774572699,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 10.046984531417982,
+      "gap": {
+       "mean": 6.144558977142468,
+       "se": 0.13008100473776568,
+       "sd": 2.943397137716273,
+       "z": 47.23640465054429,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)",
+    "gap": {
+     "mean": 0.0,
+     "se": 0.0,
+     "sd": 0.0,
+     "z": 0.0,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 13.190392881454997,
+     "se": 0.1667094266411107,
+     "sd": 3.7722037141008213,
+     "z": 79.12205774572699,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": -1.1417794876098633,
+      "se": 0.09168327926980187,
+      "sd": 2.0745557917791015,
+      "z": -12.453519297121566,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": -1.1970103797912595,
+      "se": 0.08768956058181657,
+      "sd": 1.9841882536534745,
+      "z": -13.650545992580481,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": -1.1390774083137511,
+      "se": 0.09472986467438692,
+      "sd": 2.143492150148575,
+      "z": -12.02448047644826,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -3.5755331206321714,
+      "se": 0.08085552068092068,
+      "sd": 1.829551583035141,
+      "z": -44.22126146144382,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -1.653592575073242,
+      "se": 0.0788139160116765,
+      "sd": 1.7833553428391513,
+      "z": -20.980972127159088,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.34206285190582275,
+      "se": 0.06479749808756122,
+      "sd": 1.4662000096523802,
+      "z": -5.278951533647045,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": 0.0,
+      "se": 0.0,
+      "sd": 0.0,
+      "z": 0.0,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.3270030727386474,
+      "se": 0.08431914965310724,
+      "sd": 1.907924560115055,
+      "z": -3.878159043158674,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": 0.07584086012840262,
+     "se": 0.1010416293941653,
+     "sd": 2.286311082456073,
+     "z": 0.7505902327895564,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": 0.07584086012840262,
+      "se": 0.1010416293941653,
+      "sd": 2.286311082456073,
+      "z": 0.7505902327895564,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -3.7206535415649413,
+      "se": 0.09427177502951348,
+      "sd": 2.133126764731572,
+      "z": -39.467311826897536,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 13.114552021326595,
+     "se": 0.17311750402013498,
+     "sd": 3.917201953111259,
+     "z": 75.75520508776088,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 10.046984531417982,
+    "gap": {
+     "mean": 6.144558977142468,
+     "se": 0.13008100473776568,
+     "sd": 2.943397137716273,
+     "z": 47.23640465054429,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.4841274972522144,
+     "se": 0.005033691344004437,
+     "dark_info": 17.75,
+     "dark_reflex": 3.125,
+     "cap_info": 41.396484375,
+     "cap_reflex": 11.1875
+    },
+    "C5_minus_B_idle_while_believed_dark": {
+     "mean": 3.9584733298854884,
+     "se": 0.18156902920008566,
+     "sd": 4.108438137626843,
+     "z": 21.801478739655128,
+     "n": 512
+    },
+    "B_vs_best_reflex": {
+     "mean": 9.231919551569511,
+     "se": 0.16046506915364991,
+     "sd": 3.6309100333476527,
+     "z": 57.53226917398255,
+     "n": 512
+    },
+    "C5_minus_A_no_dark_model": {
+     "mean": 4.036899608999544,
+     "se": 0.17549353235300982,
+     "sd": 3.970965336998209,
+     "z": 23.00312470136629,
+     "n": 512
+    },
+    "A_vs_best_reflex": {
+     "mean": 9.153493272455455,
+     "se": 0.14843412980233947,
+     "sd": 3.3586809517682705,
+     "z": 61.66703900676074,
+     "n": 512
+    },
+    "priv_memory_value(M1 extrapolate - M1 idle-in-dark)": {
+     "mean": 8.367885771672475,
+     "se": 0.07755942250384709,
+     "sd": 1.7549693951162497,
+     "z": 107.88999584489443,
+     "n": 512
+    },
+    "priv_knowing_in_dark(C1 - M1 extrapolate)": {
+     "mean": 26.0521587837655,
+     "se": 0.1492918585736888,
+     "sd": 3.3780891383487477,
+     "z": 174.50488615162124,
+     "n": 512
+    },
+    "priv_M1_idle_in_dark_vs_best_reflex": {
+     "mean": 46.02380682672707,
+     "se": 0.16153195801853432,
+     "sd": 3.6550509725838825,
+     "z": 284.92075123268336,
+     "n": 512
+    },
+    "memory_part_verdict": "MEMORY_PART",
+    "dark_time_fraction": 0.5,
+    "info_gap_minus_base1_info_gap": {
+     "mean": -14.619368105754049,
+     "se": 0.2486428432929365,
+     "n": 512,
+     "base1_info_gap": {
+      "mean": 27.809760987209046,
+      "se": 0.19474737056804836,
+      "sd": 4.406629963101327,
+      "z": 142.79916029722105,
+      "n": 512
+     }
+    }
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 3.902425554275513,
+     "captures": 11.1875,
+     "misses": 43.248046875,
+     "dark_caps": 3.125,
+     "cpu_per_life": 0.059891816406250076
+    },
+    "reflex@hollow3 rt-mem": {
+     "F": 3.8784706649780274,
+     "captures": 11.13671875,
+     "misses": 43.15625,
+     "dark_caps": 3.044921875,
+     "cpu_per_life": 0.058531330078124943
+    },
+    "priv C1 truth": {
+     "F": 84.34627693644056,
+     "captures": 175.1640625,
+     "misses": 3.599609375,
+     "dark_caps": 87.806640625,
+     "cpu_per_life": 0.03090485546874988
+    },
+    "C5 ring4": {
+     "F": 17.09281843573051,
+     "captures": 41.396484375,
+     "misses": 60.197265625,
+     "dark_caps": 17.75,
+     "cpu_per_life": 0.4040996640625003
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 2.7606460666656494,
+     "captures": 7.83203125,
+     "misses": 42.275390625,
+     "dark_caps": 2.119140625,
+     "cpu_per_life": 0.0318554179687498
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 2.7054151744842527,
+     "captures": 7.728515625,
+     "misses": 42.62109375,
+     "dark_caps": 2.20703125,
+     "cpu_per_life": 0.03364733203125003
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 2.7633481459617615,
+     "captures": 8.09375,
+     "misses": 42.296875,
+     "dark_caps": 2.150390625,
+     "cpu_per_life": 0.046713523437500015
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.3268924336433411,
+     "captures": 0.78515625,
+     "misses": 1.681640625,
+     "dark_caps": 0.189453125,
+     "cpu_per_life": 0.0017675234375000848
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": 2.2488329792022705,
+     "captures": 7.046875,
+     "misses": 5.5546875,
+     "dark_caps": 1.609375,
+     "cpu_per_life": 0.058080394531250246
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 3.56036270236969,
+     "captures": 10.130859375,
+     "misses": 25.466796875,
+     "dark_caps": 2.640625,
+     "cpu_per_life": 0.057592125000000216
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 3.902425554275513,
+     "captures": 11.1875,
+     "misses": 43.248046875,
+     "dark_caps": 3.125,
+     "cpu_per_life": 0.0585076992187501
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 3.575422481536865,
+     "captures": 10.517578125,
+     "misses": 43.447265625,
+     "dark_caps": 2.90234375,
+     "cpu_per_life": 0.055993138671875275
+    },
+    "C5 ring4 abl B idle while believed dark": {
+     "F": 13.134345105845021,
+     "captures": 32.896484375,
+     "misses": 45.912109375,
+     "dark_caps": 11.931640625,
+     "cpu_per_life": 0.35147444531250027
+    },
+    "C5 ring4 abl A no dark model": {
+     "F": 13.055918826730966,
+     "captures": 32.640625,
+     "misses": 34.6015625,
+     "dark_caps": 10.94140625,
+     "cpu_per_life": 0.3602169863281257
+    },
+    "priv M1 extrapolate": {
+     "F": 58.294118152675054,
+     "captures": 122.66015625,
+     "misses": 46.65234375,
+     "dark_caps": 52.75390625,
+     "cpu_per_life": 0.029139103515624765
+    },
+    "priv M1 hold": {
+     "F": 56.65417492952584,
+     "captures": 119.41796875,
+     "misses": 52.5625,
+     "dark_caps": 49.603515625,
+     "cpu_per_life": 0.028455001953125336
+    },
+    "priv M1 idle-in-dark": {
+     "F": 49.926232381002585,
+     "captures": 104.626953125,
+     "misses": 2.12109375,
+     "dark_caps": 17.404296875,
+     "cpu_per_life": 0.02704090820312466
+    },
+    "C5 hollow3": {
+     "F": 10.046984531417982,
+     "captures": 23.998046875,
+     "misses": 50.67578125,
+     "dark_caps": 9.998046875,
+     "cpu_per_life": 0.23568164453125018
+    },
+    "big router@ring4 frozen": {
+     "F": 3.9782664144039153,
+     "captures": 14.076171875,
+     "misses": 43.41015625,
+     "dark_caps": 3.93359375,
+     "cpu_per_life": 0.13527412890624996
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": 0.1817720127105711,
+     "captures": 6.234375,
+     "misses": 37.447265625,
+     "dark_caps": 1.796875,
+     "cpu_per_life": 0.14840612695312494
+    }
+   }
+  },
+  {
+   "world": "flash5_dim25",
+   "keys": "base1 + FLASH: bright for 5 after each placement, then dim (dark_amp 0.25) until the next placement",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 frozen",
+    "F": 3.754263698577881,
+    "se": 0.08034454757995863,
+    "candidates": {
+     "reflex@hollow3 frozen": 3.754263698577881,
+     "reflex@hollow3 rt-mem": 3.724868279457092
+    },
+    "rt_minus_frozen": {
+     "mean": -0.029395419120788593,
+     "se": 0.03095370028411729,
+     "sd": 0.7004022839588896,
+     "z": -0.9496576774658418,
+     "n": 512
+    }
+   },
+   "ceiling_C1": {
+    "F": 84.34323869028577,
+    "gap": {
+     "mean": 80.58897499170789,
+     "se": 0.10773806073222403,
+     "sd": 2.4378340267405987,
+     "z": 748.0084052376492,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 26.3112182128033,
+    "gap": {
+     "mean": 22.556954514225424,
+     "se": 0.21272501183460452,
+     "sd": 4.813417548679598,
+     "z": 106.03809265157614,
+     "n": 512
+    },
+    "params_source": "t5_tune start knobs (never tuned in this world: harness C4-tuned knobs for blink20)",
+    "rows": {
+     "C5 ring4": {
+      "F": 26.3112182128033,
+      "gap": {
+       "mean": 22.556954514225424,
+       "se": 0.21272501183460452,
+       "sd": 4.813417548679598,
+       "z": 106.03809265157614,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 11.79515103736497,
+      "gap": {
+       "mean": 8.04088733878709,
+       "se": 0.14557284860008796,
+       "sd": 3.2939375488564737,
+       "z": 55.236174988075575,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)",
+    "gap": {
+     "mean": -0.05116755151748658,
+     "se": 0.0364584302231234,
+     "sd": 0.8249601037499882,
+     "z": -1.4034491118883683,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 22.608122065742908,
+     "se": 0.21657539466847123,
+     "sd": 4.9005417666633235,
+     "z": 104.38915325700279,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": -0.4098279247283934,
+      "se": 0.09169434574376586,
+      "sd": 2.074806197500182,
+      "z": -4.469500506319463,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": -0.36335535717010475,
+      "se": 0.09057949871697002,
+      "sd": 2.049580088935926,
+      "z": -4.011452506548596,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": -0.5924317133426666,
+      "se": 0.08957365334534194,
+      "sd": 2.0268204062766197,
+      "z": -6.613905888806473,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -3.532078098297119,
+      "se": 0.0801350787935511,
+      "sd": 1.8132498440268252,
+      "z": -44.076553632606704,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -4.891847215652465,
+      "se": 0.08035311895743638,
+      "sd": 1.818183529737363,
+      "z": -60.879369452276165,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.3026150054931641,
+      "se": 0.06638608491058673,
+      "sd": 1.5021456261344581,
+      "z": -4.558410183410371,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": -0.05116755151748658,
+      "se": 0.0364584302231234,
+      "sd": 0.8249601037499882,
+      "z": -1.4034491118883683,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.6744067244529723,
+      "se": 0.08110193653790801,
+      "sd": 1.835127337386105,
+      "z": -8.315544033128564,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": -0.7481013827323915,
+     "se": 0.09937656894329443,
+     "sd": 2.2486350653073903,
+     "z": -7.527945376734308,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": -0.7481013827323915,
+      "se": 0.09937656894329443,
+      "sd": 2.2486350653073903,
+      "z": -7.527945376734308,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -3.877419528961182,
+      "se": 0.09406942819643078,
+      "sd": 2.1285481785611915,
+      "z": -41.218699882650085,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 23.305055896957814,
+     "se": 0.21226962141785377,
+     "sd": 4.8031132398229,
+     "z": 109.78987827505331,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 11.79515103736497,
+    "gap": {
+     "mean": 8.04088733878709,
+     "se": 0.14557284860008796,
+     "sd": 3.2939375488564737,
+     "z": 55.236174988075575,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.8609914637011512,
+     "se": 0.002360849559201862,
+     "dark_info": 53.533203125,
+     "dark_reflex": 10.587890625,
+     "cap_info": 60.75390625,
+     "cap_reflex": 10.875
+    },
+    "C5_minus_B_idle_while_believed_dark": {
+     "mean": 24.60718908385017,
+     "se": 0.2178513385335029,
+     "sd": 4.929413080563396,
+     "z": 112.95404127189185,
+     "n": 512
+    },
+    "B_vs_best_reflex": {
+     "mean": -2.050234569624748,
+     "se": 0.09583969495057136,
+     "sd": 2.168604742604772,
+     "z": -21.392331963098815,
+     "n": 512
+    },
+    "C5_minus_A_no_dark_model": {
+     "mean": 12.250033008172226,
+     "se": 0.23796218665702548,
+     "sd": 5.384469627237174,
+     "z": 51.47890587267202,
+     "n": 512
+    },
+    "A_vs_best_reflex": {
+     "mean": 10.306921506053197,
+     "se": 0.17245120960312618,
+     "sd": 3.902125431494182,
+     "z": 59.767174320048106,
+     "n": 512
+    },
+    "priv_memory_value(M1 extrapolate - M1 idle-in-dark)": {
+     "mean": 66.7537470716626,
+     "se": 0.26126965149984993,
+     "sd": 5.9118573534012775,
+     "z": 255.49751641055389,
+     "n": 512
+    },
+    "priv_knowing_in_dark(C1 - M1 extrapolate)": {
+     "mean": 0.058556571902799864,
+     "se": 0.030874008084846853,
+     "sd": 0.6985990553345122,
+     "z": 1.8966300631222475,
+     "n": 512
+    },
+    "priv_M1_idle_in_dark_vs_best_reflex": {
+     "mean": 13.776671348142486,
+     "se": 0.2316160613862762,
+     "sd": 5.240873204414578,
+     "z": 59.480639061410045,
+     "n": 512
+    },
+    "memory_part_verdict": "MEMORY_PART",
+    "info_gap_minus_base1_info_gap": {
+     "mean": -5.2528064729836235,
+     "se": 0.2656338794550527,
+     "n": 512,
+     "base1_info_gap": {
+      "mean": 27.809760987209046,
+      "se": 0.19474737056804836,
+      "sd": 4.406629963101327,
+      "z": 142.79916029722105,
+      "n": 512
+     }
+    }
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 3.754263698577881,
+     "captures": 10.875,
+     "misses": 42.78515625,
+     "dark_caps": 10.587890625,
+     "cpu_per_life": 0.04090024609374998
+    },
+    "reflex@hollow3 rt-mem": {
+     "F": 3.724868279457092,
+     "captures": 10.830078125,
+     "misses": 43.552734375,
+     "dark_caps": 10.537109375,
+     "cpu_per_life": 0.045119994140625064
+    },
+    "priv C1 truth": {
+     "F": 84.34323869028577,
+     "captures": 175.1640625,
+     "misses": 3.599609375,
+     "dark_caps": 110.22265625,
+     "cpu_per_life": 0.03130417968749999
+    },
+    "C5 ring4": {
+     "F": 26.3112182128033,
+     "captures": 60.75390625,
+     "misses": 84.61328125,
+     "dark_caps": 53.533203125,
+     "cpu_per_life": 0.46933196093749974
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 3.3444357738494874,
+     "captures": 9.021484375,
+     "misses": 41.962890625,
+     "dark_caps": 8.6796875,
+     "cpu_per_life": 0.03329003515624951
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 3.3909083414077763,
+     "captures": 9.138671875,
+     "misses": 42.94921875,
+     "dark_caps": 8.708984375,
+     "cpu_per_life": 0.03315262500000005
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 3.161831985235214,
+     "captures": 8.900390625,
+     "misses": 41.841796875,
+     "dark_caps": 8.587890625,
+     "cpu_per_life": 0.04153153320312519
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.22218560028076173,
+     "captures": 0.56640625,
+     "misses": 1.466796875,
+     "dark_caps": 0.56640625,
+     "cpu_per_life": 0.0009637089843748115
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": -1.1375835170745852,
+     "captures": 0.0,
+     "misses": 0.0,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.03937861914062468
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 3.4516486930847172,
+     "captures": 10.083984375,
+     "misses": 34.236328125,
+     "dark_caps": 9.884765625,
+     "cpu_per_life": 0.04712261914062488
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 3.703096147060394,
+     "captures": 10.7421875,
+     "misses": 41.388671875,
+     "dark_caps": 10.484375,
+     "cpu_per_life": 0.03842960156249964
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 3.079856974124908,
+     "captures": 9.505859375,
+     "misses": 43.611328125,
+     "dark_caps": 9.435546875,
+     "cpu_per_life": 0.04345932226562521
+    },
+    "C5 ring4 abl B idle while believed dark": {
+     "F": 1.7040291289531329,
+     "captures": 8.87109375,
+     "misses": 16.283203125,
+     "dark_caps": 6.701171875,
+     "cpu_per_life": 0.3936914101562494
+    },
+    "C5 ring4 abl A no dark model": {
+     "F": 14.061185204631077,
+     "captures": 34.822265625,
+     "misses": 40.78515625,
+     "dark_caps": 29.99609375,
+     "cpu_per_life": 0.2630595390624988
+    },
+    "priv M1 extrapolate": {
+     "F": 84.28468211838297,
+     "captures": 175.044921875,
+     "misses": 3.642578125,
+     "dark_caps": 110.1640625,
+     "cpu_per_life": 0.023447771484375046
+    },
+    "priv M1 hold": {
+     "F": 85.10061883514452,
+     "captures": 176.724609375,
+     "misses": 4.068359375,
+     "dark_caps": 111.31640625,
+     "cpu_per_life": 0.03053882226562532
+    },
+    "priv M1 idle-in-dark": {
+     "F": 17.530935046720366,
+     "captures": 38.2421875,
+     "misses": 0.802734375,
+     "dark_caps": 18.423828125,
+     "cpu_per_life": 0.022475552734374737
+    },
+    "C5 hollow3": {
+     "F": 11.79515103736497,
+     "captures": 28.478515625,
+     "misses": 96.119140625,
+     "dark_caps": 25.62890625,
+     "cpu_per_life": 0.3571158789062503
+    },
+    "big router@ring4 frozen": {
+     "F": 3.006162315845489,
+     "captures": 12.0703125,
+     "misses": 42.87109375,
+     "dark_caps": 11.982421875,
+     "cpu_per_life": 0.13127608593749995
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": -0.12315583038330093,
+     "captures": 5.58203125,
+     "misses": 36.3046875,
+     "dark_caps": 5.5625,
+     "cpu_per_life": 0.10797252929687506
+    }
+   }
+  },
+  {
+   "world": "pool_blink20",
+   "keys": "POOL (sigma 0.4, lam_s 4, d0 0.5, d_min 0.25) + blink_on 20, blink_off 20",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 frozen",
+    "F": 1.5050742206573486,
+    "se": 0.058240402372949335,
+    "candidates": {
+     "reflex@hollow3 frozen": 1.5050742206573486
+    },
+    "rt_minus_frozen": null
+   },
+   "ceiling_C1": {
+    "F": 93.14109096179665,
+    "gap": {
+     "mean": 91.63601674113931,
+     "se": 0.09850063910610264,
+     "sd": 2.2288150356202885,
+     "z": 930.3088545692692,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 15.836312745157805,
+    "gap": {
+     "mean": 14.331238524500456,
+     "se": 0.18854736969400912,
+     "sd": 4.266339957936665,
+     "z": 76.00868974071832,
+     "n": 512
+    },
+    "params_source": "t5_tune start knobs (never tuned in this world: harness C4-tuned knobs for pool_blink20)",
+    "rows": {
+     "C5 ring4": {
+      "F": 15.836312745157805,
+      "gap": {
+       "mean": 14.331238524500456,
+       "se": 0.18854736969400912,
+       "sd": 4.266339957936665,
+       "z": 76.00868974071832,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 8.671720562278754,
+      "gap": {
+       "mean": 7.166646341621407,
+       "se": 0.12660524287667077,
+       "sd": 2.8647496246996402,
+       "z": 56.60623666748628,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less reflex@hollow2 hollow3 knobs",
+    "gap": {
+     "mean": 0.7906216678619387,
+     "se": 0.07448696567615908,
+     "sd": 1.6854476332678943,
+     "z": 10.614228418153859,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 13.540616856638518,
+     "se": 0.19648663045690284,
+     "sd": 4.445984921874279,
+     "z": 68.91368041251286,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": 0.5932450275421144,
+      "se": 0.07065865651983486,
+      "sd": 1.5988228855906013,
+      "z": 8.395928492860353,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": 0.7906216678619387,
+      "se": 0.07448696567615908,
+      "sd": 1.6854476332678943,
+      "z": 10.614228418153859,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": 0.5008700315952301,
+      "se": 0.07089004323046627,
+      "sd": 1.6040585691798468,
+      "z": 7.065449656546016,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -1.2507477942466734,
+      "se": 0.060087924362583665,
+      "sd": 1.3596345210946326,
+      "z": -20.815293713581916,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -2.6414116497039797,
+      "se": 0.05825234897853432,
+      "sd": 1.31810019144854,
+      "z": -45.34429419622762,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.12859718990325927,
+      "se": 0.04059485427750593,
+      "sd": 0.9185566957089334,
+      "z": -3.1678199661506468,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": 0.0,
+      "se": 0.0,
+      "sd": 0.0,
+      "z": 0.0,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.4928910884857178,
+      "se": 0.06233041656818258,
+      "sd": 1.4103763273454155,
+      "z": -7.90771369138131,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": 0.8435196228027344,
+     "se": 0.08534981874682614,
+     "sd": 1.9312459394855515,
+     "z": 9.883086281704633,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": 0.8435196228027344,
+      "se": 0.08534981874682614,
+      "sd": 1.9312459394855515,
+      "z": 9.883086281704633,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -2.7282010555267338,
+      "se": 0.06525544176583876,
+      "sd": 1.4765620922223504,
+      "z": -41.808023694277516,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 13.487718901697722,
+     "se": 0.18836812116529958,
+     "sd": 4.262284026731282,
+     "z": 71.60298047386574,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 8.671720562278754,
+    "gap": {
+     "mean": 7.166646341621407,
+     "se": 0.12660524287667077,
+     "sd": 2.8647496246996402,
+     "z": 56.60623666748628,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.17029715052779304,
+     "se": 0.003210025579749193,
+     "dark_info": 6.2421875,
+     "dark_reflex": 0.791015625,
+     "cap_info": 38.255859375,
+     "cap_reflex": 6.24609375
+    },
+    "C5_minus_B_idle_while_believed_dark": {
+     "mean": 4.43765912302557,
+     "se": 0.19770591409064883,
+     "sd": 4.4735741610938495,
+     "z": 22.445758102061067,
+     "n": 512
+    },
+    "B_vs_best_reflex": {
+     "mean": 9.893579401474884,
+     "se": 0.16938680155072972,
+     "sd": 3.832785792640672,
+     "z": 58.40820719737041,
+     "n": 512
+    },
+    "C5_minus_A_no_dark_model": {
+     "mean": -0.012004250638298256,
+     "se": 0.18392274129839956,
+     "sd": 4.161696562768557,
+     "z": -0.06526789756152201,
+     "n": 512
+    },
+    "A_vs_best_reflex": {
+     "mean": 14.343242775138755,
+     "se": 0.19801475818483832,
+     "sd": 4.480562505200435,
+     "z": 72.4352210240307,
+     "n": 512
+    },
+    "priv_memory_value(M1 extrapolate - M1 idle-in-dark)": {
+     "mean": 5.102869010643831,
+     "se": 0.06546221880467236,
+     "sd": 1.4812409225056433,
+     "z": 77.95136040026212,
+     "n": 512
+    },
+    "priv_knowing_in_dark(C1 - M1 extrapolate)": {
+     "mean": 41.6018393519893,
+     "se": 0.29813288760617374,
+     "sd": 6.745977168673672,
+     "z": 139.54126190514182,
+     "n": 512
+    },
+    "priv_M1_idle_in_dark_vs_best_reflex": {
+     "mean": 44.93130837850618,
+     "se": 0.2958083250231632,
+     "sd": 6.693378321770015,
+     "z": 151.89331934788464,
+     "n": 512
+    },
+    "memory_part_verdict": "MEMORY_PART",
+    "dark_time_fraction": 0.5,
+    "info_gap_minus_base1_info_gap": {
+     "mean": -13.47852246270859,
+     "se": 0.28074186284682656,
+     "n": 512,
+     "base1_info_gap": {
+      "mean": 27.809760987209046,
+      "se": 0.19474737056804836,
+      "sd": 4.406629963101327,
+      "z": 142.79916029722105,
+      "n": 512
+     }
+    }
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 1.5050742206573486,
+     "captures": 6.24609375,
+     "misses": 41.796875,
+     "dark_caps": 0.791015625,
+     "cpu_per_life": 0.07929080078125
+    },
+    "priv C1 truth": {
+     "F": 93.14109096179665,
+     "captures": 193.14453125,
+     "misses": 1.953125,
+     "dark_caps": 95.791015625,
+     "cpu_per_life": 0.04552457226562498
+    },
+    "C5 ring4": {
+     "F": 15.836312745157805,
+     "captures": 38.255859375,
+     "misses": 32.216796875,
+     "dark_caps": 6.2421875,
+     "cpu_per_life": 0.3802619179687501
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 2.0983192481994632,
+     "captures": 6.455078125,
+     "misses": 41.318359375,
+     "dark_caps": 0.623046875,
+     "cpu_per_life": 0.046743984374999936
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 2.295695888519287,
+     "captures": 6.859375,
+     "misses": 41.228515625,
+     "dark_caps": 0.57421875,
+     "cpu_per_life": 0.04774346289062492
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 2.0059442522525788,
+     "captures": 6.51953125,
+     "misses": 41.26171875,
+     "dark_caps": 0.6328125,
+     "cpu_per_life": 0.06048800390625009
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.25432642641067504,
+     "captures": 0.62890625,
+     "misses": 1.30078125,
+     "dark_caps": 0.03125,
+     "cpu_per_life": 0.0025310371093749673
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": -1.1363374290466308,
+     "captures": 0.0,
+     "misses": 0.0,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.07673914843749996
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 1.3764770307540892,
+     "captures": 5.58203125,
+     "misses": 21.79296875,
+     "dark_caps": 0.501953125,
+     "cpu_per_life": 0.08026702148437492
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 1.5050742206573486,
+     "captures": 6.24609375,
+     "misses": 41.796875,
+     "dark_caps": 0.791015625,
+     "cpu_per_life": 0.07106570312499993
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 1.0121831321716308,
+     "captures": 5.23828125,
+     "misses": 42.08984375,
+     "dark_caps": 0.72265625,
+     "cpu_per_life": 0.074009568359375
+    },
+    "C5 ring4 abl B idle while believed dark": {
+     "F": 11.398653622132235,
+     "captures": 28.8671875,
+     "misses": 22.14453125,
+     "dark_caps": 3.4765625,
+     "cpu_per_life": 0.40528835546874986
+    },
+    "C5 ring4 abl A no dark model": {
+     "F": 15.848316995796104,
+     "captures": 38.140625,
+     "misses": 25.0078125,
+     "dark_caps": 4.021484375,
+     "cpu_per_life": 0.3590101953125
+    },
+    "priv M1 extrapolate": {
+     "F": 51.53925160980735,
+     "captures": 108.3671875,
+     "misses": 23.974609375,
+     "dark_caps": 20.248046875,
+     "cpu_per_life": 0.047471580078124465
+    },
+    "priv M1 hold": {
+     "F": 51.203073385620044,
+     "captures": 107.697265625,
+     "misses": 24.94140625,
+     "dark_caps": 19.36328125,
+     "cpu_per_life": 0.046410039062500186
+    },
+    "priv M1 idle-in-dark": {
+     "F": 46.43638259916353,
+     "captures": 97.455078125,
+     "misses": 1.001953125,
+     "dark_caps": 2.43359375,
+     "cpu_per_life": 0.04588448632812492
+    },
+    "C5 hollow3": {
+     "F": 8.671720562278754,
+     "captures": 20.630859375,
+     "misses": 23.486328125,
+     "dark_caps": 2.994140625,
+     "cpu_per_life": 0.2316988750000002
+    },
+    "big router@ring4 frozen": {
+     "F": 2.348593843460083,
+     "captures": 10.677734375,
+     "misses": 40.634765625,
+     "dark_caps": 1.23828125,
+     "cpu_per_life": 0.19000633203125
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": -1.223126834869385,
+     "captures": 3.3125,
+     "misses": 35.65625,
+     "dark_caps": 0.546875,
+     "cpu_per_life": 0.19858501367187498
+    }
+   }
+  },
+  {
+   "world": "base1",
+   "keys": "catch_speck_l4 (d0 1, d_min 0.5); no blink (control)",
+   "n": 512,
+   "block": 100,
+   "seeds": "fresh_seeds(512, 43_000_000 + 10_000 * 100)",
+   "best_reflex": {
+    "name": "reflex@hollow3 frozen",
+    "F": 8.574486892700195,
+    "se": 0.11823396085669396,
+    "candidates": {
+     "reflex@hollow3 frozen": 8.574486892700195
+    },
+    "rt_minus_frozen": null
+   },
+   "ceiling_C1": {
+    "F": 84.34285651484021,
+    "gap": {
+     "mean": 75.76836962214001,
+     "se": 0.13949521531244322,
+     "sd": 3.156416406096196,
+     "z": 543.161064359326,
+     "n": 512
+    }
+   },
+   "best_info": {
+    "name": "C5 ring4",
+    "F": 36.38424787990924,
+    "gap": {
+     "mean": 27.809760987209046,
+     "se": 0.19474737056804836,
+     "sd": 4.406629963101327,
+     "z": 142.79916029722105,
+     "n": 512
+    },
+    "params_source": "t5_tune start knobs (never tuned in this world: harness C4-tuned knobs for base1)",
+    "rows": {
+     "C5 ring4": {
+      "F": 36.38424787990924,
+      "gap": {
+       "mean": 27.809760987209046,
+       "se": 0.19474737056804836,
+       "sd": 4.406629963101327,
+       "z": 142.79916029722105,
+       "n": 512
+      }
+     },
+     "C5 hollow3": {
+      "F": 21.120972824560198,
+      "gap": {
+       "mean": 12.546485931860001,
+       "se": 0.18438361574989598,
+       "sd": 4.172124961166277,
+       "z": 68.04555752328054,
+       "n": 512
+      }
+     }
+    }
+   },
+   "do_less": {
+    "best": "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)",
+    "gap": {
+     "mean": 0.0,
+     "se": 0.0,
+     "sd": 0.0,
+     "z": 0.0,
+     "n": 512
+    },
+    "info_minus_do_less": {
+     "mean": 27.809760987209046,
+     "se": 0.19474737056804836,
+     "sd": 4.406629963101327,
+     "z": 142.79916029722105,
+     "n": 512
+    },
+    "rows": {
+     "do-less reflex@hollow2 frozen": {
+      "mean": -3.124552927017212,
+      "se": 0.1267962006059831,
+      "sd": 2.8690705048697756,
+      "z": -24.64232297248956,
+      "n": 512
+     },
+     "do-less reflex@hollow2 hollow3 knobs": {
+      "mean": -3.3016341075897215,
+      "se": 0.12381758071801416,
+      "sd": 2.801672030586257,
+      "z": -26.665309469331024,
+      "n": 512
+     },
+     "do-less reflex@ring2 frozen": {
+      "mean": -3.231848436832428,
+      "se": 0.12252010944830198,
+      "sd": 2.7723136071235945,
+      "z": -26.378106021821043,
+      "n": 512
+     },
+     "do-less clicker (2 cells)": {
+      "mean": -8.134077919387817,
+      "se": 0.11862543176656572,
+      "sd": 2.684187111146263,
+      "z": -68.56942729948729,
+      "n": 512
+     },
+     "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+      "mean": -9.715025718688965,
+      "se": 0.118249005306087,
+      "sd": 2.675669552655941,
+      "z": -82.1573567874137,
+      "n": 512
+     },
+     "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+      "mean": -0.2788461446762085,
+      "se": 0.09150968525530966,
+      "sd": 2.0706278076248346,
+      "z": -3.0471763059640624,
+      "n": 512
+     },
+     "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+      "mean": 0.0,
+      "se": 0.0,
+      "sd": 0.0,
+      "z": 0.0,
+      "n": 512
+     },
+     "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+      "mean": -0.5782886867523194,
+      "se": 0.11648693219489935,
+      "sd": 2.6357983895881887,
+      "z": -4.964408246109181,
+      "n": 512
+     }
+    }
+   },
+   "bigger_body_no_computation": {
+    "best": "big router@ring4 frozen",
+    "gap": {
+     "mean": 2.316723311662674,
+     "se": 0.14410332125271308,
+     "sd": 3.2606859407775026,
+     "z": 16.076821072012983,
+     "n": 512
+    },
+    "rows": {
+     "big router@ring4 frozen": {
+      "mean": 2.316723311662674,
+      "se": 0.14410332125271308,
+      "sd": 3.2606859407775026,
+      "z": 16.076821072012983,
+      "n": 512
+     },
+     "big reflex@ring4 (hollow3 knobs)": {
+      "mean": -5.118234433174132,
+      "se": 0.13093191517130537,
+      "sd": 2.962651042923899,
+      "z": -39.09080858152626,
+      "n": 512
+     }
+    },
+    "info_minus_big": {
+     "mean": 25.493037675546375,
+     "se": 0.20838072289425508,
+     "sd": 4.715117511266644,
+     "z": 122.33875245976125,
+     "n": 512
+    }
+   },
+   "info_hollow3_footprint_matched": {
+    "F": 21.120972824560198,
+    "gap": {
+     "mean": 12.546485931860001,
+     "se": 0.18438361574989598,
+     "sd": 4.172124961166277,
+     "z": 68.04555752328054,
+     "n": 512
+    }
+   },
+   "memory": {
+    "dark_share": {
+     "mean": 0.0,
+     "se": 0.0,
+     "dark_info": 0.0,
+     "dark_reflex": 0.0,
+     "cap_info": 81.06640625,
+     "cap_reflex": 20.791015625
+    },
+    "memory_part_verdict": "n/a (no dark phase)"
+   },
+   "verdict": "ADMIT",
+   "rows": {
+    "reflex@hollow3 frozen": {
+     "F": 8.574486892700195,
+     "captures": 20.791015625,
+     "misses": 44.7734375,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.052946884765624924
+    },
+    "priv C1 truth": {
+     "F": 84.34285651484021,
+     "captures": 175.1640625,
+     "misses": 3.599609375,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.032425744140625046
+    },
+    "C5 ring4": {
+     "F": 36.38424787990924,
+     "captures": 81.06640625,
+     "misses": 68.859375,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.3512576210937499
+    },
+    "do-less reflex@hollow2 frozen": {
+     "F": 5.449933965682984,
+     "captures": 13.35546875,
+     "misses": 42.966796875,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.025749162109374835
+    },
+    "do-less reflex@hollow2 hollow3 knobs": {
+     "F": 5.272852785110474,
+     "captures": 13.025390625,
+     "misses": 44.384765625,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.0336060488281249
+    },
+    "do-less reflex@ring2 frozen": {
+     "F": 5.3426384558677675,
+     "captures": 13.396484375,
+     "misses": 43.130859375,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.03697142187499991
+    },
+    "do-less clicker (2 cells)": {
+     "F": 0.44040897331237794,
+     "captures": 1.0234375,
+     "misses": 1.970703125,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.001004117187500153
+    },
+    "do-less hollow3 K.w0 0.75 (higher tap threshold)": {
+     "F": -1.1405388259887697,
+     "captures": 0.0,
+     "misses": 0.0,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.05417208007812491
+    },
+    "do-less hollow3 C.g_r 0.5 (fewer centre pings)": {
+     "F": 8.295640748023986,
+     "captures": 19.80078125,
+     "misses": 23.84765625,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.05383964062500013
+    },
+    "do-less hollow3 C.t_ref 4 + K.t_ref 4 (fewer clicks)": {
+     "F": 8.574486892700195,
+     "captures": 20.791015625,
+     "misses": 44.7734375,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.05044676757812483
+    },
+    "do-less hollow3 M.kappa 0.5 (weaker steering)": {
+     "F": 7.996198205947875,
+     "captures": 19.591796875,
+     "misses": 44.29296875,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.04653128320312527
+    },
+    "C5 hollow3": {
+     "F": 21.120972824560198,
+     "captures": 46.9765625,
+     "misses": 66.234375,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.16048273828124993
+    },
+    "big router@ring4 frozen": {
+     "F": 10.891210204362869,
+     "captures": 28.294921875,
+     "misses": 45.4765625,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.1554466249999999
+    },
+    "big reflex@ring4 (hollow3 knobs)": {
+     "F": 3.4562524595260617,
+     "captures": 13.04296875,
+     "misses": 40.845703125,
+     "dark_caps": 0.0,
+     "cpu_per_life": 0.1531279785156251
+    }
+   }
+  }
+ ],
+ "table_md": "| world | best reflex F | ceiling gap (C1) | info gap +- SE | info gap, hollow3 | do-less gap | bigger body gap | dark-capture share | C5 - idle-in-dark | info gap - base1's | verdict |\n|---|---|---|---|---|---|---|---|---|---|---|\n| blink20_10 | +5.21 (rt-mem) | +79.14 +- 0.12 | +15.63 +- 0.19 (ring4) | +7.56 +- 0.15 | -0.02 +- 0.02 | +0.88 +- 0.10 | 0.210 +- 0.003 | +2.34 +- 0.20 | -12.18 +- 0.26 | ADMIT |\n| blink20 | +3.49 (rt-mem) | +80.86 +- 0.12 | +11.09 +- 0.16 (ring4) | +5.66 +- 0.13 | -0.02 +- 0.01 | +0.25 +- 0.10 | 0.250 +- 0.004 | +3.55 +- 0.16 | -16.72 +- 0.25 | ADMIT |\n| blink10_30 | +0.97 (frozen) | +83.38 +- 0.09 | +5.30 +- 0.11 (ring4) | +3.14 +- 0.09 | +0.00 +- 0.00 | -0.69 +- 0.07 | 0.454 +- 0.007 | +2.08 +- 0.11 | -22.51 +- 0.23 | ADMIT |\n| blink5_5 | +3.90 (frozen) | +80.44 +- 0.11 | +13.19 +- 0.17 (ring4) | +6.14 +- 0.13 | +0.00 +- 0.00 | +0.08 +- 0.10 | 0.484 +- 0.005 | +3.96 +- 0.18 | -14.62 +- 0.25 | ADMIT |\n| flash5_dim25 | +3.75 (frozen) | +80.59 +- 0.11 | +22.56 +- 0.21 (ring4) | +8.04 +- 0.15 | -0.05 +- 0.04 | -0.75 +- 0.10 | 0.861 +- 0.002 | +24.61 +- 0.22 | -5.25 +- 0.27 | ADMIT |\n| pool_blink20 | +1.51 (frozen) | +91.64 +- 0.10 | +14.33 +- 0.19 (ring4) | +7.17 +- 0.13 | +0.79 +- 0.07 | +0.84 +- 0.09 | 0.170 +- 0.003 | +4.44 +- 0.20 | -13.48 +- 0.28 | ADMIT |\n| base1 | +8.57 (frozen) | +75.77 +- 0.14 | +27.81 +- 0.19 (ring4) | +12.55 +- 0.18 | +0.00 +- 0.00 | +2.32 +- 0.14 | 0.000 +- 0.000 | n/a | n/a | ADMIT |"
+}

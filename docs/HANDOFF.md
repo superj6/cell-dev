@@ -40,6 +40,15 @@ The isolated worktree and working evidence remain under `outputs/abi4_visibility
 Old scratch controller harnesses require isolated pinned ABI 3 imports and checked raw buffer sizes.
 This does not approve motor flip, a large selection matrix, population-responsive worlds or rented compute.
 
+**X prepared (2026-10-14).** A bounded flash/blink information measurement uses the unchanged historical C5
+controller and twelve fixed references/interventions in each world, at T1024 on 512 fresh shared seeds.
+The 13,312 research lives plus 82 validation/calibration lives have a cumulative 3,600 CPU-second cap;
+validation must pass within its included 180-second allocation before research starts. Only blocks113/116
+are registered; the duration extension remains held. Prospective evidence is in
+`results/visibility_information_20261014/`. No X lives have run at preparation. Both ablations are broad;
+memory-specific admission remains incomplete regardless of their effect. This is an external measurement,
+with no new organism behavior or hand-built winning-body gate.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with
@@ -316,10 +325,12 @@ creation can do, that's the whole point".
   - **What pays** is active search from a belief (path integration of its own strokes, pings and the absence of
     pings).
   - **Switching:** in the motor-flip mix (50% of lives flip mid-life), the flip detector adds +12.7 F.
-  - **Memory:** in the flash world, acting on memory while the target is dim adds +24.6 F. In renewal blink worlds it
-    adds +2-4.
-  - **Later measurements:** bounded base/POOL gradients and decoy information are now measured above. Prediction,
-    full all-world gradients and capability-world duration transfer remain pending; N completes base/POOL duration checks.
+  - **Flash/blink information:** suppressing actions while the controller believes the target is dark loses
+    +24.6 F in flash and +2-4 in renewal blink. This broad action intervention does not isolate memory; the
+    historical memory-admission interpretation is corrected in plan 0.3.
+  - **Later measurements:** bounded base/POOL gradients, decoy information and moving-target information are now
+    measured above. Full all-world gradients and capability-world duration transfer remain pending;
+    N completes base/POOL duration checks.
 
 ## 5. Decision status and remaining approvals
 
@@ -350,7 +361,7 @@ Staged, so that arms B and P can launch before the ABI 4 port lands.
 | E1 | **Implemented and replay-tested:** checkpoint/resume with determinism pinning | none | done |
 | E2 | d0 0.5 / d_min 0.25 as the base; re-run GS1-GS6 (`scripts/life_gates.py --world speck`); re-tune reflex and router | report only | 0.5 day plus CPU |
 | E3 | Family harness in `evaluate.py`, behind a flag that is off by default; prototype `results/taskvar_study/engineering/fam_eval.py` | decision 1 to *use* it | 0.5-1 day |
-| E9 | ABI 4: flip (t_flip), blink, flash with dim level, in all three engines with truth lives | decision 2 | 0.5-1 day, the riskiest |
+| E9 | **Approved flash/blink ABI 4 port complete:** all three engines and truth lives; motor flip remains held | approval needed for motor flip | visibility done |
 | E4 | Generation calendar for arm M: phase = floor(g / E) mod 2 | section 6 decision 3 | hours |
 | E5 | **Implemented and parity-tested:** KILL (wounds) port to lifesim.js and embedded atlas | none | done |
 | E6 | **Tooling implemented:** lateral shares, relay chains, BH3 data contract and ABI-3 BH4 readouts | none | matched BH3 scoring pending |

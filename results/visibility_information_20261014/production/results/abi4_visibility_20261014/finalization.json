@@ -1,0 +1,32 @@
+{
+  "post_checkpoint_source_changes": {
+    "src/life/evaluate.py": {
+      "tested_sha256": "fbb1fa7dbbc6a44ac3bd279715fd995619578a98f4c03b6d4d7e8ce1e8596fdb",
+      "final_sha256": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2",
+      "change": "docstring line wrapping only"
+    },
+    "src/life/probe.py": {
+      "tested_sha256": "50c22e897fe28a5e1ed7945f4c338805602727d5d38521234f7a7caf6179a903",
+      "final_sha256": "bb55d411c16efca7ab21eb5001d7e118c5e1501750d6a9068413d9111e42e95e",
+      "change": "docstring line wrapping only"
+    }
+  },
+  "default_suite": {
+    "passed_initial": 850,
+    "failed_initial": 5,
+    "deselected_slow": 127,
+    "targeted_retest_passed": 23,
+    "checkpoint_tests_passed": 6,
+    "final_distinct_default_tests_passed": 861
+  },
+  "regression_fixes": [
+    "Isolated worktree .venv symlink to existing main environment",
+    "Exact historical fwd50 logs restored from main and committed as 859ddc8",
+    "Two docstrings wrapped; retained capture script stored as .py.txt"
+  ],
+  "limits": [
+    "Slow tests were not run as a whole suite.",
+    "Engineering fixtures do not establish information payoff or an evolved algorithm.",
+    "Recorded tests precede the documented docstring-only wraps; targeted style/fixture checks follow them."
+  ]
+}

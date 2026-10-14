@@ -1190,3 +1190,35 @@ do not select parameters or count as scientific evidence. Twelve retained action
 all calibration ledger columns and fitness independently reconcile. Research release requires host-level proof
 that every U process/group exited, irrespective of U's scientific outcome. Partial candidate batches, guards,
 invalids or mismatches block inference; no rows are censored. No research lives have run at registration.
+
+### X. Information payoff when target cues dim or disappear (2026-10-14)
+
+The user-approved flash and irregular-blink ABI4 presets retain ordinary conduction and SPECK prices.
+The frozen protocol in `results/visibility_information_20261014/` specifies thirteen fixed candidates per
+world, each on 512 shared fresh T1024 seeds. I is the unchanged historical C5 at hollow3 (56 cells); R0/R1
+are the frozen and historical per-world retuned reflexes at that same footprint. A removes the broad
+visibility model; B suppresses actions while the controller believes the target is dark. Eight fixed smaller
+or quieter references reproduce the historical scoring script. No controller is retuned or put into an organism.
+
+Block113 is reserved for research, seeds 52,130,000 through 52,130,511. Block116 is reserved for validation,
+seeds 52,160,000/1. The final numeric inventory and text-formula review find no prior overlap. Blocks114/115
+are held suggestions for a separate duration extension and remain unreserved. W remains an unreleased
+moving-target gradient outline; X does not release it or any closed-batch study.
+
+Primary information contrasts are I minus each fixed reflex and minus the better whole-sample reference.
+All eight do-less contrasts, paired quarter-gap margins, captures, low-light captures and cost components
+are retained. Selected-reference summaries are descriptive. Neither broad ablation isolates memory; the
+capability-specific condition and G5 duration transfer remain incomplete whatever these results show.
+
+The first-attempt-only cap is 3,600 cumulative CPU-seconds for 13,312 research lives plus exactly 82 validation
+calls. Validation includes 16 scratch/production physical-bridge lives, 24 full/fast lives, 30 callback/action
+record/replay/control lives and 12 cost-calibration lives. It must finish within 180 CPU-seconds included in
+the total cap. At most two one-thread research workers run. Compilation, failures, monitor and descendants
+count toward the cap. Raw ABI sizes, source/numerical pins and actual monitor ownership are checked before
+dispatch. Any validation failure, guard, unexpected extinction, invalid/missing row or budget/cleanup failure
+leaves the study incomplete. There is no retry, resume, sample replacement or parameter change.
+
+The independent analyzer reconstructs candidates and all 57 scratch ledger columns without engine imports.
+Both callbacks and requested actions must replay exactly; the production low-light readout is bridged explicitly.
+Root release follows reviewed preparation, terminal U/V resource clearance and public prospective publication.
+At registration, no X library has been compiled and no X life has been simulated.

@@ -45,6 +45,13 @@ Legacy byte fixtures, C/Python/JS truth, prototype physics, scheduling/threads a
 rules are unchanged. This completes the limited implementation step, not world admission or a memory claim.
 Fresh information-payoff measurement is the next preparation; no large selection matrix is released.
 
+*2026-10-14 X prepared:* flash and irregular blink each receive the unchanged historical C5 and twelve fixed
+references/interventions on 512 fresh paired T1024 lives. The 13,312 research lives plus 82 validation calls
+are capped at 3,600 cumulative CPU-seconds, with at most two one-thread workers. Blocks113/116 are registered;
+the separate duration extension remains held. Prospective evidence is in `results/visibility_information_20261014/`.
+No lives have run at preparation. The broad model/action ablations do not isolate memory, so capability-specific
+admission remains incomplete; this measurement tests information payoff without prescribing evolved behavior.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.
@@ -237,9 +244,14 @@ null comparison and remaining question.
 
 ### 0.3 Capability worlds (512-1,024 fresh paired lives each)
 
-The **specific part** is the share of the information gap that needs the capability. It is measured by switching off
-only that part of the controller:
-- memory: the controller idles while it believes the target is dark;
+**Interpretation correction (2026-10-14):** the table below preserves the historical scores and verdicts.
+Its flash/blink intervention suppresses actions while the controller believes the target is dark; it does not
+remove only memory. Those rows support information payoff, but their historical "Admit (memory)" labels do not
+establish the capability-specific condition in 0.4. Fresh study X retains this distinction. The numerical
+comparisons also mix footprints unless the reflex-footprint column is used.
+
+The historical **specific part** column reports these interventions:
+- flash/blink: the controller idles while it believes the target is dark;
 - switching: the flip detector is turned off.
 
 The info gaps use the best footprint (ring4 for memory, ring6 for switching), so they also include the footprint
@@ -263,11 +275,12 @@ effect from 0.2.
     and comes within 0.5 F of switching at the true flip time.
   - A blind clock switch (no sensing) loses 5.2 F.
   - At the reflex's own footprint (hollow3) the switching part is still +4.4.
-- **Flash is the clean memory world.**
+- **Flash rewards action while cues are weak.**
   - 86% of the controller's extra captures there happen while the target is dim.
-  - Caveat: the dim target still sends weak pings, so "memory" here also includes integrating weak evidence.
-- **Updated measurement status:** discrimination now has the fixed-controller result above; prediction (fast straight
-  targets), the 30-world map and full all-world gradients remain unmeasured. Bounded base/POOL gradients are archived.
+  - The dim target still sends weak pings. This comparison cannot separate memory from integrating weak evidence
+    or from the direct cost of suppressing useful actions.
+- **Updated measurement status:** discrimination and fast persistent targets now have the fixed-controller results
+  above; the 30-world map and full all-world gradients remain unmeasured. Bounded base/POOL gradients are archived.
   These omissions reflect missing measurements, never failed hand-built gates. An unverified first look in the
   fast-target world gave the generic tracker C2 +3.7 and C4 +0.1.
 

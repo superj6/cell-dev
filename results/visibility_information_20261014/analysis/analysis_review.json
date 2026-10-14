@@ -1,0 +1,67 @@
+{
+  "status": "approved_independent_offline_analysis",
+  "protocol_sha256": "14ed106bd6664c3ad4888c46c990beef3fbb8a7b93989da0e0c0bd625cfcbfa5",
+  "simulations": 0,
+  "compiled_libraries": 0,
+  "engine_modules_imported": false,
+  "source_pins": {
+    "analyze.py": "cafeca3cef60b16e29e3b976eadff10ea06da836a910091abafa62db69cdea5d",
+    "accounting.py": "1906b67d73ed1a023048792d18a158ae56ce3e7f2ee49d1bf064a442b8488461",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_analyze.py": "08b2239f2658adbda79134756879c620dc7700551f49cbfe5c71540a36dd2f1c",
+    "test_accounting.py": "e0b2ab9c31ac68f83714e4b2f0ca4416b467e4355f164a8c8357cc6dc20fc55e",
+    "ANALYSIS_README.md": "fa6453dd18bf570f960df8b40e958f992cd88021bc9c6fe1a10a3288f05239db"
+  },
+  "verification": {
+    "local_protocol_pins": 67,
+    "production_pins": 28,
+    "production_module_closure": 5,
+    "world_vectors_independently_repacked": 2,
+    "candidates": {
+      "candidate_count": 26,
+      "body_and_program_bytes_reconstructed": true,
+      "controller_source_sha256": "35e41256f9fcb84f2192531615c1002e5132a510ec3070ccb6127f696ad25816",
+      "full_parameter_bytes_sha256": {
+        "flash5_dim25": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+        "blink20": "7a971009e5bc301995b7a1a6c790afa5bcb81f18cff80dd1a9ee8958a72bdc35"
+      }
+    },
+    "fixed_research_seed_ids": 512,
+    "fixed_validation_seed_ids": 2,
+    "raw_ledger_columns_reconciled": 57,
+    "validation_calls_required": 82,
+    "research_calls_required": 13312,
+    "full_26_by_512_synthetic_archive": true,
+    "first_attempt_only": true,
+    "total_cpu_cap": 3600,
+    "validation_cpu_cap": 180,
+    "quarter_gap_rule": true,
+    "unexpected_static_extinction_rejected_without_penalty": true,
+    "synthetic_tests_passed": 154,
+    "ruff": "passed",
+    "unstarted_study_emits_no_scientific_outcomes": true
+  },
+  "peer_review": {
+    "agent": "prediction_audit",
+    "finding": "Production validation timing scalars must be validated and included in phase CPU subtotal.",
+    "resolved": "Both scalars checked before ABI-specific branch; five corruption cases added.",
+    "other_blockers": "none reported; paired payoff/quarter-gap/accountant/replay/resource interpretation reviewed"
+  },
+  "portable_archive_correction": "Archived dependency receipts precede mutable repository copies; production src skips frozen original/src.",
+  "limitations": [
+    "This is fixed external-controller information-payoff measurement, not evolved behavior.",
+    "A removes the broad visibility model; B suppresses actions while believed dark. Neither isolates memory or a specific capability.",
+    "The information/reference contrast combines sensing, state estimation, model assumptions and action policy.",
+    "Reference and do-less winners are selected by whole-sample mean. Paired SEs are descriptive, conditional on selection; fixed contrasts are also retained.",
+    "Matching seed IDs pairs exogenous random streams, but actions change subsequent trajectories and capture-triggered replacements.",
+    "Scratch 57-column ledgers are labelled as scratch; dark captures map to production low-light captures only through the accepted physical bridge.",
+    "G5 duration extension and capability-specific admission remain incomplete; no automatic admission or memory claim follows.",
+    "CPU is the monitor total including validation and compilation. Row process CPU omits wrapper/compression/monitor overhead."
+  ],
+  "current_study_status": {
+    "status": "incomplete",
+    "scientific_outcomes_emitted": false,
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_information_20261014/operations/ready.json'"
+  },
+  "launch_authorized_by_this_receipt": false
+}

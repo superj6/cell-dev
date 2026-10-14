@@ -2277,3 +2277,17 @@ historical logs were published as `859ddc8`. Earlier exact receipts and the two 
 recorded rather than rewritten. `results/abi4_visibility_20261014/` preserves sources, truth, bridge outcomes,
 test receipts and a hash verifier. This is engineering evidence, with no new information-payoff or evolved-memory
 claim. Fresh payoff measurements and bounded evolution remain separate work; no large run or paid compute began.
+
+## 2026-10-14 — Fresh flash/blink information study prepared
+
+X fixes thirteen historical controller/reflex variants in each approved visibility world at T1024, on 512
+fresh shared seeds. It will measure information payoff at the reflex's own 56-cell footprint, low-light captures,
+and capture income versus economy. Neither its broad model ablation nor suppression of actions while believed
+dark removes only memory. The older plan0.3 memory-admission wording is corrected while preserving its scores.
+
+The fixed scope is 13,312 research lives plus 82 validation/calibration calls under 3,600 cumulative CPU-seconds,
+including a 180-second validation allocation. Source isolation, exact raw ABI checks, monitor ownership,
+callback/action replay instrumentation and independent raw accounting are prepared. Blocks113/116 are registered;
+the duration extension is held. `results/visibility_information_20261014/` preserves prospective inputs and reviews.
+No X scientific life or compilation has occurred at this milestone. Real compatibility checks must pass before
+research; no large evolution run, new organism behavior or paid compute is released.
