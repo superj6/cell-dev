@@ -1,0 +1,100 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "source_review_only_for_worker_execution": true,
+  "protocol_sha256": "3711f50e66d7a558708da9ee95cd8ddc79648763cf1633c08fc4315006af42f5",
+  "preparation_sha256": "e2e1e1cf98ca82fa804e3842e55a9922b82435da5c0103d088e58342cdb29443",
+  "measurement_sha256": "e8f9e35c198d3d64a6d506a081635b1f44310b3299eb87eb2a07bad975ab4424",
+  "checks_by_run": {
+    "53091": {
+      "founder_parent": "s5",
+      "founder_row": 32,
+      "founder_raw_sha256": "8cf48e817e46728763b4103a7f6d793676c2d8dd2a8f4ef00d68d78eebecc5ad",
+      "config_sha256": "351e466bdf1f7869c1af5131e9a489f2ecdd0fad77da1786de2576781c42c715",
+      "initial_population_raw_sha256": "caff7c4218d7473000fbad785beaff2e6514d6d8bc5e4d874a8f3c70f69e6cc3",
+      "initial_population_file_sha256": "efb2de01262590138fa850bb23e3bb5744e8242cca81c7692aba0b0d830985c5",
+      "rows_reproduced_bitwise": 32,
+      "initial_point_mutations": 62,
+      "rng_before_sha256": "4050851f0134ba8407210a8632188da0edafd26d8fcdd73c0392b7b29f32af7d",
+      "rng_after_sha256": "8a557ffe3fb3364cce1fd29a7021d510dfd3da9c4d4ccbb1926edbd4291e9f76",
+      "search_world_exactly_F_and_I": true,
+      "scheduled_seed_ids_checked": 64,
+      "selection_threads": 2
+    },
+    "53092": {
+      "founder_parent": "s7",
+      "founder_row": 1,
+      "founder_raw_sha256": "5f72a6c80a55667d38f5ee4b3ebd12ed663e7f184e413203d64e68b586460661",
+      "config_sha256": "27d80c28f41ef10e8ca6d2c9a78c7eaabece37759a9778a9a35ce77fdeaa8b58",
+      "initial_population_raw_sha256": "4ef488dc2e9bfe8132919073b55062e9d06ca3ae4b97cebbfdfaacc63060b234",
+      "initial_population_file_sha256": "6aa7735ae23f2cf3a641e61b8347508c2dc770a1a5243e4c4df187c66153b600",
+      "rows_reproduced_bitwise": 32,
+      "initial_point_mutations": 62,
+      "rng_before_sha256": "a5f8d1e64a25c4751a580da2d8b8321805f3596b6254c22cee3324a07ece8284",
+      "rng_after_sha256": "1ff9548d5c8893c600773d17ddb4416daf47bdb617f82d7ce64fde7b0fdbd076",
+      "search_world_exactly_F_and_I": true,
+      "scheduled_seed_ids_checked": 64,
+      "selection_threads": 2
+    }
+  },
+  "condition_changes": {
+    "trained": {},
+    "width_swapped": {
+      "sigma": 1.2,
+      "b2_sigma": 0.6
+    },
+    "frozen": {
+      "t_fork": 512.0,
+      "t_open": 544.0,
+      "fork_flags": 16
+    },
+    "frozen_lateral_off": {
+      "t_fork": 512.0,
+      "t_open": 544.0,
+      "fork_flags": 2064
+    }
+  },
+  "accounting_windows": {
+    "trained": 1024.0,
+    "width_swapped": 1024.0,
+    "frozen": 480.0,
+    "frozen_lateral_off": 480.0
+  },
+  "research_lives": 16460,
+  "startup_validation_lives_separate": 6,
+  "selection_threads_max": 4,
+  "confirmation_threads": 2,
+  "confirmation_paired_seeds": 512,
+  "endpoint_rule": "Both completed generation4 rank0 endpoints bound atomically before any confirmation row.",
+  "paired_interactions": "Within-seed differences only: trained-width_swapped and frozen-frozen_lateral_off.",
+  "source_pins": {
+    "outputs/autonomous_decoy_evolution_20261014/protocol.json": "3711f50e66d7a558708da9ee95cd8ddc79648763cf1633c08fc4315006af42f5",
+    "outputs/autonomous_decoy_evolution_20261014/prepare.py": "e2e1e1cf98ca82fa804e3842e55a9922b82435da5c0103d088e58342cdb29443",
+    "outputs/autonomous_decoy_evolution_20261014/measure.py": "e8f9e35c198d3d64a6d506a081635b1f44310b3299eb87eb2a07bad975ab4424",
+    "outputs/autonomous_decoy_evolution_20261014/PREREG.md": "6f5a558a789d6df1566d4b5df5c1ee13d4616e958ed2bb0b7e2a23b08b8e9e5b",
+    "outputs/autonomous_decoy_evolution_20261014/run_budgeted.py": "8e17e7912e2b3557b15d83de49a8d21aeb19bba7dcd00ba9b9733cb98c0b73bf",
+    "outputs/autonomous_decoy_evolution_20261014/seed_audit.json": "d7c7f807ce320471707c33fc380bc04fbc67f722416f6f555533e0d90b483a38",
+    "outputs/autonomous_decoy_evolution_20261014/initialization.json": "72235b1b8ed35f64e640afbbd8ea343c5946e9026c53ea471364d72cc784ef69",
+    "outputs/autonomous_decoy_evolution_20261014/configs/s53091.yaml": "351e466bdf1f7869c1af5131e9a489f2ecdd0fad77da1786de2576781c42c715",
+    "outputs/autonomous_decoy_evolution_20261014/inputs/founder_s5_row32.json": "39b513d376b6777fe9844f5a1d6928a87bd4acad55519ccc42898408dc444187",
+    "outputs/autonomous_decoy_evolution_20261014/initialization/s53091.npy": "efb2de01262590138fa850bb23e3bb5744e8242cca81c7692aba0b0d830985c5",
+    "results/decoy_gradient_20261014/inputs/s5/genomes.npy": "3d153c01dfbba034769be23bcfd857c0877b802d2b3b687fe8a672ad38617045",
+    "outputs/autonomous_decoy_evolution_20261014/configs/s53092.yaml": "27d80c28f41ef10e8ca6d2c9a78c7eaabece37759a9778a9a35ce77fdeaa8b58",
+    "outputs/autonomous_decoy_evolution_20261014/inputs/founder_s7_row1.json": "05d3de9aa4bc9ae43171898e52961d70d8ad20224ef6807e3726b4e22f523e2a",
+    "outputs/autonomous_decoy_evolution_20261014/initialization/s53092.npy": "6aa7735ae23f2cf3a641e61b8347508c2dc770a1a5243e4c4df187c66153b600",
+    "results/decoy_gradient_20261014/inputs/s7/genomes.npy": "46a584e68228811d6fcc43b13751040f4177aa06f6c7c93e179eb3ac3c2fbe88"
+  },
+  "script_sha256": "32c9cd20adaefca760f418b01cb662190f29ddfb7f22224c8b30192682f134f0",
+  "interpretation_limits": [
+    "Width swap changes halo geometry, detection and resulting trajectories; it is not a pure capability lesion.",
+    "Positive width-association interaction alone cannot distinguish sophisticated classification from simple thresholding.",
+    "Freeze fixes GRN/phenotype/effective-weight updates and prevents new division/apoptosis; it does not establish maturity.",
+    "Frozen lateral-off blocks new in-plane spike sends after512; attempted-send cost, in-flight/vertical spikes and chemical packets persist.",
+    "The frozen lateral effect includes indirect network/motor dynamics and does not identify a circuit.",
+    "Whole-life and frozen-window fitness are never directly differenced.",
+    "Fitness gains may be cost savings; captures, poison clicks, misses and complete costs must remain visible.",
+    "Two fixed founder continuations and life-level paired SE do not establish general search reliability.",
+    "Protocol calls for no organism rule, ABI, global clock/channel, injected policy, price, or population-responsive world change."
+  ],
+  "findings": []
+}

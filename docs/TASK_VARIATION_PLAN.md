@@ -20,6 +20,13 @@ information pays, never by whether we can hand-build a winning body. Local async
 evolution-discovered behavior remain required. This clarification launches no study and changes no existing
 approval boundary; the completed batch stays closed.
 
+*2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
+evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
+founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.
+The allocation is 7,200 local CPU-seconds, with at most half spent on search. This bounded pilot does not assert
+a general task-family admission or a discrimination mechanism. V prepares a separate existing moving-target
+information measurement. The prior closed batch remains terminal or held; these are new registrations.
+
 *2026-10-13 measurement update:* a separate bounded 64-mutant/32-life diagnostic now has fresh 512-life confirmation
 and lateral lesions in base-fast and POOL. Three of four parent/world comparisons clear +0.5 F and 3 SE, with extra
 capture income and increased lateral-spike dependence; the s7/POOL comparison does not. See

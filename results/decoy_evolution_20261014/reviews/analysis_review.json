@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "analysis_sha256": "4f87216dfdb1603a1528bb62c833bffb4b7c17d899d35c5ed179a422e447a753",
+  "accounting_helper_sha256": "4e6800a092455649357cbd411b1352afcd3e4f82f6119ce7b597f068edd8df6c",
+  "measurement_sha256": "e8f9e35c198d3d64a6d506a081635b1f44310b3299eb87eb2a07bad975ab4424",
+  "test_file": "outputs/audit_decoy_evolution_20261014/test_analyze.py",
+  "test_sha256": "362888aa3f9a9a0f02878b3167eeeb1a3a3e1805f4a96ff7025625e450199f4e",
+  "pure_tests_passed": 19,
+  "review_scope": [
+    "Independent NumPy-only end-to-end synthetic16-row/8192-life archive with production worker report schema.",
+    "Within-seed interaction covariance and distinct founder references.",
+    "Capture, poison, miss, ordinary, guard and extinction decomposition with480-unit frozen accounting.",
+    "Frozen births/deaths/late-birth/composition/cell-time invariants, while guarded/extinct pairs retain fitness.",
+    "Not-started, incomplete, running and failed study gates read no partial outcomes.",
+    "Raw-byte corruption, resource cap, invalid ledger status and omitted extinction charge rejection.",
+    "Exact report scalar/SE and descriptive flag agreement."
+  ],
+  "resolved_findings": [
+    {
+      "issue": "Analyzer requested old helper descriptive flag names absent from worker reports.",
+      "resolution": "Root strips flags for mean/SE comparisons and explicitly checks primary above_3se/at_least_0p5 fields.",
+      "regression": "test_complete_archive_matches_actual_worker_report_schema and test_wrong_primary_descriptive_flag_rejected pass."
+    }
+  ],
+  "remaining_blocking_findings": [],
+  "limits": [
+    "Synthetic fixtures do not claim simulator parity or any empirical outcome.",
+    "Offline audit verifies checkpoint bytes against the frozen endpoint receipt; the worker performs the production checkpoint schema/state validation.",
+    "Future results require complete real artifacts and a separate raw-data review."
+  ]
+}

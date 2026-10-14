@@ -1153,3 +1153,19 @@ SE. Secondary S/P−ownD comparisons retain both branches and every sign. The pr
 lives under 14,400 cumulative CPU-seconds, at most four search threads, with R as a resource dependency.
 All 103 pure/mock checks pass; no research lives were simulated by preparation. The copied full PREREG and
 protocol control the detailed accounting, source pins, incomplete-study rules and limitations.
+
+### U. Ordinary evolution in the existing harmful-decoy world (2026-10-14)
+
+The user's renewed autonomous-work instruction authorizes this bounded existing-world pilot. The complete
+frozen protocol, source/seed/initialization reviews and synthetic accounting checks are in
+`results/decoy_evolution_20261014/`. Two fixed I winners each start an ordinary four-generation 32+224 search,
+with run seeds 53091/53092 and unchanged 3+4 evaluation. Both generation-4 rank0 endpoints are fixed before
+fresh scoring. Both founders and endpoints share 512 block106 seeds in trained, width-swapped, frozen and
+frozen-lateral-off conditions. Primary effects are each endpoint minus its own founder in the trained world.
+Width reversal also changes sensing geometry; freeze suppresses growth and regulatory updates. Full captures,
+harmful clicks and costs accompany every contrast; none alone proves discrimination or a new algorithm.
+
+The 7,200 cumulative CPU-second cap permits at most 3,600 for search, reserving half for confirmation. At most
+four search workers or two confirmation workers run. The fixed scope is 16,460 research lives plus six startup
+T200 validation lives. Block107 remains reserved for validation. Incomplete stages block outcome inference;
+no restart, endpoint replacement, extension or partial-study claim is allowed. No old study is reopened.

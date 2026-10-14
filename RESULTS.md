@@ -2150,3 +2150,23 @@ separated evidence, prediction, and context-dependent behavior. The task should 
 evolution discovers its implementation. World admission remains based on information payoff, without a
 hand-built-body gate. Local asynchronous rules, existing approval boundaries and the closed-batch status are
 unchanged. No experiment was prepared, released or restarted for this clarification.
+
+## 2026-10-14 — Autonomous exploration resumed: decoy evolution prepared
+
+At the user's request, work resumes toward more sophisticated evolved algorithms in richer environments.
+Study U uses the existing harmful-decoy world, where an external information-matched instrument already
+shows substantial payoff. Two four-generation ordinary searches start from the fixed I s5/s7 winners;
+512 fresh shared lives then compare both descendants and founders under trained conditions, reversed glow
+widths, and matched frozen-tissue conditions with and without new lateral messages.
+
+The 16,460 research lives have a 7,200 local CPU-second cap, with at most half allocated to search and at
+most four simulation workers. Six startup validation lives are separate and within the same cap. Preparation
+simulates zero lives. The 24 measurement, 40 monitor and 19 independent synthetic analysis checks pass;
+world/source identity, initialization replay and seed namespaces have independent reviews. No scientific
+result exists yet. `results/decoy_evolution_20261014/` preserves the prospective protocol and evidence.
+
+Useful discrimination remains a question: prior decoy gains mostly reduced costs, and width reversal alters
+sensing geometry as well as useful cue association. The new study reports complete costs, captures and harmful
+clicks alongside fitness. Frozen lateral effects do not alone identify an algorithm. V's separate existing
+moving-target information preparation is under independent review. The old P/Q/R studies remain terminal and
+S remains held; no unanswered approval boundary has been crossed.

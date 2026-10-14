@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "scope": "Source review, minimal descendant-lifetime hardening, and40pure mocked monitor checks; no scientific worker or simulation.",
+  "monitor_sha256": "8e17e7912e2b3557b15d83de49a8d21aeb19bba7dcd00ba9b9733cb98c0b73bf",
+  "test_monitor_sha256": "363d00879127dec7eb440df313af83bb5f026343e8228ae60c2bde7e9b751318",
+  "checks": {
+    "search_aggregate_stop_threshold_cpu_seconds": 3580,
+    "search_nominal_allocation_cpu_seconds": 3600,
+    "all_phase_aggregate_stop_threshold_cpu_seconds": 7180,
+    "overall_cpu_cap_seconds": 7200,
+    "confirmation_reserve_cpu_seconds": 3600,
+    "own_cpu_included": true,
+    "reaped_children_cpu_included": true,
+    "active_workers_and_descendants_cpu_included": true,
+    "search_workers": 2,
+    "search_threads_each": 2,
+    "confirmation_workers": 1,
+    "confirmation_threads": 2,
+    "thread_override_file_removed": true,
+    "searches_both_exit_success_before_confirmation": true,
+    "no_reset_or_automatic_restart": true,
+    "sigterm_then_group_sigkill_after_seconds": 2,
+    "worker_cpu_rlimit_and_parent_death_sigkill": true,
+    "terminal_queued_and_running_empty": true,
+    "monitor_and_worker_pid_starttime_pgid_records": true,
+    "source_and_ready_pins_rechecked_before_launch_and_completion": true,
+    "fixed_measurement_report_required": true,
+    "active_owned_group_cpu_includes_reparented_descendants": true,
+    "subreaper_enabled_before_any_worker": true,
+    "group_cleanup_before_removing_exited_leader": true,
+    "adopted_descendants_reaped_into_cumulative_cpu": true,
+    "owned_group_cleanup_deadline_seconds": 3,
+    "cleanup_failure_retains_unresolved_groups_and_blocks_confirmation": true,
+    "owned_process_groups_retained_in_budget": true
+  },
+  "pure_tests_passed": 40,
+  "simulated_lives": 0,
+  "findings": [
+    {
+      "issue": "Original monitor removed leaders after poll without terminating/reaping surviving same-group descendants; compiler subprocesses can occur via src/life/build.py:71.",
+      "resolution": "Use the reviewed V pattern: Linux child subreaper, owned-process-group live CPU, unconditional bounded group kill/reap before dropping leaders, and fail-closed cleanup_error records.",
+      "regression_tests": 9,
+      "status": "resolved",
+      "post_change_independent_source_review": "Root reviewed groupCPU/subreaper/cleanup_group-before-removal/cleanup-error behavior and reported it looked good."
+    }
+  ],
+  "operational_limits": [
+    "The shared CPU cutoff uses one-second polling and a20CPU-second shutdown margin; RLIMIT_CPU separately limits each worker.",
+    "Owned groups are always killed/reaped even when the leader has already exited; cleanup includes adopted descendant CPU before checking the next phase.",
+    "A group still present after the bounded teardown produces monitor_failed with cleanup_error and unresolved running identities; no automatic restart or confirmation follows.",
+    "This covers reviewed workers and compiler descendants inheriting their process group, not deliberately daemonized processes that escape the owned group.",
+    "Pure mocked checks do not establish future host process exit; readiness records exact identities/groups for later host-level clearance."
+  ]
+}

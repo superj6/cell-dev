@@ -8,11 +8,19 @@ make emerge, especially in more interesting environments. Prioritize environment
 Use mechanism analysis and search replication to guide and measure that progress; they are not prerequisites
 that must be exhausted before exploring richer environments. The closed research batch remains closed.
 
+**Autonomous work resumed (2026-10-14).** At the user's request, new bounded studies now prioritize richer
+existing ABI 3 environments. U is prepared and reviewed: two four-generation ordinary searches from the fixed
+I decoy winners, then four-condition fresh confirmation, under 7,200 CPU-seconds with half reserved for
+confirmation. See `results/decoy_evolution_20261014/`. V prepares an unchanged external moving-target
+information measurement, with independent review pending and no research release. Neither restarts the closed
+P/Q/R batch or releases held S. No ABI change, new organism behavior, paid compute or population-responsive
+world is authorized by these registrations.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with
 no readiness marker or run. Its unchanged protocol also requires completed P and R, which these terminal
-statuses do not satisfy. Do not restart or launch experiments from the prepared plans. The consolidated review
+statuses do not satisfy. Do not restart or launch experiments from those closed-batch prepared plans. The consolidated review
 and terminal accounting are at the end of `RESULTS.md`.
 
 **Pickup progress (2026-10-13).** E1, E5 and E6 tooling are implemented; see the newest `RESULTS.md` entries. Life runs now
@@ -388,6 +396,8 @@ truth lives. Only the fast build may skip hashes.
   use the production hash namespaces; they are not decimal blocks89/90. Block89 now holds K traces; block90
   is reserved for L s7 confirmation. Block100 holds M gene interactions; 101 holds O regulation; 102–104
   are allocated to released P/Q/R. Block105 is reserved for held S preparation and has not been simulated.
+  Blocks106–107 are reserved for U decoy evolution/confirmation and validation; 108–109 for V moving-target
+  information measurement and calibration. Search seeds53091/53092 use separately audited hashed namespaces.
   Blocks40–41 hold N duration-information measurements. P/S reuse search seeds52091/52092 intentionally;
   the S namespace audit records every overlap. Do not reuse decimal blocks or hashed IDs without a full audit.
 - Use 45M or above for new work.
