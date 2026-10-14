@@ -20,6 +20,12 @@ information pays, never by whether we can hand-build a winning body. Local async
 evolution-discovered behavior remain required. This clarification launches no study and changes no existing
 approval boundary; the completed batch stays closed.
 
+*2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
+their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
+trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does
+not prove discrimination. Neither adds resolved frozen lateral dependence. All 16,460 research lives complete
+within 2,919.475449 CPU-seconds; evidence is in `results/decoy_evolution_20261014/`.
+
 *2026-10-14 limited ABI 4 approval:* the user approved flash and irregular renewal blink in C/Python/JS,
 with the low-light capture readout and compatibility tests. `docs/ABI4_VISIBILITY_PROPOSAL.md` is the scoped
 contract. Motor flip and the large task-family selection matrix remain separate decisions. The port starts

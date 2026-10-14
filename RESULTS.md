@@ -2203,3 +2203,26 @@ retain their existing source pins. Before the port, 32 intentionally repeated AB
 were archived with complete ledger/hash/raster/fate outputs in `outputs/abi4_visibility_validation_20261014/`.
 They used 0.186 CPU-seconds. These are compatibility fixtures, not scientific evidence or hand-built-body gates.
 No ABI 4 outcome or parity claim exists yet.
+
+## 2026-10-14 — Decoy evolution: further economy and one cue-pattern specialization
+
+U completed both ordinary four-generation searches and all 8,192 fresh confirmation lives. Relative to their
+fixed I founders, final rank-zero gains in the trained world are **+0.959061 ± 0.096004** (s5) and
+**+0.319289 ± 0.100348 F** (s7). Both clear three SE, but only s5 clears +0.5 F. Capture changes are unresolved
+(+0.246094 ± 0.181965 and +0.109375 ± 0.189304 per life). Capture income explains +0.120163/+0.053406 F;
+the remaining +0.838898/+0.265883 comes from cost savings. Terminal bodies shrink by 26.270/7.926 cells.
+
+The s7 descendant makes **1.373047 ± 0.315032 fewer harmful clicks per life**. Its fitness difference changes
+from +0.319289 in the trained world to −0.761024 ± 0.150367 when target and decoy glow widths are exchanged;
+the paired interaction is **+1.080313 ± 0.177314 F**. This establishes dependence on that cue pattern but does
+not identify a discrimination algorithm: width reversal changes the useful signal's spatial geometry too.
+The s5 width interaction is unresolved (+0.149407 ± 0.156922). Added frozen-tissue lateral dependence is
+unresolved in both descendants (−0.314812 ± 0.169383 / −0.228469 ± 0.155575); freeze also stops regulatory updates.
+
+All 16,460 research lives plus six T200 startup validation lives used **2,919.475449 of 7,200 CPU-seconds**.
+Every confirmation ledger passes independent accounting and frozen-tissue checks, with no guards or invalids.
+Recorded genetic replay reproduces both final populations/origins; all search invalid/mismatch fields are zero.
+The s7 initial-generation evaluation includes three guards with production penalties retained; retained summaries
+do not recover every recheck guard count. All processes/groups exited. Full artifacts and independent reanalysis
+are in `results/decoy_evolution_20261014/`, including the prospective preparation, raw outcomes and figure.
+This is further adaptation from two fixed founders, mostly economy, without a new algorithm claim.

@@ -1,0 +1,972 @@
+{
+  "status": "complete",
+  "research_genome_lives": 16460,
+  "confirmation_genome_lives": 8192,
+  "monitored_cpu_seconds": 2919.4754490000005,
+  "raw_confirmation_cpu_seconds": 1201.0205865089997,
+  "confirmation": {
+    "s53091_final_rank0": {
+      "trained_gain": {
+        "mean": 0.9590608336180724,
+        "se": 0.09600366211000773,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "width_cue_interaction": {
+        "mean": 0.1494065163467287,
+        "se": 0.15692205841108967,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "added_frozen_lateral_dependence": {
+        "mean": -0.3148116551717123,
+        "se": 0.1693831150445591,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      }
+    },
+    "s53092_final_rank0": {
+      "trained_gain": {
+        "mean": 0.31928892160587763,
+        "se": 0.10034827523632898,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "width_cue_interaction": {
+        "mean": 1.0803127347048114,
+        "se": 0.17731396064768012,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "added_frozen_lateral_dependence": {
+        "mean": -0.22846868591308594,
+        "se": 0.15557544713332522,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      }
+    }
+  },
+  "conditions": {
+    "trained": {
+      "s53091_final_rank0": {
+        "absolute_means": {
+          "F": 0.7964415603484774,
+          "captures": 6.91796875,
+          "b2_clicks": 17.013671875,
+          "clicks": 48.64453125,
+          "misses": 24.712890625,
+          "n_end": 58.853515625,
+          "n_H_end": 5.23046875,
+          "live_time": 58699.87988883705,
+          "spikes": 9716.9453125,
+          "path": 344.6569527840509
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": 0.9590608336180724,
+            "se": 0.09600366211000773,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.24609375,
+            "se": 0.1819652803177499,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -0.046875,
+            "se": 0.2555558874556763,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -9.00390625,
+            "se": 0.4201005808444605,
+            "n": 512
+          },
+          "misses": {
+            "mean": -9.203125,
+            "se": 0.3631362665864192,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -26.26953125,
+            "se": 0.4245209465517578,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -3.3203125,
+            "se": 0.11280855622175598,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -26013.922785421157,
+            "se": 417.37456802493875,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -8134.9453125,
+            "se": 195.52344188616308,
+            "n": 512
+          },
+          "path": {
+            "mean": -114.13600117488895,
+            "se": 3.4559785091060173,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": 0.1201629638671875,
+            "se": 0.08885023453015131,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.002288818359375,
+            "se": 0.012478314817171697,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.089874267578125,
+            "se": 0.0035462526033829996,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.7467347838117547,
+            "se": 0.011768215737134404,
+            "n": 512
+          }
+        }
+      },
+      "s53092_final_rank0": {
+        "absolute_means": {
+          "F": 0.8292589040931392,
+          "captures": 8.490234375,
+          "b2_clicks": 27.8359375,
+          "clicks": 94.951171875,
+          "misses": 58.625,
+          "n_end": 60.9765625,
+          "n_H_end": 1.32421875,
+          "live_time": 61424.406258072406,
+          "spikes": 4469.28515625,
+          "path": 271.93223339420416
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": 0.31928892160587763,
+            "se": 0.10034827523632898,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.109375,
+            "se": 0.18930429773682914,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -1.373046875,
+            "se": 0.31503223099185257,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -3.02734375,
+            "se": 0.6376640686297144,
+            "n": 512
+          },
+          "misses": {
+            "mean": -1.763671875,
+            "se": 0.5260403602865088,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -7.92578125,
+            "se": 0.2730420570643403,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.20703125,
+            "se": 0.030666936290651335,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -7930.737094841671,
+            "se": 271.85013303851343,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -570.33203125,
+            "se": 37.52516684222324,
+            "n": 512
+          },
+          "path": {
+            "mean": -7.225597965790492,
+            "se": 1.783491137618306,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": 0.05340576171875,
+            "se": 0.09243373912931109,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.06704330444335938,
+            "se": 0.015382433153899052,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.017223358154296875,
+            "se": 0.005137112893422937,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.18161649728935392,
+            "se": 0.006150614811511492,
+            "n": 512
+          }
+        }
+      }
+    },
+    "width_swapped": {
+      "s53091_final_rank0": {
+        "absolute_means": {
+          "F": 6.509629238264322,
+          "captures": 17.580078125,
+          "b2_clicks": 6.3984375,
+          "clicks": 48.66015625,
+          "misses": 24.681640625,
+          "n_end": 59.111328125,
+          "n_H_end": 5.21875,
+          "live_time": 58960.64315413941,
+          "spikes": 10007.732421875,
+          "path": 343.7192297240334
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": 0.8096543172713436,
+            "se": 0.12148780085777096,
+            "n": 512
+          },
+          "captures": {
+            "mean": -0.03515625,
+            "se": 0.24384992171642686,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -0.044921875,
+            "se": 0.18686666107632222,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -9.30859375,
+            "se": 0.39719098660276186,
+            "n": 512
+          },
+          "misses": {
+            "mean": -9.228515625,
+            "se": 0.34702982801843224,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -26.193359375,
+            "se": 0.4279422222123613,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -3.478515625,
+            "se": 0.11522711914119427,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -25932.105338052905,
+            "se": 418.2229873616462,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -7609.287109375,
+            "se": 204.01460053888488,
+            "n": 512
+          },
+          "path": {
+            "mean": -113.52798954761425,
+            "se": 3.306237993665768,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": -0.0171661376953125,
+            "se": 0.11906734458809905,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.002193450927734375,
+            "se": 0.009124348685367295,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.09012222290039062,
+            "se": 0.0033889631642425025,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.7345047811371103,
+            "se": 0.011821695206807478,
+            "n": 512
+          }
+        }
+      },
+      "s53092_final_rank0": {
+        "absolute_means": {
+          "F": 11.11039291035756,
+          "captures": 27.537109375,
+          "b2_clicks": 7.716796875,
+          "clicks": 93.787109375,
+          "misses": 58.533203125,
+          "n_end": 61.119140625,
+          "n_H_end": 1.3203125,
+          "live_time": 61553.08950906515,
+          "spikes": 4446.494140625,
+          "path": 268.953344308588
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": -0.7610238130989337,
+            "se": 0.15036706124549576,
+            "n": 512
+          },
+          "captures": {
+            "mean": -1.9609375,
+            "se": 0.3086059903533693,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -0.193359375,
+            "se": 0.17686161919043,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -3.00390625,
+            "se": 0.6581706244752457,
+            "n": 512
+          },
+          "misses": {
+            "mean": -0.849609375,
+            "se": 0.5212411886839431,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -7.7890625,
+            "se": 0.25737663668967004,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.208984375,
+            "se": 0.031562689026179716,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -7812.134678480441,
+            "se": 256.3879040471472,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -546.568359375,
+            "se": 37.26807652555823,
+            "n": 512
+          },
+          "path": {
+            "mean": -9.020025683584176,
+            "se": 1.7952111614942818,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": -0.957489013671875,
+            "se": 0.1506865187272311,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.009441375732421875,
+            "se": 0.008635821249532716,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.008296966552734375,
+            "se": 0.005090245983241631,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.178726858287654,
+            "se": 0.005820922126833503,
+            "n": 512
+          }
+        }
+      }
+    },
+    "frozen": {
+      "s53091_final_rank0": {
+        "absolute_means": {
+          "F": 0.6651950620210356,
+          "captures": 3.11328125,
+          "b2_clicks": 7.9453125,
+          "clicks": 22.482421875,
+          "misses": 11.423828125,
+          "n_end": 58.578125,
+          "n_H_end": 5.23046875,
+          "live_time": 28117.5,
+          "spikes": 4693.08984375,
+          "path": 347.7385826358834
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": 1.0715084505491785,
+            "se": 0.12994925779015964,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.3125,
+            "se": 0.11888800046102362,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": 0.966796875,
+            "se": 0.19558595628638162,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -1.814453125,
+            "se": 0.4342175447724501,
+            "n": 512
+          },
+          "misses": {
+            "mean": -3.09375,
+            "se": 0.3155156596468509,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -26.20703125,
+            "se": 0.4224688221605205,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -3.3203125,
+            "se": 0.11280855622175598,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -12579.375000000011,
+            "se": 202.78503463705033,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -4609.544921875,
+            "se": 147.23303307250384,
+            "n": 512
+          },
+          "path": {
+            "mean": -105.22045350798598,
+            "se": 3.383450193611809,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": 0.32552083333333337,
+            "se": 0.1238416671468996,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": -0.10070800781250001,
+            "se": 0.020373537113164752,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.064453125,
+            "se": 0.006573242909309393,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.7822425000277046,
+            "se": 0.012401598342141763,
+            "n": 512
+          }
+        }
+      },
+      "s53092_final_rank0": {
+        "absolute_means": {
+          "F": -0.10517648485340822,
+          "captures": 3.0078125,
+          "b2_clicks": 10.349609375,
+          "clicks": 50.578125,
+          "misses": 37.220703125,
+          "n_end": 60.970703125,
+          "n_H_end": 1.32421875,
+          "live_time": 29265.9375,
+          "spikes": 2499.5078125,
+          "path": 270.9701042194513
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": -0.028423076619894155,
+            "se": 0.12719031901705277,
+            "n": 512
+          },
+          "captures": {
+            "mean": -0.283203125,
+            "se": 0.11392900091930117,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -0.771484375,
+            "se": 0.2551022251417493,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -1.234375,
+            "se": 1.1564225009499243,
+            "n": 512
+          },
+          "misses": {
+            "mean": -0.1796875,
+            "se": 1.245309001061952,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -7.92578125,
+            "se": 0.2730000585189805,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.20703125,
+            "se": 0.030666936290651335,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -3804.3749999999964,
+            "se": 131.04002808911102,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -312.966796875,
+            "se": 50.09335197604122,
+            "n": 512
+          },
+          "path": {
+            "mean": -6.814194636763409,
+            "se": 1.7838151714585324,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": -0.29500325520833337,
+            "se": 0.11867604262427203,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.08036295572916666,
+            "se": 0.02657314845226555,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.003743489583333339,
+            "se": 0.025943937522124,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.18247373327584027,
+            "se": 0.006374853156263266,
+            "n": 512
+          }
+        }
+      }
+    },
+    "frozen_lateral_off": {
+      "s53091_final_rank0": {
+        "absolute_means": {
+          "F": 0.6029336011445707,
+          "captures": 3.30078125,
+          "b2_clicks": 11.505859375,
+          "clicks": 25.17578125,
+          "misses": 10.369140625,
+          "n_end": 58.578125,
+          "n_H_end": 5.23046875,
+          "live_time": 28117.5,
+          "spikes": 2416.3671875,
+          "path": 306.843679248655
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": 1.3863201057208907,
+            "se": 0.12948369867810738,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.345703125,
+            "se": 0.1134225489370097,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -2.337890625,
+            "se": 0.23390706649110826,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -5.98046875,
+            "se": 0.35342258216710243,
+            "n": 512
+          },
+          "misses": {
+            "mean": -3.98828125,
+            "se": 0.24277041803440486,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -26.20703125,
+            "se": 0.4224688221605205,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -3.3203125,
+            "se": 0.11280855622175598,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -12579.375000000011,
+            "se": 202.78503463705033,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -2470.208984375,
+            "se": 57.97946273997168,
+            "n": 512
+          },
+          "path": {
+            "mean": -84.13932217198723,
+            "se": 2.884226639056309,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": 0.360107421875,
+            "se": 0.11814848847605178,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.2435302734375,
+            "se": 0.02436531942615711,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.08308919270833334,
+            "se": 0.005057717042383434,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.6995932176996335,
+            "se": 0.010922938888408599,
+            "n": 512
+          }
+        }
+      },
+      "s53092_final_rank0": {
+        "absolute_means": {
+          "F": -0.07690170763172857,
+          "captures": 2.396484375,
+          "b2_clicks": 10.0390625,
+          "clicks": 21.23046875,
+          "misses": 8.794921875,
+          "n_end": 60.970703125,
+          "n_H_end": 1.32421875,
+          "live_time": 29265.9375,
+          "spikes": 1089.236328125,
+          "path": 228.74649678674848
+        },
+        "vs_own_founder": {
+          "F": {
+            "mean": 0.20004560929319182,
+            "se": 0.10879474524555775,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.0,
+            "se": 0.10248562020272206,
+            "n": 512
+          },
+          "b2_clicks": {
+            "mean": -0.171875,
+            "se": 0.23760615192628992,
+            "n": 512
+          },
+          "clicks": {
+            "mean": -0.439453125,
+            "se": 0.486446858492112,
+            "n": 512
+          },
+          "misses": {
+            "mean": -0.267578125,
+            "se": 0.284740260231179,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -7.92578125,
+            "se": 0.2730000585189805,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.20703125,
+            "se": 0.030666936290651335,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -3804.3749999999964,
+            "se": 131.04002808911102,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -123.060546875,
+            "se": 22.830139643126568,
+            "n": 512
+          },
+          "path": {
+            "mean": -2.7103928121201446,
+            "se": 1.735334368432027,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "capture_income": {
+            "mean": 0.0,
+            "se": 0.1067558543778355,
+            "n": 512
+          },
+          "poison_cost_saving": {
+            "mean": 0.017903645833333343,
+            "se": 0.024750640825655198,
+            "n": 512
+          },
+          "miss_cost_saving": {
+            "mean": 0.005574544270833333,
+            "se": 0.005932088754816229,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "other_cost_saving": {
+            "mean": 0.1765674191889739,
+            "se": 0.006106289076220996,
+            "n": 512
+          }
+        }
+      }
+    }
+  },
+  "health": {
+    "trained": {
+      "I_s5_row32": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "I_s7_row1": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53091_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53092_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      }
+    },
+    "width_swapped": {
+      "I_s5_row32": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "I_s7_row1": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53091_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53092_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      }
+    },
+    "frozen": {
+      "I_s5_row32": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "I_s7_row1": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53091_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53092_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      }
+    },
+    "frozen_lateral_off": {
+      "I_s5_row32": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "I_s7_row1": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53091_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "s53092_final_rank0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      }
+    }
+  },
+  "frozen_structure": [
+    {
+      "label": "I_s5_row32",
+      "complete_pairs": 512,
+      "guard_or_extinct_pairs": 0,
+      "all_fitness_rows_retained": true
+    },
+    {
+      "label": "I_s7_row1",
+      "complete_pairs": 512,
+      "guard_or_extinct_pairs": 0,
+      "all_fitness_rows_retained": true
+    },
+    {
+      "label": "s53091_final_rank0",
+      "complete_pairs": 512,
+      "guard_or_extinct_pairs": 0,
+      "all_fitness_rows_retained": true
+    },
+    {
+      "label": "s53092_final_rank0",
+      "complete_pairs": 512,
+      "guard_or_extinct_pairs": 0,
+      "all_fitness_rows_retained": true
+    }
+  ],
+  "limits": [
+    "Two fixed founders with one search each do not estimate general search reliability.",
+    "Width reversal changes spatial signal geometry as well as cue identity.",
+    "Frozen lateral dependence does not identify a discrimination algorithm.",
+    "Freeze stops gene, phenotype and effective-weight updates as well as growth.",
+    "Higher fitness, larger bodies and message dependence alone do not establish sophistication."
+  ]
+}
