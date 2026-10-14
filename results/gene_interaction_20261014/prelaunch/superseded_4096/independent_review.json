@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "science": {
+    "status": "passed",
+    "reviewer": "audit_de",
+    "tests": 17,
+    "simulated_lives": 0,
+    "new_scientific_outcome_reads": false,
+    "lint": "passed",
+    "review": [
+      "Copied/source origins independently replayed from completed G lineage",
+      "All eight fixed raw genomes before any scoring",
+      "Existing Layout.delete and canonical inactive-bit packed tables",
+      "Double deletion commutes byte for byte",
+      "All512 seeds shared across8 rows; no outcome-filtered branch",
+      "Within-seed intact-copyKO-sourceKO+doubleKO signs and paired SE",
+      "Whole-life developmental limitation and guards retained",
+      "Full mocked8row workflow"
+    ],
+    "sha256": {
+      "measure.py": "de0066dc35e9fb96fea477e8eee59d076ccecd4fbcac0f17d1e6a50db4e28a69",
+      "test_measure.py": "fdbb430a158b7944db5fc9d4625ab000551bead1ed6e8ff1ccc16ce266fff355",
+      "protocol.json": "fd2727aa048c2e2915f67881ea2b9d92cbf21770356e210941149dc28d81bc6d",
+      "PREREG.md": "e09a0ebc6362a41f4e4d21319e486727759c14f2041c7522e66ef7b874691392",
+      "genomes.json": "49ebd3b8b3c8e8510febca2dc4cd6a1051578ceebde9c13d31f4efb07ccfa1d7",
+      "genotypes.npy": "e09cac0f7b2c40093576412bf2ba16ecf6910f0e78e57bd796ee64c595ea3d89"
+    },
+    "blockers": [],
+    "finalization_note": "Refreshed protocol/prereg hashes after prose-only spacing cleanup; science, tests and frozen genotypes unchanged."
+  },
+  "monitor": {
+    "status": "passed",
+    "pure_mock_tests_passed": 34,
+    "simulated_lives": 0,
+    "source_edits": false,
+    "files": {
+      "run_budgeted.py": "d6d41825affb028d691669c6e1722cc04e979da0d5c47d787318c22d1fd37da6",
+      "test_monitor.py": "39bceaab8dc4d0691958ad89b02a53db0d9c828e91550bfad610c0d07ef0ae8d"
+    },
+    "reviewed_safeguards": [
+      "Exact single L dependency must complete with empty running and queued records",
+      "Readiness binds own and dependency source hashes, with rechecks before spawn and final completion",
+      "Cumulative own, reaped child and live descendant CPU accounting; original 3600 CPU-second cap",
+      "Parent-captured remaining RLIMIT and exact-parent PDEATHSIG race check",
+      "Two worker threads and fixed environment/command, with pre-spawn resource receipt",
+      "No automatic restart, reset, or artifacts without budget",
+      "Bounded TERM wait followed by final group KILL even when leader has already exited",
+      "Completed report must record all 4096 research lives and exit successfully within cap",
+      "Waiting failures and final pin changes produce terminal failure receipts"
+    ]
+  },
+  "simulated_lives": 0,
+  "all_reviewed_file_hashes_match_final_preparation": true
+}

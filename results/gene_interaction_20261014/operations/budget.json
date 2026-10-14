@@ -1,0 +1,38 @@
+{
+  "status": "complete",
+  "cpu_seconds": 410.154069,
+  "cap_cpu_seconds": 1800,
+  "cpu_budget_exhausted": false,
+  "exit_code": 0,
+  "wall_seconds": 226.08090624799843,
+  "running": {},
+  "queued": [],
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "ready": {
+    "status": "released",
+    "files": {
+      "run_budgeted.py": "840523f26f00ff548ab6bbc6c1af8b6971890d9f197f45f5c9ffe72a78bb07e7",
+      "measure.py": "08373d402d68452e8f4ced5b5cff0124192b9d196a7b244a91fe6d15ede7de2f",
+      "protocol.json": "c489f9e59a88107103b06b3d9f5de9e47c2a736bb5f440b794e81e939bd6ddbf"
+    },
+    "dependencies": {
+      "outputs/autonomous_s7_20261014": {
+        "protocol.json": "f54a6bb7ab248db034a77ecef78b62717902428156cf7f5e2808eef879624de3",
+        "run_budgeted.py": "e1789990abc2c8fba5e168f5d800673aff4119018762024487d242d48b558450"
+      }
+    }
+  }
+}

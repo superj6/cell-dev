@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "kernel_builds": 0,
+  "original_genotypes_sha256": "e09cac0f7b2c40093576412bf2ba16ecf6910f0e78e57bd796ee64c595ea3d89",
+  "independent_packer_sha256": "eb0543b9f2760b4e68b5bec0c8b49b939366a42f4370edcfc3b92fd6d74abaed",
+  "G51089_checks": [
+    {
+      "rows": [
+        0,
+        1
+      ],
+      "only_private_entries_change": true,
+      "positive_zero_W_column": true,
+      "positive_zero_A_column": true
+    },
+    {
+      "rows": [
+        2,
+        3
+      ],
+      "only_private_entries_change": true,
+      "positive_zero_W_column": true,
+      "positive_zero_A_column": true
+    }
+  ],
+  "G51090_counterexample": {
+    "background": "source0 deleted",
+    "state": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.7,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.5260494315364311,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "serial_emit1_readouts": [
+      0.05339564789536658,
+      -0.040160977840423495
+    ],
+    "decoded_emit1": [
+      1,
+      0
+    ],
+    "reachability": "not established"
+  },
+  "source_reading": {
+    "src/life/spec.py": "Packing masks inactive rows/columns, Q, s0 and readout columns; converts signed zero to positive zero.",
+    "src/life/kernel.c": "Every gene-state outgoing physical dependency is W column or A column; Q partitions each coordinate independently. Private gene state changes no physical event times, random keys, IDs or resource charges. Diagnostic gene snapshots may differ."
+  },
+  "conclusion": "G51089 copy14 is physically disconnected both intact and source5KO backgrounds, so its copy loss and fitness interaction vanish under unchanged ABI3 rules. G51090 copy9 has a possible emit1 threshold effect; no universal disconnection proof and no reachability claim."
+}

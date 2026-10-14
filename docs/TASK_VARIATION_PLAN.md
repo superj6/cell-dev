@@ -88,6 +88,14 @@ Total gains over original s7 are +1.267 ± 0.146 and +1.439 ± 0.146 F. Ordinary
 adaptation in two searches from each original lineage; this does not identify a new algorithm or estimate
 general reliability. `results/s7_continuation_20261014/` preserves all 36,012 lives within 7,695.470841 CPU-seconds.
 
+
+*2026-10-14 gene-interaction result:* the source audit proves G51089's copy has no physical influence in either
+source context. M's remaining four-arm G51090 test finds exactly zero interaction on 512 fresh seeds. Removing
+the source loses 7.277 ± 0.129 F with or without the copy; all scored columns match between corresponding
+copy-present/absent arms. This extends J's measured non-use but does not prove universal G51090 silence or rule
+out future functional duplication. `results/gene_interaction_20261014/` preserves the original preparation,
+pre-release amendment, analytical proof and all 2,048 lives within 410.154069 CPU-seconds.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

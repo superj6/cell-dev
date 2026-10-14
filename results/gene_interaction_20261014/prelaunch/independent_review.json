@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "science": {
+    "status": "passed",
+    "reviewer": "audit_de",
+    "scope": "amended M G51090 only; no life simulation",
+    "tests": {
+      "science_mocked": 17,
+      "original_archive_hashes_verified": 69,
+      "raw_genome_identity": "new four rows exactly equal original rows4:8"
+    },
+    "files": {
+      "protocol.json": "c489f9e59a88107103b06b3d9f5de9e47c2a736bb5f440b794e81e939bd6ddbf",
+      "prepare.py": "78a2f20a726e413b2dcd188fd146b898a49d685d48ce34e033e888c56c980301",
+      "measure.py": "08373d402d68452e8f4ced5b5cff0124192b9d196a7b244a91fe6d15ede7de2f",
+      "test_measure.py": "c12a051fa1963238b4fd7984d208cf75a361e29be551183a812ed77245680e6b",
+      "PREREG.md": "1b411bf8d10c2e913dd028aca314571b1c0eb47d242d80e2d3ee84665f9eb136",
+      "AMENDMENT.md": "6b1c3cc967b89914bb20b37432699dc11d23455ae00259e3338e94f2e6b72bb6",
+      "genomes.json": "6d8eaad6242cb4ec8d852047eaad842d7de6ffb9e9650dfbc5bd5fceaac9f602",
+      "genotypes.npy": "8e3c21f66b6e1cd1510b54b9b9a6989ebad13f767e9f6ce81ffcf11a143b9284",
+      "analytical_proof/PROOF.md": "bdef862d6007280b6ee2720c31186b8a066cbe738d44517ea0be6722a86fcc22"
+    },
+    "independent_disconnection_review": "disconnection_independent_review.json",
+    "checks": [
+      "all original four G51090 roles preserved, including negative interactions and losses",
+      "source origin0 and copy origin21 retain exact lineage identity and canonical Layout.delete masks",
+      "512 shared block100 seeds; within-seed I-copy-source+double covariance retained",
+      "2048 research lives,1800 cumulative CPU cap,two workers,wait exact L completion",
+      "original69-artifact4096-life preparation immutable",
+      "private GRN diagnostics and host CPU excluded from G51089 physical-equivalence theorem",
+      "G51090 bounded counterexample changes emit1 only; reachability is not claimed",
+      "all analytical proof and amendment bytes pinned in protocol"
+    ],
+    "simulated_lives": 0,
+    "kernel_builds": 0,
+    "blockers": []
+  },
+  "monitor": {
+    "status": "passed",
+    "amendment": "Only G51090 four fixed arms, 2048 research lives, cap1800 CPU-seconds, stop1788; two workers and exact L dependency unchanged",
+    "pure_mock_tests_passed": 36,
+    "simulated_lives": 0,
+    "edited_files": [
+      "run_budgeted.py",
+      "test_monitor.py"
+    ],
+    "files": {
+      "run_budgeted.py": "840523f26f00ff548ab6bbc6c1af8b6971890d9f197f45f5c9ffe72a78bb07e7",
+      "test_monitor.py": "307ecb74233c2634c262c9f25529ca7db1e63689608d4271e6a12479355616cd"
+    },
+    "protocol_sha256": "c489f9e59a88107103b06b3d9f5de9e47c2a736bb5f440b794e81e939bd6ddbf",
+    "preserved_safeguards": [
+      "Cumulative monitor, reaped child and live descendant CPU",
+      "Exact-parent PDEATHSIG and parent-captured remaining RLIMIT",
+      "Readiness/source pins before spawn and final completion",
+      "No reset/restart and pre-spawn ownership receipt",
+      "Terminal waiting failure cleanup",
+      "Bounded TERM wait then group KILL even after leader exit",
+      "Exact 2048-life completed report and successful exit strictly below cap"
+    ],
+    "new_checks": [
+      "Superseded 4096-life completed report is rejected",
+      "Dry run reports exact amended cap, count, workers and dependency"
+    ]
+  },
+  "simulated_lives": 0,
+  "all_reviewed_file_hashes_match_final_preparation": true
+}

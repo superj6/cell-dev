@@ -1878,3 +1878,30 @@ They are measurement tools only. A replay test shows the controller reads nothin
   golden checks are separate validation within the cap. `results/s7_continuation_20261014/` preserves 207
   artifacts, full checkpoints and lineage, every raw confirmation row, and exact public reanalysis. Root
   separately verified all artifact hashes/sizes and recomputed all four headline paired estimates.
+
+## 2026-10-14 — Copied-gene follow-up finds no contribution in either source context
+
+- **Pre-release amendment:** J's exactly zero copy-knockout effects motivated a source audit before any M
+  measurement. G51089's copied slot14 has exactly zero outgoing regulatory and phenotype-readout columns,
+  including after deletion of source slot5. Private gene state can differ, but other state updates, arithmetic
+  order, event keys and physical charges cannot change. Its physical/fitness interaction is therefore zero
+  analytically. The original 4,096-life preparation is preserved, and M was reduced to 2,048 lives/1,800 CPU-seconds.
+- **Remaining experiment:** G51090's copy slot9/origin21 retains a possible binary emit1 output. A valid-state
+  counterexample prevents a universal silence proof without showing that state is reachable. All four fixed
+  arms—intact, copy knockout, source slot0 knockout, and double knockout—therefore share 512 fresh block100
+  lives at T1024 in fast POOL, with unchanged prices and existing whole-life deletion operations.
+- **Result:** the paired interaction, intact − copy knockout − source knockout + double knockout, is
+  **0.000000 ± 0.000000 F**. Removing the source loses **7.277 ± 0.129 F** whether the copy remains or not.
+  Intact/copy-knockout and source-knockout/double-knockout pairs match byte for byte in all 60 scored/ledger
+  columns on every life. No guards, extinction or invalid rows occur.
+- **Interpretation:** the G51090 copy has no measured contribution in either tested source context, extending
+  J's intact-background null. This finite sample is not a universal silence proof. The source gene's large loss
+  is a whole-life effect, which can include development and morphology. These results do not demonstrate
+  functional duplication, a new algorithm or a structural-search advantage; they do not rule out duplication
+  becoming useful in other evolutionary histories or conditions.
+- **Evidence and budget:** all 2,048 research lives completed in 410.154069 of 1,800 cumulative CPU-seconds,
+  with two workers. Two startup golden lives are separate validation inside the cap. Independent analysis
+  verifies full recorded ancestry, source/copy mapping, canonical runtime packing, all raw ledgers and paired
+  contrasts. Thirty-six pure analysis tests pass. `results/gene_interaction_20261014/` preserves 308 artifacts,
+  both preparation versions, the analytical proof and all measurements. Root and an independent reviewer each
+  checked every artifact hash/size and recomputed zero interaction and byte-identical copy effects.

@@ -112,10 +112,16 @@ All 36,012 research lives finished in 7,695.470841 of 14,400 CPU-seconds. Full r
 reanalysis pass; fresh confirmation has no guards/invalids. Initial-search guards (16/21 lives) retain penalties.
 Evidence is in `results/s7_continuation_20261014/`.
 
-**Running and prepared studies.** M and N are running with two simulation workers each.
-M tests the G51090 copy/source four-arm interaction (2,048 lives, 1,800 CPU-seconds); a source proof resolves
-G51089 without simulation. The original 4,096-life preparation is preserved with a dated amendment.
-N measures the unchanged external controller and five fixed references at T768/T1536 in base and POOL
+**Copied-gene follow-up completed (2026-10-14).** Source inspection proves G51089's copied gene has no
+outgoing physical influence, even after deleting its source; private regulatory state can differ. M therefore
+reduced its original 4,096-life preparation to a four-arm G51090 test, preserving the original and amendment.
+On 512 fresh seeds the copy/source interaction is exactly zero. Removing the source loses **7.277 ± 0.129 F**
+with or without the copy; both copy-knockout comparisons match all 60 scored/ledger columns bitwise.
+This finite G51090 result is not a universal silence proof or evidence of functional duplication. All 2,048
+research lives completed in 410.154069 of 1,800 CPU-seconds; no guards/invalids occurred. Independent full
+ancestry, packing and ledger reanalysis is in `results/gene_interaction_20261014/`.
+
+**Running and prepared studies.** N is running with two simulation workers. It measures the unchanged external controller and five fixed references at T768/T1536 in base and POOL
 (12,288 research plus 40 validation lives, 3,600 CPU-seconds). Do not exceed four simulation workers.
 O's three-arm structure-held regulation study is reviewed and prepared (4,608 lives, 3,600 CPU-seconds,
 two workers), released and waiting for both M and N. The next ordinary

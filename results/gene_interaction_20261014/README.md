@@ -1,34 +1,46 @@
-# Source/copy gene interaction — prospective preparation
+# Whole-life interaction between a copied gene and its source
 
-M compares intact, copied-gene knockout, source-gene knockout and double knockout for the fixed G51090 structural-search
-endpoint. All four roles share 512 fresh T1024 fast POOL lives. The primary is the paired four-arm interaction;
-every sign, single loss and double loss remains. This measures whole-life genetic interaction, including development.
+M measured all four fixed G51090 arms on 512 shared fresh block100 lives at T1024 in fast POOL.
+The primary contrast is intact − copy knockout − source knockout + double knockout.
+Its paired fitness interaction is **+0.000000 ± 0.000000 SE**.
 
-AMENDMENT.md explains the pre-release change: G51089 is resolved by an exact disconnection proof, while G51090
-retains a possible output. analytical_proof/ contains the proof and independent numerical review. The complete
-original 4,096-life preparation remains byte-preserved under superseded_4096/ and is not the current launch scope.
+| Contrast | Paired fitness difference ± SE |
+|---|---:|
+| Intact − copy_KO | +0.000000 ± 0.000000 |
+| Intact − source_KO | +7.276966 ± 0.129090 |
+| Intact − double_KO | +7.276966 ± 0.129090 |
 
-PREREG.md specifies the amended design. genomes.json and genotypes.npy freeze the origin-resolved gene pair and all
-interventions before scoring. seed_audit.json records the independent namespace check. The study uses existing
-genome deletion and simulation helpers; preparation adds no simulation and changes no existing pinned source.
+Both signs and all three losses remain. The absolute 0.5 F and three-SE flags are descriptive;
+an unresolved measurement is not an equivalence proof. Either interaction sign can arise through
+development or nonlinear task fitness, so its sign does not categorically establish redundancy.
 
-Resource scope: 2,048 research lives, 1,800 cumulative CPU-seconds, two workers, waiting for L's complete resource
-record. ready.template.json is descriptive and does not release the study. No outcome-dependent extension.
+**G51089:** Disconnected copy; physical and fitness effects analytically zero. No M G51089 life was simulated. See analytical_proof/PROOF.md.
+The pre-release rationale is in AMENDMENT.md. The original eight-role
+preparation remains under superseded_4096/; it was replaced before M release or measurement.
 
-Pure/mock tests and dry-run commands:
+Completed 2,048 research lives in 410.154069 cumulative
+CPU-seconds (cap 1,800; two workers). Two startup golden lives are separate from research and inside CPU.
+Guarded and extinct lives retain their ordinary penalties.
+
+measurement/ preserves all raw rows and contrasts; operations/ retains release/resource receipts.
+prelaunch/ preserves the complete amended public preparation. summary.json contains independent
+genetic replay, exact source/copy mappings, every ledger contrast, costs and morphology.
+
+Recompute without simulation or compilation (Python + NumPy):
 
 ```sh
-.venv/bin/python -m pytest -q outputs/autonomous_gene_interaction_20261014/test_measure.py outputs/autonomous_gene_interaction_20261014/test_monitor.py --basetemp outputs/audit_m_20261014/prepared_tests
-.venv/bin/python outputs/autonomous_gene_interaction_20261014/measure.py
-.venv/bin/python outputs/autonomous_gene_interaction_20261014/run_budgeted.py
+python analyze.py --study . --check
 ```
 
-The eventual monitored command requires a separately released ready.json:
+Interpretation limits:
 
-```sh
-.venv/bin/python outputs/autonomous_gene_interaction_20261014/run_budgeted.py --run
-```
-
-This public preparation includes source snapshots and the exact completed-G inputs used for genetic replay.
-The launcher uses original repository paths; the archive does not itself schedule work. No M life has been
-simulated yet. A later independent completed-data export must preserve this preparation and audit every raw row.
+- The paired four-arm contrast measures whole-life genetic interaction in the fixed G51090 endpoint.
+- Every knockout acts from birth and may change development, morphology, physiology and later computation.
+- Either interaction sign may arise from development or nonlinear task fitness; sign alone is not a redundancy label.
+- The extant source-origin gene may have changed since duplication; ancestry does not imply identical current roles.
+- No intervention isolates an adult gene-specific mechanism, expanded computation or a new algorithm.
+- The fixed G51090 endpoint and all effect signs remain; no selection or additional lives follow the result.
+- Three-SE and absolute 0.5F flags are descriptive; life-level SE does not describe variability across searches.
+- These results do not establish that duplication was necessary for a function to evolve or that its policy is better.
+- Independent replay reconstructs recorded genetics, not RNG draws or evolutionary selection.
+- Checkpoint hashes and the original checkpoint-validation receipt are retained; this NumPy analyzer does not deserialize checkpoint objects.
