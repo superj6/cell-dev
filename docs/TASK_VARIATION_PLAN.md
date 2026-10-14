@@ -75,7 +75,10 @@ with 2,048 lives. A source proof resolves the G51089 physical/fitness interactio
 original 4,096-life preparation and the post-J amendment are preserved. N measures the unchanged default C4
 controller and five existing references at T768/T1536 in the original fast base/POOL worlds, using 12,288
 research lives plus 40 validation lives. These two-worker studies wait for L and have separate caps of 1,800
-and 3,600 CPU-seconds. They change no admission rule, organism behavior or selection world.
+and 3,600 CPU-seconds. L has now completed, and M/N have started. O is also registered: 4,608 lives compare
+structure held fixed, the same with five local GRN inputs masked, and broad freeze for row38 and both D
+endpoints. Its 3,600 CPU-second/two-worker allocation waits for M/N. These measurements change no admission
+rule, organism behavior or selection world.
 
 ### 0.1 What changed and why
 
