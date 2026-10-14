@@ -162,8 +162,16 @@ class _TAcct(_R._Accountant):
 
     def __init__(self, life):
         self.t_place, self.t_click, self.t_turn, self.t_samp, self.t_stroke = [], [], [], [], []
+        self.t_motion = []
         self.t_pos = {}
         super().__init__(life)
+
+    def dot_adv(self, t: float) -> None:
+        # Record the existing analytic motion segments; never insert events or change integration order.
+        if self.life.log and t > self.t_x:
+            speed = math.hypot(self.Fx, self.Fy) / self.gam if self.n_foot else 0.0
+            self.t_motion.append((self.t_x, t, speed, self.life.tau_z))
+        super().dot_adv(t)
 
     def _fold_world(self, words) -> None:
         k = words[0]
@@ -385,6 +393,7 @@ class Trace:
     placements: pd.DataFrame
     ledger: dict
     meta: dict = field(default_factory=dict)
+    motion: pd.DataFrame | None = None  # analytic dot-motion segments: start, end, speed, tau
 
     @property
     def F(self) -> float:
@@ -525,7 +534,8 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
         meta["kernel_F"] = kF
         if kF != led["F"]:
             raise AssertionError(f"trace F {led['F']!r} != kernel F {kF!r}: the observer changed the life")
-    return Trace(cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta)
+    motion = pd.DataFrame(A.t_motion, columns=["start", "end", "speed", "tau"])
+    return Trace(cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta, motion)
 
 
 def life_blob_at(acct, placements: pd.DataFrame, t: float):

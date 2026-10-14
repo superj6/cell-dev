@@ -284,3 +284,54 @@ two features the hand-built bodies lack:
   reference trace. `trace_kernel` also has no receptor events, so it cannot compute chains or tuning.
 - **Reference speed depends on body size and spike count.** It is about 0.003-0.005 s per spike-with-messages at the
   current machine load. A body with thousands of tonic cells would need the kernel path.
+
+## E6 readouts (2026-10-13)
+
+`src/life/readouts.py` adds report-only measurements for plan section 0.6. Nothing enters selection or the living
+organism. A small validation batch, with one reference trace, is:
+
+```bash
+.venv/bin/python scripts/life_readouts.py --body router@ring4 --world pool --out outputs/e6_readouts/router
+```
+
+Use `--genome outputs/<run>/best_genome.json` for an evolved body. Defaults are eight 256-unit kernel lives, a fork
+at 128, one trace and one thread. These defaults check the plumbing; they do not establish an evolutionary result.
+Results are saved after the kernel batch and each trace. Larger batches still need the user's launch approval.
+
+| Readout | Definition and limits |
+|---|---|
+| Lateral net-F share | `(mean F_base - mean F_lateral_off) / mean F_base`, both counted from the fork. Also reports the paired F loss. A fork can change subsequent development. |
+| Lateral share of lead (R1) | Supply the paired best-reflex scores: `(mean F_base - mean F_lateral_off) / (mean F_base - mean F_reflex)`. The reflex must use the same accounting window. |
+| Relay chains | Existing largest-input attribution, with origin fractions, latency by hop count and relay share among receptor-origin chains, separately per life. Subthreshold integration is omitted. |
+| BH3 | `(mean F_best - mean F_reflex) / (mean F_C4 - mean F_reflex)`, requiring paired fresh lives, the same world/accounting window, and the same footprint identifiers. |
+| BH4 silence | Distance after at least `--silence-window` units with no delivered receptor ping anywhere in the body. Default 0.5 is one nominal base-world hop. Includes initial silence after this delay. |
+| BH4 occupancy | Share of the ABI's integer-time samples inside the capture radius. This is an estimate of time share, not exact continuous dwell time. |
+| BH4 clicking | Clicks divided by captures; null when there are no captures. |
+| BH4 flip/dim | Null under ABI 3: flip and dim world state await the approved port; recovery also needs a registered operational definition. |
+
+The motion observer records existing analytic movement segments without adding events or changing the integration
+order. Silence distance integrates those segments through each eligible interval, so turns within an interval are
+not replaced by a shorter straight chord. Pings include background events: the body does not know their source.
+The command rejects guarded, capacity-failed, nonfinite or accounting-invalid lives and truncated logs; ordinary
+extinction, wall contact and chemistry-clamp flags are retained in its status counts.
+
+Ratios use the mean of paired numerators divided by the mean denominator, with a covariance-aware delta-method SE.
+Negative shares and shares above 100% are retained. Nonpositive denominators produce null. Positive denominators
+within three SE of zero are marked unreliable and cannot establish the BH3 quarter-gap criterion.
+`readouts.member_comparisons(best, reflex, s5, lateral_off=None)` reports paired leads against both the best reflex
+and pilot s5 for one family member. With lesioned scores, it adds both lateral-share definitions. Repeat per member;
+the API checks seeds and the full world/accounting window, while allowing different tissue footprints. The small
+CLI batch reports only the net-F share until separately scored best-reflex inputs are supplied through this API.
+
+**BH3 data contract.** `readouts.information_share(best, reflex, c4)` accepts three `readouts.Scores` objects.
+Each has `F`, `seeds`, `footprints` (one geometry/protocol identifier per life), `world` (all overrides, duration and
+accounting window), and `tuning_seeds`. Tuning lives must be disjoint from scoring lives. Save these as JSON under
+keys `best`, `reflex`, `c4` and pass `--bh3-scores PATH` to attach a comparison to a report. Its seeds must match the
+report, and its world must be `{"preset": "catch_speck_l4", "T": ..., "d0": 0.5, "d_min": 0.25, "t_open": 0.0}`
+(plus `sigma: 0.4, lam_s: 4.0` for POOL). Save the C4 parameters and reflex tuning/selection evidence with the scores.
+
+The script deliberately leaves BH3 unmeasured without these scores. Published C4 scores on hollow3 cannot supply
+an evolved body's denominator. The scratch harness can score a fixed body footprint; a growing body's final shape
+is not its geometry throughout the life, and freezing that shape silently changes development costs and sensing.
+A matched development protocol must be specified before calling that comparison exact. A footprint identifier
+records that protocol; metadata checks cannot independently prove its implementation.

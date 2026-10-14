@@ -1455,3 +1455,19 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - Limits: exact resume requires the original generation target and numerical/source pins. Old pilot populations lack
   saved RNG state and remain continuations, not exact resumes. Host migration and rented-compute replay are untested.
   These checks used tiny populations and short lives; no large study or rental was launched.
+
+## 2026-10-13 — E6: paired readouts and search observations
+- Added report-only `src/life/readouts.py`, `scripts/life_readouts.py` and usage/data contracts in `docs/PROBE.md`.
+  Lateral lesions report both loss as a share of net F and loss as a share of the lead over the best reflex. Per-world
+  comparisons retain paired leads against the reflex and s5. Ratio SEs retain covariance and never clip negative
+  values or values above 100%; weak denominators cannot establish BH3 progress.
+- Relay summaries reuse the existing largest-input chains and state their attribution limits. BH4 measures exact
+  distance through an explicit ping-free time window, sampled capture-zone occupancy, and clicks per capture. The
+  added probe observer records existing motion segments without inserting events or changing the life.
+- Validation: 12 focused tests plus the existing probe tests; two-life short router/POOL and s5/base smoke reports
+  under `outputs/e6_readouts/`. Traces remain kernel-checked. Guarded, capacity-failed, accounting-invalid and
+  truncated traces are rejected, including direct relay-summary calls. No evolutionary claim follows from these
+  small plumbing checks.
+- **Still unmeasured:** BH3 on each evolved body's actual footprint. The API requires matched worlds, ordered fresh
+  seeds and footprint/protocol identifiers; substituting published hollow3 scores or an evolved body's final shape
+  would not satisfy that contract. Flip recovery and dim captures remain unavailable under ABI 3.
