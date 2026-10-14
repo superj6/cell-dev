@@ -1,30 +1,25 @@
-# N: information payoff at two durations — preparation
+# N: fixed information payoff at two durations
 
-This fixed comparison tests the retained default C4 controller and five existing
-reflex references in the original fast base/POOL worlds at T=768 and T=1536.
-It uses 512 paired lives per candidate and condition: 12,288 research lives,
-plus 40 bounded validation lives within the same 3,600-CPU-second allocation.
-No tuning or organism change is involved. The external controller is only a
-measurement instrument.
+The unchanged default C4 controller and five fixed reflex references were measured on 512 shared
+seeds per world and duration. No controller tuning or organism change was involved.
 
-Read [PREREG.md](PREREG.md) for the fixed scope, contrasts, limitations and
-failure rules, and [protocol.json](protocol.json) for exact parameters and pins.
-The queue waits for L to complete; it uses at most two workers. This preparation
-contains no release, budget record, measurement or outcome.
+| World/duration | C4 − frozen reflex | C4 − retained retuned reflex |
+| --- | ---: | ---: |
+| base_T768 | +13.403 ± 0.223 | +13.257 ± 0.223 |
+| pool_T768 | +13.784 ± 0.205 | +13.547 ± 0.204 |
+| base_T1536 | +13.128 ± 0.166 | +13.112 ± 0.168 |
+| pool_T1536 | +13.335 ± 0.146 | +13.218 ± 0.151 |
 
-The previous headline used d0=0.5 and d_min=0.25, which this experiment retains.
-The old-conduction settings of experiment F are not used. Fixed C4 defaults and
-the retained per-world reflex knobs are copied without retuning. All primary
-contrasts remain separate by world and duration.
+Values are mean paired F difference ± one SE; every fixed comparison and sign is retained.
+The original headline d0=0.5/d_min=0.25 worlds are retained; only duration changes.
+The four cells are separate comparisons. Distinct duration seed blocks do not support paired duration claims.
 
-From the repository root, pure checks are:
+Research lives: 12,288; bounded validation lives: 40; monitored CPU: 1385.716 / 3,600 seconds.
+
+See `summary.json` for all 57-column means, all fixed contrasts, cost decomposition and limitations.
+`PREREG.md` and `prelaunch/` preserve the prospective design. This is an external information-payoff
+measurement, not a world-admission decision or a claim about evolved capability.
 
 ```sh
-.venv/bin/python outputs/autonomous_information_duration_20261014/measure.py
-.venv/bin/python -m pytest -q outputs/autonomous_information_duration_20261014/test_prepared.py outputs/autonomous_information_duration_20261014/test_validation.py outputs/autonomous_information_duration_20261014/test_monitor.py --basetemp outputs/audit_n_20261014/prelaunch_tests
+.venv/bin/python results/information_duration_20261014/analyze.py --study results/information_duration_20261014 --check
 ```
-
-The public preparation includes unchanged recovered inputs, the fixed protocol,
-scripts/tests and a numerical-source snapshot. Its `ready.template.json` is a
-non-releasing template. `provenance.json` hashes every public preparation file.
-Completed raw data and an independent analyzer will be added after completion.

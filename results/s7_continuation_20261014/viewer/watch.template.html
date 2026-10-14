@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Watch the s7 evolutionary continuations · cell-dev</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#172c31;background:#f4f3ee;
+ --teal:#167979;--orange:#bf602f;--muted:#5c6d70;--line:#d7deda;--card:#fffefa}
+*{box-sizing:border-box}body{margin:0}main{max-width:1260px;margin:0 auto;padding:42px 24px 32px}
+.eyebrow{font-size:12px;font-weight:750;letter-spacing:.15em;text-transform:uppercase;color:var(--teal)}
+h1{font-size:clamp(27px,4vw,44px);letter-spacing:-.045em;line-height:1.13;margin:12px 0 14px;font-weight:650}
+.intro{max-width:850px;color:var(--muted);line-height:1.65;margin:0 0 25px;font-size:15px}
+.controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:22px 0 12px}
+button,select,input{font:inherit;border:1px solid #afbfbb;border-radius:8px;background:var(--card);
+ color:#172c31;min-height:42px;padding:9px 13px}button{cursor:pointer;font-weight:650}
+button:hover{background:#e8edE7}button:disabled{opacity:.45;cursor:default}
+button.primary{background:#173f45;color:white;border-color:#173f45;min-width:90px}
+button.primary:hover{background:#20545a}label{font-size:12px;display:grid;gap:5px;color:var(--muted)}
+input{width:145px;font-variant-numeric:tabular-nums}select{max-width:210px}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #36a4b0;outline-offset:2px}
+.status{min-height:22px;font-size:13px;color:var(--muted);margin:9px 0 17px}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{min-width:0;background:var(--card);
+ border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 7px 28px #19382a05}
+.card header{padding:20px 20px 10px;display:flex;align-items:start;justify-content:space-between;gap:10px}
+h2{font-size:20px;margin:0 0 4px;letter-spacing:-.025em}.sub{font-size:12px;color:var(--muted)}
+.tag{font-size:11px;padding:5px 8px;border-radius:5px;color:var(--teal);background:#e4efea;white-space:nowrap}
+.tag.new{color:#9b4b26;background:#f9ecdf}.scene{width:100%;display:block;aspect-ratio:1.32;background:#f9faf5}
+.readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:15px 20px;border-top:1px solid var(--line)}
+.readouts small{display:block;color:var(--muted);font-size:11px;margin-bottom:4px}.readouts strong{
+ font-family:ui-monospace,SFMono-Regular,monospace;font-size:20px;font-weight:550;letter-spacing:-.06em}
+.tissue{width:100%;display:block;aspect-ratio:3.35;border-top:1px solid var(--line)}
+.under{font-size:12px;color:var(--muted);padding:0 20px 15px;line-height:1.5;min-height:35px}
+.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:16px 0 23px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:var(--teal)}
+.dot.motor{background:#b36b36}.dot.hidden{background:#738598}.dot.target{background:#d95445}
+.evidence{border-top:1px solid var(--line);padding:22px 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.evidence h3{font-size:14px;margin:0 0 7px}.evidence p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+.estimate{color:#174749;font-variant-numeric:tabular-nums;font-weight:650}footer{font-size:11px;color:var(--muted);
+ padding-top:18px;line-height:1.6}a{color:#146a73}.summary{margin-top:8px}progress{width:100%;height:4px;
+ accent-color:#167979;display:block;border:0;border-radius:0}details{margin-top:9px}summary{cursor:pointer}
+@media(max-width:730px){main{padding:26px 14px}.comparison,.evidence{grid-template-columns:1fr;gap:16px}
+ .card header{padding:17px 16px 10px}.readouts{padding:13px 16px}.controls{gap:8px}.intro{font-size:14px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+<main>
+ <div class="eyebrow">cell-dev · watch the organisms</div>
+ <h1>A second lineage keeps evolving.</h1>
+ <p class="intro">Two independent searches continued from the same improved founder for 16 generations. Compare their
+ final organisms with the founder or original pilot. Each grows from one cell and follows its own local rules;
+ both displayed lives start with the same random seed.</p>
+ <div class="controls">
+  <button class="primary" id="play">Play</button><button id="reset">Reset</button>
+  <button id="grow">Advance to t 200</button>
+  <label>Left organism<select id="left"><option value="pilot_s7">Original s7</option>
+   <option value="founder_row29" selected>First-step founder · row 29</option>
+   <option value="s51891_final_rank0">Continuation 51891</option>
+   <option value="s51892_final_rank0">Continuation 51892</option></select></label>
+  <label>Right organism<select id="right"><option value="pilot_s7">Original s7</option>
+   <option value="founder_row29">First-step founder · row 29</option>
+   <option value="s51891_final_rank0" selected>Continuation 51891</option>
+   <option value="s51892_final_rank0">Continuation 51892</option></select></label>
+  <label>World<select id="world"><option value="pool">POOL · narrow target</option>
+   <option value="base">Base · transfer illustration</option></select></label>
+  <label>Playback speed<select id="speed"><option value="10">Slow · 10 units/s</option>
+   <option value="30" selected>Normal · 30 units/s</option><option value="120">Fast · 120 units/s</option></select></label>
+  <label>Life seed<input id="seed" type="number" min="0" max="9007199254740991" step="1" value="51840000"></label>
+  <button id="apply">Apply seed</button>
+ </div>
+ <p id="status" class="status" role="status">Press Play to watch both cells grow.</p>
+ <div class="comparison">
+  <section class="card" aria-label="Left organism simulation"><header><div><h2 id="title0">First-step founder</h2>
+   <div class="sub" id="subtitle0">Confirmed s7 row 29</div></div><span class="tag" id="tag0">Founder</span></header>
+   <canvas id="scene0" class="scene" aria-label="Left organism chasing its target"></canvas>
+   <progress id="progress0" value="0" max="1024" aria-label="Left life progress"></progress>
+   <div class="readouts"><div><small>Captures</small><strong id="captures0">0</strong></div>
+    <div><small>Income</small><strong id="income0">0</strong></div><div><small>Total cost</small><strong id="cost0">0</strong></div>
+    <div><small id="flabel0">F so far</small><strong id="fitness0">0.00</strong></div></div>
+   <canvas id="tissue0" class="tissue" aria-label="Left cell layers"></canvas><div id="under0" class="under"></div>
+  </section>
+  <section class="card" aria-label="Right organism simulation"><header><div><h2 id="title1">Continuation 51891</h2>
+   <div class="sub" id="subtitle1">Final rank 0 · 16 generations</div></div>
+   <span class="tag new" id="tag1">16 generations</span></header>
+   <canvas id="scene1" class="scene" aria-label="Right organism chasing its target"></canvas>
+   <progress id="progress1" value="0" max="1024" aria-label="Right life progress"></progress>
+   <div class="readouts"><div><small>Captures</small><strong id="captures1">0</strong></div>
+    <div><small>Income</small><strong id="income1">0</strong></div><div><small>Total cost</small><strong id="cost1">0</strong></div>
+    <div><small id="flabel1">F so far</small><strong id="fitness1">0.00</strong></div></div>
+   <canvas id="tissue1" class="tissue" aria-label="Right cell layers"></canvas><div id="under1" class="under"></div>
+  </section>
+ </div>
+ <div class="legend"><span><i class="dot"></i>Sense cells</span><span><i class="dot motor"></i>Motor cells</span>
+  <span><i class="dot hidden"></i>Hidden cells</span><span><i class="dot target"></i>Target</span>
+  <span>Bright cells have just spiked. Dashed circle: capture radius.</span></div>
+ <div class="evidence"><div><h3>One life is an illustration</h3><p>A seed can favor either body. The default seed
+  was fixed before viewing; changing it does not change either genome. Each life ends at t 1024.
+  F is net income per unit time, with the production extinction charge included at the end.</p></div>
+  <div><h3>The measured effect comes from many lives</h3><p id="evidence"></p></div></div>
+ <footer>Both worlds use the same faster conduction settings. The chase view follows each body at the same scale;
+  targets can diverge after captures because each life evolves independently. Playback speed changes display timing.
+  <details><summary>Reproducibility and simulator license</summary><p>The unmodified cell-dev <code>lifesim.js</code>
+  engine and all four archived genomes are embedded in this file. Download the unchanged
+  <a href="viewer/lifesim.js">engine source</a> or read the <a href="viewer/README.md">viewer record</a>.
+  The engine includes GNU C Library math code and is distributed under the
+  <a href="viewer/COPYING.LGPL-2.1">LGPL 2.1 or later</a>. This viewer introduces no new organism rules.
+  The viewer has its own input hashes and validation record. The research evidence is in
+  <a href="README.md">the continuation study</a>.</p></details>
+ </footer>
+</main>
+<script type="application/json" id="watch-data">__WATCH_DATA__</script>
+<script>__LIFESIM_ENGINE__</script>
+<script>
+(() => {
+ 'use strict';
+ const data = JSON.parse(document.getElementById('watch-data').textContent);
+ const el = id => document.getElementById(id), duration = 1024;
+ let sims = [], states = [], trails = [[], []], flashes = [[], []];
+ let playing = false, pending = null, lastFrame = null, desired = 0, seeking = false;
+ let selectedSeed = data.default_seed, worldName = 'pool', selectedBodies = [];
+ const fmt = (n, d = 0) => Number(n).toLocaleString('en-US', {maximumFractionDigits:d, minimumFractionDigits:d});
+ const colors = ['#167979', '#b36b36', '#738598', '#738598'];
+ function fit(canvas, ratio) {
+  const width = Math.max(240, canvas.clientWidth || 520), height = width / ratio;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  if (canvas.width !== Math.round(width * dpr) || canvas.height !== Math.round(height * dpr)) {
+   canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+  }
+  const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return [ctx, width, height];
+ }
+ function circle(ctx, x, y, r, fill, stroke) {
+  ctx.beginPath(); ctx.arc(x, y, Math.max(0.1, r), 0, 2 * Math.PI);
+  if (fill) {ctx.fillStyle = fill; ctx.fill();} if (stroke) {ctx.strokeStyle = stroke; ctx.stroke();}
+ }
+ function cell(ctx, c, x, y, radius, t) {
+  const hot = t - c.lastSpike < 1.5;
+  circle(ctx, x, y, radius, hot ? '#e1c24e' : colors[c.z], '#fffefa');
+  if (hot) {ctx.globalAlpha = 0.2; circle(ctx, x, y, radius * 1.65, '#e1c24e'); ctx.globalAlpha = 1;}
+ }
+ function read(index) {
+  const state = sims[index].state(); states[index] = state;
+  const trail = trails[index];
+  if (!trail.length || state.t - trail[trail.length - 1][0] > 0.7) {
+   trail.push([state.t, state.dot.x, state.dot.y]); if (trail.length > 700) trail.shift();
+  }
+  for (const event of state.events) if (event.kind === 'capture' || event.kind === 'miss') {
+   flashes[index].push({t:event.t, x:event.x, y:event.y, hit:event.kind === 'capture'});
+  }
+  flashes[index] = flashes[index].filter(mark => state.t - mark.t < 8);
+ }
+ function render(index, radius) {
+  const state = states[index], info = sims[index].info(), [ctx, width, height] = fit(el('scene' + index), 1.32);
+  const scale = Math.min(width, height) / (2 * radius), X = state.dot.x, Y = state.dot.y;
+  const sx = x => width / 2 + (x - X) * scale, sy = y => height / 2 - (y - Y) * scale;
+  ctx.fillStyle = '#f9faf5'; ctx.fillRect(0, 0, width, height); ctx.lineWidth = 1; ctx.strokeStyle = '#e7ece4';
+  ctx.beginPath();
+  for (let x = Math.floor((X - width / scale) / 2) * 2; x < X + width / scale; x += 2) {
+   ctx.moveTo(sx(x), 0); ctx.lineTo(sx(x), height);
+  }
+  for (let y = Math.floor((Y - height / scale) / 2) * 2; y < Y + height / scale; y += 2) {
+   ctx.moveTo(0, sy(y)); ctx.lineTo(width, sy(y));
+  }
+  ctx.stroke(); ctx.beginPath();
+  trails[index].forEach((point, j) => ctx[j ? 'lineTo' : 'moveTo'](sx(point[1]), sy(point[2])));
+  ctx.strokeStyle = '#a3b9ac'; ctx.lineWidth = 1.5; ctx.stroke();
+  for (const c of state.cells) if (c.z === 0) cell(ctx, c, sx(X + c.x), sy(Y + c.y), scale * 0.35, state.t);
+  for (const target of state.targets) {
+   ctx.globalAlpha = 0.13; circle(ctx, sx(target.x), sy(target.y), info.sigma * 2 * scale, '#d95445');
+   ctx.globalAlpha = 0.26; circle(ctx, sx(target.x), sy(target.y), info.sigma * scale, '#d95445');
+   ctx.globalAlpha = 1; circle(ctx, sx(target.x), sy(target.y), Math.max(3, scale * 0.12), '#d95445', '#fffefa');
+  }
+  ctx.setLineDash([4, 4]); ctx.lineWidth = 1; circle(ctx, sx(X), sy(Y), info.rho_c * scale, null, '#536a6d');
+  ctx.setLineDash([]); circle(ctx, sx(X), sy(Y), 2, '#173f45');
+  for (const mark of flashes[index]) {
+   const age = state.t - mark.t; ctx.globalAlpha = Math.max(0, 1 - age / 8); ctx.lineWidth = 2;
+   circle(ctx, sx(mark.x), sy(mark.y), (0.3 + age * 0.22) * scale, null, mark.hit ? '#167979' : '#bc7668');
+  }
+  ctx.globalAlpha = 1; ctx.fillStyle = '#546a6b'; ctx.font = '12px system-ui';
+  ctx.fillText('t ' + fmt(state.t, 1), 14, 22); ctx.textAlign = 'right';
+  ctx.fillText(fmt(state.stats.n) + ' cells', width - 14, 22); ctx.textAlign = 'left';
+  const [tc, tw, th] = fit(el('tissue' + index), 3.35), pw = tw / 4;
+  tc.fillStyle = '#fffefa'; tc.fillRect(0, 0, tw, th);
+  const maxR = Math.max(2.3, ...states.flatMap(st => st.cells.map(c => Math.hypot(c.x, c.y) + 0.6)));
+  const zscale = Math.min(pw - 12, th - 34) / (2 * maxR);
+  for (let z = 0; z < 4; z++) {
+   const cx = pw * (z + 0.5), cy = (th - 26) / 2;
+   for (const c of state.cells) if (c.z === z) cell(tc, c, cx + c.x * zscale, cy - c.y * zscale,
+    Math.max(1, zscale * 0.37), state.t);
+   const count = state.cells.filter(c => c.z === z).length;
+   tc.fillStyle = '#5c6d70'; tc.font = '10px system-ui'; tc.textAlign = 'center';
+   tc.fillText(['Sense', 'Motor', 'Hidden 1', 'Hidden 2'][z] + ' · ' + count, cx, th - 9);
+  }
+  const ledger = sims[index].ledger(), world = data.worlds[worldName];
+  const extinct = (ledger.status & data.status_bits.extinct) !== 0;
+  const charge = state.ended && extinct ? world.c_live * Math.max(0, world.T - ledger.t_ext) / world.T : 0;
+  const fitness = state.score.F - charge;
+  el('captures' + index).textContent = fmt(state.score.captures);
+  el('income' + index).textContent = fmt(state.score.income);
+  el('cost' + index).textContent = fmt(state.score.cost);
+  el('fitness' + index).textContent = fmt(fitness, 2);
+  el('flabel' + index).textContent = state.ended ? 'Final F' : 'F so far';
+  el('progress' + index).value = state.t;
+  el('under' + index).textContent = fmt(state.score.clicks) + ' clicks · ' + fmt(state.score.misses) + ' misses · '
+   + fmt(state.stats.spikes) + ' spikes' + (state.ended ? ' · ' + (extinct ? 'extinct' : ledger.status ? 'guard stopped' :
+    'life complete') : '');
+ }
+ function draw() {
+  const radius = Math.max(8, ...states.flatMap(state => state.cells.map(c => Math.hypot(c.x, c.y) + 2.5)));
+  render(0, radius); render(1, radius);
+  const ended = sims.every(sim => sim.ended);
+  if (ended) {playing = false; seeking = false;}
+  el('play').textContent = ended ? 'Replay' : playing ? 'Pause' : 'Play';
+  el('grow').disabled = ended || states.every(state => state.t >= 200);
+  el('status').textContent = (ended ? 'Both lives have ended. ' : seeking ? 'Advancing both lives to t 200. ' :
+   playing ? 'Playing. ' : 'Paused. ') + 'Seed ' + fmt(selectedSeed) + ' · same seed, independent lives.';
+ }
+ function kick() {if (pending === null) pending = requestAnimationFrame(frame);}
+ function frame(now) {
+  pending = null;
+  const delta = lastFrame === null ? 0 : Math.min((now - lastFrame) / 1000, 0.08); lastFrame = now;
+  if (playing || seeking) {
+   const live = sims.filter(sim => !sim.ended), minimum = Math.min(...live.map(sim => sim.t));
+   desired = seeking ? 200 : Math.min(duration, minimum + delta * Number(el('speed').value));
+   const until = performance.now() + 11;
+   while (performance.now() < until && sims.some(sim => !sim.ended && sim.t < desired)) {
+    const i = sims[0].ended || (!sims[1].ended && sims[1].t < sims[0].t) ? 1 : 0;
+    const sim = sims[i]; if (sim.ended || sim.t >= desired) break;
+    sim.advance(Math.min(0.5, desired - sim.t), 1200); read(i);
+   }
+   if (seeking && sims.every(sim => sim.ended || sim.t >= 200)) {seeking = false; playing = false;}
+  }
+  draw(); if (playing || seeking) kick(); else lastFrame = null;
+ }
+ function reset(autoplay = false) {
+  if (pending !== null) cancelAnimationFrame(pending); pending = null;
+  const candidateSeed = Number(el('seed').value);
+  if (!Number.isSafeInteger(candidateSeed) || candidateSeed < 0 || !el('seed').value.trim()) {
+   el('status').textContent = 'Enter a nonnegative whole-number seed.'; playing = false; seeking = false; return;
+  }
+  worldName = el('world').value; selectedSeed = candidateSeed;
+  selectedBodies = ['left', 'right'].map(side => data.bodies.find(body => body.name === el(side).value));
+  if (selectedBodies.some(body => !body) || !data.worlds[worldName]) throw new Error('Unknown fixed comparison');
+  selectedBodies.forEach((body, i) => {
+   el('title' + i).textContent = body.title;
+   el('subtitle' + i).textContent = body.subtitle;
+   el('tag' + i).textContent = body.tag;
+  });
+  sims = selectedBodies.map(body => LifeSim.create({...body, world:data.worlds[worldName]},
+   {seed:selectedSeed, mode:'auto', T:duration}));
+  trails = [[], []]; flashes = [[], []]; read(0); read(1); lastFrame = null; desired = 0; seeking = false;
+  playing = autoplay;
+  const [left, right] = selectedBodies, value = data.paired_duration_effects[left.name][right.name];
+  if (worldName === 'base') {
+   el('evidence').textContent = 'The continuation study confirmed these genomes in POOL. Base is shown as a '
+    + 'transfer illustration; this individual life is not a fresh measurement of transfer.';
+  } else if (left.name === right.name) {
+   el('evidence').textContent = 'The same genome and seed are shown on both sides. These lives should match. '
+    + 'Select different organisms to compare their development and behavior.';
+  } else {
+   const signed = (value.mean >= 0 ? '+' : '−') + fmt(Math.abs(value.mean), 3);
+   el('evidence').innerHTML = right.title + ' minus ' + left.title + ': <span class="estimate">'
+    + signed + ' ± ' + fmt(value.se, 3) + ' F</span> in POOL, averaged across T768, T1024 and T1536 within each '
+    + 'of 256 fresh paired seeds (mean ± standard error). This viewer shows one separate T1024 life.';
+  }
+  draw(); if (playing) kick();
+ }
+ el('play').addEventListener('click', () => {
+  if (sims.every(sim => sim.ended)) {reset(true); return;}
+  playing = !(playing || seeking); seeking = false; lastFrame = null; draw(); if (playing) kick();
+ });
+ el('reset').addEventListener('click', () => reset());
+ el('apply').addEventListener('click', () => reset());
+ el('seed').addEventListener('keydown', event => {if (event.key === 'Enter') reset();});
+ el('world').addEventListener('change', () => reset());
+ el('left').addEventListener('change', () => reset());
+ el('right').addEventListener('change', () => reset());
+ el('grow').addEventListener('click', () => {seeking = true; playing = false; lastFrame = null; kick();});
+ window.addEventListener('resize', () => {if (sims.length) draw();});
+ document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {playing = false; seeking = false; lastFrame = null; if (sims.length) draw();}
+ });
+ window.__watch = {get sims(){return sims;}, get states(){return states;}, reset, draw};
+ reset();
+})();
+</script>
+</html>

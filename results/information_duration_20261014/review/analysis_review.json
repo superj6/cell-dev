@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "simulated_lives": 0,
+  "independent_tests_passed": 45,
+  "test_command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/pytest -q outputs/autonomous_information_duration_20261014/test_analyze.py --basetemp=outputs/audit_n_20261014/analysis_final_independent",
+  "source_sha256": {
+    "outputs/autonomous_information_duration_20261014/analyze.py": "2135f0cc1a8738f312c4eb464e056baea9c45d8116d2415990adf245835c3d1c",
+    "outputs/autonomous_information_duration_20261014/F_offline.py": "a30ea457314de89f0403e511338d1c61d4190f741578dc541ef2ac5cdff0cb34",
+    "outputs/autonomous_information_duration_20261014/test_analyze.py": "699c32cbba646ed0e86ac22d485738cebd39975756db179aaffdf9c76c2ff97c",
+    "outputs/autonomous_information_duration_20261014/protocol.json": "43453144aa4239ff8ac00321af630f1a11d98e571db45f4d4622b9902d69e6d1",
+    "outputs/autonomous_information_duration_20261014/measure.py": "4186e9d3d4e037e036a163d72f5c26a304e71d86dc2868d55694c94c63acde7c",
+    "outputs/autonomous_information_duration_20261014/validate.py": "f21ee7dd06b773368438db2dd565f953ea05c9284dacf4eb08e98e6f19ce561a",
+    "outputs/autonomous_information_duration_20261014/run_budgeted.py": "b78819a5d4166dc26fe6544ccb3ac85b17b2a49c85ab4363ecf797642811e3d5",
+    "outputs/autonomous_information_duration_20261014/sources/vctl.c": "1b6372a3bb1e787fcfd3150fe988d945efbe49a2028a288b1905fcf5f4436b0b"
+  },
+  "scientific_release_source_edits": 0,
+  "checks": [
+    "Completion gate precedes scientific data reads; complete scope12288+40 and empty workers required.",
+    "All24 research rows, full57 ledgers, exact saved score/seed/identity order and all contrasts preserved; no missing-life filtering.",
+    "Income, complete cost decomposition, net and normalized fitness independently reconstructed from production accounting order.",
+    "Generated wrapper source reconstructed without compiling or invoking lives; original source/library/hash pins checked.",
+    "Kind1 returned time>=0 counts accepted direct actions; kind3 column4 is the accepted-fire delta, column3 is tolerance.",
+    "Every kind2 row immediately precedes its kind3 row; kind2 column5 equals kind3 column4, nonnegative integral counts.",
+    "Accepted direct count plus steering deltas equals diag[2]; ping counts, replay ping byte identity and reconstructed allocation capacity checked.",
+    "Validation independently reconstructs copy/replay/control, production scratch parity and null/inert comparisons across40 retained lives.",
+    "Both fixed full-versus-reflex contrasts, descriptive selected whole-candidate comparator, all do-less candidates and paired SE retained.",
+    "Final standalone archive exact hash/size/status/artifact map and generated README equality tested; prelaunch bytes preserved."
+  ],
+  "limitations": [
+    "Original logger return count and allocator-failure flag are not separately saved. Bounds, diagnostics and stream identity support the retained checks but cannot prove absence of every lost zero-accepted-action record.",
+    "Best comparator is selected among the fixed candidates on these same evaluation lives; resulting SE is descriptive and conditional.",
+    "Validation covers these finite lives and worlds, not universal numerical or controller equivalence."
+  ],
+  "resolved_review_blocker": "Previous analyzer mistakenly summed steering tolerance column3. Author corrected to accepted delta column4 and added independent mismatched-return/delta, negative, fractional, total and tolerance-only tests."
+}

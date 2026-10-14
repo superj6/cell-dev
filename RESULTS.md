@@ -1905,3 +1905,42 @@ They are measurement tools only. A replay test shows the controller reads nothin
   contrasts. Thirty-six pure analysis tests pass. `results/gene_interaction_20261014/` preserves 308 artifacts,
   both preparation versions, the analytical proof and all measurements. Root and an independent reviewer each
   checked every artifact hash/size and recomputed zero interaction and byte-identical copy effects.
+
+## 2026-10-14 — The s7 continuation viewer preserves exact archived genomes
+
+- **Display:** `results/s7_continuation_20261014/watch.html` starts paused with row29 beside endpoint51891.
+  Both selectors include original s7, row29, and both fixed endpoints. POOL is the measured world; base is a
+  transfer illustration. The unchanged JS engine embeds all four exact genomes, and the evidence panel uses
+  the archived paired duration-mixture comparisons. The default descriptive seed remains 51,840,000.
+- **Validation:** all eight T32 C cases match stepped JS execution and state reads bitwise in all 57 ledger
+  columns and five event hashes. The single-worker check used 11.250013 of 15 CPU-seconds. These eight C lives
+  and eight JS replays are validation only. Synthetic UI checks pass; a browser rendering check was not performed.
+- **Provenance:** the viewer has a separate manifest under `viewer/`; all 207 sealed scientific artifacts and
+  their original manifest remain unchanged. Full animations are illustrations, not fresh scientific evidence.
+
+## 2026-10-14 — Information payoff persists at shorter and longer lifetimes
+
+- **Design:** N measures unchanged default C4 and five fixed reflex references in the original fast base/POOL
+  worlds at T768 and T1536. Each world/duration uses 512 paired seeds; block40 belongs to T768 and block41 to
+  T1536. There is no retuning, endpoint selection or new controller behavior. C4 and both primary reflexes use
+  the same 56-cell hollow3 footprint, with existing action charges and latency but free central computation.
+- **Primary comparisons:** C4 minus the retained retuned reflex is **+13.257 ± 0.223 F** in base/T768,
+  **+13.547 ± 0.204 F** in POOL/T768, **+13.112 ± 0.168 F** in base/T1536, and **+13.218 ± 0.151 F** in POOL/T1536.
+  Its fixed comparisons against the original frozen reflex are +13.403 ± 0.223, +13.784 ± 0.205,
+  +13.128 ± 0.166 and +13.335 ± 0.146 F respectively. Every comparison retains all 512 lives.
+- **Do-less checks:** the retained retuned reflex has the higher whole-sample mean in all four conditions.
+  The best of the three prescribed smaller/quieter variants gains −1.182 ± 0.127, −0.393 ± 0.116,
+  −0.965 ± 0.095 and −0.358 ± 0.085 F in the same order. Every fixed variant scores worse than that reference.
+  All descriptive >3 SE, >=1 F information-gap and quarter-gap checks pass. Best-reference/variant summaries
+  reuse the scored sample and are conditional descriptive estimates; the fixed contrasts are primary.
+- **Interpretation:** the existing sensory information remains valuable across both lifetime endpoints under
+  the original fast physics. Different duration blocks do not support paired duration-change claims. This
+  does not complete G5 across capability worlds, isolate a particular capability, show that an evolved local
+  tissue can attain C4, or decide world admission. The external controller never enters an organism.
+- **Validation and budget:** all 12,288 research lives and 40 T64 validation lives completed in 1,385.715510
+  of 3,600 CPU-seconds. The 24 research rows have no guards, extinction or invalid status. Recorded-ping replay,
+  controller-copy checks, scratch/production reflex parity and null/inert stream checks all pass; the two
+  historical diagnostic columns and combined hash are excluded only from the documented scratch/production check.
+  `results/information_duration_20261014/` preserves 244 artifacts, including all 71 preparation files, generated
+  C/libraries, raw validation logs and research ledgers. Independent analysis passes 45 synthetic tests and
+  standalone public reanalysis. Root separately checked all artifact hashes/sizes and the four raw paired effects.

@@ -1,0 +1,410 @@
+{
+  "status": "read_only_feasibility_not_preregistered",
+  "simulated_lives": 0,
+  "compiled_libraries": 0,
+  "recommendation": "Fixed default C4 plus five existing reference constructions, base-fast/POOL-fast at two unmeasured durations; no tuning or choice between default/tuned C4.",
+  "worlds": {
+    "base": {
+      "d0": 0.5,
+      "d_min": 0.25
+    },
+    "pool": {
+      "d0": 0.5,
+      "d_min": 0.25,
+      "sigma": 0.4,
+      "lam_s": 4.0
+    }
+  },
+  "duration_seed_blocks": {
+    "768": 40,
+    "1536": 41
+  },
+  "lives_per_candidate_per_condition": 512,
+  "candidate_research_lives": 12288,
+  "same_seeds_across_candidates_and_worlds_within_duration": true,
+  "candidate_lists": {
+    "base": [
+      {
+        "name": "C4_default",
+        "kind": "information",
+        "footprint": "hollow3",
+        "controller_id": 5,
+        "params": [
+          0.6,
+          2.0,
+          0.05,
+          0.1,
+          5.0,
+          2.0,
+          6.0,
+          50.0,
+          1.0,
+          0.0,
+          0.0,
+          0.5,
+          0.2,
+          7.0,
+          2.0,
+          1.0,
+          1.0,
+          0.5,
+          0.15,
+          0.3,
+          0.0
+        ]
+      },
+      {
+        "name": "frozen",
+        "kind": "frozen_reflex",
+        "footprint": "hollow3",
+        "knobs": null
+      },
+      {
+        "name": "retuned",
+        "kind": "retuned_reflex",
+        "footprint": "hollow3",
+        "knobs": {
+          "S.g_r": 1.0,
+          "S.tau_m": 4.0,
+          "S.t_ref": 0.5,
+          "S.b": 0.625,
+          "C.g_r": 1.0,
+          "C.tau_m": 4.0,
+          "C.b": 0.5,
+          "C.t_ref": 0.5,
+          "M.w0": 1.5,
+          "M.kappa": 1.0,
+          "M.t_ref": 0.5,
+          "K.w0": 1.5,
+          "K.kappa": 1.0,
+          "K.t_ref": 4.0,
+          "S.delta": 0.0,
+          "M.tau_m": 2.0,
+          "M.b": 0.25,
+          "K.tau_m": 2.0,
+          "K.b": 0.0
+        }
+      },
+      {
+        "name": "smaller_frozen",
+        "kind": "do_less",
+        "footprint": "hollow2",
+        "knobs": null
+      },
+      {
+        "name": "smaller_transferred",
+        "kind": "do_less",
+        "footprint": "hollow2",
+        "knobs": {
+          "S.g_r": 1.0,
+          "S.tau_m": 4.0,
+          "S.t_ref": 0.5,
+          "S.b": 0.625,
+          "C.g_r": 1.0,
+          "C.tau_m": 4.0,
+          "C.b": 0.5,
+          "C.t_ref": 0.5,
+          "M.w0": 1.5,
+          "M.kappa": 1.0,
+          "M.t_ref": 0.5,
+          "K.w0": 1.5,
+          "K.kappa": 1.0,
+          "K.t_ref": 4.0,
+          "S.delta": 0.0,
+          "M.tau_m": 2.0,
+          "M.b": 0.25,
+          "K.tau_m": 2.0,
+          "K.b": 0.0
+        }
+      },
+      {
+        "name": "quieter",
+        "kind": "do_less",
+        "footprint": "hollow3",
+        "knobs": {
+          "S.g_r": 1.0,
+          "S.tau_m": 4.0,
+          "S.t_ref": 0.5,
+          "S.b": 0.625,
+          "C.g_r": 1.0,
+          "C.tau_m": 4.0,
+          "C.b": 0.5,
+          "C.t_ref": 0.5,
+          "M.w0": 1.5,
+          "M.kappa": 1.0,
+          "M.t_ref": 0.5,
+          "K.w0": 1.5,
+          "K.kappa": 1.0,
+          "K.t_ref": 8.0,
+          "S.delta": 0.0,
+          "M.tau_m": 2.0,
+          "M.b": 0.25,
+          "K.tau_m": 2.0,
+          "K.b": 0.0
+        }
+      }
+    ],
+    "pool": [
+      {
+        "name": "C4_default",
+        "kind": "information",
+        "footprint": "hollow3",
+        "controller_id": 5,
+        "params": [
+          0.4,
+          4.0,
+          0.05,
+          0.1,
+          5.0,
+          2.0,
+          6.0,
+          50.0,
+          1.0,
+          0.0,
+          0.0,
+          0.5,
+          0.2,
+          7.0,
+          2.0,
+          1.0,
+          1.0,
+          0.5,
+          0.15,
+          0.3,
+          0.0
+        ]
+      },
+      {
+        "name": "frozen",
+        "kind": "frozen_reflex",
+        "footprint": "hollow3",
+        "knobs": null
+      },
+      {
+        "name": "retuned",
+        "kind": "retuned_reflex",
+        "footprint": "hollow3",
+        "knobs": {
+          "S.g_r": 0.875,
+          "S.tau_m": 2.0,
+          "S.t_ref": 0.5,
+          "S.b": 0.875,
+          "C.g_r": 1.0,
+          "C.tau_m": 4.0,
+          "C.b": 0.0,
+          "C.t_ref": 4.0,
+          "M.w0": 1.5,
+          "M.kappa": 1.0,
+          "M.t_ref": 0.5,
+          "K.w0": 1.5,
+          "K.kappa": 1.0,
+          "K.t_ref": 4.0,
+          "S.delta": 1.0,
+          "M.tau_m": 2.0,
+          "M.b": 0.25,
+          "K.tau_m": 2.0,
+          "K.b": 0.5
+        }
+      },
+      {
+        "name": "smaller_frozen",
+        "kind": "do_less",
+        "footprint": "hollow2",
+        "knobs": null
+      },
+      {
+        "name": "smaller_transferred",
+        "kind": "do_less",
+        "footprint": "hollow2",
+        "knobs": {
+          "S.g_r": 0.875,
+          "S.tau_m": 2.0,
+          "S.t_ref": 0.5,
+          "S.b": 0.875,
+          "C.g_r": 1.0,
+          "C.tau_m": 4.0,
+          "C.b": 0.0,
+          "C.t_ref": 4.0,
+          "M.w0": 1.5,
+          "M.kappa": 1.0,
+          "M.t_ref": 0.5,
+          "K.w0": 1.5,
+          "K.kappa": 1.0,
+          "K.t_ref": 4.0,
+          "S.delta": 1.0,
+          "M.tau_m": 2.0,
+          "M.b": 0.25,
+          "K.tau_m": 2.0,
+          "K.b": 0.5
+        }
+      },
+      {
+        "name": "quieter",
+        "kind": "do_less",
+        "footprint": "hollow3",
+        "knobs": {
+          "S.g_r": 0.875,
+          "S.tau_m": 2.0,
+          "S.t_ref": 0.5,
+          "S.b": 0.875,
+          "C.g_r": 1.0,
+          "C.tau_m": 4.0,
+          "C.b": 0.0,
+          "C.t_ref": 4.0,
+          "M.w0": 1.5,
+          "M.kappa": 1.0,
+          "M.t_ref": 0.5,
+          "K.w0": 1.5,
+          "K.kappa": 1.0,
+          "K.t_ref": 8.0,
+          "S.delta": 1.0,
+          "M.tau_m": 2.0,
+          "M.b": 0.25,
+          "K.tau_m": 2.0,
+          "K.b": 0.5
+        }
+      }
+    ]
+  },
+  "controller_param_names": [
+    "sigma",
+    "lam_s",
+    "lam_bg",
+    "v_t",
+    "tau_eff",
+    "R_min",
+    "R_max",
+    "t_resp",
+    "rho_c",
+    "blink_on",
+    "blink_off",
+    "dt",
+    "h",
+    "W",
+    "blur_every",
+    "gain",
+    "kmax",
+    "min_align",
+    "tol",
+    "q_tap",
+    "steer_min"
+  ],
+  "action": {
+    "latency": "d0",
+    "charge": "relay",
+    "t_ref_min": 0.5,
+    "privileged": false,
+    "quant": false
+  },
+  "footprint_cells": {
+    "hollow3": 56,
+    "hollow2": 32
+  },
+  "primary": "Fixed C4 minus fixed retained retuned hollow3, independently in all four world-duration conditions; report every comparison, including C4 minus frozen and all do-less references. Best-whole-reflex summary is descriptive only.",
+  "duration_caveat": "Different preregistered blocks40/41 prevent paired duration difference; report per-duration gaps, not a same-seed transfer interaction.",
+  "estimated_cpu_seconds": [
+    1600,
+    2200
+  ],
+  "suggested_cap_cpu_seconds": 3600,
+  "simulation_workers": 2,
+  "timing_basis": {
+    "recent_decoy_rows": {
+      "full": {
+        "cpu_seconds": 196.59015917500003,
+        "wall_seconds": 98.73986952899998,
+        "lives": 512,
+        "sha256": "4f55666be68016ce92b8a4a3dcebc965348e9592103f9f91affabca5cb9b2b5f"
+      },
+      "frozen": {
+        "cpu_seconds": 41.69331654,
+        "wall_seconds": 20.875179731999992,
+        "lives": 512,
+        "sha256": "8e0d73c3319fa9857aebf2af4396e32d6364b4d8c27a0ab76bd4651f85c3919d"
+      },
+      "retuned": {
+        "cpu_seconds": 36.182403172,
+        "wall_seconds": 18.592673657999967,
+        "lives": 512,
+        "sha256": "821392c736780864f2b8fec031677e7883e3b539c4263fd653cb792f4d10d3be"
+      },
+      "smaller_frozen": {
+        "cpu_seconds": 21.747286392999996,
+        "wall_seconds": 10.918837560000043,
+        "lives": 512,
+        "sha256": "4ecce1c5814a3161a21a18b9004fbb0fca69458831637719beaad7479632913a"
+      },
+      "smaller_transferred": {
+        "cpu_seconds": 21.98417538599999,
+        "wall_seconds": 11.116252873000008,
+        "lives": 512,
+        "sha256": "595c75fe524b73f94178fa0353c0ee68b0904543cfc1ac5dad9fb6d1e76d6eec"
+      },
+      "quieter": {
+        "cpu_seconds": 36.78307533200001,
+        "wall_seconds": 18.765381510999987,
+        "lives": 512,
+        "sha256": "61a3be71783c5b75d3b5f6c4d5961c246c6b66a38fa6da3df28dbaeb4b3f4c1c"
+      }
+    },
+    "duration_and_world_scale": 4.5,
+    "scaled_recent_rows_cpu": 1597.411871991,
+    "historical_C4_1024_lives_2threads_wall_seconds": {
+      "base": 186,
+      "pool": 171
+    },
+    "estimate_caveat": "Actual C4 headline run wall time is retained, not measured CPU; recent decoy row CPU gives an approximate conservative proxy, not a guarantee."
+  },
+  "source_sha256": {
+    "results/open_headroom/data/headline.json": "1c6f9589d8efdd86a9404fdf3f8dfffec0d4bd81d29233f18656c20d94c67f78",
+    "results/open_headroom/harness/harness.py": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+    "results/open_headroom/harness/ctl_builtin.c": "1279eb1e990adbe098bb708368b9fbdc284475bfbb31d8687a30e9330a2462c8",
+    "results/open_headroom/harness/ctl_core.c": "612aaba011c8f00500976a7189eb8aa9c48623366b6398ea5b983f467a25c7e9",
+    "results/open_headroom/harness/ctl_api.h": "bbe91aa52d4e798e2b41c56dd0f273b563b58102c164411b40f5342cf0f8adb9",
+    "results/open_headroom/harness/make_ckernel.py": "7c375053b35fab7826bf5aec2c43a6e0b11cba9e9bea3ecf7077ef1c9af621b4",
+    "results/open_headroom/controllers/make_vctl.py": "8df30085cf5a135c0522b3153f3034ba635d45f75572de6fd560acc5fed9fd07",
+    "scripts/taskvar_measure.py": "a99d13a25bc23d2ae42d4f27ba79843844eebc91e55859eb3374d6765bccb8bd",
+    "scripts/taskvar_replay.py": "8f1fe50d2460795f44d102cff55e916b6530673f3d3b2ddcb8d8f0eac0593d92",
+    "src/life/handbuilt.py": "d19ba200142f0c5ec41d5da4deff4788ed77ef22f01ba69c552968b5fddfa71c",
+    "src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+    "outputs/openhr/verify_headline/reflex_knobs_verify.json": "a5efd2b00360ce49e23581d7a7a1e0069bad781905181717b08c9c43f4adbabf",
+    "outputs/openhr/verify_headline/c4_tuned.json": "ca357ff5fde5645cd7eb2a1fcd236b1d716c0a2e8df5107bf1c8eab3a319ec58",
+    "outputs/openhr/verify_headline/vctl.c": "1b6372a3bb1e787fcfd3150fe988d945efbe49a2028a288b1905fcf5f4436b0b",
+    "outputs/openhr/verify_headline/test_v4_identity.json": "a355a2789413e76c1e46150847a21993c18e20c2640ed93242e33dcefc7f784d",
+    "outputs/openhr/verify_headline/test_replay_leak.json": "95549d99637a448dd19e090ebc76be94b9910567b5540be7737e6d7fe8d50ed8",
+    "outputs/openhr/verify_headline/job_c4.log": "644fb94d9aaf6aa96b2fdd4e59f56e4c598b086d46732a7209952c3b157c9d9c",
+    "outputs/openhr/verify_headline/job_tissue.log": "0e9658232095cfff28cfac76fa95db56a1b67144594667e5a46097181233049a"
+  },
+  "harness_identity": {
+    "results/open_headroom/harness/ctl_core.c": "612aaba011c8f00500976a7189eb8aa9c48623366b6398ea5b983f467a25c7e9",
+    "results/open_headroom/harness/example_ctl.c": "167d2ca03c6c5228d9c1684d1661fe076c3051bb86d1108f62ebaef36db4434f",
+    "results/open_headroom/harness/ctl_builtin.c": "1279eb1e990adbe098bb708368b9fbdc284475bfbb31d8687a30e9330a2462c8",
+    "results/open_headroom/harness/ctl_api.h": "bbe91aa52d4e798e2b41c56dd0f273b563b58102c164411b40f5342cf0f8adb9",
+    "results/open_headroom/harness/harness.py": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+    "results/open_headroom/harness/make_ckernel.py": "7c375053b35fab7826bf5aec2c43a6e0b11cba9e9bea3ecf7077ef1c9af621b4",
+    "src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+    "src/life/spec.py": "bdd06966fe7068bbac0d4a0269583aa6e7029bdee6556bb57c7e33e30b109c07",
+    "src/life/build.py": "aef1e6ec4476279f436276f55af24d5483ea832ecbe2621383d5497473a3e441",
+    "scripts/taskvar_measure.py": "a99d13a25bc23d2ae42d4f27ba79843844eebc91e55859eb3374d6765bccb8bd",
+    "scripts/taskvar_replay.py": "8f1fe50d2460795f44d102cff55e916b6530673f3d3b2ddcb8d8f0eac0593d92",
+    "results/taskvar/measurement/replay_wrapper.c.in": "4b9ac63a918f7c860476256bf5f559bf9f6142e89d99f68bd5ce9a85316a284f"
+  },
+  "public_scratch_harness_equal": {
+    "harness.py": true,
+    "ctl_builtin.c": true,
+    "ctl_core.c": true,
+    "ctl_api.h": true,
+    "make_ckernel.py": true
+  },
+  "validation_before_scoring": "Reuse exact existing ABI3 epoch-disabled compilation adapter and retained C4/V4 logged replay implementation; bounded current-source C4-copy action replay and scratch/production reflex/null parity checks must be registered within cap before research. No controller behavior edits.",
+  "scope_limitations": [
+    "Only base/POOL duration evidence, not fullG5 across all capability worlds.",
+    "No automatic world admission or population-responsive world.",
+    "Controller computation is free and centralized as an external yardstick; never organism behavior.",
+    "Fixed three-member do-less set is not an exhaustive search.",
+    "No retuning at new durations; may underestimate what those durations pay.",
+    "Recovered tuned C4 arrays are retained but excluded prospectively; default matches headline controller."
+  ],
+  "wait_for_study": "outputs/autonomous_s7_20261014",
+  "prior_proposal_correction": "The initial256-life feasibility sketch did not meet section0.4 sample minimum; final prospective scope is512 fixed paired lives."
+}

@@ -121,15 +121,25 @@ This finite G51090 result is not a universal silence proof or evidence of functi
 research lives completed in 410.154069 of 1,800 CPU-seconds; no guards/invalids occurred. Independent full
 ancestry, packing and ledger reanalysis is in `results/gene_interaction_20261014/`.
 
-**Running and prepared studies.** N is running with two simulation workers. It measures the unchanged external controller and five fixed references at T768/T1536 in base and POOL
-(12,288 research plus 40 validation lives, 3,600 CPU-seconds). Do not exceed four simulation workers.
-O's three-arm structure-held regulation study is reviewed and prepared (4,608 lives, 3,600 CPU-seconds,
-two workers), released and waiting for both M and N. The next ordinary
-adaptation step from each fixed D endpoint is a draft only, with no registration or release.
+**Information duration check completed (2026-10-14).** The unchanged external C4 controller remains above the
+retained retuned reflex by **+13.257 ± 0.223 / +13.547 ± 0.204 F** in base/POOL at T768, and
+**+13.112 ± 0.168 / +13.218 ± 0.151 F** at T1536. All fixed smaller/quieter variants score worse than that
+reference. These are separate 512-paired-life comparisons, with no duration-paired inference or world-admission
+decision. C4 is an external instrument with free computation, not an evolved organism. All 12,288 research and
+40 validation lives completed in 1,385.715510 of 3,600 CPU-seconds. Full replay/parity evidence and independent
+reanalysis are in `results/information_duration_20261014/`; capability-world G5 remains pending.
+
+**Running and prepared studies.** O's three-arm structure-held regulation study is running with two workers
+(4,608 research lives, 3,600 CPU-seconds) after M/N completion. Do not exceed four simulation workers.
+P is independently reviewed and prepared: another ordinary 16-generation step from each fixed D endpoint,
+37,548 research lives under a 14,400 CPU-second cap, four workers after O. It awaits public registration and
+root release. Q's s7 frozen-message follow-up is in pure preparation, with no readiness or launch.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
 The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:
 all 57 ledger columns and five event hashes match bitwise, within 9.331079 of 15 validation CPU-seconds.
+The s7 viewer at `results/s7_continuation_20261014/watch.html` has the same eight-case C/JS parity coverage,
+using 11.250013 of 15 CPU-seconds. Both viewers start paused and retain their original scientific archives.
 Full animations are illustrations. No unanswered approval decision has been assumed resolved.
 
 ## 1. What the project is
@@ -239,7 +249,7 @@ creation can do, that's the whole point".
   - **Memory:** in the flash world, acting on memory while the target is dim adds +24.6 F. In renewal blink worlds it
     adds +2-4.
   - **Later measurements:** bounded base/POOL gradients and decoy information are now measured above. Prediction,
-    full all-world gradients and controller duration transfer remain pending.
+    full all-world gradients and capability-world duration transfer remain pending; N completes base/POOL duration checks.
 
 ## 5. Decisions the user has not answered yet
 

@@ -43,12 +43,20 @@ fixed. One also gains useful hidden-cell messaging: suppressing hidden outputs c
 **0.794 ± 0.207 F** more dependence than its founder. This establishes conditional hidden-message contribution in
 one fixed endpoint; the computation it performs and its share of available information remain unestablished.
 
+
+Two further searches from the second starting lineage, s7, add **+0.900 ± 0.143** and **+1.072 ± 0.145 F** over
+its selected mutant founder. Both gains again come from extra capture income despite higher costs. This broadens
+the evidence for further ordinary adaptation; the s7 mechanisms have not yet been tested.
+
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),
 [hidden-message experiment](results/hidden_20261014/README.md), and
 [decoy information measurement](results/discrimination_20261013/README.md).
-The [continuation viewer](results/continuation_20261013/watch.html) compares the founder and both descendants on
-a fixed illustrative life; its eight short C/JavaScript comparisons match all ledger columns and event hashes.
+The [s7 continuation results](results/s7_continuation_20261014/README.md) retain the second lineage’s full evidence.
+The [s5 viewer](results/continuation_20261013/watch.html) and
+[s7 viewer](results/s7_continuation_20261014/watch.html) each compare the original, selected founder and both
+descendants on fixed illustrative lives. Each viewer’s eight short C/JavaScript comparisons match all ledger
+columns and event hashes; full animations remain illustrations.
 The [current plan](docs/TASK_VARIATION_PLAN.md#0-revision-2026-10-10-admit-worlds-by-what-they-pay-not-by-what-we-can-build)
 and [handoff](docs/HANDOFF.md) distinguish completed evidence, running studies and unanswered decisions.
 

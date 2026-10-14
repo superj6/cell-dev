@@ -96,6 +96,15 @@ copy-present/absent arms. This extends J's measured non-use but does not prove u
 out future functional duplication. `results/gene_interaction_20261014/` preserves the original preparation,
 pre-release amendment, analytical proof and all 2,048 lives within 410.154069 CPU-seconds.
 
+
+*2026-10-14 duration information result:* unchanged C4 exceeds the retained retuned reflex by
++13.257 ± 0.223 / +13.547 ± 0.204 F in base/POOL at T768 and +13.112 ± 0.168 / +13.218 ± 0.151 F at T1536.
+All fixed smaller/quieter variants score worse than the reference. N retains original headline fast physics
+and separate duration seed blocks; it does not identify a duration effect or evolved capability. This completes
+the base/POOL portion of G5, with capability worlds still pending and no admission decision. All 12,288 research
+plus 40 validation lives finished in 1,385.715510 CPU-seconds; `results/information_duration_20261014/` preserves
+independent raw accounting, replay/parity checks and every fixed comparison.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.
@@ -303,8 +312,9 @@ From the literature and design study (`results/open_headroom/data/open_ended_*.j
    - The controllers are heuristics, so gaps are lower bounds on what the information allows.
 3. **Most of every gap is tracking, which base already pays for.** The within-life worlds add specific parts on top:
    switching +12.7, flash memory +24.6.
-4. **Several pieces are not measured yet:** prediction, full all-world gradients and controller information gaps at
-   life lengths other than1024 (G5). Bounded genome transfer does not substitute for G5.
+4. **Several pieces are not measured yet:** prediction, full all-world gradients and capability-world controller
+   information gaps at life lengths other than 1024 (G5). N now measures base/POOL at T768/T1536; those results
+   and bounded genome transfer do not substitute for the remaining capability-world checks.
 5. **Lost and re-measured.** The reflex re-tunes recorded before 2026-10-10 were lost in a reboot. Every best reflex
    above was re-tuned in this study.
 

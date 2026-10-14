@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "reviewer": "audit_de",
+  "simulated_lives": 0,
+  "mock_tests": 53,
+  "files": {
+    "protocol.json": "43453144aa4239ff8ac00321af630f1a11d98e571db45f4d4622b9902d69e6d1",
+    "run_budgeted.py": "b78819a5d4166dc26fe6544ccb3ac85b17b2a49c85ab4363ecf797642811e3d5",
+    "test_monitor.py": "c044035612878b11914df0e2dff95991a32045d8bd99c594aab2d36890968205"
+  },
+  "review": [
+    "exact L-only dependency and source/readiness pins",
+    "planned and actual completed12288 plus validation40 required",
+    "cumulative own/reaped/live-descendant CPU and parent-captured remaining RLIMIT",
+    "exact-parent PDEATHSIG and race check",
+    "TERM then unconditional final process-group KILL",
+    "no existing budget/log/measurement restart",
+    "terminal failures retain empty running and queued records",
+    "53 independent pure monitor mocks pass"
+  ]
+}
