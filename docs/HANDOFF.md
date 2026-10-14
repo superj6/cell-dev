@@ -1,0 +1,212 @@
+# Handoff: cell-dev (2026-10-13)
+
+For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
+and the last few entries of `RESULTS.md`.
+
+## 1. What the project is
+
+- **Goal, in the user's words:** evolve "genetic codes" for how cells divide and change, so that the grown tissue runs
+  "some message passing algorithm that performs a task using the cells".
+- **The model (BODY-1, ABI 3).**
+  - Every cell runs the same genome: a 16-gene regulatory network (GRN) plus a leaky integrate-and-fire neuron.
+  - The genome grows one zygote into a layered body on a hex-prism lattice:
+    - z=0 senses;
+    - z=1 acts (twitches the body);
+    - z>=2 is hidden.
+  - Cells only hear their neighbours, through spikes with conduction delays.
+  - There is no global clock: the simulator is exact and event-driven.
+- **The world (CATCH/SPECK).**
+  - The body is a dot chasing a drifting target. Sense cells get receptor pings from the target's glow.
+  - An act cell's spike nudges the dot. A spike of the hotspot cell (0,0,1) is a tap: inside the catch zone it is a
+    capture (R_cap 500), otherwise it costs c_miss 10.
+  - Cells cost c_live 0.02. Fitness F = income per unit time minus costs.
+- **Evolution:** (32+224) selection with crossover and a two-stage recheck (K64 L4), common random numbers, and a life
+  length drawn from {768, 1024, 1536}. About 1,070 lives per generation, at about 0.1 CPU-s each.
+
+## 2. Non-negotiables and how the user works
+
+**Standing requirements.**
+- One continuous life per evaluation.
+- No central clock.
+- Local rules only (sensing, action, messaging).
+- Death is driven by the genome.
+- Minimal hard-coding: list every fixed rule with its reason.
+- Evolution decides roles.
+- Growth is bounded by physics plus costs.
+- Fitness is task performance; no shaped score.
+
+**Standing approval** (user, 2026-10-07): "do whatever minor tweaks you think will help us get the emergent behavior we
+want without removing the central goals - local, async, self discovered behavior algorithm".
+- Make and report minor tweaks without asking: world constants, selection details, logging, gates.
+- **Ask first** before:
+  - any global channel or clock in the organism;
+  - hand-designed behaviour;
+  - changing a stated goal;
+  - spending money;
+  - an ABI change;
+  - a world that responds to the population.
+
+**The newest principle** (user, 2026-10-10): "ideally the system should evolve to find capabilities beyond what hand
+creation can do, that's the whole point".
+- Never gate a world or task on whether *we* can hand-build a body that wins.
+- Judge worlds by what the sense information pays (section 4 below). Hand-built bodies are yardsticks to beat.
+
+**How the user likes to work.**
+- Explain new concepts plainly, with small diagrams, *before* asking a question. Ask one decision at a time and give a
+  recommendation. They often discuss rather than pick from a menu.
+- Report honestly: paired differences with SE on fresh lives, caveats, failures. Say what was skipped.
+- The user cares most about watchable outcomes (atlas, playground) and about rollouts that could run natively on
+  hardware. The search loop around them may use any ML machinery.
+- **Commits.** Commit at milestones, ending the message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+  Push to `origin master` (https://github.com/superj6/cell-dev, public).
+- **House style.**
+  - Every experiment gets a `RESULTS.md` entry (newest at the bottom).
+  - Docs use short bullets, tables and plain words.
+  - Python lines are at most 120 characters (`tests/test_style.py`); `ruff check src scripts tests` must be clean.
+
+## 3. Where things are
+
+| Path | What |
+|---|---|
+| `src/life/kernel.c` | exact event-driven C kernel; `-DLIFE_FAST` build skips hashes and is bitwise equal otherwise |
+| `src/life/reference.py` | Python reference, bitwise equal to the kernel |
+| `results/atlas/play/lifesim.js` | JS port, bitwise equal (`node test_lifesim.js`); glibc libm ports under the LGPL |
+| `src/life/spec.py`, `build.py` | ABI, decode, world presets; `build.run(...)` runs lives |
+| `src/life/evaluate.py`, `src/evolve.py`, `src/run.py` | evaluator (`fast_kernel`, elastic threads), selection (`rank_desc`), CLI |
+| `src/life/handbuilt.py`, `probe.py`, `analysis.py` | hand bodies (reflex, router), mechanism probes, `fresh_seeds` and `paired` |
+| `scripts/life_gates.py`, `scripts/sweep.py` | gates (SPECK: `--world speck`, GS1-GS6); sweeps (`--max-threads`) |
+| `configs/life_speck.yaml` | the SPECK L4 config used by the pilot |
+| `docs/TASK_VARIATION_PLAN.md` | **the current plan**: section 0 supersedes the older sections' hand-built gates |
+| `docs/ROADMAP.md`, `POST_PILOT_CALLS.md`, `ALTERNATIVES.md`, `HARDWARE_PATH.md` | directions, calls, substrates, hardware |
+| `docs/LIFE_ABI.md`, `LIFE_GATES.md`, `PROBE.md` | the simulation contract, gate verdicts, the probe toolkit |
+| `results/catch_pilot/` | pilot analysis, mechanisms, compute audit |
+| `results/taskvar_study/` | hand-built headroom study; `engineering/kernel_x.diff` holds the prototype blink/flip kernel |
+| `results/open_headroom/` | latest study: controller harness, controllers, data (see its README) |
+| `outputs/` (gitignored) | run outputs; `outputs/catch_pilot/*/best_genome.json`, `population.json`; `outputs/openhr/` |
+
+## 4. Where the findings stand
+
+- **Pilot (2026-10-09).**
+  - SPECK L4 reached the skill bar in 7 of 10 runs.
+  - Evolved bodies regrew the column reflex and added real local computation: neighbour voting, cooperative detection
+    with feedback inhibition, gain set by crowding.
+  - No evolved body routes signals like the hand router, and hidden planes are unused.
+- **Task-variation study (2026-10-10, hand-built controls).**
+  - Routing pays in POOL (sigma 0.4, lam_s 4, d0 0.5, d_min 0.25).
+  - Regeneration pays.
+  - Its gates were then replaced; see the next item.
+- **Open headroom (2026-10-10, latest).**
+  - **The tool.** A central controller that sees only the body's own pings, actions and clock (measurement only) is
+    replay-checked for leakage.
+  - **Base and POOL, 1,024 fresh lives:** it beats the best reflex by **+13.3 F in base and +13.2 in POOL**. With
+    tissue-like handicaps it keeps +9.2 / +9.6.
+  - **Our bodies use a quarter or less of that:** the evolved s5/s7 score -1.3 / -1.9 in base, the hand router +3.6.
+  - **What pays** is active search from a belief (path integration of its own strokes, pings and the absence of
+    pings).
+  - **Switching:** in the motor-flip mix (50% of lives flip mid-life), the flip detector adds +12.7 F.
+  - **Memory:** in the flash world, acting on memory while the target is dim adds +24.6 F. In renewal blink worlds it
+    adds +2-4.
+  - **Not yet measured:** prediction, discrimination, and the mutant gradient test.
+
+## 5. Decisions the user has not answered yet
+
+From `docs/TASK_VARIATION_PLAN.md` 0.9. My recommendation is yes on each.
+1. Replace the hand-built gates with the admission rule (0.4).
+2. Port within-life world changes (motor flip, blink, flash) into kernel, reference and JS as ABI 4 (about 5-6 pd).
+3. The revised family (base 25%, POOL 25%, flip mix 25%, flash 12.5%, blink 12.5%), with arm M as POOL alternating
+   with POOL plus flip mix.
+4. After round 1, a scratch pilot of co-evolving prey: a world that responds to the population. The user also sets the
+   prey's physical limits.
+
+Earlier, still open:
+- section 6 decisions 1-4: raw-F family fitness, wounds in selection, the fixed switching calendar, renting one 192-core
+  box at $15-35 spot (cap $120, and only after resume plus a replay check);
+- `docs/ROADMAP.md` "Decisions needed";
+- a project LICENSE (the user's choice).
+
+## 6. Next steps, in order (plan 0.7 and section 3)
+
+Staged, so that arms B and P can launch before the ABI 4 port lands.
+
+| Step | What | Approval | Estimate |
+|---|---|---|---|
+| E1 | Checkpoint/resume with determinism pinning (see below) | none | 0.5 day |
+| E2 | d0 0.5 / d_min 0.25 as the base; re-run GS1-GS6 (`scripts/life_gates.py --world speck`); re-tune reflex and router | report only | 0.5 day plus CPU |
+| E3 | Family harness in `evaluate.py`, behind a flag that is off by default; prototype `results/taskvar_study/engineering/fam_eval.py` | decision 1 to *use* it | 0.5-1 day |
+| E9 | ABI 4: flip (t_flip), blink, flash with dim level, in all three engines with truth lives | decision 2 | 0.5-1 day, the riskiest |
+| E4 | Generation calendar for arm M: phase = floor(g / E) mod 2 | section 6 decision 3 | hours |
+| E5 | KILL (wounds) port to lifesim.js | none | hours |
+| E6 | Readouts: lateral_off share, relay chains, BH3 (share of C4's gap captured) and BH4 (search signature) | none | 0.5 day |
+| E7 | Gates G0-G5, prediction and discrimination measurements, gradient test, `prereg.md` committed before launch | none | about 1 day, about 75 CPU-h |
+| E8 | Rental kit: pinned image, bitwise replay check on the new host | renting decision | hours |
+
+E1 in detail:
+- Every 25 generations, save the population, ids, origins, generation, the torch generator and the tie generator
+  (`rank_desc`), and the log offsets.
+- Add `run.py --resume`.
+- Pin ATEN_CPU_CAPABILITY, the torch version, the libm FMA path and the kernel .so hash, and replay a golden life at
+  start.
+- Test: 3 generations + resume + 3 generations must equal 6 generations byte for byte, with wall times stripped.
+
+After E1-E3 and their gates, launch **B (base) and P (POOL)**: 12 seeds x 500 generations, seeds 100-111. F, M and W
+follow after E9. The matrix takes 4-10 hours on the rented box, or 4-8 days on the laptop.
+
+Pre-registered criteria are R1-R3, G-1 to G-3 (plan 4.4) and BH1-BH4 (plan 0.6).
+
+## 7. Operational notes and gotchas
+
+**Machine.**
+- 14 cores; CPUs 12-13 are slow, and about 8 threads is fastest. About 20 GB of RAM is free.
+- It is shared with the user's other projects, and the load has hit 30. Check `uptime` before big jobs and keep within
+  a thread budget.
+
+**Commands.**
+- Tests: `.venv/bin/python -m pytest -q` (about 1 minute; `-m slow` for the long ones).
+- Lint: `.venv/bin/ruff check src scripts tests`.
+- JS: `node results/atlas/play/test_lifesim.js`.
+- The kernel compiles itself on first use (gcc, OpenMP).
+
+**Never use /tmp for anything long.**
+- A reboot wiped it mid-study. Put study scripts and results in `outputs/<study>/` (gitignored) and write results
+  incrementally.
+- Copy key artifacts into `results/` when committing.
+- Subagent transcripts survive under `~/.claude/projects/-home-jgon-project-ml-cell-dev/*/subagents/workflows/`.
+  `results/open_headroom/recover_replay.py` rebuilds files from them.
+
+**Never `pkill -f`:** it can kill your own shell. Kill by PID.
+
+**Exactness.** The kernel, reference and JS must stay bitwise equal. Any world or ABI change needs all three plus
+truth lives. Only the fast build may skip hashes.
+
+**Statistics.**
+- Compare on the same fresh lives (common random numbers) and report paired mean ± SE.
+- "Best reflex" means the better of the frozen reflex and the reflex re-tuned in that world, picked *on fresh lives*:
+  re-tuning overfits its tuning lives by 0.15-0.5 F.
+- Selection noise is large: the paired per-life SD is about 3-4 F.
+
+**Prices.** The prices are frozen. c_live is load-bearing: at x3 the router's lead nearly vanishes.
+
+**Seeds already used** (`fresh_seeds(n, seed0)`):
+- 30-31.35M and 39-39.1M: earlier gates and studies;
+- 40.1-40.8M: the task-variation study, with 40.8M + 5,000·block reserved for the plan's gates, confirmations and
+  held-outs;
+- 42.0-42.2M: tests;
+- 43M + 10,000·block: open headroom, blocks 0-49, 100-179, 200-239, 300-419;
+- 49M: a design diagnostic.
+- Use 45M or above for new work.
+
+**The controller harness.**
+- Location: `outputs/openhr/harness/`, with a committed copy in `results/open_headroom/harness/`.
+- Rebuild: `python3 make_ckernel.py && python3 make_ckernel.py --fast`.
+- Test: `PYTHONPATH=.:<harness>:<harness>/tests .venv/bin/python -m pytest -q <harness>/tests/test_harness.py` (19
+  tests).
+- The prior studies' re-tuned reflex knobs were lost in the reboot. Re-tune per world and keep the knobs in your own
+  directory.
+
+**Interrupted, unverified work in `outputs/openhr/`.**
+- `prediction/`, `discrimination/`, `map/` (a 30-world headroom map) and `gradient/` (the mutant test).
+- The prediction agent printed an ES-tuned controller at about F 37 against a reflex at about 2.1 in the fast-target
+  world. It is unchecked, so re-establish it with the leakage test before trusting it.
+
+**Pilot bodies.** `outputs/catch_pilot/speck_lmax4_hexprism_sex_s{0..9}/best_genome.json`. s5 and s7 are the usual
+references.
