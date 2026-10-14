@@ -9,10 +9,10 @@ Use mechanism analysis and search replication to guide and measure that progress
 that must be exhausted before exploring richer environments. The closed research batch remains closed.
 
 **Autonomous work resumed (2026-10-14).** At the user's request, new bounded studies now prioritize richer
-existing ABI 3 environments. U is prepared and reviewed: two four-generation ordinary searches from the fixed
+existing ABI 3 environments. U is released and running: two four-generation ordinary searches from the fixed
 I decoy winners, then four-condition fresh confirmation, under 7,200 CPU-seconds with half reserved for
-confirmation. See `results/decoy_evolution_20261014/`. V prepares an unchanged external moving-target
-information measurement, with independent review pending and no research release. Neither restarts the closed
+confirmation. See `results/decoy_evolution_20261014/`. V is independently reviewed and prepared for an unchanged external moving-target
+information measurement, with no research release; it waits for U process clearance. Neither restarts the closed
 P/Q/R batch or releases held S. No ABI change, new organism behavior, paid compute or population-responsive
 world is authorized by these registrations.
 

@@ -1,0 +1,39 @@
+{
+  "status": "passed_scientific_preparation_review_monitor_review_separate",
+  "new_simulations": 0,
+  "protocol_sha256": "bc2df79bfd484107ce50027ec6b734c041a00efa982654a64ddc7e065910d99f",
+  "measure_sha256": "186869eb7e831c09daf31fba22983fd40288aa6d3bf6831080543dc0c42e4900",
+  "monitor_sha256": "d3c6713603078ed78ac2479d264a482adca4b1fbe45d4bfd26eb1175dc537f20",
+  "archive_provenance_sha256": "f550eb4b79e432d3fafe151e898a09a389e0461f735403cd7d412fb8bffa9bf9",
+  "artifacts_verified": 139,
+  "research_lives": 3584,
+  "calibration_lives": 4,
+  "calibration_cpu_seconds_carried_forward": 11.558130849,
+  "cap_cpu_seconds": 3600,
+  "calibration_checks": {
+    "full": {
+      "all57_finite": true,
+      "cost_residual_max": 3.342393029015511e-11,
+      "fitness_bit_exact": true,
+      "completed_unguarded_lives": 2
+    },
+    "ablated": {
+      "all57_finite": true,
+      "cost_residual_max": 1.5302248357329518e-10,
+      "fitness_bit_exact": true,
+      "completed_unguarded_lives": 2
+    }
+  },
+  "source_pins_verified": 52,
+  "harness_pins_verified": 12,
+  "exact_action_replays": 12,
+  "fresh_research_and_calibration_seed_count": 514,
+  "prior_numeric_namespace_values_checked": 79208,
+  "all_seed_overlaps": 0,
+  "only_controller_parameter_changes": [
+    3,
+    4
+  ],
+  "interpretation": "The full-minus-ablated contrast measures the broad moving-target model. Prediction-specific admission remains incomplete; external free computation is not a demonstrated evolved algorithm or local-tissue ceiling.",
+  "review_script_sha256": "30561e3c94fff9310d14f483adb2a4665297db689e3fc9c8135844fabd3f932d"
+}

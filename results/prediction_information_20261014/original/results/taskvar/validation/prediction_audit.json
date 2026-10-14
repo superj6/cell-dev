@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "source_sha256": "8bfff9f02653c93f22f6d86df7b2c47e1167191fe9448ad26ec194f695689c58",
+  "artifact": "outputs/taskvar_e7/validated_audit/prediction/audit.json",
+  "harness_identity": {
+    "results/open_headroom/harness/ctl_core.c": "612aaba011c8f00500976a7189eb8aa9c48623366b6398ea5b983f467a25c7e9",
+    "results/open_headroom/harness/example_ctl.c": "167d2ca03c6c5228d9c1684d1661fe076c3051bb86d1108f62ebaef36db4434f",
+    "results/open_headroom/harness/ctl_builtin.c": "1279eb1e990adbe098bb708368b9fbdc284475bfbb31d8687a30e9330a2462c8",
+    "results/open_headroom/harness/ctl_api.h": "bbe91aa52d4e798e2b41c56dd0f273b563b58102c164411b40f5342cf0f8adb9",
+    "results/open_headroom/harness/harness.py": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+    "results/open_headroom/harness/make_ckernel.py": "7c375053b35fab7826bf5aec2c43a6e0b11cba9e9bea3ecf7077ef1c9af621b4",
+    "src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+    "src/life/spec.py": "bdd06966fe7068bbac0d4a0269583aa6e7029bdee6556bb57c7e33e30b109c07",
+    "src/life/build.py": "aef1e6ec4476279f436276f55af24d5483ea832ecbe2621383d5497473a3e441",
+    "scripts/taskvar_measure.py": "a99d13a25bc23d2ae42d4f27ba79843844eebc91e55859eb3374d6765bccb8bd",
+    "scripts/taskvar_replay.py": "8f1fe50d2460795f44d102cff55e916b6530673f3d3b2ddcb8d8f0eac0593d92",
+    "results/taskvar/measurement/replay_wrapper.c.in": "4b9ac63a918f7c860476256bf5f559bf9f6142e89d99f68bd5ce9a85316a284f"
+  },
+  "config_sha256": "fd335e6375b13a62f2e2ed72e3684d9ee7b4c97661f91fd7cac1e98d0304b09c",
+  "T": 64,
+  "rows": [
+    {
+      "variant": "full",
+      "seed": 51030000,
+      "callbacks": 267,
+      "action_records": 388,
+      "checks": {
+        "same_life": true,
+        "other_life": true,
+        "other_world": true
+      },
+      "control_differs": true
+    },
+    {
+      "variant": "full",
+      "seed": 51030001,
+      "callbacks": 210,
+      "action_records": 374,
+      "checks": {
+        "same_life": true,
+        "other_life": true,
+        "other_world": true
+      },
+      "control_differs": true
+    },
+    {
+      "variant": "ablated",
+      "seed": 51030000,
+      "callbacks": 205,
+      "action_records": 384,
+      "checks": {
+        "same_life": true,
+        "other_life": true,
+        "other_world": true
+      },
+      "control_differs": true
+    },
+    {
+      "variant": "ablated",
+      "seed": 51030001,
+      "callbacks": 205,
+      "action_records": 383,
+      "checks": {
+        "same_life": true,
+        "other_life": true,
+        "other_world": true
+      },
+      "control_differs": true
+    }
+  ],
+  "world_parity_audit": {
+    "passed": true,
+    "null_world_parity": true,
+    "artifact": "outputs/taskvar_e7/validated_audit/prediction/audit.json",
+    "seeds": [
+      51030000,
+      51030001
+    ],
+    "excluded_ledger": [
+      21,
+      22
+    ],
+    "excluded_hash": "all"
+  }
+}

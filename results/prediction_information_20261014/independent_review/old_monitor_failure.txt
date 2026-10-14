@@ -1,0 +1,174 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+__________ test_completed_leader_does_not_leave_owned_group_alive[0] ___________
+
+tmp_path = PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_prediction_information_20261014/old_monitor_mocks/test_completed_leader_does_not0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x723e82de2660>
+exit_code = 0
+
+    @pytest.mark.parametrize("exit_code", [0, 1, -15])
+    def test_completed_leader_does_not_leave_owned_group_alive(tmp_path, monkeypatch, exit_code):
+        mod = load_monitor()
+        monkeypatch.setattr(mod, "STUDY", tmp_path)
+        monkeypatch.setattr(mod, "readiness", lambda: {})
+        monkeypatch.setattr(mod, "prior_usage", lambda *a: (12.5, []))
+        monkeypatch.setattr(mod.os, "sched_getaffinity", lambda _: set(range(12)))
+        monkeypatch.setattr(mod.os, "sched_setaffinity", lambda *a: None)
+        monkeypatch.setattr(mod.signal, "signal", lambda *a: None)
+        monkeypatch.setattr(mod.time, "process_time", lambda: .5)
+        monkeypatch.setattr(mod.time, "sleep", lambda _: None)
+        monkeypatch.setattr(mod, "child_usage", lambda: 7.)
+        survivor = {"alive": True}
+        signals = []
+    
+        def table():
+            result = {mod.os.getpid(): {"ppid": 1, "pgrp": 3, "start_ticks": 99, "cpu_ticks": 0}}
+            if survivor["alive"]:
+                result[10001] = {"ppid": mod.os.getpid(), "pgrp": 999999, "start_ticks": 100, "cpu_ticks": 100}
+            return result
+    
+        def killpg(pid, sig):
+            signals.append((pid, sig))
+            if pid == 999999 and sig == mod.signal.SIGKILL:
+                survivor["alive"] = False
+    
+        monkeypatch.setattr(mod, "proc_table", table)
+        monkeypatch.setattr(mod.os, "killpg", killpg)
+        monkeypatch.setattr(mod.os, "waitpid", lambda *a: (0, 0))
+        if hasattr(mod, "enable_subreaper"):
+            monkeypatch.setattr(mod, "enable_subreaper", lambda: None)
+    
+        class Process:
+            pid = 999999
+            def __init__(self, *a, **kw):
+                pass
+            def poll(self):
+                return exit_code
+            def wait(self, **kw):
+                return exit_code
+    
+        monkeypatch.setattr(mod.subprocess, "Popen", Process)
+        monkeypatch.setattr("sys.argv", ["run_budgeted", "--run"])
+        with pytest.raises(SystemExit):
+            mod.main()
+>       assert not survivor["alive"], "owned descendant survives after direct worker exit"
+E       AssertionError: owned descendant survives after direct worker exit
+E       assert not True
+
+outputs/audit_prediction_information_20261014/test_monitor_independent.py:69: AssertionError
+__________ test_completed_leader_does_not_leave_owned_group_alive[1] ___________
+
+tmp_path = PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_prediction_information_20261014/old_monitor_mocks/test_completed_leader_does_not1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x723e82e03020>
+exit_code = 1
+
+    @pytest.mark.parametrize("exit_code", [0, 1, -15])
+    def test_completed_leader_does_not_leave_owned_group_alive(tmp_path, monkeypatch, exit_code):
+        mod = load_monitor()
+        monkeypatch.setattr(mod, "STUDY", tmp_path)
+        monkeypatch.setattr(mod, "readiness", lambda: {})
+        monkeypatch.setattr(mod, "prior_usage", lambda *a: (12.5, []))
+        monkeypatch.setattr(mod.os, "sched_getaffinity", lambda _: set(range(12)))
+        monkeypatch.setattr(mod.os, "sched_setaffinity", lambda *a: None)
+        monkeypatch.setattr(mod.signal, "signal", lambda *a: None)
+        monkeypatch.setattr(mod.time, "process_time", lambda: .5)
+        monkeypatch.setattr(mod.time, "sleep", lambda _: None)
+        monkeypatch.setattr(mod, "child_usage", lambda: 7.)
+        survivor = {"alive": True}
+        signals = []
+    
+        def table():
+            result = {mod.os.getpid(): {"ppid": 1, "pgrp": 3, "start_ticks": 99, "cpu_ticks": 0}}
+            if survivor["alive"]:
+                result[10001] = {"ppid": mod.os.getpid(), "pgrp": 999999, "start_ticks": 100, "cpu_ticks": 100}
+            return result
+    
+        def killpg(pid, sig):
+            signals.append((pid, sig))
+            if pid == 999999 and sig == mod.signal.SIGKILL:
+                survivor["alive"] = False
+    
+        monkeypatch.setattr(mod, "proc_table", table)
+        monkeypatch.setattr(mod.os, "killpg", killpg)
+        monkeypatch.setattr(mod.os, "waitpid", lambda *a: (0, 0))
+        if hasattr(mod, "enable_subreaper"):
+            monkeypatch.setattr(mod, "enable_subreaper", lambda: None)
+    
+        class Process:
+            pid = 999999
+            def __init__(self, *a, **kw):
+                pass
+            def poll(self):
+                return exit_code
+            def wait(self, **kw):
+                return exit_code
+    
+        monkeypatch.setattr(mod.subprocess, "Popen", Process)
+        monkeypatch.setattr("sys.argv", ["run_budgeted", "--run"])
+        with pytest.raises(SystemExit):
+            mod.main()
+>       assert not survivor["alive"], "owned descendant survives after direct worker exit"
+E       AssertionError: owned descendant survives after direct worker exit
+E       assert not True
+
+outputs/audit_prediction_information_20261014/test_monitor_independent.py:69: AssertionError
+_________ test_completed_leader_does_not_leave_owned_group_alive[-15] __________
+
+tmp_path = PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_prediction_information_20261014/old_monitor_mocks/test_completed_leader_does_not2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x723e82e03b30>
+exit_code = -15
+
+    @pytest.mark.parametrize("exit_code", [0, 1, -15])
+    def test_completed_leader_does_not_leave_owned_group_alive(tmp_path, monkeypatch, exit_code):
+        mod = load_monitor()
+        monkeypatch.setattr(mod, "STUDY", tmp_path)
+        monkeypatch.setattr(mod, "readiness", lambda: {})
+        monkeypatch.setattr(mod, "prior_usage", lambda *a: (12.5, []))
+        monkeypatch.setattr(mod.os, "sched_getaffinity", lambda _: set(range(12)))
+        monkeypatch.setattr(mod.os, "sched_setaffinity", lambda *a: None)
+        monkeypatch.setattr(mod.signal, "signal", lambda *a: None)
+        monkeypatch.setattr(mod.time, "process_time", lambda: .5)
+        monkeypatch.setattr(mod.time, "sleep", lambda _: None)
+        monkeypatch.setattr(mod, "child_usage", lambda: 7.)
+        survivor = {"alive": True}
+        signals = []
+    
+        def table():
+            result = {mod.os.getpid(): {"ppid": 1, "pgrp": 3, "start_ticks": 99, "cpu_ticks": 0}}
+            if survivor["alive"]:
+                result[10001] = {"ppid": mod.os.getpid(), "pgrp": 999999, "start_ticks": 100, "cpu_ticks": 100}
+            return result
+    
+        def killpg(pid, sig):
+            signals.append((pid, sig))
+            if pid == 999999 and sig == mod.signal.SIGKILL:
+                survivor["alive"] = False
+    
+        monkeypatch.setattr(mod, "proc_table", table)
+        monkeypatch.setattr(mod.os, "killpg", killpg)
+        monkeypatch.setattr(mod.os, "waitpid", lambda *a: (0, 0))
+        if hasattr(mod, "enable_subreaper"):
+            monkeypatch.setattr(mod, "enable_subreaper", lambda: None)
+    
+        class Process:
+            pid = 999999
+            def __init__(self, *a, **kw):
+                pass
+            def poll(self):
+                return exit_code
+            def wait(self, **kw):
+                return exit_code
+    
+        monkeypatch.setattr(mod.subprocess, "Popen", Process)
+        monkeypatch.setattr("sys.argv", ["run_budgeted", "--run"])
+        with pytest.raises(SystemExit):
+            mod.main()
+>       assert not survivor["alive"], "owned descendant survives after direct worker exit"
+E       AssertionError: owned descendant survives after direct worker exit
+E       assert not True
+
+outputs/audit_prediction_information_20261014/test_monitor_independent.py:69: AssertionError
+=========================== short test summary info ============================
+FAILED outputs/audit_prediction_information_20261014/test_monitor_independent.py::test_completed_leader_does_not_leave_owned_group_alive[0]
+FAILED outputs/audit_prediction_information_20261014/test_monitor_independent.py::test_completed_leader_does_not_leave_owned_group_alive[1]
+FAILED outputs/audit_prediction_information_20261014/test_monitor_independent.py::test_completed_leader_does_not_leave_owned_group_alive[-15]

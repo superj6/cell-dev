@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "synthetic_tests": 25,
+  "test_output_sha256": "c6ce8518a2cc113cc5560b3731e234ed6d559e746221ae903ce01599dfe7e797",
+  "new_validation_lives": 4,
+  "calibration_checks": [
+    {
+      "variant": "full",
+      "lives": 2,
+      "all_full_ledger_accounting_pass": true,
+      "status_zero": true,
+      "constant_56_cell_footprint": true,
+      "cpu_seconds": 0.40347222400000016,
+      "wall_seconds": 0.24970619799933047
+    },
+    {
+      "variant": "ablated",
+      "lives": 2,
+      "all_full_ledger_accounting_pass": true,
+      "status_zero": true,
+      "constant_56_cell_footprint": true,
+      "cpu_seconds": 0.40538758900000005,
+      "wall_seconds": 0.22124762299790746
+    }
+  ],
+  "calibration_total_cpu_seconds": 11.558130849,
+  "scientific_lives": 0,
+  "source_and_controller_unchanged": true,
+  "dry_runs": "Both measure.py and run_budgeted.py pass without worker launch or simulation.",
+  "interpretation": "Calibration costs/accounting only, no score-driven tuning or sample extension.",
+  "hardening": "Protocol binds calibrated bytes; monitor unconditionally cleans/reaps owned group after leader exit, counts adopted descendants, verifies exact parent identity, and rejects resume with unresolved cleanup or live prior V identities/groups. Exact calibration source retained; no new lives or budget reset."
+}

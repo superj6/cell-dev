@@ -1,0 +1,59 @@
+{
+  "status": "approved_preparation_no_scientific_release",
+  "new_simulations": 0,
+  "protocol_sha256": "bc2df79bfd484107ce50027ec6b734c041a00efa982654a64ddc7e065910d99f",
+  "measure_sha256": "186869eb7e831c09daf31fba22983fd40288aa6d3bf6831080543dc0c42e4900",
+  "monitor_sha256": "d3c6713603078ed78ac2479d264a482adca4b1fbe45d4bfd26eb1175dc537f20",
+  "archive_provenance_sha256": "f550eb4b79e432d3fafe151e898a09a389e0461f735403cd7d412fb8bffa9bf9",
+  "preparation_review_sha256": "42ccc55597682f81b1807bffefe045f8c98e5b641e290ef95c5948837769932d",
+  "independent_monitor_test_sha256": "4d3c781cdc45d20484668fa42b9eff0b199301d59130b27e1869d8511c35d455",
+  "independent_monitor_tests_passed": 11,
+  "author_preparation_tests": 25,
+  "resolved_findings": [
+    {
+      "finding": "Owned descendants could survive normal/failed/killed leader exit and escape final CPU accounting.",
+      "old_monitor_sha256": "b5443f429148abf4fcd62388c9427c24fad756266e186fc18b4d764cc6b05bcf",
+      "old_failure_output_sha256": "8d32bae5210b6b994537834ae804eca49434061600e0788c23454137ee9d1492",
+      "resolution": "Subreaper plus live group CPU accounting; unconditional SIGKILL/reap and group-exit verification on normal and exceptional leader exit.",
+      "independent_cases": [
+        "leader exit0",
+        "leader exit1",
+        "leader exit-15",
+        "exception after each of those leader exits"
+      ]
+    },
+    {
+      "finding": "Parent-death race only checked adoption by PID1.",
+      "resolution": "Child requires the originally captured monitor parent PID, including non-init subreaper adoption.",
+      "independent_cases": [
+        "adopted by non-init subreaper"
+      ]
+    },
+    {
+      "finding": "Explicit resume could launch while prior V process identities/groups remained alive or cleanup was unresolved.",
+      "resolution": "Resume rejects cleanup_error and verifies prior monitor/worker identities and owned groups are absent.",
+      "independent_cases": [
+        "cleanup_error",
+        "live prior monitor identity",
+        "live prior worker identity",
+        "live prior owned group"
+      ]
+    }
+  ],
+  "scientific_scope": {
+    "research_candidate_lives": 3584,
+    "fixed_calibration_lives": 4,
+    "cumulative_cpu_cap": 3600,
+    "workers": 2,
+    "calibration_cpu_carried_forward": 11.558130849,
+    "all57_ledger_reanalysis": "all4 calibration lives; fitness exact",
+    "fresh_seeds": 514,
+    "previous_namespace_values_checked": 79208,
+    "seed_overlap": 0,
+    "exact_action_replays": 12
+  },
+  "remaining_blockers": [],
+  "release_prerequisites": "Root release and source-bound U process-clearance receipt remain mandatory; this review launches nothing.",
+  "interpretation": "Information-payoff/broad moving-target-model measurement only. Prediction-specific admission remains incomplete, regardless of result; no evolved algorithm or local performance ceiling is established.",
+  "scope_limits": "Research rows do not yet exist. Resource lifecycle evidence uses fault-injection mocks plus source review; no additional process stress test or simulation was run."
+}

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "inventory_sha256": "2deac785204a272daeeb31193dbba894b3820f5a42a3ffb882dbfd81eb3ddb20",
+  "json_files_scanned": 25212,
+  "candidate_namespaces": [
+    [
+      52080000,
+      52080511
+    ],
+    [
+      52090000,
+      52090001
+    ]
+  ],
+  "excluded_synthetic_malformed_json": 5879,
+  "exclusion_rule": "Malformed JSON beneath explicitly named test_* synthetic fixture directories.",
+  "exclusive_upper_boundary": {
+    "path": "outputs/audit_decoy_evolution_20261014/seed_audit.json",
+    "sha256": "d7c7f807ce320471707c33fc380bc04fbc67f722416f6f555533e0d90b483a38",
+    "half_open": [
+      52070000,
+      52080000
+    ],
+    "interpretation": "52,080,000 is excluded from U block107, not a used seed."
+  },
+  "unexpected_matches": [],
+  "unexpected_unreadable": []
+}

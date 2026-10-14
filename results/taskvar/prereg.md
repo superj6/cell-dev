@@ -1169,3 +1169,24 @@ The 7,200 cumulative CPU-second cap permits at most 3,600 for search, reserving 
 four search workers or two confirmation workers run. The fixed scope is 16,460 research lives plus six startup
 T200 validation lives. Block107 remains reserved for validation. Incomplete stages block outcome inference;
 no restart, endpoint replacement, extension or partial-study claim is allowed. No old study is reopened.
+
+### V. Information payoff in the existing fast persistent-target world (2026-10-14)
+
+The frozen protocol and independent reviews are in `results/prediction_information_20261014/`. Seven unchanged
+external instruments/references share 512 fresh block108 seeds at T1024: whole and smaller frozen/retuned
+reflexes, a quieter reflex, and the recovered full/ablated particle filter. The existing ABI 3 world changes
+only target speed to .3 and mean turn interval to 200; ordinary conduction and all prices remain fixed.
+The full controller is measured at the whole reflex's 56-cell footprint. Primary contrasts are full minus
+best whole reflex and full minus broad moving-target-model ablation. Both fixed-reflex comparisons and the
+three do-less variants remain in the report. Selecting the best reference makes its SE conditional/descriptive.
+
+The ablation removes velocity and turning throughout filtering, propagation, capture modeling and anticipatory
+actions. It cannot isolate prediction; that admission question remains incomplete whatever the result.
+The instrument never enters an organism, and free controller computation does not establish local attainability.
+
+The total cap is 3,600 CPU-seconds with two workers for 3,584 research lives. Four fixed block109 calibration
+lives consumed 11.558130849 CPU-seconds including compilation/startup, already inside that cap. Their scores
+do not select parameters or count as scientific evidence. Twelve retained action replays match exactly;
+all calibration ledger columns and fitness independently reconcile. Research release requires host-level proof
+that every U process/group exited, irrespective of U's scientific outcome. Partial candidate batches, guards,
+invalids or mismatches block inference; no rows are censored. No research lives have run at registration.

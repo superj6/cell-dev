@@ -2170,3 +2170,22 @@ sensing geometry as well as useful cue association. The new study reports comple
 clicks alongside fitness. Frozen lateral effects do not alone identify an algorithm. V's separate existing
 moving-target information preparation is under independent review. The old P/Q/R studies remain terminal and
 S remains held; no unanswered approval boundary has been crossed.
+
+## 2026-10-14 — Moving-target information measurement prepared
+
+V will measure the unchanged external moving-target controller against fixed whole/smaller/quieter reflexes
+and its broad model ablation on 512 fresh shared lives per candidate. All seven candidates use the existing
+fast, persistent-target ABI 3 world at T1024; full-controller and whole-reflex footprints match at 56 cells.
+The planned 3,584 research lives have a 3,600 CPU-second cap and two workers. U is currently running;
+V remains unreleased until every U process/group has exited and root records resource clearance.
+
+Four fixed calibration lives consumed 11.558130849 CPU-seconds, including compilation/startup, and that cost
+carries into the total cap. All 57 calibration ledger columns and fitness reconcile independently; twelve
+retained action replays match exactly. Twenty-five preparation tests and eleven independent lifecycle tests
+pass. Review caught and fixed descendant cleanup and unsafe-resume handling before research release.
+No controller parameter was changed and no calibration score is scientific evidence.
+
+`results/prediction_information_20261014/` preserves source/library pins, replay records, calibration evidence,
+namespace audit and independent review. Full minus ablated measures the broad moving-target model, including
+tracking and action prediction; prediction-specific admission remains incomplete. This is an external
+information instrument with free computation, not an evolved algorithm or evidence of local attainability.
