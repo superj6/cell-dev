@@ -119,6 +119,13 @@ Full freeze is much less disruptive, but bundles gene, phenotype and effective-w
 completed with constant tissue and no guards/invalids in 2,283.250535 CPU-seconds. The raw independent audit is
 in `results/regulation_20261014/`. P is running further ordinary evolution; Q queues the fixed s7 message test.
 
+*2026-10-14 weight-update decomposition registered:* R uses existing structure, combined identity/phenotype,
+and full-freeze controls on row38 and both fixed D endpoints. The primary comparison measures added dependence
+on continued effective receive-weight updates with genes and phenotype held fixed. Source review isolates the
+existing local derive operation; a positive effect could reflect autonomous chemical relaxation rather than
+sensory adaptation. All 4,608 fresh block104 lives have a 3,600 CPU-second cap and wait for Q. No organism rule,
+ABI or world-admission criterion changes.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

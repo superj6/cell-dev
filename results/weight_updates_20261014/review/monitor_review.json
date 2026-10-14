@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "reviewer": "independent peer review_discrimination",
+  "pure_mock_tests_passed": 52,
+  "ruff": "passed",
+  "max_columns": 120,
+  "dry_run": {
+    "status": "dry_run",
+    "genome_lives": 4608,
+    "max_cpu_seconds": 3600,
+    "threads": 2,
+    "wait_for": "Q complete",
+    "simulated_lives": 0
+  },
+  "source_sha256": {
+    "run_budgeted.py": "0cd4ff52c57b1670c81af0eed61f55e1f0055dd6bea2d544b7a4665146836b84",
+    "test_monitor.py": "d822dc78816b087d3cac0df9fc1a07430bb3bed2355ae55a7086b80b8432beb8"
+  },
+  "simulated_lives": 0,
+  "source_edits": false,
+  "readiness_or_budget_created": false,
+  "safeguards_reviewed": [
+    "Only registered Q dependency; exact source hashes and complete/empty state",
+    "All six readiness files plus dependency hashes match registration before launch and completion",
+    "Cumulative own, reaped child and live descendant CPU includes waiting/startup;3600 cap with3588 stop",
+    "Parent-computed remaining RLIMIT and exact-parent PDEATHSIG orphan-race check",
+    "Fixed original measurement command;2 OMP/MKL/OpenBLAS threads;AVX2 and CPUs0-11",
+    "Budget ownership persisted before Popen; no existing budget, log or measurement restart",
+    "TERM then group KILL even if leader exits; normal/error/finally group cleanup",
+    "Exact4608 planned,genome,completed counters,zero exit and remaining budget required for completion"
+  ],
+  "scope_diff_from_reviewed_Q": "Study/label/dependency/parent-env and6144\u21924608 only",
+  "limitation": "Scientific protocol was still being prepared; actual protocol/source binding will be reviewed separately."
+}

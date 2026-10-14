@@ -140,8 +140,10 @@ also masked, so this establishes specified input dependence, not learning or use
 **Running and prepared studies.** P is running after O: another ordinary 16-generation step from each fixed D
 endpoint, 37,548 research lives under a 14,400 CPU-second cap, at most four simulation workers. Q is released and
 waiting for P: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives
-under a 3,600 CPU-second cap, two workers. R is in pure preparation: separate continued effective-weight updates
-from other phenotype updates using existing combined clamps. No R readiness or simulations yet.
+under a 3,600 CPU-second cap, two workers. R is independently reviewed and registered to follow Q: three
+existing clamp conditions on row38 and both fixed D descendants, 4,608 lives under a 3,600 CPU-second cap with
+two workers. Its combined identity/phenotype clamp isolates continued local effective receive-weight updates
+relative to full freeze; autonomous chemical relaxation remains a possible explanation.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
 The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:

@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "validation_type": "author pure preparation/mock tests",
+  "simulated_lives": 0,
+  "O_outcomes_read": false,
+  "tests": {
+    "science": 27,
+    "monitor": 52,
+    "total": 79
+  },
+  "dry_runs": [
+    "measure.py",
+    "run_budgeted.py"
+  ],
+  "source_checks": [
+    "all completed D provenance artifacts",
+    "both gen16 final rank0 checkpoints and health",
+    "both full recorded genetic replays",
+    "three raw genotype identities",
+    "independent block104 namespace proof",
+    "existing C/reference clamp paths",
+    "same current numerical/helper hashes"
+  ],
+  "sha256": {
+    "prepare.py": "531afde3d25e0e24cfc03e5fccb514d99cd883831f2ef207054d142e1933a314",
+    "measure.py": "1a95b2bcb7c55c995050b29debed6bae536f00a9ece83c7cfc92ed36e0ba389a",
+    "test_measure.py": "ac84d177a675674438810967187e3f91ac1315cbdb3eb5382c1ba051a1f3f6c8",
+    "run_budgeted.py": "0cd4ff52c57b1670c81af0eed61f55e1f0055dd6bea2d544b7a4665146836b84",
+    "test_monitor.py": "d822dc78816b087d3cac0df9fc1a07430bb3bed2355ae55a7086b80b8432beb8",
+    "PREREG.md": "65c44a1f90be369a075b173bd1a381c61790bc541df4221f86f4ae748db99f4f",
+    "protocol.json": "648e187590a304d773f7c03081e6b7ffc5dd688b3232f30fe1cd8d576730ebdd",
+    "publish.py": "be998877ae962035746955d082e671536f4be08b95e12b920f1d86b85be03699"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "status": "source_proof_complete",
+  "simulated_lives": 0,
+  "active_O_outcomes_read": false,
+  "source_sha256": {
+    "src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+    "src/life/reference.py": "6f6ff465278e3c5c52b984e5fee63a82d9a6122dfd7755d55a82a2163fde835b",
+    "src/life/spec.py": "bdd06966fe7068bbac0d4a0269583aa6e7029bdee6556bb57c7e33e30b109c07",
+    "docs/LIFE_ABI.md": "94df5a1e12d7ddadcae8a4ed53dd66736a1102c6ddd73c47f246a91ba89f4094",
+    "outputs/autonomous_s7_hidden_20261014/protocol.json": "9645eb61c343905bd870b5f7ef5329ef77c54fd2205fa739511e1798466b6545"
+  },
+  "proof_sha256": "6f554717d8625ddcc72cf510ed699cdc9cab4be41025b0356748ed21b01c7106",
+  "flags": {
+    "S": 12,
+    "S_identity_clamp": 76,
+    "S_pheno_fixed": 140,
+    "C": 204,
+    "freeze": 16
+  },
+  "primary_conclusion": "C and freeze differ only by local tick derive(); both clamp g/theta and prevent new structure.",
+  "identity_clamp_caution": "A pre-fork division can partition g after theta decoding; identity_clamp alone may reset theta.",
+  "pending_payload": "Daughter genes are copied into a claim-owned blob at send time, never reread from mother on resolution.",
+  "bounds": {
+    "max_tick_gap": 2.9696893766672074,
+    "pending_birth_before": 768.25,
+    "notices_before": 768.75,
+    "existing_first_tick_before": 770.9696893766672,
+    "newborn_first_tick_conservative_before": 771.2196893766672,
+    "prefork_spikes_before": 771.0021653402148,
+    "measurement_open": 800
+  },
+  "limitations": [
+    "GRN mode and registered POOL/no exogenous kill or stuck event",
+    "Physical intervention pathway, not new algorithm",
+    "Settling does not erase early causal changes",
+    "All production guard/extinction penalties retained",
+    "No equality of diagnostic/event hashes or host CPU is claimed"
+  ],
+  "primary_interpretation": "Conditional ongoing effective receive-weight update effect, including local chemical/contact state and early transient carryover; not pure memory or learning."
+}
