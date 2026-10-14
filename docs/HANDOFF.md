@@ -79,11 +79,13 @@ complete original 64-mutant panels in the existing decoy world on blocks95–97 
 H and I each use two workers after G finishes. J is registered before seeing G endpoints: knock out every active
 duplicated-origin gene, then independently confirm the largest loss per endpoint on blocks98–99 (at most19,456
 lives, cap7,200 CPU-seconds). J waits for both H and I, then uses two workers. An empty endpoint branch is reported
-as not applicable. These studies change no selection worlds or organism rules.
+as not applicable. K adds12 descriptive reference traces of row38 and both D endpoints on four block89 seeds,
+with12 C validation lives (cap1,800 CPU-seconds, one worker). It waits for H/I and may run beside J. All ledger
+columns and saved trace-table round-trips must match. These studies change no selection worlds or organism rules.
 Read each working `budget.json` and `ready.json` before starting anything. Preserve pinned engine/search/helper
 sources while active. Working directories are `outputs/autonomous_structural_20261013/` and
 `outputs/autonomous_hidden_20261014/`, `outputs/autonomous_decoy_gradient_20261014/` and
-`outputs/autonomous_duplicate_use_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
+`outputs/autonomous_duplicate_use_20261014/` and `outputs/autonomous_traces_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
 `results/continuation_20261013/watch.html` is prepared with four fixed genomes; its new short parity run remains
 pending worker availability. No unanswered approval decision has been assumed resolved.
 
@@ -289,7 +291,8 @@ truth lives. Only the fast build may skip hashes.
   confirmation and frozen-tissue measurements. Block30 holds discrimination; block93 is reserved for the structural
   policy comparison, block94 for hidden/lateral lesions, blocks95–97 for the decoy mutant panel and blocks98–99
   for duplicated-origin gene knockouts. Search seeds51089/51090
-  use the production hash namespaces; they are not decimal blocks89/90, which remain unallocated.
+  use the production hash namespaces; they are not decimal blocks89/90. Block89 now holds K traces; block90
+  remains unallocated.
 - Use 45M or above for new work.
 
 **The controller harness.**
