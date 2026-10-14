@@ -16,6 +16,11 @@ information measurement, with no research release; it waits for U process cleara
 P/Q/R batch or releases held S. No ABI change, new organism behavior, paid compute or population-responsive
 world is authorized by these registrations.
 
+**Limited ABI 4 port approved (2026-10-14).** The user approved flash and irregular renewal blink, the low-light
+capture readout, and C/Python/JS compatibility tests. The exact scope is `docs/ABI4_VISIBILITY_PROPOSAL.md`.
+Implementation is isolated in `outputs/abi4_visibility_20261014/` while U/V retain their pinned ABI 3 source.
+This does not approve motor flip, a large selection matrix, population-responsive worlds or rented compute.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with
@@ -304,7 +309,8 @@ The standing admission principle is already instructed; the other decisions rema
 1. The user already requires judging worlds by information payoff, never by whether we can hand-build a
    winning body. The larger selection rollout and unanswered implementation decisions below remain unapproved;
    the standing principle is not a reason to reintroduce the old gates.
-2. Port within-life world changes (motor flip, blink, flash) into kernel, reference and JS as ABI 4 (about 5-6 pd).
+2. Flash and irregular renewal blink are approved as the limited ABI 4 visibility port above. Motor flip remains
+   unapproved; the broader combined port is not authorized.
 3. The revised family (base 25%, POOL 25%, flip mix 25%, flash 12.5%, blink 12.5%), with arm M as POOL alternating
    with POOL plus flip mix.
 4. After round 1, a scratch pilot of co-evolving prey: a world that responds to the population. The user also sets the

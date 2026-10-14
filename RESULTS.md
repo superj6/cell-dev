@@ -2189,3 +2189,17 @@ No controller parameter was changed and no calibration score is scientific evide
 namespace audit and independent review. Full minus ablated measures the broad moving-target model, including
 tracking and action prediction; prediction-specific admission remains incomplete. This is an external
 information instrument with free computation, not an evolved algorithm or evidence of local attainability.
+
+## 2026-10-14 — Flash and irregular blink port approved; engineering begins
+
+The user approved the limited ABI 4 visibility extension in `docs/ABI4_VISIBILITY_PROPOSAL.md`: flash gives a
+brief strong cue after placement and then a weak cue; renewal blink alternates irregular bright/dark intervals
+while the target keeps moving. Four world fields and one low-light capture readout are appended. Genome fields,
+cell inputs, messages and local asynchronous update rules remain unchanged. Motor flip, large selection runs,
+population-responsive worlds and paid compute are outside this approval.
+
+Work begins in isolated `outputs/abi4_visibility_20261014/` while U confirmation and the queued V measurement
+retain their existing source pins. Before the port, 32 intentionally repeated ABI 2/3 validation lives at T64
+were archived with complete ledger/hash/raster/fate outputs in `outputs/abi4_visibility_validation_20261014/`.
+They used 0.186 CPU-seconds. These are compatibility fixtures, not scientific evidence or hand-built-body gates.
+No ABI 4 outcome or parity claim exists yet.

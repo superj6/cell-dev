@@ -20,6 +20,11 @@ information pays, never by whether we can hand-build a winning body. Local async
 evolution-discovered behavior remain required. This clarification launches no study and changes no existing
 approval boundary; the completed batch stays closed.
 
+*2026-10-14 limited ABI 4 approval:* the user approved flash and irregular renewal blink in C/Python/JS,
+with the low-light capture readout and compatibility tests. `docs/ABI4_VISIBILITY_PROPOSAL.md` is the scoped
+contract. Motor flip and the large task-family selection matrix remain separate decisions. The port starts
+in an isolated checkout so active U/V studies keep their original source and numerical pins.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.
