@@ -74,6 +74,9 @@ creation can do, that's the whole point".
 - Judge worlds by what the sense information pays (section 4 below). Hand-built bodies are yardsticks to beat.
 
 **How the user likes to work.**
+- Keep working autonomously while useful experiments remain within the authorized scope. A completed study or
+  commit is a progress milestone, not a reason to stop. Report before large runs; the explicit approval boundaries
+  above still apply.
 - Explain new concepts plainly, with small diagrams, *before* asking a question. Ask one decision at a time and give a
   recommendation. They often discuss rather than pick from a menu.
 - Report honestly: paired differences with SE on fresh lives, caveats, failures. Say what was skipped.

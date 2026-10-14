@@ -143,3 +143,59 @@ protocol above or authorize the evolution matrix, paid compute, ABI changes or n
   stop at two CPU-hours across the study, preserving completed rows. No extension based on favorable results.
 - Artifacts: outputs/autonomous_pool_20261013/; freeze genomes, candidate indices, source/numerical identities,
   raw per-life arrays and resource accounting. Commit concise results and selected genomes after analysis.
+
+## Autonomous follow-through: duration transfer and a second step (2026-10-13)
+
+The user clarified that useful autonomous experiments should continue after each milestone. The completed bounded
+study is archived at `results/pool_mutants_20261013/` (commit `fbf5351`). The following choices are fixed before new
+scores. They change neither organism rules nor production search/world defaults, and they do not gate worlds.
+
+### A. Fixed-mutant transfer
+
+- Keep all four prior parent/world winners, including the weaker s7/POOL result: s5 row38 in base and POOL,
+  s7 row15 in base, s7 row29 in POOL. Parent genomes/configs and winner bytes come from the committed archive.
+- Evaluate each parent and winner on 256 fresh paired lives at fast conduction (`d0=0.5,d_min=0.25`) for each
+  T=768,1024,1536. Also evaluate each pair at T1024 with the original conduction (`d0=1,d_min=0.5`). Other world
+  constants and prices remain fixed. Total: 4 comparisons × 2 genomes × 4 conditions × 256 = 8,192 lives.
+- Use block85 for the same ordered 256 seeds in every condition. This permits paired contrasts across durations
+  and conduction settings. These seeds are disjoint from discovery, rescoring, confirmation and prior lesions.
+- Report each duration's paired gain and an equal-duration mixture: average the three fast-condition fitness
+  differences per seed, then compute mean and SE across the 256 seed clusters. Do not count correlated durations
+  as independent lives. Report `(winner-parent)fast - (winner-parent)old` at T1024 on the same seeds.
+- Report all effects and costs, with >3-SE positive/negative labels and a separate +0.5-F practical label for the
+  mixture. No genome is dropped, reselected or extended after observing these outcomes. This diagnoses transfer;
+  old conduction in POOL does not recreate the parents' original base-world training distribution.
+
+### B. Fixed second-generation candidates, two scoring budgets
+
+- Fix the starting genome now as the s5 row38 mutant in POOL-fast at T1024. Experiment A does not switch this
+  founder or this world. This tests another local step at T1024, not a normal multi-generation continuation.
+- Generate 224 ordinary point-mutated offspring using the prior operator (`n_mut=2`, scaled by active genes,
+  `p_cell=0.5`, no duplication/deletion/split), mutation seed51086. Freeze genomes and mutation operations before
+  scoring. The candidate table has 225 rows; ranking expands the parent row into 32 identical parent entries and
+  adds the 224 children, giving the production 256-entry competition.
+- Score all 225 candidate rows on 28 shared lives from block86. Replay the production top64/keep32 selector with
+  two budgets: first3 + next4 lives, and first12 + next16 lives. Within each rule the initial and recheck lives are
+  disjoint. The higher-budget rule shares the initial prefix with the lower-budget rule. Use the production
+  pooled-mean and random-tie code, including its diagnostic initial tie draw. Each rule starts its own tie RNG at
+  seed51086 + TIE_SEED(7919001) = 7970087; mutation and tie streams remain separate.
+- Freeze exactly one best final-ranked genotype per rule, even if it is the starting parent. Confirm both chosen
+  genotypes, the starting mutant and original pilot s5 on 512 fresh shared lives from block87. Identical genotypes
+  may share one evaluation, retaining their identity mapping. Maximum: 225×28 + 4×512 = 8,348 genome-lives.
+- Primary contrasts: each chosen genotype versus the starting mutant, versus original s5, and the higher-budget
+  choice versus the ordinary-budget choice. Report paired mean/SE and >3-SE/+0.5-F descriptive labels. Report both
+  selectors regardless of outcome; no extra candidate search or life extension follows a favorable result.
+- A further confirmed gain establishes one additional accessible step in this pool. A difference between choices
+  diagnoses scoring sensitivity in this pool, not general search superiority. More scoring costs more compute;
+  this is not a comparison of search strategies at equal CPU budgets. Identical starting parents and fixed T1024
+  deliberately simplify crossover and duration variation. Do not call this a production continuation.
+
+### Shared execution and evidence
+
+- Reserve blocks85 (transfer),86 (second-step candidate scoring),87 (second-step confirmation). At most 16,540
+  planned lives across A/B. The previous study's measured ~0.194 CPU-s/life suggests roughly one CPU-hour allowing
+  for longer T. Use a combined two-CPU-hour cap and at most four simulation worker threads on the local host.
+- Preserve every completed row atomically under `outputs/autonomous_followthrough_20261013/`, including full
+  production ledgers, source/numerical identity, seeds and genome hashes. Keep valid extinction/guard penalties;
+  reject capacity/mismatch/corrupt or unexplained incomplete lives. Do not edit pinned engine/search sources during
+  the measurements. Commit artifacts and results at the milestone, then continue with the next useful experiment.
