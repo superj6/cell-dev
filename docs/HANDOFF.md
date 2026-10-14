@@ -133,8 +133,8 @@ reanalysis are in `results/information_duration_20261014/`; capability-world G5 
 (4,608 research lives, 3,600 CPU-seconds) after M/N completion. Do not exceed four simulation workers.
 P is released and waiting for O: another ordinary 16-generation step from each fixed D endpoint,
 37,548 research lives under a 14,400 CPU-second cap, at most four workers. Q is independently reviewed and
-registered: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives
-under a 3,600 CPU-second cap, two workers after P. Root release follows this preparation milestone.
+released and waiting for P: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives
+under a 3,600 CPU-second cap, two workers after P.
 Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
 Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
 The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:

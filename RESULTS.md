@@ -1944,3 +1944,12 @@ They are measurement tools only. A replay test shows the controller reads nothin
   `results/information_duration_20261014/` preserves 244 artifacts, including all 71 preparation files, generated
   C/libraries, raw validation logs and research ledgers. Independent analysis passes 45 synthetic tests and
   standalone public reanalysis. Root separately checked all artifact hashes/sizes and the four raw paired effects.
+
+## 2026-10-14 — Complete publication of manifest-listed evidence
+
+- A Git-index audit found 19 locally preserved evidence files omitted from earlier commits because their
+  nested directory names matched `outputs/` or `logs/` ignore rules. These are D/L search and confirmation
+  logs, G's copied D logs, I's resource-dependency pins, and F's archived replay streams. Their exact original
+  bytes are now committed; scientific manifests, measurements and conclusions are unchanged.
+- The same check caught and repaired 24 namespace-audit inputs in Q's preparation before Q was released.
+  Future archive checks must verify Git-index coverage in addition to local file hashes and sizes.
