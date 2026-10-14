@@ -3,9 +3,12 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
-**Wrap-up requested (2026-10-14).** Finish the already released P/Q/R studies and consolidate the evidence.
-S's scoring-budget comparison is fully prepared but held: no readiness marker or run exists. Do not add or launch
-further experiments during this wrap-up. Prepared plans are not completed results or authorization to restart.
+**Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
+hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
+dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with
+no readiness marker or run. Its unchanged protocol also requires completed P and R, which these terminal
+statuses do not satisfy. Do not restart or launch experiments from the prepared plans. The consolidated review
+and terminal accounting are at the end of `RESULTS.md`.
 
 **Pickup progress (2026-10-13).** E1, E5 and E6 tooling are implemented; see the newest `RESULTS.md` entries. Life runs now
 checkpoint every 25 generations; `src.run --resume` restores both RNGs and verified log offsets with strict source
@@ -149,15 +152,19 @@ t800 later change a quantized neural property for row38/D51089/D51090. Later bir
 counts establish continued updates, not their fitness value. `results/phenotype_updates_20261014/` contains
 all twelve raw-event checks and per-life tables. Both analyses simulate zero new lives.
 
-**Running and prepared studies.** P is running after O: another ordinary 16-generation step from each fixed D
-endpoint, 37,548 research lives under a 14,400 CPU-second cap, at most four simulation workers. Q is released and
-waiting for P: frozen hidden/lateral-message tests of row29 and both fixed s7 descendants, 6,144 research lives
-under a 3,600 CPU-second cap, two workers. R is independently reviewed and registered to follow Q: three
-existing clamp conditions on row38 and both fixed D descendants, 4,608 lives under a 3,600 CPU-second cap with
-two workers. Its combined identity/phenotype clamp isolates continued local effective receive-weight updates
-relative to full freeze; autonomous chemical relaxation remains a possible explanation.
-Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
-Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
+**Terminal and held studies.** P completed both ordinary 16-generation searches from the fixed D endpoints,
+then stopped during confirmation at 14,381.265501 of 14,400 CPU-seconds. Both search exits were successful;
+confirmation was terminated by the fixed budget monitor. Completed checkpoints and raw partial confirmation are
+preserved in `results/next_step_20261014/`, with no partial endpoint comparison or confirmed fitness outcome.
+Q's frozen s7 hidden/lateral-message study and R's local-weight-update decomposition ran zero measurement lives:
+the dependency guards stopped them after P and Q, respectively. Their 14.165054/10.228412 CPU-seconds were
+waiting/monitor overhead; separate `operational_status/` bundles preserve exact terminal records and original
+preparation bytes. R's planned combined identity/phenotype clamp would separate continued effective receive-weight
+updates from full freeze; autonomous chemical relaxation remains an alternative to sensory adaptation.
+S is held without release. No research process remains active, and no budget was extended. Future allocations
+should estimate developed-founder costs and reserve enough CPU for fresh confirmation. P's incomplete outcome
+is a resource-planning limit, not evidence of an evolutionary plateau. Long-running work remains under
+`outputs/`, with final evidence under the corresponding `results/` directories.
 The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:
 all 57 ledger columns and five event hashes match bitwise, within 9.331079 of 15 validation CPU-seconds.
 The s7 viewer at `results/s7_continuation_20261014/watch.html` has the same eight-case C/JS parity coverage,

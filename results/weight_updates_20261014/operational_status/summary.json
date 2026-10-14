@@ -1,0 +1,32 @@
+{
+  "status": "dependency_failed_before_measurement",
+  "resource_status": "monitor_failed",
+  "monitor_error": "ValueError",
+  "cause": "Q dependency failed after P exhausted its fixed CPU budget",
+  "planned_research_lives": 4608,
+  "research_lives": 0,
+  "validation_lives": 0,
+  "measurement_worker_started": false,
+  "absent_working_artifacts": {
+    "measurement": true,
+    "run.log": true
+  },
+  "R_monitored_cpu_seconds": 10.228412,
+  "R_cap_cpu_seconds": 3600,
+  "predecessor_monitored_cpu_seconds": {
+    "Q": 14.165054000000001,
+    "P": 14381.265501
+  },
+  "scientific_outcome": null,
+  "archival_simulated_lives": 0,
+  "offline_analyzer_completion_gate": {
+    "status": "incomplete",
+    "budget_status": "monitor_failed"
+  },
+  "interpretation": "R produced no biological measurements; effective-weight-update dependence remains unmeasured.",
+  "limits": [
+    "The planned 4608 research lives and two startup golden lives were not executed.",
+    "Waiting/monitor CPU is operational overhead, not research simulation CPU.",
+    "No restart, rescue, cap extension or new release was performed."
+  ]
+}

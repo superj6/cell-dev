@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "reviewer": "audit_de independent read-only incomplete-archive review",
+  "simulated_lives": 0,
+  "active_outcomes_read": false,
+  "tests_passed": 14,
+  "sha256": {
+    "archive_incomplete.py": "63f217c8e1040d4df755e63073f5ea61b8171821672cc4dccec3ba6168bbd4e9",
+    "test_archive_incomplete.py": "be92a598493ec228734a98d53e0ca571bbb7dd6e34fbb7dba056ef87600ada02",
+    "protocol.json": "2b4628a0ef6c2bef186641e5302eae9eaa1c41a98c1aa7218e9c95c378c70cfa",
+    "run_budgeted.py": "7c30a8ca961df1483eefba08f6a0ba149f1ae0fbac1dd39cd98ec0283c31f101"
+  },
+  "checks": [
+    "Terminal incomplete or monitor_failed status, empty running/queued fields, nonzero exit and fixed14400 CPU cap required before any preparation or outcome reads.",
+    "Opaque synthetic checkpoint and invalid-JSON lineage bytes archive without deserialization or endpoint comparisons.",
+    "Original public preparation and separate offline-analysis bundle hashes/sizes are verified before copying and retained byte-exact.",
+    "Pinned release/source/helper/reference/dependency files verified; raw copies and source bytes checked again after archival.",
+    "Terminal budget must remain byte-identical throughout export.",
+    "Complete-only analyzer remains unchanged; summary explicitly leaves actual research count unknown and confirmation null.",
+    "Partial archive cannot overwrite a prior prelaunch or completed/changed target.",
+    "Failure reason remains monitor_failed when appropriate, rather than being converted to a budget-stop result."
+  ],
+  "resolved_wording": "Summary now says no downstream execution was performed by archival, avoiding the false implication that Q/R had never been released to wait.",
+  "limits": [
+    "Synthetic control-flow/source review only; no execution against active P.",
+    "A failed incomplete export after partial filesystem writes requires inspection rather than automatic retry/reset.",
+    "Terminal resource receipt is trusted to represent successful monitor cleanup; this helper does not start or stop processes."
+  ],
+  "final_prose_revision": "Two prose-only replacements now state both searches completed but confirmation did not, and raw presence does not establish confirmed fitness. Reverse substitution exactly recovers previously reviewed helper SHA210b366c."
+}

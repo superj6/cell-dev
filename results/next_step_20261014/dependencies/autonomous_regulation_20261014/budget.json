@@ -1,0 +1,42 @@
+{
+  "status": "complete",
+  "cpu_seconds": 2283.2505349999997,
+  "cap_cpu_seconds": 3600,
+  "cpu_budget_exhausted": false,
+  "exit_code": 0,
+  "wall_seconds": 1850.1854340030004,
+  "running": {},
+  "queued": [],
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "ready": {
+    "status": "released",
+    "files": {
+      "run_budgeted.py": "527b8424345ec3bf031436095306c99c972564fb0e701f6967314ec927d9e80d",
+      "measure.py": "762d193495febf24e1cad7210634d6fc85e596ea79c39763d2b85d0232ef317e",
+      "protocol.json": "f9fd8bad33153c5b92c94e71443a99fb36d36f2954fa4ea6a2e59a81cf92ac06"
+    },
+    "dependencies": {
+      "outputs/autonomous_gene_interaction_20261014": {
+        "protocol.json": "c489f9e59a88107103b06b3d9f5de9e47c2a736bb5f440b794e81e939bd6ddbf",
+        "run_budgeted.py": "840523f26f00ff548ab6bbc6c1af8b6971890d9f197f45f5c9ffe72a78bb07e7"
+      },
+      "outputs/autonomous_information_duration_20261014": {
+        "protocol.json": "43453144aa4239ff8ac00321af630f1a11d98e571db45f4d4622b9902d69e6d1",
+        "run_budgeted.py": "b78819a5d4166dc26fe6544ccb3ac85b17b2a49c85ab4363ecf797642811e3d5"
+      }
+    }
+  }
+}

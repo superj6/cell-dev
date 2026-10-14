@@ -106,25 +106,34 @@ plus 40 validation lives finished in 1,385.715510 CPU-seconds; `results/informat
 independent raw accounting, replay/parity checks and every fixed comparison.
 
 
-*2026-10-14 next ordinary step registered:* P seeds a new ordinary population from each fixed D endpoint and
-runs 16 generations with unchanged 32+224/3+4 production evolution. Both endpoints are retained before fresh
-six-role confirmation on block102. Primary effects compare each new endpoint with its own D founder, averaging
-three durations within seed. The 37,548-life/14,400 CPU-second allocation waits for O and permits at most four
-simulation workers. There is no automatic extension or founder selection using later mechanism studies.
+*2026-10-14 next ordinary step incomplete:* P completed both 16-generation searches from the fixed D endpoints
+with unchanged 32+224/3+4 production evolution, then exhausted its allocation during fresh six-role confirmation
+on block102. The monitor stopped at 14,381.265501 of 14,400 CPU-seconds. Checkpoints, search records and partial
+raw confirmation are preserved in `results/next_step_20261014/`; no partial endpoint comparison or confirmed
+fitness gain is reported. The cap was not extended. This is an incomplete measurement, not a plateau result.
 
 *2026-10-14 regulation result:* O finds greater dependence on five local gene-network inputs in both fixed D
 endpoints: added losses over row38 are +2.849 ± 0.175 and +2.940 ± 0.176 F with cell composition held fixed.
 The input mask also removes static contact information; it does not isolate memory, learning or changing evidence.
 Full freeze is much less disruptive, but bundles gene, phenotype and effective-weight updates. All 4,608 lives
 completed with constant tissue and no guards/invalids in 2,283.250535 CPU-seconds. The raw independent audit is
-in `results/regulation_20261014/`. P is running further ordinary evolution; Q queues the fixed s7 message test.
+in `results/regulation_20261014/`. P later stopped incomplete; Q stopped at its dependency guard before any
+s7 message measurement.
 
 *2026-10-14 weight-update decomposition registered:* R uses existing structure, combined identity/phenotype,
 and full-freeze controls on row38 and both fixed D endpoints. The primary comparison measures added dependence
 on continued effective receive-weight updates with genes and phenotype held fixed. Source review isolates the
 existing local derive operation; a positive effect could reflect autonomous chemical relaxation rather than
-sensory adaptation. All 4,608 fresh block104 lives have a 3,600 CPU-second cap and wait for Q. No organism rule,
-ABI or world-admission criterion changes.
+sensory adaptation. The planned 4,608 fresh block104 lives had a 3,600 CPU-second cap and depended on Q.
+After Q stopped, R's dependency guard exited before any measurement. Q and R therefore have no scientific
+outcomes; their terminal receipts are in separate `operational_status/` bundles. No organism rule, ABI or
+world-admission criterion changed.
+
+*2026-10-14 wrap-up complete:* all released research processes have exited. S's reviewed scoring-allocation
+comparison is held without readiness or simulation. Its frozen protocol requires completed P and R; it cannot
+run as written after their terminal failures. Any future recovery would need a new registered plan. No further
+experiments will launch during this wrap-up. The final entries in `RESULTS.md` review every completed study,
+null comparison and remaining question.
 
 ### 0.1 What changed and why
 

@@ -51,8 +51,13 @@ the evidence for further ordinary adaptation; the s7 mechanisms have not yet bee
 With s5 tissue composition held fixed, masking five local gene-network inputs causes **+2.849 ± 0.175** and
 **+2.940 ± 0.176 F** more loss in the descendants than in their founder. Those inputs include static contact
 information, so this establishes input dependence rather than learning. Full freeze is much less disruptive;
-the next mechanism study separates continued cell-property updates from updates to incoming spike strengths.
-See the [regulation results](results/regulation_20261014/README.md).
+a study separating continued cell-property updates from updates to incoming spike strengths is prepared but
+unrun. See the [regulation results](results/regulation_20261014/README.md).
+
+The current research batch is closed. A further pair of searches finished, but fresh confirmation hit its fixed
+CPU cap, so no additional fitness gain is established. The two queued mechanism studies did not run, and the
+scoring-allocation comparison remains held. The [full review](RESULTS.md#2026-10-14--consolidated-review-at-the-users-wrap-up-request)
+collects the confirmed effects, null results and open questions.
 
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),
@@ -64,7 +69,7 @@ The [s5 viewer](results/continuation_20261013/watch.html) and
 descendants on fixed illustrative lives. Each viewer’s eight short C/JavaScript comparisons match all ledger
 columns and event hashes; full animations remain illustrations.
 The [current plan](docs/TASK_VARIATION_PLAN.md#0-revision-2026-10-10-admit-worlds-by-what-they-pay-not-by-what-we-can-build)
-and [handoff](docs/HANDOFF.md) distinguish completed evidence, running studies and unanswered decisions.
+and [handoff](docs/HANDOFF.md) distinguish completed evidence, incomplete or unrun studies and unanswered decisions.
 
 ### Documents
 | file | what it is |

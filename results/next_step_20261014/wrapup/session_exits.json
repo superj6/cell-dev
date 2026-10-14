@@ -1,0 +1,29 @@
+{
+  "P": {
+    "study": "P",
+    "session_id": 93599,
+    "chunk_id": "57958b",
+    "wall_time_seconds": 0.00000813,
+    "exit_code": 1,
+    "original_token_count": 9,
+    "output": "Started confirmation: pid 515481\n"
+  },
+  "Q": {
+    "study": "Q",
+    "session_id": 50486,
+    "chunk_id": "9dd68f",
+    "wall_time_seconds": 0.000024507,
+    "exit_code": 1,
+    "original_token_count": 179,
+    "output": "103 manifest artifacts tracked and exact at HEAD; Q readiness released after scope report.\nTraceback (most recent call last):\n  File \"/home/jgon/project/ml/cell-dev/outputs/autonomous_s7_hidden_20261014/run_budgeted.py\", line 240, in <module>\n    main()\n  File \"/home/jgon/project/ml/cell-dev/outputs/autonomous_s7_hidden_20261014/run_budgeted.py\", line 165, in main\n    while not dependency_available():\n              ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/jgon/project/ml/cell-dev/outputs/autonomous_s7_hidden_20261014/run_budgeted.py\", line 81, in dependency_available\n    raise ValueError(\"dependency stopped abnormally; inspect before Q launch\")\nValueError: dependency stopped abnormally; inspect before Q launch\n"
+  },
+  "R": {
+    "study": "R",
+    "session_id": 72721,
+    "chunk_id": "d23e5b",
+    "wall_time_seconds": 0.000042554,
+    "exit_code": 1,
+    "original_token_count": 160,
+    "output": "Traceback (most recent call last):\n  File \"/home/jgon/project/ml/cell-dev/outputs/autonomous_weight_updates_20261014/run_budgeted.py\", line 240, in <module>\n    main()\n  File \"/home/jgon/project/ml/cell-dev/outputs/autonomous_weight_updates_20261014/run_budgeted.py\", line 165, in main\n    while not dependency_available():\n              ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/jgon/project/ml/cell-dev/outputs/autonomous_weight_updates_20261014/run_budgeted.py\", line 81, in dependency_available\n    raise ValueError(\"dependency stopped abnormally; inspect before R launch\")\nValueError: dependency stopped abnormally; inspect before R launch\n"
+  }
+}

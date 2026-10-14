@@ -1,0 +1,25 @@
+{
+  "status": "dependency_failed_before_measurement",
+  "resource_status": "monitor_failed",
+  "monitor_error": "ValueError",
+  "cause": "P stopped incomplete at its fixed CPU budget",
+  "planned_research_lives": 6144,
+  "research_lives": 0,
+  "validation_lives": 0,
+  "measurement_worker_started": false,
+  "absent_working_artifacts": {
+    "measurement": true,
+    "run.log": true
+  },
+  "Q_monitored_cpu_seconds": 14.165054000000001,
+  "Q_cap_cpu_seconds": 3600,
+  "P_monitored_cpu_seconds": 14381.265501,
+  "scientific_outcome": null,
+  "archival_simulated_lives": 0,
+  "interpretation": "Q produced no biological measurement. No message-dependence conclusion follows.",
+  "limits": [
+    "The planned 6,144 lives were not executed.",
+    "Waiting/monitor CPU is operational overhead, not research simulation CPU.",
+    "No restart, rescue, cap extension or new release was performed by archival."
+  ]
+}

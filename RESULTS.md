@@ -2084,16 +2084,18 @@ from evolutionary replication. All reported ± values are paired standard errors
 | J/M: copied-gene use | Knock out each final copy, then remove its source as well | Final copy effects are exactly zero on the registered ledgers/lives. One copy is analytically disconnected; deleting the other copy's source loses +7.277±0.129 F with or without the copy. |
 | K and completed-data audits | Saved event traces, late phenotype changes, ancestry and selection logs | More lateral relay hops, mostly inhibitory hidden-to-act inputs, and late neural-property changes are descriptive. Copied-gene connections occurred during search. Rechecking changes 36.5% of parent slots; none of these observations alone proves function or policy superiority. |
 | O: regulatory inputs | Hold tissue composition fixed; mask five local gene-network inputs | Added losses are +2.849±0.175/+2.940±0.176 F. The mask includes static contact information, so this establishes specified input dependence rather than learning or use of changing evidence. |
-| P: further ordinary step | Another 16 generations from both D endpoints | Released and running at this review snapshot; no outcome used in this table. |
-| Q: second-lineage messages | Frozen hidden/lateral-message tests of both s7 descendants | Released, waiting for P at this review snapshot. |
-| R: continued local updates | Separate gene/phenotype updates from effective receive-weight refresh | Released, waiting for Q at this review snapshot. Chemical relaxation is a possible explanation of any weight-refresh effect. |
-| S: scoring allocation | Eight generations with 6+8 scoring versus P's sixteen with 3+4 | 103 preparation checks pass; deliberately held with no readiness or research run after the wrap-up request. |
+| P: further ordinary step | Another 16 generations from both D endpoints | Both searches completed; fresh confirmation stopped at the fixed CPU cap. No confirmed additional gain or plateau result. |
+| Q: second-lineage messages | Frozen hidden/lateral-message tests of both s7 descendants | Dependency guard stopped the study after P was incomplete; zero measurement lives, no scientific outcome. |
+| R: continued local updates | Separate gene/phenotype updates from effective receive-weight refresh | Dependency guard stopped the study after Q; zero measurement lives. Chemical relaxation would remain a possible explanation of a future weight-refresh effect. |
+| S: scoring allocation | Eight generations with 6+8 scoring versus P's sixteen with 3+4 | 103 preparation checks pass; held without readiness or a run. Its frozen prerequisites also require completed P/R, which the final statuses do not satisfy. |
 
 The completed research studies through O total **204,652 research genome-lives** and **51,610.008 monitored
 CPU-seconds (14.34 CPU-hours)**. K contributes twelve reference research lives; its twelve C validation lives
 are separate. Monitor totals include study startup/validation overhead and the initial screen's conservatively
-carried ten CPU-seconds. Separate engineering checks and viewer validation are outside that total. P/Q/R are
-not included until they finish. All compute is local; no rental or paid compute was used.
+carried ten CPU-seconds. Separate engineering checks and viewer validation are outside that total. Incomplete P
+adds 14,381.265501 CPU-seconds; Q/R add 24.393466 seconds of waiting/monitor overhead and no measurement lives.
+The combined monitored total is **66,015.667 CPU-seconds (18.34 CPU-hours)**. The 204,652-life count covers
+completed studies only, excluding P's incomplete allocation. All compute is local; no rental or paid compute was used.
 
 The important limits are systematic. Four ordinary continuations come from two fixed selected founders; fresh
 life-seed SE does not estimate general search reliability. Repeated mechanism studies of the same genotypes do
@@ -2108,3 +2110,25 @@ justifies that work. The held scoring-allocation design addresses a concrete unc
 audit does not prejudge its answer. ABI 4, task-family rollout, population-responsive worlds and rented compute
 remain separate decisions; no unanswered approval has been inferred. No further experiments are being added
 during this wrap-up.
+
+## 2026-10-14 — Research batch closed; final confirmation incomplete
+
+- **P:** both registered 16-generation searches exited successfully. Fresh confirmation began, but the fixed
+  monitor terminated it at 14,381.265501 of 14,400 CPU-seconds (`incomplete`, `cpu_budget_exhausted`).
+  `results/next_step_20261014/` preserves the searches, checkpoints, partial raw confirmation, original
+  preparation and exact exit receipts. The complete-only analyzer returns `incomplete` without confirmation
+  or endpoint comparisons; the archive summary records no confirmation. No partial endpoint comparison,
+  budget extension or rescue run was used.
+- **Q/R:** dependency guards exited with `monitor_failed` / `ValueError` after P and Q stopped. Neither study
+  started measurement or validation; their 14.165054 and 10.228412 CPU-seconds were waiting/monitor overhead.
+  Separate `operational_status/` archives preserve terminal records, pinned release sources and host/session
+  exit evidence without altering their original preparation or offline-analysis bundles.
+- **Held work:** S remains prepared but unreleased, without readiness, reference freeze or simulation output.
+  Its unchanged protocol requires completed P and R; their terminal statuses prevent execution as written.
+  Any future recovery would require a new registered plan, not just release of the existing bundle.
+  The proposed intermediate-copy knockout follow-up was not prepared or launched. All original research
+  monitors, workers and their process groups have exited; no experiment remains active.
+- **What to learn from the incomplete allocation:** search completion alone cannot establish further progress.
+  Future cost estimates should use developed founders and reserve confirmation CPU before allocating search.
+  This allocation failure provides no evidence for or against an evolutionary plateau. Q/R's absent results
+  must not be treated as null biological effects. The full review above is the final evidence inventory.
