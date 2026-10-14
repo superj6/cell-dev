@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "utc": "2026-10-14T07:11:57.770108+00:00",
+  "tests_passed": 41,
+  "simulated_lives": 0,
+  "validation_kind": "mock processes/data, pure configuration and raw genome operations; no kernel lives",
+  "test_command": ".venv/bin/pytest -o addopts='' -q outputs/autonomous_structural_20261013/test_prepared.py outputs/autonomous_structural_20261013/test_monitor_measure.py",
+  "ruff": "passed",
+  "dry_runs": [
+    "run_budgeted.py",
+    "measure.py"
+  ],
+  "review": "Independent read-only review by baseline_audit; fixed endpoint ordering, paired duration arithmetic, neutrality and resource sequencing checked.",
+  "tested_sources": {
+    "prepare.py": "fed83d9d06815d65da21af27f0d00d4942162a47f2acf06d47c399946f2254b9",
+    "run_budgeted.py": "b3af86e2ebeb0c9c964e2fb4e0ff03a3be1746ddf03538f59be4195a3352d36f",
+    "measure.py": "5bdfc2d918479045c31d5c54d03bf6e78b0ed69d26c95ff6e82f975b4b443485",
+    "test_prepared.py": "8f714067573bc2614df7e2daf71eb12d09a820bb4b9ae3084581b4fa79eaed59",
+    "test_monitor_measure.py": "f66910c46b873f1d362e966add2272cabc48bf715715a406f8c8b868a980e7c9"
+  }
+}

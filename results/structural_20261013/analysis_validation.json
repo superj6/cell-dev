@@ -1,0 +1,22 @@
+{
+  "status": "prepared_analysis_validated_without_simulation",
+  "tests_passed": 16,
+  "simulated_lives": 0,
+  "checks": [
+    "Within-seed duration covariance and negative contrasts",
+    "Exact silent-duplicate construction and raw ledger/hash/spike/fate comparison",
+    "Reject altered genome, guard, truncated log and trajectory even after row-hash refresh",
+    "Archive corruption refusal",
+    "Exact recorded crossover/point/duplication/deletion replay",
+    "Innovation registry and next-innovation counter reconciliation",
+    "Both completed D raw populations independently reconstruct bitwise"
+  ],
+  "limitation": "Actual G completed-study export/standalone round trip remains to be checked after scientific measurements finish.",
+  "sources": {
+    "analyze.py": "42677f8c79ef0fd7ab9fa6a2869a0495eae643cb883ee0f54404fcf10c04f296",
+    "audit_search.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_analyze.py": "affb202dcf5cf56013b0ecdcf3c96e85ca3915e01f5be9763e63d01fe6e269f2",
+    "test_audit_search.py": "021bc4ed6fa97fd98c44e0774641bdfa0aefe20016d9943fd4ccfd27479d1878",
+    "sources/continuation_analyze.py": "78a21cde2e65cf733ba072e51f09be043d681640a696b00f43462fdf4d3fd497"
+  }
+}

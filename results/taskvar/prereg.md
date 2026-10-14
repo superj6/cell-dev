@@ -302,3 +302,125 @@ this protocol before launch. Source code must remain fixed while these runs are 
 - Cap this study at one CPU-hour with two workers, never exceeding four concurrent simulation workers across all
   studies. Save atomic rows, full production ledgers and source/numerical/genome pins under
   `outputs/autonomous_frozen_20261013/`. Archive and report both positive and negative results.
+
+### F. Existing discrimination controller at the reflex footprint (2026-10-14)
+
+Question: at the same 56-cell footprint, does interpreting which glow belongs to a harmful decoy earn more
+than ordinary target tracking? Use the existing recovered D2 controller unchanged as an external measuring
+tool. It never enters an organism or changes its local asynchronous rules. No new controller is designed.
+
+Use the registered discrimination world: existing ABI 3 SPECK with b2_amp=1, b2_sigma=1.2, b2_value=-50,
+b2_p=1, b2_mode=1 and T=1024. Preserve old conduction d0=1, d_min=0.5, every other world constant and every
+price. The second blob has its own replacement process; no scratch blinking, decoy epochs or motor flip
+is enabled. The existing parity-checked adapter disables the prototype's otherwise aliased decoy-epoch fields.
+
+Freeze seven candidates in the existing taskvar_measure order: frozen hollow3 reflex; recovered retuned
+hollow3 reflex; frozen hollow2 reflex; hollow3 reflex knobs transferred to hollow2; recovered hollow3 reflex
+with K.t_ref=8; full D2 at hollow3; its matched ablation at hollow3. Full and ablated differ only at parameter
+25, model 1 versus model 0. Keep all other recovered parameters, including transfer from their ring5 tuning.
+The ablation removes the whole decoy model: ping attribution, decoy belief, steering avoidance and tap veto.
+It isolates broad decoy-aware inference and action, not a single classifier or tap rule. Ordinary target
+tracking remains. Failure of this fixed transferred controller does not establish that the information is useless.
+
+Score every candidate on the same 512 fresh block-30 seeds, 51,300,000 through 51,300,511: 3,584 candidate-lives
+in total. No fresh tuning or extensions chosen after seeing outcomes. These lives are disjoint from recorded
+controller/reflex tuning and existing validation. Keep every candidate, including negative results. Controller
+actions retain the existing d0 latency, relay charging, t_ref_min=0.5, unquantized kappa and privileged=false.
+Cells, receptor pings, virtual relay spikes and actions pay; central controller computation remains free.
+
+Primary contrasts: full minus the better whole frozen/retuned hollow3 reflex, and full minus matched ablated
+D2. Pick the better reflex by its fresh whole-candidate mean, never per life. Apply the existing plan 0.4
+criteria descriptively: at least 1 F and strictly more than 3 paired SE for both contrasts; the best of the
+three specified do-less candidates must gain less than one quarter of the information gap. This limited
+do-less set is not an exhaustive optimum. Compute differences within each shared life before estimating
+uncertainty. The chosen-reflex SE is conditional and descriptive, not adjusted for selecting that reference
+on these same outcomes. Also report full D2 minus each fixed frozen and retuned reflex separately.
+
+Report paired fitness, captures, clicks, misses, poison clicks, travel and capture-zone samples. Decompose
+fitness into extra capture income, poison-cost saving, miss-cost saving and other costs. These accounting
+pieces do not establish an evolved algorithm. No verdict automatically admits this world into selection.
+Any compute guard, capacity failure, ledger mismatch, corrupt result or unexplained incomplete life rejects
+the entire affected candidate batch and leaves the study incomplete. Preserve the failed raw evidence when
+available; never selectively drop or replace individual lives. Negative, valid scores remain in the analysis.
+
+Existing audits remain source/config identical: two T=64 lives per full/ablated variant, three replay contexts
+each (12 bytewise comparisons), production tissue ledger/world parity and null/inert world parity. Saved
+callback/action NPZs are checked before use. This bounded evidence is not universal long-duration parity.
+No additional validation or scientific lives run during preparation. Numerical pinning reads Python,
+NumPy/torch, compiler, libm and source identities without calling golden_life. The generated scratch source
+and fast library are hashed before scientific scoring. Fast event hashes are zero and never claimed as
+replay evidence; atomic candidate-file SHA256 receipts protect stored ledgers and diagnostics.
+
+Use at most two simulation workers and no more than four across all active studies. Launch only after root
+reports this protocol and releases source pins in ready.json. A separate monitor enforces one cumulative
+1,800 CPU-second cap, including worker startup, compilation and monitoring. Historical hollow3 controller
+and reflex timings suggest roughly 750 CPU-seconds; charging both controllers at the old ring5 rate gives
+1,365 CPU-seconds. Those old epoch-aliased scores supply timing estimates only, not scientific evidence here.
+Stop 10 CPU-seconds before the cap and terminate only this worker's process group. Preserve completed
+candidate checkpoints and report incomplete on cap/failure. Do not increase the cap or lives after seeing scores.
+
+Atomic candidate directories contain full ledgers, diagnostics, exact candidate/seed/library/protocol identity,
+timing and a byte-hash receipt. Resume verifies all pins and committed candidates. Only an uncommitted
+interrupted candidate may repeat within the original cumulative budget; a candidate that failed validation
+cannot be replaced automatically. Explicit --resume is required after a finalized interruption/failure.
+A running/unfinalized old budget record requires resource reconciliation; the wrapper refuses to reset it.
+Complete studies cannot be rescored. Long-running artifacts stay under outputs/autonomous_discrimination_20261013/.
+The public preparation archive is results/discrimination_20261013/ and provides an offline hash/protocol checker.
+
+### G. Fixed structural-operator comparison (prepared 2026-10-14)
+
+This study tests whether the already approved silent-duplication and deletion operators help evolution
+improve from the fixed eight-gene s5 row38 founder. A silent duplicate copies one gene's incoming regulation
+and state while giving the copy no outgoing effect. Evolution can subsequently alter that spare copy.
+The experiment supplies no behavior, routing weights, additional organism channel, clock or ABI change.
+
+The two G searches use seeds 51089 and 51090, 16 generations each, and the same fixed founder, initialization,
+worlds, life seeds, ordinary selection and diagnostics as the two D searches. The only evolutionary policy
+changes are `dup_rate: 0.02` and `del_rate: 0.01`; `dup_split: false` remains fixed. The existing
+`n_mut_scale: true` policy is retained. The policy comparison therefore includes deletion and the consequences
+of active-gene-scaled mutation, rather than isolating duplication alone.
+
+Each run starts with one exact founder plus 31 ordinary point-mutated copies. Initialization and mutation
+generator state match D exactly. Structural operations start with generation-zero offspring; their random
+draws then cause the mutation/crossover paths to diverge. Matching run seeds retains common world and life
+seeds, not identical subsequent offspring. Selection keeps 32 from a cohort of 256, using three initial lives
+and four additional lives for the top 64. There are 32,768 search genome-lives, 160 periodic validation lives,
+12 fixed final diagnostic lives, and 4,608 independent confirmation lives: 37,548 research genome-lives total.
+
+Both G endpoints and both D controls are fixed as the final population's rank-zero genome at generation 16.
+All four are retained regardless of sign. Endpoints are frozen with their full checkpoint/config/source
+identity before confirmation. No outcome from D is read to choose the comparison or its endpoint rule.
+The control protocol, configuration and resource monitor are pinned at preparation; D endpoint hashes are
+recorded only after D completes. Any invalid or mismatched search-life evidence blocks confirmation and
+is reported, without changing endpoints or rerunning a replicate.
+
+Confirmation uses all six fixed genomes in this order: original pilot, row38 founder, D seed51089 endpoint,
+D seed51090 endpoint, G seed51089 endpoint, G seed51090 endpoint. Each receives the same 256 fresh seeds
+51,930,000 through 51,930,255 (block93) at T=768, 1024 and 1536 in fast-conduction POOL. All measurements use
+the full life from t=0. The primary contrasts are each G endpoint minus its matched D endpoint. Secondary
+contrasts compare each G endpoint with row38 and the original pilot. For each contrast, the equal-duration
+mean is computed within each seed before computing its mean and SE over the 256 seeds; the covariance among
+durations is retained. Both signs, all durations and all fixed endpoints are reported. Gains exceeding
+three SE and gains at least 0.5 F are identified separately. There is no selection from these results.
+
+Before either G search begins, 18 validation-only full-kernel lives test silent duplication: the unmodified
+founder plus one copy of each active source gene0..7 into spare slot8, with `split: false`, on fixed seeds
+51,090,000 and 51,090,001 (validation block9), fast POOL T=1024. Every ledger column, event hash, spike time/UID,
+and fate integer record must match bitwise. Fate floats may differ only in the added gene's state column,
+which must match its source gene bitwise. Recorded status flags must also match; benign wall/chemical-clamp
+flags are allowed, but extinction, guards, capacity/mismatch or log overflow fail validation. Fixed log
+capacities are 100,000 spikes and 8,192 fates per life. Raw failing evidence is retained and there is no retry.
+These 18 lives are outside the research-life count but inside the total CPU cap and have a separate 30-CPU-s cap.
+
+The study has a fixed 14,400 worker-CPU-second cap, including validation, imports/builds, searches and confirmation;
+there is no extension. The monitor stops at 14,380 CPU-s, sends TERM, waits at most two wall seconds and then KILL.
+The reserve covers polling and shutdown with at most four simulation threads. Child CPU limits and monitor-death
+termination provide independent safeguards. Neutrality uses one thread; the two searches use two each;
+confirmation uses two. Launch waits for D and E completion and for any already released F work to finish,
+independent of their scientific outcomes. No G readiness marker or scientific process is created by preparation.
+
+Two search replicates do not establish general structural-search superiority. Life-level SE measures uncertainty
+for these fixed endpoints, not uncertainty across evolutionary searches. A larger active-gene count, expression,
+nonzero outgoing weights or duplicate ancestry alone does not establish functional use. Any later claim that
+a new gene contributes to fitness requires a separate fixed intervention and independent evidence, with
+developmental effects distinguished from computation in held-fixed tissue.

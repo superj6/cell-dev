@@ -1,0 +1,26 @@
+{
+  "status": "preparation_validated",
+  "new_scientific_lives": 0,
+  "new_validation_lives": 0,
+  "focused_tests_passed": 14,
+  "test_scope": "Synthetic arrays, mocked processes, and saved artifact validation only.",
+  "commands": [
+    ".venv/bin/python -m pytest -q outputs/autonomous_discrimination_20261013/test_prepared.py",
+    ".venv/bin/python -m pytest -q results/discrimination_20261013/test_archive.py"
+  ],
+  "checks": [
+    "Both default CLIs report dry_run",
+    "Atomic candidate resume never repeats a committed row",
+    "Changed saved bytes and seed order rejected",
+    "Full-ledger fitness/cost decomposition checked",
+    "Invalid candidate evidence retained and automatic replacement rejected",
+    "Both fixed-reference contrasts retained after best-reference selection",
+    "Cumulative budget retained on explicit resume; unfinalized and exhausted budgets rejected",
+    "Archived source/input hashes and all12 saved replay comparisons verified",
+    "Changed archived budget rejected even after updating its file receipt"
+  ],
+  "ruff": "All new working wrapper, monitor, tests, packaging and offline-validator files pass.",
+  "line_length": "All new Python lines are at most120 characters.",
+  "launch_released": false,
+  "compiled_scientific_library": false
+}
