@@ -1,0 +1,34 @@
+{
+  "status": "cleared",
+  "checked_at_utc": "2026-10-14T23:41:41.443601+00:00",
+  "method": "read-only Linux /proc identity and full process-group scan",
+  "budget_sha256": "38cb702e92d8c95ad172c5c4e6618ba8dce3ed71f4f38f81bb9e165669b579f3",
+  "recorded_process_identities": [
+    {
+      "pid": 790102,
+      "ppid": 790101,
+      "pgid": 790101,
+      "start_ticks": 2546567,
+      "name": "monitor"
+    },
+    {
+      "pid": 790104,
+      "ppid": 790102,
+      "pgid": 790104,
+      "start_ticks": 2546597,
+      "name": "validation"
+    }
+  ],
+  "current_identities": [
+    null,
+    null
+  ],
+  "owned_process_groups": [
+    790104
+  ],
+  "group_members": [],
+  "all_recorded_processes_exited": true,
+  "all_owned_groups_empty": true,
+  "compilation_calls_by_review": 0,
+  "simulation_calls_by_review": 0
+}

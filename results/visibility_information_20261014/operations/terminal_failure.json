@@ -1,0 +1,34 @@
+{
+  "status": "terminal_incomplete_before_compilation_or_simulation",
+  "reason": "numerical/compiler/runtime identity changed",
+  "cpu_seconds": 0.716548,
+  "simulation_calls": 0,
+  "validation_lives": 0,
+  "research_lives": 0,
+  "kernel_libraries_compiled": 0,
+  "scientific_outcomes_available": false,
+  "planned_validation_lives": 82,
+  "planned_research_lives": 13312,
+  "failure_order": "require_release numerical identity check raised before validation directory creation, compilation, and any life call",
+  "absent_paths": [
+    "validation",
+    "validation_budget.json",
+    "rows",
+    "build-cache",
+    "kernel-cache"
+  ],
+  "evidence_pins": {
+    "protocol.json": "14ed106bd6664c3ad4888c46c990beef3fbb8a7b93989da0e0c0bd625cfcbfa5",
+    "ready.json": "bbf84b6245c65ec5e2932f51fc93e47acd12005a15650ea945d76ad3d42b2271",
+    "attempt.json": "b6ee12b9172a2a534be5ef904e1a35c58a88b8deb995c82a3dfb4afc12bde954",
+    "budget.json": "38cb702e92d8c95ad172c5c4e6618ba8dce3ed71f4f38f81bb9e165669b579f3",
+    "logs/validation.log": "ac17380ff5abaa0955bd2ff73e1f32ebb950b5559af2bae0e852a50f415b286c",
+    "validate.py": "915ece294a82794fb6368cff4168f68abe162b3beed15cc74c7d2ab3e89e844a",
+    "common.py": "8ea0f3d77a3e916855f3307bae963c9fcfe29c5863093e4a499e2db2fad7974d",
+    "numerical.py": "56c561252e1f7cd81512705cc2676611cbeca857ae2c9004b201082762e3e5fd",
+    "terminal_process_clearance.json": "fc4a11ceca7fd99ba42a6081ff28fab84925dac4145a5b488ac6c407eb6236c8"
+  },
+  "independent_failure_review_sha256": "19dc91f37cd802da106ab8961d05ee778902695ace64334a6547103f462024c3",
+  "historical_preparation_counts_remain_zero": true,
+  "retry_or_source_change_performed_by_archival": false
+}

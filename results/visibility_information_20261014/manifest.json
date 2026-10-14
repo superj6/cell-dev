@@ -1,11 +1,11 @@
 {
   "format": 1,
-  "phase": "preparation",
+  "phase": "terminal",
   "protocol_sha256": "14ed106bd6664c3ad4888c46c990beef3fbb8a7b93989da0e0c0bd625cfcbfa5",
-  "status": "prepared_not_launched",
+  "status": "terminal_incomplete_before_compilation_or_simulation",
   "scientific_lives_completed": 0,
   "compiled_libraries": 0,
-  "release": false,
+  "release": true,
   "planned_research_lives": 13312,
   "planned_validation_lives": 82,
   "scientific_outcomes_claimed": false,
@@ -15,6 +15,11 @@
     "outputs/autonomous_prediction_information_20261014/budget.json": "49f319b1fff29853a92f95162403c80dd3a819e0706f7cceaa03d63e205d4a85"
   },
   "dependency_clearance_status": "copied",
+  "simulation_calls": 0,
+  "validation_lives": 0,
+  "research_lives": 0,
+  "cpu_seconds": 0.716548,
+  "prelaunch_manifest_sha256": "3fd09095e9023abdc3a06cd24133f503f288a50c55ab63d6d69734f186709cc7",
   "artifacts": {
     "PREREG.md": {
       "sha256": "d58d8e6847b45100037d94aff72727778ce5a83b6d35c0be03cb6c09e92f846d",
@@ -166,6 +171,11 @@
       "bytes": 896,
       "origin": "outputs/autonomous_visibility_information_20261014/inputs/reviews/root_text_namespace_review.json"
     },
+    "logs/validation.log": {
+      "sha256": "ac17380ff5abaa0955bd2ff73e1f32ebb950b5559af2bae0e852a50f415b286c",
+      "bytes": 793,
+      "origin": "outputs/autonomous_visibility_information_20261014/logs/validation.log"
+    },
     "measure.py": {
       "sha256": "f4aea79e598709847459e12f26b6900bb481877f80eb83e02365c7e362f2c86f",
       "bytes": 3366,
@@ -181,10 +191,45 @@
       "bytes": 1880,
       "origin": "outputs/autonomous_visibility_information_20261014/numerical.py"
     },
+    "operations/attempt.json": {
+      "sha256": "b6ee12b9172a2a534be5ef904e1a35c58a88b8deb995c82a3dfb4afc12bde954",
+      "bytes": 168,
+      "origin": "outputs/autonomous_visibility_information_20261014/attempt.json"
+    },
+    "operations/budget.json": {
+      "sha256": "38cb702e92d8c95ad172c5c4e6618ba8dce3ed71f4f38f81bb9e165669b579f3",
+      "bytes": 15781,
+      "origin": "outputs/autonomous_visibility_information_20261014/budget.json"
+    },
+    "operations/monitor_console.log": {
+      "sha256": "fba3951ba7626f590caa095217271e7de00281e6c5342ffabac161e39f082f1b",
+      "bytes": 31,
+      "origin": "outputs/autonomous_visibility_information_20261014/monitor_console.log"
+    },
+    "operations/ready.json": {
+      "sha256": "bbf84b6245c65ec5e2932f51fc93e47acd12005a15650ea945d76ad3d42b2271",
+      "bytes": 14611,
+      "origin": "outputs/autonomous_visibility_information_20261014/ready.json"
+    },
     "operations/resource_clearance.json": {
       "sha256": "ae7fab53569ea721d7b36f41ff934a3f1ed3f486f1b9bf65a4837f70b1b79fb1",
       "bytes": 975,
       "origin": "outputs/autonomous_visibility_information_20261014/resource_clearance.json"
+    },
+    "operations/terminal_failure.json": {
+      "sha256": "ba3f0fff27f486eca75dcb04c074fe6f44b50b3ff7c2a1ab1dbc4a11ae2421de",
+      "bytes": 1691,
+      "origin": "outputs/autonomous_visibility_information_20261014/terminal_failure.json"
+    },
+    "operations/terminal_process_clearance.json": {
+      "sha256": "fc4a11ceca7fd99ba42a6081ff28fab84925dac4145a5b488ac6c407eb6236c8",
+      "bytes": 812,
+      "origin": "outputs/autonomous_visibility_information_20261014/terminal_process_clearance.json"
+    },
+    "operations/terminal_reanalysis.json": {
+      "sha256": "13bc737d8002f3ca001681afc99a7c42ce1c096a639a2dc1bd76725702e6f266",
+      "bytes": 140,
+      "origin": "outputs/autonomous_visibility_information_20261014/terminal_reanalysis.json"
     },
     "original/controllers/mcommon.py": {
       "sha256": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
@@ -646,6 +691,16 @@
       "bytes": 4259,
       "origin": "outputs/autonomous_visibility_information_20261014/original/src/tasks/withdraw.py"
     },
+    "postfailure/archive_terminal.py": {
+      "sha256": "26676313b8e056e09f857b15e51c01e10aa010758f9ebb6abeb2438f8698c319",
+      "bytes": 8654,
+      "origin": "outputs/audit_visibility_information_20261014/archive_terminal.py"
+    },
+    "postfailure/x_failure_review.json": {
+      "sha256": "19dc91f37cd802da106ab8961d05ee778902695ace64334a6547103f462024c3",
+      "bytes": 10909,
+      "origin": "outputs/audit_visibility_information_20261014/x_failure_review.json"
+    },
     "preparation.json": {
       "sha256": "529802ff5bfde83d61550ea0d6edd05a8d0e998db9211e05c1e6e69d85962014",
       "bytes": 202,
@@ -824,7 +879,7 @@
     "release_review/archive.py": {
       "sha256": "d859e310510d26ec5137644ad8740830ce90a98a8e15632edee1fa65a3b1f6b3",
       "bytes": 10707,
-      "origin": "outputs/audit_visibility_information_20261014/archive.py"
+      "origin": "outputs/autonomous_visibility_information_20261014/release_review/archive.py"
     },
     "release_review/check_process_cleanup.py": {
       "sha256": "c620428791b78387f597318b1a88db37ee8ff3db04ad23791f74ca9a3f006281",

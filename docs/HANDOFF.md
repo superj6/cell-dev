@@ -40,12 +40,16 @@ The isolated worktree and working evidence remain under `outputs/abi4_visibility
 Old scratch controller harnesses require isolated pinned ABI 3 imports and checked raw buffer sizes.
 This does not approve motor flip, a large selection matrix, population-responsive worlds or rented compute.
 
-**X prepared (2026-10-14).** A bounded flash/blink information measurement uses the unchanged historical C5
+**X stopped before simulation (2026-10-14).** A bounded flash/blink information measurement uses the unchanged historical C5
 controller and twelve fixed references/interventions in each world, at T1024 on 512 fresh shared seeds.
 The 13,312 research lives plus 82 validation/calibration lives have a cumulative 3,600 CPU-second cap;
 validation must pass within its included 180-second allocation before research starts. Only blocks113/116
 are registered; the duration extension remains held. Prospective evidence is in
-`results/visibility_information_20261014/`. No X lives have run at preparation. Both ablations are broad;
+`results/visibility_information_20261014/`. Its first attempt stopped at the numerical-identity guard in
+0.716548 CPU-seconds, before compilation or any life: preparation had loaded Torch's OpenMP library, while
+the fresh worker loaded the system copy. X remains terminal and incomplete. A separate X2 initialization
+repair is being prepared with the same scientific matrix and unconsumed seeds; its 3,599-second total and
+179-second validation caps keep both attempts below the original combined allocations. Both ablations are broad;
 memory-specific admission remains incomplete regardless of their effect. This is an external measurement,
 with no new organism behavior or hand-built winning-body gate.
 

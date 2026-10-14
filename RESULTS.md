@@ -2291,3 +2291,18 @@ callback/action replay instrumentation and independent raw accounting are prepar
 the duration extension is held. `results/visibility_information_20261014/` preserves prospective inputs and reviews.
 No X scientific life or compilation has occurred at this milestone. Real compatibility checks must pass before
 research; no large evolution run, new organism behavior or paid compute is released.
+
+## 2026-10-14 — Flash/blink measurement stopped at initialization, without scientific outcomes
+
+X's numerical-identity guard rejected its first fresh worker before compilation or any simulated life.
+Preparation had imported Torch and recorded its bundled OpenMP library; the fresh validation worker checked
+identity before importing Torch and loaded the system OpenMP library instead. The exact-equality check
+correctly rejected those different runtimes. This was an initialization-order defect in the measurement
+wrapper, not a world, controller or fitness result.
+
+The terminal monitor consumed **0.716548 CPU-seconds**, cleared its worker group and reported incomplete.
+No seed was simulated and no candidate outcome exists. The original sources, release marker, failure log
+and budget remain preserved. X will not be reset or resumed. A separate X2 preparation will initialize
+Torch consistently before recording/checking runtime identity, retain strict equality and the same scientific
+matrix, and verify the actual fresh-process environment before release. Its proposed caps of 3,599 total and
+179 validation CPU-seconds conservatively include X's failed startup within the original 3,600/180 allocations.

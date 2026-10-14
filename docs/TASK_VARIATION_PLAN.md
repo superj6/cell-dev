@@ -52,6 +52,11 @@ the separate duration extension remains held. Prospective evidence is in `result
 No lives have run at preparation. The broad model/action ablations do not isolate memory, so capability-specific
 admission remains incomplete; this measurement tests information payoff without prescribing evolved behavior.
 
+*2026-10-14 X initialization failure:* the first worker found a different loaded OpenMP library from preparation
+and stopped before compilation or any life, using 0.716548 CPU-seconds. The pinned X attempt stays incomplete.
+A separate X2 preparation fixes import order while retaining exact runtime checks, unchanged candidates and
+unconsumed seed IDs. Its smaller caps include the failed startup within the original total/validation budgets.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.

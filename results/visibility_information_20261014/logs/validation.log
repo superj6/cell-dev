@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_information_20261014/validate.py", line 195, in <module>
+    validate(args.expected_parent)
+  File "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_information_20261014/validate.py", line 73, in validate
+    value=require_release()
+          ^^^^^^^^^^^^^^^^^
+  File "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_information_20261014/common.py", line 83, in require_release
+    check(value['numerical_identity'])
+  File "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_information_20261014/numerical.py", line 41, in check
+    raise ValueError('numerical/compiler/runtime identity changed')
+ValueError: numerical/compiler/runtime identity changed
