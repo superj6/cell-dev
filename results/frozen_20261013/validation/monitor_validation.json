@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "mock_tests": 16,
+  "simulated_lives": 0,
+  "test_command": ".venv/bin/pytest -q outputs/autonomous_frozen_20261013/test_run_budgeted.py",
+  "monitor_sha256": "1c5f151fd1c9e6828d6353897c5609e471bbbc872593ae664bc28a6e5ccda49b",
+  "test_sha256": "e669634b31f00474ec2894437128ab6bf25d6c275b8ee73def79e636e8d56bfc",
+  "coverage": [
+    "dry run launches no process",
+    "runner/helper/numerical-source/dependency pin refusals",
+    "dependency queue and worker conditions",
+    "source recheck after waiting",
+    "CPU TERM/KILL fallback and Linux hard limit",
+    "process-exit race",
+    "nonzero exit and incomplete report rejection",
+    "interrupted monitor terminates its child",
+    "prior budget and unaccounted cache restart refusals",
+    "Linux stat CPU parsing including command parentheses"
+  ],
+  "scientific_validation": "validation/smoke/validation.json;16validation-only genome-lives previously run by root",
+  "note": "CPU limit tested through mocked setrlimit; no real workload was launched by these tests."
+}
