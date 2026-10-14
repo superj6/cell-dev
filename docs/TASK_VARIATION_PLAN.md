@@ -175,7 +175,7 @@ ABI or world-admission criterion changes.
   - Searching before any ping has localised the target is worth about 11 F.
   - Using silence as evidence is worth about 7 F.
   - Fewer wasted clicks and lower costs are not where the gain comes from.
-- **Bigger bodies pay only when they also compute.**
+- **Larger footprints can amplify computation’s payoff.**
   - On ring4 (the router's footprint), the memory study's controller C5 reaches +27.8 ± 0.19 F in base (T 1024, 512
     lives).
   - Tissue bodies of that size with reflex-like wiring gain only +2.3.
@@ -308,10 +308,10 @@ From the literature and design study (`results/open_headroom/data/open_ended_*.j
 
 ### 0.9 Decisions (each explained, with a recommendation)
 
-1. **Replace the hand-built gates with the admission rule in 0.4.**
-   - What it means: worlds enter by what the sense information pays, measured by central controllers that are never
-     part of the organism.
-   - Recommendation: yes.
+1. **Judge worlds by information payoff, never by a hand-built win.**
+   - This principle is already an explicit user instruction. The central controllers are measuring instruments,
+     never part of the organism. Section 0.4 records the proposed quantitative admission checks; the broader
+     selection rollout and remaining implementation decisions below have not been assumed authorized.
 2. **Port within-life world changes (motor flip, blink, flash) into the kernel as ABI 4.** This was Q4.
    - What it means: the world itself changes during a life (the motor law flips, the target dims). The organism's rules
      stay local, and it has to notice the change from its own senses.
@@ -332,9 +332,11 @@ From the literature and design study (`results/open_headroom/data/open_ended_*.j
      it still keeps +9 F.
    - BH3 and arms B and P make that outcome informative. If no arm captures more than a small share, the next lever is
      the organism (face weights, plasticity, the spike-bit tissue), not the world.
-2. **Information gaps bound what a grown tissue gets from above.**
-   - Computation is free, and footprints pay no development cost; grown bodies lose 1.8-3.2 F against program bodies.
-   - The controllers are heuristics, so gaps are lower bounds on what the information allows.
+2. **Controller scores are not proven performance ceilings.**
+   - Controller computation is free, and fixed footprints pay no development cost. In the historical matched
+     examples, growing bodies lost 1.8-3.2 F against program bodies; that does not establish a universal cost gap.
+   - The controllers are heuristics. Their gains demonstrate information payoff, not an upper bound on what
+     evolution might discover or a guarantee that local tissue can attain the same score.
 3. **Most of every gap is tracking, which base already pays for.** The within-life worlds add specific parts on top:
    switching +12.7, flash memory +24.6.
 4. **Several pieces are not measured yet:** prediction, full all-world gradients and capability-world controller

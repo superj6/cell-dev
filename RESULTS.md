@@ -2053,6 +2053,58 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - The older plan's quarter-of-information claim and pilot −10%/+9% ratios mixed body footprints. They are now
   explicitly labeled historical unmatched-footprint comparisons, not BH3 measurements. The external controller
   still demonstrates substantial information payoff; evolved bodies' matched-footprint share remains unmeasured.
+- The older plan's controller-ceiling language is also corrected: heuristic controllers demonstrate information
+  payoff, not proven upper bounds on evolved performance. Its larger-footprint observation is limited to the
+  measured examples.
 - Historical running-status text is marked as superseded, and the README's simulator parity statement is bounded
   to retained validation cases. No scientific data, pinned study source or result changed. The standing user rule
   against hand-built admission gates remains in force; broader unanswered execution decisions remain open.
+
+## 2026-10-14 — Consolidated review at the user's wrap-up request
+
+The most convincing progress is repeated ordinary adaptation and useful local communication. We have not yet
+identified a new message-passing algorithm or established memory, learning, functional genome expansion, or
+a matched-footprint share of available information. The entries below distinguish fixed-genotype comparisons
+from evolutionary replication. All reported ± values are paired standard errors, not standard deviations.
+
+| Work | What was tried | What the completed evidence shows |
+|---|---|---|
+| E1 | Checkpoint/resume with source and numerical pins | Interrupted 3+3 generation runs reproduce uninterrupted 6-generation populations, logs and RNG states. Old pilots still lack exact resume state; host migration remains untested. |
+| E5 | Existing wound events in the browser simulator | 33 wound truth lives, 64 standard lives and 18 interactive checks pass. A host throughput threshold remained unmet; a bounded fixed-work comparison found no slowdown. |
+| E6/E7 | Paired readouts, mechanism measurements and information-payoff admission tooling | Tooling, source/replay checks and bounded measurements work; the full all-world G0–G5 program and matched-footprint BH3 remain incomplete. The integration suite passed 696 Python tests plus retained JS parity cases. |
+| Nearby mutants | 64 ordinary mutants per original s5/s7 in base/POOL | Fresh gains are +0.846±0.136, +0.638±0.116, +0.755±0.129 and +0.263±0.092 F; the first three clear 3 SE and +0.5 F. Capture income and lateral dependence increase. |
+| A: transfer | Keep the same winners; vary duration and conduction | All four fast-conduction duration-mixture gains clear 3 SE; old-conduction T1024 effects remain unresolved. |
+| B: second cohort | One 224-mutant cohort with ordinary versus larger scoring budgets | Both policies choose the same winner. Its additional +0.064±0.142 F is unresolved; one larger-budget cohort did not establish improved selection. |
+| C: allele effects | Test the two first-step mutations separately and together | The first allele alone gives +0.548±0.138 F in base and +1.064±0.115 in POOL. The second allele's added contribution and interaction remain unresolved. |
+| D/L: ordinary continuation | Two 16-generation searches from each selected s5/s7 founder | Additional gains are +0.633±0.188/+0.756±0.202 F for s5 and +0.900±0.143/+1.072±0.145 for s7. All four are capture-funded, with higher costs and larger bodies. |
+| E/H: fixed tissue and messages | Freeze later growth/computation; suppress lateral or hidden sends | Row38 keeps +0.944±0.159 F of gain after freeze and adds +1.692±0.178 F lateral dependence. D51090 adds +0.794±0.207 hidden dependence; D51089's hidden interaction is unresolved. |
+| F/N: information payoff | Existing external controllers, reflexes and smaller/quieter controls | Decoy information gap +11.754±0.170 F; base/POOL gaps remain roughly +13 F at both T768/T1536. Controller computation is free and external. These results do not measure local attainability or evolved information share. |
+| G: structural mutation | Add silent gene duplication/deletion in two matched searches | Differences from ordinary search are −0.252±0.209/+0.325±0.193 F: no resolved policy advantage. Both final genomes contain one copied-origin gene. |
+| I: decoy mutants | Score the full original mutant panels in the existing decoy world | Winners gain +1.431±0.096/+1.178±0.102 F, mostly by reducing costs. This does not establish discrimination. |
+| J/M: copied-gene use | Knock out each final copy, then remove its source as well | Final copy effects are exactly zero on the registered ledgers/lives. One copy is analytically disconnected; deleting the other copy's source loses +7.277±0.129 F with or without the copy. |
+| K and completed-data audits | Saved event traces, late phenotype changes, ancestry and selection logs | More lateral relay hops, mostly inhibitory hidden-to-act inputs, and late neural-property changes are descriptive. Copied-gene connections occurred during search. Rechecking changes 36.5% of parent slots; none of these observations alone proves function or policy superiority. |
+| O: regulatory inputs | Hold tissue composition fixed; mask five local gene-network inputs | Added losses are +2.849±0.175/+2.940±0.176 F. The mask includes static contact information, so this establishes specified input dependence rather than learning or use of changing evidence. |
+| P: further ordinary step | Another 16 generations from both D endpoints | Released and running at this review snapshot; no outcome used in this table. |
+| Q: second-lineage messages | Frozen hidden/lateral-message tests of both s7 descendants | Released, waiting for P at this review snapshot. |
+| R: continued local updates | Separate gene/phenotype updates from effective receive-weight refresh | Released, waiting for Q at this review snapshot. Chemical relaxation is a possible explanation of any weight-refresh effect. |
+| S: scoring allocation | Eight generations with 6+8 scoring versus P's sixteen with 3+4 | 103 preparation checks pass; deliberately held with no readiness or research run after the wrap-up request. |
+
+The completed research studies through O total **204,652 research genome-lives** and **51,610.008 monitored
+CPU-seconds (14.34 CPU-hours)**. K contributes twelve reference research lives; its twelve C validation lives
+are separate. Monitor totals include study startup/validation overhead and the initial screen's conservatively
+carried ten CPU-seconds. Separate engineering checks and viewer validation are outside that total. P/Q/R are
+not included until they finish. All compute is local; no rental or paid compute was used.
+
+The important limits are systematic. Four ordinary continuations come from two fixed selected founders; fresh
+life-seed SE does not estimate general search reliability. Repeated mechanism studies of the same genotypes do
+not create new evolutionary replicates. Three-SE flags are descriptive within registered comparisons, not a
+project-wide multiple-testing guarantee. Different genotypes keep different bodies and histories. Freeze changes
+gene and phenotype computation as well as growth. H lacks a combined hidden-plus-lateral arm, so its two lesions
+cannot establish independent pathway contributions.
+
+My direction recommendation is to consolidate ordinary-search repeatability and explain the evolved message
+and regulatory mechanisms before expanding task or genome complexity. The base/POOL information payoff already
+justifies that work. The held scoring-allocation design addresses a concrete uncertainty, but the noisy-selection
+audit does not prejudge its answer. ABI 4, task-family rollout, population-responsive worlds and rented compute
+remain separate decisions; no unanswered approval has been inferred. No further experiments are being added
+during this wrap-up.
