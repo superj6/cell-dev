@@ -1780,3 +1780,74 @@ They are measurement tools only. A replay test shows the controller reads nothin
   using 9.331079 of 15 validation CPU-seconds. Full animations use a fixed descriptive seed and are illustrations;
   this bounded check does not establish universal long-life parity or a browser-render test. L's independent
   second-lineage evolution study is queued; its offline analyzer has 33 independently checked pure tests.
+
+## 2026-10-14 — Decoy-world mutant gains mainly reduce ordinary costs
+
+- **Design:** reuse both entire original panels, each parent plus 64 ordinary mutants, without filtering by
+  their earlier base/POOL scores. All 130 rows share 32 block95 screening lives in the existing harmful-decoy
+  world, T1024, old conduction and unchanged prices. Four mutants per parent plus the parent receive 512
+  block96 rescoring lives; both winners are fixed before either 512-life block97 confirmation begins.
+- **Fresh gains:** s5 selects original row32 and improves by **+1.431 ± 0.096 F**; s7 selects row1 and improves
+  by **+1.178 ± 0.102 F**. Both exceed 3 SE and 0.5 F. Their absolute mean fitness remains modest: s5 moves
+  from −1.671 to −0.240 F, and s7 from −0.720 to +0.458 F. No negative outcome was discarded or extra candidate added.
+- **Accounting:** s5's gain consists of +0.359 capture income, +0.016 poison-cost saving, +0.067 missed-click
+  saving and +0.990 other-cost saving. For s7 these are +0.460, +0.158, +0.046 and +0.514 F. Captures rise by
+  0.734 ± 0.184 and 0.941 ± 0.190 per life, but terminal cells fall by 38.525 ± 0.542 and 22.660 ± 0.343.
+  Most of each net gain comes from lower costs; positive fitness alone does not establish target/decoy
+  discrimination. No copied controller behavior enters these organisms.
+- **Full panels:** 44/64 s5 and 20/64 s7 mutants have positive mean screening differences; only 2/64 and 1/64
+  exceed 3 SE on those 32 lives. These are descriptive fixed-panel fractions, not general beneficial-mutation
+  probabilities. Screening/rescoring effects are selected; fresh confirmation supplies the primary evidence.
+- **Limits:** two backgrounds and 64 nearby mutations each do not establish long-term accumulation or general
+  evolvability. The prior base/POOL diagnostics used fast conduction, so their comparison with this study is
+  not a controlled world-only effect. This study changes neither world admission nor the selection family.
+- **Evidence and budget:** all 11,328 research lives completed in 3,105.780628 of 3,600 CPU-seconds, with zero
+  guards, extinction or invalid flags. The two T200 startup golden lives are separate validation inside the cap.
+  `results/decoy_gradient_20261014/` preserves all 144 raw checkpoints, every screening row and mutation record,
+  frozen selections, full ledgers, source/numerical pins and independent standalone reanalysis. All 291 public
+  artifact hashes and both fresh paired estimates were separately checked by root. Thirty-five pure analysis
+  tests pass. The prepared abnormal-stop supervisor was unused; no cap extension or scheduling exception occurred.
+
+## 2026-10-14 — The two retained copied genes have zero measured single-knockout effects
+
+- **Design:** J's eligibility and selection rules were registered before seeing the G endpoints. Each has one
+  eligible active duplicated-origin gene: G51089 slot14/origin56 and G51090 slot9/origin21. Delete each using
+  the existing whole-life operation; verify its runtime packing against a canonical active-bit mask. Intact
+  and knockout genomes share 512 block98 screening lives and 512 fresh block99 confirmation lives in fast POOL,
+  T1024. Both endpoints are retained, without an outcome-dependent exclusion.
+- **Result:** both fresh intact-minus-knockout differences are **0.000000 ± 0.000000 F**. Every recorded ledger
+  and scored column is byte-identical between the paired arms in both stages, not merely close in their means.
+  No guards, extinction or invalid rows occur. This finding does not by itself rule out a role in another
+  genetic background or prove general dispensability.
+- **Interpretation:** active-gene count and recorded duplication ancestry do not establish functional use.
+  Whole-life deletion also cannot isolate mature computation. The hidden-message result in ordinary D51090
+  concerns a different endpoint and cannot be attributed to either copied gene tested here.
+- **Evidence and budget:** all 4,096 research lives completed in 1,197.683334 of 7,200 CPU-seconds. Independent
+  NumPy replay reconstructs every recorded genetic operation and final origin registry; it preserves checkpoint
+  bytes and the original checkpoint-validation receipt without independently deserializing those checkpoints.
+  `results/duplicate_use_20261014/` preserves all raw interventions, paired contrasts and ancestry evidence;
+  public reanalysis passes and root verified all 179 artifact hashes. Two startup golden lives remain separate
+  validation within the CPU cap. No organism rule or selection policy changed.
+
+## 2026-10-14 — Fixed descendant traces show more lateral relay and different movement
+
+- **Design:** K records the exact reference simulator for row38 and both D endpoints on four fixed block89
+  seeds, T1536 fast POOL. All 12 traces are retained in seed-first order. Each is checked against a full C life;
+  all 57 ledger columns match bitwise. Raw event tables round-trip before any geometric relabeling and reproduce
+  the existing E6 search/relay readouts without simulation. These are normal growing lives, including the
+  800..1536 subwindow, rather than H's frozen counterfactuals.
+- **Descriptive relay:** among rim-actuator spike chains attributed to receptor events, the mean fraction with
+  at least one lateral hop is 0.379 for row38, 0.802 for D51089 and 0.729 for D51090. Paired changes are
+  +0.423 ± 0.021 and +0.350 ± 0.028 over the four lives. The fraction of all receptor-origin chains with at
+  least two lateral hops changes by +0.299 ± 0.015 and +0.201 ± 0.019. These paths follow the largest input at
+  each firing step and omit subthreshold integration; they are not complete causal explanations.
+- **Descriptive movement:** distance during the preset silence intervals falls by 28.359 ± 3.113 and
+  15.577 ± 7.228, while total distance changes by +0.625 ± 27.767 and +163.992 ± 36.147. Clicks per capture,
+  averaged as per-life ratios, change by −0.466 ± 0.157 and +0.080 ± 0.217. Different growth, shapes and states
+  remain. Silence movement does not demonstrate that silence is used as evidence; no significance test or
+  new-algorithm claim is made from these four descriptive seeds.
+- **Evidence and budget:** twelve reference lives plus twelve C validation lives used 786.219558 of 1,800
+  CPU-seconds, with one simulation worker. Existing numerical startup validation is inside that cap.
+  `results/traces_20261014/` preserves approximately 41 MB of lossless raw event tables, all readouts and source
+  receipts. Its public reanalysis requires the pinned repository sources and is not a standalone package.
+  Both s7 continuation runs have now started under L's registered four-worker/14,400-second cap.

@@ -72,8 +72,9 @@ values, not zero, and neither supplies replay evidence. Pinned preparation bytes
 **Structural policy completed (2026-10-14).** G's two fixed final endpoints differ from matched ordinary D
 endpoints by **−0.252 ± 0.209** and **+0.325 ± 0.193 F**, averaging three durations within 256 fresh shared seeds.
 Neither establishes a policy advantage. Both improve over row38 (+0.745 ± 0.189 and +1.197 ± 0.192 F), beyond 3 SE
-and +0.5 F. Each ends with 9 active genes and one active duplicated-origin gene, whose functional contribution is
-still unmeasured. All18 silent-duplication neutrality lives and full recorded-genetics replay pass. The 37,548
+and +0.5 F. Each ends with 9 active genes and one active duplicated-origin gene. J now finds zero single-copy knockout
+effects in those endpoints, as recorded below. All 18 silent-duplication neutrality lives and full recorded-genetics
+replay pass. The 37,548
 research lives finished in 10,942.922121 of 14,400 worker CPU-seconds; evidence is in `results/structural_20261013/`.
 
 **Hidden-message contribution measured (2026-10-14).** H completed all 6,144 lives on 512 shared block94 seeds,
@@ -85,25 +86,33 @@ phenotype updates, so that contrast does not isolate development. All frozen tri
 no guards, extinction or invalid flags occurred. `results/hidden_20261014/` preserves independent raw-data audits.
 This establishes hidden-message contribution in one fixed descendant, not its algorithm or matched-footprint use.
 
-**Running and prepared studies.** I completed both original 64-mutant panels in the existing decoy world on
-blocks95–97 (11,328 lives, 3,105.780628 of 3,600 CPU-seconds); independent analysis is underway. J is now running
-and was registered before seeing G endpoints: knock out every active
-copied-origin gene, then independently confirm the largest loss per endpoint on blocks98–99 (maximum 19,456
-lives, cap 7,200 CPU-seconds). G has one eligible gene per endpoint, implying 4,096 research lives if all receipts
-verify. J uses two workers after H/I completion. K is running 12 descriptive reference traces of row38 and both D
-endpoints on four block89 seeds, with 12 C validation lives (cap 1,800 CPU-seconds, one worker). It also waited for
-H/I and runs beside J. All ledger columns and saved trace-table round-trips must match. L is released and queued for two
-ordinary 16-generation continuations from fixed s7 row29, using search seeds 51891/51892 and fresh block90
-confirmation (36,012 research lives, cap 14,400 CPU-seconds, four workers after J/K complete). It does not depend
-on their scientific outcomes. These studies change no selection worlds or organism rules.
-Read each working `budget.json` and `ready.json` before starting anything. Preserve pinned engine/search/helper
-sources while active. Working directories are `outputs/autonomous_structural_20261013/` and
-`outputs/autonomous_hidden_20261014/`, `outputs/autonomous_decoy_gradient_20261014/` and
-`outputs/autonomous_duplicate_use_20261014/`, `outputs/autonomous_traces_20261014/` and
-`outputs/autonomous_s7_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
-`results/continuation_20261013/watch.html` now has eight C plus eight JS T32 validation lives: all 57 ledger
-columns and five event hashes match bitwise, within 9.331079 of 15 validation CPU-seconds. Full animations are
-illustrations, not measured confirmation. No unanswered approval decision has been assumed resolved.
+**Decoy mutant screen completed (2026-10-14).** I's complete original 64-mutant panels select s5 row32 and s7
+row1, with fresh 512-life gains of +1.431 ± 0.096 and +1.178 ± 0.102 F. Most of each gain comes from lower costs;
+terminal cells fall by 38.525 and 22.660 while captures rise by 0.734 and 0.941. Absolute winner F is −0.240/+0.458.
+This does not demonstrate discrimination or change world admission. All 11,328 lives on blocks95–97 completed
+in 3,105.780628 of 3,600 CPU-seconds without guards/invalids; full independent evidence is in
+`results/decoy_gradient_20261014/`. The prospective queue-release exception was unused.
+
+**Copied-gene and trace measurements completed (2026-10-14).** J tests the only active duplicated-origin
+copy in each G endpoint: slot14/origin56 and slot9/origin21. Their single-knockout effects are exactly zero on
+both 512-life selection and 512-life fresh confirmation; all 60 scored/ledger columns match byte for byte.
+All 4,096 research lives finished in 1,197.683334 of 7,200 CPU-seconds. This does not establish dispensability in
+other genetic backgrounds. `results/duplicate_use_20261014/` preserves full ancestry and intervention evidence.
+K's twelve reference traces match twelve C validation lives bitwise in all 57 ledger columns. Together they use
+786.219558 of 1,800 CPU-seconds; startup validation is also inside that cap. Both D descendants have larger
+lateral-hop shares among attributed receptor-origin chains; four descriptive seeds cannot identify an algorithm. All raw tables are preserved in
+`results/traces_20261014/`; reanalysis needs the pinned repository source.
+
+**Running and prepared studies.** L's two ordinary 16-generation continuations from fixed s7 row29 are running,
+using search seeds 51891/51892 and fresh block90 confirmation (36,012 research lives, cap 14,400 CPU-seconds,
+four simulation workers). They were released after J/K completion and do not depend on their scientific outcomes.
+Do not add simulation workers while both searches run. Additional gene-interaction (M), controller-duration (N)
+and structure-held regulation (O) studies are in preparation, with no readiness marker or launch yet.
+Read every working `budget.json` and `ready.json` before release; preserve pinned engine/search/helper bytes.
+Long-running work remains under `outputs/`, with final evidence under the corresponding `results/` directories.
+The D viewer at `results/continuation_20261013/watch.html` has eight C plus eight JS T32 validation lives:
+all 57 ledger columns and five event hashes match bitwise, within 9.331079 of 15 validation CPU-seconds.
+Full animations are illustrations. No unanswered approval decision has been assumed resolved.
 
 ## 1. What the project is
 

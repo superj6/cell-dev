@@ -34,15 +34,17 @@ and best measured do-less gain +0.966 ± 0.107 F. All seven candidates share 512
 T1024. Evidence: `results/discrimination_20261013/`. This measures information payoff, with free controller
 computation and a limited do-less set; it does not automatically admit the world or demonstrate an evolved circuit.
 
-*2026-10-14 queued diagnostics:* fixed-tissue hidden/lateral lesions of both continuation endpoints, a decoy
+*2026-10-14 registered diagnostics:* fixed-tissue hidden/lateral lesions of both continuation endpoints, a decoy
 mutant panel using every original s5/s7 mutant, and exhaustive single-gene knockouts of active duplicated-origin
-genes in both structural-search endpoints are preregistered in `results/taskvar/prereg.md` (H/I/J). Fresh blocks
-separate selection from confirmation. No study changes the selection family or makes an admission decision.
+genes in both structural-search endpoints were preregistered in `results/taskvar/prereg.md` (H/I/J) and have now
+completed. Fresh blocks separate selection from confirmation. No study changes the selection family or makes an
+admission decision.
 
-*2026-10-14 structural-policy result:* two16-generation searches with silent duplication/deletion show no resolved
+*2026-10-14 structural-policy result:* two 16-generation searches with silent duplication/deletion show no resolved
 advantage over matched ordinary continuations: −0.252 ± 0.209 and +0.325 ± 0.193 F on fresh duration-mixture lives.
-Both improve over row38; each retains one active copied-origin gene. Function awaits the prospectively registered
-J interventions. Evidence: `results/structural_20261013/`,37,548 research lives within 3.04 worker CPU-hours.
+Both improve over row38; each retains one active copied-origin gene. J's prospectively registered interventions
+now find zero single-copy effects, as described below. Evidence: `results/structural_20261013/`, 37,548 research
+lives within 3.04 worker CPU-hours.
 
 *2026-10-14 hidden-message result:* after freezing tissue at 768, ordinary endpoint D51090 loses
 +0.956 ± 0.172 F when new hidden-cell spike sends are suppressed during the 800..1536 measurement. Its added loss
@@ -50,7 +52,22 @@ relative to row38 is +0.794 ± 0.207 F, beyond 3 SE; D51089's added loss is unre
 Both endpoints gain lateral dependence (+2.842 ± 0.194 and +2.470 ± 0.202 F). Freeze also removes
 +0.914 ± 0.214 F of D51090's normal gain, but stops GRN/phenotype updates as well as growth. This establishes
 conditional hidden-message contribution in one fixed endpoint, not a circuit mechanism, maturity or matched
-footprint. Evidence: `results/hidden_20261014/`,6,144 lives on 512 shared seeds within 2,674.948141 CPU-seconds.
+footprint. Evidence: `results/hidden_20261014/`, 6,144 lives on 512 shared seeds within 2,674.948141 CPU-seconds.
+
+*2026-10-14 decoy-gradient result:* both complete original 64-mutant panels now have fresh 512-life confirmation
+in the existing decoy world: s5 row32 gains +1.431 ± 0.096 F; s7 row1 gains +1.178 ± 0.102 F. Most of each gain
+comes from reduced costs and smaller bodies, with some extra captures. This establishes nearby improvements,
+not a discrimination mechanism or admission decision. The study uses old conduction, preventing a controlled
+world-only comparison with earlier fast base/POOL diagnostics. `results/decoy_gradient_20261014/` preserves
+all 11,328 lives and independent reanalysis within 3,105.780628 CPU-seconds.
+
+*2026-10-14 copied-gene and trace results:* both G copies have exactly zero single-knockout effects in J,
+including fresh confirmation; every scored/ledger column matches between paired arms. This does not rule out
+interaction with the source gene or effects in other conditions. Separately, K's four fixed normal lives per D
+genotype show more lateral hops in attributed receptor-origin chains and different movement. All 12 reference
+traces match full C ledgers bitwise; descriptive paths omit subthreshold integration and do not identify a new
+algorithm. Evidence: `results/duplicate_use_20261014/` (4,096 lives, 1,197.683334 CPU-seconds) and
+`results/traces_20261014/` (12 reference plus 12 C validation lives, 786.219558 CPU-seconds).
 
 ### 0.1 What changed and why
 

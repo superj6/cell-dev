@@ -1,0 +1,270 @@
+{
+  "search": {
+    "0": {
+      "seed": 51890003,
+      "start": 0.0,
+      "end": 1536.0,
+      "silence_window": 0.5,
+      "silent_time": 122.80884361794375,
+      "silent_distance": 11.35806666203875,
+      "total_distance": 325.6457843289446,
+      "zone_samples": 107,
+      "samples": 1535,
+      "capture_zone_sample_share": 0.06970684039087947,
+      "clicks": 50,
+      "captures": 40,
+      "clicks_per_capture": 1.25,
+      "flip_recovery": null,
+      "dim_captures": null,
+      "unavailable": "ABI 3 has no flip or dim state; flip recovery also needs a registered definition",
+      "occupancy_method": "integer-time left-limit samples; excludes the initial placement"
+    },
+    "800": {
+      "seed": 51890003,
+      "start": 800.0,
+      "end": 1536.0,
+      "silence_window": 0.5,
+      "silent_time": 42.505190606685915,
+      "silent_distance": 3.637741847239432,
+      "total_distance": 149.45949290809745,
+      "zone_samples": 37,
+      "samples": 736,
+      "capture_zone_sample_share": 0.050271739130434784,
+      "clicks": 18,
+      "captures": 16,
+      "clicks_per_capture": 1.125,
+      "flip_recovery": null,
+      "dim_captures": null,
+      "unavailable": "ABI 3 has no flip or dim state; flip recovery also needs a registered definition",
+      "occupancy_method": "integer-time left-limit samples; excludes the initial placement"
+    }
+  },
+  "relay": {
+    "0": {
+      "lives": [
+        {
+          "seed": 51890003,
+          "groups": [
+            {
+              "cls": "K",
+              "spikes": 61,
+              "rec": 1.0,
+              "tonic": 0.0,
+              "resid": 0.0,
+              "unknown": 0.0,
+              "deep": 0.0,
+              "rec_own_col": 0.6065573770491803,
+              "rec_other_col": 0.39344262295081966,
+              "relayed": 0.39344262295081966,
+              "rec_signal": 0.9145682066137651,
+              "lat_by_hops": {
+                "1": 0.472,
+                "2": 0.976,
+                "3": 1.408,
+                "5": 2.463
+              },
+              "hops_share": {
+                "1": 0.607,
+                "2": 0.311,
+                "3": 0.066,
+                "5": 0.016
+              },
+              "via_own_sense": 0.9180327868852459,
+              "top_paths": "C[rec] K<down (37); J[rec] C<lat K<down (14); J[rec] I<down K<lat (5); J[rec] J<lat C<lat K<down (4)",
+              "relayed_2plus": 0.08196721311475409
+            },
+            {
+              "cls": "M",
+              "spikes": 1696,
+              "rec": 1.0,
+              "tonic": 0.0,
+              "resid": 0.0,
+              "unknown": 0.0,
+              "deep": 0.0,
+              "rec_own_col": 0.24233490566037735,
+              "rec_other_col": 0.7576650943396226,
+              "relayed": 0.7647405660377359,
+              "rec_signal": 0.7947999508154983,
+              "lat_by_hops": {
+                "1": 0.496,
+                "2": 0.993,
+                "3": 1.486,
+                "4": 1.975,
+                "5": 2.459,
+                "6": 2.964,
+                "7": 3.453,
+                "8": 4.137
+              },
+              "hops_share": {
+                "1": 0.235,
+                "2": 0.294,
+                "3": 0.218,
+                "4": 0.141,
+                "5": 0.068,
+                "6": 0.028,
+                "7": 0.013,
+                "8": 0.003
+              },
+              "via_own_sense": 0.2954009433962264,
+              "top_paths": "S[rec] M<down (299); J[rec] I<down M<lat (185); S[rec] M<down M<lat (162); J[rec] I<down M<lat M<lat (106)",
+              "relayed_2plus": 0.4705188679245283
+            },
+            {
+              "cls": "all",
+              "spikes": 2939,
+              "rec": 1.0,
+              "tonic": 0.0,
+              "resid": 0.0,
+              "unknown": 0.0,
+              "deep": 0.0,
+              "rec_own_col": 0.37835998638992857,
+              "rec_other_col": 0.6216400136100715,
+              "relayed": 0.6311670636270841,
+              "rec_signal": 0.8322322275198736,
+              "lat_by_hops": {
+                "1": 0.492,
+                "2": 0.989,
+                "3": 1.485,
+                "4": 1.963,
+                "5": 2.463,
+                "6": 2.961,
+                "7": 3.459,
+                "8": 4.115
+              },
+              "hops_share": {
+                "1": 0.369,
+                "2": 0.291,
+                "3": 0.173,
+                "4": 0.096,
+                "5": 0.044,
+                "6": 0.017,
+                "7": 0.008,
+                "8": 0.002
+              },
+              "via_own_sense": 0.488941816944539,
+              "top_paths": "J[rec] I<down (648); S[rec] M<down (299); J[rec] I<down M<lat (185); S[rec] M<down M<lat (162)",
+              "relayed_2plus": 0.3402517863218782
+            }
+          ]
+        }
+      ],
+      "start": 0,
+      "max_depth": 12,
+      "method": "largest positive input; relayed and relayed_2plus shares are among receptor-origin chains",
+      "limitation": "subthreshold integration is omitted; unknown/deep chains are reported separately"
+    },
+    "800": {
+      "lives": [
+        {
+          "seed": 51890003,
+          "groups": [
+            {
+              "cls": "K",
+              "spikes": 21,
+              "rec": 1.0,
+              "tonic": 0.0,
+              "resid": 0.0,
+              "unknown": 0.0,
+              "deep": 0.0,
+              "rec_own_col": 0.5714285714285714,
+              "rec_other_col": 0.42857142857142855,
+              "relayed": 0.42857142857142855,
+              "rec_signal": 0.8455877959793311,
+              "lat_by_hops": {
+                "1": 0.451,
+                "2": 0.962,
+                "3": 1.451,
+                "5": 2.463
+              },
+              "hops_share": {
+                "1": 0.571,
+                "2": 0.238,
+                "3": 0.143,
+                "5": 0.048
+              },
+              "via_own_sense": 0.9523809523809523,
+              "top_paths": "C[rec] K<down (12); J[rec] C<lat K<down (4); J[rec] J<lat C<lat K<down (3); J[rec] I<down K<lat (1)",
+              "relayed_2plus": 0.19047619047619047
+            },
+            {
+              "cls": "M",
+              "spikes": 1037,
+              "rec": 1.0,
+              "tonic": 0.0,
+              "resid": 0.0,
+              "unknown": 0.0,
+              "deep": 0.0,
+              "rec_own_col": 0.25168756027000966,
+              "rec_other_col": 0.7483124397299904,
+              "relayed": 0.7560270009643202,
+              "rec_signal": 0.803849370520214,
+              "lat_by_hops": {
+                "1": 0.498,
+                "2": 0.998,
+                "3": 1.489,
+                "4": 1.981,
+                "5": 2.487,
+                "6": 2.965,
+                "7": 3.453,
+                "8": 4.115
+              },
+              "hops_share": {
+                "1": 0.244,
+                "2": 0.3,
+                "3": 0.216,
+                "4": 0.126,
+                "5": 0.058,
+                "6": 0.033,
+                "7": 0.019,
+                "8": 0.004
+              },
+              "via_own_sense": 0.3037608486017358,
+              "top_paths": "S[rec] M<down (189); S[rec] M<down M<lat (129); J[rec] I<down M<lat (85); J[rec] M<down (64)",
+              "relayed_2plus": 0.4561234329797493
+            },
+            {
+              "cls": "all",
+              "spikes": 1542,
+              "rec": 1.0,
+              "tonic": 0.0,
+              "resid": 0.0,
+              "unknown": 0.0,
+              "deep": 0.0,
+              "rec_own_col": 0.35149156939040205,
+              "rec_other_col": 0.648508430609598,
+              "relayed": 0.6588845654993515,
+              "rec_signal": 0.8334482268573323,
+              "lat_by_hops": {
+                "1": 0.495,
+                "2": 0.993,
+                "3": 1.487,
+                "4": 1.975,
+                "5": 2.485,
+                "6": 2.965,
+                "7": 3.459,
+                "8": 4.093
+              },
+              "hops_share": {
+                "1": 0.341,
+                "2": 0.297,
+                "3": 0.184,
+                "4": 0.095,
+                "5": 0.043,
+                "6": 0.023,
+                "7": 0.014,
+                "8": 0.003
+              },
+              "via_own_sense": 0.45136186770428016,
+              "top_paths": "J[rec] I<down (261); S[rec] M<down (189); S[rec] M<down M<lat (129); J[rec] I<down M<lat (85)",
+              "relayed_2plus": 0.36186770428015563
+            }
+          ]
+        }
+      ],
+      "start": 800,
+      "max_depth": 12,
+      "method": "largest positive input; relayed and relayed_2plus shares are among receptor-origin chains",
+      "limitation": "subthreshold integration is omitted; unknown/deep chains are reported separately"
+    }
+  }
+}

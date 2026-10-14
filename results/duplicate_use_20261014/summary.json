@@ -1,0 +1,1139 @@
+{
+  "status": "complete",
+  "research_genome_lives": 4096,
+  "screen_rows": 4,
+  "confirmation_rows": 4,
+  "paired_seeds_per_stage": 512,
+  "blocks": [
+    98,
+    99
+  ],
+  "branches": {
+    "51089": {
+      "status": "applicable",
+      "slots": [
+        14
+      ],
+      "origins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        56,
+        -1
+      ],
+      "intact_row": 0,
+      "knockouts": [
+        {
+          "row": 1,
+          "slot": 14,
+          "origin_id": 56,
+          "operation": {
+            "delete": 14
+          },
+          "raw_sha256": "ba78008e2b42e872ce6e1ef701034d37040878ae5d4fa5d4ca84edf6ee8f7abd",
+          "runtime_table_sha256": "f4dfdca4224095006cd4c09511c7dd671ee87dc560d470014a79395ad94d3b73"
+        }
+      ]
+    },
+    "51090": {
+      "status": "applicable",
+      "slots": [
+        9
+      ],
+      "origins": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        -1,
+        21,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "intact_row": 2,
+      "knockouts": [
+        {
+          "row": 3,
+          "slot": 9,
+          "origin_id": 21,
+          "operation": {
+            "delete": 9
+          },
+          "raw_sha256": "9bee969c81dba8a581b90bc5b3be7161832d2cfc586f2c97dfd00a24515c0d9c",
+          "runtime_table_sha256": "d454d79e4589dab22fec7b10aaac5f71eb582b2888a3a53a2157cbf182f1ee01"
+        }
+      ]
+    }
+  },
+  "selection": {
+    "51089": {
+      "status": "selected",
+      "intact_screen_row": 0,
+      "knockout_screen_row": 1,
+      "slot": 14,
+      "origin_id": 56,
+      "screen_mean_loss": 0.0
+    },
+    "51090": {
+      "status": "selected",
+      "intact_screen_row": 2,
+      "knockout_screen_row": 3,
+      "slot": 9,
+      "origin_id": 21,
+      "screen_mean_loss": 0.0
+    }
+  },
+  "screen": {
+    "51089": {
+      "14": {
+        "F": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "F_kernel": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "n_end": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "n_H_end": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "live_time": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "spikes": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "packets": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "misses": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "captures": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "path": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "zone_samples": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "samples": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "fitness_contributions": {
+          "income": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "cost_saving_components": {
+          "living": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "spiking": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "twitching": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "messages": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "division": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "secretion": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "missed_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "receptors": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "decoy_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "guard_fraction": {
+          "parent": 0.0,
+          "winner": 0.0
+        }
+      }
+    },
+    "51090": {
+      "9": {
+        "F": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "F_kernel": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "n_end": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "n_H_end": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "live_time": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "spikes": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "packets": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "misses": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "captures": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "path": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "zone_samples": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "samples": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "fitness_contributions": {
+          "income": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "cost_saving_components": {
+          "living": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "spiking": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "twitching": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "messages": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "division": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "secretion": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "missed_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "receptors": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "decoy_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "guard_fraction": {
+          "parent": 0.0,
+          "winner": 0.0
+        }
+      }
+    }
+  },
+  "confirmation": {
+    "51089": {
+      "F": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "F_kernel": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "n_end": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "n_H_end": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "live_time": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "spikes": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "packets": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "misses": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "clicks": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "path": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "zone_samples": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "samples": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "fitness_contributions": {
+        "income": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "cost_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "guard_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "extinction_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "accounting_residual": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "cost_saving_components": {
+        "living": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "spiking": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "twitching": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "messages": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "division": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "secretion": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "missed_clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "receptors": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "decoy_clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "guard_fraction": {
+        "parent": 0.0,
+        "winner": 0.0
+      },
+      "positive_above_3se": false,
+      "above_0p5": false
+    },
+    "51090": {
+      "F": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "F_kernel": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "n_end": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "n_H_end": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "live_time": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "spikes": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "packets": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "misses": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "clicks": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "path": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "zone_samples": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "samples": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "fitness_contributions": {
+        "income": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "cost_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "guard_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "extinction_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "accounting_residual": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "cost_saving_components": {
+        "living": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "spiking": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "twitching": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "messages": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "division": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "secretion": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "missed_clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "receptors": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "decoy_clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "guard_fraction": {
+        "parent": 0.0,
+        "winner": 0.0
+      },
+      "positive_above_3se": false,
+      "above_0p5": false
+    }
+  },
+  "confirmation_means": {
+    "51089": {
+      "intact": {
+        "F": {
+          "mean": 7.4827836658152425,
+          "se": 0.12054424055730167,
+          "n": 512
+        },
+        "F_kernel": {
+          "mean": 7.4827836658152425,
+          "se": 0.12054424055730167,
+          "n": 512
+        },
+        "n_end": {
+          "mean": 143.806640625,
+          "se": 0.697473297017909,
+          "n": 512
+        },
+        "n_H_end": {
+          "mean": 20.681640625,
+          "se": 0.20761246655436164,
+          "n": 512
+        },
+        "live_time": {
+          "mean": 137263.6709577091,
+          "se": 658.4230330427403,
+          "n": 512
+        },
+        "spikes": {
+          "mean": 5998.6171875,
+          "se": 57.26555622293554,
+          "n": 512
+        },
+        "packets": {
+          "mean": 387660.9453125,
+          "se": 2031.662408770358,
+          "n": 512
+        },
+        "misses": {
+          "mean": 15.908203125,
+          "se": 0.20460435764613888,
+          "n": 512
+        },
+        "clicks": {
+          "mean": 38.08984375,
+          "se": 0.34466258948169987,
+          "n": 512
+        },
+        "captures": {
+          "mean": 22.181640625,
+          "se": 0.25331181062449165,
+          "n": 512
+        },
+        "path": {
+          "mean": 257.0761177777945,
+          "se": 1.2037893229306864,
+          "n": 512
+        },
+        "zone_samples": {
+          "mean": 52.84765625,
+          "se": 0.7238598280395074,
+          "n": 512
+        },
+        "samples": {
+          "mean": 1023.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "knockout": {
+        "F": {
+          "mean": 7.4827836658152425,
+          "se": 0.12054424055730167,
+          "n": 512
+        },
+        "F_kernel": {
+          "mean": 7.4827836658152425,
+          "se": 0.12054424055730167,
+          "n": 512
+        },
+        "n_end": {
+          "mean": 143.806640625,
+          "se": 0.697473297017909,
+          "n": 512
+        },
+        "n_H_end": {
+          "mean": 20.681640625,
+          "se": 0.20761246655436164,
+          "n": 512
+        },
+        "live_time": {
+          "mean": 137263.6709577091,
+          "se": 658.4230330427403,
+          "n": 512
+        },
+        "spikes": {
+          "mean": 5998.6171875,
+          "se": 57.26555622293554,
+          "n": 512
+        },
+        "packets": {
+          "mean": 387660.9453125,
+          "se": 2031.662408770358,
+          "n": 512
+        },
+        "misses": {
+          "mean": 15.908203125,
+          "se": 0.20460435764613888,
+          "n": 512
+        },
+        "clicks": {
+          "mean": 38.08984375,
+          "se": 0.34466258948169987,
+          "n": 512
+        },
+        "captures": {
+          "mean": 22.181640625,
+          "se": 0.25331181062449165,
+          "n": 512
+        },
+        "path": {
+          "mean": 257.0761177777945,
+          "se": 1.2037893229306864,
+          "n": 512
+        },
+        "zone_samples": {
+          "mean": 52.84765625,
+          "se": 0.7238598280395074,
+          "n": 512
+        },
+        "samples": {
+          "mean": 1023.0,
+          "se": 0.0,
+          "n": 512
+        }
+      }
+    },
+    "51090": {
+      "intact": {
+        "F": {
+          "mean": 8.001130705280104,
+          "se": 0.12217408351789567,
+          "n": 512
+        },
+        "F_kernel": {
+          "mean": 8.001130705280104,
+          "se": 0.12217408351789567,
+          "n": 512
+        },
+        "n_end": {
+          "mean": 177.591796875,
+          "se": 0.8259038645099123,
+          "n": 512
+        },
+        "n_H_end": {
+          "mean": 22.42578125,
+          "se": 0.23184425160070385,
+          "n": 512
+        },
+        "live_time": {
+          "mean": 158672.73786630738,
+          "se": 722.1155869070828,
+          "n": 512
+        },
+        "spikes": {
+          "mean": 7772.392578125,
+          "se": 68.2902446078994,
+          "n": 512
+        },
+        "packets": {
+          "mean": 456983.998046875,
+          "se": 2214.6961918721795,
+          "n": 512
+        },
+        "misses": {
+          "mean": 20.16796875,
+          "se": 0.22081994063499327,
+          "n": 512
+        },
+        "clicks": {
+          "mean": 44.4765625,
+          "se": 0.34679545546715107,
+          "n": 512
+        },
+        "captures": {
+          "mean": 24.30859375,
+          "se": 0.2552144110192449,
+          "n": 512
+        },
+        "path": {
+          "mean": 286.5102379221432,
+          "se": 1.0952878320610973,
+          "n": 512
+        },
+        "zone_samples": {
+          "mean": 59.705078125,
+          "se": 0.7872760908812616,
+          "n": 512
+        },
+        "samples": {
+          "mean": 1023.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "knockout": {
+        "F": {
+          "mean": 8.001130705280104,
+          "se": 0.12217408351789567,
+          "n": 512
+        },
+        "F_kernel": {
+          "mean": 8.001130705280104,
+          "se": 0.12217408351789567,
+          "n": 512
+        },
+        "n_end": {
+          "mean": 177.591796875,
+          "se": 0.8259038645099123,
+          "n": 512
+        },
+        "n_H_end": {
+          "mean": 22.42578125,
+          "se": 0.23184425160070385,
+          "n": 512
+        },
+        "live_time": {
+          "mean": 158672.73786630738,
+          "se": 722.1155869070828,
+          "n": 512
+        },
+        "spikes": {
+          "mean": 7772.392578125,
+          "se": 68.2902446078994,
+          "n": 512
+        },
+        "packets": {
+          "mean": 456983.998046875,
+          "se": 2214.6961918721795,
+          "n": 512
+        },
+        "misses": {
+          "mean": 20.16796875,
+          "se": 0.22081994063499327,
+          "n": 512
+        },
+        "clicks": {
+          "mean": 44.4765625,
+          "se": 0.34679545546715107,
+          "n": 512
+        },
+        "captures": {
+          "mean": 24.30859375,
+          "se": 0.2552144110192449,
+          "n": 512
+        },
+        "path": {
+          "mean": 286.5102379221432,
+          "se": 1.0952878320610973,
+          "n": 512
+        },
+        "zone_samples": {
+          "mean": 59.705078125,
+          "se": 0.7872760908812616,
+          "n": 512
+        },
+        "samples": {
+          "mean": 1023.0,
+          "se": 0.0,
+          "n": 512
+        }
+      }
+    }
+  },
+  "life_health": {
+    "screen": {
+      "0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "1": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "2": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "3": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      }
+    },
+    "confirm": {
+      "0": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "1": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "2": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      },
+      "3": {
+        "guarded": 0,
+        "extinct": 0,
+        "valid_other_status": 0
+      }
+    }
+  },
+  "genetic_replay": {
+    "51089": {
+      "next_innovation": 89,
+      "next_individual": 3616,
+      "point_mutations": 7231,
+      "duplication_events": 73,
+      "deletion_events": 37,
+      "generations": 16,
+      "final_ids": [
+        3512,
+        3544,
+        3558,
+        3457,
+        3537,
+        3514,
+        3192,
+        3473,
+        3201,
+        3543,
+        3415,
+        3357,
+        3486,
+        3493,
+        3587,
+        3592,
+        3228,
+        3508,
+        3451,
+        3395,
+        3533,
+        3440,
+        3495,
+        3430,
+        3438,
+        3180,
+        3593,
+        3596,
+        3494,
+        3546,
+        3447,
+        3411
+      ],
+      "rank_zero_raw_sha256": "a0189b8ab760844a4235eeab12808412b8654f657d97ca9a233f5767409251bb"
+    },
+    "51090": {
+      "next_innovation": 87,
+      "next_individual": 3616,
+      "point_mutations": 7426,
+      "duplication_events": 71,
+      "deletion_events": 45,
+      "generations": 16,
+      "final_ids": [
+        3530,
+        3533,
+        3078,
+        3550,
+        3545,
+        3449,
+        3531,
+        3538,
+        3450,
+        3053,
+        3562,
+        3502,
+        3572,
+        3511,
+        3568,
+        3586,
+        3406,
+        3527,
+        3419,
+        3486,
+        3453,
+        3445,
+        3427,
+        3417,
+        3244,
+        3544,
+        3519,
+        3448,
+        3250,
+        3501,
+        3416,
+        3529
+      ],
+      "rank_zero_raw_sha256": "23a38a4f43194195912b69c10ddfe3f7008b0c54c25d65a6c811014bb791e077"
+    }
+  },
+  "budget": {
+    "monitored_worker_cpu_seconds": 1197.683334,
+    "row_cpu_seconds": 1190.568461758,
+    "cap_cpu_seconds": 7200,
+    "simulation_threads": 2
+  },
+  "startup_validation": {
+    "golden_lives": 2,
+    "T": 200,
+    "seed": 11,
+    "scope": "Numerical-identity full/fast goldens; separate from research, included in CPU."
+  },
+  "audit": {
+    "raw_checkpoints": 8,
+    "raw_ledger_columns": 57,
+    "scored_columns": 60,
+    "raw_and_aggregate_bitwise": true,
+    "production_fitness_bitwise": true,
+    "contrast_bytes_exact": true,
+    "independent_rank0_genetic_replay": true,
+    "independent_canonical_runtime_tables": true,
+    "analysis_simulated_lives": 0
+  },
+  "limitations": [
+    "Confirmed loss measures one duplicated-origin gene's whole-life contribution, including development.",
+    "A duplicate may replace an old gene or share a redundant role; this does not prove expanded computation.",
+    "The knockout acts from birth in every cell; it does not isolate an adult or fixed-tissue mechanism.",
+    "Individual null effects do not establish zero function or exclude redundancy and epistasis.",
+    "Initial strongest-gene selection is followed by fresh confirmation, retaining both signs.",
+    "Three-SE and greater-than0.5F confirmation flags are descriptive, not a20-run G-use criterion.",
+    "Two fixed endpoints do not establish general mutation-policy superiority.",
+    "Independent replay reconstructs recorded genetics and final rank0, not RNG draws or selection.",
+    "Checkpoint byte hashes and the original pinned checkpoint-validation receipt are retained; this NumPy analysis does not independently deserialize checkpoint objects."
+  ]
+}

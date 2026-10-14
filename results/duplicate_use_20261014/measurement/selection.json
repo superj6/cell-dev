@@ -1,0 +1,38 @@
+{
+  "selection": {
+    "51089": {
+      "status": "selected",
+      "intact_screen_row": 0,
+      "knockout_screen_row": 1,
+      "slot": 14,
+      "origin_id": 56,
+      "screen_mean_loss": 0.0
+    },
+    "51090": {
+      "status": "selected",
+      "intact_screen_row": 2,
+      "knockout_screen_row": 3,
+      "slot": 9,
+      "origin_id": 21,
+      "screen_mean_loss": 0.0
+    }
+  },
+  "screen_rows": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "confirm_pairs": {
+    "51089": [
+      0,
+      1
+    ],
+    "51090": [
+      2,
+      3
+    ]
+  },
+  "screen_scores_sha256": "b8a8f444631afc4a669aecc690ead2727616c17573f57f16db992d412fcde1fe",
+  "rule": "largest mean intact-minus-KO loss, smallest slot tie break, regardless of sign"
+}
