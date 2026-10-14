@@ -20,7 +20,7 @@ for name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
     os.environ[name] = "1"
 os.environ["ATEN_CPU_CAPABILITY"] = "avx2"
 os.environ["OMP_WAIT_POLICY"] = "PASSIVE"
-os.environ.pop("CELL_DEV_THREADS_FILE", None)
+os.environ.pop("CELLDEV_THREADS_FILE", None)
 CPU_CAP = 15.0
 
 

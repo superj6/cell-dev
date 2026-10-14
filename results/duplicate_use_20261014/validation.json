@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "utc": "2026-10-14T17:06:35.209801+00:00",
+  "tests_passed": 41,
+  "simulated_lives": 0,
+  "validation_kind": "pure genome operations, synthetic scores, mocked entire two-stage measurement and subprocesses",
+  "ruff": "passed",
+  "max_python_line_length": 120,
+  "dry_runs": [
+    "measure.py",
+    "run_budgeted.py"
+  ],
+  "independent_code_review": "review_discrimination checked the complete scientific runner and authored/reviewed the strict monitor; all39tests passed independently across both components",
+  "G_resource_status_during_preparation": {
+    "status": "running",
+    "phase": "search",
+    "cpu_seconds": 4578.358363,
+    "wall_seconds": 1162.2888725990001
+  },
+  "G_endpoint_or_fitness_inspection_by_preparation": false,
+  "tested_sources": {
+    "measure.py": "1086d22340a5f3a459cbbbf5b52bf545300ae249081e02575b4b09a8d484bcc2",
+    "run_budgeted.py": "6705e659c96fba57fe3c6c09223212491b95806e10e6717ba0d50a399e0803a5",
+    "prepare.py": "4931dacedbbdcb9489a7086f25ec5cd39e5846317f55c9afa5df89a101406655",
+    "prepare_archive.py": "a28b57aaabf5069a144b53fab8087db03c56d14042eb6a772ea10572bfa70391",
+    "test_measure.py": "b38e916a55e9987d9c23c94b73dbcabae1b70ce622b720f186b8523f61a19ecd",
+    "test_monitor.py": "2ac0a87d3fb1a72d861dd86bbc3b1dd2cf6960e727ebd08a1207618907a51b85",
+    "test_single_branch.py": "ac9d4f27901eeb8f6382b05c16d1744187b60f7d4833ea71ac537e09aa0b8241"
+  },
+  "additional_synthetic_genetic_replay_tests_passed": 7,
+  "additional_independent_science_review": "audit_de repeated12science tests,7synthetic genetics tests, and2independent whole-run cases with one empty branch in either position and negative confirmation"
+}

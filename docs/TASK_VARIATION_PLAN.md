@@ -34,6 +34,11 @@ and best measured do-less gain +0.966 ± 0.107 F. All seven candidates share 512
 T1024. Evidence: `results/discrimination_20261013/`. This measures information payoff, with free controller
 computation and a limited do-less set; it does not automatically admit the world or demonstrate an evolved circuit.
 
+*2026-10-14 queued diagnostics:* fixed-tissue hidden/lateral lesions of both continuation endpoints, a decoy
+mutant panel using every original s5/s7 mutant, and exhaustive single-gene knockouts of active duplicated-origin
+genes in both structural-search endpoints are preregistered in `results/taskvar/prereg.md` (H/I/J). Fresh blocks
+separate selection from confirmation. No study changes the selection family or makes an admission decision.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

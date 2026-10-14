@@ -73,12 +73,17 @@ values, not zero, and neither supplies replay evidence. Pinned preparation bytes
 with matched initialization/run seeds and fresh block93 endpoint confirmation (two 16-generation runs, 37,548
 research lives plus 18 neutrality checks, cap14,400 worker CPU-seconds). All 18 neutrality lives passed in
 5.406 CPU-seconds. Two evolution jobs use four simulation workers; do not add simulation work until slots free.
-The monitor waits for both endpoints before confirmation. H is preparing fixed-tissue hidden/lateral lesions
-of row38 and both D endpoints on block94 (6,144 lives, cap3,600 CPU-seconds), waiting until G finishes. A decoy
-mutant diagnostic is also in preparation. Neither changes selection worlds or organism rules.
+The monitor waits for both endpoints before confirmation. H is queued for fixed-tissue hidden/lateral lesions
+of row38 and both D endpoints on block94 (6,144 lives, cap3,600 CPU-seconds). I is registered to score both
+complete original 64-mutant panels in the existing decoy world on blocks95–97 (11,328 lives, cap3,600 CPU-seconds).
+H and I each use two workers after G finishes. J is registered before seeing G endpoints: knock out every active
+duplicated-origin gene, then independently confirm the largest loss per endpoint on blocks98–99 (at most19,456
+lives, cap7,200 CPU-seconds). J waits for both H and I, then uses two workers. An empty endpoint branch is reported
+as not applicable. These studies change no selection worlds or organism rules.
 Read each working `budget.json` and `ready.json` before starting anything. Preserve pinned engine/search/helper
 sources while active. Working directories are `outputs/autonomous_structural_20261013/` and
-`outputs/autonomous_hidden_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
+`outputs/autonomous_hidden_20261014/`, `outputs/autonomous_decoy_gradient_20261014/` and
+`outputs/autonomous_duplicate_use_20261014/`. Public studies use corresponding `results/` directories. The D viewer at
 `results/continuation_20261013/watch.html` is prepared with four fixed genomes; its new short parity run remains
 pending worker availability. No unanswered approval decision has been assumed resolved.
 
@@ -282,7 +287,8 @@ truth lives. Only the fast build may skip hashes.
   Blocks80–83 hold the completed nearby-mutant study; block84 is reserved for fixed descriptive viewer lives;
   blocks85–88 hold completed transfer/second-step/factorial scoring. Blocks91 and92 hold completed continuation
   confirmation and frozen-tissue measurements. Block30 holds discrimination; block93 is reserved for the structural
-  policy comparison and block94 for hidden/lateral lesions. Search seeds51089/51090
+  policy comparison, block94 for hidden/lateral lesions, blocks95–97 for the decoy mutant panel and blocks98–99
+  for duplicated-origin gene knockouts. Search seeds51089/51090
   use the production hash namespaces; they are not decimal blocks89/90, which remain unallocated.
 - Use 45M or above for new work.
 
