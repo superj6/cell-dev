@@ -25,3 +25,16 @@ Preparation was hardened after calibration to bind the exact unchanged library, 
 Independent review also prompted unconditional cleanup of the entire owned process group after leader exit, Linux subreaper accounting for orphaned descendants, and exact parent-PID checks before a worker starts. These monitor changes are source-pinned; the original calibration monitor remains preserved.
 
 Resume also refuses unresolved cleanup errors or live prior V monitor/worker identities and process groups. Exited U alone cannot authorize overlapping V workers.
+
+The independent NumPy-only analyzer is also frozen before release. Its 33 author tests and 14 independent
+tests pass without simulation. It reconstructs all 57 ledger columns and paired comparisons from a complete
+first attempt, including exact source/library identities and cumulative CPU accounting. **This pilot will
+not resume after any failure.** A later resume would require repaired and reviewed exception-attempt
+accounting; that unused path does not affect a complete initial attempt. The original preparation metadata
+is preserved in `preparation/`.
+
+After completion, analyze raw rows without simulation:
+
+```sh
+.venv/bin/python results/prediction_information_20261014/analyze.py --study results/prediction_information_20261014
+```

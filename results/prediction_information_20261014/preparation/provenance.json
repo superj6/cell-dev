@@ -1,0 +1,708 @@
+{
+  "format": 1,
+  "status": "prepared_not_launched",
+  "scientific_candidate_lives": 0,
+  "planned_scientific_lives": 3584,
+  "new_validation_lives": 4,
+  "validation_cpu_seconds": 11.558130849,
+  "cap_cpu_seconds_including_validation": 3600,
+  "controller_source_changes": false,
+  "audited_source_changes": false,
+  "working_directory": "outputs/autonomous_prediction_information_20261014",
+  "original_files": {
+    "results/taskvar/measurement/prediction.json": "original/results/taskvar/measurement/prediction.json",
+    "results/taskvar/validation/prediction_audit.json": "original/results/taskvar/validation/prediction_audit.json",
+    "results/taskvar/measurement/prediction_ctl.c": "original/results/taskvar/measurement/prediction_ctl.c",
+    "scripts/taskvar_gates.py": "original/scripts/taskvar_gates.py",
+    "scripts/taskvar_gradient.py": "original/scripts/taskvar_gradient.py",
+    "outputs/autonomous_prediction_information_20261014/measure.py": "original/outputs/autonomous_prediction_information_20261014/measure.py",
+    "outputs/autonomous_prediction_information_20261014/run_budgeted.py": "original/outputs/autonomous_prediction_information_20261014/run_budgeted.py",
+    "outputs/autonomous_prediction_information_20261014/prepare.py": "original/outputs/autonomous_prediction_information_20261014/prepare.py",
+    "outputs/autonomous_prediction_information_20261014/library.json": "original/outputs/autonomous_prediction_information_20261014/library.json",
+    "outputs/autonomous_prediction_information_20261014/measurement.so": "original/outputs/autonomous_prediction_information_20261014/measurement.so",
+    "outputs/autonomous_prediction_information_20261014/measurement.c": "original/outputs/autonomous_prediction_information_20261014/measurement.c",
+    "outputs/autonomous_prediction_information_20261014/calibration_plan.json": "original/outputs/autonomous_prediction_information_20261014/calibration_plan.json",
+    "outputs/autonomous_prediction_information_20261014/calibration_complete.json": "original/outputs/autonomous_prediction_information_20261014/calibration_complete.json",
+    "outputs/autonomous_prediction_information_20261014/calibration/ablated/checkpoint.json": "original/outputs/autonomous_prediction_information_20261014/calibration/ablated/checkpoint.json",
+    "outputs/autonomous_prediction_information_20261014/calibration/ablated/row.npz": "original/outputs/autonomous_prediction_information_20261014/calibration/ablated/row.npz",
+    "outputs/autonomous_prediction_information_20261014/calibration/full/checkpoint.json": "original/outputs/autonomous_prediction_information_20261014/calibration/full/checkpoint.json",
+    "outputs/autonomous_prediction_information_20261014/calibration/full/row.npz": "original/outputs/autonomous_prediction_information_20261014/calibration/full/row.npz",
+    "src/__init__.py": "original/src/__init__.py",
+    "src/cells.py": "original/src/cells.py",
+    "src/checkpoint.py": "original/src/checkpoint.py",
+    "src/common.py": "original/src/common.py",
+    "src/develop.py": "original/src/develop.py",
+    "src/evolve.py": "original/src/evolve.py",
+    "src/genome.py": "original/src/genome.py",
+    "src/lattice.py": "original/src/lattice.py",
+    "src/life/__init__.py": "original/src/life/__init__.py",
+    "src/life/analysis.py": "original/src/life/analysis.py",
+    "src/life/build.py": "original/src/life/build.py",
+    "src/life/clones.py": "original/src/life/clones.py",
+    "src/life/evaluate.py": "original/src/life/evaluate.py",
+    "src/life/handbuilt.py": "original/src/life/handbuilt.py",
+    "src/life/probe.py": "original/src/life/probe.py",
+    "src/life/readouts.py": "original/src/life/readouts.py",
+    "src/life/reference.py": "original/src/life/reference.py",
+    "src/life/spec.py": "original/src/life/spec.py",
+    "src/measure.py": "original/src/measure.py",
+    "src/render.py": "original/src/render.py",
+    "src/run.py": "original/src/run.py",
+    "src/tasks/__init__.py": "original/src/tasks/__init__.py",
+    "src/tasks/base.py": "original/src/tasks/base.py",
+    "src/tasks/brightness.py": "original/src/tasks/brightness.py",
+    "src/tasks/context.py": "original/src/tasks/context.py",
+    "src/tasks/flicker.py": "original/src/tasks/flicker.py",
+    "src/tasks/jump.py": "original/src/tasks/jump.py",
+    "src/tasks/light.py": "original/src/tasks/light.py",
+    "src/tasks/memory.py": "original/src/tasks/memory.py",
+    "src/tasks/motion.py": "original/src/tasks/motion.py",
+    "src/tasks/withdraw.py": "original/src/tasks/withdraw.py",
+    "outputs/taskvar_e7/validated_audit/prediction/full_0_replay.npz": "original/outputs/taskvar_e7/validated_audit/prediction/full_0_replay.npz",
+    "outputs/taskvar_e7/validated_audit/prediction/full_1_replay.npz": "original/outputs/taskvar_e7/validated_audit/prediction/full_1_replay.npz",
+    "outputs/taskvar_e7/validated_audit/prediction/ablated_0_replay.npz": "original/outputs/taskvar_e7/validated_audit/prediction/ablated_0_replay.npz",
+    "outputs/taskvar_e7/validated_audit/prediction/ablated_1_replay.npz": "original/outputs/taskvar_e7/validated_audit/prediction/ablated_1_replay.npz",
+    "results/open_headroom/harness/ctl_core.c": "original/results/open_headroom/harness/ctl_core.c",
+    "results/open_headroom/harness/example_ctl.c": "original/results/open_headroom/harness/example_ctl.c",
+    "results/open_headroom/harness/ctl_builtin.c": "original/results/open_headroom/harness/ctl_builtin.c",
+    "results/open_headroom/harness/ctl_api.h": "original/results/open_headroom/harness/ctl_api.h",
+    "results/open_headroom/harness/harness.py": "original/results/open_headroom/harness/harness.py",
+    "results/open_headroom/harness/make_ckernel.py": "original/results/open_headroom/harness/make_ckernel.py",
+    "src/life/kernel.c": "original/src/life/kernel.c",
+    "scripts/taskvar_measure.py": "original/scripts/taskvar_measure.py",
+    "scripts/taskvar_replay.py": "original/scripts/taskvar_replay.py",
+    "results/taskvar/measurement/replay_wrapper.c.in": "original/results/taskvar/measurement/replay_wrapper.c.in",
+    "outputs/audit_decoy_evolution_20261014/seed_audit.json": "original/outputs/audit_decoy_evolution_20261014/seed_audit.json"
+  },
+  "calibration_original_files": {
+    "results/open_headroom/harness/ctl_core.c": "calibration_original/results/open_headroom/harness/ctl_core.c",
+    "results/open_headroom/harness/example_ctl.c": "calibration_original/results/open_headroom/harness/example_ctl.c",
+    "results/open_headroom/harness/ctl_builtin.c": "calibration_original/results/open_headroom/harness/ctl_builtin.c",
+    "results/open_headroom/harness/ctl_api.h": "calibration_original/results/open_headroom/harness/ctl_api.h",
+    "results/open_headroom/harness/harness.py": "calibration_original/results/open_headroom/harness/harness.py",
+    "results/open_headroom/harness/make_ckernel.py": "calibration_original/results/open_headroom/harness/make_ckernel.py",
+    "src/life/kernel.c": "calibration_original/src/life/kernel.c",
+    "src/life/spec.py": "calibration_original/src/life/spec.py",
+    "src/life/build.py": "calibration_original/src/life/build.py",
+    "scripts/taskvar_measure.py": "calibration_original/scripts/taskvar_measure.py",
+    "scripts/taskvar_replay.py": "calibration_original/scripts/taskvar_replay.py",
+    "results/taskvar/measurement/replay_wrapper.c.in": "calibration_original/results/taskvar/measurement/replay_wrapper.c.in",
+    "outputs/autonomous_prediction_information_20261014/measure.py": "calibration_original/outputs/autonomous_prediction_information_20261014/measure.py",
+    "outputs/autonomous_prediction_information_20261014/run_budgeted.py": "calibration_original/outputs/autonomous_prediction_information_20261014/run_budgeted.py",
+    "outputs/autonomous_prediction_information_20261014/prepare.py": "calibration_original/outputs/autonomous_prediction_information_20261014/prepare.py",
+    "results/taskvar/measurement/prediction.json": "calibration_original/results/taskvar/measurement/prediction.json",
+    "results/taskvar/validation/prediction_audit.json": "calibration_original/results/taskvar/validation/prediction_audit.json",
+    "results/taskvar/measurement/prediction_ctl.c": "calibration_original/results/taskvar/measurement/prediction_ctl.c",
+    "src/__init__.py": "calibration_original/src/__init__.py",
+    "src/cells.py": "calibration_original/src/cells.py",
+    "src/checkpoint.py": "calibration_original/src/checkpoint.py",
+    "src/common.py": "calibration_original/src/common.py",
+    "src/develop.py": "calibration_original/src/develop.py",
+    "src/evolve.py": "calibration_original/src/evolve.py",
+    "src/genome.py": "calibration_original/src/genome.py",
+    "src/lattice.py": "calibration_original/src/lattice.py",
+    "src/life/__init__.py": "calibration_original/src/life/__init__.py",
+    "src/life/analysis.py": "calibration_original/src/life/analysis.py",
+    "src/life/clones.py": "calibration_original/src/life/clones.py",
+    "src/life/evaluate.py": "calibration_original/src/life/evaluate.py",
+    "src/life/handbuilt.py": "calibration_original/src/life/handbuilt.py",
+    "src/life/probe.py": "calibration_original/src/life/probe.py",
+    "src/life/readouts.py": "calibration_original/src/life/readouts.py",
+    "src/life/reference.py": "calibration_original/src/life/reference.py",
+    "src/measure.py": "calibration_original/src/measure.py",
+    "src/render.py": "calibration_original/src/render.py",
+    "src/run.py": "calibration_original/src/run.py",
+    "src/tasks/__init__.py": "calibration_original/src/tasks/__init__.py",
+    "src/tasks/base.py": "calibration_original/src/tasks/base.py",
+    "src/tasks/brightness.py": "calibration_original/src/tasks/brightness.py",
+    "src/tasks/context.py": "calibration_original/src/tasks/context.py",
+    "src/tasks/flicker.py": "calibration_original/src/tasks/flicker.py",
+    "src/tasks/jump.py": "calibration_original/src/tasks/jump.py",
+    "src/tasks/light.py": "calibration_original/src/tasks/light.py",
+    "src/tasks/memory.py": "calibration_original/src/tasks/memory.py",
+    "src/tasks/motion.py": "calibration_original/src/tasks/motion.py",
+    "src/tasks/withdraw.py": "calibration_original/src/tasks/withdraw.py",
+    "scripts/taskvar_gates.py": "calibration_original/scripts/taskvar_gates.py",
+    "scripts/taskvar_gradient.py": "calibration_original/scripts/taskvar_gradient.py"
+  },
+  "preparation_revision": "Bind calibrated evidence and harden whole-group cleanup, subreaper CPU accounting and exact parent identity. Exact calibration code retained; no new lives.",
+  "interpretation": "Broad moving-target-model effect only; prediction-specific admission stays incomplete.",
+  "artifacts": {
+    "PREREG.md": {
+      "sha256": "35866b6bfb763b7592ff6a85e302b80dfcf9f9d23f311bcc46402094ea7836a8",
+      "bytes": 3993
+    },
+    "README.md": {
+      "sha256": "0545d550e8e5226f1115ec14a87f094a4855c7afafe7a23c9a7e1302ca2a2e53",
+      "bytes": 3355
+    },
+    "archive_preparation.py": {
+      "sha256": "8b044aa886971c9c1082b66914a2aaafb272ed34b9eee11c2f75708d3d9d5e32",
+      "bytes": 5023
+    },
+    "calibration/ablated/checkpoint.json": {
+      "sha256": "6bf98e96af13e220d3ce26f841c61040e22537a0bbd23d51e58feacb600b9763",
+      "bytes": 1383
+    },
+    "calibration/ablated/row.npz": {
+      "sha256": "0f6351fcdea68b8d62aecb04d1c8005c28266f721ca6a6134053044883af4a4f",
+      "bytes": 2488
+    },
+    "calibration/full/checkpoint.json": {
+      "sha256": "ef69ac2272bcf35a18f19a423536a07adfcb21a40d85433e134830d6e7fb569b",
+      "bytes": 1389
+    },
+    "calibration/full/row.npz": {
+      "sha256": "c4adb120f5f5accc22b3bb37024929fd2190203985b2e3b7e313d293c0990734",
+      "bytes": 2501
+    },
+    "calibration.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "calibration_budget.json": {
+      "sha256": "50965f2659e6c61adcf262fc20c87cffdb28547d1bf150b54ada61a17b64a13e",
+      "bytes": 9766
+    },
+    "calibration_complete.json": {
+      "sha256": "743208fa61a42f9021d7e55f8a0ab1db146659a33116ab8d33b3b2b3a75cba7b",
+      "bytes": 157
+    },
+    "calibration_original/outputs/autonomous_prediction_information_20261014/measure.py": {
+      "sha256": "377cd9133ff8e5916f7e8cc581466d14005a1925696deac3cc775e598557a36d",
+      "bytes": 22729
+    },
+    "calibration_original/outputs/autonomous_prediction_information_20261014/prepare.py": {
+      "sha256": "a0331dd1620ca93774b35a69eb8fbdf912a6bd05e0520cfcc83e7ebec0e88971",
+      "bytes": 5361
+    },
+    "calibration_original/outputs/autonomous_prediction_information_20261014/run_budgeted.py": {
+      "sha256": "b5443f429148abf4fcd62388c9427c24fad756266e186fc18b4d764cc6b05bcf",
+      "bytes": 10415
+    },
+    "calibration_original/results/open_headroom/harness/ctl_api.h": {
+      "sha256": "bbe91aa52d4e798e2b41c56dd0f273b563b58102c164411b40f5342cf0f8adb9",
+      "bytes": 8243
+    },
+    "calibration_original/results/open_headroom/harness/ctl_builtin.c": {
+      "sha256": "1279eb1e990adbe098bb708368b9fbdc284475bfbb31d8687a30e9330a2462c8",
+      "bytes": 31541
+    },
+    "calibration_original/results/open_headroom/harness/ctl_core.c": {
+      "sha256": "612aaba011c8f00500976a7189eb8aa9c48623366b6398ea5b983f467a25c7e9",
+      "bytes": 19976
+    },
+    "calibration_original/results/open_headroom/harness/example_ctl.c": {
+      "sha256": "167d2ca03c6c5228d9c1684d1661fe076c3051bb86d1108f62ebaef36db4434f",
+      "bytes": 1727
+    },
+    "calibration_original/results/open_headroom/harness/harness.py": {
+      "sha256": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+      "bytes": 27389
+    },
+    "calibration_original/results/open_headroom/harness/make_ckernel.py": {
+      "sha256": "7c375053b35fab7826bf5aec2c43a6e0b11cba9e9bea3ecf7077ef1c9af621b4",
+      "bytes": 10023
+    },
+    "calibration_original/results/taskvar/measurement/prediction.json": {
+      "sha256": "fd335e6375b13a62f2e2ed72e3684d9ee7b4c97661f91fd7cac1e98d0304b09c",
+      "bytes": 2156
+    },
+    "calibration_original/results/taskvar/measurement/prediction_ctl.c": {
+      "sha256": "8bfff9f02653c93f22f6d86df7b2c47e1167191fe9448ad26ec194f695689c58",
+      "bytes": 19420
+    },
+    "calibration_original/results/taskvar/measurement/replay_wrapper.c.in": {
+      "sha256": "4b9ac63a918f7c860476256bf5f559bf9f6142e89d99f68bd5ce9a85316a284f",
+      "bytes": 3110
+    },
+    "calibration_original/results/taskvar/validation/prediction_audit.json": {
+      "sha256": "6d8cdabdbcdba928ea567f8f2c8149988a80040c16ceb485cd0a7b2bd524404d",
+      "bytes": 2949
+    },
+    "calibration_original/scripts/taskvar_gates.py": {
+      "sha256": "31c154ccd5ec91ebe4b239df13243d007613a423c21ca159e52fc575c0f38647",
+      "bytes": 12375
+    },
+    "calibration_original/scripts/taskvar_gradient.py": {
+      "sha256": "7bfaec88b7db57213496fdeab9cdedf1705ae43bc1f1622da7a0fe4438507aae",
+      "bytes": 6773
+    },
+    "calibration_original/scripts/taskvar_measure.py": {
+      "sha256": "a99d13a25bc23d2ae42d4f27ba79843844eebc91e55859eb3374d6765bccb8bd",
+      "bytes": 8587
+    },
+    "calibration_original/scripts/taskvar_replay.py": {
+      "sha256": "8f1fe50d2460795f44d102cff55e916b6530673f3d3b2ddcb8d8f0eac0593d92",
+      "bytes": 7973
+    },
+    "calibration_original/src/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "calibration_original/src/cells.py": {
+      "sha256": "c43b56410c9fa665bbbaebf09a99d9efd74e238fb9ffbf0f646ad5dd3a50620e",
+      "bytes": 4673
+    },
+    "calibration_original/src/checkpoint.py": {
+      "sha256": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+      "bytes": 7312
+    },
+    "calibration_original/src/common.py": {
+      "sha256": "b8a24b07d42c60ab68121f85f654f3b72febee2f415d04a6ea8500f4a352d027",
+      "bytes": 1533
+    },
+    "calibration_original/src/develop.py": {
+      "sha256": "62fdd225c472d10d39b9d65ef5fc9ee5cf774699938b1498290256e34ca033f4",
+      "bytes": 5802
+    },
+    "calibration_original/src/evolve.py": {
+      "sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+      "bytes": 39190
+    },
+    "calibration_original/src/genome.py": {
+      "sha256": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+      "bytes": 31059
+    },
+    "calibration_original/src/lattice.py": {
+      "sha256": "d2019da35fa78882c81b2c4e7e1913a3d314590b4fcffd4c3702a61b4622be5d",
+      "bytes": 11124
+    },
+    "calibration_original/src/life/__init__.py": {
+      "sha256": "7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf",
+      "bytes": 156
+    },
+    "calibration_original/src/life/analysis.py": {
+      "sha256": "f62836b9e64362696cdf6c4186e88ddb52f78b80bf9bde67ed04685cadb69357",
+      "bytes": 17280
+    },
+    "calibration_original/src/life/build.py": {
+      "sha256": "aef1e6ec4476279f436276f55af24d5483ea832ecbe2621383d5497473a3e441",
+      "bytes": 20601
+    },
+    "calibration_original/src/life/clones.py": {
+      "sha256": "f990d397858235681d85ee83b7021790fdb163dc9ae14d642ceeea52dfd9da7f",
+      "bytes": 8358
+    },
+    "calibration_original/src/life/evaluate.py": {
+      "sha256": "292ca9b219d68966ac341ec755bac8cb477acc6fd9baffed49744d79cf3d831d",
+      "bytes": 17695
+    },
+    "calibration_original/src/life/handbuilt.py": {
+      "sha256": "d19ba200142f0c5ec41d5da4deff4788ed77ef22f01ba69c552968b5fddfa71c",
+      "bytes": 68838
+    },
+    "calibration_original/src/life/kernel.c": {
+      "sha256": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+      "bytes": 105447
+    },
+    "calibration_original/src/life/probe.py": {
+      "sha256": "5480bb58d5ece0164650f04adc11f15493e3971e8f81f9733496f91df04e6087",
+      "bytes": 69439
+    },
+    "calibration_original/src/life/readouts.py": {
+      "sha256": "218ea5275b5a858a4591a15ee7b80c2f9f75843d2a120c6bbba122ca971223bf",
+      "bytes": 12505
+    },
+    "calibration_original/src/life/reference.py": {
+      "sha256": "6f6ff465278e3c5c52b984e5fee63a82d9a6122dfd7755d55a82a2163fde835b",
+      "bytes": 77961
+    },
+    "calibration_original/src/life/spec.py": {
+      "sha256": "bdd06966fe7068bbac0d4a0269583aa6e7029bdee6556bb57c7e33e30b109c07",
+      "bytes": 52924
+    },
+    "calibration_original/src/measure.py": {
+      "sha256": "415f52ddab228c596702dc1b921757ffe1a5938db48b9e19fa69e7e611eb30d0",
+      "bytes": 3026
+    },
+    "calibration_original/src/render.py": {
+      "sha256": "bed28ec6c787b111c4b39fbb8a9bb9397935ea6157dbe9305cc5f2a7465cb94b",
+      "bytes": 4341
+    },
+    "calibration_original/src/run.py": {
+      "sha256": "8595d69317d8533cfb2fcea91f25cc78631799ab3503044c615b55cae8a1ae2c",
+      "bytes": 26494
+    },
+    "calibration_original/src/tasks/__init__.py": {
+      "sha256": "00b089f91da559e938f60d52624ccd4094b86e4c2a48e44685c28973ec39caba",
+      "bytes": 2892
+    },
+    "calibration_original/src/tasks/base.py": {
+      "sha256": "a1827e8529e521e8335fe817bb04c1652b0eb832cdd21a48a96748bb8a4ab6af",
+      "bytes": 4810
+    },
+    "calibration_original/src/tasks/brightness.py": {
+      "sha256": "fdc98e528dbb1ac998504606e2289d6b89fd1236e2e27a046330542f95d12163",
+      "bytes": 684
+    },
+    "calibration_original/src/tasks/context.py": {
+      "sha256": "a48af7ae6ce221f96a053e22c0094f188e2907ed6ff27d6f192e8306188c9b26",
+      "bytes": 4440
+    },
+    "calibration_original/src/tasks/flicker.py": {
+      "sha256": "ecb439d38a0017793d1997bfc0a21c7f56695e16fe3e8a0d70af4f8558278593",
+      "bytes": 1552
+    },
+    "calibration_original/src/tasks/jump.py": {
+      "sha256": "b5be141b8eec4d75d842ccebb4272c20220a3a21882dde9054397e40d67668a6",
+      "bytes": 7860
+    },
+    "calibration_original/src/tasks/light.py": {
+      "sha256": "dbbce29c74ac30cdb77e4a02a68bc8b124556ac77534460c2ba87adbc3db1653",
+      "bytes": 968
+    },
+    "calibration_original/src/tasks/memory.py": {
+      "sha256": "307e70643d76c16ac2d5c464e09cafaf3b24ec86e671d716b4998969aca93213",
+      "bytes": 1503
+    },
+    "calibration_original/src/tasks/motion.py": {
+      "sha256": "a3767752a1ce2e5d485c7f7720218a5f226f90f6fc8019588ff726ae450bbf35",
+      "bytes": 1959
+    },
+    "calibration_original/src/tasks/withdraw.py": {
+      "sha256": "08688d17c164710f744ea3197b0d03ca7770a31dc401a2efe28f02553d038f54",
+      "bytes": 4259
+    },
+    "calibration_plan.json": {
+      "sha256": "265d98ba49d695fbe321cbb54ba01e3e80d0e8ae1ec4ea2bcaf746914fb000e3",
+      "bytes": 8824
+    },
+    "independent_review/check_preparation.py": {
+      "sha256": "30561e3c94fff9310d14f483adb2a4665297db689e3fc9c8135844fabd3f932d",
+      "bytes": 9839
+    },
+    "independent_review/independent_review.json": {
+      "sha256": "408237ee5d6cc971e88b3189ef909df965afe6b1be42129875890f2ce52bdd62",
+      "bytes": 3108
+    },
+    "independent_review/old_monitor_failure.txt": {
+      "sha256": "8d32bae5210b6b994537834ae804eca49434061600e0788c23454137ee9d1492",
+      "bytes": 8601
+    },
+    "independent_review/preparation_review.json": {
+      "sha256": "42ccc55597682f81b1807bffefe045f8c98e5b641e290ef95c5948837769932d",
+      "bytes": 1615
+    },
+    "independent_review/test_monitor_independent.py": {
+      "sha256": "4d3c781cdc45d20484668fa42b9eff0b199301d59130b27e1869d8511c35d455",
+      "bytes": 5326
+    },
+    "library.json": {
+      "sha256": "c8efecec4bd640d06dd97b6560678d2a9599732e4b052e561e9edacc1ca4db15",
+      "bytes": 178
+    },
+    "measure.py": {
+      "sha256": "186869eb7e831c09daf31fba22983fd40288aa6d3bf6831080543dc0c42e4900",
+      "bytes": 23196
+    },
+    "measurement.c": {
+      "sha256": "6ecc566efbe53163585b8fba1cf35dfcdb7e72f39aeb110f6caa9c0048ba15de",
+      "bytes": 108732
+    },
+    "measurement.so": {
+      "sha256": "c074339f88cde6d6f6fddc61e9a588e9f0cde3857cf41294846f30388c835ca3",
+      "bytes": 169560
+    },
+    "namespace_audit.json": {
+      "sha256": "e51ae2ae0de527bf8cc4d44a840aabed4c35cea59bcd9e248e1a2ca4398f2cdd",
+      "bytes": 794
+    },
+    "namespace_inventory.json": {
+      "sha256": "2deac785204a272daeeb31193dbba894b3820f5a42a3ffb882dbfd81eb3ddb20",
+      "bytes": 612893
+    },
+    "original/outputs/audit_decoy_evolution_20261014/seed_audit.json": {
+      "sha256": "d7c7f807ce320471707c33fc380bc04fbc67f722416f6f555533e0d90b483a38",
+      "bytes": 26419
+    },
+    "original/outputs/autonomous_prediction_information_20261014/calibration/ablated/checkpoint.json": {
+      "sha256": "6bf98e96af13e220d3ce26f841c61040e22537a0bbd23d51e58feacb600b9763",
+      "bytes": 1383
+    },
+    "original/outputs/autonomous_prediction_information_20261014/calibration/ablated/row.npz": {
+      "sha256": "0f6351fcdea68b8d62aecb04d1c8005c28266f721ca6a6134053044883af4a4f",
+      "bytes": 2488
+    },
+    "original/outputs/autonomous_prediction_information_20261014/calibration/full/checkpoint.json": {
+      "sha256": "ef69ac2272bcf35a18f19a423536a07adfcb21a40d85433e134830d6e7fb569b",
+      "bytes": 1389
+    },
+    "original/outputs/autonomous_prediction_information_20261014/calibration/full/row.npz": {
+      "sha256": "c4adb120f5f5accc22b3bb37024929fd2190203985b2e3b7e313d293c0990734",
+      "bytes": 2501
+    },
+    "original/outputs/autonomous_prediction_information_20261014/calibration_complete.json": {
+      "sha256": "743208fa61a42f9021d7e55f8a0ab1db146659a33116ab8d33b3b2b3a75cba7b",
+      "bytes": 157
+    },
+    "original/outputs/autonomous_prediction_information_20261014/calibration_plan.json": {
+      "sha256": "265d98ba49d695fbe321cbb54ba01e3e80d0e8ae1ec4ea2bcaf746914fb000e3",
+      "bytes": 8824
+    },
+    "original/outputs/autonomous_prediction_information_20261014/library.json": {
+      "sha256": "c8efecec4bd640d06dd97b6560678d2a9599732e4b052e561e9edacc1ca4db15",
+      "bytes": 178
+    },
+    "original/outputs/autonomous_prediction_information_20261014/measure.py": {
+      "sha256": "186869eb7e831c09daf31fba22983fd40288aa6d3bf6831080543dc0c42e4900",
+      "bytes": 23196
+    },
+    "original/outputs/autonomous_prediction_information_20261014/measurement.c": {
+      "sha256": "6ecc566efbe53163585b8fba1cf35dfcdb7e72f39aeb110f6caa9c0048ba15de",
+      "bytes": 108732
+    },
+    "original/outputs/autonomous_prediction_information_20261014/measurement.so": {
+      "sha256": "c074339f88cde6d6f6fddc61e9a588e9f0cde3857cf41294846f30388c835ca3",
+      "bytes": 169560
+    },
+    "original/outputs/autonomous_prediction_information_20261014/prepare.py": {
+      "sha256": "a0331dd1620ca93774b35a69eb8fbdf912a6bd05e0520cfcc83e7ebec0e88971",
+      "bytes": 5361
+    },
+    "original/outputs/autonomous_prediction_information_20261014/run_budgeted.py": {
+      "sha256": "d3c6713603078ed78ac2479d264a482adca4b1fbe45d4bfd26eb1175dc537f20",
+      "bytes": 13343
+    },
+    "original/outputs/taskvar_e7/validated_audit/prediction/ablated_0_replay.npz": {
+      "sha256": "9389591d49a7fc1ab24fb4d6e502f0d2a2f13ec1a743ca853fac7b7803cc25fd",
+      "bytes": 20661
+    },
+    "original/outputs/taskvar_e7/validated_audit/prediction/ablated_1_replay.npz": {
+      "sha256": "6018786413eaa51d4079181d9d44ed9edec8696acaafb9b2eb3b522b70df713d",
+      "bytes": 20486
+    },
+    "original/outputs/taskvar_e7/validated_audit/prediction/full_0_replay.npz": {
+      "sha256": "7b1d27bebd76dbc503f8947cc64e01daacdd01b7e801fc23ee6f9346576fde0c",
+      "bytes": 21353
+    },
+    "original/outputs/taskvar_e7/validated_audit/prediction/full_1_replay.npz": {
+      "sha256": "fa6a0bba4ca485f308b58620579852ad13d546e3367978d3cb8bfc75b8309e1d",
+      "bytes": 19897
+    },
+    "original/results/open_headroom/harness/ctl_api.h": {
+      "sha256": "bbe91aa52d4e798e2b41c56dd0f273b563b58102c164411b40f5342cf0f8adb9",
+      "bytes": 8243
+    },
+    "original/results/open_headroom/harness/ctl_builtin.c": {
+      "sha256": "1279eb1e990adbe098bb708368b9fbdc284475bfbb31d8687a30e9330a2462c8",
+      "bytes": 31541
+    },
+    "original/results/open_headroom/harness/ctl_core.c": {
+      "sha256": "612aaba011c8f00500976a7189eb8aa9c48623366b6398ea5b983f467a25c7e9",
+      "bytes": 19976
+    },
+    "original/results/open_headroom/harness/example_ctl.c": {
+      "sha256": "167d2ca03c6c5228d9c1684d1661fe076c3051bb86d1108f62ebaef36db4434f",
+      "bytes": 1727
+    },
+    "original/results/open_headroom/harness/harness.py": {
+      "sha256": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+      "bytes": 27389
+    },
+    "original/results/open_headroom/harness/make_ckernel.py": {
+      "sha256": "7c375053b35fab7826bf5aec2c43a6e0b11cba9e9bea3ecf7077ef1c9af621b4",
+      "bytes": 10023
+    },
+    "original/results/taskvar/measurement/prediction.json": {
+      "sha256": "fd335e6375b13a62f2e2ed72e3684d9ee7b4c97661f91fd7cac1e98d0304b09c",
+      "bytes": 2156
+    },
+    "original/results/taskvar/measurement/prediction_ctl.c": {
+      "sha256": "8bfff9f02653c93f22f6d86df7b2c47e1167191fe9448ad26ec194f695689c58",
+      "bytes": 19420
+    },
+    "original/results/taskvar/measurement/replay_wrapper.c.in": {
+      "sha256": "4b9ac63a918f7c860476256bf5f559bf9f6142e89d99f68bd5ce9a85316a284f",
+      "bytes": 3110
+    },
+    "original/results/taskvar/validation/prediction_audit.json": {
+      "sha256": "6d8cdabdbcdba928ea567f8f2c8149988a80040c16ceb485cd0a7b2bd524404d",
+      "bytes": 2949
+    },
+    "original/scripts/taskvar_gates.py": {
+      "sha256": "31c154ccd5ec91ebe4b239df13243d007613a423c21ca159e52fc575c0f38647",
+      "bytes": 12375
+    },
+    "original/scripts/taskvar_gradient.py": {
+      "sha256": "7bfaec88b7db57213496fdeab9cdedf1705ae43bc1f1622da7a0fe4438507aae",
+      "bytes": 6773
+    },
+    "original/scripts/taskvar_measure.py": {
+      "sha256": "a99d13a25bc23d2ae42d4f27ba79843844eebc91e55859eb3374d6765bccb8bd",
+      "bytes": 8587
+    },
+    "original/scripts/taskvar_replay.py": {
+      "sha256": "8f1fe50d2460795f44d102cff55e916b6530673f3d3b2ddcb8d8f0eac0593d92",
+      "bytes": 7973
+    },
+    "original/src/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "original/src/cells.py": {
+      "sha256": "c43b56410c9fa665bbbaebf09a99d9efd74e238fb9ffbf0f646ad5dd3a50620e",
+      "bytes": 4673
+    },
+    "original/src/checkpoint.py": {
+      "sha256": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+      "bytes": 7312
+    },
+    "original/src/common.py": {
+      "sha256": "b8a24b07d42c60ab68121f85f654f3b72febee2f415d04a6ea8500f4a352d027",
+      "bytes": 1533
+    },
+    "original/src/develop.py": {
+      "sha256": "62fdd225c472d10d39b9d65ef5fc9ee5cf774699938b1498290256e34ca033f4",
+      "bytes": 5802
+    },
+    "original/src/evolve.py": {
+      "sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+      "bytes": 39190
+    },
+    "original/src/genome.py": {
+      "sha256": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+      "bytes": 31059
+    },
+    "original/src/lattice.py": {
+      "sha256": "d2019da35fa78882c81b2c4e7e1913a3d314590b4fcffd4c3702a61b4622be5d",
+      "bytes": 11124
+    },
+    "original/src/life/__init__.py": {
+      "sha256": "7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf",
+      "bytes": 156
+    },
+    "original/src/life/analysis.py": {
+      "sha256": "f62836b9e64362696cdf6c4186e88ddb52f78b80bf9bde67ed04685cadb69357",
+      "bytes": 17280
+    },
+    "original/src/life/build.py": {
+      "sha256": "aef1e6ec4476279f436276f55af24d5483ea832ecbe2621383d5497473a3e441",
+      "bytes": 20601
+    },
+    "original/src/life/clones.py": {
+      "sha256": "f990d397858235681d85ee83b7021790fdb163dc9ae14d642ceeea52dfd9da7f",
+      "bytes": 8358
+    },
+    "original/src/life/evaluate.py": {
+      "sha256": "292ca9b219d68966ac341ec755bac8cb477acc6fd9baffed49744d79cf3d831d",
+      "bytes": 17695
+    },
+    "original/src/life/handbuilt.py": {
+      "sha256": "d19ba200142f0c5ec41d5da4deff4788ed77ef22f01ba69c552968b5fddfa71c",
+      "bytes": 68838
+    },
+    "original/src/life/kernel.c": {
+      "sha256": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+      "bytes": 105447
+    },
+    "original/src/life/probe.py": {
+      "sha256": "5480bb58d5ece0164650f04adc11f15493e3971e8f81f9733496f91df04e6087",
+      "bytes": 69439
+    },
+    "original/src/life/readouts.py": {
+      "sha256": "218ea5275b5a858a4591a15ee7b80c2f9f75843d2a120c6bbba122ca971223bf",
+      "bytes": 12505
+    },
+    "original/src/life/reference.py": {
+      "sha256": "6f6ff465278e3c5c52b984e5fee63a82d9a6122dfd7755d55a82a2163fde835b",
+      "bytes": 77961
+    },
+    "original/src/life/spec.py": {
+      "sha256": "bdd06966fe7068bbac0d4a0269583aa6e7029bdee6556bb57c7e33e30b109c07",
+      "bytes": 52924
+    },
+    "original/src/measure.py": {
+      "sha256": "415f52ddab228c596702dc1b921757ffe1a5938db48b9e19fa69e7e611eb30d0",
+      "bytes": 3026
+    },
+    "original/src/render.py": {
+      "sha256": "bed28ec6c787b111c4b39fbb8a9bb9397935ea6157dbe9305cc5f2a7465cb94b",
+      "bytes": 4341
+    },
+    "original/src/run.py": {
+      "sha256": "8595d69317d8533cfb2fcea91f25cc78631799ab3503044c615b55cae8a1ae2c",
+      "bytes": 26494
+    },
+    "original/src/tasks/__init__.py": {
+      "sha256": "00b089f91da559e938f60d52624ccd4094b86e4c2a48e44685c28973ec39caba",
+      "bytes": 2892
+    },
+    "original/src/tasks/base.py": {
+      "sha256": "a1827e8529e521e8335fe817bb04c1652b0eb832cdd21a48a96748bb8a4ab6af",
+      "bytes": 4810
+    },
+    "original/src/tasks/brightness.py": {
+      "sha256": "fdc98e528dbb1ac998504606e2289d6b89fd1236e2e27a046330542f95d12163",
+      "bytes": 684
+    },
+    "original/src/tasks/context.py": {
+      "sha256": "a48af7ae6ce221f96a053e22c0094f188e2907ed6ff27d6f192e8306188c9b26",
+      "bytes": 4440
+    },
+    "original/src/tasks/flicker.py": {
+      "sha256": "ecb439d38a0017793d1997bfc0a21c7f56695e16fe3e8a0d70af4f8558278593",
+      "bytes": 1552
+    },
+    "original/src/tasks/jump.py": {
+      "sha256": "b5be141b8eec4d75d842ccebb4272c20220a3a21882dde9054397e40d67668a6",
+      "bytes": 7860
+    },
+    "original/src/tasks/light.py": {
+      "sha256": "dbbce29c74ac30cdb77e4a02a68bc8b124556ac77534460c2ba87adbc3db1653",
+      "bytes": 968
+    },
+    "original/src/tasks/memory.py": {
+      "sha256": "307e70643d76c16ac2d5c464e09cafaf3b24ec86e671d716b4998969aca93213",
+      "bytes": 1503
+    },
+    "original/src/tasks/motion.py": {
+      "sha256": "a3767752a1ce2e5d485c7f7720218a5f226f90f6fc8019588ff726ae450bbf35",
+      "bytes": 1959
+    },
+    "original/src/tasks/withdraw.py": {
+      "sha256": "08688d17c164710f744ea3197b0d03ca7770a31dc401a2efe28f02553d038f54",
+      "bytes": 4259
+    },
+    "preparation_tests.txt": {
+      "sha256": "c6ce8518a2cc113cc5560b3731e234ed6d559e746221ae903ce01599dfe7e797",
+      "bytes": 80
+    },
+    "preparation_validation.json": {
+      "sha256": "a545ea5c32b8d618fd2c91de7cf52b9d44853f15affeb9f77c4d03477c94fdec",
+      "bytes": 1352
+    },
+    "prepare.py": {
+      "sha256": "a0331dd1620ca93774b35a69eb8fbdf912a6bd05e0520cfcc83e7ebec0e88971",
+      "bytes": 5361
+    },
+    "protocol.json": {
+      "sha256": "bc2df79bfd484107ce50027ec6b734c041a00efa982654a64ddc7e065910d99f",
+      "bytes": 28207
+    },
+    "protocol_before_group_cleanup.json": {
+      "sha256": "0bd9157a335a0994ffe7ab6c968a0b0a1056f9c3822ec9d625d1f497732dc6e6",
+      "bytes": 28207
+    },
+    "protocol_before_library_binding.json": {
+      "sha256": "91eeecf0e5253ca50c3132c2acb7165062db13c8dbde315ecc6401d3415756ff",
+      "bytes": 26445
+    },
+    "protocol_before_resume_cleanup_binding.json": {
+      "sha256": "1b6d3f0817582a4db620e059c2ecad87e80cebc7367cad026399bf4c27b5ee52",
+      "bytes": 28207
+    },
+    "run_budgeted.py": {
+      "sha256": "d3c6713603078ed78ac2479d264a482adca4b1fbe45d4bfd26eb1175dc537f20",
+      "bytes": 13343
+    },
+    "test_prepared.py": {
+      "sha256": "8b43618e48559e97d71988235986aecba00aeddb4f32f4642ed16ca88abf999b",
+      "bytes": 20031
+    },
+    "validate_preparation.py": {
+      "sha256": "5f9a4af45f6e1f784918d45bda538f62ee340b1dfdc5c28e9008464e198cc409",
+      "bytes": 4317
+    }
+  }
+}
