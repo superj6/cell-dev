@@ -223,3 +223,55 @@ scores. They change neither organism rules nor production search/world defaults,
 - Use a separate 0.5-CPU-hour cap, two workers, with no more than four simulation workers across all studies.
   Start when the shared worker budget permits. Store all raw rows and identity pins under the existing
   `outputs/autonomous_followthrough_20261013/factorial/` directory and archive results at the next milestone.
+
+### D. Two short production sexual continuations (2026-10-13)
+
+Question: can ordinary evolution retain and improve the discovered s5 row38 genotype across repeated generations?
+This follows the fixed one-step candidate experiment; it is not another mutation-chain screen.
+
+Freeze two independent search seeds, 51089 and 51090, each with 16 generations in POOL-fast. Both begin from the
+same archived s5 row38 genome, copied byte-for-byte into this study's inputs/founder_row38.json. Experiment B's
+selection or confirmation does not choose the founder. Preserve the production 32+224 sexual loop, three initial
+lives plus four recheck lives for the top64, pooled-mean top32 selection, ordinary random ties, n_mut2 scaled by
+active genes, p_cell0.5, no duplication/deletion, and common duration draws from 768/1024/1536. World constants:
+d0=0.5, d_min=0.25, sigma=0.4, lam_s=4.0. Other world constants and prices retain the SPECK preset.
+
+Existing initialization loads one exact genome and fills the other31 initial parents with ordinary point-mutated
+copies. These are not32 identical founders. From generation0 onward, normal gene-unit crossover and point mutation
+operate. Parents are reevaluated with offspring and can be dropped; the starting genotype is not protected.
+Arbitrary population.json initialization is unsupported. Exact restart uses the E1 checkpoint, including both RNGs,
+population identities, slot origins and log offsets. No engine or search source changes are required.
+
+Each run's total target is fixed at16 generations from the start. Checkpoint every4 generations; retain all offspring
+lineage entries. Keep report-only16-life validation at generations0,4,8,12,15. Disable report-only inherited heldout
+worlds, periodic clones, final forks/death replays, size curves, and envelope comparisons. The minimal existing final
+routine uses final_top1/final_lives2: two final0 lives, two final1 lives, and two T512 growth readouts. These diagnostics
+never replace final population rank0. The endpoint is exactly best_genome.json, verified against checkpoint population0.
+
+Freeze both final rank0 genomes before the fresh endpoint measurement. Compare those two genotypes, row38 and original
+pilot s5 on256 common fresh seeds from block91 (51,910,000..51,910,255), separately at T768,1024,1536 in POOL-fast.
+No genotype is selected or replaced using these measurements. All four genotype identities remain in the report, even
+if identical or worse. The two primary contrasts are each final genome minus row38, averaged equally across durations
+within each seed, then summarized over256 seed clusters. Report every duration and contrasts against original s5 as
+secondary context. Use descriptive >3-SE and +0.5-F labels; failures, guard penalties and negative changes remain.
+Two search replicates are exploratory evidence of continued progress, not a population-wide estimate of reliability.
+No circuit or new algorithm is inferred from fitness alone. Do not pool the correlated durations as768 independent lives.
+
+Seed audit: the392 unique scheduled hashed run seeds (196 per run) are mutually disjoint, outside every reserved
+decimal51M block0..99, and disjoint from58,690 enumerated historical pilot seeds. Confirm block91 also avoids those
+hashed seeds. Growth-at-half intentionally reuses final0 seeds; duration confirmation intentionally shares block91.
+Keep seed_audit.json with all actual run seeds. Existing studies reserve blocks80..88; blocks89/90 remain unallocated.
+
+Budget: 32,768 selection lives +160 validation lives +12 minimal final lives +3,072 confirmation lives =36,012
+genome-lives, plus ordinary startup golden replay checks. Four minimal final lives end at T512. Deterministic training
+duration means are1040 for seed51089 and1104 for seed51090, totaling34,304 T1024-equivalent selection lives.
+Use at most four simulation workers (two evolution jobs with two threads each; subsequent confirmation has two).
+The shared hard budget is10,800 CPU-seconds (three CPU-hours), including evolution, diagnostics and confirmation.
+Monitor process CPU with a10-second reserve before termination. Budget interruption preserves completed E1 checkpoints
+and confirmation rows; report an incomplete experiment if either run or confirmation cannot finish. Do not extend
+the cap, add search seeds, replace endpoints, or increase lives after seeing scores.
+
+Execution is prepared under outputs/autonomous_continuation_20261013/. run_budgeted.py defaults to dry-run and requires
+a root-created ready.json binding the runner, protocol and measurement helper sources before --run. Preserve source,
+numerical and genotype pins, full confirmation ledgers, hashes, seeds, logs and resource accounting. Report and commit
+this protocol before launch. Source code must remain fixed while these runs are active.
