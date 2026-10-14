@@ -1,0 +1,39 @@
+{
+  "role": "independent experiment design and initial confirmation-runner code review",
+  "benchmark": {
+    "artifact": "benchmark.json",
+    "genome_lives": 32,
+    "threads": 1,
+    "all_status_zero": true,
+    "mean_cpu_seconds_per_life": 0.13630605775000001,
+    "proposed_lives": 26752,
+    "estimated_cpu_hours": 1.0129054602577778,
+    "limit": "mutant growth can increase cost; enforce separate 2CPUh cap"
+  },
+  "historical_reflex_knobs": {
+    "artifact": "results/open_headroom/data/headline.json",
+    "json_path": [
+      "reflex_knobs_verify",
+      "base|pool",
+      "knobs"
+    ],
+    "tuning_provenance": "43M seed scheme; blocks410x48 and411x128; frozen reuse only"
+  },
+  "reviewed_runner": "scripts/taskvar_confirm.py",
+  "review": "No blocking issue found in initial version: original genome-row indices, source pins, seed separation, production F accounting, and paired four-arm lesion interaction are coherent.",
+  "suggested_hardening": [
+    "Validate saved screen statuses/end times as well as array consistency.",
+    "Add winner genome SHA256 and zero-based mutant index to selection artifact."
+  ],
+  "interpretation_limits": [
+    "64 mutants x32 screen lives is bounded exploration, not completion of original256x64 G2.",
+    "Topceil5% of64 selects4; final confirms concern selected candidates, not an unbiased beneficial fraction.",
+    "Two parent genomes were evolved under slower conduction; gains may adapt to faster conduction.",
+    "Use cell-time and exact cost components, not final size alone, to understand savings.",
+    "Interaction = (mutant intact-parent intact)-(mutant lesioned-parent lesioned), paired on same seeds.",
+    "t_fork256,t_open0 estimates full-life gain lost after256; it does not measure whole-life lateral dependence.",
+    "Positive interaction needs uncertainty; even reliable interaction does not prove new routing or hidden-layer use.",
+    "Lateral blocking may also change later development.",
+    "Common random seeds across worlds enable paired local comparisons; no world admission decision follows."
+  ]
+}

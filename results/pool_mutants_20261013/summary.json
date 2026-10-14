@@ -1,0 +1,1291 @@
+{
+  "study": "pool_mutants_20261013",
+  "status": "complete bounded exploration",
+  "report_only": true,
+  "protocol": {
+    "parents": [
+      "s5",
+      "s7"
+    ],
+    "worlds": [
+      "base",
+      "pool"
+    ],
+    "mutants_per_parent": 64,
+    "screen_lives": 32,
+    "rescored_per_parent_world": 4,
+    "rescore_lives": 512,
+    "confirmed_per_parent_world": 1,
+    "confirm_lives": 512,
+    "lesion_lives_per_arm": 256,
+    "seed_blocks": {
+      "screen": 80,
+      "rescore": 81,
+      "confirm": 82,
+      "lesion": 83
+    },
+    "selection": "Same mutant pool across worlds; top ceil(5%) by screen mean, then best rescore mean.",
+    "ties": "Ascending original genome row",
+    "duration": 1024
+  },
+  "arms": {
+    "s5_base": {
+      "parent": "s5",
+      "world": "base",
+      "world_overrides": {
+        "T": 1024.0,
+        "d0": 0.5,
+        "d_min": 0.25
+      },
+      "winner_genome_row": 38,
+      "winner_mutant_index": 37,
+      "winner_sha256": "6d79248a5bb82c49aa4278ccd755234b7952a09d9af4873b7a4ad303d3654f92",
+      "winner_genome": "genomes/s5_base_winner.json",
+      "mutation_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              1,
+              16
+            ],
+            -1.1762892007827759
+          ],
+          [
+            "W",
+            [
+              4,
+              24
+            ],
+            0.13032662868499756
+          ]
+        ]
+      },
+      "screen": {
+        "mutants": 64,
+        "lives": 32,
+        "positive_2se": 9,
+        "nominal_positive_fraction_2se": 0.140625,
+        "effect_mean_quantiles": {
+          "min": -1.6145361222588082,
+          "q25": 0.06386103182243692,
+          "median": 0.3051944400992517,
+          "q75": 0.5504430234098163,
+          "max": 2.1110690221765402
+        },
+        "guard_life_fraction": 0.0,
+        "selected_genome_rows": [
+          38,
+          31,
+          20,
+          25
+        ]
+      },
+      "rescore": {
+        "38": {
+          "mean": 1.1537130637524602,
+          "se": 0.13366954502153633,
+          "n": 512
+        },
+        "31": {
+          "mean": -0.0198888769636371,
+          "se": 0.1315153770525437,
+          "n": 512
+        },
+        "20": {
+          "mean": 0.5686065202173873,
+          "se": 0.12893140167781025,
+          "n": 512
+        },
+        "25": {
+          "mean": 0.18846926090940697,
+          "se": 0.12728422480641635,
+          "n": 512
+        }
+      },
+      "confirmation": {
+        "parent_F": {
+          "mean": 8.124125222462819,
+          "se": 0.12666691630929214,
+          "n": 512
+        },
+        "winner_F": {
+          "mean": 8.970419463171671,
+          "se": 0.13412399026758495,
+          "n": 512
+        },
+        "gain": {
+          "mean": 0.8462942407088532,
+          "se": 0.1358507055211488,
+          "n": 512
+        },
+        "small_batch_noise": {
+          "exploratory": true,
+          "paired_difference_sd": 3.0739505632953947,
+          "batches": {
+            "3": {
+              "batch_size": 3,
+              "batches": 170,
+              "ignored_trailing_lives": 2,
+              "nonpositive_batches": 51,
+              "fraction_nonpositive": 0.3,
+              "exact_zero_batches": 0
+            },
+            "4": {
+              "batch_size": 4,
+              "batches": 128,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 41,
+              "fraction_nonpositive": 0.3203125,
+              "exact_zero_batches": 0
+            },
+            "7": {
+              "batch_size": 7,
+              "batches": 73,
+              "ignored_trailing_lives": 1,
+              "nonpositive_batches": 15,
+              "fraction_nonpositive": 0.2054794520547945,
+              "exact_zero_batches": 0
+            },
+            "8": {
+              "batch_size": 8,
+              "batches": 64,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 15,
+              "fraction_nonpositive": 0.234375,
+              "exact_zero_batches": 0
+            },
+            "16": {
+              "batch_size": 16,
+              "batches": 32,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 6,
+              "fraction_nonpositive": 0.1875,
+              "exact_zero_batches": 0
+            },
+            "32": {
+              "batch_size": 32,
+              "batches": 16,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 2,
+              "fraction_nonpositive": 0.125,
+              "exact_zero_batches": 0
+            }
+          },
+          "method": "Disjoint contiguous batches in fixed confirmation seed order; count mean mutant-parent F <=0. Batch 3 approximates initial pairwise scoring and batch 7 the 3+4 pooled score, not tournament selection.",
+          "limitation": "Conditional on these selected winners. This measures pairwise sampling noise, not full tournament effectiveness; no verdict, winner or future run is changed by this readout."
+        },
+        "positive_3se": true,
+        "gain_at_least_0p5": true,
+        "counts": {
+          "captures": {
+            "mean": 2.26953125,
+            "se": 0.2796507087329834,
+            "n": 512
+          },
+          "clicks": {
+            "mean": 3.185546875,
+            "se": 0.3853818771773108,
+            "n": 512
+          },
+          "misses": {
+            "mean": 0.916015625,
+            "se": 0.24453878369579835,
+            "n": 512
+          },
+          "n_end": {
+            "mean": 14.357421875,
+            "se": 0.35820166448915525,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.548828125,
+            "se": 0.04735784814823082,
+            "n": 512
+          },
+          "live_time": {
+            "mean": 10372.58855920624,
+            "se": 274.18814483361353,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "income": {
+            "mean": 1.1081695556640625,
+            "se": 0.13654819762352707,
+            "n": 512
+          },
+          "cost_saving": {
+            "mean": -0.2618753149549843,
+            "se": 0.0075272242826894984,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": -2.2505001334716113e-13,
+            "se": 9.249758637905889e-15,
+            "n": 512
+          }
+        },
+        "cost_saving_components": {
+          "living": {
+            "mean": -0.20258962029699687,
+            "se": 0.005355237203781514,
+            "n": 512
+          },
+          "spiking": {
+            "mean": -0.004941680908203125,
+            "se": 0.00018410563904543126,
+            "n": 512
+          },
+          "twitching": {
+            "mean": -0.004941680908203125,
+            "se": 0.00018410563904543126,
+            "n": 512
+          },
+          "messages": {
+            "mean": -0.012995281219482423,
+            "se": 0.0005469159733792076,
+            "n": 512
+          },
+          "division": {
+            "mean": -0.007134437561035156,
+            "se": 0.0001750283185147269,
+            "n": 512
+          },
+          "secretion": {
+            "mean": -0.019756179391793936,
+            "se": 0.0006641813918514003,
+            "n": 512
+          },
+          "missed_clicks": {
+            "mean": -0.008945465087890625,
+            "se": 0.002388074059529281,
+            "n": 512
+          },
+          "receptors": {
+            "mean": -0.0005709695816040038,
+            "se": 3.4216734758514616e-05,
+            "n": 512
+          },
+          "decoy_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "guard_fraction": {
+          "parent": 0.0,
+          "winner": 0.0
+        }
+      },
+      "lateral_lesion": {
+        "t_fork": 256,
+        "t_open": 0,
+        "paired_lives": 256,
+        "scope": "Blocks in-plane spike arrivals; vertical spikes and morphogen packets continue.",
+        "incremental_gain_removed": {
+          "mean": 2.1097877830514564,
+          "se": 0.21114864185083038,
+          "n": 256
+        },
+        "interaction_positive_3se": true,
+        "normal_gain": {
+          "mean": 0.8390520300534982,
+          "se": 0.19082314629840752,
+          "n": 256
+        },
+        "lesioned_gain": {
+          "mean": -1.2707357529979586,
+          "se": 0.1416957679895229,
+          "n": 256
+        },
+        "parent_loss": {
+          "mean": 3.742527145844851,
+          "se": 0.166489607100145,
+          "n": 256
+        },
+        "winner_loss": {
+          "mean": 5.852314928896307,
+          "se": 0.18871266227703923,
+          "n": 256
+        }
+      }
+    },
+    "s5_pool": {
+      "parent": "s5",
+      "world": "pool",
+      "world_overrides": {
+        "T": 1024.0,
+        "d0": 0.5,
+        "d_min": 0.25,
+        "sigma": 0.4,
+        "lam_s": 4.0
+      },
+      "winner_genome_row": 38,
+      "winner_mutant_index": 37,
+      "winner_sha256": "6d79248a5bb82c49aa4278ccd755234b7952a09d9af4873b7a4ad303d3654f92",
+      "winner_genome": "genomes/s5_pool_winner.json",
+      "mutation_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              1,
+              16
+            ],
+            -1.1762892007827759
+          ],
+          [
+            "W",
+            [
+              4,
+              24
+            ],
+            0.13032662868499756
+          ]
+        ]
+      },
+      "screen": {
+        "mutants": 64,
+        "lives": 32,
+        "positive_2se": 2,
+        "nominal_positive_fraction_2se": 0.03125,
+        "effect_mean_quantiles": {
+          "min": -1.9044033376822722,
+          "q25": -0.043433146368026164,
+          "median": 0.14126878574144608,
+          "q75": 0.40115917741203455,
+          "max": 1.2687658839685636
+        },
+        "guard_life_fraction": 0.0,
+        "selected_genome_rows": [
+          38,
+          50,
+          11,
+          36
+        ]
+      },
+      "rescore": {
+        "38": {
+          "mean": 0.8047586146329884,
+          "se": 0.11299757621540482,
+          "n": 512
+        },
+        "50": {
+          "mean": -0.15614878675458155,
+          "se": 0.10118198072846023,
+          "n": 512
+        },
+        "11": {
+          "mean": -0.1931024846824072,
+          "se": 0.09757653907324908,
+          "n": 512
+        },
+        "36": {
+          "mean": -0.042237130172905424,
+          "se": 0.10373420598575352,
+          "n": 512
+        }
+      },
+      "confirmation": {
+        "parent_F": {
+          "mean": 6.241855591598318,
+          "se": 0.1124462472038271,
+          "n": 512
+        },
+        "winner_F": {
+          "mean": 6.879483234781488,
+          "se": 0.11858242766382102,
+          "n": 512
+        },
+        "gain": {
+          "mean": 0.6376276431831702,
+          "se": 0.11632037905030165,
+          "n": 512
+        },
+        "small_batch_noise": {
+          "exploratory": true,
+          "paired_difference_sd": 2.6320297221330535,
+          "batches": {
+            "3": {
+              "batch_size": 3,
+              "batches": 170,
+              "ignored_trailing_lives": 2,
+              "nonpositive_batches": 54,
+              "fraction_nonpositive": 0.3176470588235294,
+              "exact_zero_batches": 0
+            },
+            "4": {
+              "batch_size": 4,
+              "batches": 128,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 46,
+              "fraction_nonpositive": 0.359375,
+              "exact_zero_batches": 0
+            },
+            "7": {
+              "batch_size": 7,
+              "batches": 73,
+              "ignored_trailing_lives": 1,
+              "nonpositive_batches": 18,
+              "fraction_nonpositive": 0.2465753424657534,
+              "exact_zero_batches": 0
+            },
+            "8": {
+              "batch_size": 8,
+              "batches": 64,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 20,
+              "fraction_nonpositive": 0.3125,
+              "exact_zero_batches": 0
+            },
+            "16": {
+              "batch_size": 16,
+              "batches": 32,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 7,
+              "fraction_nonpositive": 0.21875,
+              "exact_zero_batches": 0
+            },
+            "32": {
+              "batch_size": 32,
+              "batches": 16,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 3,
+              "fraction_nonpositive": 0.1875,
+              "exact_zero_batches": 0
+            }
+          },
+          "method": "Disjoint contiguous batches in fixed confirmation seed order; count mean mutant-parent F <=0. Batch 3 approximates initial pairwise scoring and batch 7 the 3+4 pooled score, not tournament selection.",
+          "limitation": "Conditional on these selected winners. This measures pairwise sampling noise, not full tournament effectiveness; no verdict, winner or future run is changed by this readout."
+        },
+        "positive_3se": true,
+        "gain_at_least_0p5": true,
+        "counts": {
+          "captures": {
+            "mean": 1.888671875,
+            "se": 0.23786161747469686,
+            "n": 512
+          },
+          "clicks": {
+            "mean": 2.3359375,
+            "se": 0.3191574294408744,
+            "n": 512
+          },
+          "misses": {
+            "mean": 0.447265625,
+            "se": 0.21737473206493002,
+            "n": 512
+          },
+          "n_end": {
+            "mean": 17.138671875,
+            "se": 0.3618724867214374,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.5234375,
+            "se": 0.04843276521900031,
+            "n": 512
+          },
+          "live_time": {
+            "mean": 11717.282324164227,
+            "se": 270.9545850763271,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "income": {
+            "mean": 0.9222030639648438,
+            "se": 0.11614336790756684,
+            "n": 512
+          },
+          "cost_saving": {
+            "mean": -0.28457542078146414,
+            "se": 0.00721282807579835,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": -2.0933992386784617e-13,
+            "se": 7.770151405103798e-15,
+            "n": 512
+          }
+        },
+        "cost_saving_components": {
+          "living": {
+            "mean": -0.22885317039383257,
+            "se": 0.0052920817397720124,
+            "n": 512
+          },
+          "spiking": {
+            "mean": -0.004167243957519532,
+            "se": 0.0001393559570016529,
+            "n": 512
+          },
+          "twitching": {
+            "mean": -0.004167243957519532,
+            "se": 0.0001393559570016529,
+            "n": 512
+          },
+          "messages": {
+            "mean": -0.010928611755371093,
+            "se": 0.0004158637002058662,
+            "n": 512
+          },
+          "division": {
+            "mean": -0.008504867553710938,
+            "se": 0.0001771164025725139,
+            "n": 512
+          },
+          "secretion": {
+            "mean": -0.02299819581287447,
+            "se": 0.000655726985403982,
+            "n": 512
+          },
+          "missed_clicks": {
+            "mean": -0.004367828369140625,
+            "se": 0.002122800117821582,
+            "n": 512
+          },
+          "receptors": {
+            "mean": -0.000588258981704712,
+            "se": 2.927083689068827e-05,
+            "n": 512
+          },
+          "decoy_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "guard_fraction": {
+          "parent": 0.0,
+          "winner": 0.0
+        }
+      },
+      "lateral_lesion": {
+        "t_fork": 256,
+        "t_open": 0,
+        "paired_lives": 256,
+        "scope": "Blocks in-plane spike arrivals; vertical spikes and morphogen packets continue.",
+        "incremental_gain_removed": {
+          "mean": 1.6443341294904519,
+          "se": 0.16010997412102965,
+          "n": 256
+        },
+        "interaction_positive_3se": true,
+        "normal_gain": {
+          "mean": 0.7627916943172548,
+          "se": 0.16044233838681127,
+          "n": 256
+        },
+        "lesioned_gain": {
+          "mean": -0.8815424351731971,
+          "se": 0.10510821426560919,
+          "n": 256
+        },
+        "parent_loss": {
+          "mean": 4.164749579018443,
+          "se": 0.14012099110211138,
+          "n": 256
+        },
+        "winner_loss": {
+          "mean": 5.809083708508895,
+          "se": 0.1522819654075177,
+          "n": 256
+        }
+      }
+    },
+    "s7_base": {
+      "parent": "s7",
+      "world": "base",
+      "world_overrides": {
+        "T": 1024.0,
+        "d0": 0.5,
+        "d_min": 0.25
+      },
+      "winner_genome_row": 15,
+      "winner_mutant_index": 14,
+      "winner_sha256": "12c923222b3078980a5ce6177148df535f3db3656aaa349b24a8d12db064e585",
+      "winner_genome": "genomes/s7_base_winner.json",
+      "mutation_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              4,
+              6
+            ],
+            -0.5593340992927551
+          ],
+          [
+            "s0",
+            [
+              2
+            ],
+            -0.9172513484954834
+          ]
+        ]
+      },
+      "screen": {
+        "mutants": 64,
+        "lives": 32,
+        "positive_2se": 3,
+        "nominal_positive_fraction_2se": 0.046875,
+        "effect_mean_quantiles": {
+          "min": -5.123437241826734,
+          "q25": -0.13915624603589916,
+          "median": 0.026543874899023615,
+          "q75": 0.23326311213129658,
+          "max": 1.2102825374964463
+        },
+        "guard_life_fraction": 0.0,
+        "selected_genome_rows": [
+          17,
+          15,
+          31,
+          43
+        ]
+      },
+      "rescore": {
+        "17": {
+          "mean": 0.7381061287849475,
+          "se": 0.10838264315715185,
+          "n": 512
+        },
+        "15": {
+          "mean": 0.856757160353069,
+          "se": 0.11629556808896352,
+          "n": 512
+        },
+        "31": {
+          "mean": 0.1293348934441831,
+          "se": 0.10817838869352016,
+          "n": 512
+        },
+        "43": {
+          "mean": 0.010875903541423537,
+          "se": 0.114329489063178,
+          "n": 512
+        }
+      },
+      "confirmation": {
+        "parent_F": {
+          "mean": 7.5402557221734146,
+          "se": 0.11226807854078556,
+          "n": 512
+        },
+        "winner_F": {
+          "mean": 8.295129203484048,
+          "se": 0.11123433893804163,
+          "n": 512
+        },
+        "gain": {
+          "mean": 0.7548734813106339,
+          "se": 0.12909086274296935,
+          "n": 512
+        },
+        "small_batch_noise": {
+          "exploratory": true,
+          "paired_difference_sd": 2.9209927819128154,
+          "batches": {
+            "3": {
+              "batch_size": 3,
+              "batches": 170,
+              "ignored_trailing_lives": 2,
+              "nonpositive_batches": 53,
+              "fraction_nonpositive": 0.31176470588235294,
+              "exact_zero_batches": 0
+            },
+            "4": {
+              "batch_size": 4,
+              "batches": 128,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 43,
+              "fraction_nonpositive": 0.3359375,
+              "exact_zero_batches": 0
+            },
+            "7": {
+              "batch_size": 7,
+              "batches": 73,
+              "ignored_trailing_lives": 1,
+              "nonpositive_batches": 21,
+              "fraction_nonpositive": 0.2876712328767123,
+              "exact_zero_batches": 0
+            },
+            "8": {
+              "batch_size": 8,
+              "batches": 64,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 18,
+              "fraction_nonpositive": 0.28125,
+              "exact_zero_batches": 0
+            },
+            "16": {
+              "batch_size": 16,
+              "batches": 32,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 7,
+              "fraction_nonpositive": 0.21875,
+              "exact_zero_batches": 0
+            },
+            "32": {
+              "batch_size": 32,
+              "batches": 16,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 2,
+              "fraction_nonpositive": 0.125,
+              "exact_zero_batches": 0
+            }
+          },
+          "method": "Disjoint contiguous batches in fixed confirmation seed order; count mean mutant-parent F <=0. Batch 3 approximates initial pairwise scoring and batch 7 the 3+4 pooled score, not tournament selection.",
+          "limitation": "Conditional on these selected winners. This measures pairwise sampling noise, not full tournament effectiveness; no verdict, winner or future run is changed by this readout."
+        },
+        "positive_3se": true,
+        "gain_at_least_0p5": true,
+        "counts": {
+          "captures": {
+            "mean": 2.732421875,
+            "se": 0.2702360851664141,
+            "n": 512
+          },
+          "clicks": {
+            "mean": 9.59765625,
+            "se": 0.5562310939320292,
+            "n": 512
+          },
+          "misses": {
+            "mean": 6.865234375,
+            "se": 0.40657070535958645,
+            "n": 512
+          },
+          "n_end": {
+            "mean": 23.232421875,
+            "se": 0.40225931031350565,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 1.212890625,
+            "se": 0.08619454690080257,
+            "n": 512
+          },
+          "live_time": {
+            "mean": 23281.156820155556,
+            "se": 400.1912052252747,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "income": {
+            "mean": 1.3341903686523438,
+            "se": 0.13195121346016314,
+            "n": 512
+          },
+          "cost_saving": {
+            "mean": -0.5793168873416832,
+            "se": 0.01095079937603278,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": -2.6544304948528108e-14,
+            "se": 3.415539820713478e-15,
+            "n": 512
+          }
+        },
+        "cost_saving_components": {
+          "living": {
+            "mean": -0.45471009414366326,
+            "se": 0.007816234477056146,
+            "n": 512
+          },
+          "spiking": {
+            "mean": -0.002725982666015625,
+            "se": 9.544733288644864e-05,
+            "n": 512
+          },
+          "twitching": {
+            "mean": -0.002725940704345703,
+            "se": 9.544698232277173e-05,
+            "n": 512
+          },
+          "messages": {
+            "mean": -0.004566404342651367,
+            "se": 0.00014859949671290309,
+            "n": 512
+          },
+          "division": {
+            "mean": -0.012052536010742188,
+            "se": 0.00020265733905569462,
+            "n": 512
+          },
+          "secretion": {
+            "mean": -0.03424604156917074,
+            "se": 0.0005742521153621698,
+            "n": 512
+          },
+          "missed_clicks": {
+            "mean": -0.06704330444335938,
+            "se": 0.003970417044527212,
+            "n": 512
+          },
+          "receptors": {
+            "mean": -0.0012465834617614747,
+            "se": 3.7355529308518894e-05,
+            "n": 512
+          },
+          "decoy_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "guard_fraction": {
+          "parent": 0.0,
+          "winner": 0.0
+        }
+      },
+      "lateral_lesion": {
+        "t_fork": 256,
+        "t_open": 0,
+        "paired_lives": 256,
+        "scope": "Blocks in-plane spike arrivals; vertical spikes and morphogen packets continue.",
+        "incremental_gain_removed": {
+          "mean": 1.4002219077232958,
+          "se": 0.17794279596561788,
+          "n": 256
+        },
+        "interaction_positive_3se": true,
+        "normal_gain": {
+          "mean": 0.7256052591636604,
+          "se": 0.18386703215328531,
+          "n": 256
+        },
+        "lesioned_gain": {
+          "mean": -0.6746166485596354,
+          "se": 0.12188790952096028,
+          "n": 256
+        },
+        "parent_loss": {
+          "mean": 4.568336607433436,
+          "se": 0.15309651054799908,
+          "n": 256
+        },
+        "winner_loss": {
+          "mean": 5.968558515156731,
+          "se": 0.15110161821170412,
+          "n": 256
+        }
+      }
+    },
+    "s7_pool": {
+      "parent": "s7",
+      "world": "pool",
+      "world_overrides": {
+        "T": 1024.0,
+        "d0": 0.5,
+        "d_min": 0.25,
+        "sigma": 0.4,
+        "lam_s": 4.0
+      },
+      "winner_genome_row": 29,
+      "winner_mutant_index": 28,
+      "winner_sha256": "c34e8ec8dff4682b99d9ca0e090d226fa1733366fa8f4c84e5a1ce000bdeb358",
+      "winner_genome": "genomes/s7_pool_winner.json",
+      "mutation_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              3,
+              17
+            ],
+            -0.7618283629417419
+          ],
+          [
+            "s0",
+            [
+              0
+            ],
+            -0.018361331894993782
+          ]
+        ]
+      },
+      "screen": {
+        "mutants": 64,
+        "lives": 32,
+        "positive_2se": 0,
+        "nominal_positive_fraction_2se": 0.0,
+        "effect_mean_quantiles": {
+          "min": -3.3622364908575673,
+          "q25": -0.24131579084646396,
+          "median": -0.041956407666961834,
+          "q75": 0.06209803896691481,
+          "max": 0.6736606408159691
+        },
+        "guard_life_fraction": 0.0,
+        "selected_genome_rows": [
+          8,
+          35,
+          29,
+          6
+        ]
+      },
+      "rescore": {
+        "8": {
+          "mean": -0.04113131996181027,
+          "se": 0.10542286482946037,
+          "n": 512
+        },
+        "35": {
+          "mean": -0.05189494309967058,
+          "se": 0.09275019197077188,
+          "n": 512
+        },
+        "29": {
+          "mean": 0.4464887557686752,
+          "se": 0.09570759960449884,
+          "n": 512
+        },
+        "6": {
+          "mean": -0.012128249432193709,
+          "se": 0.09392120760494967,
+          "n": 512
+        }
+      },
+      "confirmation": {
+        "parent_F": {
+          "mean": 5.325767192872789,
+          "se": 0.0917876485391395,
+          "n": 512
+        },
+        "winner_F": {
+          "mean": 5.588725577026706,
+          "se": 0.09294514878732514,
+          "n": 512
+        },
+        "gain": {
+          "mean": 0.2629583841539165,
+          "se": 0.09176408535731578,
+          "n": 512
+        },
+        "small_batch_noise": {
+          "exploratory": true,
+          "paired_difference_sd": 2.0763842248172533,
+          "batches": {
+            "3": {
+              "batch_size": 3,
+              "batches": 170,
+              "ignored_trailing_lives": 2,
+              "nonpositive_batches": 67,
+              "fraction_nonpositive": 0.3941176470588235,
+              "exact_zero_batches": 0
+            },
+            "4": {
+              "batch_size": 4,
+              "batches": 128,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 52,
+              "fraction_nonpositive": 0.40625,
+              "exact_zero_batches": 0
+            },
+            "7": {
+              "batch_size": 7,
+              "batches": 73,
+              "ignored_trailing_lives": 1,
+              "nonpositive_batches": 24,
+              "fraction_nonpositive": 0.3287671232876712,
+              "exact_zero_batches": 0
+            },
+            "8": {
+              "batch_size": 8,
+              "batches": 64,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 21,
+              "fraction_nonpositive": 0.328125,
+              "exact_zero_batches": 0
+            },
+            "16": {
+              "batch_size": 16,
+              "batches": 32,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 8,
+              "fraction_nonpositive": 0.25,
+              "exact_zero_batches": 0
+            },
+            "32": {
+              "batch_size": 32,
+              "batches": 16,
+              "ignored_trailing_lives": 0,
+              "nonpositive_batches": 4,
+              "fraction_nonpositive": 0.25,
+              "exact_zero_batches": 0
+            }
+          },
+          "method": "Disjoint contiguous batches in fixed confirmation seed order; count mean mutant-parent F <=0. Batch 3 approximates initial pairwise scoring and batch 7 the 3+4 pooled score, not tournament selection.",
+          "limitation": "Conditional on these selected winners. This measures pairwise sampling noise, not full tournament effectiveness; no verdict, winner or future run is changed by this readout."
+        },
+        "positive_3se": false,
+        "gain_at_least_0p5": false,
+        "counts": {
+          "captures": {
+            "mean": 0.8203125,
+            "se": 0.18950199903082954,
+            "n": 512
+          },
+          "clicks": {
+            "mean": 4.03515625,
+            "se": 0.374108974799601,
+            "n": 512
+          },
+          "misses": {
+            "mean": 3.21484375,
+            "se": 0.27912786022605407,
+            "n": 512
+          },
+          "n_end": {
+            "mean": 4.8046875,
+            "se": 0.21592713798520302,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.169921875,
+            "se": 0.025205308879040468,
+            "n": 512
+          },
+          "live_time": {
+            "mean": 4750.319571170457,
+            "se": 213.7500667539752,
+            "n": 512
+          }
+        },
+        "fitness_contributions": {
+          "income": {
+            "mean": 0.400543212890625,
+            "se": 0.09253027296427226,
+            "n": 512
+          },
+          "cost_saving": {
+            "mean": -0.1375848287367124,
+            "se": 0.0058159361018981426,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 3.951266397406172e-15,
+            "se": 2.6018874943014355e-15,
+            "n": 512
+          }
+        },
+        "cost_saving_components": {
+          "living": {
+            "mean": -0.09277967912442298,
+            "se": 0.0041748059912885774,
+            "n": 512
+          },
+          "spiking": {
+            "mean": -0.0010211257934570313,
+            "se": 5.609458988584712e-05,
+            "n": 512
+          },
+          "twitching": {
+            "mean": -0.0010211334228515626,
+            "se": 5.609446703556055e-05,
+            "n": 512
+          },
+          "messages": {
+            "mean": -0.0015435237884521484,
+            "se": 8.469327868921671e-05,
+            "n": 512
+          },
+          "division": {
+            "mean": -0.0024461746215820312,
+            "se": 0.00010639886771295926,
+            "n": 512
+          },
+          "secretion": {
+            "mean": -0.006891321716167331,
+            "se": 0.0003085729666398129,
+            "n": 512
+          },
+          "missed_clicks": {
+            "mean": -0.03139495849609375,
+            "se": 0.0027258580100200597,
+            "n": 512
+          },
+          "receptors": {
+            "mean": -0.00048691177368164065,
+            "se": 2.4473525960765434e-05,
+            "n": 512
+          },
+          "decoy_clicks": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          }
+        },
+        "guard_fraction": {
+          "parent": 0.0,
+          "winner": 0.0
+        }
+      },
+      "lateral_lesion": {
+        "t_fork": 256,
+        "t_open": 0,
+        "paired_lives": 256,
+        "scope": "Blocks in-plane spike arrivals; vertical spikes and morphogen packets continue.",
+        "incremental_gain_removed": {
+          "mean": 0.2727729518755827,
+          "se": 0.1328122319392251,
+          "n": 256
+        },
+        "interaction_positive_3se": false,
+        "normal_gain": {
+          "mean": 0.3234529889329477,
+          "se": 0.1400937526249517,
+          "n": 256
+        },
+        "lesioned_gain": {
+          "mean": 0.05068003705736505,
+          "se": 0.08122253990800136,
+          "n": 256
+        },
+        "parent_loss": {
+          "mean": 3.936469816605822,
+          "se": 0.12205477687088614,
+          "n": 256
+        },
+        "winner_loss": {
+          "mean": 4.209242768481404,
+          "se": 0.12472564756938566,
+          "n": 256
+        }
+      }
+    }
+  },
+  "confirmation_count": {
+    "selected_winner_comparisons": 4,
+    "unique_winner_genotypes": 3,
+    "positive_3se": 3,
+    "positive_3se_and_at_least_0p5": 3
+  },
+  "cross_world_screen": {
+    "artifact": "cross_world_screen.json",
+    "exploratory": true,
+    "note": "All 64 matched mutants per parent, including guarded and neutral ones."
+  },
+  "budgets": {
+    "screens": {
+      "phase": "screens",
+      "cpu_seconds": 1613.043197,
+      "prior_cpu_seconds": 10.0,
+      "total_cpu_seconds": 1623.043197,
+      "cap_cpu_seconds": 7200.0,
+      "wall_seconds": 482.48724875699554,
+      "running": [],
+      "completed": [
+        {
+          "name": "s5_base_T1024_b80",
+          "exit_code": 0
+        },
+        {
+          "name": "s5_pool_T1024_b80",
+          "exit_code": 0
+        },
+        {
+          "name": "s7_base_T1024_b80",
+          "exit_code": 0
+        },
+        {
+          "name": "s7_pool_T1024_b80",
+          "exit_code": 0
+        }
+      ],
+      "queued": [],
+      "status": "complete"
+    },
+    "followup": {
+      "phase": "followup",
+      "cpu_seconds": 3562.3004530000003,
+      "prior_cpu_seconds": 1623.043197,
+      "total_cpu_seconds": 5185.343650000001,
+      "cap_cpu_seconds": 7200.0,
+      "wall_seconds": 994.9533432449971,
+      "running": [],
+      "completed": [
+        {
+          "name": "s5_base_T1024_b80",
+          "exit_code": 0
+        },
+        {
+          "name": "s5_pool_T1024_b80",
+          "exit_code": 0
+        },
+        {
+          "name": "s7_base_T1024_b80",
+          "exit_code": 0
+        },
+        {
+          "name": "s7_pool_T1024_b80",
+          "exit_code": 0
+        }
+      ],
+      "queued": [],
+      "status": "complete"
+    }
+  },
+  "raw_aggregate_bytes_before_export": 3789849,
+  "plots": [
+    "confirmation_and_lateral.png",
+    "confirmation_and_lateral.svg",
+    "screen_cross_world.png"
+  ],
+  "limitations": [
+    "64 mutants x 32 screen lives is bounded exploration, not completion of preregistered 256 x 64 G2.",
+    "Four selected candidates per arm were rescored; one per arm was independently confirmed. These rates concern selected mutants and do not estimate an unbiased fitness-effect distribution.",
+    "The parents evolved under slower conduction. Gains may partly adapt to faster signaling; only the sensory world differs between these two arms.",
+    "Four parent/world comparisons can select the same genotype more than once; the summary separately counts unique winners.",
+    "Two parents and one generation of mutation do not establish long-term evolutionary accessibility.",
+    "Only T=1024 was confirmed; gains under the production mixture of T=768,1024,1536 remain unmeasured.",
+    "A lateral interaction can show added dependence on in-plane spikes after t=256; morphogen exchange continues. This does not identify routing, a new algorithm, or effects limited to adults.",
+    "The lateral lesion can change later development. Whole-life accounting includes the shared prefix.",
+    "The share of the information gap captured at a matched footprint was not measured. No hand-body victory criterion was measured; this study does not admit or reject worlds."
+  ]
+}

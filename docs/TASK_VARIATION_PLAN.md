@@ -9,6 +9,13 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
+*2026-10-13 measurement update:* a separate bounded 64-mutant/32-life diagnostic now has fresh 512-life confirmation
+and lateral lesions in base-fast and POOL. Three of four parent/world comparisons clear +0.5 F and 3 SE, with extra
+capture income and increased lateral-spike dependence; the s7/POOL comparison does not. See
+`results/pool_mutants_20261013/` and the latest `RESULTS.md` entry. These nearby improvements do not establish a new
+algorithm, robustness across life lengths, or long-term accumulation. Full G2 and the approval-dependent work below
+remain pending; this diagnostic changes no admission rule or organism behavior.
+
 ### 0.1 What changed and why
 
 - **The old rule.** A world entered selection only if a body *we* built beat the best reflex there.

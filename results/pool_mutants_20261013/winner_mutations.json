@@ -1,0 +1,672 @@
+{
+  "format": 2,
+  "runner_sha256": "80a81c14e301327765db823dc38c2a604aa5008554477b1e9ec1eb1e63946d10",
+  "winners": [
+    {
+      "body": "s5",
+      "world": "base",
+      "screen": "outputs/autonomous_pool_20261013/screens/s5_base_T1024_b80",
+      "winner_genome_row": 38,
+      "winner_mutant_index": 37,
+      "parent_raw_sha256": "9bf10c76fe0ee50592ff19559df0b9b3f3571551897edd538bede88ef743343b",
+      "winner_raw_sha256": "6d79248a5bb82c49aa4278ccd755234b7952a09d9af4873b7a4ad303d3654f92",
+      "selection_verified": true,
+      "logged_operations_reconstruct_exactly": true,
+      "active_gene_slots_parent": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "active_gene_slots_winner": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "inactive_gene_slots_parent": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "inactive_gene_slots_winner": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "raw_changed_slots": 2,
+      "packed_changed_slots": 2,
+      "parameter_groups": [
+        "chemical_signaling",
+        "development"
+      ],
+      "changes": [
+        {
+          "flat_slot": 41,
+          "field": "W",
+          "indices": [
+            1,
+            16
+          ],
+          "label": "W[1,16]: input m0 (internal morphogen 0 concentration / (1 + concentration)) to gene 1",
+          "groups": [
+            "development",
+            "chemical_signaling"
+          ],
+          "raw_parent": -1.2401306629180908,
+          "raw_winner": -2.4164199829101562,
+          "raw_delta": -1.1762893199920654,
+          "owning_gene": 1,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": -1.2401306629180908,
+          "packed_winner": -2.4164199829101562,
+          "packed_changed": true
+        },
+        {
+          "flat_slot": 124,
+          "field": "W",
+          "indices": [
+            4,
+            24
+          ],
+          "label": "W[4,24]: input is_M (local indicator that this cell occupies motor plane z=1) to gene 4",
+          "groups": [
+            "development"
+          ],
+          "raw_parent": 0.39608341455459595,
+          "raw_winner": 0.5264100432395935,
+          "raw_delta": 0.13032662868499756,
+          "owning_gene": 4,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": 0.39608341455459595,
+          "packed_winner": 0.5264100432395935,
+          "packed_changed": true
+        }
+      ],
+      "logged_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              1,
+              16
+            ],
+            -1.1762892007827759
+          ],
+          [
+            "W",
+            [
+              4,
+              24
+            ],
+            0.13032662868499756
+          ]
+        ]
+      },
+      "zygote_phenotype_changes": [],
+      "chemical_inputs_changed": [
+        "W[1,16]: input m0 (internal morphogen 0 concentration / (1 + concentration)) to gene 1"
+      ],
+      "explanatory_notes": [
+        "Changes how the shared gene network reads internal morphogen concentration. This chemical concentration includes local secretion, decay, and neighbor packet exchange; it is neither the target receptor stream nor a received spike trace.",
+        "The is_M change alters a gene's response to the existing local motor-plane cue. It does not directly change the motor gain.",
+        "These changes can alter growth and ongoing cell physiology. Without single-mutation or phenotype interventions, their separate contributions and behavioral mechanism remain unknown."
+      ],
+      "lateral_off_scope": "Suppresses in-plane spike ARRIVAL delivery after the fork; vertical spikes and morphogen PACKET exchange continue. Interaction measures the mutation's changed dependence on lateral spikes, which may be mediated by development."
+    },
+    {
+      "body": "s5",
+      "world": "pool",
+      "screen": "outputs/autonomous_pool_20261013/screens/s5_pool_T1024_b80",
+      "winner_genome_row": 38,
+      "winner_mutant_index": 37,
+      "parent_raw_sha256": "9bf10c76fe0ee50592ff19559df0b9b3f3571551897edd538bede88ef743343b",
+      "winner_raw_sha256": "6d79248a5bb82c49aa4278ccd755234b7952a09d9af4873b7a4ad303d3654f92",
+      "selection_verified": true,
+      "logged_operations_reconstruct_exactly": true,
+      "active_gene_slots_parent": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "active_gene_slots_winner": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "inactive_gene_slots_parent": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "inactive_gene_slots_winner": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "raw_changed_slots": 2,
+      "packed_changed_slots": 2,
+      "parameter_groups": [
+        "chemical_signaling",
+        "development"
+      ],
+      "changes": [
+        {
+          "flat_slot": 41,
+          "field": "W",
+          "indices": [
+            1,
+            16
+          ],
+          "label": "W[1,16]: input m0 (internal morphogen 0 concentration / (1 + concentration)) to gene 1",
+          "groups": [
+            "development",
+            "chemical_signaling"
+          ],
+          "raw_parent": -1.2401306629180908,
+          "raw_winner": -2.4164199829101562,
+          "raw_delta": -1.1762893199920654,
+          "owning_gene": 1,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": -1.2401306629180908,
+          "packed_winner": -2.4164199829101562,
+          "packed_changed": true
+        },
+        {
+          "flat_slot": 124,
+          "field": "W",
+          "indices": [
+            4,
+            24
+          ],
+          "label": "W[4,24]: input is_M (local indicator that this cell occupies motor plane z=1) to gene 4",
+          "groups": [
+            "development"
+          ],
+          "raw_parent": 0.39608341455459595,
+          "raw_winner": 0.5264100432395935,
+          "raw_delta": 0.13032662868499756,
+          "owning_gene": 4,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": 0.39608341455459595,
+          "packed_winner": 0.5264100432395935,
+          "packed_changed": true
+        }
+      ],
+      "logged_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              1,
+              16
+            ],
+            -1.1762892007827759
+          ],
+          [
+            "W",
+            [
+              4,
+              24
+            ],
+            0.13032662868499756
+          ]
+        ]
+      },
+      "zygote_phenotype_changes": [],
+      "chemical_inputs_changed": [
+        "W[1,16]: input m0 (internal morphogen 0 concentration / (1 + concentration)) to gene 1"
+      ],
+      "explanatory_notes": [
+        "Changes how the shared gene network reads internal morphogen concentration. This chemical concentration includes local secretion, decay, and neighbor packet exchange; it is neither the target receptor stream nor a received spike trace.",
+        "The is_M change alters a gene's response to the existing local motor-plane cue. It does not directly change the motor gain.",
+        "These changes can alter growth and ongoing cell physiology. Without single-mutation or phenotype interventions, their separate contributions and behavioral mechanism remain unknown."
+      ],
+      "lateral_off_scope": "Suppresses in-plane spike ARRIVAL delivery after the fork; vertical spikes and morphogen PACKET exchange continue. Interaction measures the mutation's changed dependence on lateral spikes, which may be mediated by development."
+    },
+    {
+      "body": "s7",
+      "world": "base",
+      "screen": "outputs/autonomous_pool_20261013/screens/s7_base_T1024_b80",
+      "winner_genome_row": 15,
+      "winner_mutant_index": 14,
+      "parent_raw_sha256": "863c70ef4e75c970570886ddddedc261a962c055dc5d6201a9048b1ddd803a56",
+      "winner_raw_sha256": "12c923222b3078980a5ce6177148df535f3db3656aaa349b24a8d12db064e585",
+      "selection_verified": true,
+      "logged_operations_reconstruct_exactly": true,
+      "active_gene_slots_parent": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "active_gene_slots_winner": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "inactive_gene_slots_parent": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "inactive_gene_slots_winner": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "raw_changed_slots": 2,
+      "packed_changed_slots": 2,
+      "parameter_groups": [
+        "development"
+      ],
+      "changes": [
+        {
+          "flat_slot": 106,
+          "field": "W",
+          "indices": [
+            4,
+            6
+          ],
+          "label": "W[4,6]: input g6 (gene expression) to gene 4",
+          "groups": [
+            "development"
+          ],
+          "raw_parent": 0.8700944781303406,
+          "raw_winner": 0.31076037883758545,
+          "raw_delta": -0.5593340992927551,
+          "owning_gene": 4,
+          "source_gene": 6,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": [
+            true,
+            true
+          ],
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": 0.8700944781303406,
+          "packed_winner": 0.31076037883758545,
+          "packed_changed": true
+        },
+        {
+          "flat_slot": 434,
+          "field": "s0",
+          "indices": [
+            2
+          ],
+          "label": "s0[2]: maternal gene level",
+          "groups": [
+            "development"
+          ],
+          "raw_parent": 0.1058967113494873,
+          "raw_winner": -0.8113546371459961,
+          "raw_delta": -0.9172513484954834,
+          "owning_gene": 2,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": 0.526449465180521,
+          "packed_winner": 0.3076019058800888,
+          "packed_changed": true
+        }
+      ],
+      "logged_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              4,
+              6
+            ],
+            -0.5593340992927551
+          ],
+          [
+            "s0",
+            [
+              2
+            ],
+            -0.9172513484954834
+          ]
+        ]
+      },
+      "zygote_phenotype_changes": [
+        {
+          "knob": "w1",
+          "parent": -0.625,
+          "winner": -0.5
+        },
+        {
+          "knob": "asym",
+          "parent": 0.07308788878850514,
+          "winner": 0.07490347629471146
+        },
+        {
+          "knob": "sec0",
+          "parent": 0.1178636912296185,
+          "winner": 0.11388735946999916
+        },
+        {
+          "knob": "sec1",
+          "parent": 0.19151356082846022,
+          "winner": 0.2043779899650885
+        },
+        {
+          "knob": "pol1",
+          "parent": 1.375,
+          "winner": 1.25
+        },
+        {
+          "knob": "tau_tr",
+          "parent": 2.0,
+          "winner": 4.0
+        },
+        {
+          "knob": "a0",
+          "parent": -1.625,
+          "winner": -1.375
+        },
+        {
+          "knob": "a1",
+          "parent": 0.375,
+          "winner": 0.5
+        },
+        {
+          "knob": "chi",
+          "parent": 1.125,
+          "winner": 0.875
+        },
+        {
+          "knob": "zeta",
+          "parent": 1.375,
+          "winner": 1.25
+        },
+        {
+          "knob": "g_r",
+          "parent": 0.75,
+          "winner": 0.625
+        }
+      ],
+      "chemical_inputs_changed": [],
+      "explanatory_notes": [
+        "These changes can alter growth and ongoing cell physiology. Without single-mutation or phenotype interventions, their separate contributions and behavioral mechanism remain unknown."
+      ],
+      "lateral_off_scope": "Suppresses in-plane spike ARRIVAL delivery after the fork; vertical spikes and morphogen PACKET exchange continue. Interaction measures the mutation's changed dependence on lateral spikes, which may be mediated by development."
+    },
+    {
+      "body": "s7",
+      "world": "pool",
+      "screen": "outputs/autonomous_pool_20261013/screens/s7_pool_T1024_b80",
+      "winner_genome_row": 29,
+      "winner_mutant_index": 28,
+      "parent_raw_sha256": "863c70ef4e75c970570886ddddedc261a962c055dc5d6201a9048b1ddd803a56",
+      "winner_raw_sha256": "c34e8ec8dff4682b99d9ca0e090d226fa1733366fa8f4c84e5a1ce000bdeb358",
+      "selection_verified": true,
+      "logged_operations_reconstruct_exactly": true,
+      "active_gene_slots_parent": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "active_gene_slots_winner": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "inactive_gene_slots_parent": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "inactive_gene_slots_winner": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "raw_changed_slots": 2,
+      "packed_changed_slots": 2,
+      "parameter_groups": [
+        "chemical_signaling",
+        "development"
+      ],
+      "changes": [
+        {
+          "flat_slot": 92,
+          "field": "W",
+          "indices": [
+            3,
+            17
+          ],
+          "label": "W[3,17]: input m1 (internal morphogen 1 concentration / (1 + concentration)) to gene 3",
+          "groups": [
+            "development",
+            "chemical_signaling"
+          ],
+          "raw_parent": 0.08402353525161743,
+          "raw_winner": -0.6778048276901245,
+          "raw_delta": -0.7618283629417419,
+          "owning_gene": 3,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": 0.08402353525161743,
+          "packed_winner": -0.6778048276901245,
+          "packed_changed": true
+        },
+        {
+          "flat_slot": 432,
+          "field": "s0",
+          "indices": [
+            0
+          ],
+          "label": "s0[0]: maternal gene level",
+          "groups": [
+            "development"
+          ],
+          "raw_parent": 1.3613851070404053,
+          "raw_winner": 1.3430237770080566,
+          "raw_delta": -0.018361330032348633,
+          "owning_gene": 0,
+          "source_gene": null,
+          "owner_active_parent_winner": [
+            true,
+            true
+          ],
+          "source_active_parent_winner": null,
+          "point_mutable_parent_winner": [
+            true,
+            true
+          ],
+          "packed_parent": 0.7959847216824173,
+          "packed_winner": 0.7929867606855221,
+          "packed_changed": true
+        }
+      ],
+      "logged_operations": {
+        "mut": [
+          [
+            "W",
+            [
+              3,
+              17
+            ],
+            -0.7618283629417419
+          ],
+          [
+            "s0",
+            [
+              0
+            ],
+            -0.018361331894993782
+          ]
+        ]
+      },
+      "zygote_phenotype_changes": [
+        {
+          "knob": "asym",
+          "parent": 0.07308788878850514,
+          "winner": 0.07319609910362117
+        },
+        {
+          "knob": "sec0",
+          "parent": 0.1178636912296185,
+          "winner": 0.11778657493744506
+        },
+        {
+          "knob": "sec1",
+          "parent": 0.19151356082846022,
+          "winner": 0.19117193368268004
+        }
+      ],
+      "chemical_inputs_changed": [
+        "W[3,17]: input m1 (internal morphogen 1 concentration / (1 + concentration)) to gene 3"
+      ],
+      "explanatory_notes": [
+        "Changes how the shared gene network reads internal morphogen concentration. This chemical concentration includes local secretion, decay, and neighbor packet exchange; it is neither the target receptor stream nor a received spike trace.",
+        "These changes can alter growth and ongoing cell physiology. Without single-mutation or phenotype interventions, their separate contributions and behavioral mechanism remain unknown."
+      ],
+      "lateral_off_scope": "Suppresses in-plane spike ARRIVAL delivery after the fork; vertical spikes and morphogen PACKET exchange continue. Interaction measures the mutation's changed dependence on lateral spikes, which may be mediated by development."
+    }
+  ],
+  "pending": [],
+  "caveats": [
+    "Parameter groups describe direct inputs/readouts; they do not identify the cause of any fitness gain.",
+    "Development includes the shared gene network, which can affect any phenotype throughout life.",
+    "Chemical signaling and spike messaging are distinct; m0/m1 denote internal chemicals, not receptors.",
+    "Lateral-off lesions suppress in-plane spike arrivals; morphogen packet exchange continues.",
+    "Both point mutations occur together; this study does not isolate either mutation's contribution.",
+    "Packed changes can be quantized away in a particular cell state; zygote changes describe only time zero.",
+    "Active gene slots denote genetic availability, not whether a gene is expressed or used in a circuit."
+  ]
+}

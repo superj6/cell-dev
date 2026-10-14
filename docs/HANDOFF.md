@@ -15,6 +15,16 @@ pending; see its gate table for approval/ABI dependencies. Prediction's recovere
 moving-target model, so it cannot yet isolate prediction. No pending decision below has been assumed answered,
 and no large study or rented compute has launched.
 
+**Latest bounded measurement (2026-10-13).** `results/pool_mutants_20261013/` records a preregistered 64-mutant screen
+per parent (s5/s7) in base-fast and POOL, with fresh 512-life confirmation and 256-life four-arm lateral lesions.
+Gains are +0.846 ± 0.136 (s5/base), +0.638 ± 0.116 (s5/POOL), +0.755 ± 0.129 (s7/base), and +0.263 ± 0.092 (s7/POOL).
+The first three clear 3 SE and +0.5 F, earn more capture income despite higher costs, and depend more on lateral
+spikes. s5 selects the same genotype in both worlds. This establishes nearby improvements, not a new algorithm or
+sustained accumulation. All 26,752 planned lives finished within 1.44 CPU-hours; the raw public archive reanalyzes
+exactly. This is a separate bounded exploration, not the full G2/all-world study. Before continuations, check the
+winners across T=768/1024/1536; then a fixed second-generation candidate pool can test accumulation and scoring noise.
+Production selection shortlists on 3 lives, rechecks on 4 more, and keeps parents by their pooled 7-life mean.
+
 ## 1. What the project is
 
 - **Goal, in the user's words:** evolve "genetic codes" for how cells divide and change, so that the grown tissue runs
@@ -149,7 +159,7 @@ Staged, so that arms B and P can launch before the ABI 4 port lands.
 | E4 | Generation calendar for arm M: phase = floor(g / E) mod 2 | section 6 decision 3 | hours |
 | E5 | **Implemented and parity-tested:** KILL (wounds) port to lifesim.js and embedded atlas | none | done |
 | E6 | **Tooling implemented:** lateral shares, relay chains, BH3 data contract and ABI-3 BH4 readouts | none | matched BH3 scoring pending |
-| E7 | **Preparation ready:** G1/G5 checkers, capability measurement/replay, G2 screen and `results/taskvar/prereg.md` | none for tooling; report before large runs | full studies/gates pending |
+| E7 | **Tooling and bounded base/POOL diagnostic complete:** fresh mutant confirmation/lesions archived | none for tooling; report before large runs | full G0-G5/all-world studies pending |
 | E8 | Rental kit: pinned image, bitwise replay check on the new host | renting decision | hours |
 
 E1 in detail:
@@ -214,8 +224,8 @@ truth lives. Only the fast build may skip hashes.
 - Rebuild: `python3 make_ckernel.py && python3 make_ckernel.py --fast`.
 - Test: `PYTHONPATH=.:<harness>:<harness>/tests .venv/bin/python -m pytest -q <harness>/tests/test_harness.py` (19
   tests).
-- The prior studies' re-tuned reflex knobs were lost in the reboot. Re-tune per world and keep the knobs in your own
-  directory.
+- The base/POOL re-tuned reflex knobs survive in `results/open_headroom/data/headline.json`, under
+  `reflex_knobs_verify[world].knobs`. Keep any new tuning parameters with their own tuning/verification seeds.
 
 **Interrupted, unverified work in `outputs/openhr/`.**
 - `prediction/`, `discrimination/`, `map/` (a 30-world headroom map) and `gradient/` (the mutant test).

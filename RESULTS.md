@@ -1509,3 +1509,46 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - **Integration validation:** all 696 default (non-slow) Python tests pass, repository-wide ruff and diff checks
   are clean, and the final JS suite passes 64 standard lives, 33 wound truth lives and 18 interactive checks. The
   separate playground wall-clock speed assertion remains the host-dependent limitation noted in E5 above.
+
+## 2026-10-13 — Nearby mutant gains in base and POOL
+- **Question:** do ordinary random mutations offer useful steps from the evolved s5/s7 bodies, and do those steps
+  need lateral spikes? Protocol committed before scoring in `d90665f`; evidence, raw scores, genomes, plots and
+  reusable analysis are in `results/pool_mutants_20261013/`.
+- **Design:** 64 mutants per parent, identical across base-fast and POOL, screened on 32 paired T1024 lives. Re-score
+  the top four per parent/world on 512 fresh lives, freeze one winner, and confirm against its parent on another 512.
+  Four-arm parent/winner × intact/lateral-off measurements use 256 further paired lives, a fork at 256 and full-life
+  accounting. Blocks 80–83 are disjoint. This is a separately registered exploration, not full 256-by-64/all-world G2.
+
+| Comparison | Winner genome row | Confirmed ΔF ± SE | Additional gain removed by lateral lesion ± SE |
+|---|---:|---:|---:|
+| s5 / base-fast | 38 | +0.846 ± 0.136 | +2.110 ± 0.211 |
+| s5 / POOL | 38 | +0.638 ± 0.116 | +1.644 ± 0.160 |
+| s7 / base-fast | 15 | +0.755 ± 0.129 | +1.400 ± 0.178 |
+| s7 / POOL | 29 | +0.263 ± 0.092 | +0.273 ± 0.133 |
+
+- **Three of four comparisons clear 3 SE and +0.5 F**, involving two successful unique genotypes. The same s5 mutant
+  wins in both worlds. s7/POOL misses both confirmation thresholds; its lateral interaction also misses 3 SE. No
+  candidate or sample-size extension followed that outcome.
+- **The strong gains buy more captures despite higher costs.** For example, s5/base adds 2.270 ± 0.280 captures per
+  life: +1.108 F income minus 0.262 F additional costs = +0.846 F. It ends with 14.36 more cells; s7/base adds 23.23.
+  The paired accounting includes living, spiking, movement, messaging, division, secretion, missed-click and receptor
+  costs, plus production guard/extinction charges. Size and allele changes alone do not identify the mechanism.
+- **The gains depend on lateral spikes.** In the first three comparisons, blocking them after 256 reverses the
+  mutant's advantage; the four-arm interaction exceeds 3 SE. This blocks in-plane spike arrivals while vertical
+  spikes and chemical packets continue. The lesion can change later development, so it does not isolate an adult
+  circuit or demonstrate a new routing algorithm. The selected mutations affect gene regulation and initial gene
+  levels; the s5 winner changes a chemical-input coefficient and a local motor-plane-input coefficient.
+- **Exploratory selection-noise check:** splitting the independent s5 confirmation pairs into disjoint three-life
+  batches ranks the winner no better than its parent in 30.0% of base batches and 31.8% of POOL batches. Actual search
+  shortlists 64 of 256 on 3 lives, evaluates 4 more lives, then keeps 32 using the pooled 7-life mean. This readout is
+  pairwise, not a tournament replay, and does not show that ranking noise caused earlier search outcomes.
+- **Interpretation and next step:** useful nearby improvements exist in both tested worlds. Check the winners across
+  the normal T=768/1024/1536 mixture before using them as continuation founders, then test a fixed second-generation
+  mutant pool with ordinary and more precise scoring. The old parents evolved with slower conduction, so adaptation
+  to the faster setting may explain part of these gains. Long-run accumulation, richer algorithms, functional hidden
+  layers and matched-footprint information-gap shares remain unestablished. No hand-built-body win gates a world.
+- **Validation and budget:** all 26,752 planned genome-lives completed; all eight jobs exited successfully. Monitored
+  simulation CPU plus benchmark allowance was 5,185 s (1.44 CPU-hours), below the 2-hour cap, with at most four workers.
+  The public archive reanalysis reproduced the entire summary and cross-world results exactly. Confirmation tooling
+  passed 39 focused tests, including source/seed checks, frozen selection, guard/extinction accounting and atomic
+  resume. No organism rule, ABI, world default or fitness price changed; no rented compute or evolution matrix ran.

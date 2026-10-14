@@ -60,5 +60,20 @@ records are incomplete. This is an evidence checker, not an approval or launch m
   diagnostics, not the preregistered 256-mutant, all-admitted-world study.
 - The prediction ablation removes the moving-target model, including tracking propagation; it cannot support an
   action-only lookahead claim. The conservative config leaves its named capability admission incomplete.
-- E9 worlds, G3 wounded selection, G4 calendar work, full G5 and selected-mutant confirmation tooling are pending;
-  see `prereg.md`. No production world defaults, ABI or in-life rules were changed by these scripts.
+- E9 worlds, G3 wounded selection, G4 calendar work and full G5 remain pending; see `prereg.md`.
+  Selected-mutant confirmation tooling is now implemented as described below. No production world
+  defaults, ABI or in-life rules were changed by these scripts.
+
+## Fresh mutant confirmation
+
+`scripts/taskvar_confirm.py` reads a completed gradient screen, re-scores the top ceil(5%) of its mutants on fresh
+paired lives, freezes one winner, and confirms it on another independent seed set. It then compares parent and
+winner with lateral messages intact and blocked after a matched fork. All four lesion arms use the same fresh seeds
+and full-life accounting. The interaction measures how much of the winner's advantage disappears when messages are
+blocked; it does not identify an algorithm, and later development may also change.
+
+The command defaults to dry-run. `--run` performs the measurement, `--stop-after rescore|confirm|lesion` permits staged
+execution, and completed genome rows resume after source, seed, genome and production-accounting validation. Every
+raw ledger column is retained, with paired income/cost decomposition and both 2-SE and 3-SE descriptive flags. Use
+the criterion registered for the particular study. The separately registered bounded base/POOL diagnostic uses
+64 mutants, top four, 512 re-score and confirmation lives, 256 lesion lives and the 3-SE criterion; see `prereg.md`.
