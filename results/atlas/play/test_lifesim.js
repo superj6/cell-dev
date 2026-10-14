@@ -2,8 +2,9 @@
 /* Validates lifesim.js against the C kernel and the Python reference (truth.json from export_bodies.py), then runs
  * smoke tests of the interactive world.
  *
- *   node test_lifesim.js            every body, 8 lives each, plus the interactive tests
+ *   node test_lifesim.js            every body plus interactive and wound tests; compact committed truth by default
  *   node test_lifesim.js --quick    2 lives per body
+ *   node test_lifesim.js --truth outputs/e5_wounds/truth_kernel.json   use an external truth file
  *
  * Standard-world checks per life (same seed, same world as the kernel):
  *   - all 57 ledger columns compared bitwise (F, captures, misses, spikes, n_end, ... included);
@@ -25,8 +26,19 @@ const QUICK = args.includes('--quick');
 const doc = JSON.parse(fs.readFileSync(path.join(HERE, 'bodies.json'), 'utf8'));
 
 function loadTruth() {
+  const external = args.indexOf('--truth');
+  if (external >= 0) {
+    if (!args[external + 1]) throw new Error('--truth needs a JSON file path');
+    return JSON.parse(fs.readFileSync(args[external + 1], 'utf8'));
+  }
   const p = path.join(HERE, 'truth.json');
   if (fs.existsSync(p)) return JSON.parse(fs.readFileSync(p, 'utf8'));
+  if (!fs.existsSync(path.join(HERE, 'truth_kernel.json'))) {
+    const short = require('./truth_wounds.json');
+    const baselines = short.cases.filter(c => c.name.endsWith(' baseline'));
+    return { T: 96, raster_n: short.raster_cap, dot_times: [], seeds: baselines.map(c => c.seed),
+      bodies: baselines.map(c => ({ name: doc.bodies[c.body].name, lives: [c] })) };
+  }
   const truth = JSON.parse(fs.readFileSync(path.join(HERE, 'truth_kernel.json'), 'utf8'));
   truth.bodies.forEach((b, ix) => { // merge reference parts that exist
     const rp = path.join(HERE, `truth_ref_${ix}.json`);
@@ -45,7 +57,7 @@ const same = (a, b) => bitsOf(a) === bitsOf(b);
 const fmt = (x, d = 3) => (x === null || x === undefined || Number.isNaN(x)) ? '-' : Number(x).toFixed(d);
 
 function runLife(bi, seed, stepTimes) {
-  const sim = LifeSim.create(doc, { body: bi, seed, hashes: true, raster: truth.raster_n || 2000 });
+  const sim = LifeSim.create(doc, { body: bi, seed, T: truth.T, hashes: true, raster: truth.raster_n || 2000 });
   const dots = [];
   for (const c of stepTimes) {
     sim.advance(c - sim.t);
@@ -122,13 +134,13 @@ for (let bi = 0; bi < truth.bodies.length; bi++) {
   }
   // stepping must not matter: one life again in tiny capped steps
   const lv0 = lives[0];
-  const sim = LifeSim.create(doc, { body: bi, seed: lv0.seed, hashes: true, raster: truth.raster_n || 2000 });
+  const sim = LifeSim.create(doc, { body: bi, seed: lv0.seed, T: truth.T, hashes: true, raster: truth.raster_n || 2000 });
   let calls = 0;
   while (!sim.ended) { sim.advance(0.37, 40); calls++; if (calls % 97 === 0) sim.state(); }
   const stepOk = sim.hashes().all === lv0.hashes[0];
   if (!stepOk) failures++;
   // speed without hashes (the browser default)
-  const sp = LifeSim.create(doc, { body: bi, seed: lv0.seed });
+  const sp = LifeSim.create(doc, { body: bi, seed: lv0.seed, T: truth.T });
   const ts = process.hrtime.bigint();
   sp.run();
   const runSec = Number(process.hrtime.bigint() - ts) / 1e9;
@@ -137,7 +149,7 @@ for (let bi = 0; bi < truth.bodies.length; bi++) {
     hashAll: `${hashAll}/${n}`, hashSpikes: `${hashSp}/${n}`, spikes: `${spikesOk}/${n}`, capMiss: `${capOk}/${n}`,
     cellsEnd: `${cellsOk}/${n}`, rasterPrefix: minPrefix === Infinity ? '-' : `${minPrefix}`,
     dots: nDots ? `${dotsOk}/${nDots}` : 'n/a', meanF_js: fmt(sumFjs / n), meanF_kernel: fmt(sumFk / n),
-    meanCells: fmt(cells / n, 0), steppedSame: stepOk ? 'yes' : 'NO', unitsPerSec: fmt(1024 / runSec, 0),
+    meanCells: fmt(cells / n, 0), steppedSame: stepOk ? 'yes' : 'NO', unitsPerSec: fmt((truth.T || 1024) / runSec, 0),
     badCols: [...badCols].join(' ') || '' });
 }
 console.table(rows);
@@ -239,7 +251,7 @@ const SEED = 39100000;
 }
 { // one body's JSON is enough (built-in hexprism tables, glibc's pow(n, 0.5) without the drag table)
   const tb = truth.bodies[3], lv = tb.lives[0];
-  const s = LifeSim.create(doc.bodies[3], { seed: lv.seed, hashes: true, raster: truth.raster_n || 2000 });
+  const s = LifeSim.create(doc.bodies[3], { seed: lv.seed, T: truth.T, hashes: true, raster: truth.raster_n || 2000 });
   s.run();
   check('create(one body JSON) lives the same life', s.hashes().all === lv.hashes[0], tb.name);
   const st = s.state({ membrane: true });
@@ -268,5 +280,6 @@ const SEED = 39100000;
     }
   }
 }
+require('./test_wounds.js');
 console.log(`\n${passed}/${checks} checks passed; ${failures} failure(s) in total`);
 process.exitCode = failures ? 1 : 0;

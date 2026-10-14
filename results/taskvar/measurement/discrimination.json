@@ -1,0 +1,96 @@
+{
+  "world": "discrimination",
+  "capability": "discrimination",
+  "overrides": {
+    "b2_amp": 1.0,
+    "b2_sigma": 1.2,
+    "b2_value": -50.0,
+    "b2_p": 1.0,
+    "b2_mode": 1
+  },
+  "controller_id": 1100,
+  "controller_source": "discrimination_ctl.c",
+  "source_sha256": "6214b28659222adecb031daf0e4c7a7aa81112f0b9461d21c85bdf9e08d19492",
+  "params": [
+    0.6,
+    2.0,
+    0.05,
+    0.1,
+    1.8199702260873554,
+    2.0,
+    6.0,
+    50.0,
+    1.0,
+    1.0,
+    1.2,
+    1.0,
+    1.0,
+    1.0,
+    -50.0,
+    0.4121409159987405,
+    0.25,
+    7.0,
+    2.0,
+    1.1623385664995558,
+    1.0,
+    0.48365589198074693,
+    0.1060543206096955,
+    0.18788705919331367,
+    0.0,
+    1.0,
+    4.188513339995345,
+    0.2903586900228304,
+    0.0,
+    0.0
+  ],
+  "ablate": {
+    "25": 0
+  },
+  "original_tuning_footprint": "ring5",
+  "tuning_seed_ranges": [
+    {
+      "seed0": 44620000,
+      "n": 128
+    },
+    {
+      "seed0": 44630000,
+      "n": 48
+    },
+    {
+      "seed0": 44640000,
+      "n": 128
+    },
+    {
+      "seed0": 44650000,
+      "n": 256
+    }
+  ],
+  "reflex_knobs": {
+    "S.g_r": 1.0,
+    "S.tau_m": 4.0,
+    "S.t_ref": 0.5,
+    "S.b": -0.25,
+    "C.g_r": 1.0,
+    "C.tau_m": 4.0,
+    "C.b": 0.5,
+    "C.t_ref": 4.0,
+    "M.w0": 1.5,
+    "M.kappa": 1.0,
+    "M.t_ref": 1.0,
+    "K.w0": 1.5,
+    "K.kappa": 1.0,
+    "K.t_ref": 4.0,
+    "S.delta": 0.0,
+    "M.tau_m": 2.0,
+    "M.b": 0.25,
+    "K.tau_m": 2.0,
+    "K.b": 0.0
+  },
+  "smaller_reflex_knobs": null,
+  "reflex_footprint": "hollow3",
+  "replay_audit": null,
+  "world_parity_audit": null,
+  "note": "Recovered tuning parameters are starting points. Fresh scoring and replay audit remain required.",
+  "ablation_isolates_capability": true,
+  "ablation_interpretation": "Disables the decoy model while keeping all other controller parameters fixed."
+}

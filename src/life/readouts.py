@@ -152,9 +152,13 @@ cannot reconstruct subthreshold integration. Lesions supply the complementary ca
         if len(ch) and start is not None:
             ch = ch[ch.t >= start]
         groups = [] if not len(ch) else probe.chain_summary(ch).to_dict("records")
+        for group in groups:
+            subset = ch if group["cls"] == "all" else ch[ch.cls == group["cls"]]
+            receptors = subset[subset.origin == "rec"]
+            group["relayed_2plus"] = float((receptors.lat_hops >= 2).mean()) if len(receptors) else None
         rows.append(dict(seed=tr.meta["seed"], groups=groups))
     return dict(lives=rows, start=start, max_depth=max_depth,
-                method="largest positive input in each firing step; relayed share is among receptor-origin chains",
+                method="largest positive input; relayed and relayed_2plus shares are among receptor-origin chains",
                 limitation="subthreshold integration is omitted; unknown/deep chains are reported separately")
 
 

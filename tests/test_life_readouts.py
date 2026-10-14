@@ -1,12 +1,30 @@
 """Measurement contracts: paired ratios, matching footprints and observation-only search traces."""
 import copy
 import math
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
 import pytest
 
 from src.life import probe, readouts, spec
+
+
+def test_relay_two_plus_uses_in_plane_hops_and_only_receptor_origins(monkeypatch):
+    rows = []
+    for cls, origin, lat_hops in (("M", "rec", 0), ("M", "rec", 1), ("M", "rec", 2),
+                                  ("M", "tonic", 2), ("K", "tonic", 0)):
+        rows.append(dict(cls=cls, origin=origin, lat_hops=lat_hops, origin_dist=lat_hops,
+                         hops=lat_hops + 2, latency=1.0, p_signal=0.5, via_own_sense=False, path="synthetic"))
+    chains = pd.DataFrame(rows)
+    tr = SimpleNamespace(ledger={k: 0.0 for k in spec.V3.LEDGER}, spikes=pd.DataFrame([{}]), meta=dict(seed=46_000_012))
+    monkeypatch.setattr(probe, "relabel", lambda trace: trace)
+    monkeypatch.setattr(probe, "chains", lambda trace, max_depth: chains)
+    groups = {g["cls"]: g for g in readouts.relay_chains([tr])["lives"][0]["groups"]}
+    assert groups["M"]["relayed"] == pytest.approx(2 / 3)
+    assert groups["M"]["relayed_2plus"] == pytest.approx(1 / 3)
+    assert groups["all"]["relayed_2plus"] == pytest.approx(1 / 3)
+    assert groups["K"]["relayed_2plus"] is None
 
 
 def scores(F, **changes):

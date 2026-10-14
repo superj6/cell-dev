@@ -1,0 +1,34 @@
+{
+  "world": "prediction",
+  "T": 32,
+  "n": 2,
+  "missing": [
+    "at least 512 fresh paired lives",
+    "ablation isolating the named capability"
+  ],
+  "verdict": "incomplete",
+  "checks": {
+    "information_gap": true,
+    "do_less": false
+  },
+  "best_reflex": "frozen",
+  "information_controller": "full",
+  "information_gap": {
+    "mean": 24.01128601265712,
+    "se": 7.491771478647286,
+    "n": 2
+  },
+  "best_do_less": "smaller_tuned",
+  "do_less_gap": {
+    "mean": 8.456046875,
+    "se": 7.970921874999999,
+    "n": 2
+  },
+  "capability_controller": "full",
+  "ablation": "ablated",
+  "ablation_gap": {
+    "mean": 0.6324252880609285,
+    "se": 15.624632014397436,
+    "n": 2
+  }
+}

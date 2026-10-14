@@ -1,0 +1,70 @@
+{
+  "status": "recovered_unverified_diagnostics_not_admission",
+  "artifacts": [
+    {
+      "path": "outputs/openhr/prediction/pf_ctl.c",
+      "bytes": 19420,
+      "sha256": "8bfff9f02653c93f22f6d86df7b2c47e1167191fe9448ad26ec194f695689c58"
+    },
+    {
+      "path": "outputs/openhr/discrimination/disc_ctl.c",
+      "bytes": 23176,
+      "sha256": "6214b28659222adecb031daf0e4c7a7aa81112f0b9461d21c85bdf9e08d19492"
+    },
+    {
+      "path": "outputs/openhr/prediction/out/score_v0.3_tau200__test.json",
+      "bytes": 7737,
+      "sha256": "46fd31b5000f16334355bdeeaf97e1c68efb7f0d09f628575d11afe19c76146b"
+    },
+    {
+      "path": "outputs/openhr/prediction/out/score_v0.3_tau200__test.npz",
+      "bytes": 3803,
+      "sha256": "2ec13bcbba63d65656c7c2c75e5d50af89c52695b5612589ee15cff07d0b2e86"
+    },
+    {
+      "path": "outputs/openhr/discrimination/out/poison_broad/score_meta.json",
+      "bytes": 2188,
+      "sha256": "52e12ac3ee7ffff2b652aa8ac7110b8b881ce5bee738bad937c10254d0d16e41"
+    },
+    {
+      "path": "outputs/openhr/discrimination/out/poison_broad/score.npz",
+      "bytes": 42340,
+      "sha256": "952e32fa2a768dee9bd88b9860a7035235936f31eca0f76f97d73a688d1df0dd"
+    },
+    {
+      "path": "outputs/openhr/gradient/results.json",
+      "bytes": 32740,
+      "sha256": "229edd7baca9fbdfdffb4efaf05248f339ccfedec0a39f7aeb40b0336068b102"
+    }
+  ],
+  "prediction_score_lives": 8,
+  "discrimination_score_lives": 1024,
+  "gradient_screen_mutants": 128,
+  "gradient_data_files": [
+    "outputs/openhr/gradient/data/reflexes_base.npz",
+    "outputs/openhr/gradient/data/reflexes_blink20-10.npz",
+    "outputs/openhr/gradient/data/reflexes_blink20-20.npz",
+    "outputs/openhr/gradient/data/reflexes_decoylite.npz",
+    "outputs/openhr/gradient/data/reflexes_flash5dim.npz",
+    "outputs/openhr/gradient/data/reflexes_flipmid.npz",
+    "outputs/openhr/gradient/data/reflexes_lead0.2.npz",
+    "outputs/openhr/gradient/data/reflexes_lead0.3.npz",
+    "outputs/openhr/gradient/data/reflexes_pool.npz",
+    "outputs/openhr/gradient/data/reflexes_samepeak.npz",
+    "outputs/openhr/gradient/data/replic_s5_base.npz",
+    "outputs/openhr/gradient/data/replic_s5_pool.npz",
+    "outputs/openhr/gradient/data/replic_s7_base.npz",
+    "outputs/openhr/gradient/data/replic_s7_pool.npz",
+    "outputs/openhr/gradient/data/rescore_s5_base.npz",
+    "outputs/openhr/gradient/data/rescore_s5_blink20-20.npz",
+    "outputs/openhr/gradient/data/rescore_s5_pool.npz",
+    "outputs/openhr/gradient/data/rescore_s7_base.npz",
+    "outputs/openhr/gradient/data/rescore_s7_pool.npz",
+    "outputs/openhr/gradient/data/screen_s5_base.npz",
+    "outputs/openhr/gradient/data/screen_s5_blink20-20.npz",
+    "outputs/openhr/gradient/data/screen_s5_pool.npz",
+    "outputs/openhr/gradient/data/screen_s7_base.npz",
+    "outputs/openhr/gradient/data/screen_s7_blink20-20.npz",
+    "outputs/openhr/gradient/data/screen_s7_pool.npz"
+  ]
+}

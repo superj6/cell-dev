@@ -1,0 +1,110 @@
+{
+  "world": "prediction",
+  "capability": "prediction",
+  "overrides": {
+    "v_t": 0.3,
+    "tau_turn": 200.0
+  },
+  "controller_id": 1201,
+  "controller_source": "prediction_ctl.c",
+  "source_sha256": "8bfff9f02653c93f22f6d86df7b2c47e1167191fe9448ad26ec194f695689c58",
+  "params": [
+    0.6,
+    2.0,
+    0.05,
+    0.3,
+    200.0,
+    2.0,
+    6.0,
+    50.0,
+    1.0,
+    1000.0,
+    0.5,
+    0.0,
+    0.6292684788158699,
+    0.5491273861344788,
+    1.0,
+    0.2395235291087405,
+    0.11680047465487632,
+    0.8854161056664502,
+    1.0,
+    1.1795559287798523,
+    0.022252091514471842,
+    0.047534393706927615,
+    0.02727736850656158,
+    0.5,
+    0.1106148729730719,
+    0.11015382200724819,
+    1.0,
+    0.0,
+    0.0,
+    0.9269439557815714
+  ],
+  "ablate": {
+    "3": 0,
+    "4": 0
+  },
+  "original_tuning_footprint": "ring4",
+  "tuning_seed_ranges": [
+    {
+      "seed0": 44200000,
+      "n": 48
+    },
+    {
+      "seed0": 44210000,
+      "n": 96
+    },
+    {
+      "seed0": 44220000,
+      "n": 256
+    }
+  ],
+  "reflex_knobs": {
+    "S.g_r": 1.0,
+    "S.tau_m": 4.0,
+    "S.t_ref": 0.5,
+    "S.b": 0.625,
+    "C.g_r": 1.0,
+    "C.tau_m": 4.0,
+    "C.b": 0.5,
+    "C.t_ref": 1.0,
+    "M.w0": 1.5,
+    "M.kappa": 1.0,
+    "M.t_ref": 0.5,
+    "K.w0": 1.5,
+    "K.kappa": 1.0,
+    "K.t_ref": 4.0,
+    "S.delta": 0.0,
+    "M.tau_m": 2.0,
+    "M.b": 0.25,
+    "K.tau_m": 2.0,
+    "K.b": 0.0
+  },
+  "smaller_reflex_knobs": {
+    "S.g_r": 1.0,
+    "S.tau_m": 1.0,
+    "S.t_ref": 1.0,
+    "S.b": 0.625,
+    "C.g_r": 1.0,
+    "C.tau_m": 2.0,
+    "C.b": 0.5,
+    "M.w0": 1.5,
+    "M.kappa": 1.0,
+    "M.t_ref": 1.5,
+    "K.w0": 1.5,
+    "K.kappa": 1.0,
+    "K.t_ref": 4.0,
+    "S.delta": 0.0,
+    "C.t_ref": 0.5,
+    "M.tau_m": 2.0,
+    "M.b": 0.25,
+    "K.tau_m": 2.0,
+    "K.b": 0.0
+  },
+  "reflex_footprint": "hollow3",
+  "replay_audit": null,
+  "world_parity_audit": null,
+  "note": "Recovered tuning parameters are starting points. Fresh scoring and replay audit remain required.",
+  "ablation_isolates_capability": false,
+  "ablation_interpretation": "Removes moving-target model, including tracking; action-only prediction remains unmeasured."
+}

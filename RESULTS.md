@@ -1471,3 +1471,41 @@ They are measurement tools only. A replay test shows the controller reads nothin
 - **Still unmeasured:** BH3 on each evolved body's actual footprint. The API requires matched worlds, ordered fresh
   seeds and footprint/protocol identifiers; substituting published hollow3 scores or an evolved body's final shape
   would not satisfy that contract. Flip recovery and dim captures remain unavailable under ABI 3.
+
+## 2026-10-13 — E5: browser wound parity
+- Ported the existing ABI-3 KILL event to `lifesim.js` and rebuilt the embedded atlas. Wounds retain the kernel's
+  event ordering, uid targeting and living/secretion accounting; they do not change organism rules or the ABI.
+- Committed 33 short C/reference-checked truth lives: all eight bodies, partial/zero/full wounds, birth/end boundaries,
+  shifted time origin, accounting opened at the wound, apoptosis_off, a coincident tick, turnover, regrowth and stale
+  uid events. The final JS engine matches all ledger bytes, hashes, rasters and death times, both whole and stepped.
+  The final extended JS suite also passes 64/64 standard lives and 18/18 interactive checks. Eight compact baseline
+  lives make the default JS test command work from
+  committed fixtures instead of requiring missing local truth files.
+- The playground's wall-clock throughput assertion remains below its threshold on this host; 75/76 checks passed.
+  A suspected regression prompted a smaller wound handler and a fixed-work comparison on fast CPU 0: baseline
+  median 0.615 s, final engine 0.590 s, with identical 26,306 events, 1,525 spikes and 9 captures. Three interleaved
+  fresh-process samples per engine, after warmup, support no slowdown in that bounded comparison, not a general
+  speedup claim. Timing artifacts and logs are in `outputs/e5_wounds/`.
+
+## 2026-10-13 — E7: pre-registration and bounded measurement validation
+- Committed preparation under `results/taskvar/` and `scripts/taskvar_{gates,gradient,measure,replay}.py`. The gate
+  checker follows plan 0.4: at least 512 fresh paired lives, an own-footprint information gap and matched capability
+  ablation clearing 1 F and 3 SE, and do-less gains below one quarter of the gap. Larger matched footprints may
+  supply the capability contrast. Missing evidence stays incomplete; no hand-built tissue win is required.
+- Archived the interrupted prediction/discrimination controller sources and knobs with provenance. Corrected the
+  measurement-only harness's unused decoy-epoch alias and verified ordinary tissue and null/inert world parity
+  against ABI 3. Both full and ablated controllers passed **24/24 bitwise callback-stream replay comparisons** in
+  two 64-unit lives per variant, including different hidden worlds; all closed-loop controls differed. Audits bind
+  the controller, kernel, harness, adapter and config sources.
+- Two-life, 32-unit capability smokes (seven candidates each) correctly report incomplete. A four-mutant/two-life
+  base smoke checks the gradient pipeline, which preserves genomes/ops, pins numerical identity, saves each row,
+  uses production extinction accounting and retains penalized guard mutants in the denominator. These are plumbing
+  checks, not capability or mutant-gradient findings. Key evidence is in `results/taskvar/validation/`; working
+  artifacts are in `outputs/taskvar_e7/`. The 27 targeted gate/style tests and repository lint pass.
+- **Still pending:** full G0-G5 measurements, all-admitted-world gradients, fresh mutant confirmations/lesions,
+  matched-footprint BH3, and approval-dependent selection/ABI work. The recovered prediction ablation removes the
+  moving-target model broadly, so its named capability check remains incomplete. The pre-registration makes each
+  dependency explicit and reserves disjoint seed blocks. No full study, evolution matrix or rental was launched.
+- **Integration validation:** all 696 default (non-slow) Python tests pass, repository-wide ruff and diff checks
+  are clean, and the final JS suite passes 64 standard lives, 33 wound truth lives and 18 interactive checks. The
+  separate playground wall-clock speed assertion remains the host-dependent limitation noted in E5 above.

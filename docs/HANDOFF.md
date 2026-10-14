@@ -3,6 +3,18 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
+**Pickup progress (2026-10-13).** E1, E5 and E6 tooling are implemented; see the newest `RESULTS.md` entries. Life runs now
+checkpoint every 25 generations; `src.run --resume` restores both RNGs and verified log offsets with strict source
+and numerical pins. Use `--stop-after` with the original total generation target for a controlled interruption.
+The 3 + resume + 3 versus 6 CLI tests pass in BELL and SPECK. Old pilot populations still cannot resume exactly.
+The JS wound port has C/Python/JS truth lives, and the atlas embeds it. E6 readouts and the small-batch CLI are
+documented in `docs/PROBE.md`; BH3 on matched evolved footprints is still unmeasured.
+E7 preparation is in `results/taskvar/`: preregistration, recovered controllers, strict admission checks, bounded
+replay/parity evidence, and measurement/gradient commands that default to dry-run. Full G0-G5 measurements are still
+pending; see its gate table for approval/ABI dependencies. Prediction's recovered ablation measures the broader
+moving-target model, so it cannot yet isolate prediction. No pending decision below has been assumed answered,
+and no large study or rented compute has launched.
+
 ## 1. What the project is
 
 - **Goal, in the user's words:** evolve "genetic codes" for how cells divide and change, so that the grown tissue runs
@@ -130,14 +142,14 @@ Staged, so that arms B and P can launch before the ABI 4 port lands.
 
 | Step | What | Approval | Estimate |
 |---|---|---|---|
-| E1 | Checkpoint/resume with determinism pinning (see below) | none | 0.5 day |
+| E1 | **Implemented and replay-tested:** checkpoint/resume with determinism pinning | none | done |
 | E2 | d0 0.5 / d_min 0.25 as the base; re-run GS1-GS6 (`scripts/life_gates.py --world speck`); re-tune reflex and router | report only | 0.5 day plus CPU |
 | E3 | Family harness in `evaluate.py`, behind a flag that is off by default; prototype `results/taskvar_study/engineering/fam_eval.py` | decision 1 to *use* it | 0.5-1 day |
 | E9 | ABI 4: flip (t_flip), blink, flash with dim level, in all three engines with truth lives | decision 2 | 0.5-1 day, the riskiest |
 | E4 | Generation calendar for arm M: phase = floor(g / E) mod 2 | section 6 decision 3 | hours |
-| E5 | KILL (wounds) port to lifesim.js | none | hours |
-| E6 | Readouts: lateral_off share, relay chains, BH3 (share of C4's gap captured) and BH4 (search signature) | none | 0.5 day |
-| E7 | Gates G0-G5, prediction and discrimination measurements, gradient test, `prereg.md` committed before launch | none | about 1 day, about 75 CPU-h |
+| E5 | **Implemented and parity-tested:** KILL (wounds) port to lifesim.js and embedded atlas | none | done |
+| E6 | **Tooling implemented:** lateral shares, relay chains, BH3 data contract and ABI-3 BH4 readouts | none | matched BH3 scoring pending |
+| E7 | **Preparation ready:** G1/G5 checkers, capability measurement/replay, G2 screen and `results/taskvar/prereg.md` | none for tooling; report before large runs | full studies/gates pending |
 | E8 | Rental kit: pinned image, bitwise replay check on the new host | renting decision | hours |
 
 E1 in detail:
@@ -193,6 +205,8 @@ truth lives. Only the fast build may skip hashes.
 - 42.0-42.2M: tests;
 - 43M + 10,000·block: open headroom, blocks 0-49, 100-179, 200-239, 300-419;
 - 49M: a design diagnostic.
+- 45.05M: short JS wound truth cases; 46M: E6 readout validation.
+- 51M + 10,000·block: E7, reserved in `results/taskvar/prereg.md`; blocks 0-9 are validation only.
 - Use 45M or above for new work.
 
 **The controller harness.**

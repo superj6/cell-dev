@@ -302,7 +302,7 @@ Results are saved after the kernel batch and each trace. Larger batches still ne
 |---|---|
 | Lateral net-F share | `(mean F_base - mean F_lateral_off) / mean F_base`, both counted from the fork. Also reports the paired F loss. A fork can change subsequent development. |
 | Lateral share of lead (R1) | Supply the paired best-reflex scores: `(mean F_base - mean F_lateral_off) / (mean F_base - mean F_reflex)`. The reflex must use the same accounting window. |
-| Relay chains | Existing largest-input attribution, with origin fractions, latency by hop count and relay share among receptor-origin chains, separately per life. Subthreshold integration is omitted. |
+| Relay chains | Existing largest-input attribution, with origin fractions, latency by hop count, and shares with at least one (`relayed`) or at least two (`relayed_2plus`) in-plane hops. Both shares divide by receptor-origin chains in that act-cell group, separately per life; other origins are excluded. Subthreshold integration is omitted. |
 | BH3 | `(mean F_best - mean F_reflex) / (mean F_C4 - mean F_reflex)`, requiring paired fresh lives, the same world/accounting window, and the same footprint identifiers. |
 | BH4 silence | Distance after at least `--silence-window` units with no delivered receptor ping anywhere in the body. Default 0.5 is one nominal base-world hop. Includes initial silence after this delay. |
 | BH4 occupancy | Share of the ABI's integer-time samples inside the capture radius. This is an estimate of time share, not exact continuous dwell time. |

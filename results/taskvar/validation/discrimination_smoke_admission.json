@@ -1,0 +1,39 @@
+{
+  "world": "discrimination",
+  "T": 32,
+  "n": 2,
+  "missing": [
+    "at least 512 fresh paired lives"
+  ],
+  "verdict": "incomplete",
+  "checks": {
+    "information_gap": false,
+    "do_less": false,
+    "specific_part": false
+  },
+  "best_reflex": "frozen",
+  "information_controller": "full",
+  "information_gap": {
+    "mean": 10.7911208127725,
+    "se": 9.215879278451037,
+    "n": 2
+  },
+  "best_do_less": "smaller_frozen",
+  "do_less_gap": {
+    "mean": 2.872140625000001,
+    "se": 2.037671875,
+    "n": 2
+  },
+  "capability_controller": "full",
+  "ablation": "ablated",
+  "ablation_gap": {
+    "mean": 28.450400341045707,
+    "se": 23.436316025251717,
+    "n": 2
+  },
+  "specific_part": {
+    "mean": 28.450400341045707,
+    "se": 23.436316025251717,
+    "n": 2
+  }
+}

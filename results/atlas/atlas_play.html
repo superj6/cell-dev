@@ -593,7 +593,7 @@ function decodeKnobs(y, th) { // section 8, into th (Float64Array(23))
 
 // ---- event kinds, records, flags --------------------------------------------------------------------------------
 const CLAIM = 0, BORN = 10, PRESENT = 11, ACK = 12, REJECT = 13, DIED = 14, PACKET = 20,
-  ARRIVAL = 30, THRESHOLD = 31, RCAND = 33, RECEPTOR = 34, TICK = 40;
+  ARRIVAL = 30, THRESHOLD = 31, RCAND = 33, RECEPTOR = 34, TICK = 40, KILL = 50;
 const R_SPIKE = 1, R_BIRTH = 2, R_DEATH = 3, R_CLAIM = 4, R_RESOLVE = 5, R_PACKET = 6, R_LOST = 7, R_TICK = 8,
   R_RCAND = 9, R_RECEPT = 10, R_CHEM = 100;
 const FLAGS = { contacts_off: 1 << 0, chem_off: 1 << 1, apoptosis_off: 1 << 2, division_off: 1 << 3, freeze: 1 << 4,
@@ -721,13 +721,14 @@ class Life {
     this.fork_flags = w.fork_flags | 0;
     this.program = (this.flags & FLAGS.program_mode) !== 0;
     if (this.flags & FLAGS.lockstep) throw new Error('lockstep is not supported by lifesim.js');
-    if (w.noise_rate > 0 || w.kill_t >= 0 || w.stuck_t >= 0 || w.drop_p > 0 || w.window_h > 0 || w.oracle_cap > 0 ||
-      w.fabric_R > 0 || w.b2_amp > 0) throw new Error('panel perturbations, dense fabrics, oracle caps, the window scheduler and the second blob are not supported');
+    if (w.noise_rate > 0 || w.stuck_t >= 0 || w.drop_p > 0 || w.window_h > 0 || w.oracle_cap > 0 ||
+      w.fabric_R > 0 || w.b2_amp > 0) throw new Error('noise, stuck cells, message loss, dense fabrics, oracle caps, the window scheduler and the second blob are not supported');
     if (w.world_kind !== 1) throw new Error('lifesim.js runs CATCH worlds (world_kind 1) only');
     this.d_min = w.d_min; this.d0 = w.d0; this.delay_sd = w.delay_sd; this.jit = w.jit; this.tau_mis = w.tau_mis;
     this.P0 = w.P0; this.clock_sd = w.clock_sd; this.tick_jit = w.tick_jit; this.tau_z = w.tau_z;
     this.c_live = w.c_live; this.c_spike = w.c_spike; this.c_tw = w.c_tw; this.c_msg = w.c_msg; this.c_div = w.c_div;
     this.c_sec = w.c_sec; this.n_max = w.n_max; this.L_max = w.L_max;
+    this.kill_t = w.kill_t; this.kill_frac = w.kill_frac;
     // the event guard (section 10) ends a life after e_max events (~50k time units for a grown speck body); an
     // endless interactive session can raise it (opts.e_max, e.g. Infinity) together with opts.T
     this.e_max = opts.e_max !== undefined ? opts.e_max : w.e_max;
@@ -1164,6 +1165,9 @@ class Life {
     this.predict(c);
     let t1 = t + U * c.P_n; if (t1 <= t) t1 = nextup(t);
     { const ev = new Ev(t1, site, TICK); ev.x = c; this.push(ev); }
+    if (this.kill_t >= 0 && t < this.t0 + this.kill_t) {
+      const ev = new Ev(this.t0 + this.kill_t, site, KILL); ev.x = c; this.push(ev);
+    }
     if (site.z === 0 && this.lam_max > 0) {
       c.nrec = 0; c.rcT = this.receptorNext(c, 0, t);
       const ev = new Ev(c.rcT, site, RCAND); ev.x = c; ev.i = 0; this.push(ev);
@@ -1199,6 +1203,13 @@ class Life {
     for (let d = 0; d < this.D; d++) if (instack[d]) { const ev = new Ev(0, null, DIED); ev.c = c; this.send(c.site, d, t + this.d_min, ev); }
     this.evlog.push({ t, kind: 'death', id: c.id, cause });
   }
+  wound(c, t) { // 7.9: settle the living/secretion interval before the exogenous death.
+    this.hash1(S_KILL, c.uh, c.ul);
+    if (u01() < this.kill_frac) {
+      const r = this.emit(R_TICK); r.cell = c; r.f1 = c.t_prev; r.f2 = c.th[KSEC0] + c.th[KSEC1];
+      this.apoptosis(c, t, 3);
+    }
+  }
   dcOf(c, d, k_nb) {
     const s = c.site, a = s.a + this.off_a[d], b = s.b + this.off_b[d], z = s.z + this.off_z[d];
     const nh = ((a >>> 0) ^ ((z & 15) << 24)) >>> 0, nl = b >>> 0;
@@ -1212,6 +1223,7 @@ class Life {
     const occ = site.occ;
     let claims = null, notices = null, packets = null, rcands = null;
     const arr = this.arrBuf; let narr = 0, nall = 0, thr = false, nrecv = 0, tick = null;
+    let kill = false; // each cell has at most one scheduled wound; stale occupants' events do not count
     for (let i = 0; i < evs.length; i++) {
       const ev = evs[i];
       switch (ev.kind) {
@@ -1222,6 +1234,7 @@ class Life {
         case TICK: tick = ev; break;
         case CLAIM: (claims || (claims = [])).push(ev); break;
         case PACKET: (packets || (packets = [])).push(ev); break;
+        case KILL: if (ev.x === occ) kill = true; break;
         default: (notices || (notices = [])).push(ev);
       }
     }
@@ -1284,6 +1297,8 @@ class Life {
     if (n_rec > 0 || narr > 0 || thr) this.membrane(occ, t, arr, narr, thr, n_rec);
     // 4. tick
     if (tick !== null && tick.x === occ) this.tick(occ, t);
+    // 5. exogenous wound (7.9), after the tick and addressed to this cell's uid, not a replacement occupant.
+    if (kill && occ.alive) this.wound(occ, t);
   }
 
   start() {
