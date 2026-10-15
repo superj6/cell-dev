@@ -28,7 +28,8 @@ accounts for about 79% of the mixture's persistent ordinary cost; spike/message 
 Halving maintenance would reverse mixture-versus-control persistent F on those recorded lives. This is ranking
 sensitivity, not an optimum or a prediction of evolution. AM is being prepared to compare capture value 500
 versus 2,000 during fixed two-task selection, retaining every existing physical penalty, from all 32 AL-mixture
-survivors. Both arms get more selection lives to reduce noise; final comparisons use original prices. No AM run
+survivors. Both arms get more selection lives to reduce noise; final comparisons use original prices. AM is prepared and registered at protocol `9210e218…922294`, with28,756 total calls,
+10,800CPU/5,400wall caps and explicit memory safeguards. Actual-input review/publication precede release. No AM run
 has launched. Continue on judgment within local CPU/memory bounds; stop to report if meaningful progress
 appears to need more resources. All AL contexts are now development data.
 

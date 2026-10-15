@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_capture_value_selection_20261015/operations/review_resources_timing.py", line 160, in <module>
+    main()
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_capture_value_selection_20261015/operations/review_resources_timing.py", line 101, in main
+    shape, fortran, dtype = np.lib.format._read_array_header(stream, version)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'numpy.lib.format' has no attribute '_read_array_header'. Did you mean: 'read_array_header_1_0'?

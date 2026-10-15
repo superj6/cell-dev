@@ -1,0 +1,92 @@
+{
+  "status": "passed",
+  "protocol_sha256": "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294",
+  "analyzer_sha256": "3c22015e7415467e273ace9cf8248b53b4ecf37f4584c406e73807fe196ed474",
+  "prepare_sha256": "1a5d3de5ede391b282e5cff7a81f562d4e01a5ed9836af342736675d640364cd",
+  "script_sha256": "8dcb64310cbc5a1c034894cff8a3ae51865a848e54268fefc0c0d9af54b14880",
+  "pin_counts": {
+    "source_pins": 10,
+    "input_pins": 17,
+    "production_pins": 33,
+    "original_input_pins": 13,
+    "review_pins": 8
+  },
+  "exact_original_copy_mapping": {
+    "results/retention_selection_20261015/runs/balanced_mixture/population.json": [
+      "inputs/input_population.json"
+    ],
+    "results/retention_selection_20261015/runs/balanced_mixture/best_genome.json": [
+      "inputs/AL_mixture_start.json"
+    ],
+    "results/retention_selection_20261015/inputs/AI_control_start.json": [
+      "inputs/AI_control_start.json"
+    ],
+    "results/retention_selection_20261015/runs/balanced_mixture/checkpoint.pt": [
+      "inputs/AL_checkpoint.pt"
+    ],
+    "results/retention_selection_20261015/runs/balanced_mixture/determinism.json": [
+      "inputs/AL_determinism.json"
+    ],
+    "results/retention_selection_20261015/runs/balanced_mixture/config.yaml": [
+      "inputs/AL_config.yaml"
+    ],
+    "results/retention_selection_20261015/analysis_result/summary.json": [
+      "inputs/AL_summary.json"
+    ],
+    "results/retention_selection_20261015/terminal_review/native/complete_native_audit.json": [
+      "inputs/AL_native_audit.json"
+    ],
+    "results/retention_selection_20261015/protocol.json": [
+      "inputs/AL_protocol.json"
+    ],
+    "results/retention_selection_20261015/inputs/persistent_protocol.json": [
+      "inputs/persistent_protocol.json"
+    ],
+    "results/retention_selection_20261015/inputs/startup_identity.json": [
+      "inputs/startup_identity.json"
+    ],
+    "results/retention_selection_20261015/inputs/visibility_truth.json": [
+      "inputs/visibility_truth.json"
+    ],
+    "outputs/audit_capture_value_selection_20261015/operations/seed_audit.json": [
+      "inputs/seed_audit.json"
+    ]
+  },
+  "imported_rows": 32,
+  "shape": [
+    32,
+    875
+  ],
+  "population_raw_sha256": "bfc6b3a010592fabc731231d3775ae078cf7a20fb4dcf124c3992080dd61a2f4",
+  "row_zero_AL_reference_raw_sha256": "e8c627c9ad8f182b6c5853da35971977a16f94220726bb805678000767a024a1",
+  "AI_ancestral_reference_raw_sha256": "657326d5aaa87832166ca9c3d61ee65ed891f4da3725d59a1e69b76a51162349",
+  "four_confirmation_worlds_exact_AL": true,
+  "confirmation_capture_value": 500,
+  "config_pair_differences": [
+    "logging.output_dir",
+    "retention_selection.arm",
+    "retention_selection.selection_capture_value"
+  ],
+  "selection_capture_values": {
+    "current_value": 500,
+    "high_value": 2000
+  },
+  "native_diagnostic_base_physics_exact_AL": true,
+  "runtime_paths_absent": [
+    "release.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "raw",
+    "build-cache",
+    "startup.json",
+    "endpoints.json"
+  ],
+  "engine_imports": false,
+  "simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0,
+  "limitations": [
+    "Initial full population bytes are verified; no future genetic or simulation outcome exists yet."
+  ]
+}

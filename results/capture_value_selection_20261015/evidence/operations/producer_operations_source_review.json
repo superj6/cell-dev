@@ -1,0 +1,78 @@
+{
+  "status": "approved_source_only_unprepared",
+  "source_pins": {
+    "outputs/autonomous_capture_value_selection_20261015/prepare.py": "1a5d3de5ede391b282e5cff7a81f562d4e01a5ed9836af342736675d640364cd",
+    "outputs/autonomous_capture_value_selection_20261015/monitor.py": "5fdf819058832aaf3d2813d0f2ebe8fe4b4f2b5a10b552c0b4dd9b931b3d4114",
+    "outputs/autonomous_capture_value_selection_20261015/common.py": "56c267b3f9fd36d9075f10f31380ac8de777d849b853151a222af3d5d9e7d8b9",
+    "outputs/autonomous_capture_value_selection_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/autonomous_capture_value_selection_20261015/selection.py": "f8370d3390a6e3bee1b18151444f8e81e64d04a6ba631d2c009527902782d7fa",
+    "outputs/autonomous_retention_selection_20261015/prepare.py": "ff5f27be0efbafc43aa4d96da1b763059e289114bb391d237e54f72a80891221",
+    "outputs/autonomous_retention_selection_20261015/monitor.py": "4a7ed3bcb56822b9a40bd176a2291ecfdb06ac79f0253e645e9b2a708f76bccb",
+    "outputs/autonomous_retention_selection_20261015/common.py": "3e72002c429a4fb2295db8694de57cd442186585cd8300da069b1ab5dae24feb",
+    "outputs/audit_capture_value_selection_20261015/operations/test_prepare.py": "73cebeeddd4947b244333da58046c843c3b8ad79d59f5d01feedf940c8b027f4",
+    "outputs/audit_capture_value_selection_20261015/operations/prepare_tests.xml": "1a7f24c3df3b69a0cb7c8a07765b2f88901cee6410d0756b288972b34d45f117",
+    "outputs/audit_capture_value_selection_20261015/operations/prepare_tests.log": "4d2df7a96ce4a667da3ccf295f2d16c728a65ed0e861a3baa919f7bb469b02b5",
+    "outputs/audit_capture_value_selection_20261015/operations/seed_audit.json": "a359ab9207dbabc9f421a6283ff2844676f2617d014578fd6fdece7c4a0dd47b",
+    "outputs/audit_capture_value_selection_20261015/operations/timing_review.json": "de0accd5648847161021ac375b3e57d1a9c2cec0b1a1b17dff5123ee25e1ac51",
+    "outputs/audit_capture_value_selection_20261015/operations/prior_resource_evidence.json": "edd478ab4a6d309c1ed78d8d71b31c05ae027a13ce1c082d5985395dffead985"
+  },
+  "unchanged_watchdog_functions": [
+    "child_limits",
+    "cleanup",
+    "cleanup_evidence",
+    "consumed_cpu",
+    "enable_subreaper",
+    "identity",
+    "memory_usage",
+    "owned_live",
+    "pid_namespace",
+    "proc_table",
+    "reap",
+    "run_worker",
+    "signal_descendant",
+    "signal_owned"
+  ],
+  "unchanged_watchdog_count": 14,
+  "common_change": "Only the two owned search-phase labels change; direct-parent/start-tick/session/namespace checks are unchanged.",
+  "monitor_review": [
+    "Three sequential owned children, two searches then confirmation.",
+    "Search cap uses cumulative process CPU at 7200. Confirmation cap is min(10800, actual search CPU + 3600), never the sum of phase receipts.",
+    "Hard total wall cap 5400; phase limits use remaining global wall. Ten CPU seconds reserved for cleanup.",
+    "Exact owned descendant cleanup, wait4 CPU and 4 GiB aggregate RSS / 4 GiB available floor / 8 GiB address-space safeguards are unchanged from completed AL.",
+    "Completion requires 16 raw rows of 512 lives, both complete 10278-life searches, 28748 research + 8 startup calls."
+  ],
+  "prepare_review": [
+    "Default invocation is inert. No inputs, configs or protocol are present.",
+    "Source will import all 32 ordered AL mixture final rows; checkpoint and complete native genetic replay bind exact bytes and fresh ID crosswalk.",
+    "The actual prior native audit uses all_32_final_rows_bound, not the older differently named field.",
+    "Two configs differ only arm/output identity and generation selection capture value; both use 8+8 native scores with 32 parents and 224 offspring.",
+    "Exact AL physical packing and R_cap500 are retained for all four confirmation worlds and native diagnostics.",
+    "High-value generation selection alone uses R_cap2000, through the separately pinned selection adapter.",
+    "Separate reference is AL mixture rank0; ancestral_reference is the retained AI control start."
+  ],
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q outputs/audit_capture_value_selection_20261015/operations/test_prepare.py",
+    "passed": 5,
+    "new_simulations": 0,
+    "large_allocations": 0,
+    "lifecycle_tests_reused": "10 passing AL focused lifecycle checks; unchanged functions verified by AST, not rerun."
+  },
+  "scope": {
+    "native_unique_ids_per_arm": 100,
+    "selection_calls_per_arm": 10240,
+    "validation_calls_per_arm": 32,
+    "final_calls_per_arm": 6,
+    "confirmation_calls": 8192,
+    "startup_calls": 8,
+    "total_calls": 28756
+  },
+  "limitations": [
+    "Root still owns one-time preparation, host clearance, source freeze and release.",
+    "Candidate namespaces are audited but not yet reserved.",
+    "No seed reuse or physical-input change is implied by the matched genetic and native schedule across arms."
+  ],
+  "new_inputs_copied": 0,
+  "genetic_draws": 0,
+  "engine_builds": 0,
+  "new_lives": 0
+}

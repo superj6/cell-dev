@@ -1,0 +1,307 @@
+--- outputs/autonomous_retention_selection_20261015/selection.py
++++ outputs/autonomous_capture_value_selection_20261015/selection.py
+@@ -1,4 +1,4 @@
+-"""AL: change only gen-life world allocation; native seeds, F and selection stay intact."""
++"""AM: paired selection capture values; physical costs and diagnostic prices stay intact."""
+ from __future__ import annotations
+ 
+ import copy
+@@ -8,14 +8,17 @@
+ from pathlib import Path
+ 
+ STUDY = Path(__file__).resolve().parent
+-ARMS = ('persistent_control', 'balanced_mixture')
+-RULE = 'gen indices even=pool odd=persistent; control and diagnostics=persistent'
++ARMS = ('current_value', 'high_value')
++CAPTURE_VALUES = {'current_value': 500., 'high_value': 2000.}
++RULE = 'gen indices even=pool odd=persistent; gen R_cap by arm; diagnostics=persistent R_cap500'
+ 
+ 
+ def selection_identity(arm, worlds):
+-    if arm not in ARMS or set(worlds) != {'pool', 'persistent'}:
+-        raise ValueError('exact AL arm and two named selection worlds required')
++    if (arm not in ARMS or set(worlds) != {'pool', 'persistent'}
++            or any(w['R_cap'] != 500 for w in worlds.values())):
++        raise ValueError('exact AM arm and two base500 selection worlds required')
+     return {'version': 1, 'arm': arm, 'worlds': copy.deepcopy(worlds), 'rule': RULE,
++            'selection_capture_value': CAPTURE_VALUES[arm],
+             'source_pins': {'selection.py': hashlib.sha256((STUDY / 'selection.py').read_bytes()).hexdigest()}}
+ 
+ 
+@@ -36,11 +39,12 @@
+ 
+     if configured != selection_identity(configured['arm'], configured['worlds']):
+         raise ValueError('selection source/configuration identity differs')
+-    worlds = {name: spec.World(**values) for name, values in configured['worlds'].items()}
++    worlds = {name: replace(spec.World(**values), R_cap=configured['selection_capture_value'])
++              for name, values in configured['worlds'].items()}
+     for world in worlds.values():
+         spec.V3.validate_world(world)
+         if world.T != 1024:
+-            raise ValueError('AL selection duration must be 1024')
++            raise ValueError('AM selection duration must be 1024')
+     original = evaluator_class.draw
+ 
+     def draw(self, purpose, index, lives=None, T=None, overrides=None, envelope=None):
+@@ -49,16 +53,14 @@
+         if purpose != 'gen':
+             return original(self, purpose, index, lives=lives, T=T, overrides=overrides, envelope=envelope)
+         count = self.lives if lives is None else int(lives)
+-        if (self.abi.version != 3 or count not in (4, 8) or int(index) != index or index not in range(4)
++        if (self.abi.version != 3 or count not in (8, 16) or int(index) != index or index not in range(4)
+                 or (T is not None and T != 1024) or overrides is not None or envelope not in (None, False)
+                 or self.T_choices or self.has_envelope or self.envelope.get('enabled', False)
+                 or asdict(self.world()) != configured['worlds']['persistent']):
+-            raise ValueError('AL requires exact fixed 4+4 ABI3 persistent base without overrides or envelope')
++            raise ValueError('AM requires exact fixed 8+8 ABI3 persistent500 base without overrides or envelope')
+         result = original(self, purpose, index, lives=lives, T=T, overrides=overrides, envelope=envelope)
+         if result.n != count or len(result.worlds) != count:
+             raise ValueError('native draw length differs')
+-        if configured['arm'] == 'persistent_control':
+-            return result
+         return replace(result, worlds=tuple(worlds['pool' if i % 2 == 0 else 'persistent'] for i in range(count)))
+ 
+     evaluator_class.draw = draw
+--- outputs/autonomous_retention_selection_20261015/search.py
++++ outputs/autonomous_capture_value_selection_20261015/search.py
+@@ -1,4 +1,4 @@
+-"""AL first-attempt native search: all 32 retained rows, one explicit draw-world adapter."""
++"""AM first-attempt native search: all 32 retained rows, one explicit draw-world adapter."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -48,7 +48,7 @@
+     saved = checkpoint.load(out / 'checkpoint.pt')
+     checkpoint.validate(saved, cfg, identity)
+     if (saved['state']['generation'] != 4 or saved['state']['evals'] != 1024
+-            or saved['state']['rc_lives'] != 1024):
++            or saved['state']['rc_lives'] != 2048):
+         raise ValueError('native search checkpoint counts differ')
+     if read(out / 'determinism.json') != identity:
+         raise ValueError('native recorded identity differs')
+@@ -77,8 +77,8 @@
+     if len(founders) != 1 or founders[0]['ids'] != list(range(32)) or founders[0]['copies'] != []:
+         raise ValueError('native full-population import differs')
+     for row in generations:
+-        if (len(row['children']) != 224 or len(row['seeds']) != 4
+-                or len(row['recheck']['seeds']) != 4 or len(row['recheck']['ids']) != 64):
++        if (len(row['children']) != 224 or len(row['seeds']) != 8
++                or len(row['recheck']['seeds']) != 8 or len(row['recheck']['ids']) != 64):
+             raise ValueError('native lineage evaluation dimensions differ')
+     results = [json.loads(line) for line in (out / 'results.jsonl').read_text().splitlines()]
+     if len(results) != 1:
+@@ -99,9 +99,9 @@
+         raise ValueError('native endpoint/population differs from checkpoint rank order')
+     names = ('checkpoint.pt', 'config.yaml', 'determinism.json', 'curves.jsonl', 'lineage.jsonl',
+              'population.json', 'best_genome.json', 'results.jsonl')
+-    return {'status': 'complete', 'arm': arm, 'research_lives': 5158, 'startup_lives': 2,
++    return {'status': 'complete', 'arm': arm, 'research_lives': 10278, 'startup_lives': 2,
+             'protocol_sha256': sha(STUDY / 'protocol.json'), 'release_sha256': sha(STUDY / 'release.json'),
+-            'count_proof': {'selection': 5120, 'valid': 32, 'final': 6, 'half_duration': 2,
++            'count_proof': {'selection': 10240, 'valid': 32, 'final': 6, 'half_duration': 2,
+                             'native_evals': 1280, 'generations': 4, 'children_per_generation': 224},
+             'health': {'pop_invalid': [row['pop_invalid'] for row in curves],
+                        'pop_mismatch': [row['pop_mismatch'] for row in curves],
+@@ -114,7 +114,7 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('--arm', choices=('persistent_control', 'balanced_mixture'))
++    parser.add_argument('--arm', choices=('current_value', 'high_value'))
+     args = parser.parse_args()
+     if args.arm is None:
+         print(json.dumps({'status': 'dry_run', 'scope': 'one named arm only after explicit release'}))
+--- outputs/autonomous_retention_selection_20261015/test_selection.py
++++ outputs/autonomous_capture_value_selection_20261015/test_selection.py
+@@ -1,4 +1,4 @@
+-"""Pure AL adapter and import checks; engine execution is forbidden in this suite."""
++"""Pure AM adapter and import checks; engine execution is forbidden in this suite."""
+ from __future__ import annotations
+ 
+ import copy
+@@ -19,7 +19,7 @@
+ 
+ 
+ def module(name):
+-    found = importlib.util.spec_from_file_location('AL_test_' + name, STUDY / (name + '.py'))
++    found = importlib.util.spec_from_file_location('AM_test_' + name, STUDY / (name + '.py'))
+     loaded = importlib.util.module_from_spec(found)
+     found.loader.exec_module(loaded)
+     return loaded
+@@ -48,7 +48,7 @@
+ 
+     # Config metadata only; no historical genotype or outcome is loaded.
+     cfg = OmegaConf.load(ROOT / 'results/exploratory_reserve_replication_20261014/runs/control/config.yaml')
+-    cfg.life.lives = 4
++    cfg.life.lives = 8
+     cfg.life.T_choices = None
+     cfg.seed = 0
+     ev = evaluate.LifeEvaluator(cfg, SimpleNamespace(abi=spec.V3))
+@@ -59,7 +59,7 @@
+     return evaluate.LifeEvaluator, ev, worlds
+ 
+ 
+-@pytest.mark.parametrize('arm', ('persistent_control', 'balanced_mixture'))
++@pytest.mark.parametrize('arm', ('current_value', 'high_value'))
+ def test_native_draw_prefix_recheck_and_exact_counts(evaluator, arm):
+     from src.evolve import recheck_draw
+ 
+@@ -68,28 +68,30 @@
+     configured = adapter.selection_identity(arm, worlds)
+     ev.cfg.retention_selection = configured
+     old = cls.draw
+-    baseline = ev.draw('gen', 0, lives=8)
++    baseline = ev.draw('gen', 0, lives=16)
+     with adapter.installed(cls, configured):
+         for g in range(4):
+-            first, full = ev.draw('gen', g), ev.draw('gen', g, lives=8)
+-            second = recheck_draw(ev, g, 4, 4)
+-            assert first.seeds == full.seeds[:4]
+-            assert first.worlds == full.worlds[:4]
+-            assert second.seeds == full.seeds[4:] and second.worlds == full.worlds[4:]
+-            assert first.n == second.n == 4 and full.n == 8
+-            assert full.seeds == tuple(('gen', g, i) for i in range(8))
+-            labels = ['pool' if asdict(w) == worlds['pool'] else 'persistent' for w in full.worlds]
+-            assert labels == (['pool', 'persistent'] * 4 if arm == 'balanced_mixture' else ['persistent'] * 8)
+-            assert all(asdict(w) == worlds[name] for w, name in zip(full.worlds, labels))
++            first, full = ev.draw('gen', g), ev.draw('gen', g, lives=16)
++            second = recheck_draw(ev, g, 8, 8)
++            assert first.seeds == full.seeds[:8]
++            assert first.worlds == full.worlds[:8]
++            assert second.seeds == full.seeds[8:] and second.worlds == full.worlds[8:]
++            assert first.n == second.n == 8 and full.n == 16
++            assert full.seeds == tuple(('gen', g, i) for i in range(16))
++            expected_worlds = {name: {**w, 'R_cap': 500. if arm == 'current_value' else 2000.}
++                               for name, w in worlds.items()}
++            labels = ['pool' if asdict(w) == expected_worlds['pool'] else 'persistent' for w in full.worlds]
++            assert labels == ['pool', 'persistent'] * 8
++            assert all(asdict(w) == expected_worlds[name] for w, name in zip(full.worlds, labels))
+     assert cls.draw is old
+-    assert ev.draw('gen', 0, lives=8) == baseline
++    assert ev.draw('gen', 0, lives=16) == baseline
+ 
+ 
+ @pytest.mark.parametrize('purpose,lives,T', [('valid', 16, None), ('final', 2, None), ('final', 2, 512)])
+ def test_diagnostics_unchanged_and_restore_after_failure(evaluator, purpose, lives, T):
+     cls, ev, worlds = evaluator
+     adapter = module('selection')
+-    configured = adapter.selection_identity('balanced_mixture', worlds)
++    configured = adapter.selection_identity('high_value', worlds)
+     ev.cfg.retention_selection = configured
+     original = cls.draw
+     expected = ev.draw(purpose, 0, lives=lives, T=T)
+@@ -100,11 +102,11 @@
+     assert cls.draw is original
+ 
+ 
+-@pytest.mark.parametrize('kwargs', [{'lives': 3}, {'lives': 6}, {'T': 512}, {'overrides': []}, {'envelope': True}])
++@pytest.mark.parametrize('kwargs', [{'lives': 4}, {'lives': 12}, {'T': 512}, {'overrides': []}, {'envelope': True}])
+ def test_wrong_selection_draw_contract_rejected(evaluator, kwargs):
+     cls, ev, worlds = evaluator
+     adapter = module('selection')
+-    configured = adapter.selection_identity('balanced_mixture', worlds)
++    configured = adapter.selection_identity('high_value', worlds)
+     ev.cfg.retention_selection = configured
+     with adapter.installed(cls, configured), pytest.raises(ValueError):
+         ev.draw('gen', 0, **kwargs)
+@@ -115,7 +117,7 @@
+ 
+     cls, ev, worlds = evaluator
+     adapter = module('selection')
+-    configured = adapter.selection_identity('balanced_mixture', worlds)
++    configured = adapter.selection_identity('high_value', worlds)
+     ev.cfg.retention_selection = configured
+     identity = adapter.extended_identity({'golden': 'mock'}, configured)
+     saved = {'config': checkpoint.config_identity(ev.cfg), 'identity': identity}
+@@ -133,6 +135,44 @@
+         checkpoint.validate(saved, ev.cfg, identity)
+     with pytest.raises(ValueError):
+         adapter.extended_identity(identity, configured)
++
++
++def test_exact_price_only_difference_and_same_gen_draws(evaluator):
++    import numpy as np
++
++    from src.life import spec
++
++    cls, ev, worlds = evaluator
++    adapter = module('selection')
++    drawn = {}
++    for arm in adapter.ARMS:
++        configured = adapter.selection_identity(arm, worlds)
++        assert configured['worlds'] == worlds
++        ev.cfg.retention_selection = configured
++        with adapter.installed(cls, configured):
++            drawn[arm] = ev.draw('gen', 0, lives=16)
++            assert ev.draw('valid', 0, lives=16).worlds == (ev.world(),) * 16
++    assert drawn['current_value'].seeds == drawn['high_value'].seeds
++    for low, high in zip(drawn['current_value'].worlds, drawn['high_value'].worlds):
++        different = np.flatnonzero(spec.V3.pack_world(low) != spec.V3.pack_world(high))
++        assert different.tolist() == [spec.V3.WORLD_KEYS.index('R_cap')]
++        assert low.R_cap == 500 and high.R_cap == 2000
++        assert high == replace(low, R_cap=2000)
++
++
++def test_changed_selection_capture_value_and_nonbaseline_world_refused(evaluator):
++    cls, ev, worlds = evaluator
++    adapter = module('selection')
++    configured = adapter.selection_identity('high_value', worlds)
++    configured['selection_capture_value'] = 1000
++    ev.cfg.retention_selection = configured
++    with pytest.raises(ValueError):
++        with adapter.installed(cls, configured):
++            pass
++    wrong = copy.deepcopy(worlds)
++    wrong['pool']['R_cap'] = 2000
++    with pytest.raises(ValueError):
++        adapter.selection_identity('high_value', wrong)
+ 
+ 
+ @pytest.fixture
+@@ -236,7 +276,10 @@
+     path, layout, table, _, cfg = population
+     search = module('search')
+     monkeypatch.setattr(search, 'STUDY', path.parent)
+-    out = path.parent / 'runs/persistent_control'
++    monkeypatch.setitem(sys.modules, 'common', SimpleNamespace(
++        read=lambda file: json.loads(Path(file).read_text()),
++        sha=lambda file: digest(Path(file).read_bytes())))
++    out = path.parent / 'runs/current_value'
+     out.mkdir(parents=True)
+     cfg.logging.output_dir = str(out)
+     identity = {'golden': 'synthetic; no engine'}
+@@ -249,12 +292,12 @@
+                'fitness': -1., 'mean_fitness': -2., 'pop_guard': .125,
+                **({'valid': -1.} if g in (0, 3) else {})} for g in range(4)]
+     lineage = [{'event': 'founders', 'ids': list(range(32)), 'copies': []}] + [
+-        {'gen': g, 'children': [{}] * 224, 'seeds': list(range(4)),
+-         'recheck': {'seeds': list(range(4, 8)), 'ids': list(range(64))}} for g in range(4)]
++        {'gen': g, 'children': [{}] * 224, 'seeds': list(range(8)),
++         'recheck': {'seeds': list(range(8, 16)), 'ids': list(range(64))}} for g in range(4)]
+     for name, rows in [('curves.jsonl', curves), ('lineage.jsonl', lineage)]:
+         (out / name).write_text(''.join(json.dumps(row) + '\n' for row in rows))
+     checkpoint.save(out / 'checkpoint.pt', cfg=cfg, identity=identity,
+-                    state={'generation': 4, 'evals': 1024, 'rc_lives': 1024,
++                    state={'generation': 4, 'evals': 1024, 'rc_lives': 2048,
+                            'population': table, 'ids': torch.arange(32)})
+     layout.save(table[0], out / 'best_genome.json')
+     (out / 'population.json').write_text(json.dumps({'ids': list(range(32)),
+@@ -267,9 +310,9 @@
+ 
+ def test_completion_counts_pins_and_guarded_lives_retained(completed_native):
+     search, cfg, identity, _ = completed_native
+-    result = search.complete_search(cfg, 'persistent_control', identity)
+-    assert result['research_lives'] == 5158 and result['startup_lives'] == 2
+-    assert result['count_proof']['selection'] == 5120
++    result = search.complete_search(cfg, 'current_value', identity)
++    assert result['research_lives'] == 10278 and result['startup_lives'] == 2
++    assert result['count_proof']['selection'] == 10240
+     assert result['health']['pop_guard'] == [.125] * 4
+     assert result['health']['final_guard_rate'] == .5
+     assert len(result['output_pins']) == 8
+@@ -292,4 +335,4 @@
+         best[0] += 1
+         layout.save(best, out / 'best_genome.json')
+     with pytest.raises(ValueError):
+-        search.complete_search(cfg, 'persistent_control', identity)
++        search.complete_search(cfg, 'current_value', identity)

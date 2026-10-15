@@ -3618,3 +3618,26 @@ Fresh confirmation uses common original prices and includes both earlier AI and 
 retention, full physical cost and click accuracy; extra bodies or blind clicks are plausible outcomes, not algorithmic
 progress. No AM run is launched by this milestone. Safe local experimentation is authorized; report if meaningful
 progress appears to require substantially more resources.
+
+## 2026-10-15 — AM registered: can stronger capture incentives improve cumulative capability?
+
+From all32 ordered AL-mixture survivors, two four-generation native32+224 branches use fixed equal POOL and
+persistent selection. Both increase evaluation to8 initial plus8 recheck lives; only generation capture value
+differs:500 versus2,000. Physical penalties, local asynchronous cells and all organism dynamics stay unchanged.
+Native diagnostics and fresh confirmation use original500. This tests one incentive contrast, not an optimal
+price; cross-study differences cannot isolate evaluation precision. Blind clicking and body growth remain
+alternatives to richer computation.
+
+Both fixed endpoints, AL start and earlier AI start receive512 shared fresh lives in all four known AL contexts.
+Co-primary high-minus-current capture effects are separate in POOL and persistent; joint benefit requires both
+lower three-SE bounds above zero. Own-start gains,90% retention margins, physical costs, click accuracy and
+all54 contrast groups remain explicit. Every context is development data, so no held-out-world claim is available.
+
+Scope:28,748 research+8 startup calls, native53230 and confirmation block140,52,400,000–52,400,511.
+Hard caps:10,800 totalCPU seconds,7,200search/3,600confirmation,5,400wall;one2thread worker,4GiB ownedRSS,
+8GiBaddress space,4GiBhost headroom. No automatic retry/extension or paid compute. Full source/config/world
+and seed reviews pass; preparation imports all32 rows without a genetic draw, build or life. Prior56 identities
+and40groups are clear. Actual-input review and prospective publication precede root runtime release.
+
+Protocol `9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294`.
+Prospective evidence: `results/capture_value_selection_20261015/`.

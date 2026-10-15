@@ -1,0 +1,73 @@
+{
+  "status": "approved_source_only",
+  "reviewer": "richer_worlds",
+  "source_pins": {
+    "measure.py": "fafe8b711e530aa2bb9f139d16296dfd035256c22511969fc37826bf9d7d60a1",
+    "analyze.py": "3c22015e7415467e273ace9cf8248b53b4ecf37f4584c406e73807fe196ed474",
+    "native_replay.py": "856ab313132530424392a49d4ab43e4bf8a5a77048a6eb7dee84c4846be99c1a",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "producer_interface_pins": {
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "f8370d3390a6e3bee1b18151444f8e81e64d04a6ba631d2c009527902782d7fa",
+    "search.py": "d511ce56a44dad6520798e14a393d797e94288a90c134c231bec3356a858750e"
+  },
+  "author_review_sha256": "e8f7f2632aa218531bcb7ed15e05c566e939e452c0351e1600a2fa20f22dce30",
+  "independently_verified_AST_reuse": {
+    "analyze.py": [
+      "identical",
+      "stats",
+      "prices",
+      "physical_costs",
+      "validate_row",
+      "reconstruct",
+      "verify_startup"
+    ],
+    "measure.py": [
+      "parent_check",
+      "validate_search_state",
+      "check_visibility_truth"
+    ],
+    "native_replay.py": [
+      "sha",
+      "raw_sha",
+      "definitions",
+      "initial_population",
+      "replay_first"
+    ]
+  },
+  "replay_ops_byte_exact_AL": true,
+  "native_replay_whole_AST_delta_only": "two arm labels and dynamic import label",
+  "scope_checks": [
+    "Both fixed references precede both endpoints; imported population row0 binds AL_mixture_start, not AI ancestor.",
+    "Exact gen adapter is50/50 at8+8 in both arms; only R_cap500/2000 differs and diagnostics/confirmation remain500.",
+    "Checkpoint/source identities bind loader, reward scalar and world values; first256 recorded-genetic replay precedes endpoints and fresh measurement.",
+    "All16rows use512 shared seeds:8192confirmation;20556search+8startup=28756total.",
+    "ABI3/ABI4 accounting, guards, extinction and source truth conversion unchanged from completedAL.",
+    "Co-primary high-minus-current captures in POOL and persistent require both unrounded lower3SE>0; own-start effects remain separate.",
+    "54paired groups x75metrics plus7paired retention contrasts x2vectors=4064; whole-vector SE preserves covariance.",
+    "Observed terminal resource schemas match10800/7200/3600CPU,5400wall,4GiBRSS/8GiBaddress/4GiBheadroom and sequential phases.",
+    "Exact native final-population and completed-log pins retained; raw search ledgers and unsuccessful-parent/tie records remain incomplete."
+  ],
+  "resolved_finding": {
+    "problem": "Inherited load_rows expected only3roles/12paths.",
+    "resolution": "range(len(ROLES)) and exact16-row requirement; complete4-role reader plus missing-fourth-role test.",
+    "history_path": "history/analyze.before_four_role_coverage_fix.py",
+    "history_sha256": "e8072545556d0ea92405aff537c74a9aff17f8874b1142f010de752a603d3c77",
+    "before_inputs_or_runs": true
+  },
+  "recorded_author_tests": {
+    "passed": 12,
+    "rerun_by_reviewer": false,
+    "junit_sha256": "dfa48656c90fa29f4ad77793d7a7bba867bbc1a2905018699c69900f818610be",
+    "test_source_sha256": "3bd0408e2fc9469a80c618d4c4be54f2f606c777a66b9aa2de502934205c3ed9"
+  },
+  "limitations": [
+    "Source/interface review only; actual preparation/input binding has not occurred.",
+    "No claim of optimum prices, reliable policy advantage or computational sophistication from one future pair.",
+    "Higher rewards can promote body growth or indiscriminate clicking; preserve original-price costs, misses and descriptive capture accuracy."
+  ],
+  "engine_calls": 0,
+  "builds": 0,
+  "genetic_draws": 0
+}

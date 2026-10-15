@@ -1,0 +1,78 @@
+{
+  "status": "passed_source_only_preparation",
+  "source_pins": {
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "f8370d3390a6e3bee1b18151444f8e81e64d04a6ba631d2c009527902782d7fa",
+    "search.py": "d511ce56a44dad6520798e14a393d797e94288a90c134c231bec3356a858750e",
+    "test_selection.py": "99027db2a80e9dc2823723fac36e157da5c0ba0507cc007b17134adad1021079"
+  },
+  "source_origins_sha256": "91d1c5ff5266f76a7a029090027b20a0885abc4b34b5f3fb526915bef6454e53",
+  "source_diff_sha256": "5a45c771574a7a03d26f7625b51bd0981e54ee15873b3432d70f8f8c4fb5c219",
+  "tests": {
+    "passed": 25,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_sha256": "7b7f72f445fc09021b661d4c8bcc45d519ab9ba358d00aa2a86ff927c9499de6",
+    "stdout_sha256": "c6ce8518a2cc113cc5560b3731e234ed6d559e746221ae903ce01599dfe7e797",
+    "command": "PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q outputs/autonomous_capture_value_selection_20261015/test_selection.py --basetemp=outputs/audit_capture_value_selection_20261015/producer/test_tmp --junitxml=outputs/audit_capture_value_selection_20261015/producer/tests.xml",
+    "ruff": "All checks passed!",
+    "default_search_cli": {
+      "status": "dry_run",
+      "exit_code": 0
+    }
+  },
+  "contract": {
+    "arms": [
+      "current_value",
+      "high_value"
+    ],
+    "selection_worlds": "canonical POOL/persistent at500 in protocol and identity.worlds",
+    "selection_capture_value": {
+      "current_value": 500,
+      "high_value": 2000
+    },
+    "changed_gen_world_coordinates": [
+      "R_cap"
+    ],
+    "life_counts": [
+      8,
+      16
+    ],
+    "recheck_suffix": [
+      8,
+      16
+    ],
+    "world_counts_per8": {
+      "pool": 4,
+      "persistent": 4
+    },
+    "diagnostics": "native persistent500 unmodified, including half-duration final",
+    "population": "all32 rows/order/duplicates/crosswalk, loader exact AL/AJ; empty fill consumes no RNG",
+    "genetic_and_selection_operators": "unchanged production; only loader and draw overridden",
+    "native_numerical_identity_invocations_per_search": 1,
+    "startup_lives_per_search": 2,
+    "checkpoint_generation": 4,
+    "checkpoint_evals": 1024,
+    "checkpoint_rc_lives": 2048,
+    "final_evals": 1280,
+    "research_lives_per_search": 10278,
+    "native_selection_lives_per_search": 10240,
+    "validation_lives_per_search": 32,
+    "final_lives_per_search": 6
+  },
+  "guard_policy": "Guarded physical lives retain original penalties and are reported; only invalid/mismatch refused.",
+  "synthetic_fixture_scope": "small generated JSON/checkpoint fixtures only under producer/test_tmp; no scientific inputs or candidate seeds",
+  "new_scientific_lives": 0,
+  "new_builds": 0,
+  "scientific_genetic_draws": 0,
+  "initial_shell_error": {
+    "file": "initial_shell_error.txt",
+    "sha256": "2dc8fc91dc03689cafb495f9ca2ca2dda390fe4eba239b6af881d288097efe6d"
+  },
+  "limitations": [
+    "One paired search does not establish optimal pricing or policy reliability.",
+    "IncreasingR_cap changes reward-to-all-penalty ratios, including relative invalid/guard/extinction severity; absolute physical penalties stay unchanged.",
+    "Later full native audit cannot recover unlogged unsuccessful-parent scores or exact tie permutations."
+  ]
+}

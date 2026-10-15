@@ -1,0 +1,100 @@
+{
+  "status": "approved_source_only",
+  "study": "AM capture-value selection",
+  "reader_sources": {
+    "measure.py": "fafe8b711e530aa2bb9f139d16296dfd035256c22511969fc37826bf9d7d60a1",
+    "analyze.py": "3c22015e7415467e273ace9cf8248b53b4ecf37f4584c406e73807fe196ed474",
+    "native_replay.py": "856ab313132530424392a49d4ab43e4bf8a5a77048a6eb7dee84c4846be99c1a",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "source_origins": {
+    "outputs/autonomous_retention_selection_20261015/measure.py": "aa650f85f1eab8ea2bcc1bfe23b6787be8a47f6468b760cb566b1211f932c06e",
+    "outputs/autonomous_retention_selection_20261015/analyze.py": "1152fbef215aad60f09b010fb8308f3b908aa36fc995dcbab7921a1e5dc05302",
+    "outputs/autonomous_retention_selection_20261015/native_replay.py": "7507f71a8287b79444b8ba830af488d840b81dfd083d54740ebee9a936480e05",
+    "outputs/autonomous_retention_selection_20261015/replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "producer_interfaces_reviewed": {
+    "selection.py": "f8370d3390a6e3bee1b18151444f8e81e64d04a6ba631d2c009527902782d7fa",
+    "search.py": "d511ce56a44dad6520798e14a393d797e94288a90c134c231bec3356a858750e",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "common.py": "56c267b3f9fd36d9075f10f31380ac8de777d849b853151a222af3d5d9e7d8b9"
+  },
+  "exact_function_AST_reuse": {
+    "analyze.py": [
+      "identical",
+      "stats",
+      "prices",
+      "physical_costs",
+      "validate_row",
+      "reconstruct",
+      "verify_startup"
+    ],
+    "measure.py": [
+      "parent_check",
+      "validate_search_state",
+      "check_visibility_truth"
+    ],
+    "native_replay.py": [
+      "sha",
+      "raw_sha",
+      "definitions",
+      "initial_population",
+      "replay_first"
+    ]
+  },
+  "exact_file_reuse": [
+    "replay_ops.py"
+  ],
+  "native_helper_diff": "Only paired arm labels and import-module label change; original imported-population reference remains row zero.",
+  "coverage": {
+    "roles": [
+      "AI_control_start",
+      "AL_mixture_start",
+      "current_value_final",
+      "high_value_final"
+    ],
+    "confirmation_rows": 16,
+    "confirmation_lives": 8192,
+    "native_research_lives": 20556,
+    "startup_lives": 8,
+    "total_calls": 28756,
+    "contrast_groups": 54,
+    "metrics_per_group": 75,
+    "retention_pairs": 7,
+    "retention_vectors": 14,
+    "paired_arrays": 4064
+  },
+  "scientific_checks": [
+    "All confirmation physics and capture reward remain the original R_cap500; selection identity permits only arm-specific gen reward500/2000.",
+    "Both generation4 rank0 endpoints and both references freeze before fresh confirmation; duplicate bytes retain all four role slots.",
+    "Two co-primary high-minus-current capture effects require strict unrounded lower3SE>0 in both POOL and persistent.",
+    "Each endpoint versus AL-mixture start is reported separately; relative advantage cannot imply own-start gain.",
+    "Seven fixed paired conventional90% retention comparisons remain separate from strict capture gains.",
+    "Phase CPU is cumulative; sequential10800/7200/3600 caps and5400wall plus4GiBRSS/8GiBaddress/4GiBavailable checked.",
+    "First256 genetic rows replay from recorded operations only; no genetic draws or engine calls."
+  ],
+  "resolved_peer_finding": {
+    "finding": "Inherited load_rows coverage still expected three roles despite four-role measurement.",
+    "resolution": "Require range(len(ROLES)) and exact16-row matrix; in-memory complete16row/8192life regression and missing-fourth-role rejection added.",
+    "history_file": "history/analyze.before_four_role_coverage_fix.py",
+    "history_sha256": "e8072545556d0ea92405aff537c74a9aff17f8874b1142f010de752a603d3c77"
+  },
+  "tests": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_sha256": "3bd0408e2fc9469a80c618d4c4be54f2f606c777a66b9aa2de502934205c3ed9",
+    "junit_sha256": "dfa48656c90fa29f4ad77793d7a7bba867bbc1a2905018699c69900f818610be",
+    "log_sha256": "eb27a136c18598aedc0e4f11e6893b614a04335a9faf3ec03433325d777e2663"
+  },
+  "limitations": [
+    "One evolutionary pair;512 confirmation lives are environment replicates, not evolutionary replicates.",
+    "Raw search ledgers and exact initial ranking/tie evidence are not complete; full recorded genetic replay remains a separate terminal audit.",
+    "Current preparation is source only; root prepare/monitor and actual input bindings remain pending."
+  ],
+  "engines_imported": false,
+  "simulations": 0,
+  "genetic_draws": 0,
+  "inputs_copied": false
+}
