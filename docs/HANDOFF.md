@@ -5,6 +5,18 @@ and the last few entries of `RESULTS.md`.
 
 For a short map of the strongest evidence, inherited lineages and competing directions, see `docs/RESEARCH_STATUS.md`.
 
+**Latest direction clarification (2026-10-15):** the user asks when we will move to environments allowing
+more sophisticated interaction. Prioritize a different interaction/decision structure immediately after the
+current AO result is evaluated. Recent work has leaned too heavily on catching variants and incentive/retention
+tuning. Do not require perfect retention, optimal costs or a complete circuit account before richer exploration.
+The exposure audit found independently renewing reward/harm targets and equal food twins already explored.
+The leading proposal is now delayed shape matching: an early narrow/broad cue, a blank interval, then a fresh
+choice whose reward depends on the earlier cue. `docs/ABI5_DELAYED_MATCH_PROPOSAL.md` specifies the limited
+world/ABI extension for a user decision; it is not yet approved or implemented. Older tasks remain retention
+checks. Judge the new world by useful sensory information and conditional choices, not positive reward alone.
+No new ABI, global channel/clock, prescribed behavior or population-responsive world is approved by this note.
+AO's fixed protocol, endpoints, prices, budgets and confirmation remain unchanged.
+
 **Local experimentation authorized (2026-10-15).** The user says to keep working on our judgment and permits
 experiments on the local computer provided memory use does not threaten it. Continue useful bounded studies
 without repeated permission requests. Use one modest worker, explicit memory/CPU limits, and stop to report
@@ -52,8 +64,14 @@ Protocol2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d;63focus
 both actual-input reviews pass; all32rows imported without builds/lives/geneticdraws. Prior64identities/46groups
 clear with18.9GBavailable. Publicprospective `results/retained_depth_20261015/`; ANmilestone4eff70d is pushed.
 MeasuredANphase scaling×1.5 fits the fixedcaps; the older pessimistic timing model does not and remains an
-explicit completion risk. Prospective17a7348 is pushed; release8258006b…d97b5d binds the exactprotocol. Rootsession94765 owns
-the monitor in the originalhostnamespace. No otherresearchworker is active.
+explicit completion risk. Prospective17a7348 is pushed; release8258006b…d97b5d binds the exactprotocol.
+The assistant server restarted during this attempt: session94765's tool handle was lost, but the original host
+monitor PID2885667/start10138155 and its worker survived and were verified. Do not relaunch or resume it.
+The unchanged branch completed all24generations/61558research+4startupcalls in9201.426695CPU/3707.129097wall.
+Both branches have now completed all24generations; the fixed30-row confirmation is running.
+No AO outcomes have been inspected.
+Use `outputs/audit_retained_depth_20261015/watch_progress.py` for health/counts; main budget updates at phase
+boundaries, active execution budget reports cumulative CPU. No other research worker is active.
 
 Why this next: AN's later tradeoff has estimated mixedF+0.107797±0.048847 (unresolvedat3SE), so more evaluation precision alone
 may reinforce forgetting. A matched allocation contrast gives both policies longer evolution without assuming
@@ -68,6 +86,7 @@ sign, still unresolved. Moderate missed-click repricing has less effect. This mo
 maintenance comparison, not an optimal price or a prediction of evolution. Independent source review and
 byte-identical public reanalysis pass. Earlier "true mixedF" wording is corrected with original report preserved.
 AO remains unchanged and its outcomes have not been inspected.
+This cost/evidence-map milestone is committed and pushed as `a74facc`.
 
 AM remains the earlier cumulative capture milestone: original-price continuation improves all four known worlds,
 while reward2000 has no joint task advantage and increases body/miss costs. `results/capture_value_selection_20261015/REPORT.md`.

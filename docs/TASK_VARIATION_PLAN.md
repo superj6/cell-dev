@@ -9,6 +9,14 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
+*2026-10-15 latest interaction priority:* after the current AO result is evaluated, prioritize an environment
+with a different decision structure. Retention, price calibration and mechanism analysis support richer
+exploration; they are not prerequisites that must be perfected first. The exposure audit found independently
+renewing reward/harm targets and equal food twins already explored. The leading candidate is now delayed
+shape matching, linking an earlier local cue to a later choice after a blank interval. See
+`docs/ABI5_DELAYED_MATCH_PROPOSAL.md` for the concrete, unapproved world/ABI proposal. Keep prior skills as checks,
+judge worlds by useful sensory information, and preserve the ongoing AO contract and existing approval boundaries.
+
 *2026-10-14 objective clarification:* the user's ultimate goal is to advance the sophistication of generated
 algorithms we can make emerge, especially in more interesting environments. Organize future research around
 that objective. Candidate demands include retaining information when cues disappear, combining evidence over
