@@ -16,6 +16,17 @@ make emerge, especially in more interesting environments. Prioritize environment
 Use mechanism analysis and search replication to guide and measure that progress; they are not prerequisites
 that must be exhausted before exploring richer environments. The closed research batch remains closed.
 
+**User clarification (2026-10-15):** keep focusing on the current cell substrate; alternative units were a brief
+discussion, not a change of direction. Generalization is a key objective. Most richer-world studies reuse the
+same evolved D90/L92 backgrounds, sometimes the exact same mutation panels, then select separate task-specific
+descendants. Shared ancestry, fresh-life confirmation and improvement after further task-specific evolution
+do not establish generalization by one unchanged genome. Existing duration/conduction and flash/blink transfer
+measurements are limited evidence, not broad held-out-task success. Future study design should distinguish
+performance on fresh lives, transfer of a fixed genome to held-out environments, and adaptation through further
+evolution. Keep evaluation environments separate from selection and report retained performance on earlier tasks.
+AJ remains source-only; reassess its evaluation scope against this objective before any registration or launch.
+This clarification changes no organism rules, prices or existing approval boundaries and launches no study.
+
 **Autonomous work resumed (2026-10-14).** At the user's request, new bounded studies now prioritize richer
 existing ABI 3 environments. U completed: two four-generation ordinary searches from the fixed
 I decoy winners, then four-condition fresh confirmation, under 7,200 CPU-seconds with half reserved for

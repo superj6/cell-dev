@@ -20,6 +20,16 @@ information pays, never by whether we can hand-build a winning body. Local async
 evolution-discovered behavior remain required. This clarification launches no study and changes no existing
 approval boundary; the completed batch stays closed.
 
+*2026-10-15 generalization clarification:* the user wants continued focus on the current cell substrate;
+alternative units were considered briefly and are not the active direction. Generalization is a key objective.
+Distinguish fresh random lives in a selected world, transfer of one unchanged genome to held-out environments,
+and adaptation after additional task-specific evolution. Reused founders or mutation panels do not establish
+generalization. Future designs should keep evaluation environments separate from selection, evaluate the same
+fixed genomes across those environments without choosing a different winner for each, and report retention on
+earlier tasks. Existing limited transfer results do not establish broad task generalization. The source-only AJ
+candidate needs its evaluation scope reconsidered before registration; this note releases no study, mixed-task
+selection family, organism change or compute expenditure and leaves standing approval boundaries unchanged.
+
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
 trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does
