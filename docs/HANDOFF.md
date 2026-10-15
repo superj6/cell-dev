@@ -243,6 +243,20 @@ files and exact 70-field world packing. No new genetics, builds or lives ran in 
 review, prospective publication and root release precede measurement. Evidence:
 `results/visibility_dark_tail_gradient_20261014/`. Prices and local rules remain fixed; no automatic larger rollout.
 
+**AG complete (2026-10-14).** In dark flash, D90 row54 gains **+1.82930 ± .03953 F** with unresolved
+capture change **+.04883 ± .06928**; cost savings supply +1.80546 F. L92 row61 gains **+.55148 ± .03692 F** and
+**+.22070 ± .07114 captures**, narrowly beyond the fixed three-SE criterion. Its dark-phase gain
+**+.20703 ± .06956** narrowly misses that criterion; cost savings (+.44372 F) exceed extra capture income
+(+.10777 F). L92 mean captures rise 1.58984→1.81055, with mean F still negative. Each new target placement
+starts a five-unit flash; target cues then vanish while background sensing continues. This is one modest
+accessible capture gain, without memory, new-algorithm or evolutionary-repeatability evidence.
+All 6,208 research plus ten startup calls complete in **1,204.022071 CPU-seconds**. All 6,216 raw ABI4 statuses
+are zero; two identity goldens complete the count. Independent raw/full analysis reproduces all **132 paired
+vectors**. Both leaders/one owned group exited; 232 local/35 production release pins remain unchanged.
+Evidence: `results/visibility_dark_tail_gradient_20261014/`. Source-only AH now drafts one matched ordinary
+versus two-slot exploratory-reserve pilot from AE L92 in the persistent-target world. The reserve changes
+external selection only; prices, F and local rules stay fixed. No AH inputs, seeds, builds or lives are released.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

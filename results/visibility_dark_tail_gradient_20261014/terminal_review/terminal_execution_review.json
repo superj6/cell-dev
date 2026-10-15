@@ -1,0 +1,266 @@
+{
+  "status": "passed_terminal_raw_and_frozen_reader_reanalysis",
+  "protocol_sha256": "ff9af8c7fcb140bb4f09b6636e59df92272254851dfe1f33a4d6441be1a7955f",
+  "terminal_clearance_sha256": "1154e2910f9276ce66419788f75e182224e953fe8e85ec899725489a6c241a68",
+  "budget_sha256": "932df03fe1f994ec1f3bee9a85c2b3772c380e08489a87f423655863af8d497d",
+  "reader_sha256": "263e8333a0160fe53a91d5b2a077f955d128d621bd4ca2f663f09012dc6f9e86",
+  "independent_raw_helper_sha256": "18969227e593348f6a18832616dac6785b966036093cbd5b5e994c70493c54d7",
+  "raw_review_sha256": "a5d507395ff1eb14c496ecf8d63b151c69353037db459db6080cdc33a9e3f7ab",
+  "file_pins": {
+    "review_terminal.py": "18969227e593348f6a18832616dac6785b966036093cbd5b5e994c70493c54d7",
+    "build_terminal_verifier.py": "4b51839ac5d4582379efb4ccaa10148d5585e77624b68c6c945113a5c1de21ad",
+    "terminal_verifier_preparation.json": "76cb2b41a2babfc3ff08547c15f0b0b1ffd6c081dfd404a1292d8aa790147989",
+    "independent_terminal_raw_review.json": "a5d507395ff1eb14c496ecf8d63b151c69353037db459db6080cdc33a9e3f7ab",
+    "terminal_raw_review.stdout.json": "27ed008363d00737bb74fbafb8f5dd0be0c2b9c6c8088dcdf4ca115775f93b76",
+    "terminal_raw_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen_reanalysis.stdout.json": "0395a7f2e8f182b656b64298071d363252b1abc8d59c437a12d7e7740ce7db57",
+    "frozen_reanalysis.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen_reader_reanalysis/summary.json": "0395a7f2e8f182b656b64298071d363252b1abc8d59c437a12d7e7740ce7db57",
+    "frozen_reader_reanalysis/paired_vectors.npz": "937e413f3f193d493d6d672b670569005424378cc6dafaecb271ca9fe60071cb"
+  },
+  "executions": {
+    "independent_raw": {
+      "exit_code": 0,
+      "stderr_empty": true,
+      "cwd": "/"
+    },
+    "frozen_reader": {
+      "exit_code": 0,
+      "stderr_empty": true,
+      "cwd": "/",
+      "output": "frozen_reader_reanalysis"
+    }
+  },
+  "agreement": {
+    "summary_bytes": true,
+    "summary_sha256": "0395a7f2e8f182b656b64298071d363252b1abc8d59c437a12d7e7740ce7db57",
+    "paired_arrays": 132,
+    "all_arrays_bitwise": true,
+    "npz_file_bytes": true,
+    "paired_npz_sha256": "937e413f3f193d493d6d672b670569005424378cc6dafaecb271ca9fe60071cb"
+  },
+  "coverage": {
+    "raw_rows": 138,
+    "research_lives": 6208,
+    "raw_calibration_lives": 8,
+    "numerical_goldens": 2,
+    "total_lives": 6218,
+    "raw_ledger_columns": 58,
+    "source_pins": 232,
+    "production_pins": 35
+  },
+  "status_histograms": {
+    "calibration": {
+      "0": 8
+    },
+    "screen": {
+      "0": 4160
+    },
+    "confirm": {
+      "0": 2048
+    },
+    "research": {
+      "0": 6208
+    }
+  },
+  "resources": {
+    "cpu_seconds": 1204.0220709999999,
+    "startup_calibration_cpu_seconds": 11.885226,
+    "startup_screen_cpu_seconds": 858.650131,
+    "confirmation_cpu_seconds": 345.3719399999999,
+    "raw_stage_cpu_seconds": {
+      "calibration": 1.5035201840000003,
+      "screen": 726.2337481549996,
+      "confirm": 294.47139431799985
+    }
+  },
+  "selection": {
+    "D90": {
+      "genome_row": 54,
+      "raw_sha256": "8d7f4841934779ac7ef610d18d31cdb2fe2fab2ba3801acee64cc59932ac5f70"
+    },
+    "L92": {
+      "genome_row": 61,
+      "raw_sha256": "09476a803e59be66530dc6f069ab6101777d4a7403eb6256584a4f563f586a57"
+    }
+  },
+  "contrasts": {
+    "H_D90_minus_P_D90": {
+      "F": {
+        "mean": 1.8293026508451482,
+        "se": 0.03953110435941475,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.048828125,
+        "se": 0.06928053438474603,
+        "n": 512
+      },
+      "low_light_captures": {
+        "mean": 0.013671875,
+        "se": 0.06729707781657146,
+        "n": 512
+      },
+      "bright_captures": {
+        "mean": 0.03515625,
+        "se": 0.01556276592199262,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.02384185791015625,
+        "se": 0.033828385930051774,
+        "n": 512
+      },
+      "ordinary_cost": {
+        "mean": 1.805460792934992,
+        "se": 0.018084659837473836,
+        "n": 512
+      },
+      "guard_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "n_end": {
+        "mean": -88.443359375,
+        "se": 0.8517053062807407,
+        "n": 512
+      },
+      "spikes": {
+        "mean": -2672.970703125,
+        "se": 26.636437943595787,
+        "n": 512
+      },
+      "path": {
+        "mean": -5.2156255323530445,
+        "se": 0.9815140130443729,
+        "n": 512
+      }
+    },
+    "H_L92_minus_P_L92": {
+      "F": {
+        "mean": 0.5514840230629718,
+        "se": 0.03692400703985527,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.220703125,
+        "se": 0.07113912055141142,
+        "n": 512
+      },
+      "low_light_captures": {
+        "mean": 0.20703125,
+        "se": 0.06956340026624373,
+        "n": 512
+      },
+      "bright_captures": {
+        "mean": 0.013671875,
+        "se": 0.010868359689325906,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.10776519775390625,
+        "se": 0.03473589870674385,
+        "n": 512
+      },
+      "ordinary_cost": {
+        "mean": 0.44371882530906553,
+        "se": 0.010579193018521954,
+        "n": 512
+      },
+      "guard_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "n_end": {
+        "mean": -20.431640625,
+        "se": 0.478091473401315,
+        "n": 512
+      },
+      "spikes": {
+        "mean": -186.8046875,
+        "se": 12.35662553499493,
+        "n": 512
+      },
+      "path": {
+        "mean": -1.0694170650772312,
+        "se": 0.7181046782858691,
+        "n": 512
+      }
+    }
+  },
+  "strict_unrounded_3se": {
+    "H_D90_minus_P_D90": {
+      "F": {
+        "mean": 1.8293026508451482,
+        "se": 0.03953110435941475,
+        "three_se": 0.11859331307824425,
+        "above": true
+      },
+      "captures": {
+        "mean": 0.048828125,
+        "se": 0.06928053438474603,
+        "three_se": 0.2078416031542381,
+        "above": false
+      },
+      "low_light_captures": {
+        "mean": 0.013671875,
+        "se": 0.06729707781657146,
+        "three_se": 0.20189123344971438,
+        "above": false
+      },
+      "bright_captures": {
+        "mean": 0.03515625,
+        "se": 0.01556276592199262,
+        "three_se": 0.04668829776597786,
+        "above": false
+      }
+    },
+    "H_L92_minus_P_L92": {
+      "F": {
+        "mean": 0.5514840230629718,
+        "se": 0.03692400703985527,
+        "three_se": 0.1107720211195658,
+        "above": true
+      },
+      "captures": {
+        "mean": 0.220703125,
+        "se": 0.07113912055141142,
+        "three_se": 0.21341736165423425,
+        "above": true
+      },
+      "low_light_captures": {
+        "mean": 0.20703125,
+        "se": 0.06956340026624373,
+        "three_se": 0.20869020079873118,
+        "above": false
+      },
+      "bright_captures": {
+        "mean": 0.013671875,
+        "se": 0.010868359689325906,
+        "three_se": 0.032605079067977716,
+        "above": false
+      }
+    }
+  },
+  "new_simulation_calls": 0,
+  "new_compilation_calls": 0,
+  "frozen_files_modified": false,
+  "limitations": [
+    "Independent raw arithmetic only; no fresh dynamics or genetic replay.",
+    "Two startup goldens are verified through identity/library hashes; complete golden raw ledgers are not retained.",
+    "Paired capture effects do not isolate tracking, prediction or memory.",
+    "Two fixed local panels do not establish general evolutionary reliability."
+  ]
+}

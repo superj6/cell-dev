@@ -183,6 +183,17 @@ files. No preparation builds or lives ran; independent actual-input/reader revie
 release precede measurement. `results/visibility_dark_tail_gradient_20261014/` preserves this bounded accessibility
 test, with unchanged prices and local rules and no hand-built-body or local-success world gate.
 
+*2026-10-14 AG complete:* in fully dark flash, L92 row61 gains **+.22070 ± .07114 captures** and
+**+.55148 ± .03692 F** on 512 fresh paired lives; cost savings (+.44372 F) provide most of the fitness gain.
+Its dark-phase capture gain (+.20703 ± .06956) narrowly misses three SE. D90 row54 gains +1.82930 ± .03953 F
+almost entirely through economy, with unresolved captures. A five-unit bright interval starts at each target
+placement; background cues continue afterward. This is modest accessible adaptation without demonstrated
+memory or a richer algorithm. All 6,218 calls complete in 1,204.022071 CPU-seconds; all 132 paired vectors and
+raw accounting independently reproduce. Processes exited and release pins remain unchanged. Full evidence:
+`results/visibility_dark_tail_gradient_20261014/`. A small source-only AH comparison now prepares ordinary
+selection versus two temporarily protected fresh offspring in the existing persistent-target world. It tests
+exploration under unchanged F and prices, not a new organism rule or reward, and is not yet registered or run.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

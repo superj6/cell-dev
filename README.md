@@ -67,8 +67,11 @@ mutants have produced small capture gains, but short continuations have mostly i
 [persistent-target continuation](results/prediction_continuation_20261014/TERMINAL_README.md), both lineages gain
 fitness without gaining captures; L92 halves its mean captures while shrinking from about 109 to 13 terminal
 cells. This makes capture performance and richer use of information the central research questions; a higher
-fitness score alone is insufficient evidence of a more sophisticated algorithm. A bounded test in fully dark
-flash is being prepared, with prices and local asynchronous rules unchanged.
+fitness score alone is insufficient evidence of a more sophisticated algorithm. The completed
+[dark-flash test](results/visibility_dark_tail_gradient_20261014/TERMINAL_README.md) finds another modest capture
+gain (**+0.221 ± 0.071 per life**) in one selected mutant, with most fitness improvement again coming from lower
+costs. Dark-phase improvement is unresolved and memory remains unestablished. A small exploratory-selection
+comparison is being prepared, with prices and local asynchronous rules unchanged.
 
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),
