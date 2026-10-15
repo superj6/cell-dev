@@ -1,0 +1,47 @@
+{
+  "status": "accepted_by_root",
+  "review_pins": {
+    "outputs/audit_exploratory_reserve_replication_20261014/producer_source_review.json": "f0260f2f7124d6e56250f1a7c1a103723fe73159aa14edb1c0a1309a13c49f75",
+    "outputs/audit_exploratory_reserve_replication_20261014/reader_source_review.json": "5ad8d788c2e325c6144f0b521689f3a5caf8c0349b1c6e443823f7fb91e9c4a2",
+    "outputs/audit_exploratory_reserve_replication_20261014/analyzer_peer_review.json": "95daafee52f35d6a7a34c36c97b33d38cc41ea8a8d394f5ec2ac0cbfbde462fa",
+    "outputs/audit_exploratory_reserve_replication_20261014/producer_interface_review.json": "b1d583cf487dde633d7a37520832c1831dbaf71519a03aafc1820c3bec260621",
+    "outputs/audit_exploratory_reserve_replication_20261014/historical_cost_review.json": "814b15c01d7aa656a97dde37e15f29a5a31d663dd5b6aec0f03f1b4b60d58263",
+    "outputs/audit_exploratory_reserve_replication_20261014/independent_source_design_review.json": "040455be7c47c19c0ef11a7220bb4892da4691ded34ae01916cf1c9227db9f81",
+    "outputs/audit_exploratory_reserve_replication_20261014/root_helper_source_review.json": "bede3a24b220882cde5eac75c13abefc469689c769ca78b63719c84ab727de12",
+    "outputs/audit_exploratory_reserve_replication_20261014/root_helper_independent_review.json": "b61b70ab398ff5610a77414d9df833b8e99f79c2683f3ee22230eb1ff82d8be6",
+    "outputs/audit_exploratory_reserve_replication_20261014/root_helper_review_recovery.json": "fe28229c430b7b740abff072db3f9956fe1bbbae60f66f050acdfa6c4e4ba358",
+    "outputs/audit_exploratory_reserve_replication_20261014/namespace/candidate_namespace_review.json": "bd7cf69bf0e87e8c823cb0d084859448032784462ce4b80fec298b8606385b9b",
+    "outputs/audit_exploratory_reserve_replication_20261014/namespace/seed_audit.json": "ffcb1e0656859c76b4a9ffd87fe941633906bdf5e3aecfd89ca3180f8c96fe27",
+    "outputs/audit_exploratory_reserve_replication_20261014/namespace/final_namespace_delta.json": "f45627424683d923cd78986aea82f9a2901ca499f06a2c658f720559f117b0cf"
+  },
+  "producer_source_pins": {
+    "PREREG.md": "0d793a9c57de2ca5171d6065054fe7bf86e74359f63886ebe84f097c18db5e1a",
+    "README.md": "8b8fba05d728e96aa3aab84251e0c6ec9eaa96933a454a519a172a8860c8567e",
+    "SCHEMA.md": "dc999beb922d517b4dba2989022638cf90e72c0202892cff00cff117144a0256",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "b122dad2465bc70fff7ef1b70d75765e79b13e6757cd738b533681ac22e10303",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "c3618a0b9e9a691870605fbefb8781575353e6ea69afdcce7822b09f5802c6ae",
+    "reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "run_budgeted.py": "27c697d434d197c2d25ab00149000fbe43ec5899404f00e44486d5d58a8a9032",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "search.py": "5d6d561cda5f7ac66479097d328af9fbfd2449f0fbb39f52435b9605bc341f2e",
+    "test_replication.py": "019fb91c7663ea85dfcebb1a79df8f50dd0be5dafb1ac14f061e91bf8a8dcf3f",
+    "test_source.py": "5840b9c19e586b3d75af48420f92c9b524c8cbedbc3d99b1d8e1513eaa4dcc77",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "reader_source_pins": {
+    "analyze.py": "fdccb9573e4ba73982025a615084e5839526f129ee7e64c95ea1c58f3b101652",
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_replication.py": "63e236bb1160989d1346d8b93b365f0e3a3f7d8c3d7787a040aa73deda49d7f0"
+  },
+  "reader_protocol_bound": false,
+  "seed_audit_sha256": "ffcb1e0656859c76b4a9ffd87fe941633906bdf5e3aecfd89ca3180f8c96fe27",
+  "scientific_scope": "one_independent_replication_four_generation_pair_two_fresh_reserves",
+  "prior_published_milestone": "b46aca978005cef6b50edafef4b8287f445c0824",
+  "simulation_calls": 0,
+  "genetic_draws": 0
+}

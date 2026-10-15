@@ -1,0 +1,33 @@
+{
+  "status": "source_only_unexecuted",
+  "helpers": {
+    "register_study.py": {
+      "source": "outputs/audit_exploratory_reserve_20261014/register_study.py",
+      "source_sha256": "af00cd1198c3a19060edc83db43e58b29781dfd99fa336a1c22f7da81e0cbea6",
+      "draft_sha256": "bb082b35481d6d22ad8cbb208f7d1dafbd18425feac8c69e437eeee38ee63d14"
+    },
+    "release_study.py": {
+      "source": "outputs/audit_exploratory_reserve_20261014/release_study.py",
+      "source_sha256": "9f04fb8e284b16163279c81727b0e49026c9f8dbbb5045954e109f77bb8c811a",
+      "draft_sha256": "dd4a499fa45f0ae9d2bb4683790af01eec284460f99e774e78c5d0e6d552c969"
+    },
+    "clear_terminal.py": {
+      "source": "outputs/audit_exploratory_reserve_20261014/clear_terminal.py",
+      "source_sha256": "720a49a460ce1bf66db16cdab23b9188e50b61effe41b7676986aa22c6142d70",
+      "draft_sha256": "8c9a7d43470f67edfef3d7ab73c200b159a6a55325a161726021de0f664d066f"
+    }
+  },
+  "adaptations": [
+    "AH\u2192AI working/public paths and study metadata",
+    "AG\u2192AH terminal dependency",
+    "candidate53227/block136",
+    "accepted exact prior published milestone replaces hardcoded historical prefix"
+  ],
+  "unchanged": [
+    "resource caps and total call counts",
+    "Git publication/source-byte checks",
+    "resource settlement and no-retry gates"
+  ],
+  "simulation_calls": 0,
+  "genetic_draws": 0
+}

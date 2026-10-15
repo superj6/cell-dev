@@ -1,0 +1,70 @@
+{
+  "status": "passed_bound_actual_inputs_pending_peer",
+  "protocol_sha256": "0dc385199dc871a86f7a31a62c393b2c160f0cbae018ceece3ec8f51bb6dff00",
+  "reader_sha256": "6111d133af55bdd6d44b9801db54fa02aa9f48f10e9a832c823e50f12fcc9778",
+  "unbound_reader_sha256": "fdccb9573e4ba73982025a615084e5839526f129ee7e64c95ea1c58f3b101652",
+  "reader_change": "Only the PROTOCOL_SHA assignment; entire normalized AST equal to reviewed unbound source. No analysis logic, scientific helper or test-source changes.",
+  "unchanged_scientific_sources": {
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "actual_input_verification_sha256": "34608fb4160ed0315f632e0faadcdb9f540101089207d616891b8c48977d1a5e",
+  "initialization_replay_sha256": "cb29ab9ca6cbfbc5b9a27dbbec405e7ed08842b798f71a8d2e78c388e12ec114",
+  "execution_receipts": {
+    "binding_source_record.json": "848d97f764e193f77639d28636d9d211e1d98654a4debc30d443e74c3b4341b9",
+    "verify_preparation.py": "7210384d075135ef48d7ec13a1d29a6ccecb086ef38ffb4e0b5ffd1b2f8b1fa2",
+    "bound_execution_command.json": "bd7dd20a60381bf7df6cf382f1cd3cfb3d19d19c0362eadaab99976ce5b84a7e",
+    "bound_execution_stdout.json": "ab26439662a8ae9f2107e5ea47a8f7d901c1283cbf1f55608bf29eb07c9cb7cf",
+    "bound_execution_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bound_execution_review.json": "0df4f75b0d08fc898ed5fee44165de39f8311c77f8ad089ea8253fdeb02e0668"
+  },
+  "source_review_sha256": "5ad8d788c2e325c6144f0b521689f3a5caf8c0349b1c6e443823f7fb91e9c4a2",
+  "source_peer_sha256": "95daafee52f35d6a7a34c36c97b33d38cc41ea8a8d394f5ec2ac0cbfbde462fa",
+  "checks": [
+    "All103 local and35 production pins verify.",
+    "Exact AE L92 row31 source,65 complete retained historical timing rows,66 ABI3 world values and both count-critical configurations verify.",
+    "One shared32-row float32 initialization reconstructed bit-for-bit from62 recorded additions with no fresh genetic draws; both modes/configs bound.",
+    "Exact registered64 shared native IDs and512 fresh confirmation IDs match independently derived native schedule.",
+    "Unreleased analysis refuses missing ready and emits no outcomes.",
+    "No simulation/build/numerical-identity/evolution modules imported during actual verification."
+  ],
+  "initialization": {
+    "status": "passed",
+    "protocol_sha256": "0dc385199dc871a86f7a31a62c393b2c160f0cbae018ceece3ec8f51bb6dff00",
+    "backgrounds": {
+      "L92": {
+        "rows": 32,
+        "recorded_mutations": 62,
+        "all_rows_bitwise_equal": true,
+        "raw_sha256": "16ece05b33ccec818c22b366b5431b21293a27516d1987029e478e7b7b2b8544",
+        "file_sha256": "2d39f230961ec1282cd8407e7fdfe0a6dd01cd00c4d54b3cf865649d1e090655"
+      }
+    },
+    "runs": {
+      "control": "L92",
+      "reserve": "L92"
+    },
+    "simulation_calls": 0,
+    "compilation_calls": 0,
+    "random_draws": 0,
+    "limit": "Recorded additions only; initial RNG hashes are bound but genetic draws are not rerun.",
+    "script_sha256": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864"
+  },
+  "test_evidence": {
+    "prior_focused_tests": 5,
+    "prior_junit_sha256": "30b6d8dcb86bce4e649ad788bdecdfef753e05bc0eda2c43f0cfcbcc7ec06a3a",
+    "unchanged_tests_rerun": false,
+    "bound_actual_input_execution_exit_code": 0,
+    "stderr_empty": true
+  },
+  "interpretation": [
+    "This is a separate second matched pair on the same deliberately chosen founder; it does not make life seeds evolutionary replicates.",
+    "No pooling with AH for a policy-reliability claim; primary AI reserve-minus-control captures and own-start gains retained."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "fresh_genetic_draws": 0,
+  "runtime_release": false
+}

@@ -218,6 +218,16 @@ AI, repeats the same matched comparison with an independent search seed and fres
 positive pilot; it cannot treat 512 lives as evolutionary replicates or establish general reliability from one pair.
 Task F, prices, world and organism rules remain fixed. No AI registration, scientific inputs or runtime release yet.
 
+*2026-10-15 AI registered and prepared:* repeat AH's exact four-generation matched reserve/control
+comparison from the fixed AE L92 founder, with independent native seed 53227 and fresh block 136. One shared
+32-row initialization is recorded; no compiler or life ran. Both endpoints and the start receive 512 paired
+confirmation lives, led by reserve-minus-control captures. Policy, fitness, prices, world and local rules are
+unchanged. All 9,810 calls retain the 5,400 CPU-second cap with 2,000 reserved for confirmation. Protocol
+`0dc38519…b6dff00` pins 103/35 local/production files. AI is explicitly motivated by the positive
+AH pilot; report it separately and do not pool life-level precision as search replication. Actual-input and
+bound-reader review plus public preparation precede runtime release. Evidence:
+`results/exploratory_reserve_replication_20261014/`. No larger family, paid compute or new organism rule is released.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

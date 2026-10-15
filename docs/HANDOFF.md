@@ -1,7 +1,12 @@
-# Handoff: cell-dev (2026-10-14)
+# Handoff: cell-dev (2026-10-15)
 
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
+
+**Current work (2026-10-15).** AH is complete and pushed (`b46aca9`): one reserve endpoint beats its matched
+control in capture performance, without protected-offspring ancestry. AI repeats the unchanged comparison with
+an independent search seed. It is registered and prepared, with no simulation yet; actual-input checks and
+prospective publication precede runtime release. Detailed evidence and limitations appear in the entries below.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.
@@ -289,6 +294,19 @@ reproduce. Four leaders/three groups exited; 208 local/35 production pins remain
 `results/exploratory_reserve_20261014/`. Source-only AI now prepares one independent matched-pair replication
 with the same AE L92 founder, policy, world and prices. No AI inputs, seeds, builds or lives are released.
 A longer ordinary search after initial contraction remains deferred; no larger family or price change is authorized.
+
+**AI registered and prepared (2026-10-15).** A second independent matched four-generation pair repeats
+AH's exact two-slot reserve policy, including its SHA lottery domain, from the same AE L92 founder. The new
+native seed 53227 and block 136 confirmation IDs are audited; one shared 32-row initialization with 62 recorded
+point additions is prepared. Both final rank-zero endpoints and the start will receive 512 fresh paired lives.
+The primary contrast is reserve minus control captures, with F, both own-start contrasts and all cost/penalty
+terms. AI is motivated by AH's positive relative result; AH is not the new control and its 512 lives are not
+512 evolutionary repetitions. All 9,810 calls retain the 5,400 total / 3,400 search / 2,000 reserve CPU limits.
+Protocol `0dc38519…b6dff00` pins 103 local / 35 production files. Actual-input review and public
+preparation precede separate runtime release; no compiler or life ran during preparation. Prices, world,
+local asynchronous rules, genetic operators and production code remain unchanged. Evidence:
+`results/exploratory_reserve_replication_20261014/`. One further pair on this selected background cannot establish
+general policy reliability, memory or a richer algorithm. Longer ordinary depth remains a separate candidate.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

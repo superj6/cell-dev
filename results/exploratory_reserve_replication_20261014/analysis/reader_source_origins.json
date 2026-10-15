@@ -1,0 +1,79 @@
+{
+  "status": "source_only_unbound",
+  "files": {
+    "native_audit.py": {
+      "source": "outputs/autonomous_exploratory_reserve_20261014/analysis/native_audit.py",
+      "sha256": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+      "byte_exact": true
+    },
+    "selection.py": {
+      "source": "outputs/autonomous_exploratory_reserve_20261014/analysis/selection.py",
+      "sha256": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+      "byte_exact": true
+    },
+    "offline_accounting.py": {
+      "source": "outputs/autonomous_exploratory_reserve_20261014/analysis/offline_accounting.py",
+      "sha256": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+      "byte_exact": true
+    },
+    "helpers/genetics.py": {
+      "source": "outputs/autonomous_exploratory_reserve_20261014/analysis/helpers/genetics.py",
+      "sha256": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+      "byte_exact": true
+    },
+    "analyze.py": {
+      "source": "outputs/autonomous_exploratory_reserve_20261014/analysis/analyze.py",
+      "sha256": "4a7804c6e6f64410a6cf65f0ae35cdfaa2553e1d1da5ff6883b8dab3077cfe67",
+      "byte_exact": false,
+      "allowed_replacements": [
+        [
+          "Complete-study AH audit",
+          "Complete-study AI audit"
+        ],
+        [
+          "PROTOCOL_SHA = \"0a9e505969ed11cd8f240f9404bbff2adf9a91d91d5387252fd9595874c61be4\"",
+          "PROTOCOL_SHA = None"
+        ],
+        [
+          "AH_control",
+          "AI_control"
+        ],
+        [
+          "AH_reserve",
+          "AI_reserve"
+        ],
+        [
+          "source-only AH reader",
+          "source-only AI reader"
+        ],
+        [
+          "reviewed AH protocol",
+          "reviewed AI protocol"
+        ],
+        [
+          "AH fresh-offspring exploratory reserve",
+          "AI fresh-offspring exploratory reserve replication"
+        ],
+        [
+          "AG_terminal",
+          "AH_terminal"
+        ],
+        [
+          "outputs/autonomous_visibility_dark_tail_gradient_20261014/budget.json",
+          "outputs/autonomous_exploratory_reserve_20261014/budget.json"
+        ],
+        [
+          "AG operational terminal",
+          "AH operational terminal"
+        ],
+        [
+          "clean AG resource terminal",
+          "clean AH resource terminal"
+        ]
+      ]
+    }
+  },
+  "scientific_inputs_copied": 0,
+  "genetic_draws": 0,
+  "simulation_calls": 0
+}

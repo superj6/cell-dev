@@ -1,0 +1,142 @@
+{
+  "status": "source_only_reviewed_unregistered",
+  "study": "AI fresh-offspring exploratory reserve replication",
+  "source_pins": {
+    "PREREG.md": "0d793a9c57de2ca5171d6065054fe7bf86e74359f63886ebe84f097c18db5e1a",
+    "README.md": "8b8fba05d728e96aa3aab84251e0c6ec9eaa96933a454a519a172a8860c8567e",
+    "SCHEMA.md": "dc999beb922d517b4dba2989022638cf90e72c0202892cff00cff117144a0256",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "b122dad2465bc70fff7ef1b70d75765e79b13e6757cd738b533681ac22e10303",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "c3618a0b9e9a691870605fbefb8781575353e6ea69afdcce7822b09f5802c6ae",
+    "reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "run_budgeted.py": "27c697d434d197c2d25ab00149000fbe43ec5899404f00e44486d5d58a8a9032",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "search.py": "5d6d561cda5f7ac66479097d328af9fbfd2449f0fbb39f52435b9605bc341f2e",
+    "test_replication.py": "019fb91c7663ea85dfcebb1a79df8f50dd0be5dafb1ac14f061e91bf8a8dcf3f",
+    "test_source.py": "5840b9c19e586b3d75af48420f92c9b524c8cbedbc3d99b1d8e1513eaa4dcc77",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "origin_receipt_sha256": "e42e56963fba0793724001af9475ac4b56ad4bfc843d1713c93f6ea38ff9bb5e",
+  "normalized_AST_proof": {
+    "prepare.py": {
+      "original_sha256": "943be9d1b96f75b4d63ded6168493df4ecec3b47327f919100a5422226528bc0",
+      "current_sha256": "c3618a0b9e9a691870605fbefb8781575353e6ea69afdcce7822b09f5802c6ae",
+      "entire_module_AST_equal_after_declared_substitutions": true
+    },
+    "measure.py": {
+      "original_sha256": "647dd363ab01c6676ed216f793cc0aa473bc82f68982bc812955445ebe53e592",
+      "current_sha256": "b122dad2465bc70fff7ef1b70d75765e79b13e6757cd738b533681ac22e10303",
+      "entire_module_AST_equal_after_declared_substitutions": true
+    },
+    "run_budgeted.py": {
+      "original_sha256": "bf9dd3f9a664d0f6f909401669a40bb262df91346d77530b2b298e4880bb7a13",
+      "current_sha256": "27c697d434d197c2d25ab00149000fbe43ec5899404f00e44486d5d58a8a9032",
+      "entire_module_AST_equal_after_declared_substitutions": true
+    }
+  },
+  "allowed_string_replacements": [
+    [
+      "AH source-only draft",
+      "AI source-only replication draft"
+    ],
+    [
+      "AH three-role",
+      "AI three-role"
+    ],
+    [
+      "AH matched",
+      "AI matched"
+    ],
+    [
+      "AH_control",
+      "AI_control"
+    ],
+    [
+      "AH_reserve",
+      "AI_reserve"
+    ],
+    [
+      "AH fresh-offspring exploratory reserve",
+      "AI fresh-offspring exploratory reserve replication"
+    ],
+    [
+      "AG_terminal",
+      "AH_terminal"
+    ],
+    [
+      "outputs/autonomous_visibility_dark_tail_gradient_20261014/budget.json",
+      "outputs/autonomous_exploratory_reserve_20261014/budget.json"
+    ],
+    [
+      "AG clean terminal",
+      "AH clean terminal"
+    ],
+    [
+      "AG must be cleanly",
+      "AH must be cleanly"
+    ],
+    [
+      "clean AG terminal",
+      "clean AH terminal"
+    ]
+  ],
+  "byte_exact_AH_files": [
+    "reserve_adapter.py",
+    "search.py",
+    "scoring.py",
+    "common.py",
+    "numerical.py",
+    "world_contract.py",
+    "test_source.py"
+  ],
+  "policy_domain": "cell-dev:AH:reserve:v1",
+  "policy_sha256": "bc2cbccffe93a95a2a885bbad570020374801f27f592ca355a6601a7d89b669d",
+  "native_search_lives": 8268,
+  "confirmation_lives": 1536,
+  "research_lives": 9804,
+  "golden_lives": 6,
+  "total_calls": 9810,
+  "resource_caps": {
+    "total_cpu_seconds": 5400,
+    "search_cpu_seconds": 3400,
+    "confirmation_reserve": 2000,
+    "search_stop": 3390,
+    "total_stop": 5390
+  },
+  "historical_cost_review_sha256": "814b15c01d7aa656a97dde37e15f29a5a31d663dd5b6aec0f03f1b4b60d58263",
+  "tests": {
+    "count": 5,
+    "failures": 0,
+    "errors": 0,
+    "junit_sha256": "3387121bd33558d6a6d21afdbf3dde71a3e9f5283b74dd2c6237e597d178c58f",
+    "log_sha256": "4d2df7a96ce4a667da3ccf295f2d16c728a65ed0e861a3baa919f7bb469b02b5",
+    "lint_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "prior_AH_synthetic_checks_reused": 20,
+    "description": "Only AST/source/schema/scalar checks; no evaluator or genetics run. Test-only public release_review path fallback preserved separately; all five affected checks repeated successfully."
+  },
+  "interpretation": "Independent matched-pair replication openly motivated by AH; unchanged chosen background and method; no life-level pooling as evolutionary replication.",
+  "absent_before_registration": [
+    "registration.json",
+    "seed_audit.json",
+    "resource_clearance.json",
+    "protocol.json",
+    "inputs",
+    "configs",
+    "initialization",
+    "initialization.json",
+    "preparation_claim.json",
+    "generation_claim.json",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "confirmation",
+    "logs",
+    "build-cache"
+  ],
+  "scientific_inputs_copied": 0,
+  "genetic_draws": 0,
+  "compiled_libraries": 0,
+  "simulation_calls": 0
+}

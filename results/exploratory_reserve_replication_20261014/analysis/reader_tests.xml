@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="0.305" timestamp="2026-10-14T23:47:02.178872-07:00" hostname="jgon-ThinkPad-X1-Carbon-Gen-13"><testcase classname="outputs.audit_exploratory_reserve_replication_20261014.analysis.test_replication" name="test_entire_reader_AST_changes_only_declared_metadata" time="0.057" /><testcase classname="outputs.audit_exploratory_reserve_replication_20261014.analysis.test_replication" name="test_scientific_helpers_and_policy_byte_exact" time="0.001" /><testcase classname="outputs.audit_exploratory_reserve_replication_20261014.analysis.test_replication" name="test_unbound_reader_refuses_outcomes" time="0.001" /><testcase classname="outputs.audit_exploratory_reserve_replication_20261014.analysis.test_replication" name="test_new_study_and_operational_dependency" time="0.000" /><testcase classname="outputs.audit_exploratory_reserve_replication_20261014.analysis.test_replication" name="test_three_in_memory_rows_have_exact219_named_vectors" time="0.007"><failure message="KeyError: 'seeds'">def test_three_in_memory_rows_have_exact219_named_vectors():
+        # Minimal full-life rows exercise the unchanged raw accountant without any
+        # engine, genotype table, file fixture or reserved research seed.
+        n = 512
+        world = {
+            "t0": 0,
+            "t_open": 0,
+            "T": 1024,
+            "world_kind": 1,
+            "b2_amp": 0,
+            "b2_value": 0,
+            "R_cap": 500,
+            "n_max": 128,
+            "c_live": 0.001,
+            "c_spike": 0.02,
+            "c_tw": 0.03,
+            "c_msg": 0.04,
+            "c_div": 0.05,
+            "c_sec": 0.06,
+            "c_miss": 0.07,
+            "c_rec": 0.08,
+        }
+        rows = []
+        for i in range(3):
+            row = {key: np.zeros(n, dtype=np.float64) for key in M.A.COLS}
+            for key, value in {
+                "n_end": 1,
+                "n_peak": 1,
+                "n_S_end": 1,
+                "live_time": 1024,
+                "live_S": 1024,
+                "t_end": 1024,
+                "t_ext": -1,
+                "window": 1024,
+                "spikes": 2,
+            }.items():
+                row[key][:] = value
+            row["captures"][:] = 2 + i + np.arange(n) % 3
+            row["clicks"][:] = row["captures"]
+            row["income"][:] = 500 * row["captures"]
+            row["cost"][:] = M.A.physical_costs(row, world)[0]
+            row["net"][:] = row["income"] - row["cost"]
+            row["F_kernel"][:] = row["net"] / 1024
+            row["F"][:] = row["F_kernel"]
+            row["ledger"] = np.stack([row["F_kernel" if k == "F" else k] for k in M.A.LEDGER], axis=1)
+            row["cpu_seconds"] = np.asarray(0.01)
+            row["wall_seconds"] = np.asarray(0.02)
+            M.A.validate_row(row, world, n)
+            rows.append(row)
+        vectors = {}
+        for category, pairs in M.PAIRS.items():
+            for a, b in pairs:
+&gt;               result, terms = M.A.paired_terms(rows[a], rows[b], world)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_exploratory_reserve_replication_20261014/analysis/test_replication.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+winner = {'income': array([2000., 2500., 3000., 2000., 2500., 3000., 2000., 2500., 3000.,
+       2000., 2500., 3000., 2000., 25...., 2., 2., 2., 2., 2.,
+       2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.,
+       2., 2.]), ...}
+parent = {'income': array([1500., 2000., 2500., 1500., 2000., 2500., 1500., 2000., 2500.,
+       1500., 2000., 2500., 1500., 20...., 2., 2., 2., 2., 2.,
+       2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.,
+       2., 2.]), ...}
+world = {'t0': 0, 't_open': 0, 'T': 1024, 'world_kind': 1, ...}
+
+    def paired_terms(winner, parent, world):
+        n = len(winner["F"])
+        status = {"winner": validate_row(winner, world, n), "parent": validate_row(parent, world, n)}
+&gt;       if not np.array_equal(winner["seeds"], parent["seeds"]):
+                              ^^^^^^^^^^^^^^^
+E       KeyError: 'seeds'
+
+outputs/audit_exploratory_reserve_replication_20261014/analysis/offline_accounting.py:267: KeyError</failure></testcase></testsuite></testsuites>

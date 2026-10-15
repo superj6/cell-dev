@@ -1,0 +1,32 @@
+{
+  "status": "approved_bound_reader_prepared_unreleased",
+  "protocol_sha256": "0dc385199dc871a86f7a31a62c393b2c160f0cbae018ceece3ec8f51bb6dff00",
+  "bound_reader_sha256": "6111d133af55bdd6d44b9801db54fa02aa9f48f10e9a832c823e50f12fcc9778",
+  "unbound_reader_sha256": "fdccb9573e4ba73982025a615084e5839526f129ee7e64c95ea1c58f3b101652",
+  "source_peer_sha256": "95daafee52f35d6a7a34c36c97b33d38cc41ea8a8d394f5ec2ac0cbfbde462fa",
+  "author_actual_preparation_review_sha256": "6c611693061b919b9ed86f463bd6b7c6c88ea3485c885d5007c0ba35269553ee",
+  "independent_actual_input_verification_sha256": "34608fb4160ed0315f632e0faadcdb9f540101089207d616891b8c48977d1a5e",
+  "initialization_replay_sha256": "cb29ab9ca6cbfbc5b9a27dbbec405e7ed08842b798f71a8d2e78c388e12ec114",
+  "reader_sources": {
+    "analyze.py": "6111d133af55bdd6d44b9801db54fa02aa9f48f10e9a832c823e50f12fcc9778",
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_replication.py": "63e236bb1160989d1346d8b93b365f0e3a3f7d8c3d7787a040aa73deda49d7f0"
+  },
+  "review_method": "Source and receipt inspection only; entire module AST equal after normalizing exactly PROTOCOL_SHA. Original source-only reviews remain unchanged. No duplicate scientific replay was needed.",
+  "checks": [
+    "Only protocol literal changed after source peer approval.",
+    "Exact 103 local and35 production input pins verified independently by author and reader.",
+    "One shared32-row initialization agrees bitwise with recorded62 additions; native RNG was not redrawn.",
+    "Two configs,66 ABI3 world fields,65 historical timing rows and frozen price/policy contracts agree.",
+    "Exactly64 intentionally shared native IDs and512 fresh confirmation IDs retained.",
+    "No ready or runtime paths; reader reports incomplete and emits no outcomes.",
+    "Policy replay, initial-cell census, guard/extinction accounting, all219 vectors and four-field process evidence remain unchanged."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "fresh_genetic_draws": 0,
+  "blockers": []
+}

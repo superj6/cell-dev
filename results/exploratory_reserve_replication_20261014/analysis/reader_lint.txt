@@ -1,0 +1,28 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/audit_exploratory_reserve_replication_20261014/analysis/test_replication.py:3:1
+   |
+ 1 |   """Focused AI metadata/role checks; reuse AH math and no file-based science fixtures."""
+ 2 |
+ 3 | / import ast
+ 4 | | import hashlib
+ 5 | | import importlib.util
+ 6 | | import json
+ 7 | | from pathlib import Path
+ 8 | | import sys
+ 9 | |
+10 | | import numpy as np
+   | |__________________^
+11 |
+12 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+  |
+6 | import json
+7 + import sys
+8 | from pathlib import Path
+  - import sys
+9 |
+  |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

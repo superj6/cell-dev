@@ -1,0 +1,84 @@
+{
+  "status": "approved_source_only_unregistered",
+  "producer_source_pins": {
+    "PREREG.md": "0d793a9c57de2ca5171d6065054fe7bf86e74359f63886ebe84f097c18db5e1a",
+    "README.md": "8b8fba05d728e96aa3aab84251e0c6ec9eaa96933a454a519a172a8860c8567e",
+    "SCHEMA.md": "dc999beb922d517b4dba2989022638cf90e72c0202892cff00cff117144a0256",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "b122dad2465bc70fff7ef1b70d75765e79b13e6757cd738b533681ac22e10303",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "c3618a0b9e9a691870605fbefb8781575353e6ea69afdcce7822b09f5802c6ae",
+    "reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "run_budgeted.py": "27c697d434d197c2d25ab00149000fbe43ec5899404f00e44486d5d58a8a9032",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "search.py": "5d6d561cda5f7ac66479097d328af9fbfd2449f0fbb39f52435b9605bc341f2e",
+    "test_replication.py": "019fb91c7663ea85dfcebb1a79df8f50dd0be5dafb1ac14f061e91bf8a8dcf3f",
+    "test_source.py": "5840b9c19e586b3d75af48420f92c9b524c8cbedbc3d99b1d8e1513eaa4dcc77",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "source_pins": {
+    "outputs/audit_exploratory_reserve_replication_20261014/check_independent_source_design.py": "4e8ab7877d57c16d2dd9af4e3c241060a12b2aa457df608bd9b01e3845e502a3",
+    "outputs/audit_exploratory_reserve_replication_20261014/producer_source_review.json": "f0260f2f7124d6e56250f1a7c1a103723fe73159aa14edb1c0a1309a13c49f75",
+    "outputs/audit_exploratory_reserve_replication_20261014/producer_source_origins.json": "e42e56963fba0793724001af9475ac4b56ad4bfc843d1713c93f6ea38ff9bb5e",
+    "outputs/audit_exploratory_reserve_replication_20261014/historical_cost_review.json": "814b15c01d7aa656a97dde37e15f29a5a31d663dd5b6aec0f03f1b4b60d58263",
+    "outputs/audit_exploratory_reserve_replication_20261014/producer_tests_final.xml": "3387121bd33558d6a6d21afdbf3dde71a3e9f5283b74dd2c6237e597d178c58f",
+    "outputs/audit_exploratory_reserve_replication_20261014/producer_tests_final.log": "4d2df7a96ce4a667da3ccf295f2d16c728a65ed0e861a3baa919f7bb469b02b5",
+    "outputs/audit_exploratory_reserve_replication_20261014/root_helper_source_review.json": "bede3a24b220882cde5eac75c13abefc469689c769ca78b63719c84ab727de12",
+    "outputs/audit_exploratory_reserve_replication_20261014/register_study.py": "bb082b35481d6d22ad8cbb208f7d1dafbd18425feac8c69e437eeee38ee63d14",
+    "outputs/audit_exploratory_reserve_replication_20261014/release_study.py": "dd4a499fa45f0ae9d2bb4683790af01eec284460f99e774e78c5d0e6d552c969",
+    "outputs/audit_exploratory_reserve_replication_20261014/clear_terminal.py": "8c9a7d43470f67edfef3d7ab73c200b159a6a55325a161726021de0f664d066f",
+    "results/exploratory_reserve_20261014/release_review/independent_source_design_review.json": "21b3de28540ba54a2304dabfdbdfe0c9454925691ab815f6aee58fe00beb9b6c",
+    "results/exploratory_reserve_20261014/prelaunch/manifest.json": "9eb51e8aac3954d54fbb887844572585f84b1fa19aaba39e66312bac0392bf06",
+    "results/exploratory_reserve_20261014/manifest.json": "09558296e9417d0f585475da560356b232ead98d01b3208d25de4e4ee1ea1104",
+    "results/prediction_gradient_20261014/protocol.json": "0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849",
+    "results/prediction_gradient_20261014/analysis_result/summary.json": "e269cab21b720053fcb0ae14febfd62b76a86c7a91bb49cc0a7cedc536721628",
+    "results/prediction_information_20261014/protocol.json": "bc2df79bfd484107ce50027ec6b734c041a00efa982654a64ddc7e065910d99f"
+  },
+  "blockers": [],
+  "prior_design_review_sha256": "21b3de28540ba54a2304dabfdbdfe0c9454925691ab815f6aee58fe00beb9b6c",
+  "entire_module_AST_metadata_only": {
+    "prepare.py": true,
+    "measure.py": true,
+    "run_budgeted.py": true
+  },
+  "byte_exact_AH_files": [
+    "reserve_adapter.py",
+    "search.py",
+    "scoring.py",
+    "common.py",
+    "numerical.py",
+    "world_contract.py",
+    "test_source.py"
+  ],
+  "review": {
+    "world_and_prices": "Exact V/AE ABI3 world,66 packedfloat64 values and unchanged scorer. No in-life or price changes.",
+    "policy_and_rng": "Byte-exact AH adapter/search preserve original AH lottery domain, two uniforms without replacement among224, existing native tie streams and three rank calls. Shared new native seed intentionally pairs botharms; later populations may diverge.",
+    "identity_and_replay": "Exact AH checkpoint/driver/source identity, durable fullbase/rank metadata, one original identity per worker, same first-cohort metadata checks. Independent recorded-operation replay remains required after completion.",
+    "lifecycle_and_cost": "Entire monitor AST unchanged after study-label replacements;5400total/3400search/2000reserve with3390/5390stop. Parent/group/subreaper/CPU cleanup retained. Same6goldens+9804research calls. Historical AE65-row max retained; faster AH realized cost is not substituted.",
+    "interpretation": "Independent repetition openly motivated by AH. Botharms fresh from AE L92row31, not AHendpoints. Primary captures with F/cost decomposition; report signs independently. Confirmation seeds are not evolutionary replicates; no general reliability or protected-ancestor mechanism claim.",
+    "authorization": "Root-only future registration/preparation/release remains separate. Source review creates no candidateinputs, new behavior, ABI, clock, channel, world response or paidcompute."
+  },
+  "timing_review": {
+    "row_count": 65,
+    "row_lives": 32,
+    "identity_and_index_checks": "all65passed",
+    "ledger_access": "NPY header only; no outcomes/genotypes read",
+    "maximum_cpu_per_life": 0.20239681268749976,
+    "maximum_row": 38,
+    "startup_search_projection": 2690.125270950372,
+    "confirmation_projection": 957.2037607199991,
+    "thresholds": [
+      3390,
+      1990
+    ],
+    "limitation": "Historical maxima plus margins do not bound unseen offspring costs; monitor caps decisive."
+  },
+  "existing_author_checks_verified": 5,
+  "new_test_cases": 0,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "genotype_copies": 0,
+  "production_edits": 0,
+  "prepared_inputs": 0
+}

@@ -1,0 +1,56 @@
+{
+  "status": "passed_source_only_root_helper_review",
+  "scope": "Read-only source comparison and AST parsing; no helper was imported or executed.",
+  "helpers": {
+    "register_study.py": {
+      "source": "outputs/audit_exploratory_reserve_20261014/register_study.py",
+      "source_sha256": "af00cd1198c3a19060edc83db43e58b29781dfd99fa336a1c22f7da81e0cbea6",
+      "reviewed_sha256": "bb082b35481d6d22ad8cbb208f7d1dafbd18425feac8c69e437eeee38ee63d14",
+      "syntax": "parsed_without_execution"
+    },
+    "release_study.py": {
+      "source": "outputs/audit_exploratory_reserve_20261014/release_study.py",
+      "source_sha256": "9f04fb8e284b16163279c81727b0e49026c9f8dbbb5045954e109f77bb8c811a",
+      "reviewed_sha256": "dd4a499fa45f0ae9d2bb4683790af01eec284460f99e774e78c5d0e6d552c969",
+      "syntax": "parsed_without_execution"
+    },
+    "clear_terminal.py": {
+      "source": "outputs/audit_exploratory_reserve_20261014/clear_terminal.py",
+      "source_sha256": "720a49a460ce1bf66db16cdab23b9188e50b61effe41b7676986aa22c6142d70",
+      "reviewed_sha256": "8c9a7d43470f67edfef3d7ab73c200b159a6a55325a161726021de0f664d066f",
+      "syntax": "parsed_without_execution"
+    }
+  },
+  "root_helper_origins_sha256": "15a1322d0af2196e247c60b879d9633a8b1baa93bbc38402e95cecc1784c7b3f",
+  "reader_sha256": "fdccb9573e4ba73982025a615084e5839526f129ee7e64c95ea1c58f3b101652",
+  "reader_source_review_sha256": "5ad8d788c2e325c6144f0b521689f3a5caf8c0349b1c6e443823f7fb91e9c4a2",
+  "preregister_text_draft_sha256": "cfc608c070ea81ab377d09448cc55804bf1ac50b9b3f0ffee9f6d75c61b5f9ac",
+  "AH_posthoc_review": {
+    "path": "outputs/audit_exploratory_reserve_20261014/future_direction/posthoc_retention_review.json",
+    "sha256": "6f7cb8d411d9b8116947c4a1f5aa77e4e39e842abff17bf1af5dae05239fd249"
+  },
+  "checks": [
+    "All six origin and draft helper hashes match the declared origins; each draft parses without import or execution.",
+    "Registration uses the exact AI study identity, AH_terminal resource dependency, candidate native seed 53227 and block136 first512 IDs; the unbound reader consumes the same fields.",
+    "Registration requires accepted review/source/namespace hashes, an unbound reader, the fixed complete AE L92 row31 source, and exact HEAD == origin/master == accepted prior_published_milestone before exclusive writes.",
+    "AH terminal status is a resource prerequisite, accepting clean complete or incomplete terminal states; no AH positive-result test gates registration or release.",
+    "Shared64 native life IDs plus512 fresh confirmation IDs remain separate from standard golden seed11. Auditing/registration of these candidates remains pending root authorization.",
+    "Scientific scope is unchanged:8268 native +1536 confirmation +6 goldens=9810 calls, caps5400 total/3400 search/2000 confirmation, maximum2 search workers with2 threads each.",
+    "Release requires exact prospective public artifact/source bytes committed and pushed, exact protocol/analysis pins and source/process checks; it writes ready only and does not launch a worker.",
+    "Terminal clearance checks recorded PID/start identities, all owned groups, empty running/queued state, no cleanup error and unchanged released source pins before permitting analysis.",
+    "Preregistration describes primary reserve-minus-control captures, all219 vectors, unchanged AH lottery domain, three fixed roles, one new paired search and no inference treating512 life seeds as evolutionary replicates.",
+    "AH result is disclosed as motivation, while own-start capture uncertainty and absence of protected ancestry in its endpoint are retained; no reliability, memory or algorithmic-sophistication claim is made."
+  ],
+  "findings": [],
+  "limitations": [
+    "This is source review, not execution proof of future accepted review bundles, namespace registration, actual prepared inputs, publication or runtime clearance.",
+    "The preregistered prose is a draft for later registration/publication; AI is not registered or released by this review.",
+    "Producer final-source peer review and actual bound-input review remain separate required stages."
+  ],
+  "helper_executions": 0,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "registration_written": false,
+  "ready_written": false
+}
