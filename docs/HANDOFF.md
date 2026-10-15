@@ -126,17 +126,28 @@ populations replay exactly; 21 initial-search guarded evaluation calls retained 
 confirmation statuses are zero. The frozen reader passes unchanged and independent reanalysis matches all
 450 paired arrays. Evidence: `results/visibility_precision_20261014/`.
 
-**AC registered (2026-10-14).** Reuse both complete Y mutant panels in the approved flash environment, then
-confirm its selected mutants, original parents and fixed Y blink winners in both worlds. Screen all 65 rows per
-background on 32 shared lives; select the best mutant by production F even if it loses to the parent. Freeze both
-selections before testing all six roles in both worlds on 512 fresh paired lives. Duplicate roles remain explicit.
-There are 10,304 research plus ten startup lives, one two-thread worker, and a 7,200 CPU-second cap: startup/calibration
-180, cumulative startup/screen 3,400, confirmation reserve 3,800. Calibration and selected-row cost checks can stop
-the first attempt, without retry, reselection or reduced scope. Blocks 123/124/125 at base 51M are registered for
-calibration/screen/confirmation. All 26 prior identities and 19 groups are clear. Capture income stays separate
-from economy; the joint visibility changes do not isolate memory. The design is independent of AB's scientific
-outcome. Input copying is authorized; no compilation or lives are released until independent actual-input review
-and prospective publication. Held S and the larger evolution proposal remain unreleased.
+**AC complete (2026-10-14).** Screening the same complete Y panels in flash selected D90 row54 and L92 row16.
+Both improve flash F over their original parent: **+1.09996 ± .09207 / +.31244 ± .09345** on 512 fresh paired lives.
+D90 saves **1.81236 ± .01768 F** in costs while losing **1.45898 ± .18119 captures**. L92's capture change is
+**+.56836 ± .19139**, narrowly below the fixed three-SE criterion, so neither primary gain qualifies as
+capture-supported under that rule. L92 does beat its prior blink-selected control in flash by **+.38214 ± .09221 F**
+and **+.68945 ± .18827 captures**. Its flash-minus-blink F interaction (**+.35522 ± .11871**) also narrowly misses
+three SE; the capture interaction (**+.73828 ± .24447**) narrowly exceeds it. D90's positive H−B interaction is
+less capture loss in flash, not improved capture over either control. No reciprocal specialization or richer
+algorithm is established. The prior D90 blink capture gain replicates again (**+.73242 ± .16103**).
+All 10,304 research plus ten startup lives completed in **2,044.626301 CPU-seconds**; all 10,312 raw statuses are zero.
+Both recorded processes and the owned group exited. The frozen reader passes unchanged and separate reanalysis
+matches all **1,200 paired arrays**. All 204 local and 35 production release pins remain unchanged. Evidence:
+`results/visibility_flash_gradient_20261014/`.
+
+**Next source-only preparation:** a one-world information-payoff diagnostic changes existing flash
+`visibility_low` from .25 to zero, removing weak current target cues after the flash. This is a preapproved world
+constant, not a new ABI, channel or organism rule. Reuse the 13 existing external instruments, matching only the
+I/B instruments' declared dark amplitude to the known zero value. Their algorithm and all other parameters stay
+fixed. Neither their success nor darkness would establish evolved memory; motor persistence, queued signals,
+retained direction and blind search remain alternatives. AD's proposed 6,656 research plus 76 validation calls
+have a 2,400 CPU-second cap, subject to actual source/reader/resource/namespace review. No AD input copying,
+registration, compilation or simulated lives are released; held S and larger evolution plans remain unreleased.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

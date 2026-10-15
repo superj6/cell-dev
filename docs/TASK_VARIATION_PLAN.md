@@ -113,13 +113,16 @@ first cohorts, final populations and all 450 paired arrays replay. The compariso
 not equal CPU or isolated precision; no general policy or algorithmic-sophistication claim follows. Evidence:
 `results/visibility_precision_20261014/`.
 
-*2026-10-14 AC registered:* reuse both complete 65-row Y neighborhoods, screen all rows in approved flash and
-confirm both flash selections, both parents and both fixed blink selections in both worlds. The 10,304 research
-plus ten startup lives have a 7,200 CPU-second cap with 3,800 reserved for confirmation, one two-thread worker,
-and fixed pre-screen/pre-confirmation cost checks. No new candidate genotypes or organism rules. The design is
-independent of AB's scientific outcome; namespaces 123–125 at base 51M are registered after resource clearance.
-Capture-supported gains and world interactions are separate questions; neither establishes memory. Input copying
-is authorized, while runtime release awaits independent input/reader review and prospective publication.
+*2026-10-14 AC complete:* flash selects different retained Y mutants (D90 row54/L92 row16), with primary F gains
+**+1.09996 ± .09207 / +.31244 ± .09345**. D90 gains through economy while losing captures; L92's parent-relative
+capture gain **+.56836 ± .19139** narrowly misses the predeclared three-SE criterion. Its secondary advantage over
+the prior blink selection in flash is **+.38214 ± .09221 F / +.68945 ± .18827 captures**, without a resolved F
+interaction or reciprocal specialization. Thus no primary capture-supported gain or richer algorithm is established.
+All 10,314 calls completed in 2,044.626301 CPU-seconds; frozen accounting and all 1,200 vectors reconcile. Evidence:
+`results/visibility_flash_gradient_20261014/`. Next source-only AD measures information payoff when the existing
+flash's residual cue multiplier is zero, using retained external algorithms with only the known amplitude parameter
+matched. This is a minor world-constant change; no organism rule or ABI change. No AD seeds, inputs, builds or lives
+are released yet, and capability-specific memory admission remains incomplete.
 
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I

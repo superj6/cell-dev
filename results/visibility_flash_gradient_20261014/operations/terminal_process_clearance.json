@@ -1,0 +1,32 @@
+{
+  "status": "cleared",
+  "all_processes_exited": true,
+  "checked_at_utc": "2026-10-15T03:20:27.161414+00:00",
+  "budget_sha256": "75107349982d8551ec914feb9223c3f15e118dc9b3b6e2dc9694c108d7baa5b2",
+  "processes": [
+    {
+      "pid": 1160318,
+      "ppid": 9421,
+      "pgid": 1160318,
+      "start_ticks": 3786732,
+      "name": "monitor"
+    },
+    {
+      "pid": 1160326,
+      "ppid": 1160318,
+      "pgid": 1160326,
+      "start_ticks": 3786766,
+      "name": "gradient"
+    }
+  ],
+  "process_groups": [
+    1160326
+  ],
+  "host_entries_checked": 510,
+  "study_cpu_seconds": 2044.626301,
+  "scientific_analysis": "not_yet_run",
+  "released_local_pins_unchanged": 204,
+  "released_production_pins_unchanged": 35,
+  "research_lives": 10304,
+  "validation_lives": 10
+}

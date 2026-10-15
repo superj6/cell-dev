@@ -1,0 +1,31 @@
+{
+  "flash_batch_max_cpu_per_life": {
+    "D90": 0.23672120149999998,
+    "L92": 0.1671792700000001
+  },
+  "startup_cpu_seconds": 12.020124,
+  "confirmation_role_rates": {
+    "flash": {
+      "P_D90": 0.23672120149999998,
+      "P_L92": 0.1671792700000001,
+      "B_D90": 0.23672120149999998,
+      "B_L92": 0.1671792700000001,
+      "H_D90": 0.23672120149999998,
+      "H_L92": 0.1671792700000001
+    },
+    "blink": {
+      "P_D90": 0.30848995675,
+      "B_D90": 0.34359400128125017,
+      "H_D90": 1.1315406254375002,
+      "P_L92": 0.18884731209374905,
+      "B_L92": 0.21769876881250028,
+      "H_L92": 0.28215994281249834
+    }
+  },
+  "screen_projection_cpu_seconds": 1272.1895950800001,
+  "confirmation_projection_cpu_seconds": 3009.3365926559986,
+  "screen_threshold": 3390,
+  "confirmation_threshold": 3790,
+  "feasible": true,
+  "limitation": "Four two-seed batches do not bound slow mutants or changes in developed bodies."
+}

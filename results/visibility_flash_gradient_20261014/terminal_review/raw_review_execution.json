@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python outputs/audit_visibility_flash_gradient_20261014/review_terminal.py --study outputs/autonomous_visibility_flash_gradient_20261014 --terminal-clearance-sha256 5af01429104cae73b5982ec5aa9d94ca58126d46ef5c0891dd6883f225368ce3 --out outputs/autonomous_visibility_flash_gradient_20261014/terminal_review/raw_analysis_review.json",
+  "exit_code": 0,
+  "terminal_clearance_required_before_outcomes": true,
+  "source_only_helper_prepared_before_terminal": true,
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "imports_released_accountant_or_reader": false,
+  "source_files_changed": false,
+  "files": {
+    "review_terminal.py.txt": "f6c543289b319588727c0e6eb723db0ad79afcd320a5b2e63eae7c0134f9d081",
+    "raw_analysis_review.json": "0d893d836e28c642dabea0ded897463d08aadfad488fc293485ee511d03a9f61",
+    "raw_review.stdout.json": "18bffe210ebfd32e9276cf14a08d3a9bcc0cf903bda033526a1fd223da71615f",
+    "raw_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "RAW_REVIEW.md": "b2db625ecf839dc6d6a9993d6f66c862e1efbccc21e095c22288672e09b431d0"
+  },
+  "output_pins": {
+    "summary.json": "f70691e072f070d0dee8e3bdf55e1c78c409e6d3dd4e746118c651ba499b10ed",
+    "paired_vectors.npz": "6509e8ab4c9ddeb10655090d612608ec4de56d0ba4c34db2ecdde21f653f51ff"
+  }
+}

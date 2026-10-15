@@ -2670,3 +2670,71 @@ and three focused protocol-binding checks pass. The frozen reader retains all 16
 metric arrays, including all signs and duplicate roles. The protocol binds 167 local and 35 production files.
 The complete prospective archive is `results/visibility_flash_gradient_20261014/`; runtime release follows its
 publication. No new candidate genotypes, libraries or simulated lives were created during preparation.
+
+## 2026-10-14 — Flash selects different mutations, with economy and a tentative capture lead
+
+AC screened both complete Y panels in flash without generating new candidates. The selected mutants were
+D90 row54 and L92 row16, distinct from the fixed blink controls at rows58/24. All six roles had distinct genome
+hashes; both selections and the full role table were frozen before the confirmation-cost decision. Each role was
+then evaluated in both worlds on the same 512 fresh seeds. H denotes the flash selection, B the prior blink
+selection, and P the original parent. Values below are means ± paired SE; the registered criterion is three SE.
+
+| H minus own parent | Fitness F | Captures | Capture income in F | Ordinary cost saving in F |
+|---|---:|---:|---:|---:|
+| D90 in flash (primary) | +1.09996 ± .09207 | −1.45898 ± .18119 | −.71239 ± .08847 | +1.81236 ± .01768 |
+| L92 in flash (primary) | +.31244 ± .09345 | +.56836 ± .19139 | +.27752 ± .09345 | +.03492 ± .00992 |
+| D90 in blink | +.79558 ± .08330 | −2.09961 ± .17117 | −1.02520 ± .08358 | +1.82078 ± .01735 |
+| L92 in blink | +.12226 ± .07677 | +.16406 ± .15619 | +.08011 ± .07626 | +.04215 ± .00925 |
+
+Both primary fitness gains clear three SE. D90 does so through economy despite fewer captures: in flash it ends
+with 83.69141 ± .83314 fewer cells and fires 3,772.06641 ± 40.23280 fewer spikes. L92's point estimate is mostly
+capture income, but that primary capture change narrowly misses the fixed criterion: .568359 < 3×.191390.
+It is therefore a tentative capture lead, not a registered capture-supported primary improvement. The small cost
+saving is resolved. The sample is not extended to move this borderline result over the threshold.
+
+| H minus prior blink selection B | Fitness F | Captures | Capture income in F | Ordinary cost saving in F |
+|---|---:|---:|---:|---:|
+| D90 in flash | +.94127 ± .10003 | −1.80273 ± .19587 | −.88024 ± .09564 | +1.82152 ± .01800 |
+| L92 in flash | +.38214 ± .09221 | +.68945 ± .18827 | +.33665 ± .09193 | +.04549 ± .00995 |
+| D90 in blink | +.45299 ± .08349 | −2.83203 ± .16917 | −1.38283 ± .08260 | +1.83581 ± .01785 |
+| L92 in blink | +.02692 ± .08224 | −.04883 ± .16840 | −.02384 ± .08223 | +.05076 ± .00949 |
+
+L92's secondary flash comparison against B resolves in both fitness and capture income. That does not replace
+the parent-relative primary outcome. D90's higher fitness than B in both worlds again accompanies fewer captures.
+The previous B_D90−P_D90 improvement replicates on fresh blink lives: **+.34259 ± .07907 F** and
+**+.73242 ± .16103 captures**. The other three B−P world/background comparisons remain unresolved in both F
+and captures. All twelve within-world contrasts are retained in the archive and figure.
+
+| Paired flash-minus-blink interaction | Fitness F | Captures |
+|---|---:|---:|
+| D90 H−P | +.30439 ± .11442 | +.64063 ± .23267 |
+| L92 H−P | +.19018 ± .11696 | +.40430 ± .24055 |
+| D90 H−B | +.48829 ± .11917 | +1.02930 ± .24214 |
+| L92 H−B | +.35522 ± .11871 | +.73828 ± .24447 |
+
+Both H−P interactions are unresolved. D90's positive H−B interaction reflects less capture loss in flash; H still
+catches fewer than B in both worlds. L92's H−B fitness interaction narrowly misses three SE (.355221 < .356130),
+while its capture interaction narrowly exceeds it (.738281 > .733418). These are separate outcomes, not a reason
+to relabel the F interaction. Reciprocal specialization is not established: the blink-selected B is not shown to
+beat H in blink. Different screen winners alone cannot establish specialization.
+
+The flash D90 H−P low-light capture change is −1.50000 ± .18151; L92's is +.55273 ± .19148 and unresolved.
+The low-light counts use different physical regimes across worlds and do not isolate history dependence.
+Residual cue strength, visibility scheduling and placement resets all differ. No memory, prediction or richer
+algorithm has been established. These two fixed panels and life-seed uncertainties do not estimate independent
+search reliability. Every positive, negative and near-threshold result remains reported.
+
+All **10,304 research plus ten startup lives** completed in **2,044.626301 / 7,200 CPU-seconds**. Startup/screening
+used 879.179945, confirmation/cleanup 1,165.446356. Both fixed cost gates passed. All 146 raw rows contain
+10,312 complete status-zero lives, with the two standard identity lives accounted separately. All processes and
+the owned group exited; no retry, dropped row, reselection or scope extension occurred. The frozen independent
+reader passed unchanged; separate raw recount and reanalysis match all **1,200 paired vectors**, all sixteen
+contrasts and full production accounting. All 204 local and 35 production release pins remain unchanged.
+The complete prospective inputs, raw rows, process receipts, reviews and both figures are preserved in
+`results/visibility_flash_gradient_20261014/`.
+
+The next source-only direction tests whether information still pays when the existing flash becomes fully dark
+after five time units. It changes one preapproved world constant, retains the existing external controller
+algorithms and matches their known dark-amplitude parameter to zero. It is not an evolved-memory claim or an
+automatic large search. Existing silent-duplication studies already failed to establish a useful copied gene;
+there is no evidence yet that controller capacity is the main bottleneck. AD remains unregistered and unlaunched.
