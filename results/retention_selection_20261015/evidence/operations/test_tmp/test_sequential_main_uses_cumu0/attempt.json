@@ -1,0 +1,45 @@
+{
+  "monitor": {
+    "pid": 4,
+    "ppid": 2,
+    "pgid": 1,
+    "start_ticks": 9189743
+  },
+  "pid_namespace": "pid:[4026535322]",
+  "protocol_sha256": "18f3c2549087d26818fbf2ebc5848398a45f5d78a0cc279f03330878935a2d77",
+  "release_sha256": "fadfad322d12c251938ffb9eb7b9c970e75fb1c57f9fab26680a52c229cdd834",
+  "commands": {
+    "persistent_control": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_retention_selection_20261015/operations/test_tmp/test_sequential_main_uses_cumu0/search.py",
+      "--arm",
+      "persistent_control"
+    ],
+    "balanced_mixture": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_retention_selection_20261015/operations/test_tmp/test_sequential_main_uses_cumu0/search.py",
+      "--arm",
+      "balanced_mixture"
+    ],
+    "confirmation": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_retention_selection_20261015/operations/test_tmp/test_sequential_main_uses_cumu0/measure.py",
+      "--run-child"
+    ]
+  },
+  "budget": {
+    "cpu_seconds": 5400,
+    "wall_seconds": 3600,
+    "search_cpu_seconds": 3600,
+    "confirmation_cpu_seconds": 1800,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

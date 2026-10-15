@@ -1,0 +1,58 @@
+{
+  "status": "complete",
+  "phase": "confirmation",
+  "exit_code": 0,
+  "worker_exit_code": 0,
+  "cpu_seconds": 300.5,
+  "wall_seconds": 0.01755175899597816,
+  "cap_cpu_seconds": 5400,
+  "cap_wall_seconds": 3600,
+  "search_cpu_seconds": 200.5,
+  "confirmation_cpu_seconds": 100.0,
+  "search_cpu_cap": 3600,
+  "confirmation_cpu_cap": 1800,
+  "protocol_sha256": "18f3c2549087d26818fbf2ebc5848398a45f5d78a0cc279f03330878935a2d77",
+  "release_sha256": "fadfad322d12c251938ffb9eb7b9c970e75fb1c57f9fab26680a52c229cdd834",
+  "attempt_sha256": "c367f16b0e5ed48d181d895bb069239d24235e8fa65fcadde6c029e10321b81c",
+  "pid_namespace": "pid:[4026535322]",
+  "process_identities": [
+    {
+      "pid": 4,
+      "ppid": 2,
+      "pgid": 1,
+      "start_ticks": 9189743,
+      "name": "monitor"
+    }
+  ],
+  "owned_process_groups": [],
+  "phase_records": {
+    "persistent_control": {
+      "path": "execution/persistent_control/budget.json",
+      "sha256": "af1b2abd579c24be408e54d43951ba4caa0b7a3c3839a46d95aecf2ca4978ef1"
+    },
+    "balanced_mixture": {
+      "path": "execution/balanced_mixture/budget.json",
+      "sha256": "f0df98c854cd05e06607a19dc2096fb47d34c0df7f0fc6131f4031ff248da504"
+    },
+    "confirmation": {
+      "path": "execution/confirmation/budget.json",
+      "sha256": "e4374a24084da6add9adeccf8c9a833867f42d2776902b3ae0a83aecd85429d5"
+    }
+  },
+  "wait4_receipts": [],
+  "running": {},
+  "queued": [],
+  "reason": null,
+  "error": null,
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026535322]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  }
+}

@@ -1,0 +1,79 @@
+"""Classify exact AL candidate literals without reserving or consuming a seed."""
+import hashlib
+import json
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+ROOT = BASE.parents[2]
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def main():
+    inventory = json.loads((BASE / 'candidate_seed_inventory.json').read_text())
+    assert not inventory['NPZ_matches'] and not inventory['NPZ_errors'] and not inventory['JSON_errors']
+    records = inventory['native_records']
+    values = [row['seed'] for row in records]
+    assert len(values) == len(set(values)) == 68
+    assert all(row['seed'] not in range(52390000,52400000) for row in records)
+    assert inventory['run_life_seeds'] == {arm:values for arm in ('persistent_control','balanced_mixture')}
+    assert not any((ROOT / 'outputs/autonomous_population_depth_20261015' / name).exists()
+                   for name in ('registration.json','protocol.json','release.json'))
+    assert not any((ROOT / 'outputs/autonomous_retention_selection_20261015' / name).exists()
+                   for name in ('registration.json','protocol.json','release.json'))
+    classifications=[]
+    for item in inventory['JSON_hits']:
+        assert item['value'] == 52390000
+        assert item['field'] in ('whole_block_half_open.1','seed_blocks.0.1')
+        assert ('retention_frontier_20261015' in item['path'] or
+                item['path'].startswith('outputs/cumulative_capability_20261015/operations/'))
+        classifications.append(dict(item,classification='excluded_upper_endpoint_of_registered_AK_block138'))
+    text_classes=[]
+    for line in (BASE / 'candidate_text_matches.txt').read_text().splitlines():
+        path,number,text=line.split(':',2)
+        if path.endswith('/pcommon.py') and '43_000_000 + 10_000 * block' in text:
+            category='old_prediction_family_base43M_blocks120_to139_are_disjoint'
+        elif path.endswith('/copy_terminal_review.py') and text.startswith('PINS = '):
+            category='hexadecimal_artifact_digest_substring'
+        elif '-1.2523930072784424' in text or "'.05238'" in text:
+            category='decimal_measurement_or_mutation_literal_not_seed'
+        elif any(path.endswith('/'+name) for name in ('recommendation.md','audit_seed_block.py','classify_seed_audit.py')) and (
+                'cumulative_capability_20261015/operations/' in path):
+            category='AK_block138_excluded_upper_endpoint_or_classifier'
+        else:
+            raise ValueError('unclassified source literal: '+line)
+        text_classes.append({'path':path,'line':int(number),'classification':category})
+    registrations=[]
+    for folder in sorted((ROOT/'outputs').glob('autonomous_*')):
+        path=folder/'registration.json'
+        if not path.exists():
+            continue
+        item=json.loads(path.read_text())
+        ranges=item.get('seed_blocks') or []
+        if len(ranges)==2 and all(isinstance(value,int) for value in ranges):ranges=[ranges]
+        for lo,hi in ranges:
+            assert max(lo,52390000)>=min(hi,52400000)
+        registrations.append({'path':str(path.relative_to(ROOT)),'sha256':sha(path),'seed_blocks':ranges})
+    result={'status':'passed','reserved':False,'registered':False,'native_seed':53229,
+      'confirmation_seeds':list(range(52390000,52390256)), 'candidate_seeds':list(range(52390000,52390256)),
+      'whole_block_half_open':[52390000,52400000], 'native_records':records,
+      'run_life_seeds':inventory['run_life_seeds'],'unique_native_ids':68,
+      'intentional_reuse':['Both arms share the same 68 native IDs, including all first-cohort life IDs.',
+        'Native final index 0 uses the same two IDs at full and half duration.',
+        'The 256 fresh confirmation IDs are shared across all three genomes and four worlds.',
+        'Eight separately counted engineering lives reuse pinned ABI3/ABI4 truth IDs.'],
+      'AJ_status':'Native 53228 and block 137 remain held, source-only, unregistered and unreserved; no overlap.',
+      'NPZ_coverage':{key:inventory[key] for key in ('current_npz_paths','unchanged_npz_paths',
+        'unchanged_seed_members_covered','distinct_unchanged_payloads_reopened')},
+      'changed_npz_count':len(inventory['changed_npz_records']),'numeric_overlap_count':0,
+      'JSON_classification':classifications,'text_classification':text_classes,
+      'registration_pins':registrations,'historical_inventory_references':inventory['prior_inventory_pins'],
+      'native_source_pins':inventory['native_source_pins'],'held_AJ_audit_sha256':inventory['held_AJ_seed_audit_sha256'],
+      'evidence_pins':{name:sha(BASE/name) for name in ('audit_namespace.py','candidate_seed_inventory.json',
+        'candidate_text_matches.txt','namespace_stdout.json','namespace_stderr.txt')},
+      'classification_source_sha256':sha(Path(__file__)),
+      'limitations':inventory['limitations'], 'simulation_calls':0,'engine_builds':0,'genetic_draws':0}
+    (BASE/'seed_audit.json').write_text(json.dumps(result,indent=2)+'\n')
+    print(json.dumps({'status':'passed','sha256':sha(BASE/'seed_audit.json'),
+       'JSON_classified':len(classifications),'text_classified':len(text_classes),'native_unique':68,'confirmation':256}))
+if __name__=='__main__':main()

@@ -1,16 +1,20 @@
-# Draft: can two-context selection reduce the observed capability tradeoff?
+# AL: can two-context selection reduce the observed capability tradeoff?
 
-Root-reviewed proposal for one user decision. The stated scope and decision rules are concrete; execution remains unapproved. No seeds are allocated, inputs copied, or simulations authorized by this document.
+Authorized by the user's instruction to continue on our judgment (2026-10-15), followed by explicit permission
+for local experiments with safe memory use. This bounded comparison proceeds as AL. The original proposal is
+preserved in `results/retention_selection_proposal_20261015/`.
+
 
 I recommend one small matched continuation to test whether keeping the ancestral task in selection reduces forgetting. AK found that the AI-control lineage gained captures on persistent targets and both nearby variants, while losing about 39% of ancestral POOL captures. There is therefore an observed retention problem to address; AK did not establish a new-edge weakness.
 
 The proposed change is outside the cells: one branch continues to earn its ordinary score on persistent targets; the other earns the average of that same score from equally many POOL and persistent lives. Cells, prices, physical rules and local asynchronous execution stay unchanged. Neither world reacts to the population, and organisms receive no shared channel or clock.
 
-## The decision and its limit
+## Authorization and scope
 
-[HANDOFF section 5](../../../docs/HANDOFF.md#5-decision-status-and-remaining-approvals) leaves “raw-F family fitness” and the larger family rollout unapproved. The requested approval would cover **this single two-context comparison**, including its fixed 50/50 selection average, within 5,400 CPU-seconds. It would not approve the larger family, wounds, a generation calendar, responsive worlds, new ABI features, or rented compute.
-
-Suggested question for the user after root review: **May I run one small matched comparison that keeps one branch on persistent targets and trains the other equally on persistent targets and ancestral POOL, using the same scores and prices and at most 5,400 CPU-seconds? I recommend it to test whether selection can reduce the observed loss of prior ability.**
+The earlier raw-F family-fitness question no longer blocks this work. The authorized pilot uses a fixed 50/50
+selection average within 5,400 CPU-seconds. Continue useful local follow-up experiments on our judgment; stop
+and report if substantial progress appears to require more resources. Physical prices and local asynchronous
+organism rules stay fixed. No rented compute or spending is authorized.
 
 ## Concrete comparison
 
@@ -46,7 +50,7 @@ One paired search and four generations can test feasibility and expose a tradeof
 
 Per branch: `4 × (256 × 4 + 64 × 4) + 2 × 16 + 6 = 5,158` research lives. Both branches plus confirmation: **13,388 research lives**. Three sequential worker starts each run the standard two-life identity check; confirmation adds the existing two-life ABI 4 full/fast truth check needed for blink: **13,396 total calls**. Half-duration final diagnostics deliberately reuse two final seeds; no extra genotype initialization lives are needed.
 
-Draft cap: 5,400 CPU-seconds inclusive of compilation, checks, failed work, monitor and teardown; search/startup ceiling 3,600, with 1,800 reserved for confirmation. Stop ten CPU-seconds before each relevant ceiling. At most one two-thread worker runs at once. No paid compute, retries, budget expansion or automatic shrinking of the confirmation matrix.
+Cap: 5,400 CPU-seconds inclusive of compilation, checks, failed work, monitor and teardown; search/startup ceiling 3,600, with 1,800 reserved for confirmation. Stop ten CPU-seconds before each relevant ceiling. At most one two-thread worker runs at once. The worker has an 8 GiB address-space limit; stop at 4 GiB aggregate owned RSS or below 4 GiB host available memory. No paid compute, retries, budget expansion or automatic shrinking of the confirmation matrix.
 
 Using the maximum of the 12 observed AK rates, the prior 65-row AE screen timings and the retained AE timing-reference rows gives 0.204154 CPU-seconds/life. A 1.5 multiplier plus a separate 180-second allowance in each phase projects about **3,339 CPU-seconds for search and 1,121 for confirmation**. These are planning estimates, not bounds on unobserved descendants. Actual accounting and the hard caps decide whether the experiment completes. Equal life budgets do not guarantee equal CPU use because POOL can be more expensive.
 
@@ -56,4 +60,4 @@ A local panel can test whether a nearby genome improves both tasks for roughly h
 
 Choose the panel if the immediate question is the cheapest search for a nearby dual-task improvement. I favor the matched continuation for the stated cumulative-capability question: it directly tests whether continuing evolution with prior-task pressure changes the observed forgetting. Keep it to this single pair and inspect the capture tradeoff before considering a larger family.
 
-Implementation can stay study-local: reuse the reviewed 32-row loader, add a narrow draw-world adapter, and leave native mutation, recheck, scoring and engine code untouched. Before approval can become a launch, verify empty-fill RNG invariance, draw prefixes/counts, exact world packing, first-cohort equality, policy-aware replay and source identity. These are focused checks of the proposed exception, not a new production framework.
+Implementation stays study-local: reuse the reviewed 32-row loader, add a narrow draw-world adapter, and leave native mutation, recheck, scoring and engine code untouched. Verify empty-fill RNG invariance, draw prefixes/counts, exact world packing, first-cohort equality, policy-aware replay and source identity. These are focused checks of this comparison, not a new production framework.

@@ -1,0 +1,58 @@
+{
+  "status": "passed_actual_input_source_only",
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "reader_sha256": "1152fbef215aad60f09b010fb8308f3b908aa36fc995dcbab7921a1e5dc05302",
+  "measure_sha256": "aa650f85f1eab8ea2bcc1bfe23b6787be8a47f6468b760cb566b1211f932c06e",
+  "counts": {
+    "source_pins": 10,
+    "input_pins": 15,
+    "production_pins": 33,
+    "original_input_pins": 11,
+    "review_pins": 7
+  },
+  "roles": [
+    "AI_control_start",
+    "persistent_control_final",
+    "mixture_final"
+  ],
+  "worlds": {
+    "pool": {
+      "abi": 3,
+      "packed_width": 66,
+      "ledger_width": 57
+    },
+    "persistent": {
+      "abi": 3,
+      "packed_width": 66,
+      "ledger_width": 57
+    },
+    "blink80_5": {
+      "abi": 4,
+      "packed_width": 70,
+      "ledger_width": 58
+    },
+    "turn100_blink80_5": {
+      "abi": 4,
+      "packed_width": 70,
+      "ledger_width": 58
+    }
+  },
+  "reference_raw_sha256": "657326d5aaa87832166ca9c3d61ee65ed891f4da3725d59a1e69b76a51162349",
+  "population_rows": 32,
+  "population_raw_sha256": "a2e038ac389c5739c4b7f2b08eaefc1cd6c1fea8e5edc4be6fa5f6ac1c09c6f1",
+  "population_order_duplicates_preserved": true,
+  "old_to_new_crosswalk_verified": true,
+  "both_config_files_pinned": true,
+  "expected_identity_matches_retained_startup": true,
+  "all_original_input_and_review_pins_rehashed": true,
+  "actual_numerical_identity_invocations": 0,
+  "simulation_calls": 0,
+  "compiler_calls": 0,
+  "genetic_draws": 0,
+  "no_engine_or_torch_imports": true,
+  "runtime_artifacts_absent": true,
+  "limits": [
+    "No dynamics or startup golden was run; this checks metadata, exact copied input bytes and reviewed source closure.",
+    "Independent genetic replay follows measured native outputs; no outputs exist yet."
+  ]
+}

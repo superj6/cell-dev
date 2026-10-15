@@ -3516,3 +3516,40 @@ and 1,800 reserved for confirmation. No new seeds, inputs, selection adapter or 
 AJ remains held. `results/retention_selection_proposal_20261015/` preserves the draft, contract, conservative
 cost projection and independent design review. The larger family, in-life rule changes and paid compute remain
 outside the requested decision.
+
+## 2026-10-15 — AL registered: selection for two tasks along one continuing lineage
+
+The user authorized continuing on our judgment, then explicitly permitted safe local experiments. AL compares
+four generations of persistent-only selection against a fixed 50/50 POOL/persistent mixture. Both import all 32
+ordered AI-control survivors, retain duplicate genomes, reset scores/RNG state and use native 32+224 breeding,
+four initial lives and four top 64 recheck lives. Native scoring, prices, genetics and local asynchronous cells
+stay unchanged. No context label or population-responsive world is introduced. Both final rank 0 endpoints are
+fixed before confirmation, and their first 224 offspring must reconstruct identically from recorded operations.
+
+The primary is mixture-minus-control ancestral POOL captures. Actual recovery also requires a resolved
+mixture-minus-start POOL capture gain. Persistent retention uses a conventional 10% tolerance, with the lower
+three-SE bound of endpoint−0.9×start above zero. This permits some loss; unresolved loss is not retention.
+Strict simultaneous improvement requires resolved capture gains over AI start in both training worlds. Full
+fitness and physical costs remain separate so economy cannot masquerade as richer behavior.
+
+AI start and both endpoints receive 256 fresh shared lives in each of POOL, persistent, blink80_5 and the new
+combined turn100+blink80_5 case. The combination stays outside selection and endpoint choice. One nearby
+transfer case and one paired evolutionary realization do not establish broad generalization or policy reliability.
+No fresh original L92 reference is included, so this cannot establish full ancestral restoration.
+
+Scope: 13,388 research plus 8 existing startup lives, 13,396 total. Block 139 reserves 52,390,000–52,399,999;
+confirmation uses its first 256 IDs. Both searches intentionally share native seed 53229 and 68 derived IDs.
+AJ 53228/block 137 remain held. The audit finds no collision in 242 distinct reopened historical seed payloads.
+Caps are 5,400 total CPU-seconds, 3,600 search and 1,800 confirmation, 3,600 wall seconds, one two-thread worker.
+Memory safeguards enforce 8 GiB address space per worker, stop at 4 GiB owned aggregate RSS or below 4 GiB host
+available memory. There is no paid compute, retry, resume, scope reduction or cap extension.
+
+Focused checks pass: 23 loader/selection/completion tests, 12 recorded-genetics tests, 14 reader tests and 10
+monitor/lifecycle tests. All 32 actual inputs match the prior checkpoint bytewise and preparation consumes no
+scientific genetic draws, compiler calls or lives. Prior 51 process identities and 36 groups are clear in their
+original host namespace. Full raw-genome replay follows the run; ordinary logs cannot reconstruct omitted
+parent base scores or exact tie permutations, so ranking claims remain limited to recorded evidence.
+
+Protocol: `25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf`.
+Prospective evidence: `results/retention_selection_20261015/`; exact scope: `docs/TWO_CONTEXT_RETENTION_PILOT.md`.
+Publication and final actual-input review precede root runtime release. No AL research life has run at registration.

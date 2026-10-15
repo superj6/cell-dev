@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.195" timestamp="2026-10-15T11:06:39.132003-07:00" hostname="jgon-ThinkPad-X1-Carbon-Gen-13"><testcase classname="outputs.audit_retention_selection_20261015.operations.test_monitor" name="test_three_real_owned_workers_preserve_cumulative_accounting" time="0.032"><failure message="assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/home/jgon/project/ml/cell-dev/.venv/bin/python', '-c', &quot;\nimport json, sys\nfrom pathlib impo...    \'import time; start=time.process_time()\n    ^\nSyntaxError: unterminated string literal (detected at line 10)\n').returncode">tmp_path = PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_retention_selection_20261015/operations/test_tmp_sequential/test_three_real_owned_workers_0')
+
+    def test_three_real_owned_workers_preserve_cumulative_accounting(tmp_path):
+        script='''
+    import json, sys
+    from pathlib import Path
+    from monitor import run_worker
+    base=Path(sys.argv[1])
+    receipts=[]
+    for name in ('persistent_control','balanced_mixture','confirmation'):
+        folder=base/name; folder.mkdir()
+        receipts.append(run_worker(folder,[sys.executable,'-c',
+            'import time; start=time.process_time()\nwhile time.process_time()-start &lt; .08: pass'],
+            {'cpu_seconds':10,'wall_seconds':5,'threads':2,'workers':1,'cleanup_margin_seconds':.1,
+             'minimum_available_bytes':0},'protocol','release',lambda:None,poll_seconds=.02))
+    print(json.dumps(receipts))
+    '''
+        env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',PYTHONPATH=str(SOURCE))
+        result=subprocess.run([sys.executable,'-c',script,str(tmp_path)],env=env,
+                              capture_output=True,text=True,timeout=10)
+        (tmp_path/'sequential.stdout.json').write_text(result.stdout)
+        (tmp_path/'sequential.stderr.txt').write_text(result.stderr)
+&gt;       assert result.returncode==0
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/jgon/project/ml/cell-dev/.venv/bin/python', '-c', "\nimport json, sys\nfrom pathlib impo...    \'import time; start=time.process_time()\n    ^\nSyntaxError: unterminated string literal (detected at line 10)\n').returncode
+
+outputs/audit_retention_selection_20261015/operations/test_monitor.py:209: AssertionError</failure></testcase></testsuite></testsuites>

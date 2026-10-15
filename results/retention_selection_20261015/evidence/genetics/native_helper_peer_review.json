@@ -1,0 +1,32 @@
+{
+  "status": "approved_source_peer",
+  "reviewed_source_pins": {
+    "outputs/autonomous_retention_selection_20261015/native_replay.py": "7507f71a8287b79444b8ba830af488d840b81dfd083d54740ebee9a936480e05",
+    "outputs/autonomous_retention_selection_20261015/replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "author_review_sha256": "03fe587cd0542e57a12248fddd692e932096203ad89ed4bf353f69b1a90ad987",
+  "test_receipt_sha256": "2f6aa1dc3b72dce7b656d85ffb2f38c7174359b1e7779d501c089aae64633380",
+  "reused_AJ_source_sha256": "4f449975ecbf36d163eddb886453af185b3d08843d7fa9591377cd0d9fd8094b",
+  "function_AST_identity": [
+    "equal",
+    "same",
+    "registry",
+    "point_mutation",
+    "replay_genetics"
+  ],
+  "checks": [
+    "Exact32 imported float32rows andold/newcrosswalk; loadedLayoutdefinitions bound to sourceclosure.",
+    "All224 ordered first children use recorded parent IDs,unitmask,silenced crossover and exact existing point-addition primitive.",
+    "Initial32+first224 raw hashes and canonical signature agree acrossarms before confirmation; fitness/kept fields correctly excluded.",
+    "No RNG method or evaluator/build calls in first_cohort/replay_first; first-cohort path does not change Torch thread count.",
+    "Actualmeasure calls this helper after both checkpoint validations and before first raw confirmation row; receipt hash enters endpoints.",
+    "12author tests reviewed without rerun; reused full-genetics helper functions independently AST-identical."
+  ],
+  "limits": [
+    "Does not reproduce genetic RNG draws; deterministic recorded-operation replay verifies resulting genotypes.",
+    "Full post-run ordinary ranking audit has incomplete unshortlisted-parent basefitness/tie evidence; this limitation is disclosed rather than treated as exact full-selection proof."
+  ],
+  "simulation_calls": 0,
+  "compiler_calls": 0,
+  "random_draws": 0
+}

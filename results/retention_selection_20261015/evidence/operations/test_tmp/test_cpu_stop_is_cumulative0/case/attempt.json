@@ -1,0 +1,24 @@
+{
+  "monitor": {
+    "pid": 17,
+    "ppid": 4,
+    "pgid": 1,
+    "start_ticks": 9189942
+  },
+  "pid_namespace": "pid:[4026535322]",
+  "protocol_sha256": "protocol",
+  "release_sha256": "release",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-c",
+    "while True: pass"
+  ],
+  "budget": {
+    "cpu_seconds": 0.5,
+    "wall_seconds": 5.0,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 0.1,
+    "minimum_available_bytes": 0
+  }
+}

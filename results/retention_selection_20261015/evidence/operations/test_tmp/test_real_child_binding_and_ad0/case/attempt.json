@@ -1,0 +1,26 @@
+{
+  "monitor": {
+    "pid": 5,
+    "ppid": 4,
+    "pgid": 1,
+    "start_ticks": 9189784
+  },
+  "pid_namespace": "pid:[4026535322]",
+  "protocol_sha256": "protocol",
+  "release_sha256": "release",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-c",
+    "\nimport os, resource\nfrom pathlib import Path\nassert os.getppid() == int(os.environ['CELLDEV_MONITOR_PID'])\nassert os.getpid() == os.getpgrp()\nassert Path(os.environ['CELLDEV_ATTEMPT_PATH']).parent == Path.cwd()\nassert resource.getrlimit(resource.RLIMIT_AS) == (128*1024**2, 128*1024**2)\nassert os.environ['OMP_NUM_THREADS'] == '2'\n"
+  ],
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 5.0,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 0.1,
+    "minimum_available_bytes": 0,
+    "address_space_bytes": 134217728,
+    "rss_bytes": 67108864
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "status": "approved_source_and_synthetic_operations",
+  "source_pins": {
+    "outputs/autonomous_retention_selection_20261015/monitor.py": "4a7ed3bcb56822b9a40bd176a2291ecfdb06ac79f0253e645e9b2a708f76bccb",
+    "outputs/autonomous_retention_selection_20261015/common.py": "3e72002c429a4fb2295db8694de57cd442186585cd8300da069b1ab5dae24feb",
+    "outputs/autonomous_retention_selection_20261015/prepare.py": "ff5f27be0efbafc43aa4d96da1b763059e289114bb391d237e54f72a80891221",
+    "outputs/autonomous_retention_selection_20261015/search.py": "a163820b178f5d257ed53e78f3df48a8aec13a4178289fd0d48d5a4182779370",
+    "outputs/autonomous_retention_selection_20261015/measure.py": "aa650f85f1eab8ea2bcc1bfe23b6787be8a47f6468b760cb566b1211f932c06e",
+    "outputs/autonomous_retention_selection_20261015/selection.py": "28a0560cb01b60b474a5aedbfebf0e5430458420c1b68d71c740dd700c33d6cb"
+  },
+  "AK_monitor_sha256": "5c7d6f13bf18514f5273ae9a443fc4e6e7a1d84477a2ec8a3871ecbcf1e14ee6",
+  "AST_unchanged_functions": [
+    "cleanup",
+    "cleanup_evidence",
+    "consumed_cpu",
+    "enable_subreaper",
+    "identity",
+    "owned_live",
+    "pid_namespace",
+    "reap",
+    "signal_descendant",
+    "signal_owned"
+  ],
+  "AST_changed_functions": [
+    "child_limits",
+    "main",
+    "proc_table",
+    "run_worker"
+  ],
+  "AST_added_functions": [
+    "memory_usage"
+  ],
+  "review": [
+    "One exclusive global attempt owns three sequential direct-child sessions, with separate immutable phase attempts and terminal receipts.",
+    "CPU counters include monitor own usage, reaped children and live owned process trees. Phase receipts are cumulative and are not summed. The global final value and differences provide search/confirmation accounting.",
+    "Both search phases enforce cumulative 3600 CPU seconds; confirmation cap is min(5400, actual_search_cpu+1800). Ten-second cleanup margins remain. Global wall cap is 3600 seconds.",
+    "Parent checks bind exact phase attempt path/hash, protocol/release hashes, monitor PID/start ticks, parent PID and same PID namespace. Search additionally matches its arm path; confirmation requires active confirmation phase.",
+    "Cleanup reaps exited leaders and surviving or escaped descendants, with same-namespace proof and pidfd/start-tick checks for individual signals.",
+    "Worker address space is limited to 8 GiB. Owned process aggregate RSS is stopped at 4 GiB and host available memory below 4 GiB blocks launch or stops work. Retained sampled RSS peaks cannot disappear before final completeness checks.",
+    "First failure stops subsequent phases; no resume, extra cohort, partial confirmation or automatic cap extension exists. Complete status requires all expected markers, raw row hashes, cleared process groups and bounded final accounting."
+  ],
+  "tests": {
+    "passed": 10,
+    "initial_suite": 9,
+    "additional_real_three_worker_test": 1,
+    "source_pins": {
+      "test_monitor.py": "bab12a44ff7147b9561d6745d13cb4b1f85771aaeb70cfc85ee45bcfa366d8ec",
+      "monitor_tests.log": "585ba42829657b9e2d56f8614be6c3365a8405474eed008559511ab50f2ffcfb",
+      "monitor_tests.xml": "c7b5b878fc0a589d8e633aa5a5fe4811fe8f555cbc2e64a9835ca157b0df1938",
+      "sequential_tests.log": "423b1d0e014eb1eab96f4420f7b344c2615be505dd574b756ac884826ca74f2d",
+      "sequential_tests.xml": "0cb6038d34f984938313e959884ddc9e2300766fefb70b9eda0fad63afa4d824"
+    },
+    "real_cell_lives": 0,
+    "engine_builds": 0,
+    "genetic_draws": 0,
+    "synthetic_scope": "Tiny Python CPU/sleep processes; no large memory allocation. Main aggregate arithmetic uses fabricated phase receipts, and a separate test executes three actual owned Python children to prove cumulative accounting and cleanup."
+  },
+  "resolved_findings": [
+    "Root corrected record-only memory peak threshold crossing before this review; focused regression passed."
+  ],
+  "retained_audit_errors": [
+    "Namespace initial receipt reused a variable and omitted native list; numeric scan was intact, corrected scan retained all 68 IDs.",
+    "Literal classifier initially expected ranges rather than historical Y named block metadata; old error and corrected explicit schema handling retained.",
+    "Additional sequential test initially had an escaped-newline syntax error before any child launch; only test quoting changed."
+  ],
+  "limitations": [
+    "This is source and synthetic lifecycle verification, not a simulation or live resource clearance. Root separately clears the host namespace before release.",
+    "Historical timing projections are planning estimates. Newly developed genotypes and the combined case can cost more; hard caps decide completion.",
+    "Sampled RSS is not a hard instantaneous process-tree memory limit; per-process RLIMIT_AS provides an additional bound."
+  ],
+  "evidence_pins": {
+    "seed_audit.json": "78290f2008766d5367b4aebd9de1f7809ae41d4c0f67e1928961c0069b6c5f45",
+    "prior_resource_evidence.json": "7c41d643cbbeb537691a38e489a8e37de062b9eb62d6cadf19ee10312b03987b",
+    "timing_review.json": "a7d149b45e4ca6c34579aa8ca72efafe040ff3f1faeaf9595d5c2d9f5e64ec42"
+  }
+}

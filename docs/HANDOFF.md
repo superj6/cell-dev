@@ -3,6 +3,12 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
+**Local experimentation authorized (2026-10-15).** The user says to keep working on our judgment and permits
+experiments on the local computer provided memory use does not threaten it. Continue useful bounded studies
+without repeated permission requests. Use one modest worker, explicit memory/CPU limits, and stop to report
+if the evidence indicates substantially more resources are needed for meaningful progress. No rented compute
+or spending is authorized. The objective remains evolved local asynchronous algorithms and cumulative capability.
+
 **Current work (2026-10-15).** AK is complete: AI's persistent-target capture gain repeats, but its ancestral
 POOL captures fall 38.6% relative to L92 (18.988 → 11.660). AI gains 0.680 ± 0.176 captures over AE in persistent
 and transfers that advantage to faster turns and brief irregular darkness. Perturbation-specific improvements
@@ -13,7 +19,11 @@ exited. Evidence: `results/retention_frontier_20261015/REPORT.md`; prospective c
 The offline shared-panel audit in `results/cross_world_reuse_20261015/` finds no confirmed broad capture improver.
 Next priority is retention in the selection strategy, not another harder-edge-only continuation. Native held-out
 reports do not influence breeding. The reviewed small two-context selection proposal is `docs/TWO_CONTEXT_RETENTION_PILOT.md`;
-the limited approval question is pending. No approval, registration, seed reservation or new search is assumed. AJ remains source-only, unregistered and held.
+the user’s instruction to continue on our judgment authorizes this bounded comparison. AL is prepared and
+registered for 13,396 total calls under 5,400 CPU-seconds, one two-thread worker, an 8 GiB address-space limit
+and a 4 GiB RSS stop. Its protocol is `25575f9e…ad19bf`; prospective evidence is
+`results/retention_selection_20261015/`. No further approval is needed for this local work. AJ remains source-only,
+unregistered and held. Final actual-input review and publication precede runtime release.
 All AK contexts become development data; future new-context evaluation must be separate.
 Watch both old and new tasks at `results/atlas/retention_frontier.html`: six fixed existing JS lives match all
 342 C ledger values, with 106 mock UI checks and no real browser run. See `results/ak_watchable_20261015/`.
@@ -633,6 +643,13 @@ creation can do, that's the whole point".
     N completes base/POOL duration checks.
 
 ## 5. Decision status and remaining approvals
+
+
+**2026-10-15 update:** after the limited two-context proposal was presented, the user instructed, “whyd you stop?
+continue working on your judgement”. Proceed with that bounded POOL/persistent comparison and routine
+minor selection work under the existing autonomy instruction. Do not ask again for this scope. This changes
+no organism rules, ABI, spending, global-channel or population-responsive-world boundary. The larger historical
+family and unrelated decisions below remain separate.
 
 Historical numbering from `docs/TASK_VARIATION_PLAN.md` 0.9 is retained for cross-references.
 The standing admission principle is already instructed; the other decisions remain unassumed.

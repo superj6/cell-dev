@@ -1,0 +1,166 @@
+{
+  "status": "passed_actual_prepared_inputs",
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "pin_counts": {
+    "source_pins": 10,
+    "input_pins": 15,
+    "production_pins": 33,
+    "original_input_pins": 11,
+    "review_pins": 7
+  },
+  "population_shape": [
+    32,
+    875
+  ],
+  "population_raw_sha256": "a2e038ac389c5739c4b7f2b08eaefc1cd6c1fea8e5edc4be6fa5f6ac1c09c6f1",
+  "ordered_rows_checked": 32,
+  "new_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "old_ids": [
+    668,
+    756,
+    864,
+    893,
+    855,
+    726,
+    748,
+    648,
+    909,
+    851,
+    706,
+    922,
+    667,
+    730,
+    536,
+    807,
+    707,
+    752,
+    927,
+    924,
+    884,
+    895,
+    714,
+    575,
+    787,
+    817,
+    810,
+    882,
+    773,
+    846,
+    908,
+    911
+  ],
+  "row0_old_id": 668,
+  "configs_equal_except_arm_and_output_path": true,
+  "native_unique_ids_per_arm": 68,
+  "native_ids_intentionally_shared": true,
+  "confirmation_ids": 256,
+  "confirmation_ids_shared_across_all_cells": true,
+  "worlds": {
+    "pool": {
+      "abi": 3,
+      "world_size": 66,
+      "ledger_size": 57
+    },
+    "persistent": {
+      "abi": 3,
+      "world_size": 66,
+      "ledger_size": 57
+    },
+    "blink80_5": {
+      "abi": 4,
+      "world_size": 70,
+      "ledger_size": 58
+    },
+    "turn100_blink80_5": {
+      "abi": 4,
+      "world_size": 70,
+      "ledger_size": 58
+    }
+  },
+  "combined_context_only_delta": {
+    "relative_to": "blink80_5",
+    "tau_turn": [
+      200.0,
+      100.0
+    ]
+  },
+  "gen_world_assignment": "Control all persistent; mixture even absolute indices POOL and odd persistent, including recheck indices4..7. Diagnostics remain persistent.",
+  "budget": {
+    "cpu_seconds": 5400,
+    "wall_seconds": 3600,
+    "search_cpu_seconds": 3600,
+    "confirmation_cpu_seconds": 1800,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  },
+  "research_lives": 13388,
+  "startup_lives": 8,
+  "total_calls": 13396,
+  "historical_search_projection_cpu_seconds": 3339.079729231863,
+  "historical_confirmation_projection_cpu_seconds": 1120.7418503489998,
+  "reviewer_history": "Initial reviewer expected Q[2,16] instead of the literal source Q[16]; only reviewer shape was corrected, original failure preserved.",
+  "simulation_calls": 0,
+  "engine_imports": false,
+  "engine_builds": 0,
+  "genetic_draws": 0,
+  "review_script_sha256": "2a3f6064a372c7b76eaa9ab854745ba1d88c963de8ecaddc86d555a33250f85d",
+  "source_pins": {
+    "common.py": "3e72002c429a4fb2295db8694de57cd442186585cd8300da069b1ab5dae24feb",
+    "prepare.py": "ff5f27be0efbafc43aa4d96da1b763059e289114bb391d237e54f72a80891221",
+    "monitor.py": "4a7ed3bcb56822b9a40bd176a2291ecfdb06ac79f0253e645e9b2a708f76bccb",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "28a0560cb01b60b474a5aedbfebf0e5430458420c1b68d71c740dd700c33d6cb",
+    "search.py": "a163820b178f5d257ed53e78f3df48a8aec13a4178289fd0d48d5a4182779370",
+    "measure.py": "aa650f85f1eab8ea2bcc1bfe23b6787be8a47f6468b760cb566b1211f932c06e",
+    "analyze.py": "1152fbef215aad60f09b010fb8308f3b908aa36fc995dcbab7921a1e5dc05302",
+    "native_replay.py": "7507f71a8287b79444b8ba830af488d840b81dfd083d54740ebee9a936480e05",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "evidence_pins": {
+    "seed_audit.json": "78290f2008766d5367b4aebd9de1f7809ae41d4c0f67e1928961c0069b6c5f45",
+    "monitor_source_review.json": "1b1d49ac39a95db7d543dbab89ccccb90cec788c06847372594e633551ac8d73",
+    "timing_review.json": "a7d149b45e4ca6c34579aa8ca72efafe040ff3f1faeaf9595d5c2d9f5e64ec42"
+  },
+  "limitations": [
+    "No new execution feasibility claim: historical rates do not bound unseen genomes. Hard CPU/memory caps remain decisive.",
+    "All 32 population rows and their order are exact; old fitness, RNG and IDs are not resumed.",
+    "Matched life counts need not give matched CPU; raw per-life mean F can still favor economy over acquisition."
+  ]
+}

@@ -57,6 +57,18 @@ harder-edge-only continuation. Observational held-out scores cannot enforce this
 selection pilot needs its own explicit contract under the still-open family-fitness decision. No new search is
 released here. AK contexts are development data, and AJ remains held.
 
+*2026-10-15 AL authorized:* the user instructed us to continue on our judgment after seeing the limited
+two-context proposal. Proceed with its matched four-generation POOL/persistent comparison under the 5,400
+CPU-second cap, preserving physical prices, local asynchronous rules and held-out combined-context evaluation.
+No further approval is needed for this bounded selection work; unrelated ABI, money, global-channel and
+population-responsive-world boundaries remain.
+
+*2026-10-15 AL prepared:* exact full-population import, matched 4+4 selection, four-world fresh confirmation
+and source-bound accounting are ready for 13,396 total calls. One two-thread worker is limited to 5,400 CPU
+seconds, 3,600 wall seconds, 8 GiB address space and a 4 GiB RSS stop, with a 4 GiB host-memory reserve.
+Block139/native53229 are registered. No life or scientific genetic draw occurred in preparation. Publish and
+review actual inputs before release; continue useful local experiments afterward under the user's authorization.
+
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
 trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does
