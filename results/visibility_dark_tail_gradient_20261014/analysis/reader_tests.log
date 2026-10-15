@@ -1,0 +1,14 @@
+...............F.                                                        [100%]
+=================================== FAILURES ===================================
+___________________ test_exact_reused_accountant_and_helper ____________________
+
+    def test_exact_reused_accountant_and_helper():
+>       assert M.sha(HERE / "offline_accounting.py") == "7d61ecfb7148594732249221f205ca4d2717a56ed8beea1d173ab60dd0f8c657"
+E       AssertionError: assert '7d61ecfbc8c3...96afe22836421' == '7d61ecfb7148...ab60dd0f8c657'
+E         
+E         - 7d61ecfb7148594732249221f205ca4d2717a56ed8beea1d173ab60dd0f8c657
+E         + 7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421
+
+outputs/audit_visibility_dark_tail_gradient_20261014/analysis/test_reader.py:232: AssertionError
+=========================== short test summary info ============================
+FAILED outputs/audit_visibility_dark_tail_gradient_20261014/analysis/test_reader.py::test_exact_reused_accountant_and_helper

@@ -1,0 +1,44 @@
+{
+  "status": "passed_prepared_unreleased",
+  "protocol_sha256": "ff9af8c7fcb140bb4f09b6636e59df92272254851dfe1f33a4d6441be1a7955f",
+  "local_pins": 170,
+  "production_pins": 35,
+  "panel_rows": 130,
+  "historical_timing_rows": 130,
+  "abi": 4,
+  "world_keys": 70,
+  "derived_configs": 2,
+  "configuration_changes": {
+    "life.world": "catch_speck_flash5_dim25_l4",
+    "life.abi": 4,
+    "world": {
+      "visibility_low": 0.0
+    }
+  },
+  "all_reader_AST_unchanged_except_protocol_and_docstring": true,
+  "unreleased_entrypoint": {
+    "status": "incomplete",
+    "scientific_outcomes_emitted": false,
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_dark_tail_gradient_20261014/operations/ready.json'"
+  },
+  "runtime_paths_absent": [
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "measurement",
+    "logs",
+    "build-cache"
+  ],
+  "activity": {
+    "simulation_calls": 0,
+    "compilation_calls": 0,
+    "random_draws": 0
+  },
+  "source_pins": {
+    "analyze.py": "263e8333a0160fe53a91d5b2a077f955d128d621bd4ca2f663f09012dc6f9e86",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "panel_replay.py": "e1bb3346fe20b14ce1249cade304962bcf4bae079f48ce315133d28f6a9dcb99",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "check_source_sha256": "2f04be8e3c8b4aa67dab55e9dbd54d04095a171e46000bdb4582c831291c8b8d"
+}

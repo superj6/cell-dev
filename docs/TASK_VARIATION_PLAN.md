@@ -173,6 +173,16 @@ all processes exit, genetics replay and independent full/raw analysis matches al
 prepares one fully dark flash accessibility test using complete retained Y panels, unchanged prices and AD's
 measured information payoff. It is unregistered and unreleased; no hand-built-body or local-success world gate.
 
+*2026-10-14 AG registered and prepared:* all 130 retained Y parent/mutant rows now enter AD's exact fully
+dark flash world. Select one mutant per founder on 32 shared screen lives, freeze both, then confirm four roles
+on 512 fresh paired lives. Captures and dark-phase captures accompany production fitness and cost accounting;
+coasting and delayed signals remain alternatives to memory. The fixed 6,218 calls have a 5,400 CPU-second ceiling,
+with 2,000 reserved for confirmation and a 180-second startup/calibration limit. All 130 AC timing rows, both
+complete panels and fresh seed blocks 132–134 are retained. Protocol `ff9af8c7…a7955f` pins 170 local/35 production
+files. No preparation builds or lives ran; independent actual-input/reader review, prospective publication and root
+release precede measurement. `results/visibility_dark_tail_gradient_20261014/` preserves this bounded accessibility
+test, with unchanged prices and local rules and no hand-built-body or local-success world gate.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

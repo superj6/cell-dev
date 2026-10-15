@@ -1,0 +1,142 @@
+{
+  "status": "source_only_reviewed_unbound",
+  "protocol_sha256": null,
+  "study": "AG retained-panel dark-flash gradient",
+  "source_pins": {
+    "README.md": "2d27318b00bc8627a022a54f40a0a2279c9618b28d184b2d780b28f9254fc6b3",
+    "analyze.py": "69d115f20ec66c4413cd63d53892bb253b30bb1a5b1f6f27727a9b9c93fb89b2",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "panel_replay.py": "e1bb3346fe20b14ce1249cade304962bcf4bae079f48ce315133d28f6a9dcb99",
+    "test_reader.py": "75412a7bb3d3923a1f89005c0c4fa659173a87f3c9258b1b2d26a9332db0ec2f"
+  },
+  "producer_pins": {
+    "common.py": "f90fea24d5db27048508a3f14f15f1cce11e73c8f0f43fc44bb2f3dee5098daa",
+    "measure.py": "019f64833e76695fb59befe3e144cf601777408c00893fc8581156d97540025a",
+    "monitor.py": "dacee694f9626ce89b0cc04d3e2aeb1db7735837a2cdd061e2a2adb818d59ac4",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "658f48958e73d458e86209752dbd70dd0574b1daf728b26ce853b45e1a255407",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "test_source.py": "9a64380aaf50ae1f8f3f61beebf7df5c9170713073eb11467176e78b218ac3b1",
+    "world_contract.py": "11f906971363e5545434daf3ead60c81672cee79212ad0ebf58dc9f2febf7587"
+  },
+  "origins": {
+    "analyze.py": {
+      "path": "outputs/autonomous_prediction_gradient_20261014/analysis/analyze.py",
+      "sha256": "6cb7df4bac7144ecd86b91407344c052ed3d57e92fe6da6fdc7b77e077c8714e"
+    },
+    "panel_replay.py": {
+      "path": "outputs/autonomous_prediction_gradient_20261014/analysis/panel_replay.py",
+      "sha256": "766c0f18fbec58e53a712828fc440703892b9ca0668a60720106731cd291d036"
+    },
+    "offline_accounting.py": {
+      "path": "outputs/autonomous_visibility_flash_gradient_20261014/analysis/offline_accounting.py",
+      "sha256": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+      "byte_identical": true
+    },
+    "helpers/genetics.py": {
+      "path": "outputs/autonomous_prediction_gradient_20261014/analysis/helpers/genetics.py",
+      "sha256": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+      "byte_identical": true
+    }
+  },
+  "unchanged_AE_function_ASTs": [
+    "assert_equal",
+    "canonical",
+    "check_startup",
+    "check_stats",
+    "contrast_key",
+    "external",
+    "identity",
+    "inside",
+    "json_bytes",
+    "main",
+    "module",
+    "npz",
+    "number",
+    "operation",
+    "owned_processes",
+    "pins",
+    "raw_sha",
+    "read",
+    "resources",
+    "selected_mutant",
+    "sha"
+  ],
+  "adapted_AE_functions": [
+    "analyze",
+    "check_worlds",
+    "compare_report",
+    "contrasts",
+    "historical_costs",
+    "load_rows",
+    "load_store",
+    "phases",
+    "verify_protocol"
+  ],
+  "scope": {
+    "abi": 4,
+    "world_coordinates": 70,
+    "raw_columns": 58,
+    "named_columns": 61,
+    "roles": 4,
+    "primary_contrasts": 2,
+    "metrics_per_contrast": 66,
+    "paired_vectors": 132,
+    "raw_rows": 138,
+    "raw_lives": 6216,
+    "startup_goldens": 2,
+    "total_calls": 6218,
+    "total_cpu_cap": 5400,
+    "startup_screen_cpu_cap": 3400,
+    "confirmation_reserve": 2000,
+    "startup_cpu_cap": 180
+  },
+  "tests": [
+    {
+      "path": "reader_tests.xml",
+      "sha256": "45a716d6768f42f29350c89b0f04086ad85b3fdff0ca208d8ed28c701a4fe6e4",
+      "tests": 17,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "final_reader_tests.xml",
+      "sha256": "1555777c2c31f503a5aa0c71cbe11ec92760e75050ff3a91a75a3affc6f9e8dd",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "final_tests_pass": true,
+  "ruff": "passed",
+  "preserved_test_error": {
+    "initial_test_source_sha256": "59ec255d334b200150c182ed839a063975abe4df86c45396980936935a7c32a3",
+    "issue": "Mistyped expected full SHA in test; copied reviewed accountant was byte-identical and unchanged. Only the test expected literal was corrected."
+  },
+  "independent_checks": [
+    "Full AD production world and all70 packed coordinates, with low amplitude0 and no other physical change.",
+    "Exact original Y panel hashes/recorded replay contract; no mutation draws.",
+    "All130 historical AC timing rows and both indices bound to complete prior summary.",
+    "Two four-role H-minus-own-P comparisons, including negative/null results and duplicate roles.",
+    "Complete58 raw accounting with initial-cell census, natural extinction and paid guards.",
+    "Actual producer66-metric reports match independent paired reconstruction.",
+    "AE phase accounting/ownership retained with four persisted identity fields; AF success not a scientific dependency."
+  ],
+  "deferred": [
+    "Root registration and exact stage seeds.",
+    "Actual protocol/panel/config copies and recorded130-row replay.",
+    "Complete owned runtime and raw outcome verification."
+  ],
+  "activity": {
+    "AG_scientific_inputs_copied": 0,
+    "AG_ids_reserved": 0,
+    "genetic_draws": 0,
+    "engine_calls": 0,
+    "compiled_libraries": 0,
+    "simulated_lives": 0,
+    "canonical_installations": 0
+  }
+}

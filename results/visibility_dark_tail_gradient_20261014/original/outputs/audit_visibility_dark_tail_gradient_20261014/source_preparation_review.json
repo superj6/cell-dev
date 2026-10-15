@@ -1,0 +1,86 @@
+{
+  "status": "passed_source_only_unregistered",
+  "study": "AG retained-panel dark-flash gradient",
+  "source_pins": {
+    "PREREG.md": "2db725d371c779011ab07c5ac8582c6477ccbf739522cea2da7cee9fa00ff0b7",
+    "README.md": "32ad0629ba742ed2b7ff06e9cbb1c776be6e153e49a6ddc954f3b39520f10c23",
+    "SCHEMA.md": "02c72d2cedec80544fd815a649093e329ae7b1c12b5ab3c1cd85d437275a7f2b",
+    "common.py": "f90fea24d5db27048508a3f14f15f1cce11e73c8f0f43fc44bb2f3dee5098daa",
+    "measure.py": "019f64833e76695fb59befe3e144cf601777408c00893fc8581156d97540025a",
+    "monitor.py": "dacee694f9626ce89b0cc04d3e2aeb1db7735837a2cdd061e2a2adb818d59ac4",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "658f48958e73d458e86209752dbd70dd0574b1daf728b26ce853b45e1a255407",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "test_source.py": "9a64380aaf50ae1f8f3f61beebf7df5c9170713073eb11467176e78b218ac3b1",
+    "world_contract.py": "11f906971363e5545434daf3ead60c81672cee79212ad0ebf58dc9f2febf7587"
+  },
+  "source_origins_sha256": "0da959ddfb710e3ef0eb262ed9a8828d5e32b9b44d0c6201be5760abd288f6ca",
+  "source_history": {
+    "AE_SCHEMA.md.txt": "f59eebea4ac71b591fa4f3a3084350cd0fa120c6e5d60a531613a7a1574ac476",
+    "AE_common.py.txt": "e55c5b17f6482e8830c1e6f8380327eb41e000a35fb293ab2ef6023f1c529c27",
+    "AE_measure.py.txt": "48cb00507e6654deb9f287dbd3373432e52213d77498b9a9690ae095398155cc",
+    "AE_monitor.py.txt": "e7dc8c9424ca34658993bfd043378d26edf8f21bfcad8309b579d1c3f2219f23",
+    "AE_numerical.py.txt": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "AE_prepare.py.txt": "317c2270c8198afa1c2f929bf05040410de3257d13d44e6b5a3637c071dce0b6",
+    "AE_test_source.py.txt": "a09aed934021c2345ff87774a4de9ada95d0436bb90ed28a4ed94c4828130a71",
+    "Y_scoring.py.txt": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd"
+  },
+  "historical_AC_timing_review_sha256": "30dd5fa7603520b28aea7d3d05180f804059e3de7639d9b7cec6d2200e2ad6e4",
+  "pure_tests": {
+    "count": 48,
+    "junit_sha256": "9f5f03de9cd819e169b6facaa839c2a042d421fc5d17827e2f3d02cec72dfe33",
+    "log_sha256": "6dd786dc72d45e02d32f9a2c96fbee7f0ea69261b610e86a41d1a671dd0186ef",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest outputs/autonomous_visibility_dark_tail_gradient_20261014/test_source.py -q --basetemp=outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp --junitxml=outputs/audit_visibility_dark_tail_gradient_20261014/source_tests.xml",
+    "ruff": "passed"
+  },
+  "unchanged_AE_lifecycle_functions": [
+    "proc_table",
+    "resource_clearance",
+    "own_cpu",
+    "child_cpu",
+    "active_cpu",
+    "consumed_cpu",
+    "child_limit",
+    "send_signal",
+    "enable_subreaper",
+    "cleanup_group",
+    "cleanup",
+    "process_identity"
+  ],
+  "unchanged_helpers": {
+    "scoring.py": "Exact Y ABI4 scorer, including low-light counts and original guard/extinction conventions.",
+    "numerical.py": "Exact AE numerical metadata check; no goldens at import or preparation."
+  },
+  "scope": {
+    "research_lives": 6208,
+    "startup_lives": 10,
+    "total_calls": 6218,
+    "raw_rows": 138,
+    "roles": 4,
+    "raw_columns": 58,
+    "named_columns": 61,
+    "producer_metrics_per_contrast": 66,
+    "paired_contrasts": 2,
+    "CPU_total": 5400,
+    "CPU_startup_screen": 3400,
+    "CPU_confirmation_reserve": 2000,
+    "CPU_startup_ceiling": 180,
+    "workers": 1,
+    "simulation_threads": 2
+  },
+  "changes": [
+    "Exact retained AD production ABI4 world; only existing dim-flash preset visibility_low changes to zero.",
+    "All 130 AC dim-flash timing rows provide individual floors; no historical outcomes used as confirmation.",
+    "Entire original Y panels retained; highest mean-F mutant 1 through 64, lowest-index tie, both frozen before confirmation gate.",
+    "AF clean terminal budget is only a resource dependency; no AF scientific-success gate.",
+    "Report adds native low-light/bright captures to unchanged additive accounting.",
+    "SCHEMA store-count typo corrected to three before source freeze; no code or test behavior changed."
+  ],
+  "unmeasured": "Current dark-world calibration can fail either fixed feasibility gate; historical floor estimates are not mutant-runtime bounds.",
+  "pending": "AF terminal publication and root decision; independent reader/source reviews; any later registration, input-copy preparation and release remain separate.",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "scientific_input_copies": 0,
+  "scientific_namespace_ids_selected": 0
+}

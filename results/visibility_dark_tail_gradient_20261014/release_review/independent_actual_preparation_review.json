@@ -1,0 +1,73 @@
+{
+  "status": "passed_prepared_unreleased",
+  "protocol_sha256": "ff9af8c7fcb140bb4f09b6636e59df92272254851dfe1f33a4d6441be1a7955f",
+  "local_pin_count": 170,
+  "production_pin_count": 35,
+  "registration_sha256": "9fdec34463c54635dbeffe4e86a6802fbdd65dc8300702cacdfd7d6e52847d74",
+  "seed_audit_sha256": "324d438487bcd327c4276c02b90a5d423b1ab79aa111da15a319ccbc23e78e33",
+  "world_packing_raw_sha256": "b8514f7c1546ad5bf33306c83fb17ada4c89f6bf629897507eb8a15e78fa58e1",
+  "world_abi": 4,
+  "world_size": 70,
+  "ledger_size": 58,
+  "configuration_changes_verified": {
+    "D90": {
+      "life.world": "catch_speck_flash5_dim25_l4",
+      "life.abi": 4,
+      "world": {
+        "visibility_low": 0.0
+      }
+    },
+    "L92": {
+      "life.world": "catch_speck_flash5_dim25_l4",
+      "life.abi": 4,
+      "world": {
+        "visibility_low": 0.0
+      }
+    }
+  },
+  "panels": {
+    "D90": {
+      "file_sha256": "97ff2d0ee7ef3af4964b1a0fd357a618cb4d0193baa320cd86c2d06f7a8b9cb9",
+      "shape": [
+        65,
+        875
+      ],
+      "dtype": "float32",
+      "all65_genotype_hashes_match_Y_and_AC": true
+    },
+    "L92": {
+      "file_sha256": "6ad24101c26541bbc67ff505be2e846e49df30cc253e72d5932d6b0e64d97c01",
+      "shape": [
+        65,
+        875
+      ],
+      "dtype": "float32",
+      "all65_genotype_hashes_match_Y_and_AC": true
+    }
+  },
+  "exact_copied_files": {
+    "Y": 16,
+    "AC": 135,
+    "AD": 2
+  },
+  "historical_timing_rows_verified": 130,
+  "reviewed_numeric_rates_equal_protocol": true,
+  "source_file_sha256": "bf94590b7f7d88d1d42c78a2ac26dddb256e1db6cb420a4ea7ac4d4fa7070769",
+  "absent_runtime_paths": [
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "measurement",
+    "logs",
+    "build-cache",
+    "startup_identity.json",
+    "selection.json",
+    "requests",
+    "monitor_receipts"
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "genotype_copies_by_review": 0,
+  "limits": "Input byte/shape/provenance review only. No simulated behavior or future cost outcome is claimed. Recorded genetic operations are replayed independently by the bound reader."
+}

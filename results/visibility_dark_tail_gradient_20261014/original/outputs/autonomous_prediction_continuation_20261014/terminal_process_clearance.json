@@ -1,0 +1,48 @@
+{
+  "status": "cleared",
+  "all_processes_exited": true,
+  "checked_at_utc": "2026-10-15T05:16:33.687035+00:00",
+  "budget_sha256": "2393cfe4e90ed229b95562461755f39eb05b0fffaf31b2a9539ee29b14e51cd6",
+  "processes": [
+    {
+      "pid": 1355709,
+      "ppid": 1355708,
+      "pgid": 1355708,
+      "start_ticks": 4537338,
+      "name": "monitor"
+    },
+    {
+      "pid": 1355791,
+      "ppid": 1355709,
+      "pgid": 1355791,
+      "start_ticks": 4537536,
+      "name": "evolve_s53224"
+    },
+    {
+      "pid": 1355793,
+      "ppid": 1355709,
+      "pgid": 1355793,
+      "start_ticks": 4537548,
+      "name": "evolve_s53225"
+    },
+    {
+      "pid": 1363251,
+      "ppid": 1355709,
+      "pgid": 1363251,
+      "start_ticks": 4565878,
+      "name": "confirmation"
+    }
+  ],
+  "process_groups": [
+    1355791,
+    1355793,
+    1363251
+  ],
+  "host_entries_checked": 514,
+  "study_cpu_seconds": 1191.2903620000002,
+  "scientific_analysis": "not_yet_run",
+  "released_local_pins_unchanged": 117,
+  "released_production_pins_unchanged": 35,
+  "research_lives": 10316,
+  "validation_lives": 6
+}

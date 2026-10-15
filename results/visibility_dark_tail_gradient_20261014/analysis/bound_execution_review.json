@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "/home/jgon/project/ml/cell-dev/outputs/audit_visibility_dark_tail_gradient_20261014/check_bound_inputs.py",
+    "--study",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_dark_tail_gradient_20261014",
+    "--out",
+    "/home/jgon/project/ml/cell-dev/outputs/audit_visibility_dark_tail_gradient_20261014"
+  ],
+  "cwd": "/",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "ATEN_CPU_CAPABILITY": "avx2",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "exit_code": 0,
+  "stderr_empty": true,
+  "scope": "Actual prepared inputs, full recorded-operation replay, unchanged reader AST and missing-ready refusal only; no runtime outcomes or engine work.",
+  "file_pins": {
+    "check_bound_inputs.py": "2f04be8e3c8b4aa67dab55e9dbd54d04095a171e46000bdb4582c831291c8b8d",
+    "actual_bound_input_review.json": "7286d262393b32ffc565f4b1ff9044309c544f6fbc648afe460a4fd52fed6729",
+    "panel_replay.json": "e2de6b63134ab5192b3377187a87ecc68a22eb4579b8a77c9733563508a4ea06",
+    "bound_input_review.stdout.json": "5f1b940905064a3608acede1ad8072c8dac199933dbac576d70ca01a56a2408f",
+    "bound_input_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "analysis_history/analyze.py.unbound.txt": "69d115f20ec66c4413cd63d53892bb253b30bb1a5b1f6f27727a9b9c93fb89b2"
+  },
+  "bound_reader_sha256": "263e8333a0160fe53a91d5b2a077f955d128d621bd4ca2f663f09012dc6f9e86",
+  "protocol_sha256": "ff9af8c7fcb140bb4f09b6636e59df92272254851dfe1f33a4d6441be1a7955f",
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "random_draws": 0
+}
