@@ -1,0 +1,7 @@
+{
+  "operation": "root release prerequisite construction before staging",
+  "error": "AssertionError: archive_verification.json",
+  "cause": "root helper expected passed/approved prefixes; actual reviewed archive status is verified_prospective_archive",
+  "effects": "No prerequisite, index changes, commit, release, engine calls or lives; subsequent index checker and empty commit failed without mutation.",
+  "correction": "Require exact verified_prospective_archive status, plus exact manifest/coverage values."
+}

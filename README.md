@@ -57,10 +57,18 @@ information, so this establishes input dependence rather than learning. Full fre
 a study separating continued cell-property updates from updates to incoming spike strengths is prepared but
 unrun. See the [regulation results](results/regulation_20261014/README.md).
 
-The current research batch is closed. A further pair of searches finished, but fresh confirmation hit its fixed
+That earlier research batch is closed. A further pair of searches finished, but fresh confirmation hit its fixed
 CPU cap, so no additional fitness gain is established. The two queued mechanism studies did not run, and the
 scoring-allocation comparison remains held. The [full review](RESULTS.md#2026-10-14--consolidated-review-at-the-users-wrap-up-request)
 collects the confirmed effects, null results and open questions.
+
+The resumed work now includes approved flash/blink environments and a faster persistent target. Nearby ordinary
+mutants have produced small capture gains, but short continuations have mostly improved economy. In the latest
+[persistent-target continuation](results/prediction_continuation_20261014/TERMINAL_README.md), both lineages gain
+fitness without gaining captures; L92 halves its mean captures while shrinking from about 109 to 13 terminal
+cells. This makes capture performance and richer use of information the central research questions; a higher
+fitness score alone is insufficient evidence of a more sophisticated algorithm. A bounded test in fully dark
+flash is being prepared, with prices and local asynchronous rules unchanged.
 
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),

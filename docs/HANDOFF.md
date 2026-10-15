@@ -217,6 +217,19 @@ publication precede root release. Both capture contrasts and full cost decomposi
 memory or general reliability claim follows. Prices and local rules remain fixed. Evidence:
 `results/prediction_continuation_20261014/`. First attempt only, no retry/resume or extension.
 
+**AF complete (2026-10-14).** Both four-generation persistent-target continuations improve fitness through
+cost savings, without further capture improvement. D90/L92 gain **+.73529 ± .06459 / +1.43758 ± .05065 F**;
+captures change **−.34180 ± .13345 / −1.92969 ± .10146**, with only the L92 loss beyond three SE. Ordinary costs
+save **+.90218 ± .01283 / +2.37981 ± .01221 F**. L92 mean captures halve from 3.85938 to 1.92969, terminal cells
+fall from 108.96094 to 13.06250 and spikes from 2,517.89063 to 84.01563. This is economy, without demonstrated
+prediction or a richer algorithm. All 10,316 research/diagnostic plus six golden lives complete in
+**1,191.290362 CPU-seconds**; search uses 1,012.253396. Both final populations and recorded genetics replay;
+independent raw/full analysis matches all **146 paired vectors** exactly. All 2,048 confirmation statuses are zero;
+27 initial-search guarded lives retain penalties, with incomplete raw search-ledger coverage acknowledged.
+Four process leaders/three groups exited; all 117 local/35 production pins remain unchanged. Evidence:
+`results/prediction_continuation_20261014/`. Source-only AG prepares a bounded dark-flash mutation-accessibility
+test instead of automatically extending these searches; no AG seeds, inputs, builds or lives are released.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

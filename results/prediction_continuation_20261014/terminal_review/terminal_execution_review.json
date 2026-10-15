@@ -1,0 +1,704 @@
+{
+  "status": "complete_independently_verified",
+  "protocol_sha256": "ebdc3f37dc5d9a882b2b7d68ed3913a08540be4f476bdd6cf4b6c446e315b5e0",
+  "terminal_clearance_sha256": "d6d29d5a472178588b14bbed8389834672e0161049ed93b02d320f205da0644f",
+  "budget_sha256": "2393cfe4e90ed229b95562461755f39eb05b0fffaf31b2a9539ee29b14e51cd6",
+  "frozen_reader_sha256": "cc4e12d6c857e8581002473471847feb539dbe1764d44e2d76b33e71502c0d36",
+  "independent_raw_helper_sha256": "0330ce2b0ca33071b6261e8217fd95b0e6ea060d6b2708d8c076d9cd58e974af",
+  "independent_raw_review_sha256": "890ebc035442d608fd065f38c834fe10fad875901a66d288d228732b1b84fcc7",
+  "canonical_summary_sha256": "b544f4c337389566ed386df8d0453f7f6ca6e7ab6453a682599d844dc9d7be61",
+  "canonical_vectors_sha256": "24cb5984a41e3dc51ce2a80dbe5369673c398a4989d308b6141889dea5ea5ad8",
+  "separate_reanalysis_summary_sha256": "b544f4c337389566ed386df8d0453f7f6ca6e7ab6453a682599d844dc9d7be61",
+  "separate_reanalysis_vectors_sha256": "24cb5984a41e3dc51ce2a80dbe5369673c398a4989d308b6141889dea5ea5ad8",
+  "summary_object_equal": true,
+  "summary_bytes_equal": true,
+  "all146_arrays_bitwise_equal": true,
+  "NPZ_bytes_equal": true,
+  "frozen_native_replay_repeated": true,
+  "native_runs": {
+    "53224": {
+      "status": "passed",
+      "generation": 4,
+      "final_rank_zero_id": 708,
+      "checkpoint_sha256": "3c162fe6bfa03b7820773b45d3e983cb9c74852d2df3f1680615a562fc6abbb2",
+      "genome_raw_sha256": "fec20c6697a7d9bd8ced3a6aa905fd030c52a98cb555ee5fee1974ac1fcfaf80",
+      "prospective_initial_population_bitwise": true,
+      "selection": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 896,
+        "logged_point_mutations_including_initial_copies": 1854,
+        "founder_id_survives": false,
+        "final_ids": [
+          708,
+          756,
+          765,
+          789,
+          842,
+          914,
+          573,
+          815,
+          802,
+          718,
+          712,
+          819,
+          916,
+          881,
+          773,
+          863,
+          740,
+          920,
+          796,
+          887,
+          922,
+          747,
+          801,
+          843,
+          853,
+          779,
+          889,
+          892,
+          583,
+          902,
+          909,
+          847
+        ]
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_genome_lives": 3072,
+      "recheck_genome_lives": 1024,
+      "initial_evaluation_guard_lives_by_generation": [
+        6,
+        3,
+        3,
+        6
+      ],
+      "final_rank_zero_binding": true,
+      "all_final_population_rows_bound": true
+    },
+    "53225": {
+      "status": "passed",
+      "generation": 4,
+      "final_rank_zero_id": 827,
+      "checkpoint_sha256": "8ea96ea61aac946b0b92454a7d6d4d33fb56f42e32d3fbdbff4f182b44342e78",
+      "genome_raw_sha256": "7481968b87948a4913288adb57d3be306759a6531f89c9a9ad132f28aef1d9a5",
+      "prospective_initial_population_bitwise": true,
+      "selection": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 896,
+        "logged_point_mutations_including_initial_copies": 1854,
+        "founder_id_survives": false,
+        "final_ids": [
+          827,
+          707,
+          791,
+          602,
+          692,
+          504,
+          832,
+          661,
+          724,
+          867,
+          871,
+          509,
+          704,
+          810,
+          835,
+          860,
+          740,
+          760,
+          846,
+          804,
+          785,
+          445,
+          818,
+          856,
+          875,
+          877,
+          734,
+          790,
+          819,
+          809,
+          729,
+          802
+        ]
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_genome_lives": 3072,
+      "recheck_genome_lives": 1024,
+      "initial_evaluation_guard_lives_by_generation": [
+        0,
+        6,
+        3,
+        0
+      ],
+      "final_rank_zero_binding": true,
+      "all_final_population_rows_bound": true
+    }
+  },
+  "raw_confirmation_health": {
+    "AE_D90": {
+      "extinct": 0,
+      "guard_cells": 0,
+      "guard_events": 0,
+      "mismatch": 0,
+      "capacity": 0
+    },
+    "AE_L92": {
+      "extinct": 0,
+      "guard_cells": 0,
+      "guard_events": 0,
+      "mismatch": 0,
+      "capacity": 0
+    },
+    "AF_D90": {
+      "extinct": 0,
+      "guard_cells": 0,
+      "guard_events": 0,
+      "mismatch": 0,
+      "capacity": 0
+    },
+    "AF_L92": {
+      "extinct": 0,
+      "guard_cells": 0,
+      "guard_events": 0,
+      "mismatch": 0,
+      "capacity": 0
+    }
+  },
+  "raw_status_histogram": {
+    "0": 2048
+  },
+  "resources": {
+    "total_cpu_seconds": 1191.2903620000002,
+    "search_cpu_seconds": 1012.2533960000001,
+    "confirmation_cpu_seconds": 179.03696600000012,
+    "first_attempt_only": true,
+    "raw_confirmation_cpu_seconds": 166.336658017,
+    "wall_seconds": 372.72618896500353
+  },
+  "counts": {
+    "native_research_lives": 8268,
+    "retained_raw_confirmation_lives": 2048,
+    "startup_goldens": 6,
+    "total_calls": 10322
+  },
+  "primary_outcomes": {
+    "AF_D90": {
+      "baseline": "AE_D90",
+      "columns": {
+        "F": {
+          "mean": 0.7352886693248228,
+          "se": 0.06459288805508717,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "captures": {
+          "mean": -0.341796875,
+          "se": 0.133447232777195,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "n_end": {
+          "mean": -39.267578125,
+          "se": 0.5244246196049452,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "n_H_end": {
+          "mean": -13.54296875,
+          "se": 0.20751991009340057,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "live_time": {
+          "mean": -36505.931399239176,
+          "se": 505.3587331339357,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "path": {
+          "mean": -69.89829938310476,
+          "se": 1.7036058110860994,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "spikes": {
+          "mean": -2582.447265625,
+          "se": 52.520657402123625,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "packets": {
+          "mean": -111848.75390625,
+          "se": 1544.0493788816011,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "misses": {
+          "mean": -1.443359375,
+          "se": 0.23215050363874995,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "clicks": {
+          "mean": -1.78515625,
+          "se": 0.26330170061015457,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        }
+      },
+      "fitness_pieces": {
+        "capture_income": {
+          "mean": -0.16689300537109375,
+          "se": 0.06515978162948975,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "guard_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "extinction_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "living_cost_saving": {
+          "mean": 0.7130064726413902,
+          "se": 0.009870287756522182,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "spiking_cost_saving": {
+          "mean": 0.010087684631347656,
+          "se": 0.00020515881797704544,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "twitching_cost_saving": {
+          "mean": 0.010087684631347656,
+          "se": 0.00020515881797704544,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "messages_cost_saving": {
+          "mean": 0.025305816650390625,
+          "se": 0.0005751239774224206,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "division_cost_saving": {
+          "mean": 0.02252483367919922,
+          "se": 0.00026101866048919194,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "secretion_cost_saving": {
+          "mean": 0.10610677139237114,
+          "se": 0.0011875481991538593,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "missed_clicks_cost_saving": {
+          "mean": 0.014095306396484375,
+          "se": 0.0022670947620971674,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "receptors_cost_saving": {
+          "mean": 0.0009671046733856201,
+          "se": 3.6770352780682923e-05,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "decoy_clicks_cost_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "accounting_residual": {
+          "mean": 3.3472200976648186e-17,
+          "se": 1.9674872148737368e-17,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        }
+      },
+      "total_cost_saving": {
+        "mean": 0.9021816746959166,
+        "se": 0.012831629735284407,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "status": {
+        "winner": {
+          "guarded": 0,
+          "extinct": 0,
+          "valid_other_status": 0,
+          "all_fitness_rows_retained": 512
+        },
+        "parent": {
+          "guarded": 0,
+          "extinct": 0,
+          "valid_other_status": 0,
+          "all_fitness_rows_retained": 512
+        }
+      }
+    },
+    "AF_L92": {
+      "baseline": "AE_L92",
+      "columns": {
+        "F": {
+          "mean": 1.4375765593743823,
+          "se": 0.05065038449550462,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "captures": {
+          "mean": -1.9296875,
+          "se": 0.10146366371026759,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "n_end": {
+          "mean": -95.8984375,
+          "se": 0.4970817431873392,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "n_H_end": {
+          "mean": -1.7890625,
+          "se": 0.10028432301438506,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "live_time": {
+          "mean": -95996.07577794822,
+          "se": 495.5572640014036,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "path": {
+          "mean": -150.59793364348462,
+          "se": 1.9738524650831462,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "spikes": {
+          "mean": -2433.875,
+          "se": 32.13791791796353,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "packets": {
+          "mean": -275107.77734375,
+          "se": 1446.1522061223711,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "misses": {
+          "mean": -28.837890625,
+          "se": 0.5156608387661981,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "clicks": {
+          "mean": -30.767578125,
+          "se": 0.5463032263866942,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        }
+      },
+      "fitness_pieces": {
+        "capture_income": {
+          "mean": -0.942230224609375,
+          "se": 0.04954280454602909,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "guard_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "extinction_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "living_cost_saving": {
+          "mean": 1.8749233550380513,
+          "se": 0.009678852812527413,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "spiking_cost_saving": {
+          "mean": 0.00950732421875,
+          "se": 0.00012553874186704503,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "twitching_cost_saving": {
+          "mean": 0.009507320404052734,
+          "se": 0.00012553887731813493,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "messages_cost_saving": {
+          "mean": 0.014251108169555665,
+          "se": 0.00019658472690023486,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "division_cost_saving": {
+          "mean": 0.0509490966796875,
+          "se": 0.0002580186364986972,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "secretion_cost_saving": {
+          "mean": 0.1341227661515928,
+          "se": 0.000693260753353729,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "missed_clicks_cost_saving": {
+          "mean": 0.2816200256347656,
+          "se": 0.0050357503785761525,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "receptors_cost_saving": {
+          "mean": 0.004925787687301635,
+          "se": 4.088617844846792e-05,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "decoy_clicks_cost_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "accounting_residual": {
+          "mean": -4.8060649427209e-18,
+          "se": 1.845304942173535e-17,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        }
+      },
+      "total_cost_saving": {
+        "mean": 2.3798067839837573,
+        "se": 0.012210935054607014,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "status": {
+        "winner": {
+          "guarded": 0,
+          "extinct": 0,
+          "valid_other_status": 0,
+          "all_fitness_rows_retained": 512
+        },
+        "parent": {
+          "guarded": 0,
+          "extinct": 0,
+          "valid_other_status": 0,
+          "all_fitness_rows_retained": 512
+        }
+      }
+    }
+  },
+  "execution_artifact_pins": {
+    "terminal_raw_review.stdout.json": "53602406e376b350caa171b61853a6bebad3d744572b4e93b412cc5264f6630c",
+    "terminal_raw_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen_reanalysis.stdout.json": "b544f4c337389566ed386df8d0453f7f6ca6e7ab6453a682599d844dc9d7be61",
+    "frozen_reanalysis.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "helper_errors": [],
+  "new_simulations": 0,
+  "new_compilations": 0,
+  "frozen_files_modified": false,
+  "limits": [
+    "Literal raw accounting is independently reconstructed without importing the reader, worker or accountant.",
+    "Native full checkpoint/genetic replay is supplied by the frozen reader and its separately repeated terminal audit; this helper rechecks source/count/log/endpoint and health receipts.",
+    "Native search lacks retained per-life raw ledgers; search status coverage is limited to its recorded summaries and initial guard frequencies.",
+    "Six standard startup lives are bound by three numerical identity receipts and retained full/fast binaries; complete golden raw ledgers are not retained.",
+    "Paired life uncertainty is conditional on these fixed endpoints and does not identify prediction, memory or evolutionary reliability."
+  ]
+}

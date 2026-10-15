@@ -164,6 +164,15 @@ lives occur during preparation; independent input/reader review, prospective pub
 measurement. `results/prediction_continuation_20261014/` preserves the contract. Prices, ABI3 and local rules
 remain fixed, with no large rollout or claim of algorithmic sophistication.
 
+*2026-10-14 AF complete:* four more ordinary generations increase fitness but do not accumulate captures.
+D90/L92 gain **+.73529 ± .06459 / +1.43758 ± .05065 F** through cost savings, while captures change
+**−.34180 ± .13345 / −1.92969 ± .10146** on 512 fresh paired lives. L92 shrinks to a mean 13.06250 terminal
+cells and halves mean captures; its loss exceeds three SE. All 10,322 calls complete in 1,191.290362 CPU-seconds;
+all processes exit, genetics replay and independent full/raw analysis matches all 146 paired vectors. Evidence:
+`results/prediction_continuation_20261014/`. These are economy gains, not richer computation. Source-only AG
+prepares one fully dark flash accessibility test using complete retained Y panels, unchanged prices and AD's
+measured information payoff. It is unregistered and unreleased; no hand-built-body or local-success world gate.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged
