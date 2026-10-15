@@ -1,0 +1,17 @@
+F..........................                                              [100%]
+=================================== FAILURES ===================================
+____________ test_complete138_rows_actual_phase_cost_report_schema _____________
+
+complete = (PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_prediction_gradient_20261014/new_ae/reader_test_tmp/one_138_r..._0003.npz': {'sha256': '161ca7b4befb522793e168d938c4687e424c52c05493eeed83babe099da72ff2', 'cpu_seconds': 0.01}}}, ...)
+
+    def test_complete138_rows_actual_phase_cost_report_schema(complete):
+        base, p, panels, selected, roles, indexes, data, budget = complete
+        sel, actual_roles, screens, confirmation, idx, cpu, pins = M.load_rows(base, p, panels)
+        assert sel == selected and actual_roles == roles and idx == indexes
+>       assert len([k for k in pins if "/row_" in k]) == 138
+E       AssertionError: assert 141 == 138
+E        +  where 141 = len(['measurement/screen/D90/row_index.json', 'measurement/screen/D90/calibration/row_0000.npz', 'measurement/screen/D90/c.../screen/row_0000.npz', 'measurement/screen/D90/screen/row_0001.npz', 'measurement/screen/D90/screen/row_0002.npz', ...])
+
+outputs/audit_prediction_gradient_20261014/new_ae/test_reader.py:272: AssertionError
+=========================== short test summary info ============================
+FAILED outputs/audit_prediction_gradient_20261014/new_ae/test_reader.py::test_complete138_rows_actual_phase_cost_report_schema

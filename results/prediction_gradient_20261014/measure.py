@@ -1,0 +1,290 @@
+"""AE: retained ordinary-mutant panels in V's exact ABI3 persistent-target world.
+
+Dry run is the default. Actual work requires a registered protocol, root release,
+and the reviewed monitor's live ownership and accounted phase acknowledgments.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import os
+import sys
+import time
+from dataclasses import asdict
+from pathlib import Path
+
+os.environ.setdefault('ATEN_CPU_CAPABILITY', 'avx2')
+sys.dont_write_bytecode = True
+STUDY = Path(__file__).resolve().parent
+ROOT = STUDY.parents[1]
+sys.path.insert(0, str(ROOT))
+
+from common import parent_check, read, require_release, save, sha  # noqa: E402
+
+PARENTS = ('D90', 'L92')
+WORLDS = {'persistent': 'catch_speck_l4'}
+ROLES = ['P_D90', 'P_L92', 'H_D90', 'H_L92']
+CAP, SCREEN_CAP, RESERVE, STARTUP_CAP, MARGIN = 5400, 3400, 2000, 180, 10
+SCOPE = {'total_cpu_seconds': CAP, 'startup_screen_cpu_seconds': SCREEN_CAP,
+         'confirmation_reserve_cpu_seconds': RESERVE, 'startup_calibration_cpu_seconds': STARTUP_CAP,
+         'max_workers': 1, 'threads_per_worker': 2, 'research_lives': 6208, 'validation_lives': 10}
+
+
+def stage_seeds(protocol):
+    expected = {'screen': 32, 'confirm': 512, 'calibration': 2}
+    seeds = protocol['seeds']
+    if set(seeds) != set(expected):
+        raise ValueError('fixed stage seed set changed')
+    flat = []
+    for key, count in expected.items():
+        row = seeds[key]
+        if len(row) != count or any(type(x) is not int or not 0 <= x < 2**64 for x in row):
+            raise ValueError('fixed unsigned stage seeds changed')
+        flat.extend(row)
+    if len(set(flat)) != len(flat) or 11 in flat:
+        raise ValueError('fresh stages or retained numerical golden overlap')
+    return seeds
+
+
+def select_winner(rows):
+    """Y's whole-mean, then lowest-row rule; the parent cannot win selection."""
+    import numpy as np
+    if set(rows) != set(range(65)):
+        raise ValueError('selection requires all 65 parent/mutant rows')
+    for row in rows.values():
+        if np.asarray(row['F']).shape != (32,) or not np.isfinite(row['F']).all():
+            raise ValueError('selection requires complete finite 32-life rows')
+    return min(range(1, 65), key=lambda i: (-float(rows[i]['F'].mean()), i))
+
+
+def historical_rates(protocol):
+    rates = protocol['historical_blink_cpu_per_life']
+    if (set(rates) != set(PARENTS) or any(len(rates[p]) != 65 for p in PARENTS)
+            or any(not isinstance(x, (int, float)) or not math.isfinite(x) or x <= 0
+                   for p in PARENTS for x in rates[p])):
+        raise ValueError('all 130 retained positive blink screen costs required')
+    return rates
+
+
+def calibration_projection(rows, startup_cpu, historical):
+    observed = {p: {str(i): float(rows[p][i]['cpu_seconds']) / 2 for i in (0, 1)} for p in PARENTS}
+    maxima = {p: max(observed[p].values()) for p in PARENTS}
+    screen_rates = {p: [max(maxima[p], old) for old in historical[p]] for p in PARENTS}
+    role_rates = {}
+    for p in PARENTS:
+        role_rates[f'P_{p}'] = max(observed[p]['0'], historical[p][0])
+        role_rates[f'H_{p}'] = max(maxima[p], max(historical[p]))
+    screen = startup_cpu + 1.5 * 32 * sum(sum(screen_rates[p]) for p in PARENTS)
+    confirm = 180 + 1.5 * 512 * sum(role_rates.values())
+    return {'calibration_cpu_per_life': observed, 'screen_row_rate_floors': screen_rates,
+            'startup_cpu_seconds': startup_cpu, 'confirmation_role_rates': role_rates,
+            'screen_projection_cpu_seconds': screen, 'confirmation_projection_cpu_seconds': confirm,
+            'screen_threshold': 3390, 'confirmation_threshold': 1990,
+            'feasible': screen <= 3390 and confirm <= 1990,
+            'limitation': 'Historical Y rates are floors, not exact transfers; fixed calibration cannot bound unseen mutants.'}
+
+
+def selected_projection(screens, winners, historical):
+    observed, rates = {}, {}
+    for p in PARENTS:
+        for prefix, index in (('P', 0), ('H', winners[p]['genome_row'])):
+            role = f'{prefix}_{p}'
+            observed[role] = float(screens[p][index]['cpu_seconds']) / 32
+            rates[role] = max(observed[role], historical[p][index])
+    estimate = 180 + 1.5 * 512 * sum(rates.values())
+    return {'observed_confirmation_role_rates': observed, 'confirmation_role_rates': rates,
+            'confirmation_projection_cpu_seconds': estimate, 'confirmation_threshold': 1990,
+            'feasible': estimate <= 1990,
+            'limitation': 'Observed 32-life costs and historical floors do not bound fresh 512-life costs.'}
+
+
+def monitor_ack(name, payload, parent_pid):
+    parent_check(parent_pid)
+    request = STUDY / 'requests' / (name + '.json')
+    response = STUDY / 'monitor_receipts' / (name + '.json')
+    if request.exists() or response.exists():
+        raise ValueError('first attempt refuses an existing phase handshake')
+    save(request, {'protocol_sha256': sha(STUDY / 'protocol.json'), **payload})
+    deadline = time.monotonic() + 60
+    while not response.exists():
+        parent_check(parent_pid)
+        if time.monotonic() >= deadline:
+            raise RuntimeError('monitor phase acknowledgment timed out')
+        time.sleep(0.1)
+    receipt = read(response)
+    limit = 170 if name == 'calibration_complete' else 3390
+    cpu = receipt.get('cpu_seconds')
+    if (receipt.get('status') != 'allowed' or receipt.get('request_sha256') != sha(request)
+            or receipt.get('protocol_sha256') != sha(STUDY / 'protocol.json')
+            or receipt.get('attempt_sha256') != sha(STUDY / 'attempt.json')
+            or not isinstance(cpu, (int, float)) or not 0 <= cpu <= limit):
+        raise ValueError('monitor phase receipt changed or exceeded its ceiling')
+    parent_check(parent_pid)
+    return receipt
+
+
+def load_panels(protocol):
+    import numpy as np
+    from omegaconf import OmegaConf
+    from scoring import raw_sha
+
+    from src.genome import Layout
+    from src.life import spec
+    from src.life.evaluate import LifeEvaluator
+
+    if protocol['monitor_scope'] != SCOPE or protocol['roles'] != ROLES:
+        raise ValueError('fixed scope or four-role mapping changed')
+    from world_contract import check_world
+    worlds = {'persistent': spec.World(**protocol['world'])}
+    check_world(asdict(worlds['persistent']), protocol['world'])
+    panels, evaluators = {}, {key: {} for key in WORLDS}
+    for p in PARENTS:
+        prefix = STUDY / 'inputs/Y/inputs' / p
+        manifest = read(prefix / 'panel_manifest.json')
+        table = np.load(prefix / 'genomes.npy', allow_pickle=False)
+        layout, founder = Layout.load(str(prefix / 'parent.json'))
+        if (table.dtype != np.float32 or table.shape != (65, 875) or not np.isfinite(table).all()
+                or table[0].tobytes() != founder.reshape(-1).float().numpy().tobytes()
+                or [raw_sha(row) for row in table] != protocol['panel_genotype_sha256'][p]
+                or manifest['genomes_sha256'] != raw_sha(table)):
+            raise ValueError('retained complete Y panel changed')
+        for key, world in worlds.items():
+            cfg = OmegaConf.load(STUDY / f'configs/{key}_{p}.yaml')
+            evaluator = LifeEvaluator(cfg, layout)
+            if (evaluator.abi.version != 3 or not evaluator.extinct_charge or evaluator.threads != 2
+                    or not evaluator.fast or evaluator.T_choices or evaluator.has_envelope
+                    or asdict(evaluator.world()) != asdict(world)):
+                raise ValueError('derived configuration differs from fixed production scoring')
+            evaluators[key][p] = evaluator
+        panels[p] = table
+    historical_rates(protocol)
+    return panels, evaluators, worlds
+
+
+def contrast_reports(rows, worlds):
+    """Two within-world own-parent contrasts; no comparison with historical Y outcomes."""
+    import numpy as np
+    from scoring import ABI, COLS
+
+    from scripts.taskvar_gates import paired
+    world = worlds['persistent']
+    def metrics(row):
+        value = {name: row[name] for name in COLS}
+        ledger = np.stack([row[name] for name in ABI.LEDGER], axis=1)
+        value.update(capture_income=row['income'] / world.T,
+                     ordinary_cost=-ABI.column_cost(ledger, world) / world.T,
+                     guard_cost=-row['guard_charge'] / world.T,
+                     extinction_cost=-row['extinct_charge'])
+        if not np.allclose(value['F'], sum(value[k] for k in
+                ('capture_income', 'ordinary_cost', 'guard_cost', 'extinction_cost')), atol=1e-9, rtol=0):
+            raise ValueError('production fitness decomposition changed')
+        return value
+    values = {role: metrics(rows['persistent'][i]) for i, role in enumerate(ROLES)}
+    return {f'H_{p}_minus_P_{p}': {key: paired(values[f'H_{p}'][key], values[f'P_{p}'][key])
+                                  for key in values[f'H_{p}']} for p in PARENTS}
+
+
+def run(parent_pid):
+    parent_check(parent_pid)
+    protocol = require_release()
+    for name in ('measurement', 'startup_identity.json', 'report.json', 'selection.json', 'requests',
+                 'monitor_receipts', 'confirmation_genotypes.npz', 'confirmation_roles.json'):
+        if (STUDY / name).exists():
+            raise ValueError('first attempt refuses existing generated work: ' + name)
+    if os.environ.get('CELLDEV_THREADS_FILE'):
+        raise ValueError('elastic thread override is forbidden')
+    from numerical import check
+    check(protocol['numerical_identity'])
+    panels, evaluators, worlds = load_panels(protocol)
+    seeds, historical = stage_seeds(protocol), historical_rates(protocol)
+    import numpy as np
+    from scoring import RowStore, atomic_npz, raw_sha
+
+    from src.checkpoint import numerical_identity
+
+    # The only identity invocation: exactly two ABI3 seed11 T200 compatibility lives.
+    identity = numerical_identity()
+    metadata = {k: v for k, v in identity.items() if k not in ('kernels', 'golden')}
+    if identity != protocol['expected_numerical_identity'] or metadata != protocol['expected_startup_metadata']:
+        raise ValueError('retained startup numerical/source/golden identity changed')
+    save(STUDY / 'startup_identity.json', {'identity': identity, 'preexpected_fields': sorted(identity),
+        'newly_captured_fields': [], 'numerical_identity_invocations': 1,
+        'golden_lives': {'abi': 3, 'seed': 11, 'T': 200, 'full': 1, 'fast': 1}})
+    stores = {f'screen/{p}': RowStore(STUDY / f'measurement/screen/{p}', panels[p], worlds['persistent'],
+        evaluators['persistent'][p], {'protocol_sha256': sha(STUDY / 'protocol.json'), 'background': p, 'world': 'persistent'})
+        for p in PARENTS}
+    report = {'status': 'incomplete', 'scope': SCOPE, 'screen': {}, 'confirmation': {}}
+    save(STUDY / 'report.json', report)
+    calibration = {p: stores[f'screen/{p}'].stage('calibration', [0, 1], seeds['calibration']) for p in PARENTS}
+    receipt = monitor_ack('calibration_complete', {'validation_lives': 10,
+        'startup_identity_sha256': sha(STUDY / 'startup_identity.json'),
+        'row_index_sha256': {key: sha(store.out / 'row_index.json') for key, store in stores.items()}}, parent_pid)
+    projection = calibration_projection(calibration, receipt['cpu_seconds'], historical)
+    save(STUDY / 'calibration_projection.json', projection)
+    if not projection['feasible']:
+        raise RuntimeError('initial_fixed_scope_cost_projection_does_not_fit')
+    screens, winners = {}, {}
+    for p in PARENTS:
+        parent_check(parent_pid)
+        screens[p] = stores[f'screen/{p}'].stage('screen', list(range(65)), seeds['screen'])
+        chosen = select_winner(screens[p])
+        winners[p] = {'genome_row': chosen, 'raw_sha256': raw_sha(panels[p][chosen])}
+        report['screen'][p] = {'selected': winners[p], 'complete_rows': 65,
+            'row_index_sha256': sha(stores[f'screen/{p}'].out / 'row_index.json')}
+        save(STUDY / 'report.json', report)
+    save(STUDY / 'selection.json', winners)
+    rows = {f'{prefix}_{p}': index for p in PARENTS
+            for prefix, index in (('P', 0), ('H', winners[p]['genome_row']))}
+    table = np.stack([panels[role.split('_')[1]][rows[role]] for role in ROLES])
+    atomic_npz(STUDY / 'confirmation_genotypes.npz', genomes=table, roles=np.asarray(ROLES))
+    save(STUDY / 'confirmation_roles.json', {'roles': ROLES, 'panel_rows': rows,
+        'genotype_sha256': {role: raw_sha(table[i]) for i, role in enumerate(ROLES)},
+        'selection_sha256': sha(STUDY / 'selection.json'), 'protocol_sha256': sha(STUDY / 'protocol.json'),
+        'genotypes_sha256': sha(STUDY / 'confirmation_genotypes.npz')})
+    projection = selected_projection(screens, winners, historical)
+    save(STUDY / 'confirmation_projection.json', projection)
+    if not projection['feasible']:
+        raise RuntimeError('frozen_selected_role_cost_projection_does_not_fit')
+    monitor_ack('screens_complete', {'scientific_genome_lives': 4160,
+        'selection_sha256': sha(STUDY / 'selection.json'),
+        'row_index_sha256': {key: sha(store.out / 'row_index.json') for key, store in stores.items()},
+        'confirmation_roles_sha256': sha(STUDY / 'confirmation_roles.json'),
+        'confirmation_genotypes_sha256': sha(STUDY / 'confirmation_genotypes.npz')}, parent_pid)
+    confirmed = {}
+    for w in WORLDS:
+        parent_check(parent_pid)
+        key = f'confirm/{w}'
+        stores[key] = RowStore(STUDY / 'measurement' / key, table, worlds[w], evaluators[w]['D90'],
+            {'protocol_sha256': sha(STUDY / 'protocol.json'), 'world': w, 'roles': ROLES,
+             'confirmation_roles_sha256': sha(STUDY / 'confirmation_roles.json')})
+        confirmed[w] = stores[key].stage('confirm', list(range(4)), seeds['confirm'])
+        report['confirmation'][w] = {'complete_roles': ROLES, 'row_index_sha256': sha(stores[key].out / 'row_index.json')}
+        save(STUDY / 'report.json', report)
+    report.update(status='complete', research_genome_lives=6208, validation_lives=10,
+                  total_genome_lives=6218, row_cpu_seconds=sum(store.cpu_seconds for store in stores.values()),
+                  row_index_sha256={key: sha(store.out / 'row_index.json') for key, store in stores.items()},
+                  contrasts=contrast_reports(confirmed, worlds),
+                  limitations=['The two backgrounds are fixed, not independent evolutionary replicates.',
+                               'V and Y share old conduction; target speed, persistence and visibility differ. Historical Y outcomes are not a paired world-only comparison.',
+                               'Capture gains do not isolate tracking, temporal prediction or any memory mechanism.'])
+    save(STUDY / 'report.json', report)
+    return report
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--run', action='store_true')
+    parser.add_argument('--monitor-pid', type=int)
+    args = parser.parse_args()
+    if not args.run:
+        print(json.dumps({'status': 'source_only_unregistered', 'scope': SCOPE,
+                          'total_genome_lives': 6218, 'simulation_calls': 0, 'genetic_draws': 0,
+                          'requires': 'clean AD terminal clearance, root registration, retained inputs and release'}))
+        return
+    result = run(args.monitor_pid)
+    print(json.dumps({'status': result['status'], 'total_genome_lives': result['total_genome_lives']}))
+
+
+if __name__ == '__main__':
+    main()

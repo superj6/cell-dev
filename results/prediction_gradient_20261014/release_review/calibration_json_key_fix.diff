@@ -1,0 +1,59 @@
+--- before/measure.py
++++ after/measure.py
+@@ -68,12 +68,12 @@
+ 
+ 
+ def calibration_projection(rows, startup_cpu, historical):
+-    observed = {p: {i: float(rows[p][i]['cpu_seconds']) / 2 for i in (0, 1)} for p in PARENTS}
++    observed = {p: {str(i): float(rows[p][i]['cpu_seconds']) / 2 for i in (0, 1)} for p in PARENTS}
+     maxima = {p: max(observed[p].values()) for p in PARENTS}
+     screen_rates = {p: [max(maxima[p], old) for old in historical[p]] for p in PARENTS}
+     role_rates = {}
+     for p in PARENTS:
+-        role_rates[f'P_{p}'] = max(observed[p][0], historical[p][0])
++        role_rates[f'P_{p}'] = max(observed[p]['0'], historical[p][0])
+         role_rates[f'H_{p}'] = max(maxima[p], max(historical[p]))
+     screen = startup_cpu + 1.5 * 32 * sum(sum(screen_rates[p]) for p in PARENTS)
+     confirm = 180 + 1.5 * 512 * sum(role_rates.values())
+--- before/monitor.py
++++ after/monitor.py
+@@ -215,14 +215,14 @@
+ 
+ 
+ def initial_projection_values(protocol, receipt):
+-    observed = {p: {i: receipt['row_snapshot'][f'screen/{p}'][f'calibration/row_{i:04d}.npz']['cpu_seconds'] / 2
++    observed = {p: {str(i): receipt['row_snapshot'][f'screen/{p}'][f'calibration/row_{i:04d}.npz']['cpu_seconds'] / 2
+                     for i in (0, 1)} for p in PARENTS}
+     historical = protocol['historical_blink_cpu_per_life']
+     maxima = {p: max(observed[p].values()) for p in PARENTS}
+     screen_rates = {p: [max(maxima[p], x) for x in historical[p]] for p in PARENTS}
+     roles = {}
+     for p in PARENTS:
+-        roles[f'P_{p}'] = max(observed[p][0], historical[p][0])
++        roles[f'P_{p}'] = max(observed[p]['0'], historical[p][0])
+         roles[f'H_{p}'] = max(maxima[p], max(historical[p]))
+     screen = receipt['cpu_seconds'] + 1.5 * 32 * sum(sum(screen_rates[p]) for p in PARENTS)
+     confirm = 180 + 1.5 * 512 * sum(roles.values())
+--- before/test_source.py
++++ after/test_source.py
+@@ -89,7 +89,7 @@
+     return historical, rows, snapshot
+ 
+ 
+-def test_initial_projection_keeps_all130_floors_and_four_roles():
++def test_initial_projection_keeps_all130_floors_and_four_roles(tmp_path, monkeypatch):
+     historical, rows, snapshot = fixtures()
+     result = measure.calibration_projection(rows, 20, historical)
+     expected = monitor.initial_projection_values({'historical_blink_cpu_per_life': historical},
+@@ -101,6 +101,11 @@
+     assert sum(map(len, result['screen_row_rate_floors'].values())) == 130
+     assert result['screen_projection_cpu_seconds'] == pytest.approx(1306.4)
+     assert result['confirmation_projection_cpu_seconds'] == pytest.approx(1332.0)
++    # Exercise the real persisted interface, where JSON object keys must stay strings.
++    monkeypatch.setattr(monitor, 'STUDY', tmp_path)
++    monitor.save(tmp_path / 'calibration_projection.json', result)
++    monitor.check_initial_projection({'historical_blink_cpu_per_life': historical},
++                                     {'row_snapshot': snapshot, 'cpu_seconds': 20})
+ 
+ 
+ def test_initial_cost_gate_stops_before_screen_when_infeasible():

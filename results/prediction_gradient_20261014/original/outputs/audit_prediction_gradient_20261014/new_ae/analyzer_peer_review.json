@@ -1,0 +1,67 @@
+{
+  "status": "source_only_reader_peer_approved_pending_actual_binding",
+  "review_kind": "Independent source/producer compatibility inspection; no reviewer test rerun or scientific input copying",
+  "reader_protocol_anchor": null,
+  "reader_source_pins": {
+    "analyze.py": "a937f7e78bf03aa2df2770772f5cfb3e2947171478ffffb0f09e4ae0c3b9ba0e",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "panel_replay.py": "766c0f18fbec58e53a712828fc440703892b9ca0668a60720106731cd291d036",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_reader.py": "89ad0177ca2402d6e0f0d820906b4de3675bcc38793473db4a881417dbb610d2"
+  },
+  "producer_source_pins": {
+    "measure.py": "48cb00507e6654deb9f287dbd3373432e52213d77498b9a9690ae095398155cc",
+    "monitor.py": "e7dc8c9424ca34658993bfd043378d26edf8f21bfcad8309b579d1c3f2219f23",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "prepare.py": "317c2270c8198afa1c2f929bf05040410de3257d13d44e6b5a3637c071dce0b6",
+    "common.py": "e55c5b17f6482e8830c1e6f8380327eb41e000a35fb293ab2ef6023f1c529c27",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687",
+    "SCHEMA.md": "f59eebea4ac71b591fa4f3a3084350cd0fa120c6e5d60a531613a7a1574ac476"
+  },
+  "reader_author_receipt_sha256": "38a6b377f6d583270f79da97e2d8e82ce64d8587c1f8818705679fd2f0672cee",
+  "final_producer_receipt_sha256": "bc2924c9c0cb5722a2acf0faa2d19dfda8dec6da852dc49f937b076e356ec562",
+  "reviewed_author_tests": {
+    "distinct_focused_tests": 38,
+    "status": "all passed per retained JUnit",
+    "junit_sha256": "d71234c639281d0fe607acadcb456d4a9188302bf2f705f1eb6e13224afde7f8",
+    "path_only_repeated_checks": 8
+  },
+  "resolved_finding": {
+    "component": "producer calibration projection serialization",
+    "issue": "Nested integer calibration row keys become strings in JSON; unnormalized monitor expected integers and would reject the saved projection.",
+    "fix": "String keys in both producer and monitor; reader already correctly required strings.",
+    "source_diff_sha256": "61d798de5deeda23adfefc8ac418ab8e4962a2a28537b2a106a4eeb577796e8c",
+    "producer_regression_junit_sha256": "f0cb0c9ae4859c3c394208e1df8ee2908dd6042ead92b3b3f724e4df5a407420",
+    "reader_logic_change": false,
+    "scope_or_formula_change": false
+  },
+  "reviewed_contracts": [
+    "Exact retained V protocol/world and independent AST reconstruction of66 ABI3 packing slots and configuration overrides; Y/V conduction identical",
+    "All57 raw ledger columns and60 production named columns; no low-light/dark alias synthesized",
+    "Production F=kernel F minus existing extinction charge; valid paid guards/natural extinction retained; invalid capacity/mismatch/nonfinite/incomplete rejected",
+    "Initial census1+births-deaths-kills=n_end; initial cell is not a birth; disjoint death/kill and message counters preserved",
+    "All138 raw rows/6216 raw lives plus exactlyone two-life numerical identity; raw/aggregate/index/identity/ordered seeds complete",
+    "Whole32-life selection among mutants1..64 with lowest-row ties and no parent fallback; four explicit confirmation roles including duplicates",
+    "Independent all130 historical timing bindings, per-row screen floors, own-parent initial floor and max-panel unknown-winner reserve",
+    "Persisted string-key calibration projection; both monitor phase requests/receipts/snapshots, monotone cumulative CPU and selected-role gate fields match actual producer",
+    "Persisted process identity has pid/ppid/pgid/start_ticks only; exact monitor+one worker/ownedgroup; immutable source/helper/binary bindings and no retries",
+    "Two own-parent contrasts with all64 producer metrics; per-seed capture/ordinary/guard/extinction decomposition before means/SE; both signs retained",
+    "No summaries on missing/partial/inconsistent data; historical Y fitness is not a paired world comparison; no tracking/prediction/memory inference"
+  ],
+  "remaining_findings": [],
+  "deferred_checks": [
+    "Root registration and exact fresh stage IDs",
+    "Actual V/Y input copies and derived two configs",
+    "All130 actual retained panel rows recorded-operation replay",
+    "Literal protocol binding and canonical analysis/ready pins",
+    "Prospective standalone archive verification"
+  ],
+  "activity": {
+    "simulations": 0,
+    "compilations": 0,
+    "genotype_arrays_loaded_or_copied": 0,
+    "new_seed_ids": 0,
+    "reader_test_reruns": 0
+  }
+}

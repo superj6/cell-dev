@@ -1,0 +1,37 @@
+{
+  "status": "passed_prepared_unreleased",
+  "protocol_sha256": "0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849",
+  "local_pins": 167,
+  "production_pins": 35,
+  "panel_rows": 130,
+  "historical_timing_rows": 130,
+  "world_keys": 66,
+  "abi": 3,
+  "derived_configs": 2,
+  "configuration_changes": {
+    "life.world": "catch_speck_l4",
+    "life.abi": 3,
+    "world": {
+      "v_t": 0.3,
+      "tau_turn": 200.0
+    }
+  },
+  "all_reader_function_AST_unchanged": true,
+  "unreleased_entrypoint": {
+    "status": "incomplete",
+    "scientific_outcomes_emitted": false,
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/outputs/autonomous_prediction_gradient_20261014/operations/ready.json'"
+  },
+  "activity": {
+    "simulation_calls": 0,
+    "compilation_calls": 0,
+    "random_draws": 0
+  },
+  "source_pins": {
+    "analyze.py": "6cb7df4bac7144ecd86b91407344c052ed3d57e92fe6da6fdc7b77e077c8714e",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "panel_replay.py": "766c0f18fbec58e53a712828fc440703892b9ca0668a60720106731cd291d036",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "check_bound_inputs.py": "9548cc417d2fa6a897ad59dd86afe9e67547b9f014056354884049c67781ba4a"
+  }
+}

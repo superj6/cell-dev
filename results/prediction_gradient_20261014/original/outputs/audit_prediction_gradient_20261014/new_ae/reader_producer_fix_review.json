@@ -1,0 +1,30 @@
+{
+  "status": "passed_after_producer_serialization_fix",
+  "prior_reader_source_review_sha256": "38a6b377f6d583270f79da97e2d8e82ce64d8587c1f8818705679fd2f0672cee",
+  "producer_final_review_sha256": "bc2924c9c0cb5722a2acf0faa2d19dfda8dec6da852dc49f937b076e356ec562",
+  "reader_source_pins": {
+    "analyze.py": "a937f7e78bf03aa2df2770772f5cfb3e2947171478ffffb0f09e4ae0c3b9ba0e",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "panel_replay.py": "766c0f18fbec58e53a712828fc440703892b9ca0668a60720106731cd291d036",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_reader.py": "89ad0177ca2402d6e0f0d820906b4de3675bcc38793473db4a881417dbb610d2"
+  },
+  "final_producer_pins": {
+    "SCHEMA.md": "f59eebea4ac71b591fa4f3a3084350cd0fa120c6e5d60a531613a7a1574ac476",
+    "measure.py": "48cb00507e6654deb9f287dbd3373432e52213d77498b9a9690ae095398155cc",
+    "monitor.py": "e7dc8c9424ca34658993bfd043378d26edf8f21bfcad8309b579d1c3f2219f23",
+    "prepare.py": "317c2270c8198afa1c2f929bf05040410de3257d13d44e6b5a3637c071dce0b6",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687",
+    "test_source.py": "a09aed934021c2345ff87774a4de9ada95d0436bb90ed28a4ed94c4828130a71"
+  },
+  "finding": "Integer calibration-row keys became strings when saved; monitor previously compared them before normalization.",
+  "review": "The only measure/monitor changes stringify the existing 0/1 keys and corresponding row0 lookup. Formulas, candidate scope, row layout, caps and reader remain unchanged.",
+  "independent_pure_check": {
+    "serialized_projection_unchanged": true,
+    "new_monitor_matches_saved_projection": true,
+    "engine_imports": 0,
+    "simulation_calls": 0
+  },
+  "tests": "Prior 38 reader checks and 8 path-only repeats remain applicable; producer final receipt records 46 passing checks including actual JSON roundtrip."
+}

@@ -1,0 +1,71 @@
+{
+  "status": "passed_prepared_unreleased",
+  "protocol_sha256": "0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849",
+  "local_pin_count": 167,
+  "production_pin_count": 35,
+  "registration_sha256": "146a40caa23f8f0ee03d7c998153017edb5d15d572f1141f06b6869db9ea6fb6",
+  "seed_audit_sha256": "1ec00fbd2bbb1b602bdbe5c3e0f5b2c8826dcd6f3ce0208f1b5d6987eb956e23",
+  "world_packing_raw_sha256": "7c7dba940781645d720f8cace0aadee575c582f8aa4b5e8f21f3a5fecbb1e998",
+  "world_abi": 3,
+  "world_size": 66,
+  "ledger_size": 57,
+  "configuration_changes_verified": {
+    "D90": {
+      "life.world": "catch_speck_l4",
+      "life.abi": 3,
+      "world": {
+        "v_t": 0.3,
+        "tau_turn": 200.0
+      }
+    },
+    "L92": {
+      "life.world": "catch_speck_l4",
+      "life.abi": 3,
+      "world": {
+        "v_t": 0.3,
+        "tau_turn": 200.0
+      }
+    }
+  },
+  "panels": {
+    "D90": {
+      "file_sha256": "97ff2d0ee7ef3af4964b1a0fd357a618cb4d0193baa320cd86c2d06f7a8b9cb9",
+      "shape": [
+        65,
+        875
+      ],
+      "dtype": "float32",
+      "all65_genotype_hashes_match_Y": true
+    },
+    "L92": {
+      "file_sha256": "6ad24101c26541bbc67ff505be2e846e49df30cc253e72d5932d6b0e64d97c01",
+      "shape": [
+        65,
+        875
+      ],
+      "dtype": "float32",
+      "all65_genotype_hashes_match_Y": true
+    }
+  },
+  "exact_Y_copied_files": 148,
+  "historical_timing_rows_verified": 130,
+  "reviewed_numeric_rates_equal_protocol": true,
+  "source_file_sha256": "4037e97f3e58d8a9e0c407e3261c765a3cfe0cf98c88b8ff6ae10f350afd2f94",
+  "absent_runtime_paths": [
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "measurement",
+    "logs",
+    "build-cache",
+    "startup_identity.json",
+    "selection.json",
+    "requests",
+    "monitor_receipts"
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "genotype_copies_by_review": 0,
+  "limits": "Input byte/shape/provenance review only; no simulated behavior or future cost outcome is claimed. Recorded genetic operations are replayed by the independent reader."
+}

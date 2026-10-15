@@ -1,0 +1,222 @@
+{
+  "status": "cleared",
+  "all_processes_exited": true,
+  "checked_at_utc": "2026-10-15T04:10:31.970202+00:00",
+  "processes": [
+    {
+      "pid": 683131,
+      "start_ticks": 2152170
+    },
+    {
+      "pid": 683134,
+      "start_ticks": 2152206
+    },
+    {
+      "pid": 683136,
+      "start_ticks": 2152224
+    },
+    {
+      "pid": 696754,
+      "start_ticks": 2197977
+    },
+    {
+      "pid": 714522,
+      "start_ticks": 2286142
+    },
+    {
+      "pid": 714549,
+      "start_ticks": 2286169
+    },
+    {
+      "pid": 790102,
+      "start_ticks": 2546567
+    },
+    {
+      "pid": 790104,
+      "start_ticks": 2546597
+    },
+    {
+      "pid": 809367,
+      "start_ticks": 2604830
+    },
+    {
+      "pid": 809387,
+      "start_ticks": 2604859
+    },
+    {
+      "pid": 811347,
+      "start_ticks": 2610233
+    },
+    {
+      "pid": 811348,
+      "start_ticks": 2610245
+    },
+    {
+      "pid": 897797,
+      "start_ticks": 2847853
+    },
+    {
+      "pid": 897826,
+      "start_ticks": 2847889
+    },
+    {
+      "pid": 981789,
+      "ppid": 9421,
+      "pgid": 981789,
+      "start_ticks": 3133465,
+      "name": "monitor"
+    },
+    {
+      "pid": 981847,
+      "ppid": 981789,
+      "pgid": 981847,
+      "start_ticks": 3133724,
+      "name": "evolve_s53220"
+    },
+    {
+      "pid": 981849,
+      "ppid": 981789,
+      "pgid": 981849,
+      "start_ticks": 3133737,
+      "name": "evolve_s53221"
+    },
+    {
+      "pid": 1000587,
+      "ppid": 981789,
+      "pgid": 1000587,
+      "start_ticks": 3191835,
+      "name": "confirmation"
+    },
+    {
+      "pid": 1054119,
+      "ppid": 9421,
+      "pgid": 1054119,
+      "start_ticks": 3359210,
+      "name": "monitor"
+    },
+    {
+      "pid": 1054186,
+      "ppid": 1054119,
+      "pgid": 1054186,
+      "start_ticks": 3359423,
+      "name": "measurement"
+    },
+    {
+      "pid": 1101763,
+      "ppid": 9421,
+      "pgid": 1101763,
+      "start_ticks": 3537554,
+      "name": "monitor"
+    },
+    {
+      "pid": 1101809,
+      "ppid": 1101763,
+      "pgid": 1101809,
+      "start_ticks": 3537762,
+      "name": "evolve_D90_depth"
+    },
+    {
+      "pid": 1101811,
+      "ppid": 1101763,
+      "pgid": 1101811,
+      "start_ticks": 3537771,
+      "name": "evolve_D90_precision"
+    },
+    {
+      "pid": 1110887,
+      "ppid": 1101763,
+      "pgid": 1110887,
+      "start_ticks": 3572408,
+      "name": "evolve_L92_depth"
+    },
+    {
+      "pid": 1111239,
+      "ppid": 1101763,
+      "pgid": 1111239,
+      "start_ticks": 3573638,
+      "name": "evolve_L92_precision"
+    },
+    {
+      "pid": 1118675,
+      "ppid": 1101763,
+      "pgid": 1118675,
+      "start_ticks": 3603072,
+      "name": "confirmation"
+    },
+    {
+      "pid": 1160318,
+      "ppid": 9421,
+      "pgid": 1160318,
+      "start_ticks": 3786732,
+      "name": "monitor"
+    },
+    {
+      "pid": 1160326,
+      "ppid": 1160318,
+      "pgid": 1160326,
+      "start_ticks": 3786766,
+      "name": "gradient"
+    },
+    {
+      "pid": 1226548,
+      "ppid": 9421,
+      "pgid": 1226548,
+      "start_ticks": 4039192,
+      "name": "monitor"
+    },
+    {
+      "pid": 1226549,
+      "ppid": 1226548,
+      "pgid": 1226549,
+      "start_ticks": 4039222,
+      "name": "validation"
+    },
+    {
+      "pid": 1227850,
+      "ppid": 1226548,
+      "pgid": 1227850,
+      "start_ticks": 4043826,
+      "name": "flash5_dark"
+    }
+  ],
+  "process_groups": [
+    683131,
+    683134,
+    683136,
+    696754,
+    714549,
+    790104,
+    809387,
+    811347,
+    811348,
+    897826,
+    981847,
+    981849,
+    1000587,
+    1054186,
+    1101809,
+    1101811,
+    1110887,
+    1111239,
+    1118675,
+    1160326,
+    1226549,
+    1227850
+  ],
+  "budget_pins": {
+    "outputs/autonomous_decoy_evolution_20261014/budget.json": "947e93896f902e35d4e132f9419f170393497631788259315038a73a6edb227a",
+    "outputs/autonomous_prediction_information_20261014/budget.json": "49f319b1fff29853a92f95162403c80dd3a819e0706f7cceaa03d63e205d4a85",
+    "outputs/autonomous_visibility_information_20261014/budget.json": "38cb702e92d8c95ad172c5c4e6618ba8dce3ed71f4f38f81bb9e165669b579f3",
+    "outputs/autonomous_visibility_information_x2_20261014/budget.json": "1c5d5743f5afd7c0852ac6e15e1791fa1d7ff92a91064e193e68bce39e00d963",
+    "outputs/autonomous_visibility_gradient_20261014/budget.json": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+    "outputs/autonomous_visibility_continuation_20261014/budget.json": "60d8116811b2181b81d6eec55391953754376d938821de7727a365ebbbbd24cb",
+    "outputs/autonomous_visibility_lateral_20261014/budget.json": "0d62b29e7cd96d70a583016c05ee6bcb5d72a596b67ea7497167492e960abd72",
+    "outputs/autonomous_visibility_precision_20261014/budget.json": "4d0bc330805576b85d5a42ceb5ffd08834eaedb2509273c9a34764734a0c71c4",
+    "outputs/autonomous_visibility_flash_gradient_20261014/budget.json": "75107349982d8551ec914feb9223c3f15e118dc9b3b6e2dc9694c108d7baa5b2",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/budget.json": "efde24e31dffa6c8569b47ebab24739905e1e6605efeb662b0c36bf75c0915c2"
+  },
+  "prior_AD_terminal_sha256": "38b58dbc1d22b7822dc54c8fe6835b8cb5fb58c8ee868d0b8446afc1a57bedae",
+  "prior_AD_public_milestone": "f0b7ca932ebe5b0e27324d9aeb633d1d06441b31",
+  "host_entries_checked": 512,
+  "simulation_calls": 0
+}

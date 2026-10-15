@@ -1,0 +1,71 @@
+{
+  "status": "source_only_draft_passed_pending_independent_reader_and_reviews",
+  "study_files": {
+    "outputs/autonomous_prediction_gradient_20261014/PREREG.md": "8e96f6bbec6c403f75f9ef1c77fe44ee718f5d5cbcdf0e55455123bc0416ee24",
+    "outputs/autonomous_prediction_gradient_20261014/README.md": "e76f63645f503e68aa6fe56b41309fc5780a7a2ebe00bfb522eea37658936ac6",
+    "outputs/autonomous_prediction_gradient_20261014/SCHEMA.md": "f59eebea4ac71b591fa4f3a3084350cd0fa120c6e5d60a531613a7a1574ac476",
+    "outputs/autonomous_prediction_gradient_20261014/common.py": "e55c5b17f6482e8830c1e6f8380327eb41e000a35fb293ab2ef6023f1c529c27",
+    "outputs/autonomous_prediction_gradient_20261014/measure.py": "2799e48d744d448761cd6b010607ff41e4d6bddb28b3bf089dc6451c49835be8",
+    "outputs/autonomous_prediction_gradient_20261014/monitor.py": "ec2cff9f1008a852389ad21805bb7c6351b60d3bfee82ef956b5bc9a855f0a5b",
+    "outputs/autonomous_prediction_gradient_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_prediction_gradient_20261014/prepare.py": "317c2270c8198afa1c2f929bf05040410de3257d13d44e6b5a3637c071dce0b6",
+    "outputs/autonomous_prediction_gradient_20261014/scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "outputs/autonomous_prediction_gradient_20261014/test_source.py": "b3b137b4f431dd92ff8d599c8c821299a7f4ea6a65aeef616657a0a4e75c58c0",
+    "outputs/autonomous_prediction_gradient_20261014/world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "source_templates": {
+    "outputs/autonomous_visibility_flash_gradient_20261014/common.py": "be60caf4cba0d6e4d0b34dfbaa3da6d9e1e084e9decd8223c527324f7c07d61a",
+    "outputs/autonomous_visibility_flash_gradient_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_visibility_flash_gradient_20261014/scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "outputs/autonomous_visibility_flash_gradient_20261014/measure.py": "21c0f4c39355e5a9640e3a8acc76fde5a1c4a0b1b0f6d42814f19817b18f9515",
+    "outputs/autonomous_visibility_flash_gradient_20261014/prepare.py": "112b596611da776cb2f2d7ce27149ed5a6049211833c595908611b8911c30ef0",
+    "outputs/autonomous_visibility_flash_gradient_20261014/monitor.py": "2462f51b32d8205e4cd9225cde3ea3aff4fbec9b794e205b7093bfd3c6715427",
+    "outputs/autonomous_visibility_flash_gradient_20261014/test_prepared.py": "781edaa4bbb92883f08e5880d94c36d4b0b80aae7974b7870b3ceb44ee3c6bda"
+  },
+  "unchanged_process_lifecycle_functions": [
+    "proc_table",
+    "resource_clearance",
+    "own_cpu",
+    "child_cpu",
+    "active_cpu",
+    "consumed_cpu",
+    "child_limit",
+    "send_signal",
+    "enable_subreaper",
+    "cleanup_group",
+    "cleanup",
+    "process_identity"
+  ],
+  "numerical_source_unchanged": true,
+  "adaptations": [
+    "exact V ABI3 world packing; current World only appends neutral visibility fields",
+    "ABI3 57-ledger scorer with identical cost/guard/extinction conventions",
+    "one-world/four-role complete retained-panel study",
+    "per-row historical cost floors and before-screen maximum-mutant reserve",
+    "AD clean terminal resource dependency, not success gate"
+  ],
+  "test_command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest outputs/autonomous_prediction_gradient_20261014/test_source.py --basetemp=outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp --junitxml=outputs/audit_prediction_gradient_20261014/new_ae/source_final_tests.xml -q",
+  "tests": 46,
+  "test_log_sha256": "2fdbfd8ca4b1f03517583a95c9d797258bdf9116d64cf90fbdaa175b61869611",
+  "junit_sha256": "5466606d924bc532f0347107db50776f10995e9413938fec72836e7458d1d05a",
+  "ruff_log_sha256": "18a1870e43654de125f6cf52d247a1e8da43d31a58999f7c8f4b52783084d1be",
+  "world_cost_source_review_sha256": "3eb3e31625c7eea96d553fda491241f93218820f056a6480221c087d62806efc",
+  "absent_prepared_runtime_paths": [
+    "protocol.json",
+    "registration.json",
+    "seed_audit.json",
+    "inputs",
+    "configs",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "measurement",
+    "build-cache",
+    "startup_identity.json"
+  ],
+  "old_proposal_preserved_sha256": "2d3336ba37259f3a9bd776b0c1f1a8eadf6025efa774a4fc34ce8e1b8bbb2515",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "genotype_arrays_loaded_or_copied": 0
+}

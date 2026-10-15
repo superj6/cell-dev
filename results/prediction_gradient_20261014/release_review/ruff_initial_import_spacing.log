@@ -1,0 +1,86 @@
+I001 [*] Import block is un-sorted or un-formatted
+   --> outputs/autonomous_prediction_gradient_20261014/measure.py:167:5
+    |
+165 |   def contrast_reports(rows, worlds):
+166 |       """Two within-world own-parent contrasts; no comparison with historical Y outcomes."""
+167 | /     import numpy as np
+168 | |     from scoring import ABI, COLS
+169 | |     from scripts.taskvar_gates import paired
+    | |____________________________________________^
+170 |       world = worlds['persistent']
+171 |       def metrics(row):
+    |
+help: Organize imports
+    |
+168 |     from scoring import ABI, COLS
+169 +
+170 |     from scripts.taskvar_gates import paired
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/autonomous_prediction_gradient_20261014/prepare.py:22:1
+   |
+20 |   sys.path.insert(0, str(ROOT))
+21 |
+22 | / from common import read, sha, verify_pins  # noqa: E402
+23 | | from measure import PARENTS, ROLES, SCOPE, WORLDS, stage_seeds  # noqa: E402
+24 | |
+25 | | from world_contract import V_PROTOCOL_SHA256, check_world  # noqa: E402
+   | |_________________________________________________________^
+26 |
+27 |   V = ROOT / 'results/prediction_information_20261014'
+   |
+help: Organize imports
+   |
+21 |
+22 + from world_contract import V_PROTOCOL_SHA256, check_world  # noqa: E402
+23 +
+24 | from common import read, sha, verify_pins  # noqa: E402
+25 | from measure import PARENTS, ROLES, SCOPE, WORLDS, stage_seeds  # noqa: E402
+   -
+   - from world_contract import V_PROTOCOL_SHA256, check_world  # noqa: E402
+26 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> outputs/autonomous_prediction_gradient_20261014/test_source.py:235:5
+    |
+234 |   def test_actual_V_fields_and_packing_without_engine_calls():
+235 | /     from dataclasses import asdict
+236 | |     from src.life import spec
+237 | |     from world_contract import V_PROTOCOL_SHA256, check_world
+    | |_____________________________________________________________^
+238 |       v = prepare.read(prepare.V / 'protocol.json')['world']
+239 |       y = prepare.read(prepare.Y / 'protocol.json')['world']
+    |
+help: Organize imports
+    |
+235 |     from dataclasses import asdict
+236 +
+237 +     from world_contract import V_PROTOCOL_SHA256, check_world
+238 +
+239 |     from src.life import spec
+    -     from world_contract import V_PROTOCOL_SHA256, check_world
+240 |     v = prepare.read(prepare.V / 'protocol.json')['world']
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> outputs/autonomous_prediction_gradient_20261014/test_source.py:253:5
+    |
+252 |   def test_synthetic_abi3_accounting_retains_extinction_and_guards():
+253 | /     import scoring
+254 | |     from src.life import spec
+255 | |     from src.life.evaluate import LifeEvaluator
+    | |_______________________________________________^
+256 |       world = spec.World(**prepare.read(prepare.V / 'protocol.json')['world'])
+257 |       abi = spec.V3
+    |
+help: Organize imports
+    |
+253 |     import scoring
+254 +
+255 |     from src.life import spec
+    |
+
+Found 4 errors.
+[*] 4 fixable with the `--fix` option.

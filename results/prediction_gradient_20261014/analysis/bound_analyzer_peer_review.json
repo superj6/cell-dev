@@ -1,0 +1,39 @@
+{
+  "status": "bound_reader_peer_approved_prepared_unreleased",
+  "protocol_sha256": "0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849",
+  "bound_reader_sha256": "6cb7df4bac7144ecd86b91407344c052ed3d57e92fe6da6fdc7b77e077c8714e",
+  "unbound_reader_sha256": "a937f7e78bf03aa2df2770772f5cfb3e2947171478ffffb0f09e4ae0c3b9ba0e",
+  "normalized_full_AST_unchanged_except_module_docstring_and_protocol_literal": true,
+  "prior_source_peer_review_sha256": "565bdd7951e8b726e4e4330254204ec5e0f27ef99bfecfe7f84b6d8c99ce3ab2",
+  "actual_bound_input_review_sha256": "f2844425470bb62f8c132cff7fdc526d156f4a5921fc369ea92965024682e03c",
+  "actual_preparation_review_sha256": "0256b7ce31d611a406fe4848491de3749b998ad735b8fa2b1fbf78409824aadc",
+  "retained_panel_replay_sha256": "a6b440b9ab259c778ee6fbb5368f0d368c1d82c3e2213a51438fc80c5c758861",
+  "unchanged_accounting_and_replay": {
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "panel_replay.py": "766c0f18fbec58e53a712828fc440703892b9ca0668a60720106731cd291d036",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "actual_local_pins_verified": 167,
+  "actual_production_pins_verified": 35,
+  "actual_panel_rows": 130,
+  "recorded_point_ops": 256,
+  "all_timing_rows": 130,
+  "world_packed_values": 66,
+  "abi": 3,
+  "configs": 2,
+  "only_configuration_changes": {
+    "life.world": "catch_speck_l4",
+    "life.abi": 3,
+    "world": {
+      "v_t": 0.3,
+      "tau_turn": 200.0
+    }
+  },
+  "unreleased_analysis_emits_no_outcomes": true,
+  "review_method": "Source-normalized AST and exact actual preparation/replay receipts plus all167/35 file pins; replay author already executed all130 recorded rows. No repeated genetic replay or life calls by this peer review.",
+  "findings": [],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "release_authorized": false
+}

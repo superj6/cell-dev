@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_prediction_gradient_20261014/new_ae/check_calibration_json_roundtrip.py", line 31, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_prediction_gradient_20261014/new_ae/check_calibration_json_roundtrip.py", line 26, in main
+    scope['check_initial_projection'](p,receipt)
+  File "/home/jgon/project/ml/cell-dev/outputs/autonomous_prediction_gradient_20261014/monitor.py", line 238, in check_initial_projection
+    projection = read(STUDY / "calibration_projection.json")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jgon/project/ml/cell-dev/outputs/autonomous_prediction_gradient_20261014/monitor.py", line 39, in read
+    return json.loads(Path(path).read_text())
+                      ^^^^
+NameError: name 'Path' is not defined. Did you mean: 'path'?

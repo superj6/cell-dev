@@ -175,6 +175,21 @@ darkness, and there is no paired comparison to X2's earlier .25-light world. Com
 `results/visibility_dark_tail_information_20261014/`. Source-only AE now prepares a small ordinary-mutant
 accessibility test in V's existing fast persistent-target world; no AE inputs, seeds, builds or lives are released.
 
+**AE registered and prepared (2026-10-14).** Both complete Y mutation panels now enter V's exact existing
+fast persistent-target world (v_t=.3, tau_turn=200, continuous visibility, ABI3, T1024). Screen all 130 rows
+on 32 shared fresh lives, select the best mutant per founder by production F, and confirm both selected mutants
+and parents on 512 fresh paired lives. The 6,208 research plus ten validation calls have a 5,400 CPU-second
+inclusive cap, with startup/screens capped at 3,400, confirmation reserve 2,000 and calibration ceiling 180;
+one two-thread worker, first attempt only. Fresh seed blocks128/129/130 at base51M are audited and disjoint.
+One-time preparation copied both entire panels and all 130 historical timings; independent replay reconstructs
+all 130 genomes from 256 recorded point additions. Exact 66-field V packing and both configurations agree;
+conduction remains d0=1/d_min=.5, as in Y. Protocol `0f5a591f…aa849` binds 167 local and 35 production files.
+All 31 prior process identities and 22 groups are clear. The source review corrected a JSON dictionary-key
+serialization mismatch before preparation; the scientific formulas and scope are unchanged. No AE builds or
+lives ran during preparation. Prospective evidence: `results/prediction_gradient_20261014/`.
+This tests accessible capture improvement versus economy; it cannot by itself establish prediction or general
+evolvability, and it introduces no hand-built winning-body gate. Root runtime release follows publication.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

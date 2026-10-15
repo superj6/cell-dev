@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "command": "PYTHONDONTWRITEBYTECODE=1 ATEN_CPU_CAPABILITY=avx2 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python outputs/audit_prediction_gradient_20261014/new_ae/check_bound_inputs.py",
+  "exit_code": 0,
+  "script_sha256": "9548cc417d2fa6a897ad59dd86afe9e67547b9f014056354884049c67781ba4a",
+  "stdout_sha256": "8dcf1900d41a8520b3ac855b3285b02500afb1f169d9021ff9f8fe94f47a8c83",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "actual_input_receipt_sha256": "f2844425470bb62f8c132cff7fdc526d156f4a5921fc369ea92965024682e03c",
+  "panel_replay_sha256": "a6b440b9ab259c778ee6fbb5368f0d368c1d82c3e2213a51438fc80c5c758861",
+  "checks": [
+    "All167 local and35 production pins",
+    "Exact V ABI3 66-value packing and both config derivations",
+    "All130 retained historical timing identities",
+    "All130 panel rows/256 recorded point mutations bitwise",
+    "Only protocol literal/docstring changed from reviewed reader",
+    "No ready/attempt/budget/measurement/log/build-cache; no outcomes emitted",
+    "No build/evaluate/checkpoint/run/evolve imports during verification"
+  ],
+  "actual_panel_replay_invocations": 1,
+  "new_genetic_draws": 0,
+  "compiled_libraries": 0,
+  "simulation_calls": 0,
+  "check_framework": "Direct focused assertions with retained stdout/stderr; prior38 synthetic reader checks remain unchanged."
+}

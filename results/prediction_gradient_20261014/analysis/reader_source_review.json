@@ -1,0 +1,108 @@
+{
+  "status": "source_only_reader_ready_for_peer_review",
+  "protocol_anchor": null,
+  "source_pins": {
+    "analyze.py": "a937f7e78bf03aa2df2770772f5cfb3e2947171478ffffb0f09e4ae0c3b9ba0e",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "panel_replay.py": "766c0f18fbec58e53a712828fc440703892b9ca0668a60720106731cd291d036",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_reader.py": "89ad0177ca2402d6e0f0d820906b4de3675bcc38793473db4a881417dbb610d2",
+    "READER_README.md": "b0b7e194b22cf0d60b6eeec5e52d1f5921ed6b5f3cd23f164ab161294658bce7",
+    "reader_initial_tests.xml": "f56f075fcc1cdb6665e68c73959623cc790d2052e71f36976369ea8c0c25df44",
+    "reader_initial_tests.log": "0337cdac8834d45a5583ef0ebbdc1287a234dd2a3a0ecadfc220c127b7f80236",
+    "reader_tests.xml": "d71234c639281d0fe607acadcb456d4a9188302bf2f705f1eb6e13224afde7f8",
+    "reader_tests.log": "8e0dd3e259f68c193f05e3e04acef6407a9ed36e5124438d9f9a04fbd0db33db",
+    "reader_path_tests.xml": "965f8f334907f055ff16ccf59445d5c3ac9089b65cbc5b7ac7bb95063e71f288",
+    "reader_path_tests.log": "06955fb47f16312e5d13266c774a2aa4648c46e423cbe6564a92e25b68e39131"
+  },
+  "producer_pins": {
+    "SCHEMA.md": "f59eebea4ac71b591fa4f3a3084350cd0fa120c6e5d60a531613a7a1574ac476",
+    "measure.py": "2799e48d744d448761cd6b010607ff41e4d6bddb28b3bf089dc6451c49835be8",
+    "monitor.py": "ec2cff9f1008a852389ad21805bb7c6351b60d3bfee82ef956b5bc9a855f0a5b",
+    "prepare.py": "317c2270c8198afa1c2f929bf05040410de3257d13d44e6b5a3637c071dce0b6",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "reused_sources": {
+    "results/visibility_flash_gradient_20261014/analysis/analyze.py": "270e4ac4b072ff72a4de2e05f3e4a82af6a88c9656fe8d147d2975d1cd357ea2",
+    "results/visibility_flash_gradient_20261014/analysis/offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "results/visibility_flash_gradient_20261014/analysis/panel_replay.py": "59765b0aedac088796a40204edae1c7f2dc4767cb87067779df52eaea5df13a4",
+    "results/visibility_flash_gradient_20261014/analysis/helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "unchanged_reader_function_AST": [
+    "assert_equal",
+    "canonical",
+    "check_startup",
+    "check_stats",
+    "contrast_key",
+    "external",
+    "historical_costs",
+    "identity",
+    "inside",
+    "json_bytes",
+    "main",
+    "module",
+    "npz",
+    "number",
+    "operation",
+    "owned_processes",
+    "pins",
+    "raw_sha",
+    "read",
+    "selected_mutant",
+    "sha"
+  ],
+  "checks": {
+    "reader_tests.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "38",
+      "time": "7.049",
+      "timestamp": "2026-10-14T21:01:24.600763-07:00",
+      "hostname": "jgon-ThinkPad-X1-Carbon-Gen-13"
+    },
+    "reader_path_tests.xml": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "8",
+      "time": "0.255",
+      "timestamp": "2026-10-14T21:02:37.396732-07:00",
+      "hostname": "jgon-ThinkPad-X1-Carbon-Gen-13"
+    }
+  },
+  "focused_scope": {
+    "raw_ledger_width": 57,
+    "scored_columns": 60,
+    "raw_rows": 138,
+    "raw_lives": 6216,
+    "recorded_golden_lives": 2,
+    "total_calls": 6218,
+    "roles": 4,
+    "contrasts": 2,
+    "metrics_per_contrast": 64,
+    "paired_vectors": 128
+  },
+  "validation_notes": [
+    "One shared numeric fixture; no multiplication into large fixture trees.",
+    "First test-only count failure preserved; analyzer did not change for that correction.",
+    "Actual producer pure cost and report ASTs compared against independent reconstruction.",
+    "All actual retained inputs and full panel replay await registration/authorized preparation."
+  ],
+  "activity": {
+    "copied_scientific_inputs": 0,
+    "random_draws": 0,
+    "actual_panel_replays": 0,
+    "compiled_libraries": 0,
+    "simulation_calls": 0,
+    "seed_registration": false
+  },
+  "limitations": [
+    "No reviewed actual protocol or release exists; fail-closed anchor is unset.",
+    "Fixed historical timing and calibration are cost floors, not guarantees for unseen lives.",
+    "Whole-life production accounting; no tracking/prediction/memory mechanism inference."
+  ]
+}

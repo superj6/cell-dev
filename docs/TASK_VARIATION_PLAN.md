@@ -136,6 +136,15 @@ complete in 514.140424 CPU-seconds, and independent raw reconstruction matches a
 payoff against the retained references, without isolated memory or evolved/local attainment. Next source-only
 AE tests ordinary-mutant accessibility in V's existing fast persistent-target world; no inputs or lives are released.
 
+*2026-10-14 AE registered and prepared:* the two complete retained Y panels are screened in V's exact
+existing persistent-target world. Select one ordinary mutant per founder on 32 shared lives and confirm the
+four fixed mutant/parent roles on 512 fresh lives, separating capture income from economy. Fixed scope is
+6,208 research plus ten validation lives under 5,400 inclusive CPU-seconds, with 2,000 reserved for confirmation.
+Exact genetic replay, V's ABI3 world packing, all 130 historical timing rows and fresh seed blocks128–130 pass
+review. `results/prediction_gradient_20261014/` preserves prospective inputs; root release follows publication.
+No preparation simulations ran. This is an accessibility diagnostic, without a prediction claim, world rejection
+criterion or hand-built-body requirement; larger selection plans remain unreleased.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged
