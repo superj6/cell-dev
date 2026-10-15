@@ -1,0 +1,101 @@
+{
+  "status": "passed_archive_only_preparation",
+  "candidate_count": 13,
+  "protocol_sha256": "ee041636fec03ab3dc8e468b0d3427d75a2ac2736436b4dd954e3ac1c96100fe",
+  "local_pins": 98,
+  "external_pins": 56,
+  "verified_candidates": {
+    "candidate_count": 13,
+    "full_parameter_bytes_sha256": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+    "independent_arrays_reconstructed": true,
+    "physical_description_changes": {
+      "I": {
+        "original_sha256": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+        "new_sha256": "f410ed88ae10ae035c7e7d557d0a7f9e89b213808947a40dfc3d2787a75e8949",
+        "changed_indices": [
+          21
+        ],
+        "original_value": 0.25,
+        "new_value": 0.0
+      },
+      "B": {
+        "original_sha256": "69807a8c15025c4e72b46c754452b5568049ae3be4112056ad971c8f8ef368fb",
+        "new_sha256": "a26aaa893381287dc4c44670927f7f054c9f1e82d897c47b55aab6afeb6769dc",
+        "changed_indices": [
+          21
+        ],
+        "original_value": 0.25,
+        "new_value": 0.0
+      }
+    },
+    "strategy_retuned": false
+  },
+  "runtime_result": {
+    "status": "incomplete",
+    "scientific_outcomes_emitted": false,
+    "error": "[Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/results/visibility_dark_tail_information_20261014/operations/ready.json'"
+  },
+  "resolved_external_paths": [
+    "original/outputs/autonomous_visibility_flash_gradient_20261014/budget.json",
+    "original/outputs/autonomous_visibility_flash_gradient_20261014/terminal_process_clearance.json",
+    "production/results/abi4_visibility_20261014/final_truth/truth.json",
+    "production/results/abi4_visibility_20261014/finalization.json",
+    "production/results/abi4_visibility_20261014/manifest.json",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/compile_stderr.txt",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/compile_stdout.txt",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode1_default_s0.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode1_default_s11.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode1_frequent_timers.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode1_low_capture_fixture.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode1_shifted_window.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode1_unit_multiplier.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode2_default_s0.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode2_default_s11.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode2_frequent_timers.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode2_low_capture_fixture.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode2_shifted_window.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/mode2_unit_multiplier.npz",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/portable_validation.json",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/report.json",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/scratch.c",
+    "production/results/abi4_visibility_20261014/scratch_bridge_replay_guarded/scratch.so",
+    "production/scripts/taskvar_confirm.py",
+    "production/scripts/taskvar_gates.py",
+    "production/scripts/taskvar_gradient.py",
+    "production/src/__init__.py",
+    "production/src/cells.py",
+    "production/src/checkpoint.py",
+    "production/src/common.py",
+    "production/src/develop.py",
+    "production/src/evolve.py",
+    "production/src/genome.py",
+    "production/src/lattice.py",
+    "production/src/life/__init__.py",
+    "production/src/life/analysis.py",
+    "production/src/life/build.py",
+    "production/src/life/clones.py",
+    "production/src/life/evaluate.py",
+    "production/src/life/handbuilt.py",
+    "production/src/life/kernel.c",
+    "production/src/life/probe.py",
+    "production/src/life/readouts.py",
+    "production/src/life/reference.py",
+    "production/src/life/spec.py",
+    "production/src/measure.py",
+    "production/src/render.py",
+    "production/src/run.py",
+    "production/src/tasks/__init__.py",
+    "production/src/tasks/base.py",
+    "production/src/tasks/brightness.py",
+    "production/src/tasks/context.py",
+    "production/src/tasks/flicker.py",
+    "production/src/tasks/jump.py",
+    "production/src/tasks/light.py",
+    "production/src/tasks/memory.py",
+    "production/src/tasks/motion.py",
+    "production/src/tasks/withdraw.py"
+  ],
+  "engine_modules_imported": 0,
+  "simulation_calls": 0,
+  "compiled_libraries": 0
+}

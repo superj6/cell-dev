@@ -1,0 +1,51 @@
+{
+  "status": "passed_independent_terminal_raw_review",
+  "protocol_sha256": "ee041636fec03ab3dc8e468b0d3427d75a2ac2736436b4dd954e3ac1c96100fe",
+  "clearance_sha256": "38b58dbc1d22b7822dc54c8fe6835b8cb5fb58c8ee868d0b8446afc1a57bedae",
+  "budget_sha256": "efde24e31dffa6c8569b47ebab24739905e1e6605efeb662b0c36bf75c0915c2",
+  "review_source_sha256": "124eaf7957c4f3b1f0c1cacf76f38b1a4f3ab6984b55964fd112af68b37916ea",
+  "accountant_sha256": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+  "summary_sha256": "7f8bd355cc6cdc6417c351a5be381f226e712a37865673cc102fad1a63ae52ea",
+  "paired_vectors_sha256": "96a340fbb48af933c1963c623f093b454a757987e6bbae47b75dcd816c29d276",
+  "research_lives": 6656,
+  "validation_raw_lives": 74,
+  "validation_scratch_lives": 70,
+  "validation_production_lives": 4,
+  "recorded_standard_identity_lives": 2,
+  "total_calls": 6732,
+  "research_status_histogram": {
+    "0": 6656
+  },
+  "validation_status_histogram": {
+    "0": 74
+  },
+  "paired_arrays_bitwise_equal": 836,
+  "scientific_summary_exact": true,
+  "monitor_cpu_seconds": 514.140424,
+  "validation_cpu_seconds": 57.698988,
+  "raw_validation_process_cpu_seconds": 6.275864867000003,
+  "raw_research_cpu_seconds": 388.54171979399996,
+  "raw_row_pins": {
+    "rows/flash5_dark/R0/row.npz": "b6e0b06a57494b4e2d6f111fda8541d0af46a990ec010e9282af8efd1a57d62b",
+    "rows/flash5_dark/R1/row.npz": "4a006e7c5ec50afbf274650e77f7ccc8320ac81d77b02ee6a8c894fdec4ed380",
+    "rows/flash5_dark/I/row.npz": "b54c568851a65e77900937b69c705ab85abe2c5feef9e07d5a8ecc51b39105f6",
+    "rows/flash5_dark/A/row.npz": "37ce841204aee995d999dd5ceca8bc6a252b39e764df772ad5ffeec174284f0e",
+    "rows/flash5_dark/B/row.npz": "fda4c20a2459d0a9d974160ad0bab92472701d7aa5526a0167e5fd4e25b437de",
+    "rows/flash5_dark/D0/row.npz": "b291c277b7cc9d0135c55240fee35fee330709b5d26d69c710a4c7da60fdf5f4",
+    "rows/flash5_dark/D1/row.npz": "cbc33b3bce958a423b005e7dbe16dce9ab7ae8f99e371d33dfb45206d07bdd7d",
+    "rows/flash5_dark/D2/row.npz": "f81309396a98630d75ab4e6f458acecb99508a1af7a3bf6d389c819f471da869",
+    "rows/flash5_dark/D3/row.npz": "4ea929bc0e9ddf4455abf3a1f77d59c2ba3948f8ced938f0d8037bb75b23f82f",
+    "rows/flash5_dark/D4/row.npz": "947d10caeaed253ed10278321aafbda5b9fcb4b0c394f9e8cc2b8a1f07b3082b",
+    "rows/flash5_dark/D5/row.npz": "201afcb04479e7608ea662b3b83fb381961082e5824970f68b86cb883fd35f06",
+    "rows/flash5_dark/D6/row.npz": "0d5058f40dc61fa87f1d6282528785d56ac3bb438ec489063e7ee12862c56154",
+    "rows/flash5_dark/D7/row.npz": "a4d8a66495f0fff49c8692e2f9fbc88e39c724d64ef043e3e0c14d149837be44"
+  },
+  "simulations": 0,
+  "compilations": 0,
+  "limits": [
+    "Reuses the independently reviewed static accounting definitions, not the released reader.",
+    "The standard identity pair is evidenced by its exact recorded golden/identity and library bytes; its full ledgers are not retained.",
+    "Process teardown is grounded in the explicit root clearance receipt; nested children are owned through worker groups.",
+    "No new independent scientific observations or capability-specific memory inference."
+  ]
+}

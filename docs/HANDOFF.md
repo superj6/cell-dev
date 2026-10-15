@@ -158,8 +158,22 @@ thirteen-role cost feasibility gate. Seeds are 52,260,000–52,260,002 for valid
 for research. Registration and one-time preparation are complete; independent actual-input and frozen-reader
 reviews pass. Protocol `ee041636…100fe` binds 98 local and 56 production/provenance files, and all prior
 processes are clear. The prospective archive is `results/visibility_dark_tail_information_20261014/`.
-No AD compilation or lives have run at preparation; root release follows publication. First attempt only,
+No AD compilation or lives ran at preparation; root release followed publication. First attempt only,
 with no retry, scope reduction or extension. Held S and larger evolution plans remain unreleased.
+
+**AD complete (2026-10-14).** Information still pays after the flash becomes fully dark: I gains
+**+4.67278 ± .09527 F** and **+9.31055 ± .19926 captures** over retained R1 at the same 56-cell footprint.
+Capture income supplies **+4.54617 ± .09729 F**, with additional savings chiefly from fewer misses.
+Broad model/action ablations lose **.96402 ± .09744 / 3.64750 ± .08966 F**. The best do-less control, the
+two-cell clicker D3, gains **+.34865 ± .03640 F**, only 7.46% of I's gap; all eight remain below a quarter.
+All 6,656 research plus 76 validation lives completed in **514.140424 CPU-seconds**, including 57.698988
+validation. All 6,730 raw statuses are zero; two standard goldens are separately recorded. Three process
+leaders and two groups exited, with all 140 local and 56 production release pins unchanged. The frozen reader
+and independent raw recount agree on all **836 paired vectors**. This supports the environment's information
+payoff, not memory-specific admission, evolved behavior or local attainability. R0/R1 were not retuned for
+darkness, and there is no paired comparison to X2's earlier .25-light world. Complete evidence and figure:
+`results/visibility_dark_tail_information_20261014/`. Source-only AE now prepares a small ordinary-mutant
+accessibility test in V's existing fast persistent-target world; no AE inputs, seeds, builds or lives are released.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

@@ -2811,3 +2811,60 @@ path, commit and hash. Full namespace provenance therefore needs those earlier r
 historical scratch library is provenance, not a new AD compilation. Root runtime release follows publication.
 This bounded diagnostic changes no organism rule, ABI, reward or population-dependent world behavior, and
 does not release held S or the larger selection proposals.
+
+## 2026-10-14 — Information still pays after the flash becomes fully dark
+
+AD completed all thirteen retained instruments on the same 512 fresh T1024 seeds. After each five-unit flash,
+the target's cue multiplier is zero; background sensing remains. The full external controller I and the two
+retained reflexes R0/R1 have the same 56-cell footprint. R1 is the better whole-mean reference. All values below
+are paired means ± SE; both fixed reference contrasts remain reported.
+
+| Contrast | Fitness F | Captures per life | Captures while target dark |
+|---|---:|---:|---:|
+| I−R0 | +4.67936 ± .09515 | +9.33789 ± .19900 | +7.82227 ± .17989 |
+| I−R1 | +4.67278 ± .09527 | +9.31055 ± .19926 | +7.79883 ± .18046 |
+| I−A, broad visibility-model ablation | +.96402 ± .09744 | +1.75000 ± .20180 | +1.67383 ± .19160 |
+| I−B, suppress actions while believed dark | +3.64750 ± .08966 | +7.84375 ± .18590 | +7.01953 ± .17549 |
+
+Capture income explains **+4.54617 ± .09729 F** of I's gain over R1. I makes **14.92188 ± .43015 fewer misses**,
+saving **.14572 ± .00420 F**, while spike and movement costs rise slightly. This is predominantly more captures,
+with free external computation; it is not a demonstrated locally attainable policy. The full instrument averages
+11.67773 captures, versus 2.36719 for R1. Its 9.97656 dark captures per life do not themselves establish memory.
+
+| Fixed do-less control minus R1 | Fitness F |
+|---|---:|
+| D0 | +.26137 ± .04380 |
+| D1 | +.28770 ± .04392 |
+| D2 | +.08807 ± .04217 |
+| D3 | +.34865 ± .03640 |
+| D4 | −.74478 ± .03627 |
+| D5 | −.06674 ± .02148 |
+| D6 | −.00400 ± .00941 |
+| D7 | −.06303 ± .03689 |
+
+The best whole-mean do-less control is the two-cell clicker D3. Its gain is **7.4614% ± .7833 percentage points**
+of I's gap, using the registered ratio of paired means. Its quarter-gap margin is **+.81954 ± .04209 F**;
+all eight controls have positive quarter-gap margins. Both registered descriptive information-payoff and do-less
+checks pass. Selecting the better whole reference/control conditions these uncertainties; neither is a bound
+over all possible reflexes or economy strategies. The retained references were not optimized for darkness.
+
+The broad model and action interventions help explain this external instrument's advantage, but neither isolates
+memory. The controller retains an approximate exponential visibility model even though the physical flash ends
+after a fixed five units. Persistent motion, queued signals, retained direction, blind search and new flashes after
+capture remain alternatives when studying future organisms. There is no evolved-memory claim or automatic
+capability-specific admission. The .25-light X2 experiment used different seeds and is not a paired world-effect
+comparison. No organism rule, genotype, price or ABI changed in AD.
+
+All **6,656 research plus 76 validation lives** completed in **514.140424 / 2,400 CPU-seconds**. Validation used
+57.698988; research and cleanup used 456.441436. The fixed calibration projected 1,221.299322 CPU-seconds and
+passed before research. All 6,656 research statuses and all 74 raw validation statuses are zero; the two standard
+identity goldens are separately recorded. Three recorded process leaders and both worker groups exited. All
+140 local and 56 production release pins remain unchanged. No retry, dropped instrument or scope extension.
+
+The frozen reader passed unchanged on the complete data. Independent raw accounting reproduces the scientific
+summary and all **836 paired arrays** exactly, with raw costs below the corresponding monitored stage totals.
+The prospective source/inputs, validation replay logs, runtime artifacts, raw research rows, reviews and figure
+are archived at `results/visibility_dark_tail_information_20261014/`. Preparation prose remains frozen historical
+evidence; the terminal readme records the final status. The next source-only preparation tests whether ordinary
+mutants of the existing evolved founders can exploit V's fast persistent-target world. That is an accessibility
+question, without prescribing a prediction algorithm; no AE seeds, inputs, compilation or lives are released yet.

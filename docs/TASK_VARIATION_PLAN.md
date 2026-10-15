@@ -127,6 +127,15 @@ resource state and frozen reader pass review. `results/visibility_dark_tail_info
 prospective evidence; root runtime release follows publication. No AD builds or lives ran during preparation.
 Capability-specific memory admission remains incomplete, and larger selection proposals remain unreleased.
 
+*2026-10-14 AD complete:* with zero residual target cues after the flash, the retained external instrument
+gains **+4.67278 ± .09527 F / +9.31055 ± .19926 captures** over R1 at the same 56-cell footprint. Broad
+model/action ablations lose **.96402 ± .09744 / 3.64750 ± .08966 F**. The best do-less gain is
+**+.34865 ± .03640 F**, 7.46% of the information gap; all eight controls remain below a quarter. All 6,732 calls
+complete in 514.140424 CPU-seconds, and independent raw reconstruction matches all 836 paired vectors.
+`results/visibility_dark_tail_information_20261014/` preserves the full record. This establishes information
+payoff against the retained references, without isolated memory or evolved/local attainment. Next source-only
+AE tests ordinary-mutant accessibility in V's existing fast persistent-target world; no inputs or lives are released.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged
