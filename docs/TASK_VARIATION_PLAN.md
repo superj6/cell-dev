@@ -30,6 +30,14 @@ earlier tasks. Existing limited transfer results do not establish broad task gen
 candidate needs its evaluation scope reconsidered before registration; this note releases no study, mixed-task
 selection family, organism change or compute expenditure and leaves standing approval boundaries unchanged.
 
+*2026-10-15 cumulative capability direction:* seek the next nearby edge case that a continuing lineage's
+existing circuitry could evolve to handle at modest additional cost. Evaluate added capability alongside
+retention of earlier capabilities and the full physical cost decomposition. Archive predecessors for comparison,
+but require direct evaluation of the new genome to claim retained abilities. Cases used to diagnose weaknesses
+or choose the next challenge belong to development; reserve separate cases and parameter combinations for
+generalization evaluation. Do not infer a winning body or prescribe its algorithm to choose a task. This direction
+does not launch a curriculum or resolve existing approval boundaries, including population-responsive worlds.
+
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
 trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does

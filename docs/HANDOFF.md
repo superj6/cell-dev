@@ -24,6 +24,12 @@ do not establish generalization by one unchanged genome. Existing duration/condu
 measurements are limited evidence, not broad held-out-task success. Future study design should distinguish
 performance on fresh lives, transfer of a fixed genome to held-out environments, and adaptation through further
 evolution. Keep evaluation environments separate from selection and report retained performance on earlier tasks.
+The user emphasizes affordable, incremental capability gains: seek nearby edge cases that existing circuitry
+could evolve to handle while retaining earlier abilities. Future proposals should follow continuing lineages,
+measure added capability, retained performance and physical costs together, and keep genuinely held-out cases
+separate from the cases used to choose the next challenge. Retaining old champions alone does not demonstrate
+that a new genome retains their capabilities. This is a research direction, not evidence that a particular
+curriculum works or authorization for a population-responsive world.
 AJ remains source-only; reassess its evaluation scope against this objective before any registration or launch.
 This clarification changes no organism rules, prices or existing approval boundaries and launches no study.
 
