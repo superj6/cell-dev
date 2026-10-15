@@ -1,0 +1,90 @@
+"""Independent raw arithmetic cross-check of frozen Z output; no engine imports or lives."""
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+
+ROOT=Path(__file__).resolve().parents[2]
+BASE=ROOT/'outputs/autonomous_visibility_continuation_20261014'
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+read=lambda p:json.loads(p.read_text())
+p=read(BASE/'protocol.json');summary=read(BASE/'analysis_result/summary.json');ready=read(BASE/'ready.json')
+assert summary['status']=='complete'
+assert sha(BASE/'budget.json')=='60d8116811b2181b81d6eec55391953754376d938821de7727a365ebbbbd24cb'
+assert sha(BASE/'terminal_process_clearance.json')=='77cacb5c504c1c8164c94aa2eead5dddc6547552e71e3aafcbb1432958d161f8'
+for name,digest in ready['source_pins'].items():assert sha(BASE/name)==digest
+for name,digest in ready['production_pins'].items():assert sha(ROOT/name)==digest
+cols=summary['ledger_columns']+['F_kernel','extinct_charge','window']
+labels=p['confirmation']['labels'];rows=[];health={}
+for i,label in enumerate(labels):
+ with np.load(BASE/f'confirmation/blink/row_{i:04d}.npz',allow_pickle=False) as z:row={k:z[k].copy() for k in z.files}
+ rows.append(row);status=row['status'].astype(np.int64);unique,count=np.unique(status,return_counts=True)
+ health[label]={'lives':len(status),'status_histogram':{str(k):int(v) for k,v in zip(unique,count)},'all_raw_finite':bool(np.isfinite(row['ledger']).all())}
+ assert row['ledger'].shape==(512,58) and row['ledger'].dtype==np.float64
+ assert np.array_equal(row['seeds'],np.asarray(p['confirmation']['seeds'],dtype=np.uint64))
+ assert all(row['ledger'][:,j].tobytes()==row['F_kernel' if name=='F' else name].tobytes() for j,name in enumerate(summary['ledger_columns']))
+ assert np.array_equal(1+row['births']-row['deaths']-row['kills'],row['n_end'])
+ assert np.array_equal(row['captures']+row['misses'],row['clicks'])
+ assert np.all(row['low_light_captures']<=row['captures'])
+ assert not np.any(status&(1|2|4|64|128))
+prices=[('living','live_time','c_live'),('spiking','spikes','c_spike'),('twitching','kappa_sum','c_tw'),
+        ('messages','contact_events','c_msg'),('division','claims','c_div'),('secretion','sec_int','c_sec'),
+        ('missed_clicks','misses','c_miss'),('receptors','rec_gain','c_rec')]
+world=p['world'];parts=[]
+for row in rows:
+ terms={name:world[price]*row[col] for name,col,price in prices};terms['decoy_clicks']=max(0.,-world['b2_value'])*row['b2_clicks']
+ total=terms['living'].copy()
+ for name in list(terms)[1:]:total=total+terms[name]
+ assert np.all(np.abs(row['cost']-total)<=1e-9*np.maximum(1,np.abs(total)))
+ assert np.allclose((row['income']-total-row['guard_charge'])/1024,row['F_kernel'],rtol=0,atol=1e-9)
+ assert np.array_equal(row['F'],row['F_kernel']-row['extinct_charge'])
+ parts.append(terms)
+
+def stats(v):return {'mean':float(v.mean()),'se':float(v.std(ddof=1)/np.sqrt(len(v))),'n':len(v)}
+
+checked={};compact={}
+with np.load(BASE/'analysis_result/paired_vectors.npz',allow_pickle=False) as stored:
+ for family in ('primary','cumulative','start'):
+  compact[family]={}
+  for a,b in p['confirmation'][family+'_pairs']:
+   label=labels[a];pa,pb=rows[a],rows[b]
+   terms={name:pa[name]-pb[name] for name in cols};terms['bright_captures']=terms['captures']-terms['low_light_captures']
+   pieces={'capture_income':(pa['income']-pb['income'])/1024,'guard_charge_saving':(pb['guard_charge']-pa['guard_charge'])/1024,
+           'extinction_charge_saving':pb['extinct_charge']-pa['extinct_charge']}
+   pieces.update({name+'_cost_saving':(parts[b][name]-parts[a][name])/1024 for name in parts[a]})
+   pieces['accounting_residual']=terms['F']-sum(pieces.values())
+   assert np.max(np.abs(pieces['accounting_residual']))<1e-9
+   terms.update({'F__'+k:v for k,v in pieces.items()})
+   for key,value in terms.items():
+    name=family+'__'+label+'__'+key
+    assert name in stored.files and stored[name].dtype==value.dtype and stored[name].shape==value.shape and stored[name].tobytes()==value.tobytes()
+    checked[name]=hashlib.sha256(value.tobytes()).hexdigest()
+   saved=summary['contrasts'][family][label]
+   for key in cols+['bright_captures']:
+    actual=stats(terms[key]);report=saved['columns'][key]
+    assert report['n']==512 and all(np.isclose(report[k],actual[k],rtol=1e-13,atol=1e-13) for k in ('mean','se'))
+   compact[family][label]={'baseline':labels[b],'paired':{k:stats(terms[k]) for k in ('F','captures','low_light_captures','bright_captures','n_end','n_H_end','live_time','spikes','path')},
+                         'capture_income':stats(pieces['capture_income']),'ordinary_cost_saving':saved['total_cost_saving'],
+                         'all_fitness_components':{k:stats(v) for k,v in pieces.items()}}
+ assert set(checked)==set(stored.files) and len(checked)==450
+out=BASE/'terminal_review';out.mkdir(exist_ok=True)
+review={'status':'complete_independently_reconciled','protocol_sha256':sha(BASE/'protocol.json'),
+        'released_reader_sha256':sha(BASE/'analysis/analyze.py'),'released_native_audit_sha256':sha(BASE/'analysis/native_audit.py'),
+        'released_accountant_sha256':sha(BASE/'analysis/offline_accounting.py'),'review_script_sha256':sha(Path(__file__)),
+        'output_pins':{name:sha(BASE/'analysis_result'/name) for name in ('summary.json','paired_vectors.npz')},
+        'budget_sha256':sha(BASE/'budget.json'),'terminal_process_clearance_sha256':sha(BASE/'terminal_process_clearance.json'),
+        'ready_source_pins_verified':len(ready['source_pins']),'production_pins_verified':len(ready['production_pins']),
+        'raw_rows':6,'raw_lives':3072,'raw_columns':58,'paired_arrays_independently_byte_checked':450,
+        'raw_health':health,'resources':summary['resources'],'contrasts':compact,
+        'native_searches':summary['native_audit']['runs'],'native_read_artifact_pins':summary['native_audit']['read_artifact_sha256'],
+        'interpretation':'Both fixed continuations gain fitness primarily through ordinary cost reduction. Neither primary capture change is positive beyond3SE; L92 low-light captures decline beyond3SE. No memory or more sophisticated capture algorithm is established.',
+        'limits':['Native recorded operations replay exactly; random-number draws are not rerun.',
+                  'Search shortlist scores and saved health summaries are checked, but raw search/validation/redraw/half-life ledgers are not retained.',
+                  'Eight initial-selection guarded lives are retained; every recheck guard life is not separately enumerated.',
+                  'All3072confirmation rows retain their original weights; these rows have no guard/extinction/mismatch/capacity.',
+                  '512life-level paired seeds do not estimate independent-search reliability.'],
+        'simulated_lives':0,'compiled_libraries':0,'frozen_files_modified':False}
+(out/'raw_analysis_review.json').write_text(json.dumps(review,indent=2)+'\n')
+(out/'native_replay.json').write_text(json.dumps(summary['native_audit'],indent=2)+'\n')
+print(json.dumps({'status':review['status'],'review_sha256':sha(out/'raw_analysis_review.json'),'native_receipt_sha256':sha(out/'native_replay.json'),'arrays':len(checked),'health':health},indent=2))

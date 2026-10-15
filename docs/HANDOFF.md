@@ -87,15 +87,19 @@ Full data, both analyzers and exact public reanalysis are at `results/visibility
 A short ordinary blink continuation is being prepared from both fixed Y selections, regardless of their
 confirmation sign; it remains unreleased pending final namespace, input, cost and source review.
 
-**Z registered (2026-10-14).** Two native four-generation 32+224 searches start from exact Y selections
-D90 row58 and L92 row24, using run seeds 53220/53221 regardless of Y confirmation sign. Both final rank-zero
-endpoints must freeze before six-role confirmation against their own Y starts and original D90/L92 founders.
-All six roles share 512 fresh block120 seeds (52,200,000–52,200,511). Scope is 11,340 research plus six retained
-startup goldens under 7,200 CPU-seconds, with a 3,600 startup/search ceiling reserving 3,600 for confirmation.
-The declared estimates from actual Y developed-body costs fit both phases; no new calibration lives are needed.
-World, ordinary mutation/breeding, local asynchronous rules, costs and penalties are unchanged. Preparation
-is preserved at `results/visibility_continuation_20261014/`, including exact initial-population replay and
-20 focused analysis checks. It remains unreleased until this prospective archive is published.
+**Z complete (2026-10-14).** Both ordinary four-generation blink searches completed, followed by all six fixed
+roles on 512 new block120 seeds. Relative to their Y starts, D90/L92 gained **+1.45095 ± .08356 / +.65631 ± .07804 F**
+through ordinary cost savings **+1.55681 / +.83464 F**. Capture changes were **−.21680 ± .16950 / −.36523 ± .16018**;
+neither gives a resolved capture gain. L92 lost **.28906 ± .06932 dark captures**. Bodies became smaller and fired
+less. These are economy gains, not demonstrated advances in algorithmic sophistication. Separately, Y_D90's
+capture gain replicated against original D90: **+.66016 ± .16151 captures**, **+.32212 ± .07969 F** on the new seeds.
+All numbers are means ± paired SE; these are two fixed lineages, not general evolutionary reliability.
+The 11,340 research plus six golden lives used **2,716.806021 CPU-seconds** (search 2,015.493339) under the 7,200 cap;
+all processes exited. Recorded genetics replay exactly; all 3,072 confirmation lives are healthy, and eight
+initial-search guarded lives retained their penalties. The frozen analyzer passed unchanged; independent
+reanalysis matches the summary and all 450 paired arrays. Full evidence is in
+`results/visibility_continuation_20261014/`. A bounded existing-flag lateral probe is being prepared to distinguish
+communication dependence from economy; it cannot establish memory or remove across-genotype body differences.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

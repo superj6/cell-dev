@@ -1,14 +1,14 @@
 {
   "format": 1,
-  "phase": "preparation",
+  "phase": "terminal",
   "protocol_sha256": "2e3e2a2f7bd19f8a10620f8bf4c23a5eb31d4c033a48c0939bf421d234be2935",
-  "status": "prepared_not_launched",
-  "scientific_lives_completed": 0,
-  "compiled_libraries": 0,
-  "release": false,
+  "status": "complete_independently_reconciled",
+  "scientific_lives_completed": 11346,
+  "compiled_libraries": 2,
+  "release": true,
   "planned_research_lives": 11340,
   "planned_validation_lives": 6,
-  "scientific_outcomes_claimed": false,
+  "scientific_outcomes_claimed": true,
   "working_directory": "outputs/autonomous_visibility_continuation_20261014",
   "dependency_budget_pins": {
     "outputs/autonomous_decoy_evolution_20261014/budget.json": "947e93896f902e35d4e132f9419f170393497631788259315038a73a6edb227a",
@@ -18,7 +18,17 @@
     "outputs/autonomous_visibility_gradient_20261014/budget.json": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae"
   },
   "dependency_clearance_status": "copied",
+  "research_lives": 11340,
+  "validation_lives": 6,
+  "cpu_seconds": 2716.8060210000003,
+  "prelaunch_manifest_sha256": "01d407c2a5a5cd387026d7941cfe2145849fafd967f11f950306b91adc1edd8d",
+  "scientific_scope": "Two fixed four-generation conditional lineages; fitness gains mainly reduce ordinary costs, without established capture-algorithm or memory improvement.",
   "artifacts": {
+    "ARCHIVE.md": {
+      "sha256": "a9c765496771fd07db7f9e4645c3eaaec9a01a5516f707bd3ff5667a26d8b1ae",
+      "bytes": 1658,
+      "origin": "outputs/audit_visibility_continuation_20261014/ARCHIVE.md"
+    },
     "PREREG.md": {
       "sha256": "8fd5480b6201f0f47943118597f0c747f69123e3157de536d894971049ade9a6",
       "bytes": 5636,
@@ -109,6 +119,26 @@
       "bytes": 1529,
       "origin": "outputs/autonomous_visibility_continuation_20261014/analysis_pins.json"
     },
+    "analysis_result/paired_vectors.npz": {
+      "sha256": "92f1d341bff7c8cde27e3a490f49059e2206a4f9ba85b066d6c6b9316ce4048b",
+      "bytes": 787519,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/analysis_result/paired_vectors.npz"
+    },
+    "analysis_result/summary.json": {
+      "sha256": "018afd5f2a51ac776c0125848abca90efbf8c22ec80c140fe9aec5263431049d",
+      "bytes": 196518,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/analysis_result/summary.json"
+    },
+    "build-cache/life/life_4e7a60c72a280814.so": {
+      "sha256": "8b4055686d2fb9321c0b65efbf37269a9efc0c4f97b51db7fe22fc25952e47bd",
+      "bytes": 109192,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/build-cache/life/life_4e7a60c72a280814.so"
+    },
+    "build-cache/life/life_8e23480ead9414fa.so": {
+      "sha256": "67adee019d5e47e26e27d26a9ba7963fee38cf9919b6920d6c8610b566efde69",
+      "bytes": 101016,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/build-cache/life/life_8e23480ead9414fa.so"
+    },
     "common.py": {
       "sha256": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
       "bytes": 200,
@@ -123,6 +153,76 @@
       "sha256": "6ab0561df765f70406a5bf04aba8cf2ee76b922f155853c166d66297add2798b",
       "bytes": 2332,
       "origin": "outputs/autonomous_visibility_continuation_20261014/configs/s53221.yaml"
+    },
+    "confirmation/blink/row_0000.npz": {
+      "sha256": "8b74ac70148286b8903da4761cecf2e60ee5cf138150a386a70ffb1d0faadd7c",
+      "bytes": 222091,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/row_0000.npz"
+    },
+    "confirmation/blink/row_0001.npz": {
+      "sha256": "d8984924747130f9ce3d7051d6bf01ad67cfda1f2f186163d328b02614376b17",
+      "bytes": 217555,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/row_0001.npz"
+    },
+    "confirmation/blink/row_0002.npz": {
+      "sha256": "a643aa3dd8d47cb50f0c9471f57dc84266149345ebb37cc1176bc6382791f04b",
+      "bytes": 222401,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/row_0002.npz"
+    },
+    "confirmation/blink/row_0003.npz": {
+      "sha256": "5b3cd353a65cad4c5af6e8929bda293cfe44e3a722f761859886bee10417220b",
+      "bytes": 217585,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/row_0003.npz"
+    },
+    "confirmation/blink/row_0004.npz": {
+      "sha256": "84dc12987dd52c97e82e6da60495b7b559a49b946f8eecf00cc17dc39a711f4a",
+      "bytes": 220370,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/row_0004.npz"
+    },
+    "confirmation/blink/row_0005.npz": {
+      "sha256": "6c7ab01515bac8fdb5ba8b3daee17721df148921e40425ec032eff4fbc843cdb",
+      "bytes": 215255,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/row_0005.npz"
+    },
+    "confirmation/blink/scores.npz": {
+      "sha256": "c5cb4101f106afdbaace7c894a31fef0da64506df749ec61006af53b71f86412",
+      "bytes": 561714,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/blink/scores.npz"
+    },
+    "confirmation/endpoints.json": {
+      "sha256": "a0f4410d3860386e97efb7575524b8a2a3c4409dd17b1ba326b43b48e0983507",
+      "bytes": 31491,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/endpoints.json"
+    },
+    "confirmation/genotypes.npz": {
+      "sha256": "e586b5d063535a07f2118841b2f9726a92f7bdfc825318a7933fc07d39f9c663",
+      "bytes": 3748,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/genotypes.npz"
+    },
+    "confirmation/report.json": {
+      "sha256": "d65f86e67f320db7398ce34861ad34827a1ff75f26c1738553f80276a162bb85",
+      "bytes": 34720,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/report.json"
+    },
+    "confirmation/row_index.json": {
+      "sha256": "bacb31ae03834a16a724a7d2029e423188a1ff38c33b6149264b79e0d710c87b",
+      "bytes": 896,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/confirmation/row_index.json"
+    },
+    "figures/confirmation.png": {
+      "sha256": "057ad9b9d3798458aebe08882c98e9c4fed5e26616d5a2eb00eb54a4a46308f8",
+      "bytes": 166679,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/figures/confirmation.png"
+    },
+    "figures/confirmation.svg": {
+      "sha256": "974c6049402f7ba07ed59f565ea20017d19394ff698dcde2a98eafca01d3dffc",
+      "bytes": 120239,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/figures/confirmation.svg"
+    },
+    "figures/plot_results.py": {
+      "sha256": "acef973fcda3d1c6fc7025216dead2c63e7da48de8bed02386f61bcaf9380f1c",
+      "bytes": 2019,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/figures/plot_results.py"
     },
     "generation_claim.json": {
       "sha256": "6d0c35f5132ab8cce426b8d08ad2969ebc10a26e0d5ceb432bd0fea66bda4462",
@@ -269,6 +369,21 @@
       "bytes": 143891,
       "origin": "outputs/autonomous_visibility_continuation_20261014/inputs/Y_summary.json"
     },
+    "logs/confirmation.log": {
+      "sha256": "e4cc754aa871ff0d679c8fefce4646803c6806faa9e727f34a0c6ad28ead202c",
+      "bytes": 360,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/logs/confirmation.log"
+    },
+    "logs/evolve_s53220.log": {
+      "sha256": "38a1cfd7a8efb2a23d8dd2a0ba9ae6378dd148676dcee5e5bb6c4bd6dbbd2bdc",
+      "bytes": 6262,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/logs/evolve_s53220.log"
+    },
+    "logs/evolve_s53221.log": {
+      "sha256": "d8ae8ecde3b13c4f17100da906753e260cf50359b33f02a2a9a8f15d2943a749",
+      "bytes": 6260,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/logs/evolve_s53221.log"
+    },
     "measure.py": {
       "sha256": "cc59233a2c3227b7c4598ca8b50877e0afb20d27bfb565b4d9e65d32233a898d",
       "bytes": 9911,
@@ -279,10 +394,30 @@
       "bytes": 1987,
       "origin": "outputs/autonomous_visibility_continuation_20261014/numerical.py"
     },
+    "operations/attempt.json": {
+      "sha256": "f3e2832be6add305ac25617082ba66d6a90181ce92e498f7e5305bac424e869d",
+      "bytes": 166,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/attempt.json"
+    },
+    "operations/budget.json": {
+      "sha256": "60d8116811b2181b81d6eec55391953754376d938821de7727a365ebbbbd24cb",
+      "bytes": 16455,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/budget.json"
+    },
+    "operations/ready.json": {
+      "sha256": "ff38bbbecf3f7257bcdb2dc7dbe5231cb7fda97361b1cc3704546b53c49d15d5",
+      "bytes": 14819,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/ready.json"
+    },
     "operations/resource_clearance.json": {
       "sha256": "399542cf4d3a65e5fccafd7fc1a1a501dd345ac1218b267cbd14c94b9d88a5e4",
       "bytes": 2108,
       "origin": "outputs/autonomous_visibility_continuation_20261014/resource_clearance.json"
+    },
+    "operations/terminal_process_clearance.json": {
+      "sha256": "77cacb5c504c1c8164c94aa2eead5dddc6547552e71e3aafcbb1432958d161f8",
+      "bytes": 1115,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/terminal_process_clearance.json"
     },
     "original/outputs/audit_decoy_evolution_20261014/check_seed_world.py": {
       "sha256": "410b6dc726b26b55170b1a07ad491d1b98321cdfa535938818e9856a7cc3d7d5",
@@ -752,7 +887,7 @@
     "release_review/archive.py": {
       "sha256": "c2fd99e075d44422a8ea7a1424b78820c4a02ad90aa08ebbf2bc47b59c4b9c2d",
       "bytes": 12284,
-      "origin": "outputs/audit_visibility_continuation_20261014/archive.py"
+      "origin": "outputs/autonomous_visibility_continuation_20261014/release_review/archive.py"
     },
     "release_review/blink_continuation_plan.md": {
       "sha256": "e27efa58eaf478a50eb55134a95ff29bfa10d53dd8785a02205b3443fc2d5dd1",
@@ -934,6 +1069,96 @@
       "bytes": 17078,
       "origin": "outputs/autonomous_visibility_continuation_20261014/run_budgeted.py"
     },
+    "runs/s53220/best_genome.json": {
+      "sha256": "31a411a35f417ff13d8232b58edce120f6c34abb5b274df05e4a6e6d8d9dca6d",
+      "bytes": 10511,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/best_genome.json"
+    },
+    "runs/s53220/checkpoint.pt": {
+      "sha256": "e9b1d8a79fc74f900eeadee4db6766dd59dcccf93f6d2577f4408baba8ec4a37",
+      "bytes": 141009,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/checkpoint.pt"
+    },
+    "runs/s53220/clones.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/clones.jsonl"
+    },
+    "runs/s53220/config.yaml": {
+      "sha256": "b02104199f241b06b1107ca56f9ac1c7d1fdb4d786dc830c346add426eb744b7",
+      "bytes": 2332,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/config.yaml"
+    },
+    "runs/s53220/curves.jsonl": {
+      "sha256": "537f47b67deee3c80596595b17b550be41440a03253a7c72ae9b9e784c69e61e",
+      "bytes": 4467,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/curves.jsonl"
+    },
+    "runs/s53220/determinism.json": {
+      "sha256": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+      "bytes": 4803,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/determinism.json"
+    },
+    "runs/s53220/lineage.jsonl": {
+      "sha256": "b98de41b49c1fc6ad24f901ba6782a0a41cb034e78f7283e0890dbd0f7a524ec",
+      "bytes": 186342,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/lineage.jsonl"
+    },
+    "runs/s53220/population.json": {
+      "sha256": "a41fe93ea1a77a0c9d6e4752ea12adffad2f0217f5b305ab4a06d82576ca9f9c",
+      "bytes": 335113,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/population.json"
+    },
+    "runs/s53220/results.jsonl": {
+      "sha256": "faecc0ebe4bc6707c9dbb8eb9e78981155a7816bf9c8a149f1ad9da0f3c7d8f9",
+      "bytes": 1626,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53220/results.jsonl"
+    },
+    "runs/s53221/best_genome.json": {
+      "sha256": "1c5b8098c6e30843350b7990816142043a20a56006ed9535056051250c2dcbf0",
+      "bytes": 10496,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/best_genome.json"
+    },
+    "runs/s53221/checkpoint.pt": {
+      "sha256": "1c7cfbd189fdf67a6fd72d91b2e01425d31a3bb93b7b3cf9fb3eaf205f7c1b72",
+      "bytes": 141009,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/checkpoint.pt"
+    },
+    "runs/s53221/clones.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/clones.jsonl"
+    },
+    "runs/s53221/config.yaml": {
+      "sha256": "6ab0561df765f70406a5bf04aba8cf2ee76b922f155853c166d66297add2798b",
+      "bytes": 2332,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/config.yaml"
+    },
+    "runs/s53221/curves.jsonl": {
+      "sha256": "ac0e437865ea503d2b9c71283ecb9960890db14c49bb30a03805878035dda18e",
+      "bytes": 4468,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/curves.jsonl"
+    },
+    "runs/s53221/determinism.json": {
+      "sha256": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+      "bytes": 4803,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/determinism.json"
+    },
+    "runs/s53221/lineage.jsonl": {
+      "sha256": "18b1fe872460e8145525359667eb865689a5ceaf9c9eab96eb35ca0842c0ee64",
+      "bytes": 186069,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/lineage.jsonl"
+    },
+    "runs/s53221/population.json": {
+      "sha256": "a412524389a6b5fd700a513719c5618d19c828f8a6f1bf88cb13d11b30356c11",
+      "bytes": 334623,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/population.json"
+    },
+    "runs/s53221/results.jsonl": {
+      "sha256": "636a4a144c1819d72086ec93c3e88c62abe130b3dfa61ebd241ca5a0f1248a8a",
+      "bytes": 1623,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/runs/s53221/results.jsonl"
+    },
     "scoring.py": {
       "sha256": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
       "bytes": 7721,
@@ -943,6 +1168,36 @@
       "sha256": "845c4d3abc7eb943c77c5cba14f7a575d42130a6c2964cefe305a5388c0112e0",
       "bytes": 31949,
       "origin": "outputs/autonomous_visibility_continuation_20261014/seed_audit.json"
+    },
+    "terminal_review/archive_terminal.py": {
+      "sha256": "e5f9e68d814cc4f5fb76f75473946a9fc9216185da66927ea7aebb41bfecdc26",
+      "bytes": 11385,
+      "origin": "outputs/audit_visibility_continuation_20261014/archive_terminal.py"
+    },
+    "terminal_review/execution.json": {
+      "sha256": "ec20e1a06eedac93fdd99f44288041ea059de9fea551bec06e537ad5024807f7",
+      "bytes": 776,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/terminal_review/execution.json"
+    },
+    "terminal_review/native_replay.json": {
+      "sha256": "f19c75f18d086f2e3fe7a79e1dc320a798b14d736fda29859ff3718bb0cdb841",
+      "bytes": 11836,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/terminal_review/native_replay.json"
+    },
+    "terminal_review/raw_analysis_review.json": {
+      "sha256": "c283a8d04f68a6460ed4e506032dcced09302db89107918b06026646fb5ab189",
+      "bytes": 34979,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/terminal_review/raw_analysis_review.json"
+    },
+    "terminal_review/review_terminal_original.py.txt": {
+      "sha256": "85e7a7ccb0ed71b2476601840608899e5feb3d23ca86c41226307d8dcd390473",
+      "bytes": 7210,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/terminal_review/review_terminal_original.py.txt"
+    },
+    "terminal_review/root_reanalysis.json": {
+      "sha256": "67ee7935e23822e2740837a139656076a86c49114605e6c471b2cc55cf74890d",
+      "bytes": 311,
+      "origin": "outputs/autonomous_visibility_continuation_20261014/terminal_review/root_reanalysis.json"
     },
     "test_preparation.py": {
       "sha256": "6f7d3229498a0cdbd797e320940a064251db9318f233ea8f05788f34b7ad6ee4",

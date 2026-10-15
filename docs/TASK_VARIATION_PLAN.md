@@ -86,13 +86,14 @@ all original inputs/data and scientific comparisons remain unchanged. `results/v
 preserves both readers and full reproducible results. A short native blink continuation from both fixed Y
 selections is being prepared, with fresh comparisons against their starts and original founders.
 
-*2026-10-14 Z registered:* two four-generation native searches from both fixed Y selections test whether gains
-accumulate in the same blink world. Runs 53220/53221 retain the ordinary 32+224, three-plus-four-life policy;
-both final rank-zero endpoints freeze before six-role confirmation on 512 fresh block120 seeds. The scope is
-11,340 research plus six startup goldens, capped at 7,200 CPU-seconds with half reserved for confirmation and
-cleanup. Actual Y developed-body costs support the fixed prospective estimates. No seed/founder replacement
-depends on Y confirmation sign. The unreleased preparation is preserved at
-`results/visibility_continuation_20261014/`, with no new organism rules or reward.
+*2026-10-14 Z complete:* both ordinary four-generation blink continuations gained fitness on 512 fresh paired
+lives: D90/L92 **+1.45095 ± .08356 / +.65631 ± .07804 F** over their Y starts. Cost savings explain the gains;
+capture means fell by .21680/.36523, with no resolved capture improvement. L92 lost **.28906 ± .06932 dark captures**.
+Y_D90's earlier capture gain independently replicated (**+.66016 ± .16151** versus original D90). Thus the short
+continuation demonstrates economy, not a richer algorithm. All 11,340 research plus six golden lives completed
+in 2,716.806021 CPU-seconds; genetics, raw accounting and independent reanalysis passed unchanged. Full record:
+`results/visibility_continuation_20261014/`. Next, a bounded existing-flag lateral probe is being prepared;
+different bodies and broad interventions still limit mechanism claims. No new organism rules or reward.
 
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I

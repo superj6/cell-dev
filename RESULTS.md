@@ -2438,3 +2438,46 @@ evolution accumulates further gains in a richer world; capture income and cost s
 No Z library or life has run at registration. Exact initial populations replay, and 20 focused analysis checks
 pass. Inputs, source, independent analysis and reviews are prospectively preserved as 186 artifacts at
 `results/visibility_continuation_20261014/`; release follows publication.
+
+## 2026-10-14 — Blink continuation improves economy, without a confirmed capture gain
+
+Z completed both four-generation native searches from the fixed Y mutants and all six-role confirmation on
+512 new shared seeds. Both final population rank-zero endpoints were frozen before confirmation. World,
+ordinary mutation/breeding, prices and production penalties were unchanged. Differences below are means ±
+paired SE over those fresh lives; these two fixed lineages do not estimate search reliability.
+
+| Endpoint minus its Y start | D90 lineage | L92 lineage |
+|---|---:|---:|
+| Fitness F | +1.45095 ± .08356 | +.65631 ± .07804 |
+| Capture-income contribution to F | −.10586 ± .08276 | −.17834 ± .07821 |
+| Ordinary cost saving in F | +1.55681 ± .01642 | +.83464 ± .01137 |
+| Captures per life | −.21680 ± .16950 | −.36523 ± .16018 |
+| Dark captures per life | −.19141 ± .06523 | −.28906 ± .06932 |
+| Final cells | −71.85938 ± .76191 | −32.47461 ± .47545 |
+| Spikes per life | −5,069.72461 ± 51.46823 | −1,283.57031 ± 24.45346 |
+| Path length | −68.57214 ± 1.06618 | −37.56735 ± 1.18973 |
+
+Both fitness gains clear the descriptive three-SE threshold, and cost savings explain them. Neither lineage
+has a resolved capture increase. L92's dark-capture decline clears three SE; D90's decline does not. Fewer
+cells, spikes, clicks and movement accompany the gains. This supports economical adaptation, not a demonstrated
+increase in algorithmic sophistication, memory or prediction. Against the original founders, endpoint fitness
+gains are +1.77308 ± .08546 and +.58204 ± .08575 F; their total-capture changes remain unresolved at three SE.
+
+The six-role design also retests the earlier Y mutants on new lives. **Y_D90's capture gain replicates**:
++.66016 ± .16151 captures and +.32212 ± .07969 F against original D90, essentially all capture income.
+Y_L92 remains unresolved (−.07427 ± .07598 F). These new comparisons are retained separately from Y's original
+confirmation rather than used to replace or select endpoints.
+
+All 11,340 research and six retained ABI3 startup-golden lives completed. Inclusive CPU was **2,716.806021 / 7,200**,
+including 2,015.493339 for startup/search and 701.312682 for confirmation/cleanup. All four recorded processes
+and three owned groups exited. The recorded genetic trajectory and survivor selection replay bitwise; all
+3,072 raw confirmation lives have no guard, extinction, capacity or ledger-mismatch status. Eight initial-search
+guarded lives retained their penalties; native logs do not enumerate every recheck guard life or retain all
+search raw ledgers. All reported search invalid/mismatch metrics are zero.
+
+The frozen independent analyzer passed without changes. Root reanalysis reproduces the summary and all
+450 paired arrays. `results/visibility_continuation_20261014/` preserves the prospective archive, native logs,
+checkpoints, six raw confirmation rows, independent analysis, process clearance and decomposition figure.
+A small fixed-tissue lateral-message probe is being prepared with all six genomes retained, to investigate
+communication dependence before scaling selection. Its existing interventions cannot isolate memory and
+do not make different genotypes' bodies identical.
