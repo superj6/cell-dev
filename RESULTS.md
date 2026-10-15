@@ -2502,3 +2502,53 @@ that estimate; the hard cap still applies. No retry, scope reduction or endpoint
 Registration and preparation run no simulations or compilation. Twenty source/synthetic and 31 independent
 accounting/reader checks pass. The 153-artifact prospective record is preserved at
 `results/visibility_lateral_20261014/`; release follows publication.
+
+## 2026-10-14 — Frozen D90 tissue uses lateral signals; the cheaper continuation uses them less
+
+AA completed all six original/Y/Z roles under normal, freeze and freeze+lateral_off in approved irregular
+blink. The 128 fresh paired seeds are shared across all roles and conditions. Existing flags act at life age
+512; accounting covers 544..1024. Figures below are means ± paired SE. The primary interaction is each step's
+capture-income gain under freeze minus its gain with both freeze and lateral sends disabled. Positive values
+mean the descendant relies more on lateral sends for capture income in this frozen condition.
+
+| Change in lateral capture-income contribution | D90 lineage | L92 lineage |
+|---|---:|---:|
+| Y mutant minus original founder | +.55339 ± .29546 | −.17090 ± .18333 |
+| Z endpoint minus Y mutant (primary) | −1.42415 ± .28322 | +.49642 ± .18665 |
+| Z endpoint minus original founder | −.87077 ± .28155 | +.32552 ± .22427 |
+
+D90's Z step **reduces** this contribution beyond three SE, while L92's primary effect remains unresolved.
+Neither Y step shows a resolved increase; this does not establish absence of a change. L92's primary total-F
+interaction is positive (+.81116 ± .21484), but its capture-income interaction remains unresolved. Reduced
+costs cannot substitute for the registered capture-income outcome.
+
+The D90 lineage has clear conditional communication use. Disabling lateral sends from its frozen tissue loses
+**2.60156 ± .22930 / 3.13281 ± .22877 / 1.76563 ± .18107 captures** in original/Y/Z respectively. Those losses
+supply **2.70996 ± .23885 / 3.26335 ± .23830 / 1.83919 ± .18861 F** in capture income. The corresponding L92
+capture effects are −.21094 ± .14826 / −.37500 ± .11946 / +.10156 ± .16816; its Y mutant's negative effect
+clears three SE. These are conditional effects, not a new algorithm or an isolated memory mechanism.
+
+Freezing is broad: it stops growth, gene, phenotype and effective-weight updates while leaving membrane,
+chemistry and motion dynamics. In L92, mean measured-window spikes rise from roughly **1,365 to 7,430** in the
+original, **1,365 to 8,650** in Y, and **793 to 4,908** in Z when tissue is frozen. The intervention therefore
+alters ongoing operation substantially and cannot be treated as a neutral body clamp. All 768 frozen genotype-
+seed pairs nevertheless retain identical cell composition between their two frozen conditions, with the
+expected live-time integrals. No pair is excluded. Different genotypes retain different developed bodies.
+Lateral-off suppresses new in-plane spike sends while retaining would-be send charges; vertical spikes and
+chemical communication continue. Pending direct pre-fork events settle before the measurement opens, which
+does not erase earlier internal history.
+
+All **2,304 research plus two standard ABI3 golden lives** completed in **355.924793 of 1,200 CPU-seconds**.
+All raw research status flags are zero, and both recorded processes and their owned group have exited.
+Late-window accounting handles events crossing its opening boundary. The frozen analyzer passes unchanged;
+independent raw reconstruction reproduces all 36 registered contrasts and **2,700 paired arrays** exactly.
+`results/visibility_lateral_20261014/` preserves raw ledgers, prospective sources, process receipts, reviews and
+the communication-effect figure. The late-window normal results retain the continuation's economy pattern;
+they do not replace Z's separate 512-life whole-life confirmation.
+
+Before scaling depth, a new small comparison is being prepared: four ordinary 3+4-life generations versus one
+12+16-life generation from each fixed Z endpoint, matching selection calls. Offline Z records show 93/256
+parent slots change after rechecking and 7/8 initial leaders are displaced. These conditional ranking changes
+motivate testing allocation; they do not establish a benefit from precision. The proposed comparison changes
+both precision and depth and will retain capture income separately from cost savings. It is source-only,
+with no new seeds, genotypes, compilation or lives released; the larger continuation remains a proposal.

@@ -1,0 +1,157 @@
+"""Independent terminal arithmetic recount; NumPy only, no reader/worker imports."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read(path):
+    return json.loads(path.read_text())
+
+
+def check(value, message):
+    if not value:
+        raise ValueError(message)
+
+
+def same(a, b):
+    return a.shape == b.shape and a.dtype == b.dtype and a.tobytes() == b.tobytes()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--study', type=Path, required=True)
+    parser.add_argument('--out', type=Path, required=True)
+    args = parser.parse_args()
+    base = args.study.resolve()
+    repo = Path(__file__).resolve().parents[2]
+    p, ready = read(base / 'protocol.json'), read(base / 'ready.json')
+    summary = read(base / 'analysis_result/summary.json')
+    check(summary['status'] == 'complete', 'complete frozen analysis required')
+    pins = {}
+    for name, digest in ready['source_pins'].items():
+        check(sha(base / name) == digest, 'ready source: ' + name)
+    for name, digest in ready['production_pins'].items():
+        check(sha(repo / name) == digest, 'production source: ' + name)
+    ledger_names = tuple(('income live_time sec_int spikes kappa_sum contact_events claims births rejects '
+        'rejects_wall deaths kills cost guard_charge net F n_end n_peak t_end status events beats P_int '
+        'arrivals arrivals_dropped packets morph_secreted morph_decayed morph_lost morph_content_end '
+        'morph_inflight_end chem_clamps last_birth ticks t_ext captures misses clicks b2_clicks respawns '
+        'nudges rec_cand rec_accept rec_events rec_gain samples dist_sum zone_samples path X_end Y_end '
+        'n_S_end n_M_end n_H_end live_S live_M live_H low_light_captures').split())
+    check(len(ledger_names) == 58 and list(ledger_names) == summary['ledger_columns'], '58 ledger names')
+    categories = [('living','c_live','live_time'), ('spiking','c_spike','spikes'),
+        ('twitching','c_tw','kappa_sum'), ('messages','c_msg','contact_events'),
+        ('division','c_div','claims'), ('secretion','c_sec','sec_int'),
+        ('missed_clicks','c_miss','misses'), ('receptors','c_rec','rec_gain')]
+    index = read(base / 'measurement/row_index.json')
+    metrics, raws, timing = {}, {}, 0.0
+    max_cost_error = max_decomposition_error = 0.0
+    for condition in p['conditions']:
+        world = p['worlds'][condition]
+        check(world['t_open'] == 544 and world['T'] == 1024 and world['t0'] == 0, 'matched window')
+        metrics[condition], raws[condition] = {}, {}
+        for i, label in enumerate(p['labels']):
+            name = f'{condition}/row_{i:04d}.npz'
+            path = base / 'measurement' / name
+            check(sha(path) == index[name]['sha256'], 'raw row pin')
+            pins['measurement/' + name] = sha(path)
+            with np.load(path, allow_pickle=False) as data:
+                row = {k: data[k].copy() for k in data.files}
+            led = row['ledger']
+            check(led.shape == (128, 58) and led.dtype == np.float64 and np.isfinite(led).all(), 'raw coverage')
+            check(np.array_equal(row['seeds'], np.asarray(p['seeds'], dtype=np.uint64)), 'ordered seeds')
+            d = {name: led[:, j].copy() for j, name in enumerate(ledger_names)}
+            for name in ledger_names:
+                check(same(row['F_kernel' if name == 'F' else name], d[name]), 'raw/named ' + name)
+            check(np.all(d['status'] == 0) and np.all(d['t_end'] == 1024), 'actual healthy full lives')
+            check(np.all(d['t_ext'] == -1) and np.all(row['extinct_charge'] == 0), 'actual no extinction')
+            check(np.all(d['guard_charge'] == 0) and np.all(row['window'] == 480), 'actual no guard')
+            check(np.all(d['last_birth'] <= d['t_end']), 'birth descriptor')
+            check(np.array_equal(d['captures'] + d['misses'], d['clicks']), 'click partition')
+            check(np.all(d['low_light_captures'] <= d['captures']), 'light capture partition')
+            check(np.all(d['rec_accept'] <= d['rec_cand']), 'same-time receptor acceptance')
+            check(np.array_equal(d['n_S_end'] + d['n_M_end'] + d['n_H_end'], d['n_end']), 'terminal planes')
+            check(np.allclose(d['live_S'] + d['live_M'] + d['live_H'], d['live_time'], rtol=1e-9, atol=1e-9), 'plane integral')
+            check(np.allclose(sum(d[k] for k in ('morph_decayed','morph_lost','morph_content_end','morph_inflight_end')),
+                d['morph_secreted'], rtol=1e-9, atol=1e-9), 'whole-life morph conservation')
+            costs = {name: world[price] * d[column] for name, price, column in categories}
+            costs['decoy_clicks'] = max(0.0, -world['b2_value']) * d['b2_clicks']
+            total = sum(costs.values())
+            max_cost_error = max(max_cost_error, float(abs(total - d['cost']).max()))
+            check(np.all(abs(total - d['cost']) <= 1e-9 * np.maximum(1, abs(total))), 'kernel cost tolerance')
+            income = world['R_cap'] * d['captures']
+            check(np.array_equal(income, d['income']), 'capture income')
+            check(np.allclose(d['net'], income - total, rtol=1e-10, atol=1e-9), 'net')
+            check(np.allclose(d['F'], (income - total) / 480, rtol=1e-10, atol=1e-9), 'kernel F')
+            check(same(row['F'], d['F'] - row['extinct_charge']), 'production F')
+            d.update(F_kernel=d['F'].copy(), F=row['F'], extinct_charge=row['extinct_charge'], window=row['window'])
+            d['bright_captures'] = d['captures'] - d['low_light_captures']
+            d.update(capture_income=income / 480, ordinary_cost=-total / 480,
+                guard_cost=-d['guard_charge'] / 480, extinction_cost=-row['extinct_charge'])
+            d.update({'cost__' + k: -v / 480 for k, v in costs.items()})
+            residual = d['F'] - d['capture_income'] - d['ordinary_cost'] - d['guard_cost'] - d['extinction_cost']
+            max_decomposition_error = max(max_decomposition_error, float(abs(residual).max()))
+            check(np.all(abs(residual) < 1e-9), 'fitness decomposition')
+            metrics[condition][i], raws[condition][i] = d, row
+            for k, v in d.items():
+                stat = summary['absolute_means'][condition][label][k]
+                check(stat['mean'] == float(v.mean()) and stat['se'] == float(v.std(ddof=1) / np.sqrt(128)), 'absolute statistics')
+            timing += float(row['cpu_seconds'])
+    check(len(index) == 18 and timing == summary['resources']['raw_row_cpu_seconds'], '18-row timing coverage')
+    for i in range(6):
+        a, b = raws['freeze'][i], raws['freeze+lateral_off'][i]
+        for row in (a, b):
+            for name in ('births','deaths','kills','claims','rejects','rejects_wall'):
+                check(np.all(row[name] == 0), 'no measured frozen structural events')
+            check(np.all(row['last_birth'] < 544), 'frozen last birth precedes opening')
+            for cells, integral in [('n_end','live_time'),('n_S_end','live_S'),('n_M_end','live_M'),('n_H_end','live_H')]:
+                check(np.array_equal(a[cells], row[cells]), 'within-genome matched frozen body')
+                check(np.allclose(row[integral], 480 * row[cells], rtol=1e-10, atol=1e-8), 'frozen480 integral')
+    expected = {}
+    def keep(name, values):
+        for metric, value in values.items():
+            expected[name + '__' + metric] = value
+            s = summary['contrasts'][name][metric]
+            check(s['n'] == 128 and s['mean'] == float(value.mean()) and s['se'] == float(value.std(ddof=1) / np.sqrt(128)), 'paired statistics')
+    for group in ('primary','start','cumulative'):
+        for winner, parent in p[group + '_pairs']:
+            prefix = group + '__' + p['labels'][winner]
+            gains = {c: {m: metrics[c][winner][m] - metrics[c][parent][m] for m in metrics[c][winner]} for c in p['conditions']}
+            for condition, values in gains.items():
+                keep(prefix + '__gain__' + condition, values)
+            keep(prefix + '__added_lateral', {m: gains['freeze'][m] - gains['freeze+lateral_off'][m] for m in gains['freeze']})
+            keep(prefix + '__gain_lost_under_freeze', {m: gains['normal'][m] - gains['freeze'][m] for m in gains['freeze']})
+    for i, label in enumerate(p['labels']):
+        keep('own_lateral__' + label, {m: metrics['freeze'][i][m] - metrics['freeze+lateral_off'][i][m] for m in metrics['freeze'][i]})
+    with np.load(base / 'analysis_result/paired_vectors.npz', allow_pickle=False) as saved:
+        check(set(saved.files) == set(expected) and len(expected) == 2700, 'all36x75 vectors')
+        check(all(same(saved[k], v) for k, v in expected.items()), 'every paired vector exact bytes')
+    for name in ('protocol.json','ready.json','attempt.json','budget.json','terminal_process_clearance.json',
+                 'resource_clearance.json','startup_identity.json','measurement/row_index.json','measurement/report.json',
+                 'measurement/paired.npz','analysis_result/summary.json','analysis_result/paired_vectors.npz'):
+        pins[name] = sha(base / name)
+    result = dict(status='approved', method='Independent raw arithmetic and all contrast reconstruction; no analyzer, worker or engine imports',
+        research_lives=2304, startup_goldens=2, raw_rows=18, raw_columns=58, independent_metrics=75,
+        paired_contrasts=36, exact_paired_vectors=2700, healthy_status_zero_lives=2304, matched_frozen_pairs=768,
+        raw_row_cpu_seconds=timing, total_cpu_seconds=summary['resources']['total_cpu_seconds'],
+        max_event_cost_reconstruction_error=max_cost_error, max_fitness_decomposition_error=max_decomposition_error,
+        ready_source_pins_unchanged=len(ready['source_pins']), production_pins_unchanged=len(ready['production_pins']),
+        frozen_analyzer_unchanged=True, no_source_correction=True, input_output_pins=pins,
+        script_sha256=sha(Path(__file__)), limits=['Late-window census is not initial+births-deaths-kills.',
+        'Receptor deliveries may cross the opening boundary; only same-time accept<=candidate checked.',
+        'Frozen equal bodies are within a genotype, not across evolution.',
+        'Broad freeze changes gene/phenotype/effective-weight updates; no memory or prediction isolation.',
+        'No guard/extinction occurred here; their conventions remain covered by prospective synthetic tests.'])
+    args.out.write_text(json.dumps(result, indent=2, allow_nan=False) + '\n')
+    print(json.dumps({k: v for k, v in result.items() if k not in ('input_output_pins','limits')}, indent=2))
+
+
+if __name__ == '__main__':
+    main()

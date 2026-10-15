@@ -95,11 +95,15 @@ in 2,716.806021 CPU-seconds; genetics, raw accounting and independent reanalysis
 `results/visibility_continuation_20261014/`. Next, a bounded existing-flag lateral probe is being prepared;
 different bodies and broad interventions still limit mechanism claims. No new organism rules or reward.
 
-*2026-10-14 AA registered:* retain all six original/Y/Z roles in the existing blink world under normal, freeze,
-and freeze+lateral_off conditions, 128 fresh block121 seeds, fork512/open544/T1024. The 2,304 research plus two
-golden lives have a 1,200 CPU-second cap; actual Z costs project 921.608490 seconds. Capture-income interactions
-test changes in lateral dependence, with body differences and the broad clamp stated explicitly. No memory
-claim, new cell behavior, genotype construction or ABI change. Exact preparation remains unreleased.
+*2026-10-14 AA complete:* in frozen tissue, lateral sends contribute **2.602 ± .229 / 3.133 ± .229 /
+1.766 ± .181 captures** for original/Y/Z D90 on 128 shared fresh lives. The Z-minus-Y change in capture-income
+dependence is **−1.42415 ± .28322 F** for D90 and unresolved **+.49642 ± .18665 F** for L92; neither Y step adds
+resolved dependence. Broad freeze increases L92 firing substantially, limiting intact-circuit interpretation.
+All 768 frozen pairs pass constant-tissue checks; all 2,304 research and two startup lives completed within
+355.924793 CPU-seconds. Independent reanalysis reproduces all 2,700 paired arrays without reader changes.
+`results/visibility_lateral_20261014/` preserves the evidence. This supports conditional communication use,
+not memory or a new algorithm. A small precision-versus-depth selection comparison is being prepared from
+both fixed Z endpoints, without changing the organism or world. It is source-only and unreleased.
 
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I

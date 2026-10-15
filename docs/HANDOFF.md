@@ -101,14 +101,24 @@ reanalysis matches the summary and all 450 paired arrays. Full evidence is in
 `results/visibility_continuation_20261014/`. A bounded existing-flag lateral probe is being prepared to distinguish
 communication dependence from economy; it cannot establish memory or remove across-genotype body differences.
 
-**AA registered (2026-10-14).** All six original/Y/Z genomes are retained for a small blink communication probe:
-normal, frozen tissue, and frozen tissue with lateral sends disabled, on 128 fresh block121 seeds. Existing
-flags take effect at life age 512; accounting opens at 544 and ends at 1024. Scope is 2,304 research plus two
-startup goldens, one two-thread worker and a 1,200 CPU-second cap. The six actual Z timing rows give a conservative
-921.608490 CPU-second projection. No genotype is constructed or selected from these outcomes. Primary readouts
-are changes in capture-income dependence on lateral sends; broad freezing and different developed bodies limit
-interpretation. Late-window accounting explicitly handles events that cross the opening boundary. Preparation
-remains unreleased until exact inputs, independent analysis and prospective archive are reviewed and published.
+**AA complete (2026-10-14).** All six original/Y/Z genomes received normal, freeze and freeze+lateral_off
+blink lives on 128 fresh block121 seeds. Fork512/open544/T1024 uses existing controls. Under freeze, disabling
+lateral sends loses **2.602 ± .229 / 3.133 ± .229 / 1.766 ± .181 captures** in original/Y/Z D90 respectively.
+The Z-minus-Y change in this capture-income dependence is **−1.42415 ± .28322 F** for D90 and an unresolved
+**+.49642 ± .18665 F** for L92. Neither Y step adds resolved capture-income dependence. Thus lateral messages
+help frozen D90 tissue, but the economical Z continuation reduces that contribution; no new algorithm or memory
+is established. Broad freeze sharply increases L92 firing, so its frozen losses cannot describe an intact circuit.
+Different genotypes still develop different bodies. All 768 frozen pairs pass constant-tissue checks, with no
+excluded or guarded lives. The 2,304 research plus two startup goldens used **355.924793 / 1,200 CPU-seconds**;
+all processes exited. The frozen reader passes unchanged and independent reanalysis matches all 2,700 paired
+arrays. Evidence is in `results/visibility_lateral_20261014/`.
+
+**Next source-only preparation:** compare selection precision against evolutionary depth in blink, starting
+from both fixed Z endpoints: four generations at 3+4 lives versus one at 12+16, matching 4,096 selection calls
+per branch. Z's initial/recheck rankings disagree substantially, but that does not prove more precise selection
+will improve fresh performance or richer computation. Keep capture income separate from economy. This is a
+new bounded design, not a release of held S or the larger continuation proposal; no AB seeds, genotypes,
+libraries or lives are authorized by this note.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
