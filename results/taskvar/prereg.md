@@ -1312,3 +1312,33 @@ CPU per life and r=max(f,s). Require `180 + 1.5*4134*sum(r) <= 3590` for startup
 `180 + 1.5*512*sum(f+s+2*r) <= 3590` for confirmation. The observed projections are 3,115.984392 and 1,582.851613
 CPU-seconds. These margins cannot bound new mutants or larger endpoints; aggregate caps still apply.
 The prospective public record is `results/visibility_continuation_20261014/`. Registration runs no simulations.
+
+### AA. Fixed-tissue lateral dependence in irregular blink (2026-10-14)
+
+Retain Z's exact six roles and order: D90, L92, Y_D90, Y_L92, Z_D90, Z_L92, regardless of any prior confirmation
+sign. No genotype generation or further selection. Use the approved ABI4 blink world at T1024 with existing
+normal, freeze, and freeze+lateral_off controls at life age 512. Open accounting at 544, beyond direct pending
+event delays. All roles and conditions share 128 new block121 seeds, 52,210,000–52,210,127. No new validation
+block; exactly one normal numerical-identity invocation contributes two deliberately repeated ABI3 seed11/T200
+goldens. Total scope is 2,304 research plus two startup lives.
+
+Primary pairs are Z_D90−Y_D90 and Z_L92−Y_L92; also retain Y−original and cumulative Z−original pairs. For each,
+the primary mechanistic contrast is capture-income gain under freeze minus gain under freeze+lateral_off.
+Report gains under all three conditions, normal-minus-frozen gains, and each genome's own frozen lateral loss.
+Retain all 36 paired contrasts for every recorded metric; report mean and paired SE without selecting cases.
+Preserve ordinary costs and production guard/extinction penalties. Check within-genotype frozen composition
+and live-time consistency, state coverage, and retain every guarded/dead fitness row. Late-window accounting
+must permit boundary-crossing receptor events and must not impose the whole-life initial-cell census.
+
+Freeze holds growth/regulation/effective weights, not membrane or chemical history. Lateral_off suppresses new
+in-plane sends while charging their would-be cost; vertical communication and chemistry remain. Across-genotype
+body differences remain. A positive interaction is conditional communication dependence, not proof of a new
+algorithm, memory or prediction; a null estimate is not equivalence. Path is a whole-life readout, last_birth
+is an absolute time, and n_end is terminal; capture/activity/cost counters refer to the accounting window.
+
+One worker uses two simulation threads under an inclusive 1,200 CPU-second cap with a ten-second stop margin.
+Reuse all six actual Z confirmation CPU rates, verifying each 512-life row and identity. Require
+`180 + 1.5*3*128*sum(six_CPU_per_life) <= 1190`; the observed projection is 921.608490. It does not bound altered
+lesion dynamics. Startup, builds, monitor, descendants and failures count. No automatic retry, resume, extension,
+partial-row inference, scope reduction or endpoint substitution. Exact preparation, independent late-window
+analysis and public archive precede root release; complete coverage and raw reconciliation precede inference.

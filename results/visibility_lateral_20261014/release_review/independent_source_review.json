@@ -1,0 +1,49 @@
+{
+  "status": "source_draft_review_passed_pending_registered_terminal_inputs",
+  "scope": "Read-only AA source review, no preparation/worker/monitor execution. Exact draft hashes must be rechecked at final freeze.",
+  "source_pins": {
+    "outputs/autonomous_visibility_lateral_20261014/prepare.py": "9e9bd79cee7d779a6b4b44b6058ba121a054e8dfabe010bf9678630ec105d728",
+    "outputs/autonomous_visibility_lateral_20261014/measure.py": "0ae45da3708bc7078188cd3e9b01cd746e9cf7737676869a2a42474684ccbb36",
+    "outputs/autonomous_visibility_lateral_20261014/run_budgeted.py": "68d7c7a7e08663e66247c1ad67b7576b0dd804a91abe94609bff3f7bbdf6094f",
+    "outputs/autonomous_visibility_lateral_20261014/scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "outputs/autonomous_visibility_lateral_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_visibility_lateral_20261014/common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332"
+  },
+  "accountant_source_sha256": "8dae016089d809cb3e038a7f3d9a534acdf0f3fef7ae25017d649b57dfd6da9f",
+  "unchanged_Z_lifecycle_AST_functions": [
+    "resource_clearance",
+    "own_cpu",
+    "child_cpu",
+    "proc_table",
+    "active_cpu",
+    "consumed_cpu",
+    "child_limit",
+    "send_signal",
+    "enable_subreaper",
+    "cleanup_group",
+    "cleanup",
+    "process_identity"
+  ],
+  "unchanged_Z_scoring_numerical_common": true,
+  "one_measurement_numerical_identity_call": true,
+  "checks": [
+    "One2-thread worker, first-attempt guard and fsynced monitor identity claim; running measurement phase is published before child launch. Group cleanup and cumulative CPU accounting use unchanged reviewed Z functions.",
+    "1200CPU cap with1190 stopping threshold; startup/compilation/failedwork/descendant cleanup are inside monitor accounting. Numerical metadata checks introduce no extra golden calls.",
+    "Preparation waits for registered complete Z summary/budget/input pins before reading or copying terminal genotypes/costs; all six unchanged original/Y/Z roles retained regardless outcomes.",
+    "All six exact Z512-life timing rows bind raw genotype role, endpoint hash, seed list and per-row CPU; fixed cost projection must pass1190 before input preparation. Lesion dynamics remain unbounded by that estimate.",
+    "Measurement uses one exact ABI3 full/fast startup pair; reads frozen6x875 table and unchanged ABI4 scorer;18 independent128-life rows cover normal/freeze/freeze+lateral_off.",
+    "Every world differs only by inherited fork flags0/16/2064 with fork512/open544; production scored F and raw58 columns are preserved, no altered organism behavior or world rules.",
+    "All contrasts form paired per-seed differences before SE. Frozen composition checks match accountant and retain all paid endings in scientific contrasts.",
+    "Partial or failed matrix cannot emit complete scientific report; source/ready/startup bindings are rechecked before every row."
+  ],
+  "interpretation": "Late-window communication dependence and its change across fixed lineages; neither freeze nor lateral interaction isolates a named memory/prediction algorithm.",
+  "remaining": [
+    "Final source freeze and actual registered protocol/input check after Z complete.",
+    "Historical block121 NPZ single-range seed-only scan and post-Z delta.",
+    "Root registration, resource clearance, independent full analysis, public preparation then release."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "generated_genotypes": 0,
+  "tests_run_by_reviewer": 0
+}

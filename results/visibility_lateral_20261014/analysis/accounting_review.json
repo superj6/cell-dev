@@ -1,0 +1,53 @@
+{
+  "status": "source_only_accounting_reviewed",
+  "protocol_sha256": null,
+  "source_pins": {
+    "offline_accounting.py": "8dae016089d809cb3e038a7f3d9a534acdf0f3fef7ae25017d649b57dfd6da9f",
+    "test_accounting.py": "d5b252bc17713242ea922a4a392df6b3e3f6686e467e292816c271b8850b0bdd"
+  },
+  "production_sources": {
+    "src/life/kernel.c": "3b683af571ecda2faccbd1ab2506250095b8d30e9218e8d8e5d4528866cd8683",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc"
+  },
+  "prior_sources": {
+    "results/hidden_20261014/analyze.py": "d7395550b53277cb7d278b5fabf149f4f1bb9bcdc40be2b87d57c2b2583157e8",
+    "results/frozen_20261013/analyze.py": "d37f23c1382e69024ee40ad33f7208937f665109592411cf75aefc2416dbb638",
+    "outputs/autonomous_visibility_gradient_20261014/analysis/offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421"
+  },
+  "tests": {
+    "passed": 19,
+    "failed": 0,
+    "log_sha256": "0caf379acbcb845c31b98bf4efeffb865a66d527d27d5bb4f34018bea0099078",
+    "junit_sha256": "4865833d7d1243eea6cda985d56d9d2d6397a5374a0d29ed1a0f16abdfb69e75",
+    "initial_fixture_corrections": "A synthetic growth example accidentally satisfied the old census; changed births/claims2to3. An interaction expectation used algebraically equivalent floating ordering; switched assertion to absolute1e-14 tolerance. No accountant change was required."
+  },
+  "proofs": {
+    "census": "R_BIRTH/R_DEATH always update terminal census; birth/death/kill counters are gated by t>=t_open. Initial-cell census cannot be inferred from measured-window counters.",
+    "receptors": "R_RCAND candidate/accept counters share cnt gating; R_RECEPT delivery may arrive after opening from earlier candidate. Accept<=candidate retained, delivery<=accept removed.",
+    "morph": "R_CHEM/R_LOST and terminal morph mass are not t_open-gated; whole-life mass conservation remains valid.",
+    "guard": "close_life and ABI.guard_charge use c_live*n_max*(end\u2212t_end), including before opening.",
+    "extinction": "LifeEvaluator.columns clips counted remaining time at max(t_ext,t0+t_open), then divides by T\u2212t_open.",
+    "freeze": "F_FREEZE prevents new claims/apoptosis/GRN/phenotype/effective-weight updates; bounded pre-fork claim/notices resolve before544. Composition/live-time checks only complete guard-free frozen pairs; all scientific rows retained."
+  },
+  "whole_life_descriptors": [
+    "path",
+    "last_birth",
+    "terminal_counts",
+    "n_peak",
+    "morph_totals",
+    "status",
+    "events",
+    "t_end",
+    "t_ext"
+  ],
+  "simulations": 0,
+  "compilations": 0,
+  "endpoint_extractions": 0,
+  "seed_reservations": 0,
+  "limits": [
+    "Source-only component; full protocol/source/seed/resource closure reader remains separate.",
+    "Lateral-off changes downstream network and motor dynamics; this is not a memory-specific intervention.",
+    "Normal-minus-freeze bundles growth and local rule updates."
+  ]
+}

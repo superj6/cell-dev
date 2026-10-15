@@ -1,0 +1,51 @@
+{
+  "status": "approved_prelaunch_peer_source_and_input_review",
+  "protocol_sha256": "d9028fe08597f62782759ab98384408b7522394e202bf84218f0b5e6b7ccbeab",
+  "reader_sha256": "f836479bf7fb76eed25a7575960558d3ce727389bc7ea366fb78f15b2dd3eb8c",
+  "accountant_sha256": "8dae016089d809cb3e038a7f3d9a534acdf0f3fef7ae25017d649b57dfd6da9f",
+  "producer_pins": {
+    "measure.py": "3c2b0172cf637f5b3baecf8597808c0ae8e8e5ea95270e1a3fdb0f2498f4383e",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "prepare.py": "9e9bd79cee7d779a6b4b44b6058ba121a054e8dfabe010bf9678630ec105d728",
+    "run_budgeted.py": "68d7c7a7e08663e66247c1ad67b7576b0dd804a91abe94609bff3f7bbdf6094f",
+    "SCHEMA.md": "9f584cbddc39513754ff53b0d954e5c517c2f065dea4db639a7a15c54f7bfd35"
+  },
+  "independent_actual_preparation_verification": {
+    "status": "passed",
+    "study_pins": 28,
+    "production_pins": 35,
+    "roles": 6,
+    "seeds_per_role_condition": 128,
+    "research_lives": 2304,
+    "startup_lives": 2,
+    "all_six_retained_Z_costs_reconstructed": true,
+    "projected_cpu_seconds": 921.608489872125,
+    "engine_modules_imported": false
+  },
+  "source_checks": {
+    "late_window": "Raw58/named61 match; cost/capture/live-time interval480, no initial-cell census or rec_events<=rec_accept; rec_accept<=rec_cand retained. Morph conservation/path/last_birth/terminal census remain whole-life.",
+    "production_penalties": "F=F_kernel-extinct_charge with extinction clipped atmax(t_ext,544); guard keeps full remaining-life cost. Invalid failures reject completeness; valid paid endings stay scientific.",
+    "all_36_contrasts": "Six fixed pairs x(three gains+freeze-minus-freeze_lateral interaction+normal-minus-freeze interaction) plus six ownfreeze-minus-lesion losses; actual worker metric/name mapping and additive negative-cost signs match.",
+    "frozen_checks": "Zero measured structural events/lastbirth<544 required; full/plane census and480xcelltime equality only complete guard-free frozen pairs, with exclusions reported onlyforengineering.",
+    "raw_interface": "Exact18rawpaths andgenome/condition/role/seeds identities, all3aggregate arrays, workerreport, pairedvectors andtiming reconciliation match currentproducer.",
+    "monitor_interface": "One measurementworker, four persisted identityfields pid/ppid/pgid/start_ticks, no sid; complete status/phase/queue/groups and1190stop threshold matchactualmonitor.",
+    "startup": "Exactlyone worker numerical_identity call implies2ABI3goldens; completeexpectedidentity andretainedfull/fast binaryhasheschecked.",
+    "causal_limit": "Architecture differsbetweenroles; added capturedependence on lateralsignals is notalone improvedcomputation ormemory."
+  },
+  "tests_reviewed": {
+    "producer_source_and_mocked_orchestration": 20,
+    "independent_reader_and_accountant": 31,
+    "peer_reran_test_suite": false
+  },
+  "concrete_findings_resolved": [
+    "Reader now independently reconstructs allsixactualZtiming rates from retainedscalarrows andidentities ratherthantrusting repeatedprotocolvalues."
+  ],
+  "remaining_blockers": [],
+  "limits": [
+    "No AA research or runtime terminalrecord exists yet. Terminal-reader compatibility is source/synthetic evidence, not a completed-AA replay.",
+    "Final release/archive must retain reader/accountant, reviews, sourcepins, budgetdependencies and builtfull/fastlibraries."
+  ],
+  "simulations": 0,
+  "compilations": 0,
+  "source_changes": 0
+}

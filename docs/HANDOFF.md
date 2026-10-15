@@ -101,6 +101,15 @@ reanalysis matches the summary and all 450 paired arrays. Full evidence is in
 `results/visibility_continuation_20261014/`. A bounded existing-flag lateral probe is being prepared to distinguish
 communication dependence from economy; it cannot establish memory or remove across-genotype body differences.
 
+**AA registered (2026-10-14).** All six original/Y/Z genomes are retained for a small blink communication probe:
+normal, frozen tissue, and frozen tissue with lateral sends disabled, on 128 fresh block121 seeds. Existing
+flags take effect at life age 512; accounting opens at 544 and ends at 1024. Scope is 2,304 research plus two
+startup goldens, one two-thread worker and a 1,200 CPU-second cap. The six actual Z timing rows give a conservative
+921.608490 CPU-second projection. No genotype is constructed or selected from these outcomes. Primary readouts
+are changes in capture-income dependence on lateral sends; broad freezing and different developed bodies limit
+interpretation. Late-window accounting explicitly handles events that cross the opening boundary. Preparation
+remains unreleased until exact inputs, independent analysis and prospective archive are reviewed and published.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

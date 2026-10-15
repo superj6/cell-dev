@@ -1,0 +1,36 @@
+{
+  "status": "approved_for_prospective_release",
+  "protocol_sha256": "d9028fe08597f62782759ab98384408b7522394e202bf84218f0b5e6b7ccbeab",
+  "code_pins": {
+    "analyze.py": "f836479bf7fb76eed25a7575960558d3ce727389bc7ea366fb78f15b2dd3eb8c",
+    "offline_accounting.py": "8dae016089d809cb3e038a7f3d9a534acdf0f3fef7ae25017d649b57dfd6da9f",
+    "test_reader.py": "82c5f3b340df686f20c4bcdff17d0c2d6d8a14e1355a40e3c9d46c86a93ae8e7",
+    "test_accounting.py": "d5b252bc17713242ea922a4a392df6b3e3f6686e467e292816c271b8850b0bdd"
+  },
+  "actual_preparation_verification_sha256": "ec11bb087c4d2df8c60cfb6266b8ca9e50535e65ea48d8d59433111f3abdbec1",
+  "tests": {
+    "passed": 31,
+    "failed": 0,
+    "accounting_cases": 19,
+    "reader_cases": 12,
+    "log_sha256": "1b8f208de3636df279448e40805982570c4351601ce5723301928feea7d343cf",
+    "junit_sha256": "6e64410b81cebf8e4e9ab94035176173059386a144bf5cc19ca7fb19177980c9",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest outputs/audit_visibility_lateral_20261014/test_accounting.py outputs/audit_visibility_lateral_20261014/test_reader.py -q -p no:cacheprovider --basetemp=outputs/audit_visibility_lateral_20261014/final_test_fixtures --junitxml=outputs/audit_visibility_lateral_20261014/final_tests.xml"
+  },
+  "actual_protocol_pins": {
+    "local": 28,
+    "production": 35
+  },
+  "actual_six_Z_cost_rates_verified": true,
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "endpoint_extraction_calls": 0,
+  "seed_reservations": 0,
+  "test_scope": "18synthetic128-life raw rows; actual pure producer contrast function and four-field monitor AST; boundary-crossing/early-ending accounting and corruption refusal. Actual prepared protocol/world/seed/genotype/timing input verification; no live resource receipts exist yet.",
+  "limits": [
+    "Native output is required for one complete first attempt; partial matrices cannot emit outcomes.",
+    "All valid guards/extinctions remain in paired science; only complete guard-free frozen pairs enter body/integration equality.",
+    "Communication lesions and normal-minus-freeze do not isolate memory or computation.",
+    "Path/morph/terminal census and global event descriptors retain whole-life meanings."
+  ]
+}

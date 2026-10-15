@@ -1,0 +1,21 @@
+{
+  "status": "prepared_unreleased",
+  "protocol_sha256": "d9028fe08597f62782759ab98384408b7522394e202bf84218f0b5e6b7ccbeab",
+  "cost_projection": {
+    "rates_cpu_per_life": {
+      "D90": 0.29744577104101566,
+      "L92": 0.17263171598242188,
+      "Y_D90": 0.27762129937304686,
+      "Y_L92": 0.22154874916406253,
+      "Z_D90": 0.17409847522851574,
+      "Z_L92": 0.14416872857226548
+    },
+    "projected_cpu_seconds": 921.608489872125,
+    "formula": "180 + 1.5 * 3 * 128 * sum(six_cpu_per_life)",
+    "release_threshold_cpu_seconds": 1190,
+    "feasible": true,
+    "limitation": "Unlesioned completed Z costs plus fixed margin do not bound changed lesion dynamics."
+  },
+  "simulations": 0,
+  "compilations": 0
+}

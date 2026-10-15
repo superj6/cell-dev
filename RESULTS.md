@@ -2481,3 +2481,24 @@ checkpoints, six raw confirmation rows, independent analysis, process clearance 
 A small fixed-tissue lateral-message probe is being prepared with all six genomes retained, to investigate
 communication dependence before scaling selection. Its existing interventions cannot isolate memory and
 do not make different genotypes' bodies identical.
+
+## 2026-10-14 — Fixed-tissue blink communication probe registered
+
+AA retains all six Z roles (original D90/L92, both Y mutants and both Z endpoints) irrespective of their score
+signs. Each receives 128 new shared block121 seeds (52,210,000–52,210,127) in normal, freeze, and
+freeze+lateral_off conditions. Existing fork controls take effect at life age 512; measurement opens at 544
+after direct pending events have settled, and life ends at 1024. Different genotypes still have different
+developed bodies. Freeze also stops gene, phenotype and effective-weight updates; it is a broad intervention.
+
+The primary comparison asks how the Y-to-Z change in capture income differs between frozen tissue with and
+without lateral sends. Original-to-Y and cumulative comparisons, ordinary gains, freeze losses and each
+genome's own lateral loss are retained. Report all costs, guard/extinction charges and structural-check coverage;
+keep every fitness row. No supported intervention here isolates memory or prediction.
+
+The fixed scope is 2,304 research plus two standard ABI3 startup-golden lives, one two-thread worker and an
+inclusive **1,200 CPU-second cap**. Six actual Z confirmation timing rows give **921.608490 CPU-seconds** under
+`180 + 1.5*3*128*sum(CPU_per_life)`, below the 1,190-second release threshold. Changed lesion dynamics can exceed
+that estimate; the hard cap still applies. No retry, scope reduction or endpoint substitution is allowed.
+Registration and preparation run no simulations or compilation. Twenty source/synthetic and 31 independent
+accounting/reader checks pass. The 153-artifact prospective record is preserved at
+`results/visibility_lateral_20261014/`; release follows publication.

@@ -1,0 +1,42 @@
+{
+  "prepare.py": {
+    "stdout": {
+      "status": "source_only_unregistered",
+      "genome_lives": 2304,
+      "startup_validation_genome_lives": 2,
+      "simulation_calls": 0
+    },
+    "stderr": ""
+  },
+  "measure.py": {
+    "stdout": {
+      "status": "dry_run",
+      "labels": [
+        "D90",
+        "L92",
+        "Y_D90",
+        "Y_L92",
+        "Z_D90",
+        "Z_L92"
+      ],
+      "conditions": [
+        "normal",
+        "freeze",
+        "freeze+lateral_off"
+      ],
+      "genome_lives": 2304,
+      "startup_validation_genome_lives": 2,
+      "simulation_calls": 0
+    },
+    "stderr": ""
+  },
+  "run_budgeted.py": {
+    "stdout": {
+      "status": "source_only_unregistered",
+      "planned_genome_lives": 2304,
+      "startup_validation_genome_lives": 2,
+      "simulation_calls": 0
+    },
+    "stderr": ""
+  }
+}

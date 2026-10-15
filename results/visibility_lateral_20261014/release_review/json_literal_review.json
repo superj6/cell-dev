@@ -1,0 +1,87 @@
+{
+  "status": "preliminary_targeted_json_literal_scan",
+  "proposed_whole_block_half_open": [
+    52210000,
+    52220000
+  ],
+  "actual_seeds_half_open": [
+    52210000,
+    52210128
+  ],
+  "read_json_candidates": 13,
+  "matches": [
+    {
+      "path": "outputs/audit_visibility_continuation_20261014/final_namespace_review.json",
+      "field": "whole_block_checked_half_open.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "outputs/audit_visibility_continuation_20261014/independent_namespace_review.json",
+      "field": "proposed_whole_block.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "outputs/audit_visibility_continuation_20261014/namespace_inventory.json",
+      "field": "candidate_whole_blocks_half_open.0.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "outputs/autonomous_visibility_continuation_20261014/release_review/final_namespace_review.json",
+      "field": "whole_block_checked_half_open.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "outputs/autonomous_visibility_continuation_20261014/release_review/independent_namespace_review.json",
+      "field": "proposed_whole_block.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "outputs/autonomous_visibility_continuation_20261014/release_review/namespace_inventory.json",
+      "field": "candidate_whole_blocks_half_open.0.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "results/visibility_continuation_20261014/release_review/final_namespace_review.json",
+      "field": "whole_block_checked_half_open.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "results/visibility_continuation_20261014/release_review/independent_namespace_review.json",
+      "field": "proposed_whole_block.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    },
+    {
+      "path": "results/visibility_continuation_20261014/release_review/namespace_inventory.json",
+      "field": "candidate_whole_blocks_half_open.0.1",
+      "value": 52210000,
+      "at_proposed_upper_endpoint": false
+    }
+  ],
+  "source_pins": {
+    "outputs/audit_visibility_continuation_20261014/final_namespace_review.json": "9815d01ee508200643723e26aeab7a132daef1f3fcfe79c3d2547b224a1429a8",
+    "outputs/audit_visibility_continuation_20261014/independent_namespace_review.json": "e1493756736959c23a7fb6538d787846b05163f69f269178668428dead70df5f",
+    "outputs/audit_visibility_continuation_20261014/namespace_inventory.json": "8909510abf05e9842828a82e19d1c2f701fb0114acd3ace7d59402b2eece7551",
+    "outputs/audit_visibility_gradient_20261014/final_namespace_inventory.json": "4e49e2d199aa55c79644dee0754a3a93ddcf449fdaac50d3a066b9bc15096361",
+    "outputs/audit_visibility_gradient_20261014/namespace_suggestion_inventory.json": "30718090d300df8f6f8f95a883ceb6f713e3048a0cf55820d06539becb394bf6",
+    "outputs/autonomous_visibility_continuation_20261014/release_review/final_namespace_review.json": "9815d01ee508200643723e26aeab7a132daef1f3fcfe79c3d2547b224a1429a8",
+    "outputs/autonomous_visibility_continuation_20261014/release_review/independent_namespace_review.json": "e1493756736959c23a7fb6538d787846b05163f69f269178668428dead70df5f",
+    "outputs/autonomous_visibility_continuation_20261014/release_review/namespace_inventory.json": "8909510abf05e9842828a82e19d1c2f701fb0114acd3ace7d59402b2eece7551",
+    "outputs/autonomous_visibility_gradient_20261014/inputs/reviews/final_namespace_inventory.json": "4e49e2d199aa55c79644dee0754a3a93ddcf449fdaac50d3a066b9bc15096361",
+    "results/visibility_continuation_20261014/release_review/final_namespace_review.json": "9815d01ee508200643723e26aeab7a132daef1f3fcfe79c3d2547b224a1429a8",
+    "results/visibility_continuation_20261014/release_review/independent_namespace_review.json": "e1493756736959c23a7fb6538d787846b05163f69f269178668428dead70df5f",
+    "results/visibility_continuation_20261014/release_review/namespace_inventory.json": "8909510abf05e9842828a82e19d1c2f701fb0114acd3ace7d59402b2eece7551",
+    "results/visibility_gradient_20261014/inputs/reviews/final_namespace_inventory.json": "4e49e2d199aa55c79644dee0754a3a93ddcf449fdaac50d3a066b9bc15096361"
+  },
+  "errors": [],
+  "reservation": false,
+  "simulation_calls": 0,
+  "scope": "Targeted literal integers only; complete historical JSON numeric scan and NPZ certification not yet claimed. Excludes own unregistered AA proposal paths and synthetic test trees."
+}

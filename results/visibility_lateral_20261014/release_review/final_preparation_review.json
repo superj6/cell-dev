@@ -1,0 +1,57 @@
+{
+  "status": "prepared_unreleased",
+  "protocol_sha256": "d9028fe08597f62782759ab98384408b7522394e202bf84218f0b5e6b7ccbeab",
+  "registration_sha256": "9819b0c53b41850bad19c473aa51482d4421d73d3bab293fa09c042ae9d86696",
+  "seed_audit_sha256": "09d5ec88b69d64622ecf5ec8497f3ae3d6a20e8ae7e52139f34a120c5e3fe4a2",
+  "resource_clearance_sha256": "d492984a8e3b277f92e4f1132d0d67e9e017f4c8465b0f1680f5331625b50cae",
+  "file_pin_count": 28,
+  "production_pin_count": 35,
+  "source_pins_unchanged_from_source_review": true,
+  "source_review_sha256": "f04384c754c0cc817ae2ce235eeb82c2ebac25ba11ee134811318d1004bc5f47",
+  "genotypes_file_sha256": "e586b5d063535a07f2118841b2f9726a92f7bdfc825318a7933fc07d39f9c663",
+  "genotype_raw_sha256": {
+    "D90": "1287ee4421f88fc108c073eae282f625bd0e340a5e4b12d590cd27cbc046bfac",
+    "L92": "8f14c79b8bea73c08dff7f6bc1094dc848534f9f2d45598c99c4351cf364cf27",
+    "Y_D90": "2317b26eb6c61d99e12d8a345436bcbcb16d7863048715278525148aec9b413e",
+    "Y_L92": "6935252982803614cb973b8b938e7ca927ab2d72e5ef31aaa243c2625385d86a",
+    "Z_D90": "29c41913d98602b8022cb5c636714fe7a87b8fc0b4c54888b37af33598626e29",
+    "Z_L92": "f5b436347d191b63ede427c7eab609d6319428bafd240335491d0c0623f5ce90"
+  },
+  "exact_Z_evidence_copies": true,
+  "cost_projection": {
+    "rates_cpu_per_life": {
+      "D90": 0.29744577104101566,
+      "L92": 0.17263171598242188,
+      "Y_D90": 0.27762129937304686,
+      "Y_L92": 0.22154874916406253,
+      "Z_D90": 0.17409847522851574,
+      "Z_L92": 0.14416872857226548
+    },
+    "projected_cpu_seconds": 921.608489872125,
+    "formula": "180 + 1.5 * 3 * 128 * sum(six_cpu_per_life)",
+    "release_threshold_cpu_seconds": 1190,
+    "feasible": true,
+    "limitation": "Unlesioned completed Z costs plus fixed margin do not bound changed lesion dynamics."
+  },
+  "all_protocol_pins_verified": true,
+  "preparation_invocations": 1,
+  "preparation_exit_code": 0,
+  "preparation_stdout_sha256": "0a52f5ead3861271867565d23cbb1f29b843d58236583b939639cc25ae646cb1",
+  "preparation_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "dry_run_sha256": "0999a58949eeb47d67b02f6913257c9d30f704750bc10d7dd35f857a9aaf0da8",
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "genotype_generation_calls": 0,
+  "frozen_existing_genotypes_copied": 6,
+  "absent_runtime_paths": [
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "logs",
+    "measurement",
+    "startup_identity.json",
+    "build-cache"
+  ],
+  "documentation_status": "Pinned README/SCHEMA describe historical source-only draft; this record supplies current prepared/unreleased status without changing frozen pins.",
+  "next_step": "Independent reader binding and final source/input/archive reviews; root alone owns ready and launch."
+}

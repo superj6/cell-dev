@@ -1,0 +1,47 @@
+{
+  "status": "cleared",
+  "all_processes_exited": true,
+  "checked_at_utc": "2026-10-15T01:32:15.099660+00:00",
+  "budget_sha256": "60d8116811b2181b81d6eec55391953754376d938821de7727a365ebbbbd24cb",
+  "processes": [
+    {
+      "pid": 981789,
+      "ppid": 9421,
+      "pgid": 981789,
+      "start_ticks": 3133465,
+      "name": "monitor"
+    },
+    {
+      "pid": 981847,
+      "ppid": 981789,
+      "pgid": 981847,
+      "start_ticks": 3133724,
+      "name": "evolve_s53220"
+    },
+    {
+      "pid": 981849,
+      "ppid": 981789,
+      "pgid": 981849,
+      "start_ticks": 3133737,
+      "name": "evolve_s53221"
+    },
+    {
+      "pid": 1000587,
+      "ppid": 981789,
+      "pgid": 1000587,
+      "start_ticks": 3191835,
+      "name": "confirmation"
+    }
+  ],
+  "process_groups": [
+    981847,
+    981849,
+    1000587
+  ],
+  "host_entries_checked": 539,
+  "study_cpu_seconds": 2716.8060210000003,
+  "startup_search_cpu_seconds": 2015.4933389999999,
+  "research_lives": 11340,
+  "validation_lives": 6,
+  "scientific_analysis": "Independent frozen analyzer pending; no outcome inferred by process clearance."
+}

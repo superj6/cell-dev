@@ -1,0 +1,60 @@
+{
+  "status": "source_only_preparation_complete_awaiting_terminal_Z_review_and_root_registration",
+  "source_pins": {
+    "PREREG.md": "0ed39c925313be6f7a2fb44097667f790f68c055a919d47ca4bfc9001bdeaf08",
+    "README.md": "b0bce0bb457ae1ea4d0f218ed00b4d169ae48074b7b5642a58d33561cc96b618",
+    "SCHEMA.md": "9f584cbddc39513754ff53b0d954e5c517c2f065dea4db639a7a15c54f7bfd35",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "3c2b0172cf637f5b3baecf8597808c0ae8e8e5ea95270e1a3fdb0f2498f4383e",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "9e9bd79cee7d779a6b4b44b6058ba121a054e8dfabe010bf9678630ec105d728",
+    "run_budgeted.py": "68d7c7a7e08663e66247c1ad67b7576b0dd804a91abe94609bff3f7bbdf6094f",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "test_preparation.py": "a6b3dc93ad9f086b5b524e7489f572899f2e174790c9be149f12de4484484174"
+  },
+  "exact_Z_Y_copies": {
+    "scoring.py": true,
+    "numerical.py": true,
+    "common.py": true
+  },
+  "tests": {
+    "tests": 20,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_log_sha256": "c66ef7936b32d2201bf6eb901cf69cbc8e71996669c38afe1f70ad40098e04a3",
+  "test_junit_sha256": "a2028ad31a3275eb14d57f012ee4f4b7280d08e3698e60455b9c901dcdfbb255",
+  "dry_runs_sha256": "30c88723730fc741237cf5a296659717cc2a55e46b9ea7e2af21cff3ab3ebdbb",
+  "absent_runtime_and_input_paths": [
+    "protocol.json",
+    "registration.json",
+    "seed_audit.json",
+    "inputs",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "logs",
+    "measurement",
+    "startup_identity.json",
+    "build-cache"
+  ],
+  "actual_engine_calls": 0,
+  "actual_compiler_calls": 0,
+  "real_genotype_extractions": 0,
+  "genotype_generation_calls": 0,
+  "seed_reservations": 0,
+  "mocked_orchestration": "18 synthetic128-life row writes and one mocked numerical identity invocation; no real life or golden run",
+  "scope": {
+    "roles": 6,
+    "conditions": 3,
+    "paired_seeds": 128,
+    "research_lives": 2304,
+    "startup_ABI3_golden_lives": 2,
+    "max_cpu_seconds": 1200,
+    "stop_threshold": 1190,
+    "workers": 1,
+    "threads": 2
+  },
+  "limitation": "No final protocol/input/resource/analysis pins or release exist; this receipt is source-only."
+}
