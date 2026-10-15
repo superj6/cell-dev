@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "recorded_utc": "2026-10-15T20:54:24.719065+00:00",
+  "command": [
+    ".venv/bin/python",
+    "outputs/cost_sensitivity_an_20261015/analyze.py"
+  ],
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "returncode": 0,
+  "files": {
+    "analyze.py": "b26f47096a158a011907366c3003a85f016dfee2b013b739344a84b64c165015",
+    "summary.json": "9fc29a1828ca452c21d9e2c141e9c6c2cb22dc1c823dfc0a801f01af4d036274",
+    "NOTE.md": "9256d6ac414eb2ab98b034c4a61d22c9bf853a2fca21ed7bc2999c840a941b8f",
+    "execution.stdout.json": "f0b0fae2b5587ab188f68353ccaacc205da0af7c6cbb55d0b5746862696cbd64",
+    "execution.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "checks": [
+    "Exact published AN protocol/summary and prior literal-review identities",
+    "Nine raw file hashes equal row-index and canonical summary pins",
+    "All raw seed/role/world/endpoint/genotype identities",
+    "Reviewed literal cost/income/guard/extinction/census reconstruction",
+    "Original F and capture means agree with canonical output",
+    "Multiplier-one identity and both analytic crossing residuals",
+    "No src or torch imports; all4608 statuses zero",
+    "Source pins unchanged across read; Ruff passed"
+  ],
+  "paired_seed_count": 512,
+  "raw_rows": 9,
+  "retained_lives": 4608,
+  "note_word_count": 415,
+  "posthoc_planned_after_AN_before_AO_outcome_access": true,
+  "AO_outcomes_read": false,
+  "simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0,
+  "production_changes": false,
+  "prose_only_revision": {
+    "description": "Before publication, change only the reproduction command to the planned published script and a workspace outputs destination. No scientific execution or numerical result changed.",
+    "previous_NOTE_sha256": "b3c24152c0bb50c7b479fa8407572d15c6bbb199e50db18f19871a70be654907",
+    "current_NOTE_sha256": "9256d6ac414eb2ab98b034c4a61d22c9bf853a2fca21ed7bc2999c840a941b8f",
+    "previous_note_word_count": 414,
+    "old_command": ".venv/bin/python outputs/cost_sensitivity_an_20261015/analyze.py --out /tmp/an_cost_sensitivity.json",
+    "new_command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python results/an_cost_sensitivity_20261015/analyze.py --out outputs/an_cost_sensitivity_reanalysis.json",
+    "scientific_artifacts_unchanged": {
+      "analyze.py": "b26f47096a158a011907366c3003a85f016dfee2b013b739344a84b64c165015",
+      "summary.json": "9fc29a1828ca452c21d9e2c141e9c6c2cb22dc1c823dfc0a801f01af4d036274"
+    }
+  }
+}

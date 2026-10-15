@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "status": "complete",
+  "study": "AN fixed-trajectory maintenance and miss-price sensitivity",
+  "canonical_source": "outputs/cost_sensitivity_an_20261015",
+  "canonical_files": 11,
+  "artifact_count": 14,
+  "artifact_bytes": 320645,
+  "artifacts": {
+    "NOTE.md": {
+      "sha256": "9256d6ac414eb2ab98b034c4a61d22c9bf853a2fca21ed7bc2999c840a941b8f",
+      "bytes": 2859,
+      "origin": "outputs/cost_sensitivity_an_20261015/NOTE.md"
+    },
+    "README.md": {
+      "sha256": "07f62de722bddd3672e766a5d62d39741eb71b30ef7c2c012650d6b81ef1976f",
+      "bytes": 753,
+      "origin": "outputs/cost_sensitivity_an_20261015/README.md"
+    },
+    "analyze.py": {
+      "sha256": "b26f47096a158a011907366c3003a85f016dfee2b013b739344a84b64c165015",
+      "bytes": 10442,
+      "origin": "outputs/cost_sensitivity_an_20261015/analyze.py"
+    },
+    "execution.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/cost_sensitivity_an_20261015/execution.stderr.txt"
+    },
+    "execution.stdout.json": {
+      "sha256": "f0b0fae2b5587ab188f68353ccaacc205da0af7c6cbb55d0b5746862696cbd64",
+      "bytes": 2006,
+      "origin": "outputs/cost_sensitivity_an_20261015/execution.stdout.json"
+    },
+    "execution_receipt.json": {
+      "sha256": "8cf43c04b2447c44e37761f795ac6fe961c6b6ff78f69ea3dd1d0437678f779f",
+      "bytes": 2520,
+      "origin": "outputs/cost_sensitivity_an_20261015/execution_receipt.json"
+    },
+    "plot.py": {
+      "sha256": "1ffe67974be2fe3baf912ca872f27182f0d1c881738cc5de9779fcc3e0ce7915",
+      "bytes": 1558,
+      "origin": "outputs/cost_sensitivity_an_20261015/plot.py"
+    },
+    "price_sensitivity.png": {
+      "sha256": "67a250dfc2fe54c172381118b78e2edbec6024ca70114166a7d444500a8a316c",
+      "bytes": 106833,
+      "origin": "outputs/cost_sensitivity_an_20261015/price_sensitivity.png"
+    },
+    "price_sensitivity.svg": {
+      "sha256": "e2423b7179880395be386922cb79b7975f14d264108332d925534262ac330638",
+      "bytes": 77398,
+      "origin": "outputs/cost_sensitivity_an_20261015/price_sensitivity.svg"
+    },
+    "public_reanalysis.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "public reanalysis evidence"
+    },
+    "public_reanalysis.stdout.json": {
+      "sha256": "f0b0fae2b5587ab188f68353ccaacc205da0af7c6cbb55d0b5746862696cbd64",
+      "bytes": 2006,
+      "origin": "public reanalysis evidence"
+    },
+    "public_reanalysis_receipt.json": {
+      "sha256": "52e8b708113c1cdb129d82cc44190d7e6a111b0654245ac3db2ee9dc37e2e203",
+      "bytes": 2592,
+      "origin": "public reanalysis evidence"
+    },
+    "root_review.json": {
+      "sha256": "048be7b37fec7a32f770a0ed68811b3bbbac34d7e4f602c9b4ac2015fff6aba7",
+      "bytes": 815,
+      "origin": "outputs/cost_sensitivity_an_20261015/root_review.json"
+    },
+    "summary.json": {
+      "sha256": "9fc29a1828ca452c21d9e2c141e9c6c2cb22dc1c823dfc0a801f01af4d036274",
+      "bytes": 110863,
+      "origin": "outputs/cost_sensitivity_an_20261015/summary.json"
+    }
+  },
+  "excluded": [
+    "mpl/ cache"
+  ],
+  "dependencies": [
+    "results/occlusion_acquisition_20261015"
+  ],
+  "new_simulations": 0,
+  "AO_files_changed": false
+}

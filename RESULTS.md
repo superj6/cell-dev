@@ -3733,8 +3733,9 @@ No scientific change, research retry, scope extension or rented compute.
 The user says promising strategies may deserve more generations or evaluation rollouts. Choose AO after comparing
 competing directions: two matched24generation continuations fromALL32ANfinal survivors, fixedknowncontexts and
 prices, unchanged25/25/50 versus50/25/25 POOL/persistent/blink20 allocation. Both get more time; AMreference
-remains the earlier retention anchor. AN's late tradeoff increases true mixedF byabout0.108, so precision alone
-may reward it. This is source-only/unreleased, with no automatic harder-task or price ladder.
+remains the earlier retention anchor. AN's late tradeoff has estimated mixedF+0.107797±0.048847, unresolved at
+three SE, so precision alone may still reward it. The paired uncertainty was added in the later cost reanalysis.
+This is source-only/unreleased, with no automatic harder-task or price ladder.
 
 Report/figure: `results/occlusion_acquisition_20261015/REPORT.md`. Viewer: `results/atlas/occlusion_acquisition.html`;
 all6existingJS lives match345ledger values,108mockUIassertions, no real browser run. Illustrations use the fixed
@@ -3750,7 +3751,8 @@ blink positions per8 becomePOOL; persistent and existingPOOLpositions retain the
 These are fresh full-population continuations with matchedRNG, not exact resumes of AN.
 
 The user explicitly values letting promising strategies play out longer. AN's target capture acquisition motivates
-more time; its later tradeoff improves true mixedF, so greater precision alone could reinforce old-task loss.
+more time; its later tradeoff has a positive mixedF estimate, unresolved at three SE, so greater precision alone
+could reinforce old-task loss. This qualification comes from the later paired cost reanalysis.
 Retain an unchanged-allocation branch and an olderAMreference. Fix each branch's generation8 and24rank0,
 then measure allfour descendants plusANstart andAMreference in the five known ANworlds,512freshpaired lives
 perrow. No outcome-based checkpoint replacement. Joint primary: balanced24 beatsunchanged24POOLcaptures
@@ -3770,3 +3772,30 @@ Preparation imports exact32rows with no build, life or scientificgeneticdraw.63f
 inputreviews agree, prior64identities/46groups clear with18.9GBavailable. Prospectivepublication precedes release.
 Protocol`2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d`.
 Evidence:`results/retained_depth_20261015/`; completedANmilestone`4eff70d`.
+
+## 2026-10-15 — AN cost reanalysis: maintenance favors the later economical phenotype
+
+Reprice the retained AN start, generation 4 and generation 8 trajectories in the three training worlds,
+preserving the 25%/25%/50% mixture and covariance across the 512 shared seeds. This post hoc analysis was
+specified before reading any AO outcomes. It uses nine existing rows (4,608 lives) and runs no new simulation.
+
+At original prices, generation 8 minus generation 4 has mixed F **+0.107797 ±0.048847 SE**, unresolved at
+three SE, and mixed captures **−0.225098 ±0.098195**, also unresolved. Maintenance savings contribute
+**+0.204059 F**, while capture income falls 0.109911 and missed-click charges rise 0.009332. Earlier wording
+that called this a "true" mixed-F improvement was too strong; the report and current summaries now state
+the paired uncertainty. The original AN report is retained in its report_history directory and Git history.
+
+For these fixed trajectories, halving maintenance makes the mixed F contrast **+0.005768 ±0.048043**;
+quartering it makes **−0.045247 ±0.047771**. The mean crossing is 0.471735 times the original charge.
+Changing missed-click prices from 0.5 to 4 times has much less effect. Only doubling maintenance among
+these comparisons gives a positive contrast exceeding three SE. These are descriptive price sensitivities,
+not an optimal price, a confidently better generation-4 phenotype, or predictions of altered evolution.
+
+The pinned kernel confirms both prices affect accounting without feeding back into cell dynamics.
+Maintenance also scales guard and extinction charges; all nine retained rows have status zero.
+Independent source/math review passes, and the published analyzer reproduces the summary byte-for-byte.
+No production defaults, AO inputs, scientific source or run limits change. AO continues its fixed longer
+evolution comparison; reassess maintenance, depth, evaluation precision and richer demands after its result.
+
+Note and figure: `results/an_cost_sensitivity_20261015/NOTE.md` and `price_sensitivity.png`.
+Summary SHA `9fc29a1828ca452c21d9e2c141e9c6c2cb22dc1c823dfc0a801f01af4d036274`.

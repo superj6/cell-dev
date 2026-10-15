@@ -108,7 +108,8 @@ chiefly economy. All28222calls complete in3679.510CPU seconds; independent raw/g
 processes are clear. `results/occlusion_acquisition_20261015/REPORT.md`. Prepare AO: two24generation same-context
 continuations from all32ANsurvivors, unchanged25/25/50 versus50/25/25 POOL/persistent/longer-gap allocation,
 8+8scoring and originalprices. Both get more time, with fixed8/24endpoints andAMreference anchoring retention.
-The observed late tradeoff improves mixedF, so precision alone may reinforce it. This is source-only/unreleased;
+The observed late tradeoff has estimated mixedF+0.107797±0.048847 (unresolved at three SE), so precision alone
+may reinforce it. The uncertainty comes from the subsequent paired cost reanalysis. This is source-only/unreleased;
 no harder world, new ABI or paid compute. Native53232/block142 are now audited andregistered,500unique native IDs deliberatelyshared acrossarms.
 AOprotocol2cfc3ac9…e6d68d,138488calls;63focusedchecks andbothactualinputreviews pass. Prior64identities/46groups
 clear. Evidence `results/retained_depth_20261015/`. Runtime release follows prospectivepublication; no life has run.

@@ -3,6 +3,8 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
+For a short map of the strongest evidence, inherited lineages and competing directions, see `docs/RESEARCH_STATUS.md`.
+
 **Local experimentation authorized (2026-10-15).** The user says to keep working on our judgment and permits
 experiments on the local computer provided memory use does not threaten it. Continue useful bounded studies
 without repeated permission requests. Use one modest worker, explicit memory/CPU limits, and stop to report
@@ -39,24 +41,33 @@ Two retained bookkeeping mistakes affected no science: wrong status label in a p
 any attempt/build/life; a separate accuracy helper needed three descriptive key names corrected. First owned
 research attempt completed. Protocolca277b17…08b26b, summary1ce6412d…c64512, prospectivecommit0a95793.
 
-**Next direction after the complete result:** AO is prepared and registered under `outputs/autonomous_retained_depth_20261015/`
+**Next direction after the complete result:** AO is running its first owned attempt under `outputs/autonomous_retained_depth_20261015/`
 with audit sister directory. Give the promising lineage substantially more time while testing old-task allocation:
 two matched24generation branches from ALL32ANfinal survivors, freshmatchednative53232,8+8scoring, prices500.
 Unchanged25/25/50 versus balanced50/25/25 POOL/persistent/blink80_20. Six fixed roles (AMreference, ANstart,
 both generation8 and24 endpoints) on five known worlds×512freshblock142lives. Proposed138488calls,28800CPU
 (24000search/4800confirmation),14400wall,one2threadworker and unchanged memory safeguards. This is a fresh
-full-population continuation, not an RNG-exact resume. No new world, organism rule or ABI. Nothing has launched.
+full-population continuation, not an RNG-exact resume. No new world, organism rule or ABI. Both24generationbranches thenconfirmation run sequentially.
 Protocol2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d;63focusedchecks pass,
 both actual-input reviews pass; all32rows imported without builds/lives/geneticdraws. Prior64identities/46groups
 clear with18.9GBavailable. Publicprospective `results/retained_depth_20261015/`; ANmilestone4eff70d is pushed.
 MeasuredANphase scaling×1.5 fits the fixedcaps; the older pessimistic timing model does not and remains an
-explicit completion risk. Root runtime release follows prospective publication.
+explicit completion risk. Prospective17a7348 is pushed; release8258006b…d97b5d binds the exactprotocol. Rootsession94765 owns
+the monitor in the originalhostnamespace. No otherresearchworker is active.
 
-Why this next: AN's later tradeoff still improves its true mixedF by about0.108, so more evaluation precision alone
+Why this next: AN's later tradeoff has estimated mixedF+0.107797±0.048847 (unresolvedat3SE), so more evaluation precision alone
 may reinforce forgetting. A matched allocation contrast gives both policies longer evolution without assuming
 more time will solve retention. Preserve AM as an older anchor so AN's POOL loss is not normalized away. More
 precision, circuit probes, prices and operators were considered. Reassess after the complete result; no automatic
 ladder or price sweep. Local compute is sufficient at present; no spending or additional hardware is needed.
+
+**Completed-data cost check during AO:** `results/an_cost_sensitivity_20261015/NOTE.md` reprices nine AN rows
+without new lives. Generation8-minus4 mixedF is +0.107797±0.048847, unresolved at three SE; maintenance
+savings supply +0.204059F. Halving maintenance nearly removes the mean advantage; quartering reverses its
+sign, still unresolved. Moderate missed-click repricing has less effect. This motivates a possible selective
+maintenance comparison, not an optimal price or a prediction of evolution. Independent source review and
+byte-identical public reanalysis pass. Earlier "true mixedF" wording is corrected with original report preserved.
+AO remains unchanged and its outcomes have not been inspected.
 
 AM remains the earlier cumulative capture milestone: original-price continuation improves all four known worlds,
 while reward2000 has no joint task advantage and increases body/miss costs. `results/capture_value_selection_20261015/REPORT.md`.
