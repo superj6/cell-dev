@@ -1,0 +1,49 @@
+{
+  "status": "source_ready_before_engine_replay",
+  "source_pins": {
+    "export.py": "26436ce8c7f42e621763a7ee9d09f0c9b91a3a9b69c51c9ec8561613dd4c7c54",
+    "viewer.js": "c61025dcc68782076e904eda85c1745c4501f01b4620110e6466d3ce88268989",
+    "template.html": "1c76924c2ce66251d09cc774d9d4ebf322738ae02eab8ddf1401517e1f599839",
+    "check_replay.js": "422a299b7158390cdb9efc847512cf2c83510d09796bbc3b4bccd679ebd53c40",
+    "run_validation.py": "348dd54870da7915e3f2799a5fba4ecba7997b8b2bc1e24421eb402dc0d826d6",
+    "build.py": "9c6167c39911db71d9df44f60304255ecadb973cf353bbbb64486ac6e3854d03",
+    "test_viewer.js": "d70dd8b15d2502eb917d81a0a7dfdece9b9addb384161714b38de3a0494e49c9",
+    "source_origins.json": "bf7f78a8d7754a860db09e0b7da18914b1acfe152a9a60215e2f48692690d871"
+  },
+  "ui_check_sha256": "a7a7abbd6139ac1da2e935082d90df06281cb682ed5d6869c64f9aacb9eb828f",
+  "lint_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+  "scope": {
+    "worlds": [
+      "pool",
+      "persistent"
+    ],
+    "roles": [
+      "L92",
+      "AE_L92",
+      "AI_control"
+    ],
+    "seed": 52380000,
+    "JS_existing_lives": 6,
+    "expected_bitwise_ledger_entries": 342,
+    "new_C_or_Python_lives": 0,
+    "genetic_draws": 0,
+    "child_CPU_cap": 120,
+    "wall_cap": 180,
+    "first_attempt_only": true,
+    "browser_runs": 0,
+    "publication": false
+  },
+  "source_reuse": "Seven small files adapted from committed AI viewer; rendering and unchanged LifeSimJS retained, only metadata/roles/world tabs/raw input contract/6-life scope adapted.",
+  "checks": [
+    "JS parse checks passed.",
+    "Python AST/lint passed.",
+    "106 deterministic mock UI checks passed at 540px and 330px canvas widths.",
+    "No scientific inputs exported and no real simulator invoked."
+  ],
+  "limitations": [
+    "Mock controls do not validate a real browser.",
+    "Six fixed replays validate those exact retained lives, not all worlds, seeds or browser implementations.",
+    "The two world tabs retain all aggregate signs; no illustrative seed replacement permitted."
+  ],
+  "root_wording_correction": "Root identified reversed speed wording: POOL v=.1/tau20, persistent v=.3/tau200. Descriptions now give exact values. No world data, simulation or UI arithmetic changed; prior source/review retained."
+}

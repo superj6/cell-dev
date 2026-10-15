@@ -1,0 +1,40 @@
+{
+  "status": "authorized_AK_viewer_export_and_six_JS_checks",
+  "protocol_sha256": "0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3",
+  "summary_sha256": "313ed555aa5cc7ed0c5c3bc3d4be965a365e2412a1f74a3b15eaf5803a979dc3",
+  "terminal_clearance_sha256": "199b6915a77ce867a6ea189780654a6bcc2500fc1730101b178e5358cb9bfc75",
+  "budget_sha256": "9492e7f1b9782df4b71f1eb9bc5a38f8ef5c108ab48752133e588dc4742b8d1d",
+  "source_pins": {
+    "export.py": "26436ce8c7f42e621763a7ee9d09f0c9b91a3a9b69c51c9ec8561613dd4c7c54",
+    "viewer.js": "c61025dcc68782076e904eda85c1745c4501f01b4620110e6466d3ce88268989",
+    "template.html": "1c76924c2ce66251d09cc774d9d4ebf322738ae02eab8ddf1401517e1f599839",
+    "check_replay.js": "422a299b7158390cdb9efc847512cf2c83510d09796bbc3b4bccd679ebd53c40",
+    "run_validation.py": "348dd54870da7915e3f2799a5fba4ecba7997b8b2bc1e24421eb402dc0d826d6",
+    "build.py": "9c6167c39911db71d9df44f60304255ecadb973cf353bbbb64486ac6e3854d03",
+    "test_viewer.js": "d70dd8b15d2502eb917d81a0a7dfdece9b9addb384161714b38de3a0494e49c9",
+    "source_origins.json": "bf7f78a8d7754a860db09e0b7da18914b1acfe152a9a60215e2f48692690d871"
+  },
+  "source_review_sha256": "65ac649eef0420cc61a084bb4b770d01dccd5d80f8ba4bc601ed4fe2ef77530b",
+  "scope": {
+    "worlds": [
+      "pool",
+      "persistent"
+    ],
+    "roles": [
+      "L92",
+      "AE_L92",
+      "AI_control"
+    ],
+    "seed": 52380000,
+    "JS_existing_lives": 6,
+    "expected_bitwise_ledger_entries": 342,
+    "new_C_or_Python_lives": 0,
+    "genetic_draws": 0,
+    "child_CPU_cap": 120,
+    "wall_cap": 180,
+    "first_attempt_only": true,
+    "browser_runs": 0,
+    "publication": false
+  },
+  "decision": "Root authorizes exactly six fixed existing JS lives under120childCPU/180wall cap and local build after exact ledger replay. Zero C/Python lives, genotype changes or browser runs. Root source review corrected reversed target speeds before export; no other findings. Publication awaits final verification."
+}

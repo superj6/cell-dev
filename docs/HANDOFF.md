@@ -12,9 +12,11 @@ complete independent literal-ledger reconciliation of 2,254 paired vectors. Both
 exited. Evidence: `results/retention_frontier_20261015/REPORT.md`; prospective commit `08eaa5b`.
 The offline shared-panel audit in `results/cross_world_reuse_20261015/` finds no confirmed broad capture improver.
 Next priority is retention in the selection strategy, not another harder-edge-only continuation. Native held-out
-reports do not influence breeding. A small two-context selection comparison is being designed; the outstanding
-family-fitness/switching decision is not assumed approved. AJ remains source-only, unregistered and held.
+reports do not influence breeding. The reviewed small two-context selection proposal is `docs/TWO_CONTEXT_RETENTION_PILOT.md`;
+the limited approval question is pending. No approval, registration, seed reservation or new search is assumed. AJ remains source-only, unregistered and held.
 All AK contexts become development data; future new-context evaluation must be separate.
+Watch both old and new tasks at `results/atlas/retention_frontier.html`: six fixed existing JS lives match all
+342 C ledger values, with 106 mock UI checks and no real browser run. See `results/ak_watchable_20261015/`.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.

@@ -3486,3 +3486,33 @@ comparison is being designed; no new search or outstanding family-fitness decisi
 `results/retention_frontier_20261015/` preserves all raw rows, source/input pins, original genomes, startup truth,
 resource receipts, independent checks and a three-panel figure. Prospective publication: `08eaa5b`.
 Protocol `0b41f8f9…5b56b3`; summary `313ed555…979dc3`; budget `9492e7f1…42b8d1d`.
+
+## 2026-10-15 — Watchable retention trade-off; limited two-context selection proposal awaits a decision
+
+`results/atlas/retention_frontier.html` shows all three fixed AK lineage stages in ancestral POOL and persistent
+targets, with world buttons and both worlds’ aggregate means and all paired lineage contrasts always visible.
+It starts paused and uses the first AK seed, 52,380,000, for both worlds. Illustrative captures are **17 / 17 / 13**
+in POOL and **2 / 5 / 5** in persistent. The examples were retained without seed shopping; later target placements
+depend on each body's actions. The 256-life results, not this single seed, establish the trade-off.
+
+The unchanged JavaScript engine reproduces all **342 C ledger values** from six existing lives byte for byte,
+with every status zero. Bounded validation uses **9.802703 child CPU / 8.329846 wall seconds**, with original-host
+process-group clearance. No new C/Python life, genetic draw or research observation is added. Mock controls pass
+106 assertions at two widths; no real browser was run. Exact source/export pins, raw truth, first-attempt logs,
+reviews and the unchanged LGPL engine are archived in `results/ak_watchable_20261015/`. Root corrected reversed
+target-speed wording before export: POOL speed 0.1/mean-turn 20; persistent speed 0.3/mean-turn 200. Scientific world
+bytes and scoring were unchanged. The standalone viewer and all archive bytes are pinned.
+
+The reviewed proposal in `docs/TWO_CONTEXT_RETENTION_PILOT.md` compares one ordinary four-generation persistent
+continuation with an equal-life-budget, fixed 50/50 POOL/persistent branch, starting from all 32 AI-control survivors.
+It tests both fixed endpoints and AI-start on fresh lives in three development contexts plus the previously
+unmeasured combined turn100+blink80_5 context. Captures, retention and economy remain separate. A positive relative
+POOL effect alone could reflect control deterioration; actual recovery requires improvement over the start too.
+Its fixed 10% persistent-retention tolerance is diagnostic, not a lossless-retention guarantee or a new fitness term.
+
+The limited approval question is pending because HANDOFF section 5 leaves raw-F family fitness undecided. Scope,
+if approved: **13,396 total calls**, one two-thread worker, hard **5,400 CPU-seconds**, with 3,600 for search/startup
+and 1,800 reserved for confirmation. No new seeds, inputs, selection adapter or run are released by this proposal;
+AJ remains held. `results/retention_selection_proposal_20261015/` preserves the draft, contract, conservative
+cost projection and independent design review. The larger family, in-life rule changes and paid compute remain
+outside the requested decision.

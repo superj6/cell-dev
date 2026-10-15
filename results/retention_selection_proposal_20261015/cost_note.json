@@ -1,0 +1,87 @@
+{
+  "status": "proposal_only_not_a_budget_release",
+  "input_pins": {
+    "AK_protocol": {
+      "path": "outputs/autonomous_retention_frontier_20261015/protocol.json",
+      "sha256": "0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3"
+    },
+    "AK_row_index": {
+      "path": "outputs/autonomous_retention_frontier_20261015/row_index.json",
+      "sha256": "142ceb0cade567162469bf435c40b616ddb4ffe7d8bf27a113142ab783be387c"
+    },
+    "AK_complete_summary": {
+      "path": "outputs/cumulative_capability_20261015/terminal/independent/reanalysis/summary.json",
+      "sha256": "313ed555aa5cc7ed0c5c3bc3d4be965a365e2412a1f74a3b15eaf5803a979dc3"
+    },
+    "AE_65_timing_review": {
+      "path": "outputs/audit_population_depth_20261015/historical_cost_review.json",
+      "sha256": "f20c6017717378bdd8a04487579a40ceae8e87de4e9115fd2ea492159298d809"
+    },
+    "AE_reference_timing_review": {
+      "path": "outputs/audit_prediction_continuation_20261014/cost_feasibility.json",
+      "sha256": "6f4aa4dbe0f3906f8bb1a226f1f10bb35db961d346a9a89f5c9e6f3b85d24d94"
+    },
+    "native_draw": {
+      "path": "src/life/evaluate.py",
+      "sha256": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2"
+    },
+    "native_selection": {
+      "path": "src/evolve.py",
+      "sha256": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f"
+    },
+    "native_final_diagnostics": {
+      "path": "src/run.py",
+      "sha256": "8595d69317d8533cfb2fcea91f25cc78631799ab3503044c615b55cae8a1ae2c"
+    },
+    "reviewed_population_loader": {
+      "path": "outputs/autonomous_population_depth_20261015/population_loader.py",
+      "sha256": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7"
+    },
+    "approval_boundary": {
+      "path": "docs/HANDOFF.md",
+      "sha256": "930e3fab7e69d310300b8ebeb1c0800b4ca9896914cb6b3fb54557109554077c"
+    }
+  },
+  "observed_AK_cpu_seconds_per_life": {
+    "raw/pool/row_00.npz": 0.17661431620312498,
+    "raw/pool/row_01.npz": 0.14971965117578123,
+    "raw/pool/row_02.npz": 0.085421508328125,
+    "raw/persistent/row_00.npz": 0.14998304787109373,
+    "raw/persistent/row_01.npz": 0.1224866585390626,
+    "raw/persistent/row_02.npz": 0.06901663427343752,
+    "raw/turn100/row_00.npz": 0.14867532962109375,
+    "raw/turn100/row_01.npz": 0.12247349832031251,
+    "raw/turn100/row_02.npz": 0.070046085984375,
+    "raw/blink80_5/row_00.npz": 0.15033698869921874,
+    "raw/blink80_5/row_01.npz": 0.12261715355859382,
+    "raw/blink80_5/row_02.npz": 0.06925857307031236
+  },
+  "AE_65_screen_max_cpu_seconds_per_life": 0.20239681268749976,
+  "AE_retained_reference_max_cpu_seconds_per_life": 0.2041540473847656,
+  "chosen_cpu_seconds_per_life": 0.2041540473847656,
+  "formula": "180 + 1.5 * phase_research_calls * chosen_rate; separately for search and confirmation",
+  "search_research_calls": 10316,
+  "confirmation_research_calls": 3072,
+  "search_projection_cpu_seconds": 3339.079729231863,
+  "confirmation_projection_cpu_seconds": 1120.7418503489998,
+  "combined_projection_cpu_seconds": 4459.821579580863,
+  "caps_cpu_seconds": {
+    "total": 5400,
+    "search_startup": 3600,
+    "confirmation_reserved": 1800
+  },
+  "stop_cpu_seconds": {
+    "search_startup": 3590,
+    "aggregate": 5390
+  },
+  "limits": [
+    "Historical rates are not an upper bound for all 32 imported rows or descendants.",
+    "The new combined context has no measured rate; the common historical maximum and 1.5 margin are planning assumptions.",
+    "Compilation, numerical checks, failed work, child and monitor CPU and teardown count toward caps.",
+    "One worker at a time, at most two simulation threads; equal research calls do not ensure equal CPU costs.",
+    "No retries, automatic budget increase, or smaller replacement confirmation matrix."
+  ],
+  "new_simulation_calls": 0,
+  "new_genetic_draws": 0,
+  "new_inputs_copied": 0
+}
