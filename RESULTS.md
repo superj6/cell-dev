@@ -2552,3 +2552,28 @@ parent slots change after rechecking and 7/8 initial leaders are displaced. Thes
 motivate testing allocation; they do not establish a benefit from precision. The proposed comparison changes
 both precision and depth and will retain capture income separately from cost savings. It is source-only,
 with no new seeds, genotypes, compilation or lives released; the larger continuation remains a proposal.
+
+## 2026-10-14 — Blink selection precision-versus-depth comparison registered
+
+AB compares four ordinary 3+4-life generations with one 12+16-life generation from each fixed Z endpoint,
+matching 4,096 selection calls per branch. Within each background, both policies share the initial population
+and first candidate cohort through native seeds 53222/53223; later selection can diverge. All four final
+population-rank-zero endpoints must freeze before six-role confirmation on 512 fresh block122 seeds.
+Primary comparisons are precision minus depth; endpoint-minus-founder effects and capture income versus
+ordinary costs remain separate. This tests allocation between precision and depth, not precision alone or equal
+CPU. Two fixed founder/run pairs cannot establish general superiority or algorithmic sophistication.
+
+Scope is 19,576 research plus ten standard ABI3 startup goldens, capped at 9,000 inclusive CPU-seconds.
+Startup/search have a 7,200 ceiling and confirmation/cleanup a 1,800 reserve. At most two two-thread workers
+search, followed by one two-thread confirmation worker. Actual Z developed-body rates project 6,604.114171
+search and 1,221.604796 confirmation CPU-seconds, without bounding unseen mutants. No automatic retry, extension
+or scope reduction. Fresh namespace review passes with the intentional paired overlaps explicitly retained.
+Preparation has no simulated lives or builds; final input/reader reviews and prospective publication precede
+release. Existing organism rules, physics, prices and guard/extinction penalties remain unchanged. This new
+bounded study does not reopen held S or release the larger continuation proposal.
+
+Both 32-row initial populations replay exactly from their 124 recorded point mutations. All 36 preparation
+checks and 39 independent reader/native checks pass. The 176-artifact prospective archive is preserved at
+`results/visibility_precision_20261014/`; its copied sources also replay the initial populations outside the
+repository without a live-source fallback. The first actual offspring cohorts will be checked before confirmation
+and independently replayed after execution. Release follows publication.

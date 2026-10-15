@@ -105,6 +105,14 @@ All 768 frozen pairs pass constant-tissue checks; all 2,304 research and two sta
 not memory or a new algorithm. A small precision-versus-depth selection comparison is being prepared from
 both fixed Z endpoints, without changing the organism or world. It is source-only and unreleased.
 
+*2026-10-14 AB registered:* compare four 3+4-life generations with one 12+16-life generation from each fixed
+Z endpoint. Each branch spends 4,096 selection lives; paired run seeds 53222/53223 preserve the first candidate
+cohort. All four endpoints freeze before six-role confirmation on 512 fresh block122 seeds. Scope is 19,576
+research plus ten goldens under 9,000 CPU-seconds, search capped at 7,200 with 1,800 reserved. The actual Z cost
+projection is 7,825.718967 total CPU-seconds. This tests precision versus depth, not precision alone or equal CPU.
+Separate captures from cost savings; two fixed pairs do not establish policy reliability or a richer algorithm.
+No new world/organism rule or ABI. Prospective preparation remains unreleased until independent review/publication.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.

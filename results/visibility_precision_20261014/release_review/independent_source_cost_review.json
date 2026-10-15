@@ -1,0 +1,78 @@
+{
+  "status": "passed_source_only_pending_namespace_classification",
+  "protocol_registered": false,
+  "scope": "Narrow resource reuse, accounting and fixed seed schedule review only; no genotype creation, preparation invocation, imports of engine, builds or lives.",
+  "source_pins": {
+    "outputs/autonomous_visibility_precision_20261014/prepare.py": "6ef218464ead6e183efba39ce464d07d09e3e386f7ddf3c614ba62822a4388ae",
+    "outputs/autonomous_visibility_precision_20261014/run_budgeted.py": "7350c327051fc0124a43a5bc3b2a739895a7802e1ac9a0999fa4c6b209b4e91e",
+    "outputs/autonomous_visibility_precision_20261014/measure.py": "527be95fc5a82a74aaeeba57b36555b2145a9b6b5301920396a3887df66aa1da",
+    "outputs/autonomous_visibility_precision_20261014/scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "outputs/autonomous_visibility_precision_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_visibility_precision_20261014/common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332"
+  },
+  "AST_identical_lifecycle_functions": [
+    "resource_clearance",
+    "own_cpu",
+    "child_cpu",
+    "proc_table",
+    "active_cpu",
+    "consumed_cpu",
+    "child_limit",
+    "send_signal",
+    "enable_subreaper",
+    "cleanup_group",
+    "cleanup",
+    "process_identity"
+  ],
+  "exact_Z_copies": [
+    "scoring.py",
+    "numerical.py",
+    "common.py"
+  ],
+  "research_call_counts": {
+    "depth_selection_each": 4096,
+    "precision_selection_each": 4096,
+    "depth_periodic_validation_each": 32,
+    "precision_periodic_validation_each": 16,
+    "native_final_each": 6,
+    "four_search_research": 16504,
+    "confirmation_research": 3072,
+    "research_total": 19576,
+    "startup_goldens": 10,
+    "actual_total": 19586
+  },
+  "cost_projection": {
+    "rates_cpu_per_life": {
+      "D90": 0.29744577104101566,
+      "L92": 0.17263171598242188,
+      "Y_D90": 0.27762129937304686,
+      "Y_L92": 0.22154874916406253,
+      "Z_D90": 0.17409847522851574,
+      "Z_L92": 0.14416872857226548
+    },
+    "lineage_maxima": {
+      "D90": 0.29744577104101566,
+      "L92": 0.22154874916406253
+    },
+    "startup_search_projection": 6604.1141710984575,
+    "confirmation_projection": 1221.604795554,
+    "search_release_threshold": 7190,
+    "confirmation_release_threshold": 1790,
+    "feasible": true,
+    "limitation": "Observed developed-body costs and fixed margins do not bound new mutants/endpoints."
+  },
+  "timing_source_sha256": "b0c2d8a2b108432a928b2d2045aa3137dd90724f0cf7508bd729b3a1bc085c59",
+  "cost_limits": [
+    "Projection uses the maximum of all three Z background rates, including original/Y/Z; it is conservative relative to measured developed bodies only.",
+    "Novel offspring/endpoints may cost more; 9000 aggregate CPU cap and 7200 search cap remain authoritative.",
+    "Four search processes each perform their existing two startup goldens; confirmation has one additional pair. No calibration process or extra hidden golden is planned."
+  ],
+  "comparison_limits": [
+    "Matching selection lives does not match generations, mutation exposures, periodic validation or total calls. These differences are predeclared.",
+    "Paired native seeds intentionally share generation0, validation0 and final life IDs, including different purposes of gen indices3..6 under two scoring policies.",
+    "Only two founder/policy pairs; paired life uncertainty does not estimate general superiority across evolutionary replicates."
+  ],
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "generated_genotypes": 0
+}

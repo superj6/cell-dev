@@ -1342,3 +1342,52 @@ Reuse all six actual Z confirmation CPU rates, verifying each 512-life row and i
 lesion dynamics. Startup, builds, monitor, descendants and failures count. No automatic retry, resume, extension,
 partial-row inference, scope reduction or endpoint substitution. Exact preparation, independent late-window
 analysis and public archive precede root release; complete coverage and raw reconciliation precede inference.
+
+### AB. Selection precision versus depth in irregular blink (2026-10-14)
+
+Retain both exact Z final population-rank-zero endpoints, regardless of AA or prior confirmation signs.
+For each founder, compare four generations with 3 initial + 4 recheck lives against one generation with
+12 initial + 16 recheck lives. Keep 32 parents + 224 ordinary offspring, top64 pooled recheck, sexual crossover,
+scaled two-point mutation with cell probability .5, random ties and all parents reevaluated. No protected founder,
+historical-best replacement, duplication/deletion/split or validation selection. The approved ABI4 blink preset,
+T1024, all prices and guard/extinction penalties remain unchanged; low-light captures carry no additional reward.
+
+The four named jobs are D90_depth, D90_precision, L92_depth and L92_precision. Within each background, share
+native run/RNG seed 53222 (D90) or 53223 (L92). Prepare one ordinary 32-row initialization per background;
+record operations and RNG-state hashes. Both policies must reproduce that initialization and the same first
+224 offspring instructions. Independent replay must match all 256 first-candidate genome bytes and all final
+populations. Later trajectories can differ. Each pair deliberately shares 27 native world IDs: generation-zero
+selection indices 0..6, its 16 validation IDs and four final diagnostic IDs. Depth's recheck indices 3..6 lie
+inside precision's initial 0..11; precision rechecks use 12..27. Each background uses 85 unique native IDs,
+170 across both. The two backgrounds and fresh confirmation are disjoint; established golden seed11 is separate.
+
+Freeze all four complete final population-rank-zero endpoints before any fresh confirmation. Role order is
+Z_D90, Z_L92, depth_D90, precision_D90, depth_L92, precision_L92. All share 512 new block122 seeds
+52,220,000–52,220,511. Primary pairs are precision minus depth within each background. Retain each of the four
+endpoint-minus-own-founder comparisons. Report production F, capture income, all ordinary cost components,
+guard/extinction charges, captures, dark/bright captures, cells, spikes, clicks and path, with paired life-level SE.
+These uncertainties concern fixed genomes, not search reliability. No partial or missing-arm comparison supports
+a complete inference. A null result is not evidence that precision is intrinsically useless; depth also differs.
+A positive result could still reflect stronger selection for economy, not a richer algorithm.
+
+Every branch spends exactly 4,096 selection calls: 4×(256×3+64×4) = 256×12+64×16. Totals are 16,384 selection,
+96 periodic validation, 24 native finals and 3,072 confirmation = 19,576 research lives. Eight final lives use
+T512 and deliberately reuse corresponding final IDs; all other research lives use T1024. Each of four native
+workers and the one confirmation worker invokes exactly one standard numerical identity pair: ten existing
+ABI3 seed11/T200 goldens, 19,586 calls overall. No extra founder scoring, calibration, clone, envelope, held-out
+world, duration mixture or identity prepass. This matches selection calls, not total diagnostic calls or CPU.
+
+The first-attempt cap is 9,000 inclusive CPU-seconds, with startup/search capped at 7,200 and at least 1,800
+remaining for confirmation and cleanup. Ten-second stop margins apply. At most two two-thread native workers
+run concurrently; confirmation uses one two-thread worker after every search group exits. Builds, startup,
+monitor, descendants, failures and cleanup count. No automatic retry, extension, resume, scope reduction or
+endpoint substitution. A resource stop is incomplete evidence. Prior U/V/X/X2/Y/Z/AA process groups are cleared.
+
+Use all six actual Z confirmation timing rows. For each background let r be the largest observed original/Y/Z
+CPU per life and z its fixed Z-start rate. Require `180 + 1.5*8252*sum(r) <= 7190` for startup/search and
+`180 + 1.5*512*sum(z+2*r) <= 1790` for confirmation. Projections are 6,604.114171 and 1,221.604796 CPU-seconds.
+These rates and margins do not bound new mutants; caps remain enforced. The namespace audit reopens all 221
+distinct baseline seed payloads plus every added/changed NPZ seed member. Existing block122 at a different base
+is disjoint; actual paired overlap is explicit. Registration generates no genotype, library or life. Prospective
+inputs, frozen independent reader and reviews will be published at `results/visibility_precision_20261014/`
+before root release. This is a new study; held S and the larger continuation proposal remain unreleased.

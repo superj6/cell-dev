@@ -113,12 +113,17 @@ excluded or guarded lives. The 2,304 research plus two startup goldens used **35
 all processes exited. The frozen reader passes unchanged and independent reanalysis matches all 2,700 paired
 arrays. Evidence is in `results/visibility_lateral_20261014/`.
 
-**Next source-only preparation:** compare selection precision against evolutionary depth in blink, starting
-from both fixed Z endpoints: four generations at 3+4 lives versus one at 12+16, matching 4,096 selection calls
-per branch. Z's initial/recheck rankings disagree substantially, but that does not prove more precise selection
-will improve fresh performance or richer computation. Keep capture income separate from economy. This is a
-new bounded design, not a release of held S or the larger continuation proposal; no AB seeds, genotypes,
-libraries or lives are authorized by this note.
+**AB registered (2026-10-14).** From both fixed Z endpoints, compare four generations at 3+4 selection lives
+against one generation at 12+16, matching 4,096 selection calls per branch. Policy pairs share run seeds 53222
+(D90) and 53223 (L92), preserving their initial population and first offspring cohort; output IDs remain distinct.
+Freeze all four endpoints before six-role confirmation on 512 fresh block122 seeds. The 19,576 research plus ten
+golden lives have a 9,000 CPU-second cap, search ceiling 7,200 and confirmation reserve 1,800; actual Z rates
+project 6,604.114171 search and 1,221.604796 confirmation CPU-seconds. At most two two-thread search workers.
+Z's substantial ranking changes motivate this allocation test but do not prove a benefit from precision.
+Precision versus depth is not an equal-CPU or isolated-precision comparison; only two founder/run pairs.
+Capture income stays separate from economy. This new bounded design does not release held S or the larger
+continuation proposal. Preparation and independent analysis must be reviewed and prospectively published before
+root release; no compilation or simulated lives have run at registration.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

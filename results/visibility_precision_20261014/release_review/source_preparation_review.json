@@ -1,0 +1,80 @@
+{
+  "status": "source_only_preparation_review_passed",
+  "study": "AB blink precision versus depth",
+  "tests": {
+    "passed": 36,
+    "junit_sha256": "9e64572efcb229e719b9a917c835fff45599a77ff2833abfa072b05c962006e0",
+    "log_sha256": "12a9a4a8915fb8d2bb5b4227220247cde267c1a0620203589fe47280d5be4a7f"
+  },
+  "ruff": "All checks passed!",
+  "dry_runs": {
+    "prepare.py": {
+      "status": "source_only_unregistered",
+      "research_lives": 19576,
+      "startup_validation_lives": 10,
+      "simulation_calls": 0,
+      "generated_populations": 0
+    },
+    "run_budgeted.py": {
+      "status": "source_only_unregistered",
+      "planned_genome_lives": 19576,
+      "startup_validation_genome_lives": 10,
+      "simulation_calls": 0
+    },
+    "measure.py": {
+      "status": "dry_run",
+      "genome_lives": 3072,
+      "startup_validation_lives": 2,
+      "simulation_calls": 0
+    }
+  },
+  "source_pins": {
+    "PREREG.md": "5cf15a86fce222ee7218d47dec07fbf57fd57e1386a636e697365031129b3f37",
+    "README.md": "e6c8453766a7291250d6c64709ffb82c3f36950c7ce6b78f6cdc3c570327a87e",
+    "SCHEMA.md": "a0144dd0aeaa44507a492f64363809f6930faa67f48cad1ba103480082e168b8",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "527be95fc5a82a74aaeeba57b36555b2145a9b6b5301920396a3887df66aa1da",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "6ef218464ead6e183efba39ce464d07d09e3e386f7ddf3c614ba62822a4388ae",
+    "run_budgeted.py": "7350c327051fc0124a43a5bc3b2a739895a7802e1ac9a0999fa4c6b209b4e91e",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "test_preparation.py": "ac55c3c8e5f87c74021a8c3f75e4e1ee0d165cf932739e676d807fdd6f91ef1a"
+  },
+  "absent_artifacts": [
+    "registration.json",
+    "seed_audit.json",
+    "protocol.json",
+    "inputs",
+    "configs",
+    "initialization",
+    "generation_claim.json",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "confirmation",
+    "logs",
+    "build-cache"
+  ],
+  "source_only": {
+    "real_endpoint_extractions": 0,
+    "population_generations": 0,
+    "compilation_calls": 0,
+    "simulation_calls": 0,
+    "native_seed_choices_or_registration": false
+  },
+  "review_scope": [
+    "Exact Z scoring/numerical/common bytes and U/Z process lifecycle functions retained",
+    "Policies differ only generation counts, initial/recheck lives and bookkeeping fields",
+    "Exact19576 research+10golden count, correct0/3 versus0 periodic indices",
+    "Pure synthetic namespace shape64/48/intersection27/union85; actual namespace not chosen or audited by this preparation",
+    "Actual first-cohort signature rejects changed IDs, parents, masks and operations before confirmation",
+    "Independent final raw-genetic replay and scientific analysis remain required",
+    "All source/scientific input extraction and native fill require future root registration"
+  ],
+  "limitations": [
+    "No actual AB protocol, seeds or inputs exist yet; final source/input binding and independent review are pending",
+    "No simulation compatibility claim is inferred from synthetic checks",
+    "No native first cohort generated; equality will be verified from actual recorded instructions and independent replay"
+  ]
+}

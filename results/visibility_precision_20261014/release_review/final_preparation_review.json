@@ -1,0 +1,110 @@
+{
+  "status": "prepared_unreleased_verified",
+  "protocol_sha256": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
+  "file_pin_count": 38,
+  "production_pin_count": 35,
+  "registration_sha256": "c847488dacf0b7355fe918123bab3bd806e85251ba54ccd767b2404874adae2e",
+  "initialization_sha256": "71ba8b1ff8d2dd5da4b34a17248c888a4c1a1bdf32105352a7ebe4f6e13748b7",
+  "generation_claim_sha256": "8ab2bdcb2f6a964ec8aa16c4d8c3fdd111084db01e3a8e44437da180dadb317b",
+  "preparation_stdout_sha256": "803867da37b8f8095c48c0a9853f10f5741a24e01d18a4a3c6d93e439d5d349f",
+  "preparation_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "preparation_exit_code": 0,
+  "initial_populations": {
+    "D90": {
+      "file_sha256": "cad637473b0eccbc3b2ada0252fe5a690170994a8413e24d48a830cd7b975bf5",
+      "raw_sha256": "f60c0868ead0450a4923b6401a73ca445f570bc4467bb6568f2ed7e9d03a2372",
+      "shape": [
+        32,
+        875
+      ],
+      "recorded_point_mutations": 62,
+      "exact_Z_start": true
+    },
+    "L92": {
+      "file_sha256": "aab3a32cad200e48f21933a0c5fbe93cf22fa4f585c35343e351b65ab2e36310",
+      "raw_sha256": "1f7e749eeb34586055b586f0b713820e39ce84ca8e4d5703f7cbbc3f8e6ebef2",
+      "shape": [
+        32,
+        875
+      ],
+      "recorded_point_mutations": 62,
+      "exact_Z_start": true
+    }
+  },
+  "config_checks": {
+    "D90_depth": {
+      "sha256": "435f62d2cd89b2303cef0562e15288dd87aba5c82e50c7f0a8dd6be4798a9c60",
+      "seed": 53222,
+      "generations": 4,
+      "initial_lives": 3,
+      "recheck_lives": 4,
+      "only_expected_changes_from_Z_template": true
+    },
+    "D90_precision": {
+      "sha256": "4c1ea034a61dc001bd02a608b5414717be78dbc72a514dda095a63532bb422a5",
+      "seed": 53222,
+      "generations": 1,
+      "initial_lives": 12,
+      "recheck_lives": 16,
+      "only_expected_changes_from_Z_template": true
+    },
+    "L92_depth": {
+      "sha256": "3ad3e007741ac28f87b69e34c80db4109fef19fe17258b1b3c9513fc978ffb0c",
+      "seed": 53223,
+      "generations": 4,
+      "initial_lives": 3,
+      "recheck_lives": 4,
+      "only_expected_changes_from_Z_template": true
+    },
+    "L92_precision": {
+      "sha256": "959912a6929af3313e51ebd058882168a8fcec7a29fc0af0bfbe30aa7500b3d0",
+      "seed": 53223,
+      "generations": 1,
+      "initial_lives": 12,
+      "recheck_lives": 16,
+      "only_expected_changes_from_Z_template": true
+    }
+  },
+  "recorded_point_mutations_total": 124,
+  "scope": {
+    "research_lives": 19576,
+    "startup_goldens": 10,
+    "total_calls": 19586,
+    "cap_cpu_seconds": 9000,
+    "search_cap_cpu_seconds": 7200,
+    "confirmation_reserve_cpu_seconds": 1800
+  },
+  "cost_projection": {
+    "rates_cpu_per_life": {
+      "D90": 0.29744577104101566,
+      "L92": 0.17263171598242188,
+      "Y_D90": 0.27762129937304686,
+      "Y_L92": 0.22154874916406253,
+      "Z_D90": 0.17409847522851574,
+      "Z_L92": 0.14416872857226548
+    },
+    "lineage_maxima": {
+      "D90": 0.29744577104101566,
+      "L92": 0.22154874916406253
+    },
+    "startup_search_projection": 6604.1141710984575,
+    "confirmation_projection": 1221.604795554,
+    "search_release_threshold": 7190,
+    "confirmation_release_threshold": 1790,
+    "feasible": true,
+    "limitation": "Observed developed-body costs and fixed margins do not bound new mutants/endpoints."
+  },
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "runtime_paths_absent": [
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "confirmation",
+    "logs",
+    "build-cache"
+  ],
+  "independent_recorded_genetic_replay": "pending separate reader owner; this receipt checks source/input identity, not replay",
+  "source_only_docs": "README/PREREG/SCHEMA preserve the source-only preparation context; PREPARED_STATUS updates current status without changing protocol pins"
+}

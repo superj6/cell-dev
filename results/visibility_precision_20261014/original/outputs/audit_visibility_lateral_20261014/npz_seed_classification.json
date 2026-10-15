@@ -1,0 +1,29 @@
+{
+  "status": "passed_historical_NPZ_block121_pending_post_Z_delta",
+  "reserved": false,
+  "first_review_sha256": "ad05a3183c21efb1ec507f5ddcb6ede32b80250c80d5a63c11c635359d407135",
+  "baseline_sha256": "b5fbb637071e0bebae670b532742c4e8dec33cf05c7d6399419f06bb3daffb58",
+  "original_scan_source_sha256": "b97071f1a8a4b1fdc39f649effe452505f2053719e3bde5c3a8252c197c8466c",
+  "corrected_token_matcher_source_sha256": "0bb5a51dd045af3fd4c21ed6b281088052f537caf62d6bc33958236085f504a2",
+  "npz_files_checked": 66518,
+  "actual_seed_members_checked": 14441,
+  "whole_block_half_open": [
+    52210000,
+    52220000
+  ],
+  "numeric_seed_matches": 0,
+  "unexplained_nonfixture_errors": 0,
+  "synthetic_fixture_errors": 133,
+  "legacy_name_classification": {
+    "path": "outputs/catch_pilot_analysis/lives.npz",
+    "member_count": 404,
+    "actual_seed_member_count": 0,
+    "member_names_sha256": "76888e87d6da363a8f9fbbc4395fbf7dcf3fdc86508e9e37aaea7ebbff807f60",
+    "reason": "Labels such as seeded_hexprism denote historical genotype outcome arrays; they contain no seed/seeds token. This file has no seed arrays to audit."
+  },
+  "scope_correction": "Initial inherited substring matcher opened a legacy seeded-label array; the follow-up classification also inspected old pilot values. No Z or AA outcome arrays were opened. The predicate is now tokenized seed/seeds, and all14441 successfully checked members satisfy it. Initial receipt/baseline/source are preserved; no redundant full scan was performed.",
+  "baseline_limit": "Seed payloads have SHA256; unchanged file determination for later delta uses retained size/mtime_ns/ctime_ns/dev/ino, not a full-NPZ hash. Published artifacts remain immutable. Added/changed files require rereading seed members before root registration.",
+  "post_Z_delta_required": true,
+  "simulation_calls": 0,
+  "compilation_calls": 0
+}

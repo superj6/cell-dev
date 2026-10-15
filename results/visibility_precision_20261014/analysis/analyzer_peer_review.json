@@ -1,0 +1,54 @@
+{
+  "status": "approved_source_and_prepared_input_review",
+  "protocol_sha256": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
+  "reviewer": "prediction_audit; independent review of decoy_design reader/native changes against actual frozen producer",
+  "reviewed_source_pins": {
+    "analyze.py": "efe56680ea05fc76e0949695f9219272b9ea3a2b765029513265a2bee8d87d32",
+    "native_audit.py": "8b6820a7b142e4e3e04da883088a09cf3f743bc296c3214a5ef499d21a4576de",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "helpers/selection.py": "1f52677e1238b5e54a4a2e84e02f5e81974f82ff437097296b461ab9b5344cf1",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_analyze.py": "467e19acbf748e7cb0aba6dccae9e740c725f5b4b91b60920d684ae45de9a181",
+    "test_native_policy.py": "7e7902af2222c21346820d51df4cf7809dea33c532c64d045c990d86cfde07c8"
+  },
+  "producer_pins": {
+    "prepare.py": "6ef218464ead6e183efba39ce464d07d09e3e386f7ddf3c614ba62822a4388ae",
+    "measure.py": "527be95fc5a82a74aaeeba57b36555b2145a9b6b5301920396a3887df66aa1da",
+    "run_budgeted.py": "7350c327051fc0124a43a5bc3b2a739895a7802e1ac9a0999fa4c6b209b4e91e",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "initialization.json": "71ba8b1ff8d2dd5da4b34a17248c888a4c1a1bdf32105352a7ebe4f6e13748b7",
+    "generation_claim.json": "8ab2bdcb2f6a964ec8aa16c4d8c3fdd111084db01e3a8e44437da180dadb317b"
+  },
+  "validation_evidence": {
+    "tests": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "final_tests_xml_sha256": "367563979dc3e13dc8684538ba204366ca8ce547f55251b21765d3fdb29eee4f",
+    "final_tests_log_sha256": "07c2eef926162e0090994bc913805aa08a8b2cbb5b21d2c933b937a10300713f",
+    "initialization_replay_sha256": "1b829883c457f03d39a77f183d96132a8fbbd17371b30bb609ad2c2162ccc58e"
+  },
+  "findings": [],
+  "reviewed_contracts": [
+    "Four named run IDs remain distinct despite intentionally shared native RNG seeds; run order and config mappings match producer.",
+    "Variable initial/recheck counts3/4 and12/16 propagate through seed offsets, weighted pooled selection, evaluation/recheck totals and initial guard counts.",
+    "Actual checkpoint/config/log formats match native source; final generation4 or1 population rank0 binds all four endpoints; no validation/best-ever endpoint substitution.",
+    "All32 parents and224 first offspring are reconstructed from recorded operations; pairwise256candidate raw hashes and producer genetic-instruction digest must match.",
+    "Prepared64initialrows replay bitwise with124recordedpointmutations; source hashes/RNGreceipt pins retained, no fresh RNG replay claimed.",
+    "Monitor persists four process fields pid/ppid/pgid/start_ticks; reader does not require sid; spawn ordering versus nondeterministic completion ordering handled.",
+    "9000total/7200search ceilings and8990/7190stop thresholds, first attempt, all four search completion before confirmation, raw confirmation CPU reconciled to its monitored portion.",
+    "Exact6orderedgenotypes and512pairedseeds, all58rawcolumns plus productionF/guard/extinction terms, six prospective contrasts and their signs match producer.",
+    "Y/Zwhole-life accountant is unchanged; initial1+births-deaths-kills census and disjoint counter semantics retained; AA late-window rules not reused.",
+    "All38local/35production pins, retained sixZtimingrows and conservative projection,170unique native IDs and27intentional within-pair overlap independently checked.",
+    "Analysis/source pins and canonical protocol anchor are required; source closure checks precede native replay, and simulation/checkpoint execution modules are rejected."
+  ],
+  "limits": [
+    "This review ran no simulations, compilation, numerical goldens, mutation generation or additional tests.",
+    "Test count is verified from the retained owner execution receipt; this reviewer read source and actual prepared-input replay evidence.",
+    "Actual future search traces/first offspring and confirmation rows do not yet exist; full research inference requires successful complete post-run audit.",
+    "Native per-life search ledgers are unsaved; audit reconstructs genetic operations and recorded selection summaries, not every search ledger or RNG draw.",
+    "The study compares selection-life allocation versus depth, not isolated precision, equalCPU or general evolutionary reliability."
+  ]
+}

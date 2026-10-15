@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "scope": "Read-only verification of final registered AB preparation; no genetic generation, engine imports or life/kernel calls.",
+  "protocol_sha256": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
+  "initialization_sha256": "71ba8b1ff8d2dd5da4b34a17248c888a4c1a1bdf32105352a7ebe4f6e13748b7",
+  "generation_claim_sha256": "8ab2bdcb2f6a964ec8aa16c4d8c3fdd111084db01e3a8e44437da180dadb317b",
+  "registration_sha256": "c847488dacf0b7355fe918123bab3bd806e85251ba54ccd767b2404874adae2e",
+  "local_pins_verified": 38,
+  "production_pins_verified": 35,
+  "backgrounds": {
+    "D90": {
+      "population_sha256": "f60c0868ead0450a4923b6401a73ca445f570bc4467bb6568f2ed7e9d03a2372",
+      "population_shape": [
+        32,
+        875
+      ],
+      "exact_Z_start": true,
+      "paired_runs_reference_same_population": true,
+      "recorded_initial_point_mutations": 62,
+      "allowed_policy_config_differences": [
+        "evolve.generations",
+        "evolve.recheck_lives",
+        "logging.output_dir",
+        "life.control",
+        "life.lives"
+      ]
+    },
+    "L92": {
+      "population_sha256": "1f7e749eeb34586055b586f0b713820e39ce84ca8e4d5703f7cbbc3f8e6ebef2",
+      "population_shape": [
+        32,
+        875
+      ],
+      "exact_Z_start": true,
+      "paired_runs_reference_same_population": true,
+      "recorded_initial_point_mutations": 62,
+      "allowed_policy_config_differences": [
+        "evolve.generations",
+        "evolve.recheck_lives",
+        "logging.output_dir",
+        "life.control",
+        "life.lives"
+      ]
+    }
+  },
+  "initialization_replay_owner": "Independent analyzer retains full recorded-operation replay separately; this review checks fixed-table bytes and exact founder/config correspondence.",
+  "world_and_numerical_identity_exact_Z": true,
+  "native_life_ids_and_intentional_overlap_exact_registered_audit": true,
+  "research_lives": 19576,
+  "startup_goldens": 10,
+  "cost_projection": {
+    "rates_cpu_per_life": {
+      "D90": 0.29744577104101566,
+      "L92": 0.17263171598242188,
+      "Y_D90": 0.27762129937304686,
+      "Y_L92": 0.22154874916406253,
+      "Z_D90": 0.17409847522851574,
+      "Z_L92": 0.14416872857226548
+    },
+    "lineage_maxima": {
+      "D90": 0.29744577104101566,
+      "L92": 0.22154874916406253
+    },
+    "startup_search_projection": 6604.1141710984575,
+    "confirmation_projection": 1221.604795554,
+    "search_release_threshold": 7190,
+    "confirmation_release_threshold": 1790,
+    "feasible": true,
+    "limitation": "Observed developed-body costs and fixed margins do not bound new mutants/endpoints."
+  },
+  "resource_clearance": {
+    "sha256": "f641f811f229f9e415af28c4e0eb4b8e0b107682afeac3be1e6b80c900cca26a",
+    "prior_process_identities": 20,
+    "prior_owned_groups": 14,
+    "terminal_budget_dependencies": 7
+  },
+  "PREPARED_STATUS_sha256": "426b1a51ea35fe870520b656ddd6a5b8499516013f472f201204b2469fd3b72d",
+  "runtime_paths_absent": true,
+  "no_compiled_libraries": true,
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "genotype_generation_calls": 0
+}

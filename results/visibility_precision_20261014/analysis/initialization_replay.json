@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "protocol_sha256": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
+  "backgrounds": {
+    "D90": {
+      "rows": 32,
+      "recorded_mutations": 62,
+      "all_rows_bitwise_equal": true,
+      "raw_sha256": "f60c0868ead0450a4923b6401a73ca445f570bc4467bb6568f2ed7e9d03a2372",
+      "file_sha256": "cad637473b0eccbc3b2ada0252fe5a690170994a8413e24d48a830cd7b975bf5"
+    },
+    "L92": {
+      "rows": 32,
+      "recorded_mutations": 62,
+      "all_rows_bitwise_equal": true,
+      "raw_sha256": "1f7e749eeb34586055b586f0b713820e39ce84ca8e4d5703f7cbbc3f8e6ebef2",
+      "file_sha256": "aab3a32cad200e48f21933a0c5fbe93cf22fa4f585c35343e351b65ab2e36310"
+    }
+  },
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "random_draws": 0,
+  "limit": "Recorded operations replay; stored RNG hashes are bound but their draws are not rerun.",
+  "script_sha256": "8b6820a7b142e4e3e04da883088a09cf3f743bc296c3214a5ef499d21a4576de",
+  "config_pairs": {
+    "D90": {
+      "matched_except_registered_policy_fields": true,
+      "seed": 53222
+    },
+    "L92": {
+      "matched_except_registered_policy_fields": true,
+      "seed": 53223
+    }
+  },
+  "local_protocol_pins": 38,
+  "production_pins": 35,
+  "native_union_count": 170,
+  "confirmation_ids": 512,
+  "source_modules": [
+    "src",
+    "src.genome",
+    "src.lattice",
+    "src.life",
+    "src.life.spec"
+  ],
+  "runtime_artifacts_absent": true,
+  "analyzer_sha256": "efe56680ea05fc76e0949695f9219272b9ea3a2b765029513265a2bee8d87d32"
+}
