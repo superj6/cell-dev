@@ -1,0 +1,27 @@
+{
+  "monitor": {
+    "pid": 2575703,
+    "ppid": 2575701,
+    "pgid": 2575701,
+    "start_ticks": 9432163
+  },
+  "pid_namespace": "pid:[4026531836]",
+  "protocol_sha256": "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294",
+  "release_sha256": "358087f1f1d327cd67e6128c70b59e7937c8326147fefb62d42228892978d26f",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-u",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015/measure.py",
+    "--run-child"
+  ],
+  "budget": {
+    "cpu_seconds": 7348.5101890000005,
+    "wall_seconds": 3886.051139053001,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "protocol_sha256": "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294",
+  "budget_sha256": "70242fe161850efa75ff558ac1ec1026b2b064b54b5c612bda6ce472f5252604",
+  "clearance_sha256": "ed93ddef984a80285e935bf327e3f54356051a7e91259bc9a1a98d476f156db8",
+  "canonical_summary_sha256": "00bdc977555e07a2b5146c70e069749b2ff1044d9658d4727fd29d622a6b2137",
+  "first_attempt_only": true,
+  "commands": [
+    [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_capture_value_selection_20261015/terminal_review/verify_terminal_raw.py",
+      "--protocol-sha256",
+      "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294",
+      "--budget-sha256",
+      "70242fe161850efa75ff558ac1ec1026b2b064b54b5c612bda6ce472f5252604",
+      "--clearance-sha256",
+      "ed93ddef984a80285e935bf327e3f54356051a7e91259bc9a1a98d476f156db8",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015/terminal_review/independent"
+    ],
+    [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_capture_value_selection_20261015/terminal_review/accuracy_supplement.py",
+      "--study",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015/terminal_review/accuracy",
+      "--budget-sha256",
+      "70242fe161850efa75ff558ac1ec1026b2b064b54b5c612bda6ce472f5252604",
+      "--clearance-sha256",
+      "ed93ddef984a80285e935bf327e3f54356051a7e91259bc9a1a98d476f156db8",
+      "--summary-sha256",
+      "00bdc977555e07a2b5146c70e069749b2ff1044d9658d4727fd29d622a6b2137"
+    ]
+  ],
+  "cwd": "/home/jgon/project/ml/cell-dev",
+  "environment_override": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_codes": [
+    0,
+    0
+  ],
+  "logs_preserved": true,
+  "helper_errors": [],
+  "artifacts": {
+    "literal_verification.stdout.txt": "67922716fb2b0ef47b211d689c834af89744e62611f03ad10ff2c3c3502517d0",
+    "literal_verification.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "accuracy_supplement.stdout.txt": "ea47915c517a806809a988726e2f8b71af0b2ca4cf8e54275ffb3f8b36d6d74f",
+    "accuracy_supplement.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "independent/independent_raw_review.json": "df4a02366be38d95ee532f30b128f9c452e29acef325c6fea747a994aca330a5",
+    "independent/reanalysis/summary.json": "00bdc977555e07a2b5146c70e069749b2ff1044d9658d4727fd29d622a6b2137",
+    "independent/reanalysis/paired_arrays.npz": "501f42d940f64935023cecd1378ad6f1bc32125566ab8ce7b736e3cc06a34750",
+    "independent/reanalysis.stdout.txt": "96b8d62b015b1dcae5df52057d349ede695bb8d026f73f1b99d08a24e5789d4a",
+    "independent/reanalysis.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "independent/verify_terminal_raw.py": "55f4ba3a87d37cc6245e1e26f70d796f0deb7c5dbc42dac84dca8af0d3e24b00",
+    "independent/accuracy_supplement.py": "d8a459fb917a1ca6bdc5769b5e8d0bc999f9cf89b511f89b597d77d22801e38c",
+    "accuracy/accuracy.json": "b002c53efc0b1d8a72675e88ab5bf82ea4f87cb4ed8d818ccc58860998478cef",
+    "independent_interpretation.md": "e45deb28a13100b9dc37e2e1afd3caed0ae8de24d7d1ab3911cae75ad18fc04f"
+  },
+  "literal_vectors_checked": 4064,
+  "max_literal_absolute_error": 0.0,
+  "frozen_reanalysis_exact_summary_and_npz": true,
+  "raw_lives": 8192,
+  "all_raw_status_zero": true,
+  "calls": 28756,
+  "new_simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0
+}

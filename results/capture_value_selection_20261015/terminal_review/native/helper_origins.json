@@ -1,0 +1,29 @@
+{
+  "status": "source_only_adaptation",
+  "source_study": "AL completed retention selection",
+  "source_files": {
+    "outputs/audit_retention_selection_20261015/genetics/audit_native.py": "545d3053f1bb3d20c5860ef02c1f5c72f4981659efe0ae5b583e1230c0f9b36a",
+    "outputs/audit_retention_selection_20261015/genetics/selection_replay.py": "0949a0ff416dae258d44e689d43fa8cf786f491ba3e47773ae5a3997506633e0",
+    "outputs/audit_retention_selection_20261015/genetics/test_replay.py": "6ad4fef972d30e2f61613d3872c3c5397caf0c8a36738c801c2e4fa39852c36a",
+    "outputs/audit_retention_selection_20261015/genetics/execute_full_audit.py": "cc03fb70cebd6eabfe3d56e0a266a65523e85c21618d8cf59e99d3bdf7091fc8",
+    "outputs/audit_retention_selection_20261015/genetics/full_audit_preparation.json": "53c7388b9cb01302233efc7c1203bf7e50bec61d7a43439e6d9e9011fc4a8724"
+  },
+  "producer_genetics_unchanged": {
+    "old": "outputs/autonomous_retention_selection_20261015/replay_ops.py",
+    "new": "outputs/autonomous_capture_value_selection_20261015/replay_ops.py",
+    "sha256": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+    "byte_equal": true
+  },
+  "changes": [
+    "Arm and study names current_value/high_value; explicit selection_capture_value500/2000 identity while canonical worlds/diagnostics remain500.",
+    "Initial/recheck lives4+4 to8+8; generation seed suffix8..15; checkpoint recheck lives1024 to2048; initial evaluation lives4096 to8192 and guard-rate denominator1024 to2048.",
+    "Recorded pooled means use8*base+8*extra divided by16; all genetic replay primitives remain unchanged.",
+    "Synthetic toy hash generation stride10 to100 prevents artificial overlap when life count grows to16; no scientific seed or random draw.",
+    "Three focused cases reject legacy four-life schedules and verify using both score batches.",
+    "Execution copy list deduplicates filenames so the self-pinned wrapper is retained once."
+  ],
+  "scientific_execution": false,
+  "random_draws": 0,
+  "compiled_libraries": 0,
+  "simulation_calls": 0
+}

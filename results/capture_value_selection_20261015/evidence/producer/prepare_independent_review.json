@@ -1,0 +1,45 @@
+{
+  "status": "approved_source_only",
+  "scope": "Independent read-only preparation/configuration/import review; actual preparation and prior author tests were not executed or repeated by this reviewer.",
+  "source_pins": {
+    "outputs/autonomous_capture_value_selection_20261015/prepare.py": "1a5d3de5ede391b282e5cff7a81f562d4e01a5ed9836af342736675d640364cd",
+    "outputs/autonomous_capture_value_selection_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/autonomous_capture_value_selection_20261015/selection.py": "f8370d3390a6e3bee1b18151444f8e81e64d04a6ba631d2c009527902782d7fa",
+    "outputs/autonomous_capture_value_selection_20261015/search.py": "d511ce56a44dad6520798e14a393d797e94288a90c134c231bec3356a858750e",
+    "outputs/autonomous_capture_value_selection_20261015/common.py": "56c267b3f9fd36d9075f10f31380ac8de777d849b853151a222af3d5d9e7d8b9",
+    "outputs/autonomous_capture_value_selection_20261015/monitor.py": "5fdf819058832aaf3d2813d0f2ebe8fe4b4f2b5a10b552c0b4dd9b931b3d4114"
+  },
+  "evidence_pins": {
+    "outputs/audit_capture_value_selection_20261015/operations/producer_operations_source_review.json": "c6b246efe87ef7f91449d2c5959fd452ef1cf44bb9c6834a357947e71435457a",
+    "outputs/audit_capture_value_selection_20261015/operations/prepare_tests.xml": "1a7f24c3df3b69a0cb7c8a07765b2f88901cee6410d0756b288972b34d45f117",
+    "outputs/audit_capture_value_selection_20261015/operations/test_prepare.py": "73cebeeddd4947b244333da58046c843c3b8ad79d59f5d01feedf940c8b027f4",
+    "outputs/audit_capture_value_selection_20261015/producer/producer_source_review.json": "66cc5d431a1c456eaa49af257b8dca0a0cd749d5f1c3d723674e5a50d5b7bd22",
+    "outputs/audit_capture_value_selection_20261015/analyzer_peer_review.json": "6293797ef4593350fd0c6c14cccb95434ac8187b62b22f828c9d69333e878ce8"
+  },
+  "checks": [
+    "Preparation requires root acceptance and exact source/review pins, and refuses existing preparation/runtime paths.",
+    "All 32 AL-mixture final rows, their order and duplicate genome bytes are bound to the complete prior checkpoint and full recorded-genetic audit; row zero is the exact AL mixture reference.",
+    "Old IDs and fresh 0..31 IDs have a row/raw-hash crosswalk. Imported population, config and checkpoint are evidence; prior optimizer/RNG state is not resumed.",
+    "Empty fill is explicitly checked for unchanged population bytes, empty mutation operations and unchanged generator state.",
+    "Both configurations preserve ordinary mutation/crossover, physical prices, structural-off policy and ABI3 persistent R_cap500 base. They use eight initial and eight additional recheck lives.",
+    "The narrow generation-only adapter alternates POOL/persistent and changes only R_cap500 versus2000. Native diagnostics and all four confirmation worlds retain R_cap500.",
+    "Preparation validates the exact ABI3/ABI4 world vectors and ledger fields, source closure, retained numerical-identity source hashes, and distinct ancestral/reference role identities.",
+    "Per-arm counts 10240 selection+32 validation+6 final =10278 research; two arms plus8192 confirmation and8 startup =28756 calls. The namespace schedule contains100 unique native IDs intentionally shared across arms.",
+    "Fourteen watchdog function ASTs and existing five preparation tests were inspected through the separately pinned source/receipt; no lifecycle or scientific suite was rerun."
+  ],
+  "test_evidence": {
+    "inspected_passed": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "rerun_by_reviewer": false
+  },
+  "issues": [],
+  "limits": [
+    "Source review establishes the intended contract; actual preparation has independent separately retained receipts.",
+    "Paired search differences do not establish objective optimality or a causal circuit mechanism."
+  ],
+  "genetic_draws": 0,
+  "compiled_libraries": 0,
+  "simulated_lives": 0
+}

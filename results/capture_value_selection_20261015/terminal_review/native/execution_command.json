@@ -1,0 +1,39 @@
+{
+  "argv": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015/terminal_review/native/audit_native.py",
+    "--study",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015",
+    "--out",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_capture_value_selection_20261015/terminal_review/native/complete_native_audit.json"
+  ],
+  "cwd": "/home/jgon/project/ml/cell-dev",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "ATEN_CPU_CAPABILITY": "avx2"
+  },
+  "protocol_sha256": "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294",
+  "prepared_sources": {
+    "audit_native.py": "1640b5530fc44567758da00b529a43cf5200f81842c0bc635a90991c35a29ef8",
+    "selection_replay.py": "2e03d0724e9b32be02944d42e029245b345e3de45d80e3076448c02c24bea963",
+    "test_replay.py": "3ca1b80c455177f1befb749339871e247c2572ac9aa0bda169e4b85f79f0e168",
+    "execute_full_audit.py": "4be63becf5d2bad2660e514e04f9e790a1e23495381b30657b0b4eb143a211fb",
+    "tests.xml": "46fd27cabfc985222282b0e4529b9daf5d1170157bd7dec409bcb651e2ede7fc",
+    "tests.log": "511fb971caf59261241ec2a3919d9d10c7dcb9ec044ee07d50b2db465184f057",
+    "helper_origins.json": "452b07ff8fd456fe5f77204d8b89dfb992785f6b98825c858fb97afe39b783a7",
+    "adaptation.diff": "7bad044ded9365bf59b1de7850f5295a91ca3168c15c0d8483a7d359bf3013ff",
+    "README.md": "00ff1d9231688c76b362f3284e7fd08d5e27ec43c6cf6e0bb1d1fbb0feb64c8b"
+  },
+  "producer_helpers": {
+    "native_replay.py": "856ab313132530424392a49d4ab43e4bf8a5a77048a6eb7dee84c4846be99c1a",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "execution_helper_sha256": "4be63becf5d2bad2660e514e04f9e790a1e23495381b30657b0b4eb143a211fb",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "random_draws": 0
+}

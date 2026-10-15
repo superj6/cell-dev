@@ -1,0 +1,27 @@
+{
+  "status": "prepared_source_only_unexecuted",
+  "source_pins": {
+    "accuracy_supplement.py": "d8a459fb917a1ca6bdc5769b5e8d0bc999f9cf89b511f89b597d77d22801e38c",
+    "test_accuracy_supplement.py": "42f6b9b57754becef8959a15228e8e9aa9617e0831450dd819a0096997a8e799",
+    "accuracy_tests.xml": "1ae1947f871c5c7386d27bdc1941547b3831f48dceb587c0bffc096e9e234b63",
+    "accuracy_tests.log": "99db33d5c94c6f7da021687c7391181685cc33299c5435b1c861e2db3be3ec87"
+  },
+  "fixed_raw_rows": 16,
+  "lives_per_row": 512,
+  "purpose": "Separate descriptive aggregate capture fraction without changing4064 canonical vectors or primary.",
+  "definition": "sum(captures)/sum(clicks), null if totalclicks0; captures+misses=clicks validated.",
+  "additional_reports": [
+    "mean_captures_per_life",
+    "mean_clicks_per_life",
+    "mean_misses_per_life",
+    "clickless_lives",
+    "clickless_fraction"
+  ],
+  "uncertainty": "No binomialSE; clicks within lives are dependent. No per-life ratio or new primary contrasts added.",
+  "gate": "Exact root terminalbudget,hostclearance,protocol,frozenreader and completed summary pins before raw reads.",
+  "checks_passed": 2,
+  "simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0,
+  "scientific_rows_read": false
+}

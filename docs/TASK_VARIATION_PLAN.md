@@ -69,6 +69,11 @@ seconds, 3,600 wall seconds, 8 GiB address space and a 4 GiB RSS stop, with a 4 
 Block139/native53229 are registered. No life or scientific genetic draw occurred in preparation. Publish and
 review actual inputs before release; continue useful local experiments afterward under the user's authorization.
 
+*2026-10-15 experiment-selection clarification:* the user asks us to avoid narrowing indefinitely onto one
+issue. Complete a focused experiment, review its results, then choose the next highest-value experiment for
+richer, reusable emergent algorithms. Follow-up sketches are options rather than a fixed sequence; reconsider
+information demands, incentives, search dynamics and mechanism probes together at each milestone.
+
 *2026-10-15 AL complete and incentive direction:* the mixture gains 3.684 ± 0.298 POOL captures over AI start;
 persistent change is −0.078 ± 0.200 and 90% retention is unresolved. Larger bodies add cost. The single-task
 endpoint loses both captures and fresh training-world F, leaving selection noise as an alternative explanation.
@@ -79,6 +84,15 @@ as the dominant observed charge, not spike/message costs. Next, AM compares capt
 two-task selection, from the full AL-mixture population; use common original prices in confirmation and report
 captures, retained ability, physical cost and click accuracy separately. This does not establish an optimal price,
 memory or richer behavior, and no AM run is launched by this note.
+
+*2026-10-15 AM complete:* current-price continuation gains captures in all four known contexts, including
++1.332±0.229POOL and+0.865±0.135persistent, with modest extra cost. Higher reward has no joint task advantage
+and adds larger bodies/more misses. Both descendants pass90%capture retention. No algorithm or optimal price is
+established. All28,756calls complete in5112.442CPU seconds; raw/genetic checks pass and processes are clear.
+After broad reconsideration, prepare one longer continuation adding nearby longer cue gaps with old tasks retained;
+AN is source-only, with no inputs or registered namespace. Current gains weaken under brief darkness by
+0.422±0.132captures, and dark gains are unresolved. This motivates the new demand without making a memory claim
+or requiring a hand-built winner. See AM's `discussion/ROOT_DECISION.md`; reassess after the next complete result.
 
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved

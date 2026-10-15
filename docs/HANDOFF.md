@@ -9,29 +9,44 @@ without repeated permission requests. Use one modest worker, explicit memory/CPU
 if the evidence indicates substantially more resources are needed for meaningful progress. No rented compute
 or spending is authorized. The objective remains evolved local asynchronous algorithms and cumulative capability.
 
-**Current work (2026-10-15).** AL is complete. Fixed two-task selection recovers ancestral POOL captures:
-AI start 11.324 → mixture 15.008, a gain of **3.684 ± 0.298** per life. Persistent captures are close in the mean,
-4.766 → 4.688, but the conventional 90% retention criterion remains unresolved (margin +0.398 ± 0.190;
-lower three-SE bound −0.171). No strict simultaneous improvement, memory or new algorithm is established.
-The persistent-only branch loses captures in both tasks and loses fresh persistent F too, so sparse selection
-noise remains a plausible problem alongside incentives. Mixture bodies are larger and cost more: terminal cells
-rise about 59 → 83 in POOL and 65 → 90 in persistent. All 13,396 calls complete in 1,098.051813 CPU /450.990839
-wall seconds; peak sampled RSS is about 310 MiB. All confirmation statuses are zero. Full raw genetics,
-limited logged shortlist selection and all 2,254 literal paired vectors verify. Four process leaders and three
-groups are clear. Evidence: `results/retention_selection_20261015/REPORT.md`; prospective commits `da2a01f`,
-`6ad0266`; protocol `25575f9e…ad19bf`. AJ remains source-only, unregistered and held.
+**Experiment choice (user clarification, 2026-10-15).** Do not keep narrowing onto one mechanism or tuning
+axis. Finish a focused experiment, inspect the results, then reconsider the highest-value next experiment for
+richer, reusable evolved behavior. Cost calibration, search operators, richer information demands and circuit
+analysis are competing options, not predetermined sequences. Existing follow-up design notes are candidates;
+choose the next study from the complete evidence and the broad objective, not momentum.
 
-**Current direction:** the user explicitly asks whether cost penalties encourage the desired capabilities.
-Combined with their broad local-experiment authorization, study-local incentive comparisons are in scope;
-production defaults and prior-study prices remain their fixed baselines. AL post hoc repricing shows maintenance
-accounts for about 79% of the mixture's persistent ordinary cost; spike/message charges are under 1%.
-Halving maintenance would reverse mixture-versus-control persistent F on those recorded lives. This is ranking
-sensitivity, not an optimum or a prediction of evolution. AM is being prepared to compare capture value 500
-versus 2,000 during fixed two-task selection, retaining every existing physical penalty, from all 32 AL-mixture
-survivors. Both arms get more selection lives to reduce noise; final comparisons use original prices. AM is prepared and registered at protocol `9210e218…922294`, with28,756 total calls,
-10,800CPU/5,400wall caps and explicit memory safeguards. Actual-input review/publication precede release. No AM run
-has launched. Continue on judgment within local CPU/memory bounds; stop to report if meaningful progress
-appears to need more resources. All AL contexts are now development data.
+**Current work (2026-10-15).** AM is complete. Original-price continuation gains captures over AL in all four
+known worlds: POOL **+1.332031 ±0.229478**, persistent **+0.865234 ±0.135134**, blink80/5 **+0.443359 ±0.128503**,
+and turn100+blink80/5 **+0.695312 ±0.127998**. Both training F gains are positive beyond3SE despite modest extra
+cost/body growth. Higher capture reward2,000 adds1.568359±0.241853 POOL captures over current value500 but has
+persistent difference−0.433594±0.151231, unresolved at3SE, and much higher body/miss costs; no joint price advantage.
+Both endpoints pass90% capture retention; AL-versus-AI persistent retention now passes on fresh512 lives too.
+Current persistent F still trails AI, so capture progress does not preserve every earlier cost-performance tradeoff.
+No optimal price, memory, new algorithm or broad generalization is established. Report:
+`results/capture_value_selection_20261015/REPORT.md`. All28,756calls complete in5112.441715CPU/2065.705032wall,
+peak326,066,176bytesRSS; all8192confirmationstatuses0. Four identities/threegroups clear. Full genetics and all4064
+literal paired vectors verify exactly. Prospective commitsbf431b6/16e46cd; protocol9210e218…922294;
+summary00bdc977…6b2137. No active research worker remains. AJ is still held source-only.
+
+**Next direction chosen after the complete result:** AN, source-only under
+`outputs/autonomous_occlusion_acquisition_20261015/`, with audit sister directory. One eight-generation ordinary
+continuation from ALL32 AM current-value survivors at500, fixed2POOL/2persistent/4blink80_20 per8selection lives,
+8initial+8recheck. Existing ABI4; only mean dark interval5→20 changes from the known blink context. Preserve exact
+generation4 and8 endpoints, then test start/mid/final on five worlds with512shared fresh lives. Candidate fifth
+world isturn100+blink80_20; audit prior exposure before calling it held out. Proposed28,222calls,
+10,800CPU (7200search/3600confirmation),5400wall,one2threadworker with AM memory safeguards.
+Native53231/block141 are only candidates, not registered. No inputs/builds/genetic draws/lives yet.
+Root owns common/monitor/release; richer_worlds producer+midpoint; prediction_audit reader; decoy_design prepare,
+namespace/resource/exposure audits. Source review, actual input review, prospective commit/push and bounded launch
+report precede execution. Exact reasoning is AM's `discussion/ROOT_DECISION.md`.
+
+Why this next: the current-price descendant's gain is0.421875±0.132148 smaller under brief darkness than steady
+visibility; dark-capture improvement is unresolved. It gives a nearby information-demand challenge while the
+lineage now demonstrates retained capture gains. A small causal probe, another price/weight comparison, operator
+changes and a matched longer pair were considered. A single longer continuation prioritizes new acquisition;
+it cannot establish curriculum or depth superiority. Reassess after its complete result, per the user's explicit
+no-telescoping guideline. Safe local experimentation remains authorized; stop to report if meaningful progress
+appears to require substantially more resources. No paid compute or new in-life rule/ABI is authorized here.
 
 Watch AL at `results/atlas/retention_selection.html`: six existing first-seed JS lives match all 342 C ledger
 values, with 106 mock UI checks and no real browser run. Evidence: `results/al_watchable_20261015/`.

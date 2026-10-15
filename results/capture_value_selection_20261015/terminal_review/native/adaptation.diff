@@ -1,0 +1,226 @@
+--- outputs/audit_retention_selection_20261015/genetics/audit_native.py
++++ outputs/audit_capture_value_selection_20261015/genetics/audit_native.py
+@@ -1,4 +1,4 @@
+-"""Offline AL complete recorded-genetics and logged ordinary-selection audit; no lives or RNG draws."""
++"""Offline AM complete recorded-genetics and logged ordinary-selection audit; no lives or RNG draws."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -40,8 +40,8 @@
+     for name, digest in protocol['source_pins'].items():
+         if sha(study / name) != digest:
+             raise ValueError('pinned study source changed: ' + name)
+-    replay = load('AL_full_recorded_replay', study / 'native_replay.py')
+-    selected = load('AL_ordinary_selection', HERE / 'selection_replay.py')
++    replay = load('AM_full_recorded_replay', study / 'native_replay.py')
++    selected = load('AM_ordinary_selection', HERE / 'selection_replay.py')
+     operations = replay.operations()
+     layout, initial = replay.initial_population(study, protocol)
+     from src.life import spec
+@@ -50,7 +50,7 @@
+     if (study / 'first_cohort_replay.json').exists() and read(study / 'first_cohort_replay.json') != first:
+         raise ValueError('saved first-cohort proof differs')
+     results, artifacts = {}, {}
+-    for arm in ('persistent_control', 'balanced_mixture'):
++    for arm in ('current_value', 'high_value'):
+         folder = study / 'runs' / arm
+         cfg_path = study / protocol['configs'][arm]['path']
+         selected.equal(sha(cfg_path), protocol['configs'][arm]['sha256'], 'registered configuration')
+@@ -58,16 +58,17 @@
+         selected.equal(cfg['seed'], protocol['native_seed'], 'native seed')
+         for key, value in {'generations': 4, 'mu': 32, 'lam': 224, 'breeding': 'sex', 'n_mut': 2,
+                            'dup_rate': 0., 'del_rate': 0., 'dup_split': False, 'recheck_k': 64,
+-                           'recheck_lives': 4, 'recheck_key': 'all', 'heldout_every': 4}.items():
++                           'recheck_lives': 8, 'recheck_key': 'all', 'heldout_every': 4}.items():
+             selected.equal(cfg['evolve'][key], value, 'ordinary search ' + key)
+-        selected.equal(cfg['life']['lives'], 4, 'initial life budget')
++        selected.equal(cfg['life']['lives'], 8, 'initial life budget')
+         selected.equal(cfg['life']['T'], 1024, 'duration')
+         selected.equal(cfg['life']['T_choices'], None, 'fixed duration')
+         selected.equal(cfg['logging']['lineage'], 'all', 'complete child records')
+         expected_population = {'version': 1, **protocol['population_start'], 'source_pins': {
+             name: sha(study / name) for name in ('population_loader.py', 'search.py')}}
+         expected_selection = {'version': 1, 'arm': arm, 'worlds': protocol['selection_worlds'],
+-            'rule': 'gen indices even=pool odd=persistent; control and diagnostics=persistent',
++            'rule': 'gen indices even=pool odd=persistent; gen R_cap by arm; diagnostics=persistent R_cap500',
++            'selection_capture_value': {'current_value': 500., 'high_value': 2000.}[arm],
+             'source_pins': {'selection.py': sha(study / 'selection.py')}}
+         selected.equal(cfg['population_start'], expected_population, 'loader configuration')
+         selected.equal(cfg['retention_selection'], expected_selection, 'world-allocation configuration')
+@@ -80,7 +81,7 @@
+         selected.equal(saved['identity'], expected_identity, 'extended numerical identity')
+         selected.equal(read(folder / 'determinism.json'), expected_identity, 'native identity file')
+         state = saved['state']
+-        for key, value in {'generation': 4, 'evals': 1024, 'rc_lives': 1024}.items():
++        for key, value in {'generation': 4, 'evals': 1024, 'rc_lives': 2048}.items():
+             selected.equal(state[key], value, 'native checkpoint ' + key)
+         logs = {}
+         for name, metadata in saved['logs'].items():
+@@ -113,7 +114,7 @@
+         if any(not np.isfinite(row[key]) or row[key] != 0 for row in curves
+                for key in ('pop_invalid', 'pop_mismatch', 'recheck_invalid')):
+             raise ValueError('invalid or mismatch in native search')
+-        guard_counts = [row['pop_guard'] * 1024 for row in curves]
++        guard_counts = [row['pop_guard'] * 2048 for row in curves]
+         if any(not np.isfinite(x) or abs(x - round(x)) > 1e-8 for x in guard_counts):
+             raise ValueError('invalid guard count aggregate')
+         marker = read(folder / 'search_complete.json')
+@@ -123,7 +124,7 @@
+         results[arm] = {'status': 'passed', 'checkpoint_sha256': sha(folder / 'checkpoint.pt'),
+             'selection': selection, 'genetic_replay': genetics, 'all_32_final_rows_bound': True,
+             'final_rank_zero_id': int(state['ids'][0]), 'final_rank_zero_raw_sha256': replay.raw_sha(final[0].numpy()),
+-            'initial_evaluation_lives': 4096, 'recheck_lives': 1024,
++            'initial_evaluation_lives': 8192, 'recheck_lives': 2048,
+             'initial_guard_counts_by_generation': [round(x) for x in guard_counts]}
+     forbidden = [name for name in sys.modules if name in ('src.life.build', 'src.life.evaluate',
+                   'src.checkpoint', 'src.evolve', 'src.run', 'src.life.reference')]
+--- outputs/audit_retention_selection_20261015/genetics/selection_replay.py
++++ outputs/audit_capture_value_selection_20261015/genetics/selection_replay.py
+@@ -1,4 +1,4 @@
+-"""AL ordinary selection checks adapted from AJ solely for four initial plus four recheck lives."""
++"""AM ordinary selection checks adapted from AL solely for eight initial plus eight recheck lives."""
+ import numpy as np
+ from omegaconf import OmegaConf
+ 
+@@ -32,8 +32,8 @@
+     mutations = sum(len(c["ops"].get("mut", [])) for c in initial["copies"])
+     offspring = 0
+     for g, (row, curve) in enumerate(zip(generations, curves)):
+-        equal(row["seeds"], [life_seed(spec, seed, 1, g, j) for j in range(4)], "initial seeds")
+-        equal(row["recheck"]["seeds"], [life_seed(spec, seed, 1, g, j) for j in range(4, 8)], "recheck seeds")
++        equal(row["seeds"], [life_seed(spec, seed, 1, g, j) for j in range(8)], "initial seeds")
++        equal(row["recheck"]["seeds"], [life_seed(spec, seed, 1, g, j) for j in range(8, 16)], "recheck seeds")
+         equal(float(row["T"]), float(curve["T"]), "lineage duration")
+         children = row["children"]
+         equal([c["id"] for c in children], list(range(32 + 224 * g, 32 + 224 * (g + 1))), "offspring ids")
+@@ -55,10 +55,10 @@
+         extra = np.asarray(row["recheck"]["F_recheck"])
+         if base.shape != (64,) or extra.shape != (64,) or not np.isfinite(base + extra).all():
+             raise ValueError("invalid recheck score vectors")
+-        pooled = (4 * base + 4 * extra) / 8
++        pooled = (8 * base + 8 * extra) / 16
+         chosen = [shortlist.index(value) for value in survivors]
+         if not np.allclose(pooled[chosen], row["fitness"], rtol=1e-12, atol=1e-12):
+-            raise ValueError("selected fitness differs from the eight-life pooled scores")
++            raise ValueError("selected fitness differs from the sixteen-life pooled scores")
+         unchosen = [i for i in range(64) if i not in chosen]
+         if (np.any(np.diff(base) > 1e-12) or np.any(np.diff(pooled[chosen]) > 1e-12)
+                 or np.max(pooled[unchosen]) > np.min(pooled[chosen]) + 1e-12):
+--- outputs/audit_retention_selection_20261015/genetics/test_replay.py
++++ outputs/audit_capture_value_selection_20261015/genetics/test_replay.py
+@@ -10,7 +10,7 @@
+ 
+ HERE=Path(__file__).resolve().parent
+ ROOT=HERE.parents[2]
+-STUDY=ROOT/'outputs/autonomous_retention_selection_20261015'
++STUDY=ROOT/'outputs/autonomous_capture_value_selection_20261015'
+ 
+ def load(name,path):
+     spec=importlib.util.spec_from_file_location(name,path)
+@@ -18,9 +18,9 @@
+     spec.loader.exec_module(module)
+     return module
+ 
+-G=load('AL_test_ops',STUDY/'replay_ops.py')
+-L=load('AL_test_selection',HERE/'selection_replay.py')
+-R=load('AL_test_first',STUDY/'native_replay.py')
++G=load('AM_test_ops',STUDY/'replay_ops.py')
++L=load('AM_test_selection',HERE/'selection_replay.py')
++R=load('AM_test_first',STUDY/'native_replay.py')
+ 
+ class Layout:
+     size = 4
+@@ -47,7 +47,7 @@
+ class Spec:
+     @staticmethod
+     def hash64(seed, kind, g, j):
+-        return seed + kind * 10000 + g * 10 + j
++        return seed + kind * 10000 + g * 100 + j
+ 
+ def fixture(duplicate=False):
+     initial = np.arange(128, dtype=np.float32).reshape(32, 4)
+@@ -90,7 +90,7 @@
+             {
+                 "gen": g,
+                 "T": 1024,
+-                "seeds": [L.life_seed(Spec, 7, 1, g, j) for j in range(4)],
++                "seeds": [L.life_seed(Spec, 7, 1, g, j) for j in range(8)],
+                 "children": kids,
+                 "survivors": survivors,
+                 "fitness": scores[:32],
+@@ -101,7 +101,7 @@
+                     "key": "all",
+                     "F_base": scores,
+                     "F_recheck": scores,
+-                    "seeds": [L.life_seed(Spec, 7, 1, g, j) for j in range(4, 8)],
++                    "seeds": [L.life_seed(Spec, 7, 1, g, j) for j in range(8, 16)],
+                 },
+             }
+         )
+@@ -165,8 +165,33 @@
+ 
+ 
+ def test_reviewed_genetics_functions_are_AST_identical():
+-    old=ast.parse((ROOT/'outputs/audit_population_depth_20261015/analysis/helpers/genetics.py').read_text())
++    old=ast.parse((ROOT/'outputs/autonomous_retention_selection_20261015/replay_ops.py').read_text())
+     new=ast.parse((STUDY/'replay_ops.py').read_text())
+     definitions=lambda tree:{n.name:ast.dump(n) for n in tree.body if isinstance(n,ast.FunctionDef)}
+     a,b=definitions(old),definitions(new)
+     assert all(a[name]==value for name,value in b.items())
++
++
++@pytest.mark.parametrize('stage', ['initial', 'recheck'])
++def test_legacy_four_life_schedule_is_rejected(stage):
++    _, lines, curves, state = fixture()
++    if stage == 'initial':
++        lines[1]['seeds'] = lines[1]['seeds'][:4]
++    else:
++        lines[1]['recheck']['seeds'] = [L.life_seed(Spec, 7, 1, 0, j) for j in range(4, 8)]
++    with pytest.raises(ValueError, match='seeds'):
++        L.audit_lineage(lines, curves, state, 7, Spec)
++
++
++def test_pooled_means_use_both_eight_life_batches():
++    _, lines, curves, state = fixture()
++    for row, curve in zip(lines[1:], curves):
++        base = np.asarray(row['recheck']['F_base'])
++        row['recheck']['F_recheck'] = (base + 2).tolist()
++        row['fitness'] = (base[:32] + 1).tolist()
++        curve['fitness'] = row['fitness'][0]
++    state['fitness'] = torch.tensor(lines[-1]['fitness'], dtype=torch.float64)
++    assert L.audit_lineage(lines, curves, state, 7, Spec)['sexual_offspring'] == 896
++    lines[1]['fitness'] = lines[1]['recheck']['F_recheck'][:32]
++    with pytest.raises(ValueError, match='pooled scores'):
++        L.audit_lineage(lines, curves, state, 7, Spec)
+--- outputs/audit_retention_selection_20261015/genetics/execute_full_audit.py
++++ outputs/audit_capture_value_selection_20261015/genetics/execute_full_audit.py
+@@ -1,4 +1,4 @@
+-"""Execute the prepared offline AL audit once, preserving exact sources and logs."""
++"""Execute the prepared offline AM audit once, preserving exact sources and logs."""
+ from __future__ import annotations
+ 
+ import hashlib
+@@ -13,7 +13,7 @@
+ 
+ ROOT = Path(__file__).resolve().parents[3]
+ SOURCE = Path(__file__).resolve().parent
+-STUDY = ROOT / 'outputs/autonomous_retention_selection_20261015'
++STUDY = ROOT / 'outputs/autonomous_capture_value_selection_20261015'
+ DEST = STUDY / 'terminal_review/native'
+ 
+ 
+@@ -29,12 +29,12 @@
+     for name, digest in prepared['producer_helpers'].items():
+         if sha(STUDY / name) != digest:
+             raise ValueError('producer helper changed: ' + name)
+-    for arm in ('persistent_control', 'balanced_mixture'):
++    for arm in ('current_value', 'high_value'):
+         marker = STUDY / 'runs' / arm / 'search_complete.json'
+         if json.loads(marker.read_text())['status'] != 'complete':
+             raise ValueError('search is incomplete: ' + arm)
+     DEST.mkdir(exist_ok=False)
+-    for name in [*prepared['files'], 'full_audit_preparation.json', 'README.md', Path(__file__).name]:
++    for name in dict.fromkeys([*prepared['files'], 'full_audit_preparation.json', 'README.md', Path(__file__).name]):
+         shutil.copyfile(SOURCE / name, DEST / name)
+     (DEST / 'producer_helpers').mkdir()
+     for name in prepared['producer_helpers']:

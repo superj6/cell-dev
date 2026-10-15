@@ -3641,3 +3641,44 @@ and40groups are clear. Actual-input review and prospective publication precede r
 
 Protocol `9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294`.
 Prospective evidence: `results/capture_value_selection_20261015/`.
+
+## 2026-10-15 — AM complete: cumulative capture gains; higher reward has no joint task advantage
+
+The original-price continuation improves captures over its AL start in all four known contexts. POOL rises
+15.417969 →16.750000 (**+1.332031 ±0.229478**) and persistent4.458984 →5.324219
+(**+0.865234 ±0.135134**). Original-price F improves **+0.504278 ±0.109905 /+0.245150 ±0.066728**
+respectively despite extra ordinary costs0.146128/0.177328F. Terminal cells increase about82→88 and90→96.
+Captures also improve in brief darkness **+0.443359 ±0.128503** and turns-plus-darkness **+0.695312 ±0.127998**.
+All four capture gains clear the fixed lower-three-SE criterion. No memory or richer algorithm is established.
+
+Higher selection reward2,000 versus500 produces co-primary high-minus-current capture effects
+**+1.568359 ±0.241853 POOL /−0.433594 ±0.151231 persistent**: no joint advantage. The latter loss narrowly
+remains unresolved at three SE. Higher reward increases bodies to106/118 cells and misses to37.58/39.38 per
+life; aggregate capture/click fractions fall from43.29%→32.77% and15.80%→11.05% versus current value.
+At common original prices, its persistent F is **0.799722 ±0.075178 lower** than current value. More hidden
+cells (persistent7.97 versus1.09) do not establish useful circuitry. No optimal-price or general policy claim.
+
+Both endpoints pass90% capture retention against AL in both training worlds and AI in persistent; both improve
+AL captures in both training worlds. The high-value persistent gain only barely clears three SE, lower bound
++0.001540. Fresh AL-versus-AI persistent90% retention now passes: margin **+0.408984 ±0.118987**, lower bound
++0.052024; this does not imply lossless retention. Current-value persistent F still trails AI by0.421625±0.065424.
+Both arms used more evaluation lives than AL, so this study does not isolate precision from further evolution.
+
+A useful weakness remains: current-value's capture gain is **0.421875 ±0.132148 smaller under brief darkness
+than persistent**, a resolved negative interaction. Dark-capture gains remain unresolved. Improved transfer
+performance therefore does not establish better occlusion robustness. All four cases are development data.
+
+All28,748research+8startup calls finish in **5,112.441715 CPU /2,065.705032 wall seconds**; peak ownedRSS
+326,066,176bytes. Four identities/three groups are clear. All8,192 confirmation statuses are zero. All offspring,
+final genomes/origins and logged pooled selection reconstruct; original guard penalties remain included. The
+independent literal accountant matches all4,064 vectors exactly, and separate frozen-reader output is byte-identical.
+Offline genetics used another4.043801CPU seconds with no simulations. No retry, extension or rented compute.
+
+The user's new guideline is to finish each experiment and reconsider the highest-value next step, avoiding a
+narrow tuning track. After comparing richer tasks, longer search, causal probes, operators and reward adjustments,
+choose AN: one eight-generation continuation of the current-price population, with longer irregular cue gaps
+and both old tasks retained. It is source-only, unprepared and unregistered. Midpoint/final genomes will be fixed
+before fresh confirmation; no automatic price sweep or mechanism gate. Exact decision: AM/discussion/ROOT_DECISION.md.
+
+Report/figure/evidence: `results/capture_value_selection_20261015/REPORT.md`.
+Prospective commits `bf431b6`, `16e46cd`; protocol9210e218…922294; summary00bdc977…6b2137; budget70242fe1…252604.
