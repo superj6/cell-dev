@@ -2577,3 +2577,57 @@ checks and 39 independent reader/native checks pass. The 176-artifact prospectiv
 `results/visibility_precision_20261014/`; its copied sources also replay the initial populations outside the
 repository without a live-source fallback. The first actual offspring cohorts will be checked before confirmation
 and independently replayed after execution. Release follows publication.
+
+## 2026-10-14 — More precise scoring does not show a fitness advantage over depth
+
+AB completed the matched-selection-call comparison from both fixed Z endpoints: four 3+4-life generations
+versus one 12+16-life generation. Each branch spent 4,096 selection calls. Within each background, all 256 first
+candidate genomes match bitwise across policies. All four final population-rank-zero endpoints were fixed
+before fresh six-role confirmation on 512 shared block122 seeds. Values below are means ± paired SE.
+
+| Precision endpoint minus depth endpoint (primary) | D90 | L92 |
+|---|---:|---:|
+| Production fitness F | −.17843 ± .07883 | −.13330 ± .07509 |
+| Captures per life | +.95117 ± .16147 | −.00781 ± .15446 |
+| Capture-income contribution to F | +.46444 ± .07884 | −.00381 ± .07542 |
+| Ordinary cost-saving contribution to F | −.64287 ± .01331 | −.12949 ± .00751 |
+
+Neither primary fitness effect clears the descriptive three-SE threshold. D90 precision clearly catches more
+than its depth counterpart, but costs more. That relative capture advantage is not a confirmed improvement
+from the common start: depth lost captures, while precision's own capture change is unresolved.
+
+| Endpoint minus own fixed Z start | Fitness F | Captures | Capture income in F | Ordinary cost saving in F |
+|---|---:|---:|---:|---:|
+| D90 depth | +.37224 ± .07738 | −.72266 ± .16122 | −.35286 ± .07872 | +.72510 ± .01305 |
+| D90 precision | +.19381 ± .07475 | +.22852 ± .15290 | +.11158 ± .07466 | +.08223 ± .00599 |
+| L92 depth | +.05621 ± .07274 | −.21680 ± .14934 | −.10586 ± .07292 | +.16207 ± .00773 |
+| L92 precision | −.07709 ± .07089 | −.22461 ± .14582 | −.10967 ± .07120 | +.03258 ± .00390 |
+
+Only D90 depth has a resolved own-start fitness gain; it saves costs while making fewer captures. It ends with
+30.55078 ± .56991 fewer cells and fires 956.34961 ± 30.32611 fewer spikes. The precision endpoint has
+28.95117 ± .58791 more cells than depth, fires 428.63672 ± 28.01400 more spikes, and travels 41.81997 ± 1.09504
+less distance. Bodies and policies both differ; this is not a matched-footprint mechanism test. No own-start or
+primary dark-capture gain clears three SE. None of the four endpoints demonstrates a capture gain over its
+start, and no new algorithm, memory or prediction has been established.
+
+This does not show that additional scoring is intrinsically useless: precision is exchanged for three further
+generations, the two policies share their first cohort, and there are only two founder/run pairs. Equal selection
+calls do not imply equal CPU or total diagnostic calls. Fresh life-level uncertainty concerns these fixed
+genomes rather than evolutionary reliability. The observed ranking instability justified the diagnostic;
+it did not guarantee a benefit from precision.
+
+All **19,576 research plus ten standard ABI3 startup-golden lives** completed in **3,028.748398 / 9,000 CPU-seconds**.
+Startup/search used 2,647.633121; confirmation/cleanup used 381.115277. All six recorded processes and five owned
+groups exited. Both complete first cohorts and all four final 32-row populations replay exactly from recorded
+operations. The depth branches contain 896 offspring/1,854 point mutations each; precision branches contain
+224 offspring/510 point mutations each, including their initial copies. This is recorded-operation replay,
+not a replay of random draws or unsaved per-life search ledgers. Twenty-one initial-search guarded evaluation
+calls retained penalties (four L92 depth and seventeen L92 precision); these include deliberately shared life IDs.
+All logged invalid/mismatch metrics are zero and all 3,072 confirmation status fields are exactly zero.
+
+The frozen independent reader passed unchanged; separate reanalysis matches the summary and all **450 paired
+arrays**. The full prospective inputs, native logs/checkpoints, raw confirmation, reviews and decomposition
+figure are preserved in `results/visibility_precision_20261014/`. The result supports trying a different approved
+visibility regime rather than automatically extending blink searches. A source-only flash diagnostic is being
+prepared with both complete Y panels and fresh two-world confirmation; it is not gated on AB success, and no
+AC seeds, new genotype copies, builds or lives have been released.

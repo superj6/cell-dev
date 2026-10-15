@@ -105,13 +105,15 @@ All 768 frozen pairs pass constant-tissue checks; all 2,304 research and two sta
 not memory or a new algorithm. A small precision-versus-depth selection comparison is being prepared from
 both fixed Z endpoints, without changing the organism or world. It is source-only and unreleased.
 
-*2026-10-14 AB registered:* compare four 3+4-life generations with one 12+16-life generation from each fixed
-Z endpoint. Each branch spends 4,096 selection lives; paired run seeds 53222/53223 preserve the first candidate
-cohort. All four endpoints freeze before six-role confirmation on 512 fresh block122 seeds. Scope is 19,576
-research plus ten goldens under 9,000 CPU-seconds, search capped at 7,200 with 1,800 reserved. The actual Z cost
-projection is 7,825.718967 total CPU-seconds. This tests precision versus depth, not precision alone or equal CPU.
-Separate captures from cost savings; two fixed pairs do not establish policy reliability or a richer algorithm.
-No new world/organism rule or ABI. Prospective preparation remains unreleased until independent review/publication.
+*2026-10-14 AB complete:* precision-minus-depth fitness effects are unresolved in both fixed lineages
+(**−.17843 ± .07883 / −.13330 ± .07509 F**). D90 precision catches **+.95117 ± .16147** more than depth, but neither
+has a resolved capture gain over its Z start. D90 depth gains **+.37224 ± .07738 F** through cost savings while
+losing **.72266 ± .16122 captures**. All 19,576 research and ten golden lives completed in 3,028.748398 CPU-seconds;
+first cohorts, final populations and all 450 paired arrays replay. The comparison trades precision against depth,
+not equal CPU or isolated precision; no general policy or algorithmic-sophistication claim follows. Evidence:
+`results/visibility_precision_20261014/`. A source-only flash diagnostic now reuses the complete Y neighborhoods
+and plans fresh tests of selected mutants in both visibility worlds. It is independent of AB's scientific outcome,
+with no new organism rules, seeds, genotypes or lives released yet.
 
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I

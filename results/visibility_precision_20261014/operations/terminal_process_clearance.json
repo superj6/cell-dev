@@ -1,0 +1,62 @@
+{
+  "status": "cleared",
+  "all_processes_exited": true,
+  "checked_at_utc": "2026-10-15T02:41:56.634165+00:00",
+  "budget_sha256": "4d0bc330805576b85d5a42ceb5ffd08834eaedb2509273c9a34764734a0c71c4",
+  "processes": [
+    {
+      "pid": 1101763,
+      "ppid": 9421,
+      "pgid": 1101763,
+      "start_ticks": 3537554,
+      "name": "monitor"
+    },
+    {
+      "pid": 1101809,
+      "ppid": 1101763,
+      "pgid": 1101809,
+      "start_ticks": 3537762,
+      "name": "evolve_D90_depth"
+    },
+    {
+      "pid": 1101811,
+      "ppid": 1101763,
+      "pgid": 1101811,
+      "start_ticks": 3537771,
+      "name": "evolve_D90_precision"
+    },
+    {
+      "pid": 1110887,
+      "ppid": 1101763,
+      "pgid": 1110887,
+      "start_ticks": 3572408,
+      "name": "evolve_L92_depth"
+    },
+    {
+      "pid": 1111239,
+      "ppid": 1101763,
+      "pgid": 1111239,
+      "start_ticks": 3573638,
+      "name": "evolve_L92_precision"
+    },
+    {
+      "pid": 1118675,
+      "ppid": 1101763,
+      "pgid": 1118675,
+      "start_ticks": 3603072,
+      "name": "confirmation"
+    }
+  ],
+  "process_groups": [
+    1101809,
+    1101811,
+    1110887,
+    1111239,
+    1118675
+  ],
+  "host_entries_checked": 583,
+  "study_cpu_seconds": 3028.748398,
+  "research_lives": 19576,
+  "validation_lives": 10,
+  "scientific_analysis": "pending unchanged frozen reader"
+}

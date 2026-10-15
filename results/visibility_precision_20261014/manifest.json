@@ -1,14 +1,14 @@
 {
   "format": 1,
-  "phase": "preparation",
+  "phase": "terminal",
   "protocol_sha256": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
-  "status": "prepared_not_launched",
-  "scientific_lives_completed": 0,
-  "compiled_libraries": 0,
-  "release": false,
+  "status": "complete_independently_reconciled",
+  "scientific_lives_completed": 19586,
+  "compiled_libraries": 2,
+  "release": true,
   "planned_research_lives": 19576,
   "planned_validation_lives": 10,
-  "scientific_outcomes_claimed": false,
+  "scientific_outcomes_claimed": true,
   "working_directory": "outputs/autonomous_visibility_precision_20261014",
   "dependency_budget_pins": {
     "outputs/autonomous_decoy_evolution_20261014/budget.json": "947e93896f902e35d4e132f9419f170393497631788259315038a73a6edb227a",
@@ -20,7 +20,17 @@
     "outputs/autonomous_visibility_lateral_20261014/budget.json": "0d62b29e7cd96d70a583016c05ee6bcb5d72a596b67ea7497167492e960abd72"
   },
   "dependency_clearance_status": "copied",
+  "research_lives": 19576,
+  "validation_lives": 10,
+  "cpu_seconds": 3028.748398,
+  "prelaunch_manifest_sha256": "9443d1a0470b19db213c7cece5e8cac685618b1de1a900cebdf617345dbf097f",
+  "scientific_scope": "Two fixed Z backgrounds, four 3+4-life generations versus one 12+16-life generation, equal selection calls. No resolved primary fitness advantage for precision; D90 depth saves costs while losing captures. No own-start capture gain or algorithmic improvement established.",
   "artifacts": {
+    "ARCHIVE.md": {
+      "sha256": "66bb20493fc1535e48e3ea9b7969c8d0098f574ce9e1d45abfa98e080fc2a70b",
+      "bytes": 1949,
+      "origin": "outputs/audit_visibility_precision_20261014/ARCHIVE.md"
+    },
     "PREPARED_STATUS.json": {
       "sha256": "426b1a51ea35fe870520b656ddd6a5b8499516013f472f201204b2469fd3b72d",
       "bytes": 530,
@@ -166,6 +176,26 @@
       "bytes": 2480,
       "origin": "outputs/autonomous_visibility_precision_20261014/analysis_pins.json"
     },
+    "analysis_result/paired_vectors.npz": {
+      "sha256": "ba34381ce1f62403f7274410949c4634f9250312c041ea1f629a53ee369b8167",
+      "bytes": 790460,
+      "origin": "outputs/autonomous_visibility_precision_20261014/analysis_result/paired_vectors.npz"
+    },
+    "analysis_result/summary.json": {
+      "sha256": "684be74b306a79cccffd5f9528b50760421f7f8aae155ff75c31d3cd7a650279",
+      "bytes": 492746,
+      "origin": "outputs/autonomous_visibility_precision_20261014/analysis_result/summary.json"
+    },
+    "build-cache/life/life_4e7a60c72a280814.so": {
+      "sha256": "8b4055686d2fb9321c0b65efbf37269a9efc0c4f97b51db7fe22fc25952e47bd",
+      "bytes": 109192,
+      "origin": "outputs/autonomous_visibility_precision_20261014/build-cache/life/life_4e7a60c72a280814.so"
+    },
+    "build-cache/life/life_8e23480ead9414fa.so": {
+      "sha256": "67adee019d5e47e26e27d26a9ba7963fee38cf9919b6920d6c8610b566efde69",
+      "bytes": 101016,
+      "origin": "outputs/autonomous_visibility_precision_20261014/build-cache/life/life_8e23480ead9414fa.so"
+    },
     "common.py": {
       "sha256": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
       "bytes": 200,
@@ -190,6 +220,76 @@
       "sha256": "959912a6929af3313e51ebd058882168a8fcec7a29fc0af0bfbe30aa7500b3d0",
       "bytes": 2346,
       "origin": "outputs/autonomous_visibility_precision_20261014/configs/L92_precision.yaml"
+    },
+    "confirmation/blink/row_0000.npz": {
+      "sha256": "dda4dcf53feb6be0ec1212470a5b2308b51a8b2b10c0875de831013b7183b91a",
+      "bytes": 220456,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/row_0000.npz"
+    },
+    "confirmation/blink/row_0001.npz": {
+      "sha256": "1ba14c66f9b13433bb869dd8e199dbcc513b0ea2a7d296862149dbee96dffddd",
+      "bytes": 215884,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/row_0001.npz"
+    },
+    "confirmation/blink/row_0002.npz": {
+      "sha256": "10b58f1a0ab5570cb21098adf36248ecd15c27ee53bb9fda4862332b9c21573d",
+      "bytes": 218568,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/row_0002.npz"
+    },
+    "confirmation/blink/row_0003.npz": {
+      "sha256": "f7ad82701e8b08a24c615f0ae52ebee1f1f88d8b455ddb60920962f426d06f9f",
+      "bytes": 220158,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/row_0003.npz"
+    },
+    "confirmation/blink/row_0004.npz": {
+      "sha256": "e54426fa230099bfc804fe507d43b311442430030549d74adfc160993b3238e6",
+      "bytes": 214538,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/row_0004.npz"
+    },
+    "confirmation/blink/row_0005.npz": {
+      "sha256": "94b8440b6597e8d522f5a07a38e7f7d7a4286e8864aea78cf3699716bd4e428b",
+      "bytes": 215772,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/row_0005.npz"
+    },
+    "confirmation/blink/scores.npz": {
+      "sha256": "679ed59df0166c0f2b2e2c943e6583aa2c37ee55e32a4020b055bc14ac014942",
+      "bytes": 558314,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/blink/scores.npz"
+    },
+    "confirmation/endpoints.json": {
+      "sha256": "452c47ba4b63bd778b40cad670a289c5e7befc3e2093f6c57f1132c13fa0e151",
+      "bytes": 31408,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/endpoints.json"
+    },
+    "confirmation/genotypes.npz": {
+      "sha256": "9deeb9e5bed6a347b15d243c776eedd5879ec48d9d861e3b3dfc779dd3fdf0aa",
+      "bytes": 3816,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/genotypes.npz"
+    },
+    "confirmation/report.json": {
+      "sha256": "12d8e5d9176ffa0f94d16f9aa765f734d570968964db545a25e0727527a8e271",
+      "bytes": 34881,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/report.json"
+    },
+    "confirmation/row_index.json": {
+      "sha256": "d28a9802d43886c4b30ff5447efda867a1e8ee5ba51fbd73b0d2f04c67308cb8",
+      "bytes": 888,
+      "origin": "outputs/autonomous_visibility_precision_20261014/confirmation/row_index.json"
+    },
+    "figures/confirmation.png": {
+      "sha256": "5dca8395ac71491fcb373955139400bea7e688cadc38e27675c048977ae59595",
+      "bytes": 161986,
+      "origin": "outputs/autonomous_visibility_precision_20261014/figures/confirmation.png"
+    },
+    "figures/confirmation.svg": {
+      "sha256": "77b00c9eb9617bde0018c7aabc916d91eeaa40b1d4f0714553248e19e8b2fad3",
+      "bytes": 124589,
+      "origin": "outputs/autonomous_visibility_precision_20261014/figures/confirmation.svg"
+    },
+    "figures/plot_results.py": {
+      "sha256": "318e2579979fc9ae90e84e15a12fbf904251775f28ae43f392d0ed665789fc0a",
+      "bytes": 2040,
+      "origin": "outputs/autonomous_visibility_precision_20261014/figures/plot_results.py"
     },
     "generation_claim.json": {
       "sha256": "8ab2bdcb2f6a964ec8aa16c4d8c3fdd111084db01e3a8e44437da180dadb317b",
@@ -301,6 +401,31 @@
       "bytes": 196518,
       "origin": "outputs/autonomous_visibility_precision_20261014/inputs/Z_summary.json"
     },
+    "logs/confirmation.log": {
+      "sha256": "e4cc754aa871ff0d679c8fefce4646803c6806faa9e727f34a0c6ad28ead202c",
+      "bytes": 360,
+      "origin": "outputs/autonomous_visibility_precision_20261014/logs/confirmation.log"
+    },
+    "logs/evolve_D90_depth.log": {
+      "sha256": "3e17bd249c1d97330b840d065775407732c6b0b55171efc7757a5a1e07058298",
+      "bytes": 6279,
+      "origin": "outputs/autonomous_visibility_precision_20261014/logs/evolve_D90_depth.log"
+    },
+    "logs/evolve_D90_precision.log": {
+      "sha256": "c0bd2a97f1d9e72b4e0f60b1b594e7bc50e2ad6defd4d3577163927a17454cdd",
+      "bytes": 2969,
+      "origin": "outputs/autonomous_visibility_precision_20261014/logs/evolve_D90_precision.log"
+    },
+    "logs/evolve_L92_depth.log": {
+      "sha256": "fbcd029c90b1150453e84519d09cb36388bfe22ddef8360063c38263d61c3341",
+      "bytes": 6272,
+      "origin": "outputs/autonomous_visibility_precision_20261014/logs/evolve_L92_depth.log"
+    },
+    "logs/evolve_L92_precision.log": {
+      "sha256": "8989bd3d4468c0d13bfb2413381243680cd6de9b0ca456b1416cf56251f7e529",
+      "bytes": 2976,
+      "origin": "outputs/autonomous_visibility_precision_20261014/logs/evolve_L92_precision.log"
+    },
     "measure.py": {
       "sha256": "527be95fc5a82a74aaeeba57b36555b2145a9b6b5301920396a3887df66aa1da",
       "bytes": 12535,
@@ -311,10 +436,30 @@
       "bytes": 1987,
       "origin": "outputs/autonomous_visibility_precision_20261014/numerical.py"
     },
+    "operations/attempt.json": {
+      "sha256": "03a9460d82df542d7004efb6bfaa8a61ce7b1dee25cf6968b9f172c721668465",
+      "bytes": 168,
+      "origin": "outputs/autonomous_visibility_precision_20261014/attempt.json"
+    },
+    "operations/budget.json": {
+      "sha256": "4d0bc330805576b85d5a42ceb5ffd08834eaedb2509273c9a34764734a0c71c4",
+      "bytes": 14209,
+      "origin": "outputs/autonomous_visibility_precision_20261014/budget.json"
+    },
+    "operations/ready.json": {
+      "sha256": "6ffa386848ec6461e18a647db37403f490004921a39ca74a8daaba4196ab4c81",
+      "bytes": 12146,
+      "origin": "outputs/autonomous_visibility_precision_20261014/ready.json"
+    },
     "operations/resource_clearance.json": {
       "sha256": "f641f811f229f9e415af28c4e0eb4b8e0b107682afeac3be1e6b80c900cca26a",
       "bytes": 3204,
       "origin": "outputs/autonomous_visibility_precision_20261014/resource_clearance.json"
+    },
+    "operations/terminal_process_clearance.json": {
+      "sha256": "ffbfe92aa1a904b53595ea5125af4e4fd23c020c8a9db939a7fe49280cec92f1",
+      "bytes": 1349,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_process_clearance.json"
     },
     "original/outputs/audit_visibility_lateral_20261014/npz_seed_baseline.json": {
       "sha256": "b5fbb637071e0bebae670b532742c4e8dec33cf05c7d6399419f06bb3daffb58",
@@ -886,6 +1031,186 @@
       "bytes": 17815,
       "origin": "outputs/autonomous_visibility_precision_20261014/run_budgeted.py"
     },
+    "runs/D90_depth/best_genome.json": {
+      "sha256": "f43ec3a9a2ef279500df713c1e61145910517f13737a7130c70f2754578670c7",
+      "bytes": 10507,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/best_genome.json"
+    },
+    "runs/D90_depth/checkpoint.pt": {
+      "sha256": "7c25dd86d6d72959bdeb2be9a0a5d4f7869c5f7c2588b964278ec4b048fd4d49",
+      "bytes": 141009,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/checkpoint.pt"
+    },
+    "runs/D90_depth/clones.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/clones.jsonl"
+    },
+    "runs/D90_depth/config.yaml": {
+      "sha256": "435f62d2cd89b2303cef0562e15288dd87aba5c82e50c7f0a8dd6be4798a9c60",
+      "bytes": 2336,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/config.yaml"
+    },
+    "runs/D90_depth/curves.jsonl": {
+      "sha256": "8bd9ee356caee9a824c3360752a181cb93de08f4c418d54315394e078a138c28",
+      "bytes": 4481,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/curves.jsonl"
+    },
+    "runs/D90_depth/determinism.json": {
+      "sha256": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+      "bytes": 4803,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/determinism.json"
+    },
+    "runs/D90_depth/lineage.jsonl": {
+      "sha256": "909e0aa816599cad6065c4ba05214e2ef67f6e41fae38b817e3654e03259d9ed",
+      "bytes": 185882,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/lineage.jsonl"
+    },
+    "runs/D90_depth/population.json": {
+      "sha256": "466c2ede4daab81a669558e480fa2a9d03d95429251680bb7b58b5c532dec8b6",
+      "bytes": 335054,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/population.json"
+    },
+    "runs/D90_depth/results.jsonl": {
+      "sha256": "bf6c224f7023bd12b3cedd0edc54b976181d014522be46259b3e56a9e7af66f8",
+      "bytes": 1632,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_depth/results.jsonl"
+    },
+    "runs/D90_precision/best_genome.json": {
+      "sha256": "02d14a846bd1a15d7e8d53d0469db4c038e05592147bae938543c2126fd08875",
+      "bytes": 10507,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/best_genome.json"
+    },
+    "runs/D90_precision/checkpoint.pt": {
+      "sha256": "ef2123761d6fdbcc15ffcf9a9bce441e7c36a1d4faf2523eaf82b0b3686c8e54",
+      "bytes": 139281,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/checkpoint.pt"
+    },
+    "runs/D90_precision/clones.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/clones.jsonl"
+    },
+    "runs/D90_precision/config.yaml": {
+      "sha256": "4c1ea034a61dc001bd02a608b5414717be78dbc72a514dda095a63532bb422a5",
+      "bytes": 2346,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/config.yaml"
+    },
+    "runs/D90_precision/curves.jsonl": {
+      "sha256": "ac412bc5f59145562a886d07c85bfc277c68f006fb696307976ea1ed87e605e3",
+      "bytes": 1159,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/curves.jsonl"
+    },
+    "runs/D90_precision/determinism.json": {
+      "sha256": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+      "bytes": 4803,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/determinism.json"
+    },
+    "runs/D90_precision/lineage.jsonl": {
+      "sha256": "5054be1267f4091f2ce6f9caa2bd7ee68ea2171c543c54428460bcf5be197ef8",
+      "bytes": 49256,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/lineage.jsonl"
+    },
+    "runs/D90_precision/population.json": {
+      "sha256": "68f710b8a1d64bf7f403e70b2c36c289efb91b0c565ef8cac43a900b53ad9919",
+      "bytes": 335084,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/population.json"
+    },
+    "runs/D90_precision/results.jsonl": {
+      "sha256": "aa7b5850f5959bcbe5998f3dc2b545a5c4c5587d2cc9150d61bae27e7d9f4e73",
+      "bytes": 1644,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/D90_precision/results.jsonl"
+    },
+    "runs/L92_depth/best_genome.json": {
+      "sha256": "8ae135300f1b6176417ba23cbe4a68e016e59426f4c457ff45d19277e28ee8e1",
+      "bytes": 10501,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/best_genome.json"
+    },
+    "runs/L92_depth/checkpoint.pt": {
+      "sha256": "0a460c7638195f4153680416169fa86042b86b05829b73573873410e58f74067",
+      "bytes": 141009,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/checkpoint.pt"
+    },
+    "runs/L92_depth/clones.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/clones.jsonl"
+    },
+    "runs/L92_depth/config.yaml": {
+      "sha256": "3ad3e007741ac28f87b69e34c80db4109fef19fe17258b1b3c9513fc978ffb0c",
+      "bytes": 2336,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/config.yaml"
+    },
+    "runs/L92_depth/curves.jsonl": {
+      "sha256": "c9fc5c031d81c2afc9477539aeb35bc033666d0b5cf6ea24328024ce85ccb8b4",
+      "bytes": 4474,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/curves.jsonl"
+    },
+    "runs/L92_depth/determinism.json": {
+      "sha256": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+      "bytes": 4803,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/determinism.json"
+    },
+    "runs/L92_depth/lineage.jsonl": {
+      "sha256": "52f96920185c3501b4a6a9bf2f20b3069a8fd3170735650fa536471314fe1798",
+      "bytes": 185993,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/lineage.jsonl"
+    },
+    "runs/L92_depth/population.json": {
+      "sha256": "543a02394d9486487cedc2206583fd0ba35869fe1d86e82a3ade9683a39979c6",
+      "bytes": 334682,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/population.json"
+    },
+    "runs/L92_depth/results.jsonl": {
+      "sha256": "35dd9c53ec0332b8746d922ba4ab5878a00b85b70d794a62cbc080aef9eb9a0b",
+      "bytes": 1632,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_depth/results.jsonl"
+    },
+    "runs/L92_precision/best_genome.json": {
+      "sha256": "0388a0b5b681bb5ab4b60f4aa7225ca7f77de0909077886cf46e179e6e912b39",
+      "bytes": 10494,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/best_genome.json"
+    },
+    "runs/L92_precision/checkpoint.pt": {
+      "sha256": "739a3dedc3df85536f8b629ce4e2ea060cea7fd2aa0213bf566171e6405930d6",
+      "bytes": 139281,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/checkpoint.pt"
+    },
+    "runs/L92_precision/clones.jsonl": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/clones.jsonl"
+    },
+    "runs/L92_precision/config.yaml": {
+      "sha256": "959912a6929af3313e51ebd058882168a8fcec7a29fc0af0bfbe30aa7500b3d0",
+      "bytes": 2346,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/config.yaml"
+    },
+    "runs/L92_precision/curves.jsonl": {
+      "sha256": "928579189d9a10d4e98d7db1a79f051c1dad9787ebd1ff21b2c718975997328d",
+      "bytes": 1176,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/curves.jsonl"
+    },
+    "runs/L92_precision/determinism.json": {
+      "sha256": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+      "bytes": 4803,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/determinism.json"
+    },
+    "runs/L92_precision/lineage.jsonl": {
+      "sha256": "119cd2e186c1ac2e870b751453571108f4910347959e3c42a591a172a5639a59",
+      "bytes": 49301,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/lineage.jsonl"
+    },
+    "runs/L92_precision/population.json": {
+      "sha256": "1c5c344d944d040755d6335f51605c18a54d5a6e442c511d117668c0186a5faa",
+      "bytes": 334548,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/population.json"
+    },
+    "runs/L92_precision/results.jsonl": {
+      "sha256": "f016c344038c10ad36d2a6b0d0043151a3ac23545610605144383a67b568ac62",
+      "bytes": 1634,
+      "origin": "outputs/autonomous_visibility_precision_20261014/runs/L92_precision/results.jsonl"
+    },
     "scoring.py": {
       "sha256": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
       "bytes": 7721,
@@ -895,6 +1220,71 @@
       "sha256": "479beeff4d6e45b282e7e05104fe8794415dd588b8f923fa455dc3ed1a48829d",
       "bytes": 47900,
       "origin": "outputs/autonomous_visibility_precision_20261014/seed_audit.json"
+    },
+    "terminal_review/actual_ready_mapping_review.json": {
+      "sha256": "c6c1bfa47128a39fd18908b267f5f9d617afc4670fcb507b02a2e3f1d2b52e23",
+      "bytes": 483,
+      "origin": "outputs/audit_visibility_precision_20261014/actual_ready_mapping_review.json"
+    },
+    "terminal_review/analysis.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/analysis.stderr.txt"
+    },
+    "terminal_review/archive_preflight.json": {
+      "sha256": "aa94adcbfdb5b2c9edc944b42b2ed664b5ee36cd5629e4f67d89d2c2fce5f602",
+      "bytes": 999,
+      "origin": "outputs/audit_visibility_precision_20261014/terminal_preflight.json"
+    },
+    "terminal_review/archive_terminal.py": {
+      "sha256": "c7f121cbf8e6feab8bad372bd4059d668facdd1f45fe4a6350c76947e952fd1f",
+      "bytes": 12278,
+      "origin": "outputs/audit_visibility_precision_20261014/archive_terminal.py"
+    },
+    "terminal_review/doc_claim_review.json": {
+      "sha256": "127fa9e79f38fd47d527a43266dc22f9b577c99f88fabeb259c4c59f50b47878",
+      "bytes": 1017,
+      "origin": "outputs/audit_visibility_precision_20261014/doc_claim_review.json"
+    },
+    "terminal_review/execution.json": {
+      "sha256": "15e201761946e8bff382fd4373b0ef5e27e3bd0311429ec4ec8148bed9bc773b",
+      "bytes": 775,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/execution.json"
+    },
+    "terminal_review/native_output_check.json": {
+      "sha256": "f23b6b3e16d59ada2c035167b9dc8e74c962918bfa76c09af171814102bed665",
+      "bytes": 1225,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/native_output_check.json"
+    },
+    "terminal_review/native_output_check.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/native_output_check.stderr.txt"
+    },
+    "terminal_review/native_replay.json": {
+      "sha256": "805e935112a9cd1773bdca9e08e86055862659f32078335c475fedc8011cdbce",
+      "bytes": 283608,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/native_replay.json"
+    },
+    "terminal_review/raw_analysis_review.json": {
+      "sha256": "a846ca7b82c87ac9c7da1d66b36697f6bc3a4c444f290c2487cd485dec7fd545",
+      "bytes": 43272,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/raw_analysis_review.json"
+    },
+    "terminal_review/raw_review.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/raw_review.stderr.txt"
+    },
+    "terminal_review/review_terminal.py.txt": {
+      "sha256": "8a9cb9246bba0da86ca5b340f09bc0cd2d47dd3cb6b3edacb36cc7f02f218556",
+      "bytes": 10085,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/review_terminal.py.txt"
+    },
+    "terminal_review/root_reanalysis.json": {
+      "sha256": "4af6f97f401ef7fe5713c61e4bce59739307dbb178da8796607f7022cff1cece",
+      "bytes": 341,
+      "origin": "outputs/autonomous_visibility_precision_20261014/terminal_review/root_reanalysis.json"
     },
     "test_preparation.py": {
       "sha256": "ac55c3c8e5f87c74021a8c3f75e4e1ee0d165cf932739e676d807fdd6f91ef1a",

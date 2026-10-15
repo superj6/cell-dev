@@ -113,17 +113,24 @@ excluded or guarded lives. The 2,304 research plus two startup goldens used **35
 all processes exited. The frozen reader passes unchanged and independent reanalysis matches all 2,700 paired
 arrays. Evidence is in `results/visibility_lateral_20261014/`.
 
-**AB registered (2026-10-14).** From both fixed Z endpoints, compare four generations at 3+4 selection lives
-against one generation at 12+16, matching 4,096 selection calls per branch. Policy pairs share run seeds 53222
-(D90) and 53223 (L92), preserving their initial population and first offspring cohort; output IDs remain distinct.
-Freeze all four endpoints before six-role confirmation on 512 fresh block122 seeds. The 19,576 research plus ten
-golden lives have a 9,000 CPU-second cap, search ceiling 7,200 and confirmation reserve 1,800; actual Z rates
-project 6,604.114171 search and 1,221.604796 confirmation CPU-seconds. At most two two-thread search workers.
-Z's substantial ranking changes motivate this allocation test but do not prove a benefit from precision.
-Precision versus depth is not an equal-CPU or isolated-precision comparison; only two founder/run pairs.
-Capture income stays separate from economy. This new bounded design does not release held S or the larger
-continuation proposal. Preparation and independent analysis must be reviewed and prospectively published before
-root release; no compilation or simulated lives have run at registration.
+**AB complete (2026-10-14).** Four generations at 3+4 selection lives versus one at 12+16, from both fixed Z
+endpoints, produced no resolved fitness advantage for precision: **−.17843 ± .07883 / −.13330 ± .07509 F** for
+D90/L92 on 512 fresh paired lives. D90 precision catches **+.95117 ± .16147** more than depth, but its own gain
+over Z is unresolved (**+.22852 ± .15290 captures**). D90 depth improves F **+.37224 ± .07738** by saving
+**+.72510 ± .01305 F** in costs while losing **.72266 ± .16122 captures**. Neither L92 endpoint nor D90 precision
+has a resolved own-start fitness/capture gain; no dark-capture gain resolves. Thus there is no demonstrated
+capture improvement or richer algorithm, and this precision-versus-depth comparison does not isolate precision
+or estimate general policy reliability. All 19,576 research plus ten goldens completed in **3,028.748398 CPU-seconds**,
+search 2,647.633121. All six processes/five groups exited. Both full 256-candidate first cohorts and all four final
+populations replay exactly; 21 initial-search guarded evaluation calls retained penalties, while all 3,072
+confirmation statuses are zero. The frozen reader passes unchanged and independent reanalysis matches all
+450 paired arrays. Evidence: `results/visibility_precision_20261014/`.
+
+**Next source-only preparation:** reuse both complete Y mutant panels in the approved flash environment, then
+confirm its selected mutants, original parents and fixed Y blink winners in both worlds. This tests whether
+changing visibility regimes makes different nearby mutations useful, with capture income separated from economy.
+It does not isolate memory. The design is independent of AB's outcome; only terminal resource clearance is needed
+from AB. No AC seed registration, genotype copying, compilation or simulated lives have been released.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

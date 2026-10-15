@@ -1,0 +1,1355 @@
+{
+  "status": "complete_independently_reconciled",
+  "protocol_sha256": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
+  "released_reader_sha256": "efe56680ea05fc76e0949695f9219272b9ea3a2b765029513265a2bee8d87d32",
+  "released_native_audit_sha256": "8b6820a7b142e4e3e04da883088a09cf3f743bc296c3214a5ef499d21a4576de",
+  "released_accountant_sha256": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+  "review_script_sha256": "8a9cb9246bba0da86ca5b340f09bc0cd2d47dd3cb6b3edacb36cc7f02f218556",
+  "output_pins": {
+    "summary.json": "684be74b306a79cccffd5f9528b50760421f7f8aae155ff75c31d3cd7a650279",
+    "paired_vectors.npz": "ba34381ce1f62403f7274410949c4634f9250312c041ea1f629a53ee369b8167"
+  },
+  "budget_sha256": "4d0bc330805576b85d5a42ceb5ffd08834eaedb2509273c9a34764734a0c71c4",
+  "terminal_process_clearance_sha256": "ffbfe92aa1a904b53595ea5125af4e4fd23c020c8a9db939a7fe49280cec92f1",
+  "ready_source_pins_verified": 79,
+  "production_pins_verified": 35,
+  "raw_rows": 6,
+  "raw_lives": 3072,
+  "raw_columns": 58,
+  "paired_arrays_independently_byte_checked": 450,
+  "raw_health": {
+    "Z_D90": {
+      "lives": 512,
+      "status_histogram": {
+        "0": 512
+      },
+      "all_raw_finite": true
+    },
+    "Z_L92": {
+      "lives": 512,
+      "status_histogram": {
+        "0": 512
+      },
+      "all_raw_finite": true
+    },
+    "depth_D90": {
+      "lives": 512,
+      "status_histogram": {
+        "0": 512
+      },
+      "all_raw_finite": true
+    },
+    "precision_D90": {
+      "lives": 512,
+      "status_histogram": {
+        "0": 512
+      },
+      "all_raw_finite": true
+    },
+    "depth_L92": {
+      "lives": 512,
+      "status_histogram": {
+        "0": 512
+      },
+      "all_raw_finite": true
+    },
+    "precision_L92": {
+      "lives": 512,
+      "status_histogram": {
+        "0": 512
+      },
+      "all_raw_finite": true
+    }
+  },
+  "resources": {
+    "total_cpu_seconds": 3028.748398,
+    "search_cpu_seconds": 2647.633121,
+    "confirmation_cpu_seconds": 381.11527700000033,
+    "first_attempt_only": true,
+    "raw_confirmation_cpu_seconds": 356.6935972879999
+  },
+  "contrasts": {
+    "primary": {
+      "precision_D90": {
+        "baseline": "depth_D90",
+        "paired": {
+          "F": {
+            "mean": -0.17842971956477027,
+            "se": 0.07882843980445985,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.951171875,
+            "se": 0.16147429675082092,
+            "n": 512
+          },
+          "low_light_captures": {
+            "mean": 0.025390625,
+            "se": 0.05801778594224478,
+            "n": 512
+          },
+          "bright_captures": {
+            "mean": 0.92578125,
+            "se": 0.15768276183507896,
+            "n": 512
+          },
+          "n_end": {
+            "mean": 28.951171875,
+            "se": 0.5879092656826865,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 7.892578125,
+            "se": 0.19006211604762263,
+            "n": 512
+          },
+          "live_time": {
+            "mean": 29235.602706208447,
+            "se": 573.1536332028267,
+            "n": 512
+          },
+          "spikes": {
+            "mean": 428.63671875,
+            "se": 28.014002159930694,
+            "n": 512
+          },
+          "path": {
+            "mean": -41.8199699905058,
+            "se": 1.0950356919880329,
+            "n": 512
+          }
+        },
+        "capture_income": {
+          "mean": 0.46443939208984375,
+          "se": 0.07884487146036177,
+          "n": 512
+        },
+        "ordinary_cost_saving": {
+          "mean": -0.642869111654614,
+          "se": 0.013309425969316563,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "all_fitness_components": {
+          "capture_income": {
+            "mean": 0.46443939208984375,
+            "se": 0.07884487146036177,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "living_cost_saving": {
+            "mean": -0.5710078653556337,
+            "se": 0.01119440689849271,
+            "n": 512
+          },
+          "spiking_cost_saving": {
+            "mean": -0.0016743621826171876,
+            "se": 0.00010942969593722926,
+            "n": 512
+          },
+          "twitching_cost_saving": {
+            "mean": -0.0016743621826171876,
+            "se": 0.00010942969593722926,
+            "n": 512
+          },
+          "messages_cost_saving": {
+            "mean": -0.005329620361328126,
+            "se": 0.0003027424913965148,
+            "n": 512
+          },
+          "division_cost_saving": {
+            "mean": -0.01572895050048828,
+            "se": 0.0002950273065127116,
+            "n": 512
+          },
+          "secretion_cost_saving": {
+            "mean": -0.06057189054412803,
+            "se": 0.0013420972510972322,
+            "n": 512
+          },
+          "missed_clicks_cost_saving": {
+            "mean": 0.01399993896484375,
+            "se": 0.001663509703080341,
+            "n": 512
+          },
+          "receptors_cost_saving": {
+            "mean": -0.0008819994926452636,
+            "se": 2.803165017626973e-05,
+            "n": 512
+          },
+          "decoy_clicks_cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 2.532628512290358e-19,
+            "se": 2.316940922995974e-17,
+            "n": 512
+          }
+        }
+      },
+      "precision_L92": {
+        "baseline": "depth_L92",
+        "paired": {
+          "F": {
+            "mean": -0.13330194615946506,
+            "se": 0.07509433446983359,
+            "n": 512
+          },
+          "captures": {
+            "mean": -0.0078125,
+            "se": 0.1544597631240957,
+            "n": 512
+          },
+          "low_light_captures": {
+            "mean": 0.01171875,
+            "se": 0.06861949696546471,
+            "n": 512
+          },
+          "bright_captures": {
+            "mean": -0.01953125,
+            "se": 0.1399428946316091,
+            "n": 512
+          },
+          "n_end": {
+            "mean": 8.0859375,
+            "se": 0.3168497347252902,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": 0.421875,
+            "se": 0.04048740434646664,
+            "n": 512
+          },
+          "live_time": {
+            "mean": 8053.485916065261,
+            "se": 313.7673718351269,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -97.443359375,
+            "se": 16.472715967667483,
+            "n": 512
+          },
+          "path": {
+            "mean": -12.585363097393067,
+            "se": 1.022682626175781,
+            "n": 512
+          }
+        },
+        "capture_income": {
+          "mean": -0.003814697265625,
+          "se": 0.07541980621293735,
+          "n": 512
+        },
+        "ordinary_cost_saving": {
+          "mean": -0.12948724889384006,
+          "se": 0.007509062461465076,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "all_fitness_components": {
+          "capture_income": {
+            "mean": -0.003814697265625,
+            "se": 0.07541980621293735,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "living_cost_saving": {
+            "mean": -0.15729464679814964,
+            "se": 0.0061282689811548215,
+            "n": 512
+          },
+          "spiking_cost_saving": {
+            "mean": 0.0003806381225585938,
+            "se": 6.434654674870112e-05,
+            "n": 512
+          },
+          "twitching_cost_saving": {
+            "mean": 0.0003806381225585938,
+            "se": 6.434654674870112e-05,
+            "n": 512
+          },
+          "messages_cost_saving": {
+            "mean": 0.00024205780029296875,
+            "se": 9.767822061344931e-05,
+            "n": 512
+          },
+          "division_cost_saving": {
+            "mean": -0.00437164306640625,
+            "se": 0.00016126608459540766,
+            "n": 512
+          },
+          "secretion_cost_saving": {
+            "mean": 0.007578688921841962,
+            "se": 0.0004696994930355465,
+            "n": 512
+          },
+          "missed_clicks_cost_saving": {
+            "mean": 0.023593902587890625,
+            "se": 0.002798961699613098,
+            "n": 512
+          },
+          "receptors_cost_saving": {
+            "mean": 3.115415573120119e-06,
+            "se": 2.268858670467839e-05,
+            "n": 512
+          },
+          "decoy_clicks_cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": -2.0342343261259277e-17,
+            "se": 2.011935388166208e-17,
+            "n": 512
+          }
+        }
+      }
+    },
+    "gain": {
+      "depth_D90": {
+        "baseline": "Z_D90",
+        "paired": {
+          "F": {
+            "mean": 0.3722364779403067,
+            "se": 0.07738428573323029,
+            "n": 512
+          },
+          "captures": {
+            "mean": -0.72265625,
+            "se": 0.16122364433249592,
+            "n": 512
+          },
+          "low_light_captures": {
+            "mean": -0.068359375,
+            "se": 0.055455750432806976,
+            "n": 512
+          },
+          "bright_captures": {
+            "mean": -0.654296875,
+            "se": 0.15077631774548333,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -30.55078125,
+            "se": 0.5699075997387791,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -8.078125,
+            "se": 0.19192108152826887,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -30888.41984857092,
+            "se": 557.1355806203907,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -956.349609375,
+            "se": 30.326110867052552,
+            "n": 512
+          },
+          "path": {
+            "mean": 18.862879229241393,
+            "se": 1.0883149964889416,
+            "n": 512
+          }
+        },
+        "capture_income": {
+          "mean": -0.3528594970703125,
+          "se": 0.07872248258422652,
+          "n": 512
+        },
+        "ordinary_cost_saving": {
+          "mean": 0.7250959750106192,
+          "se": 0.01304795790384157,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "all_fitness_components": {
+          "capture_income": {
+            "mean": -0.3528594970703125,
+            "se": 0.07872248258422652,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "living_cost_saving": {
+            "mean": 0.6032894501674008,
+            "se": 0.010881554308992007,
+            "n": 512
+          },
+          "spiking_cost_saving": {
+            "mean": 0.003735740661621094,
+            "se": 0.00011846137057442404,
+            "n": 512
+          },
+          "twitching_cost_saving": {
+            "mean": 0.003735740661621094,
+            "se": 0.00011846137057442404,
+            "n": 512
+          },
+          "messages_cost_saving": {
+            "mean": 0.01050571060180664,
+            "se": 0.00032727578240112986,
+            "n": 512
+          },
+          "division_cost_saving": {
+            "mean": 0.016638755798339844,
+            "se": 0.00028790546779688535,
+            "n": 512
+          },
+          "secretion_cost_saving": {
+            "mean": 0.07680642613792665,
+            "se": 0.001342241558322238,
+            "n": 512
+          },
+          "missed_clicks_cost_saving": {
+            "mean": 0.0091552734375,
+            "se": 0.0016870366407519982,
+            "n": 512
+          },
+          "receptors_cost_saving": {
+            "mean": 0.0012288775444030762,
+            "se": 2.887813798054056e-05,
+            "n": 512
+          },
+          "decoy_clicks_cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 1.250559443326249e-17,
+            "se": 2.163294010138519e-17,
+            "n": 512
+          }
+        }
+      },
+      "precision_D90": {
+        "baseline": "Z_D90",
+        "paired": {
+          "F": {
+            "mean": 0.19380675837553635,
+            "se": 0.0747450120420107,
+            "n": 512
+          },
+          "captures": {
+            "mean": 0.228515625,
+            "se": 0.15289654410060335,
+            "n": 512
+          },
+          "low_light_captures": {
+            "mean": -0.04296875,
+            "se": 0.05547116167823027,
+            "n": 512
+          },
+          "bright_captures": {
+            "mean": 0.271484375,
+            "se": 0.14957314090339927,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -1.599609375,
+            "se": 0.25633276849503456,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -0.185546875,
+            "se": 0.08026063502486379,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -1652.8171423624713,
+            "se": 248.2001860034149,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -527.712890625,
+            "se": 23.279630314996403,
+            "n": 512
+          },
+          "path": {
+            "mean": -22.9570907612644,
+            "se": 0.8763879808244487,
+            "n": 512
+          }
+        },
+        "capture_income": {
+          "mean": 0.11157989501953125,
+          "se": 0.07465651567412272,
+          "n": 512
+        },
+        "ordinary_cost_saving": {
+          "mean": 0.0822268633560051,
+          "se": 0.005988050492790649,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "all_fitness_components": {
+          "capture_income": {
+            "mean": 0.11157989501953125,
+            "se": 0.07465651567412272,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "living_cost_saving": {
+            "mean": 0.032281584811767024,
+            "se": 0.0048476598828791975,
+            "n": 512
+          },
+          "spiking_cost_saving": {
+            "mean": 0.0020613784790039064,
+            "se": 9.093605591795473e-05,
+            "n": 512
+          },
+          "twitching_cost_saving": {
+            "mean": 0.0020613784790039064,
+            "se": 9.093605591795473e-05,
+            "n": 512
+          },
+          "messages_cost_saving": {
+            "mean": 0.005176090240478516,
+            "se": 0.00025850751013092106,
+            "n": 512
+          },
+          "division_cost_saving": {
+            "mean": 0.0009098052978515625,
+            "se": 0.00012784048291231988,
+            "n": 512
+          },
+          "secretion_cost_saving": {
+            "mean": 0.01623453559379862,
+            "se": 0.0005870811716358176,
+            "n": 512
+          },
+          "missed_clicks_cost_saving": {
+            "mean": 0.02315521240234375,
+            "se": 0.0015495823797377405,
+            "n": 512
+          },
+          "receptors_cost_saving": {
+            "mean": 0.0003468780517578125,
+            "se": 1.7362478861923046e-05,
+            "n": 512
+          },
+          "decoy_clicks_cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 1.6300302036961756e-17,
+            "se": 2.4286425730467016e-17,
+            "n": 512
+          }
+        }
+      },
+      "depth_L92": {
+        "baseline": "Z_L92",
+        "paired": {
+          "F": {
+            "mean": 0.05620903895581647,
+            "se": 0.07273731495567755,
+            "n": 512
+          },
+          "captures": {
+            "mean": -0.216796875,
+            "se": 0.14933878065989037,
+            "n": 512
+          },
+          "low_light_captures": {
+            "mean": -0.025390625,
+            "se": 0.06734719881468097,
+            "n": 512
+          },
+          "bright_captures": {
+            "mean": -0.19140625,
+            "se": 0.1357200295233459,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -9.224609375,
+            "se": 0.33119916810042727,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -0.5078125,
+            "se": 0.04406289902110759,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -9192.840740376318,
+            "se": 328.3401875841956,
+            "n": 512
+          },
+          "spikes": {
+            "mean": 67.6953125,
+            "se": 16.62495039443638,
+            "n": 512
+          },
+          "path": {
+            "mean": 11.901323219199885,
+            "se": 1.0675997638405472,
+            "n": 512
+          }
+        },
+        "capture_income": {
+          "mean": -0.10585784912109375,
+          "se": 0.0729193264940871,
+          "n": 512
+        },
+        "ordinary_cost_saving": {
+          "mean": 0.16206688807691022,
+          "se": 0.007729195801026628,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "all_fitness_components": {
+          "capture_income": {
+            "mean": -0.10585784912109375,
+            "se": 0.0729193264940871,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "living_cost_saving": {
+            "mean": 0.17954767071047498,
+            "se": 0.006412894288753821,
+            "n": 512
+          },
+          "spiking_cost_saving": {
+            "mean": -0.000264434814453125,
+            "se": 6.49412124782671e-05,
+            "n": 512
+          },
+          "twitching_cost_saving": {
+            "mean": -0.000264434814453125,
+            "se": 6.49412124782671e-05,
+            "n": 512
+          },
+          "messages_cost_saving": {
+            "mean": -4.672241210937502e-05,
+            "se": 9.929885990213941e-05,
+            "n": 512
+          },
+          "division_cost_saving": {
+            "mean": 0.004967689514160156,
+            "se": 0.00016965042283735506,
+            "n": 512
+          },
+          "secretion_cost_saving": {
+            "mean": -0.0057315851505020145,
+            "se": 0.0004914402300076547,
+            "n": 512
+          },
+          "missed_clicks_cost_saving": {
+            "mean": -0.01617431640625,
+            "se": 0.002856652491916202,
+            "n": 512
+          },
+          "receptors_cost_saving": {
+            "mean": 3.302145004272461e-05,
+            "se": 2.253642357851727e-05,
+            "n": 512
+          },
+          "decoy_clicks_cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": 3.0509279727152644e-17,
+            "se": 2.251140549337707e-17,
+            "n": 512
+          }
+        }
+      },
+      "precision_L92": {
+        "baseline": "Z_L92",
+        "paired": {
+          "F": {
+            "mean": -0.07709290720364859,
+            "se": 0.07088523134162591,
+            "n": 512
+          },
+          "captures": {
+            "mean": -0.224609375,
+            "se": 0.14581954275152026,
+            "n": 512
+          },
+          "low_light_captures": {
+            "mean": -0.013671875,
+            "se": 0.06178976024633354,
+            "n": 512
+          },
+          "bright_captures": {
+            "mean": -0.2109375,
+            "se": 0.13376239537707602,
+            "n": 512
+          },
+          "n_end": {
+            "mean": -1.138671875,
+            "se": 0.12176517482661346,
+            "n": 512
+          },
+          "n_H_end": {
+            "mean": -0.0859375,
+            "se": 0.0187743186635189,
+            "n": 512
+          },
+          "live_time": {
+            "mean": -1139.354824311056,
+            "se": 120.20371224420764,
+            "n": 512
+          },
+          "spikes": {
+            "mean": -29.748046875,
+            "se": 14.890443090979208,
+            "n": 512
+          },
+          "path": {
+            "mean": -0.6840398781931821,
+            "se": 0.9191448767167009,
+            "n": 512
+          }
+        },
+        "capture_income": {
+          "mean": -0.10967254638671875,
+          "se": 0.07120094860914075,
+          "n": 512
+        },
+        "ordinary_cost_saving": {
+          "mean": 0.03257963918307017,
+          "se": 0.003899875596538711,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "all_fitness_components": {
+          "capture_income": {
+            "mean": -0.10967254638671875,
+            "se": 0.07120094860914075,
+            "n": 512
+          },
+          "guard_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "extinction_charge_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "living_cost_saving": {
+            "mean": 0.02225302391232531,
+            "se": 0.0023477287547696807,
+            "n": 512
+          },
+          "spiking_cost_saving": {
+            "mean": 0.00011620330810546876,
+            "se": 5.8165793324137526e-05,
+            "n": 512
+          },
+          "twitching_cost_saving": {
+            "mean": 0.00011620330810546876,
+            "se": 5.8165793324137526e-05,
+            "n": 512
+          },
+          "messages_cost_saving": {
+            "mean": 0.00019533538818359382,
+            "se": 8.872050169687124e-05,
+            "n": 512
+          },
+          "division_cost_saving": {
+            "mean": 0.0005960464477539062,
+            "se": 6.176285597106442e-05,
+            "n": 512
+          },
+          "secretion_cost_saving": {
+            "mean": 0.0018471037713399467,
+            "se": 0.0001686642936115212,
+            "n": 512
+          },
+          "missed_clicks_cost_saving": {
+            "mean": 0.007419586181640625,
+            "se": 0.002545308896720265,
+            "n": 512
+          },
+          "receptors_cost_saving": {
+            "mean": 3.613686561584473e-05,
+            "se": 1.571816332997605e-05,
+            "n": 512
+          },
+          "decoy_clicks_cost_saving": {
+            "mean": 0.0,
+            "se": 0.0,
+            "n": 512
+          },
+          "accounting_residual": {
+            "mean": -3.7100043089738355e-19,
+            "se": 2.013700968493576e-17,
+            "n": 512
+          }
+        }
+      }
+    }
+  },
+  "matched_first_cohorts": {
+    "D90": {
+      "status": "bitwise_equal",
+      "candidate_shape": [
+        256,
+        875
+      ],
+      "candidate_dtype": "float32",
+      "initial_raw_sha256": "f60c0868ead0450a4923b6401a73ca445f570bc4467bb6568f2ed7e9d03a2372",
+      "all256_raw_sha256": "fd72a679c2d9346a6826ace65b123167c611db01f05d6226282c46663295e04e"
+    },
+    "L92": {
+      "status": "bitwise_equal",
+      "candidate_shape": [
+        256,
+        875
+      ],
+      "candidate_dtype": "float32",
+      "initial_raw_sha256": "1f7e749eeb34586055b586f0b713820e39ce84ca8e4d5703f7cbbc3f8e6ebef2",
+      "all256_raw_sha256": "4b08452efdab8ded33eb086c4156ad90d941ec31e45687859f5513c0e0393505"
+    }
+  },
+  "native_searches": {
+    "D90_depth": {
+      "status": "passed",
+      "generation": 4,
+      "final_rank_zero_id": 896,
+      "checkpoint_sha256": "7c25dd86d6d72959bdeb2be9a0a5d4f7869c5f7c2588b964278ec4b048fd4d49",
+      "genome_raw_sha256": "2912cf583c0d6dac45e5d8a2d799a99739bf25e38bbc5e3270dd083435178ae3",
+      "prospective_initial_population_bitwise": true,
+      "selection": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 896,
+        "logged_point_mutations_including_initial_copies": 1854,
+        "founder_id_survives": false,
+        "final_ids": [
+          896,
+          621,
+          740,
+          635,
+          797,
+          307,
+          923,
+          885,
+          811,
+          729,
+          887,
+          810,
+          788,
+          878,
+          792,
+          762,
+          794,
+          774,
+          924,
+          637,
+          705,
+          835,
+          826,
+          784,
+          732,
+          737,
+          712,
+          868,
+          742,
+          723,
+          761,
+          707
+        ]
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_genome_lives": 3072,
+      "recheck_genome_lives": 1024,
+      "initial_evaluation_guard_lives_by_generation": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_rank_zero_binding": true,
+      "all_final_population_rows_bound": true
+    },
+    "D90_precision": {
+      "status": "passed",
+      "generation": 1,
+      "final_rank_zero_id": 156,
+      "checkpoint_sha256": "ef2123761d6fdbcc15ffcf9a9bce441e7c36a1d4faf2523eaf82b0b3686c8e54",
+      "genome_raw_sha256": "8694c1023842671247f1beccdbdf747cfd806e9a646d6b08b5777f9b6a107b12",
+      "prospective_initial_population_bitwise": true,
+      "selection": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 224,
+        "logged_point_mutations_including_initial_copies": 510,
+        "founder_id_survives": false,
+        "final_ids": [
+          156,
+          60,
+          160,
+          174,
+          193,
+          148,
+          28,
+          138,
+          38,
+          10,
+          43,
+          47,
+          111,
+          24,
+          197,
+          228,
+          240,
+          14,
+          199,
+          20,
+          181,
+          178,
+          18,
+          164,
+          122,
+          230,
+          2,
+          70,
+          101,
+          217,
+          245,
+          15
+        ]
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 510,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_genome_lives": 3072,
+      "recheck_genome_lives": 1024,
+      "initial_evaluation_guard_lives_by_generation": [
+        0
+      ],
+      "final_rank_zero_binding": true,
+      "all_final_population_rows_bound": true
+    },
+    "L92_depth": {
+      "status": "passed",
+      "generation": 4,
+      "final_rank_zero_id": 815,
+      "checkpoint_sha256": "0a460c7638195f4153680416169fa86042b86b05829b73573873410e58f74067",
+      "genome_raw_sha256": "4b9b8bf67c9a3dce5f4f9bcadbc8df6629030387e14856af08d7d884b68d0b49",
+      "prospective_initial_population_bitwise": true,
+      "selection": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 896,
+        "logged_point_mutations_including_initial_copies": 1854,
+        "founder_id_survives": false,
+        "final_ids": [
+          815,
+          891,
+          801,
+          906,
+          897,
+          887,
+          742,
+          662,
+          809,
+          807,
+          731,
+          808,
+          923,
+          882,
+          780,
+          874,
+          559,
+          802,
+          822,
+          752,
+          787,
+          901,
+          554,
+          424,
+          728,
+          721,
+          841,
+          746,
+          896,
+          917,
+          816,
+          720
+        ]
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_genome_lives": 3072,
+      "recheck_genome_lives": 1024,
+      "initial_evaluation_guard_lives_by_generation": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "final_rank_zero_binding": true,
+      "all_final_population_rows_bound": true
+    },
+    "L92_precision": {
+      "status": "passed",
+      "generation": 1,
+      "final_rank_zero_id": 196,
+      "checkpoint_sha256": "739a3dedc3df85536f8b629ce4e2ea060cea7fd2aa0213bf566171e6405930d6",
+      "genome_raw_sha256": "0804c953116e907dfb768637eb8fab633b8e91d0afd592f776ee20e637b7251c",
+      "prospective_initial_population_bitwise": true,
+      "selection": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 224,
+        "logged_point_mutations_including_initial_copies": 510,
+        "founder_id_survives": true,
+        "final_ids": [
+          196,
+          88,
+          140,
+          239,
+          128,
+          189,
+          70,
+          199,
+          61,
+          16,
+          14,
+          25,
+          29,
+          124,
+          123,
+          68,
+          147,
+          176,
+          52,
+          234,
+          235,
+          103,
+          231,
+          190,
+          11,
+          2,
+          245,
+          250,
+          0,
+          47,
+          12,
+          198
+        ]
+      },
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 510,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_genome_lives": 3072,
+      "recheck_genome_lives": 1024,
+      "initial_evaluation_guard_lives_by_generation": [
+        17
+      ],
+      "final_rank_zero_binding": true,
+      "all_final_population_rows_bound": true
+    }
+  },
+  "native_read_artifact_pins": {
+    "analysis/helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "analysis/helpers/selection.py": "1f52677e1238b5e54a4a2e84e02f5e81974f82ff437097296b461ab9b5344cf1",
+    "configs/D90_depth.yaml": "435f62d2cd89b2303cef0562e15288dd87aba5c82e50c7f0a8dd6be4798a9c60",
+    "configs/D90_precision.yaml": "4c1ea034a61dc001bd02a608b5414717be78dbc72a514dda095a63532bb422a5",
+    "configs/L92_depth.yaml": "3ad3e007741ac28f87b69e34c80db4109fef19fe17258b1b3c9513fc978ffb0c",
+    "configs/L92_precision.yaml": "959912a6929af3313e51ebd058882168a8fcec7a29fc0af0bfbe30aa7500b3d0",
+    "initialization.json": "71ba8b1ff8d2dd5da4b34a17248c888a4c1a1bdf32105352a7ebe4f6e13748b7",
+    "initialization/D90.npy": "cad637473b0eccbc3b2ada0252fe5a690170994a8413e24d48a830cd7b975bf5",
+    "initialization/L92.npy": "aab3a32cad200e48f21933a0c5fbe93cf22fa4f585c35343e351b65ab2e36310",
+    "inputs/Z_D90.json": "8bd145044fe31cd7cd2b63777b33e63ebe5c3c88a0cfa091999ded01dcb2ac29",
+    "inputs/Z_L92.json": "bf8da78c0a3c9244d1ab92d1238918d6bfdd0be99cd6c412ab3a2b9c8c875cdf",
+    "production/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "production/src/genome.py": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+    "production/src/lattice.py": "d2019da35fa78882c81b2c4e7e1913a3d314590b4fcffd4c3702a61b4622be5d",
+    "production/src/life/__init__.py": "7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf",
+    "production/src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "protocol.json": "1d53d07a7aa682f81f04d641c655a6018da0f278f74cfefdd4bcbcc6ab5a7ad7",
+    "runs/D90_depth/best_genome.json": "f43ec3a9a2ef279500df713c1e61145910517f13737a7130c70f2754578670c7",
+    "runs/D90_depth/checkpoint.pt": "7c25dd86d6d72959bdeb2be9a0a5d4f7869c5f7c2588b964278ec4b048fd4d49",
+    "runs/D90_depth/clones.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/D90_depth/config.yaml": "435f62d2cd89b2303cef0562e15288dd87aba5c82e50c7f0a8dd6be4798a9c60",
+    "runs/D90_depth/curves.jsonl": "8bd9ee356caee9a824c3360752a181cb93de08f4c418d54315394e078a138c28",
+    "runs/D90_depth/determinism.json": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+    "runs/D90_depth/lineage.jsonl": "909e0aa816599cad6065c4ba05214e2ef67f6e41fae38b817e3654e03259d9ed",
+    "runs/D90_depth/population.json": "466c2ede4daab81a669558e480fa2a9d03d95429251680bb7b58b5c532dec8b6",
+    "runs/D90_depth/results.jsonl": "bf6c224f7023bd12b3cedd0edc54b976181d014522be46259b3e56a9e7af66f8",
+    "runs/D90_precision/best_genome.json": "02d14a846bd1a15d7e8d53d0469db4c038e05592147bae938543c2126fd08875",
+    "runs/D90_precision/checkpoint.pt": "ef2123761d6fdbcc15ffcf9a9bce441e7c36a1d4faf2523eaf82b0b3686c8e54",
+    "runs/D90_precision/clones.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/D90_precision/config.yaml": "4c1ea034a61dc001bd02a608b5414717be78dbc72a514dda095a63532bb422a5",
+    "runs/D90_precision/curves.jsonl": "ac412bc5f59145562a886d07c85bfc277c68f006fb696307976ea1ed87e605e3",
+    "runs/D90_precision/determinism.json": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+    "runs/D90_precision/lineage.jsonl": "5054be1267f4091f2ce6f9caa2bd7ee68ea2171c543c54428460bcf5be197ef8",
+    "runs/D90_precision/population.json": "68f710b8a1d64bf7f403e70b2c36c289efb91b0c565ef8cac43a900b53ad9919",
+    "runs/D90_precision/results.jsonl": "aa7b5850f5959bcbe5998f3dc2b545a5c4c5587d2cc9150d61bae27e7d9f4e73",
+    "runs/L92_depth/best_genome.json": "8ae135300f1b6176417ba23cbe4a68e016e59426f4c457ff45d19277e28ee8e1",
+    "runs/L92_depth/checkpoint.pt": "0a460c7638195f4153680416169fa86042b86b05829b73573873410e58f74067",
+    "runs/L92_depth/clones.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/L92_depth/config.yaml": "3ad3e007741ac28f87b69e34c80db4109fef19fe17258b1b3c9513fc978ffb0c",
+    "runs/L92_depth/curves.jsonl": "c9fc5c031d81c2afc9477539aeb35bc033666d0b5cf6ea24328024ce85ccb8b4",
+    "runs/L92_depth/determinism.json": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+    "runs/L92_depth/lineage.jsonl": "52f96920185c3501b4a6a9bf2f20b3069a8fd3170735650fa536471314fe1798",
+    "runs/L92_depth/population.json": "543a02394d9486487cedc2206583fd0ba35869fe1d86e82a3ade9683a39979c6",
+    "runs/L92_depth/results.jsonl": "35dd9c53ec0332b8746d922ba4ab5878a00b85b70d794a62cbc080aef9eb9a0b",
+    "runs/L92_precision/best_genome.json": "0388a0b5b681bb5ab4b60f4aa7225ca7f77de0909077886cf46e179e6e912b39",
+    "runs/L92_precision/checkpoint.pt": "739a3dedc3df85536f8b629ce4e2ea060cea7fd2aa0213bf566171e6405930d6",
+    "runs/L92_precision/clones.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/L92_precision/config.yaml": "959912a6929af3313e51ebd058882168a8fcec7a29fc0af0bfbe30aa7500b3d0",
+    "runs/L92_precision/curves.jsonl": "928579189d9a10d4e98d7db1a79f051c1dad9787ebd1ff21b2c718975997328d",
+    "runs/L92_precision/determinism.json": "a3707506624287842b97d28eed1a2b9339932db477e0a3acf5d4fb2f4a32e9af",
+    "runs/L92_precision/lineage.jsonl": "119cd2e186c1ac2e870b751453571108f4910347959e3c42a591a172a5639a59",
+    "runs/L92_precision/population.json": "1c5c344d944d040755d6335f51605c18a54d5a6e442c511d117668c0186a5faa",
+    "runs/L92_precision/results.jsonl": "f016c344038c10ad36d2a6b0d0043151a3ac23545610605144383a67b568ac62"
+  },
+  "interpretation": "Neither precision-minus-depth primary fitness effect resolves at3SE. D90 precision captures more than depth, while depth loses captures relative to the same start and gains fitness through economy; precision does not resolve a capture gain over its own start. L92 capture changes remain unresolved. The result does not establish general precision-policy reliability or a more sophisticated capture algorithm.",
+  "limits": [
+    "Native recorded operations replay exactly; random-number draws are not rerun.",
+    "Search shortlist scores and saved health summaries are checked, but raw search/validation/redraw/half-life ledgers are not retained.",
+    "Twenty-one initial-selection guarded lives are retained (L92 depth4 and precision17); every recheck guard life is not separately enumerated.",
+    "All3072confirmation rows retain their original weights; these rows have no guard/extinction/mismatch/capacity.",
+    "512life-level paired seeds do not estimate independent-search reliability; precision and depth alter both evaluation precision and generations under equal selection calls, not equal CPU."
+  ],
+  "simulated_lives": 0,
+  "compiled_libraries": 0,
+  "frozen_files_modified": false
+}
