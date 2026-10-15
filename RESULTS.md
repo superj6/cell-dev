@@ -2963,3 +2963,18 @@ D90 lineage as well. Its prospective scope is four generations per start and fou
 confirmation lives, with prices, world and asynchronous local rules unchanged. No AF registration, seeds,
 input copying, genetic draws, builds or lives are released by this result. Fully dark flash remains another
 useful direction; neither world is admitted or rejected by hand-built bodies or these local accessibility results.
+
+## 2026-10-14 — Watchable persistent-target comparison, with exact existing-life replay
+
+`results/atlas/persistent_target.html` is a standalone comparison of both AE parents and selected mutants
+in the exact existing persistent-target world. The first recorded confirmation seed, 52,300,000, is used
+regardless of outcome: L92's mutant catches two versus three for its parent on that life, although its
+512-life mean advantage is +.41797 ± .10489. The page shows the full-study estimates beside the illustration.
+Play/pause, restart, lineage and speed controls change viewing only; local rules, prices and world stay fixed.
+
+All four browser-engine replays reproduce all 57 C ledger columns bitwise (228 matches), using only
+already-published outcomes. They used 10.375161 CPU-seconds and all exited. No new C/Python lives, research
+observations, genetic draws or compilation occurred. Sixty mock UI checks cover controls, paused/hidden-tab
+behavior, two screen widths and finite drawing coordinates; no real-browser screenshot was available.
+The initial export helper's incorrect archive path failed before any output or life and is preserved.
+Source, exact inputs, truth, replay budget and UI checks: `results/ae_watchable_20261014/`.

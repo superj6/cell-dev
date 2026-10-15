@@ -9,6 +9,9 @@ cells.
 and has a live playground where you drop targets and an evolved body chases them. The playground's simulator is a
 JavaScript port validated bitwise against the C kernel on the retained parity cases.
 
+[Watch the persistent-target comparison](results/atlas/persistent_target.html): the new selected mutants beside
+their parents, with the measured capture gains and cost savings from 512 fresh paired lives.
+
 ## The current model: one continuous life (BODY-1)
 
 ```
