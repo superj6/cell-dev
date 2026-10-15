@@ -2420,3 +2420,21 @@ were repeated. Independent reanalysis reproduces the summary and all 150 paired 
 portable reanalysis and confirmation figure. A short four-generation native blink continuation is being prepared
 from both fixed selected mutants, regardless of confirmation sign, to test whether further gains accumulate.
 It will retain fresh comparisons against the Y starts and original founders; it is not released by this result.
+
+## 2026-10-14 — Short ordinary blink continuation registered
+
+Z registers two four-generation native searches from Y's exact selected mutants, D90 row58 and L92 row24,
+using run seeds 53220/53221. Both starts were fixed irrespective of Y confirmation sign. The ordinary 32+224,
+three-plus-four-life policy, mutation/breeding and approved blink physics are unchanged. Both final rank-zero
+endpoints must freeze before fresh six-role confirmation against their own starts and original founders.
+Block120 supplies 512 shared new seeds (52,200,000–52,200,511); native search/diagnostic IDs are independently
+derived and checked for overlap.
+
+The fixed scope is **11,340 research plus six startup validation lives**, capped at **7,200 CPU-seconds** with
+at most 3,600 for startup/search and 3,600 reserved for confirmation/cleanup. Actual Y developed-body rows support
+the declared estimates: 3,115.984392 and 1,582.851613 CPU-seconds respectively. No extra calibration is scheduled.
+The reserve remains enforced even if evolved mutants cost more than these estimates. This tests whether ordinary
+evolution accumulates further gains in a richer world; capture income and cost savings remain separate outcomes.
+No Z library or life has run at registration. Exact initial populations replay, and 20 focused analysis checks
+pass. Inputs, source, independent analysis and reviews are prospectively preserved as 186 artifacts at
+`results/visibility_continuation_20261014/`; release follows publication.

@@ -1,0 +1,44 @@
+{
+  "status": "approved_separate_process_receipt_correction_before_outcomes",
+  "original_analyzer_sha256": "1f8bc838666f6ba2e58e8a64aac4506fc2a94488850d50a20de29c06120449d7",
+  "corrected_analyzer_sha256": "08b3bebe8f05a5d758bee3306ebaae6b6086a204e47ddbc556947b6bd32486b7",
+  "accountant_sha256_unchanged": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+  "source_diff_sha256": "348ca0917969d9660338879dba8384392771118c2fc3e75dac8e034b0bac50c5",
+  "changed_functions": [
+    "identity",
+    "resources"
+  ],
+  "producer_monitor_sha256": "de64b3d296680b8a555bde9f662d050a54adad4cd0805afad94e750b0f12e461",
+  "live_common_helper_sha256": "13483b1425d4c10a409c46576262e62d22c10e6aeaa9bd347d5cd94c1503963e",
+  "actual_attempt_sha256": "f217d06f9ad2e8821331a40e50079a1b50e3c3d96ea2c5147e93c0d4948a3bb9",
+  "actual_budget_sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+  "persisted_identity_fields": [
+    "pid",
+    "ppid",
+    "pgid",
+    "start_ticks"
+  ],
+  "checks": [
+    "Actual producer monitor.process_identity returns four fields; common helper sid is transient live information, not archived evidence.",
+    "Original reader rejects the actual four-field record before any raw scientific row is loaded; failure and exact attempt/budget fixtures are retained.",
+    "Corrected identity retains positive integer PID/group/start ticks and nonnegative parent ID; monitor attempt/budget identity equality and worker parent/owned-group constraints remain enforced.",
+    "Ready source maps, attempt ready hash, complete first-attempt budget, CPU limits, all phase/source/artifact checks and every scientific selection/statistic/accounting function are unchanged.",
+    "Separate corrected source is explicitly externally reviewed and will be manifest-pinned; released analyzer hash is still required literally and executing accountant must still match original ready.",
+    "Source-only corrected verify_protocol/resources succeeded on exact terminal records without loading measurement rows."
+  ],
+  "session_id_claim": "No persisted sid evidence exists or is newly claimed; runtime source checks remain documented separately.",
+  "author_actual_fixture_tests": 5,
+  "author_test_log_sha256": "4d2df7a96ce4a667da3ccf295f2d16c728a65ed0e861a3baa919f7bb469b02b5",
+  "new_tests_run_by_this_review": 0,
+  "all62_released_source_pins_unchanged": true,
+  "scientific_outcomes_read": false,
+  "new_simulations": 0,
+  "new_compilations": 0,
+  "new_mutations": 0,
+  "resources_gate": {
+    "total_cpu_seconds": 1768.464936,
+    "startup_screen_cpu_seconds": 1240.066735,
+    "confirmation_cpu_seconds": 528.398201,
+    "first_attempt_only": true
+  }
+}

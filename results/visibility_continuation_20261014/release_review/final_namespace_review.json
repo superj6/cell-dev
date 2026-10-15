@@ -1,0 +1,72 @@
+{
+  "status": "clear_for_root_registration",
+  "reserved": false,
+  "simulation_calls": 0,
+  "runs": [
+    53220,
+    53221
+  ],
+  "confirmation_block": 120,
+  "confirmation_base": 51000000,
+  "confirmation_stride": 10000,
+  "confirmation_half_open": [
+    52200000,
+    52200512
+  ],
+  "whole_block_checked_half_open": [
+    52200000,
+    52210000
+  ],
+  "validation_block_reserved": false,
+  "seed_reservations": [],
+  "unique_native_ids": 128,
+  "unique_native_ids_per_run": 64,
+  "native_seed_counts": {
+    "selection": 28,
+    "periodic_validation": 32,
+    "final": 4
+  },
+  "prior_native_hashed_ids_checked": 60138,
+  "native_hashed_overlap": 0,
+  "json_files_scanned": 47189,
+  "npz_files_inspected": 65943,
+  "npz_seed_arrays_scanned": 14144,
+  "numeric_matches": 96,
+  "match_classification": "All96 are exclusive upper endpoint52200000 of prior half-open Y119 ranges, checked in original JSON lists and matched to inventory source hashes. No proposed run/RNG or native hashed seed matches; no seed-array or overlapping-interval match.",
+  "actual_overlap": false,
+  "text_matches": 2,
+  "text_review": "Both prior block120 declarations use43000000 base (44200000 onward), disjoint from proposed51000000-base block120. No53220/53221 source declaration found outside own proposal.",
+  "text_source_pins": {
+    "outputs/openhr/prediction/rt_reflex.py": "0d8d2941d12486bb7fba74fc2c95c90606f2b11a2e63ac1aa3f57daf87732879",
+    "outputs/openhr/prediction/pcommon.py": "4a1b66417722e44ece4645f1b4cdf76bac988e335352f5295e9132e9cb873c70"
+  },
+  "text_scan_sha256": "fdc429855c6aade160a18f8b06e5a5695cbccce38d2405e9adcc370c01e6ea01",
+  "known_empty_nonfixture_json": [
+    {
+      "path": "results/visibility_information_x2_20261014/operations/reanalysis_console.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interpretation": "Retained empty stdout from frozen X2 failed analyzer; no seed data."
+    },
+    {
+      "path": "results/visibility_gradient_20261014/original/outputs/autonomous_visibility_information_x2_20261014/reanalysis_console.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interpretation": "Retained empty stdout from frozen X2 failed analyzer; no seed data."
+    },
+    {
+      "path": "outputs/autonomous_visibility_information_x2_20261014/reanalysis_console.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interpretation": "Retained empty stdout from frozen X2 failed analyzer; no seed data."
+    }
+  ],
+  "unexplained_json_or_npz_errors": 0,
+  "synthetic_malformed_json": 6098,
+  "synthetic_invalid_npz": 130,
+  "inventory_sha256": "8909510abf05e9842828a82e19d1c2f701fb0114acd3ace7d59402b2eece7551",
+  "namespace_lists_sha256": "e6c448533fcf9a22cc296ff27296c31dfcbf8f3b08d0df6a7375e4d1c2852274",
+  "script_sha256": "e62ec55a12f6f640de9c631edef987bdb4683ad9d556560723c87fe72c35d1e2",
+  "exclusions": "Retained scanner excludes this audit and original X preparation. Original X seedmatrix is independently identical to X2 (113/116). No Z study inputs or registration exist. New Y public copies contain identical117/118/119 namespaces already scanned in working inputs.",
+  "limit": "Suggestion/audit only; root registration is still required. Startup seed11 is deliberately reused for six existing ABI3 goldens."
+}

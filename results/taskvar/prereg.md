@@ -1276,3 +1276,39 @@ Otherwise the unchanged study stops incomplete before screening. These rates can
 aggregate caps remain enforced. No automatic retry, resume, scope reduction, sample replacement or budget
 extension is allowed. Complete fixed coverage and independent raw/genetic/accounting checks precede inference.
 Prospective artifacts are preserved at `results/visibility_gradient_20261014/`; preparation runs no simulations.
+
+### Z. Short ordinary evolution in irregular blink (2026-10-14)
+
+The exact Y selected mutants D90 row58 and L92 row24 start one ordinary four-generation native search each,
+regardless of their fresh Y comparison sign. Runs 53220/53221 initialize one exact start and 31 ordinary mutated
+copies. Use the unchanged 32+224 sexual policy: three shared lives, top 64 rechecked on four additional lives,
+all parents reevaluated, ordinary scaled two-point mutation with cell probability .5, no duplication/deletion,
+protected founder or historical-best substitution. Explicit ABI4 blink at T1024 retains all Y physics/prices
+and production guard/extinction penalties. There is no duration mixture, lesion, envelope or new cell rule.
+
+Both generation 4 final population rank-zero genomes freeze before either fresh endpoint measurement.
+Six fixed roles (original D90/L92, their Y starts, their new endpoints) share 512 new block120 seeds,
+52,200,000–52,200,511. Primary effects are endpoint minus own Y start; cumulative effects are endpoint minus
+original founder. Start-minus-founder effects on the same seeds permit exact per-life reconciliation.
+Retain captures, dark/bright captures, capture income, each cost, body size and activity for every comparison.
+These are two fixed lineage searches, not an estimate of general search reliability or proof of memory.
+
+The fixed count is 11,340 research lives: 8,192 selection, 64 periodic diagnostics, 12 native tiny-final checks,
+and 3,072 fresh confirmation. Four tiny-final lives last T512 and intentionally reuse their corresponding final
+seeds; the rest last T1024. Each of the two native search processes calls the standard numerical identity once,
+and the one confirmation process calls it once: six deliberately repeated ABI3 seed 11/T200 goldens. No prep,
+wrapper, smoke-test or calibration invocation adds hidden lives. The namespace audit checks 128 unique native
+hashed IDs and all 512 fresh confirmation IDs; no new validation block is reserved.
+
+The inclusive cap is 7,200 CPU-seconds, at most two two-thread searches followed by one two-thread confirmation
+worker. Startup/search have a 3,600 ceiling, preserving 3,600 for confirmation and cleanup; stopping margins are
+ten seconds. Compilation, monitor, descendants and failures count. No automatic retry, resume, scope reduction,
+partial endpoint substitution or budget extension is allowed. Complete stages and independent raw/genetic
+replay are required before inference. A cap stop is incomplete evidence, not a plateau result.
+
+The fixed cost check reuses Y's four actual 512-life confirmation rows only after completed Y review and process
+clearance, with unchanged source/runtime/compiler/thread pins. For each background let f/s be its original/start
+CPU per life and r=max(f,s). Require `180 + 1.5*4134*sum(r) <= 3590` for startup/search and
+`180 + 1.5*512*sum(f+s+2*r) <= 3590` for confirmation. The observed projections are 3,115.984392 and 1,582.851613
+CPU-seconds. These margins cannot bound new mutants or larger endpoints; aggregate caps still apply.
+The prospective public record is `results/visibility_continuation_20261014/`. Registration runs no simulations.

@@ -1,0 +1,43 @@
+{
+  "status": "approved_for_prospective_release",
+  "protocol_sha256": "2e3e2a2f7bd19f8a10620f8bf4c23a5eb31d4c033a48c0939bf421d234be2935",
+  "source_pins": {
+    "analyze.py": "2c0616c3e9e042d0d8f14e220eac50fe9beddd6a5e20add17fb3655f6229dfc6",
+    "native_audit.py": "87bc651fd26b5024805bd0ad0ab8a95df08ea76e0fb76774d64e84e5b9c1ff8c",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "test_analyze.py": "453b45ff32fb900ac7ae259080041d5c905153cdd4746806b655e59a89d3a839",
+    "helpers/selection.py": "41b97ad3f22db01778d21fe3bb52952016423cb83f453aa1449743d36884c7bd",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "initialization_replay_sha256": "5bbe17f307ff0876eb1a0637c920ab923dff0f257daf52cbd5c8cc07d01f78d2",
+  "fixture_pins": {
+    "fixtures/U_budget.json": "947e93896f902e35d4e132f9419f170393497631788259315038a73a6edb227a",
+    "fixtures/Y_attempt.json": "f217d06f9ad2e8821331a40e50079a1b50e3c3d96ea2c5147e93c0d4948a3bb9",
+    "fixtures/Y_budget.json": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae"
+  },
+  "tests": {
+    "passed": 20,
+    "failed": 0,
+    "command": "PYTHONDONTWRITEBYTECODE=1 ATEN_CPU_CAPABILITY=avx2 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest outputs/audit_visibility_continuation_20261014/analysis/test_analyze.py -q -p no:cacheprovider --basetemp=outputs/audit_visibility_continuation_20261014/analysis_test_fixtures_frozen --junitxml=outputs/audit_visibility_continuation_20261014/analysis/test_results.xml",
+    "log_sha256": "c66ef7936b32d2201bf6eb901cf69cbc8e71996669c38afe1f70ad40098e04a3",
+    "junit_sha256": "a392d01a00468ab3d3a18488086d2d703f3c50634852430a15b1d75b306f40aa",
+    "coverage": "Actual U/Y four-field receipts and Z producer AST; both recorded initial populations; complete six-row synthetic confirmation and six paired comparisons; eleven corruptions; missing-data refusal. Native terminal artifacts are validated by reused U code/source review, not a fabricated full-run fixture."
+  },
+  "scope": {
+    "research_lives": 11340,
+    "startup_lives": 6,
+    "raw_confirmation_rows": 6,
+    "raw_confirmation_lives": 3072,
+    "ledger_columns": 58
+  },
+  "simulated_lives": 0,
+  "compiled_libraries": 0,
+  "new_candidate_generation": 0,
+  "limitations": [
+    "Native periodic validation/redraw/half diagnostics retain summaries, not every raw status.",
+    "Only confirmation raw ledgers receive58-column reconciliation.",
+    "Recorded operations replay does not validate RNG draws; stored RNG state hashes are pinned.",
+    "No inference about memory, prediction or general search reliability."
+  ],
+  "source_review": "Producer receipt keys, checkpoint/log conventions, exact final0 seed purpose5, six-role row/report names, counters and cost order reviewed against pinned Z sources; independent peer receipt retained separately."
+}

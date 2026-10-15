@@ -87,6 +87,16 @@ Full data, both analyzers and exact public reanalysis are at `results/visibility
 A short ordinary blink continuation is being prepared from both fixed Y selections, regardless of their
 confirmation sign; it remains unreleased pending final namespace, input, cost and source review.
 
+**Z registered (2026-10-14).** Two native four-generation 32+224 searches start from exact Y selections
+D90 row58 and L92 row24, using run seeds 53220/53221 regardless of Y confirmation sign. Both final rank-zero
+endpoints must freeze before six-role confirmation against their own Y starts and original D90/L92 founders.
+All six roles share 512 fresh block120 seeds (52,200,000–52,200,511). Scope is 11,340 research plus six retained
+startup goldens under 7,200 CPU-seconds, with a 3,600 startup/search ceiling reserving 3,600 for confirmation.
+The declared estimates from actual Y developed-body costs fit both phases; no new calibration lives are needed.
+World, ordinary mutation/breeding, local asynchronous rules, costs and penalties are unchanged. Preparation
+is preserved at `results/visibility_continuation_20261014/`, including exact initial-population replay and
+20 focused analysis checks. It remains unreleased until this prospective archive is published.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

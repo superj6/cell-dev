@@ -1,0 +1,51 @@
+{
+  "status": "source_only_preparation_review_pending",
+  "study": "Z ordinary blink continuation",
+  "source_pins": {
+    "PREREG.md": "bd7dfcc48f3c4cfc38bd8b32c9d57fd6bb8c2d0757bba764488d748909b0e8d0",
+    "README.md": "7a5e9ca092c2d4f6fd330d1a68737ddf35ad47b998dc938efd7d3a9fa9f45b64",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "cc59233a2c3227b7c4598ca8b50877e0afb20d27bfb565b4d9e65d32233a898d",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "5c9c9284c3ddb8992b3306773fa4f9bd4493b6ac15e73e5859a78f4e8cb85025",
+    "run_budgeted.py": "890f74334d1df2e4b2077f0d9009231d44b871fb11f722950455536c7218e4b1",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "test_preparation.py": "6f7d3229498a0cdbd797e320940a064251db9318f233ea8f05788f34b7ad6ee4"
+  },
+  "checks": {
+    "focused_synthetic_checks": 27,
+    "ruff": "passed",
+    "unchanged_U_lifecycle_AST": true,
+    "unchanged_Y_scoring_and_numerical_bytes": true,
+    "cold_runtime_identity": "passed"
+  },
+  "evidence_pins": {
+    "source_tests.xml": "ce7d6421e7bd4a9e0abdb4cd45e87781aff166fd3ef6c2131664b55f1e353276",
+    "source_tests.log": "a82a0b51cd86fa0131904e08c34ef556963104f0e3677f688117e093ebf2d3fe",
+    "cold_runtime_check.json": "e8b387bea42a4b38df931389e94424fd990afd23de87d9f8f5a0208fe421e557",
+    "developed_founder_timing.json": "13419c703fb4e5a5ce8cd8ca6c3f5f98911d24d6677f542721d828d6051d7891"
+  },
+  "absent_artifacts": [
+    "protocol.json",
+    "registration.json",
+    "seed_audit.json",
+    "generation_claim.json",
+    "initialization.json",
+    "initialization",
+    "inputs",
+    "configs",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "confirmation",
+    "build-cache"
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "founders_extracted": 0,
+  "populations_generated": 0,
+  "namespaces_reserved": 0,
+  "limitation": "Terminal Y timing inspected after root authorization; no scientific confirmation outcomes inspected. Full Y analysis and root registration are required before founder extraction and once-only initialization.",
+  "test_history": "Initial pytest attempt passed19 tests;8 fixture setups could not create missing basetemp parent. Parent was created and all27 tests then passed; source_tests_initial.xml retained."
+}

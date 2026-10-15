@@ -1,0 +1,49 @@
+{
+  "status": "independent_complete_Y_dependency_review_passed",
+  "Y_terminal_manifest_sha256": "c2a7f8ed93231623c8de6905445873c7b27920a1dfba8552a5d061cab07ea167",
+  "Y_summary_sha256": "19143f75dcc3f8890ea9afd2523ab0fbf42a38d7a778213dd5be4f112da3fac2",
+  "Y_protocol_sha256": "1880ff6e21b4689031e892d9dc6765a8d9673a35efeefb213acf268f5370adf4",
+  "Y_startup_identity_sha256": "17b8f85c3d4c92f5151f50171ec9232b2b48b198deadc57244886bb99e56a1e2",
+  "Y_terminal_budget_sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+  "Y_correction_manifest_sha256": "f5eba1bc590ead918bae84dd9230b79f0571596159d0d40473c7bb34e1dd1306",
+  "extraction_receipt_sha256": "4496d385f4482953d5466417c899aaee3526289725ca9b8c432259b3e5f9494a",
+  "timing_receipt_sha256": "13419c703fb4e5a5ce8cd8ca6c3f5f98911d24d6677f542721d828d6051d7891",
+  "founders": {
+    "D90": {
+      "selected_row": 58,
+      "selected_raw_sha256": "2317b26eb6c61d99e12d8a345436bcbcb16d7863048715278525148aec9b413e",
+      "original_raw_sha256": "1287ee4421f88fc108c073eae282f625bd0e340a5e4b12d590cd27cbc046bfac",
+      "exact_float32_JSON_NPY_panel_roundtrip": true
+    },
+    "L92": {
+      "selected_row": 24,
+      "selected_raw_sha256": "6935252982803614cb973b8b938e7ca927ab2d72e5ef31aaa243c2625385d86a",
+      "original_raw_sha256": "8f14c79b8bea73c08dff7f6bc1094dc848534f9f2d45598c99c4351cf364cf27",
+      "exact_float32_JSON_NPY_panel_roundtrip": true
+    }
+  },
+  "production_pins_unchanged": 35,
+  "rates_cpu_per_life": {
+    "D90": {
+      "founder": 0.2842693856464842,
+      "Y_start": 0.23338228284960927
+    },
+    "L92": {
+      "founder": 0.18920011801562486,
+      "Y_start": 0.1728389102011718
+    }
+  },
+  "declared_cost_projection": {
+    "startup_search": 3115.9843922087384,
+    "confirmation": 1582.8516127004991,
+    "threshold": 3590,
+    "passes": true
+  },
+  "cost_limit": "Timing reused under identical sources and existing runtime receipt; new mutant/endpoint costs are not bounded by observed parent averages. Aggregate monitor caps remain authoritative.",
+  "both_Y_screen_winners_retained_without_fitness_sign_filter": true,
+  "new_extractions": 0,
+  "new_mutations_or_populations": 0,
+  "new_simulations": 0,
+  "new_compilations": 0,
+  "remaining": "Final registered Z protocol/config/initialization/source checks and independent native replay."
+}

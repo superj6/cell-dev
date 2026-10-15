@@ -1,0 +1,48 @@
+{
+  "status": "prepared_unreleased",
+  "protocol_sha256": "2e3e2a2f7bd19f8a10620f8bf4c23a5eb31d4c033a48c0939bf421d234be2935",
+  "initialization_sha256": "7059714674e821b6ca48b9971c292228129f84a1000ddfbe6e0047fdb030436d",
+  "generation_claim_sha256": "6d0c35f5132ab8cce426b8d08ad2969ebc10a26e0d5ceb432bd0fea66bda4462",
+  "registration_sha256": "9937a991efd9921dca19acf3a9d7f6a0d6c65928f6d91edc3edf3185e56b4204",
+  "study_file_pins": 42,
+  "production_pins": 35,
+  "initial_populations": {
+    "53220": {
+      "shape": [
+        32,
+        875
+      ],
+      "dtype": "float32",
+      "file_sha256": "bb78a1e4449601cda713d39c6304f4c5558a0b9c388031bc2d3704e54b830fad",
+      "raw_sha256": "7bcda13a7494d5f8d75d17ec02132da0a07437f5c9c934e7d2c4d3e4f1f1b6ea",
+      "founder_raw_sha256": "2317b26eb6c61d99e12d8a345436bcbcb16d7863048715278525148aec9b413e",
+      "copies": 31
+    },
+    "53221": {
+      "shape": [
+        32,
+        875
+      ],
+      "dtype": "float32",
+      "file_sha256": "230d431d7f29c28094e29a177f3c07d34a7f72f4f4d21f32cc32276f9e2a6735",
+      "raw_sha256": "7f7e1a5afb93d35abee710e407f8903b7371e86be438b7c324e22c50f7fa764f",
+      "founder_raw_sha256": "6935252982803614cb973b8b938e7ca927ab2d72e5ef31aaa243c2625385d86a",
+      "copies": 31
+    }
+  },
+  "source_checks": {
+    "focused_synthetic_checks_before_preparation": 27,
+    "ruff_after_final_changes": "passed",
+    "cold_runtime_identity_matches_Y": true
+  },
+  "preparation_command": "PYTHONDONTWRITEBYTECODE=1 ATEN_CPU_CAPABILITY=avx2 OMP_NUM_THREADS=2 OMP_THREAD_LIMIT=2 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 CELL_DEV_CACHE=<study>/build-cache .venv/bin/python <study>/prepare.py --prepare",
+  "preparation_exit_code": 0,
+  "stdout_sha256": "6d4fc3b9da0d29a02338398d94f6384e6fa7955cf8bc59264b5072fc13a728ed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "runtime_artifacts_absent": true,
+  "first_generation_claim": true,
+  "scope": "Exactly one native initialization preparation; independent replay is separate. No monitor release or simulation.",
+  "final_source_delta_from_draft": "README/PREREG reflect completed Y and root registration; preparation verifies registered seed-audit hash/background mapping/all Y dependency pins and retains ten exact Y panel/config provenance files for portable replay. Scoring,numerical,monitor,confirmation sources unchanged."
+}

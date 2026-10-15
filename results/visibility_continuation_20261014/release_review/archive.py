@@ -1,0 +1,228 @@
+"""Package Z without running it. Default dry run; copied scientific evidence is immutable.
+
+Preparation contains zero compiled libraries/lives. Terminal packaging only appends
+operational/raw artifacts; prelaunch/manifest.json preserves the published preparation.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+
+ROOT = Path(__file__).resolve().parents[2]
+STUDY = ROOT / "outputs/autonomous_visibility_continuation_20261014"
+AUDIT = Path(__file__).resolve().parent
+ARCHIVE = ROOT / "results/visibility_continuation_20261014"
+PROTOCOL_SHA = "2e3e2a2f7bd19f8a10620f8bf4c23a5eb31d4c033a48c0939bf421d234be2935"
+SKIP = {"__pycache__", ".pytest_cache", ".git"}
+OPERATIONS = ("ready.json", "attempt.json", "budget.json", "validation_budget.json", "resource_clearance.json",
+              "terminal_process_clearance.json", "seed_registration.json")
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def inside(base, name):
+    if not isinstance(name, str) or Path(name).is_absolute() or ".." in Path(name).parts:
+        raise ValueError("unsafe archive path")
+    path = (base / name).resolve()
+    if not path.is_relative_to(base.resolve()):
+        raise ValueError("archive path escapes declared root")
+    return path
+
+
+def make_plan(root, study, audit, phase):
+    protocol = read(study / "protocol.json")
+    if sha(study / "protocol.json") != PROTOCOL_SHA:
+        raise ValueError("protocol is not the reviewed Z registration")
+    if phase not in ("preparation", "terminal"):
+        raise ValueError("invalid archive phase")
+    artifacts = {}
+
+    def add(source, relative, digest=None, origin=None):
+        inside(Path("/archive"), relative)
+        if not source.is_file():
+            raise FileNotFoundError(source)
+        actual = sha(source)
+        if digest is not None and actual != digest:
+            raise ValueError("source pin changed: " + str(source))
+        item = {"source": str(source), "sha256": actual, "bytes": source.stat().st_size,
+                "origin": origin or str(source.relative_to(root))}
+        if relative in artifacts and artifacts[relative]["sha256"] != actual:
+            raise ValueError("archive destination collision: " + relative)
+        artifacts[relative] = item
+
+    def tree(folder, prefix):
+        if not folder.exists():
+            return
+        for path in sorted(folder.rglob("*")):
+            parts = path.relative_to(folder).parts
+            if path.is_file() and not any(p in SKIP or p.startswith("test_") for p in parts[:-1]):
+                add(path, str(Path(prefix) / path.relative_to(folder)))
+
+    for name, digest in protocol["file_pins"].items():
+        add(inside(study, name), name, digest)
+    for name in ("protocol.json", "registration.json", "analysis_pins.json"):
+        add(study / name, name)
+    for name, digest in protocol["production_pins"].items():
+        add(inside(root, name), "production/" + name, digest)
+    # Retain the exact completed-Y lineage/timing dependencies and U native template.
+    registration = read(study / "registration.json")
+    y = root / "outputs/autonomous_visibility_gradient_20261014"
+    external = dict(read(study / "seed_audit.json")["source_pins"])
+    dependency = registration["Y_complete"]
+    external[dependency["summary_path"]] = dependency["summary_sha256"]
+    for name, digest in dependency["file_pins"].items():
+        external[str((y / name).relative_to(root))] = digest
+    y_public = root / "results/visibility_gradient_20261014"
+    y_manifest = read(y_public / "manifest.json")
+    y_names = ["protocol.json", "ready.json", "analysis_pins.json", "postanalysis/manifest.json",
+               "postanalysis/analyze.py", "postanalysis/offline_accounting.py", "postanalysis/independent_identity_review.json",
+               "terminal_review/raw_analysis_review.json", "report.json"]
+    for parent in ("D90", "L92"):
+        y_names += [f"inputs/{parent}/{name}" for name in
+                    ("genomes.npy", "parent.json", "config.yaml", "original_config.yaml", "mutation_ops.json", "panel_manifest.json")]
+        y_names.append(f"measurement/{parent}/row_index.json")
+    timing = read(audit / "developed_founder_timing.json")
+    for background in timing["rows"].values():
+        for role in ("founder", "Y_start"):
+            external[background[role]["path"]] = background[role]["sha256"]
+    for name in y_names:
+        public_name = "operations/" + name if name == "ready.json" else name
+        external[str((y / name).relative_to(root))] = y_manifest["artifacts"][public_name]["sha256"]
+    external[str((y_public / "manifest.json").relative_to(root))] = sha(y_public / "manifest.json")
+    external[str((y_public / "prelaunch/manifest.json").relative_to(root))] = sha(y_public / "prelaunch/manifest.json")
+    u = root / "results/decoy_evolution_20261014"
+    up = read(u / "provenance.json")
+    for name in ("runs/s53091/config.yaml", "protocol.json", "run_budgeted.py", "test_monitor.py", "reviews/monitor_review.json"):
+        external[str((u / name).relative_to(root))] = up["artifacts"][name]["sha256"]
+    external[str((u / "provenance.json").relative_to(root))] = sha(u / "provenance.json")
+    namespace = read(audit / "final_namespace_review.json")
+    external.update(namespace["text_source_pins"])
+    for entry in namespace["known_empty_nonfixture_json"]:
+        external[entry["path"]] = entry["sha256"]
+    for name, digest in external.items():
+        add(inside(root, name), "original/" + name, digest)
+    for name in ("analyze.py", "offline_accounting.py", "native_audit.py", "initialization_replay.json"):
+        if not (study / "analysis" / name).is_file():
+            raise ValueError("final independent analysis files have not been installed: " + name)
+    tree(study / "analysis", "analysis")
+    tree(study / "release_review", "release_review")
+    add(audit / "archive.py", "release_review/archive.py")
+    for name in OPERATIONS:
+        path = study / name
+        if path.exists():
+            add(path, "operations/" + name)
+    clearance = study / "resource_clearance.json"
+    dependency_pins = read(clearance)["budget_pins"] if clearance.exists() else {}
+    for name, digest in dependency_pins.items():
+        add(inside(root, name), "original/" + name, digest)
+    if phase == "preparation":
+        for name in ("ready.json", "attempt.json", "budget.json", "runs", "confirmation", "logs", "build-cache"):
+            if (study / name).exists():
+                raise ValueError("prospective packaging requires a zero-run unreleased study: " + name)
+        if list(study.rglob("*.so")):
+            raise ValueError("prospective study unexpectedly contains compiled libraries")
+        if not (study / "generation_claim.json").is_file():
+            raise ValueError("fixed initial populations have not been generated and pinned")
+    else:
+        budget = read(study / "budget.json")
+        if (budget.get("status") not in ("complete", "incomplete", "monitor_failed")
+                or budget.get("running") or budget.get("queued") or budget.get("cleanup_error")):
+            raise ValueError("terminal packaging requires settled worker groups and queues")
+        ready = read(study / "ready.json")
+        for name, digest in ready["source_pins"].items():
+            relative = "operations/" + name if name in OPERATIONS else name
+            add(inside(study, name), relative, digest)
+        for folder in ("runs", "confirmation", "logs", "analysis_result", "build-cache", "terminal_review", "figures"):
+            tree(study / folder, folder)
+    return {"format": 1, "phase": phase, "protocol_sha256": PROTOCOL_SHA,
+            "status": "prepared_not_launched" if phase == "preparation" else "terminal_artifacts_archived",
+            "scientific_lives_completed": 0 if phase == "preparation" else None,
+            "compiled_libraries": 0 if phase == "preparation" else None,
+            "release": False if phase == "preparation" else True,
+            "planned_research_lives": 11340, "planned_validation_lives": 6,
+            "scientific_outcomes_claimed": False,
+            "working_directory": str(study.relative_to(root)),
+            "dependency_budget_pins": dependency_pins,
+            "dependency_clearance_status": "copied" if clearance.exists() else "root_clearance_pending_before_release",
+            "artifacts": artifacts}
+
+
+def manifest(plan):
+    value = {key: item for key, item in plan.items() if key != "artifacts"}
+    value["artifacts"] = {name: {key: item[key] for key in ("sha256", "bytes", "origin")}
+                          for name, item in sorted(plan["artifacts"].items())}
+    return value
+
+
+def ignored_paths(root, archive, plan):
+    names = [str((archive / name).relative_to(root)) for name in sorted(plan["artifacts"])]
+    names += [str((archive / name).relative_to(root)) for name in ("manifest.json", "prelaunch/manifest.json")]
+    result = subprocess.run(["git", "check-ignore", "--no-index", "-z", "--stdin"],
+                            input=("\0".join(names) + "\0").encode(), capture_output=True, cwd=root)
+    if result.returncode not in (0, 1):
+        raise RuntimeError("cannot audit force-add requirements: " + result.stderr.decode())
+    return [name for name in result.stdout.decode().split("\0") if name]
+
+
+def write_archive(archive, plan):
+    prospective = archive / "prelaunch/manifest.json"
+    current = archive / "manifest.json"
+    if plan["phase"] == "terminal" and not prospective.is_file():
+        raise ValueError("terminal update requires an existing published prospective snapshot")
+    expected = manifest(plan)
+    # Preflight every existing destination before copying anything. Prepared evidence
+    # is never silently replaced, even when a source file has been deliberately edited.
+    for name, item in plan["artifacts"].items():
+        destination = inside(archive, name)
+        if destination.exists() and sha(destination) != item["sha256"]:
+            raise ValueError("immutable archived artifact differs: " + name)
+    if plan["phase"] == "preparation" and prospective.exists() and read(prospective) != expected:
+        raise ValueError("prospective archive is immutable; use a distinct reviewed revision")
+    if current.exists() and read(current).get("protocol_sha256") != PROTOCOL_SHA:
+        raise ValueError("archive belongs to another protocol")
+    for name, item in sorted(plan["artifacts"].items()):
+        source = Path(item["source"])
+        if sha(source) != item["sha256"]:
+            raise ValueError("source changed after planning: " + name)
+        destination = inside(archive, name)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if not destination.exists():
+            shutil.copyfile(source, destination)
+        if sha(destination) != item["sha256"]:
+            raise ValueError("copied artifact hash differs: " + name)
+    archive.mkdir(parents=True, exist_ok=True)
+    if plan["phase"] == "preparation" and not prospective.exists():
+        prospective.parent.mkdir(parents=True, exist_ok=True)
+        prospective.write_text(json.dumps(expected, indent=2, allow_nan=False) + "\n")
+    current.write_text(json.dumps(expected, indent=2, allow_nan=False) + "\n")
+    return expected
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--write", action="store_true")
+    parser.add_argument("--phase", choices=("preparation", "terminal"), default="preparation")
+    args = parser.parse_args()
+    plan = make_plan(ROOT, STUDY, AUDIT, args.phase)
+    force = ignored_paths(ROOT, ARCHIVE, plan)
+    if args.write:
+        write_archive(ARCHIVE, plan)
+    print(json.dumps({"status": "archived" if args.write else "dry_run", "phase": args.phase,
+        "archive": str(ARCHIVE.relative_to(ROOT)), "protocol_sha256": PROTOCOL_SHA,
+        "artifact_count": len(plan["artifacts"]), "bytes": sum(x["bytes"] for x in plan["artifacts"].values()),
+        "compiled_libraries_by_helper": 0, "simulated_lives_by_helper": 0,
+        "force_add_required": force}, indent=2))
+
+
+if __name__ == "__main__":
+    main()
