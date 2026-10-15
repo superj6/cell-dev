@@ -3441,3 +3441,48 @@ preparation copies inputs without a compiler or life. Actual-input review and pr
 separate root runtime release. No new organism behavior, global channel, clock, paid compute or responsive world.
 Protocol: `0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3`.
 Evidence: `results/retention_frontier_20261015/`.
+
+## 2026-10-15 — AK complete: nearby transfer, but substantial ancestral capability loss
+
+The three fixed stages of the L92 → AE_L92 → AI-control lineage were evaluated unchanged on 256 fresh shared
+seeds in each of four worlds. The central result is a real trade-off: the latest genome improves persistent-target
+captures but retains only **61.4% of its ancestor's mean captures in the ancestral POOL task**.
+
+| Fixed contrast | Captures per life, mean ± paired SE | Fitness F | Ordinary cost saving in F |
+|---|---:|---:|---:|
+| AI − L92 in ancestral POOL (primary) | **−7.328125 ± 0.351782** | −2.028231 ± 0.166636 | +1.549955 ± 0.018839 |
+| AI − AE in persistent (primary) | **+0.679688 ± 0.175635** | +1.468414 ± 0.088533 | +1.136536 ± 0.018658 |
+| AI − AE with more frequent turns | +0.746094 ± 0.186496 | +1.505514 ± 0.092003 | +1.141211 ± 0.018460 |
+| AI − AE with brief irregular darkness | +0.886719 ± 0.155560 | +1.542000 ± 0.076836 | +1.109032 ± 0.018619 |
+
+Mean POOL captures fall **18.988 → 17.523 → 11.660**, while persistent captures rise **3.406 → 3.660 → 4.340**.
+The first mutant already loses 1.464844 ± 0.348044 ancestral captures; the later AI step loses another
+5.863281 ± 0.323560. The conventional 90%-retention diagnostic fails clearly in POOL: its paired margin is
+−5.429297 ± 0.328948. Persistent retention relative to AE passes with a resolved actual capture gain.
+
+Economy is substantial in every world. Mean terminal POOL cells fall 116.133 → 97.961 → 58.770; persistent
+cells fall 129.586 → 108.414 → 64.270. About 77% of the latest persistent fitness gain comes from cost saving.
+In POOL, lost capture income exceeds those savings and fitness declines too. These whole-genome, whole-life
+comparisons do not establish body size as the causal mechanism.
+
+AI's advantage over AE transfers to both nearby environments, but their gain-over-persistent interactions are
+unresolved: +0.066406 ± 0.226664 captures for faster turns and +0.207031 ± 0.165222 for darkness. Thus there is
+nearby transfer without demonstrated improved perturbation robustness, memory, prediction or a richer algorithm.
+POOL changes several physical settings; all revealed contexts become development data. This deliberately chosen
+lineage is not an evolutionary replication, and fresh seeds are not held-out tasks.
+
+All **3,072 research plus four existing truth lives** complete in **448.458997 CPU / 193.319466 wall seconds**,
+within 2,400 / 1,800 caps. Every research status is zero, with no guard/extinction contribution. ABI3 startup
+identity and ABI4 full/fast renewal truth agree. Both process leaders and the owned worker group exited in the
+original PID namespace. The unchanged reader and separate literal-index accountant agree exactly on all
+**2,254 paired vectors**, and a separate reader run reproduces summary/vector archive bytes. A helper's initial
+output-directory collision is retained as a failure before raw reading; the unchanged helper succeeded in a fresh
+subdirectory. No scientific source change, retry, extension or paid compute occurred.
+
+The result changes the next priority: address retained capability before another harder-edge-only continuation.
+Native held-out reports observe forgetting without affecting reproduction. A small two-context selection
+comparison is being designed; no new search or outstanding family-fitness decision is released here. AJ stays held.
+
+`results/retention_frontier_20261015/` preserves all raw rows, source/input pins, original genomes, startup truth,
+resource receipts, independent checks and a three-panel figure. Prospective publication: `08eaa5b`.
+Protocol `0b41f8f9…5b56b3`; summary `313ed555…979dc3`; budget `9492e7f1…42b8d1d`.

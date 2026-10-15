@@ -1,0 +1,31 @@
+{
+  "status": "complete",
+  "summary_path": "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_frontier_20261015/analysis/summary.json",
+  "summary_sha256": "313ed555aa5cc7ed0c5c3bc3d4be965a365e2412a1f74a3b15eaf5803a979dc3",
+  "protocol_sha256": "0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3",
+  "script_sha256": "de9284c8aea3b9317cb4f7305b4b07841dfe7b959ac9c0c9c3c587ab4114d73f",
+  "matplotlib_version": "3.11.2",
+  "roles": [
+    "L92",
+    "AE_L92",
+    "AI_control"
+  ],
+  "worlds": [
+    "pool",
+    "persistent",
+    "turn100",
+    "blink80_5"
+  ],
+  "plotted_statistics": 36,
+  "interval": "mean plus or minus 3 SE; descriptive, no multiplicity correction",
+  "cost_transform": "Negate absolute ordinary_cost mean; preserve SE, then recompute bounds.",
+  "output_pins": {
+    "retention_frontier.png": "a5e81bd1fc03c15f17aefc70456f4ea9bbe71ec8ab61c5044cb912d0f12a2494",
+    "retention_frontier.svg": "ebd96ad6095d30f6f355e8e85d06e13e4975b99f97cdca3ce9ec6b873a11ecae",
+    "plotted_statistics.json": "32e6cb49b1668a5f3677ed686399d9433e063ae46811c6af1b12d2169b923126"
+  },
+  "cpu_seconds": 3.7617802250000003,
+  "wall_seconds": 2.7926756469969405,
+  "simulation_calls": 0,
+  "genetic_draws": 0
+}

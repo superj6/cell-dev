@@ -1,0 +1,1797 @@
+{
+  "status": "passed",
+  "protocol_sha256": "0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3",
+  "budget_sha256": "9492e7f1b9782df4b71f1eb9bc5a38f8ef5c108ab48752133e588dc4742b8d1d",
+  "clearance_sha256": "199b6915a77ce867a6ea189780654a6bcc2500fc1730101b178e5358cb9bfc75",
+  "script_sha256": "353b2030696510842427fbef076d4e8491df4c4919c28e89c854f4b24d64e993",
+  "analyzer_sha256": "45b5b47cba510f355d16f88241a9d98aa662867c48b0420b8452c8765e5a97fc",
+  "canonical_summary_sha256": "313ed555aa5cc7ed0c5c3bc3d4be965a365e2412a1f74a3b15eaf5803a979dc3",
+  "canonical_arrays_sha256": "d8bb2be219d3d7d071aff80a871d92cb4c37e84deee2198ca207cd80578b9d24",
+  "raw_rows": 12,
+  "research_lives": 3072,
+  "startup_lives": 4,
+  "total_calls": 3076,
+  "literal_vectors_checked": 2254,
+  "max_literal_absolute_error": 0.0,
+  "canonical_frozen_reanalysis_exact_bytes": true,
+  "status_counts": {
+    "pool": {
+      "L92": {
+        "0": 256
+      },
+      "AE_L92": {
+        "0": 256
+      },
+      "AI_control": {
+        "0": 256
+      }
+    },
+    "persistent": {
+      "L92": {
+        "0": 256
+      },
+      "AE_L92": {
+        "0": 256
+      },
+      "AI_control": {
+        "0": 256
+      }
+    },
+    "turn100": {
+      "L92": {
+        "0": 256
+      },
+      "AE_L92": {
+        "0": 256
+      },
+      "AI_control": {
+        "0": 256
+      }
+    },
+    "blink80_5": {
+      "L92": {
+        "0": 256
+      },
+      "AE_L92": {
+        "0": 256
+      },
+      "AI_control": {
+        "0": 256
+      }
+    }
+  },
+  "row_cpu_seconds": 367.78225808499997,
+  "total_cpu_seconds": 448.458997,
+  "total_wall_seconds": 193.31946564999816,
+  "effects": {
+    "within__pool__AE_L92_minus_L92__F": {
+      "mean": -0.21804229313720308,
+      "se": 0.1676195239387303,
+      "n": 256,
+      "lower_3se": -0.7209008649533939,
+      "upper_3se": 0.2848162786789878,
+      "positive_above_3se": false
+    },
+    "within__pool__AE_L92_minus_L92__captures": {
+      "mean": -1.46484375,
+      "se": 0.3480443347806225,
+      "n": 256,
+      "lower_3se": -2.5089767543418677,
+      "upper_3se": -0.4207107456581325,
+      "positive_above_3se": false
+    },
+    "within__pool__AE_L92_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AE_L92_minus_L92__capture_income": {
+      "mean": -0.7152557373046875,
+      "se": 0.16994352284210082,
+      "n": 256,
+      "lower_3se": -1.22508630583099,
+      "upper_3se": -0.20542516877838501,
+      "positive_above_3se": false
+    },
+    "within__pool__AE_L92_minus_L92__ordinary_cost": {
+      "mean": 0.4972134441674845,
+      "se": 0.01513004128153747,
+      "n": 256,
+      "lower_3se": 0.4518233203228721,
+      "upper_3se": 0.5426035680120969,
+      "positive_above_3se": true
+    },
+    "within__pool__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_L92__F": {
+      "mean": -2.028231449953094,
+      "se": 0.16663589970411788,
+      "n": 256,
+      "lower_3se": -2.5281391490654475,
+      "upper_3se": -1.5283237508407401,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_L92__captures": {
+      "mean": -7.328125,
+      "se": 0.35178199847139624,
+      "n": 256,
+      "lower_3se": -8.38347099541419,
+      "upper_3se": -6.272779004585811,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_L92__capture_income": {
+      "mean": -3.57818603515625,
+      "se": 0.17176855394111143,
+      "n": 256,
+      "lower_3se": -4.0934916969795845,
+      "upper_3se": -3.0628803733329155,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_L92__ordinary_cost": {
+      "mean": 1.5499545852031564,
+      "se": 0.018838710489973973,
+      "n": 256,
+      "lower_3se": 1.4934384537332346,
+      "upper_3se": 1.6064707166730783,
+      "positive_above_3se": true
+    },
+    "within__pool__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_AE_L92__F": {
+      "mean": -1.8101891568158908,
+      "se": 0.1535479157760304,
+      "n": 256,
+      "lower_3se": -2.270832904143982,
+      "upper_3se": -1.3495454094877997,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_AE_L92__captures": {
+      "mean": -5.86328125,
+      "se": 0.32355956346763487,
+      "n": 256,
+      "lower_3se": -6.833959940402904,
+      "upper_3se": -4.892602559597096,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_AE_L92__capture_income": {
+      "mean": -2.8629302978515625,
+      "se": 0.15798806809943108,
+      "n": 256,
+      "lower_3se": -3.336894502149856,
+      "upper_3se": -2.388966093553269,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": 1.052741141035672,
+      "se": 0.01713797123063578,
+      "n": 256,
+      "lower_3se": 1.0013272273437646,
+      "upper_3se": 1.1041550547275794,
+      "positive_above_3se": true
+    },
+    "within__pool__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AE_L92_minus_L92__F": {
+      "mean": 0.6338108383973596,
+      "se": 0.07625502964313213,
+      "n": 256,
+      "lower_3se": 0.40504574946796323,
+      "upper_3se": 0.862575927326756,
+      "positive_above_3se": true
+    },
+    "within__persistent__AE_L92_minus_L92__captures": {
+      "mean": 0.25390625,
+      "se": 0.1543137924301018,
+      "n": 256,
+      "lower_3se": -0.20903512729030538,
+      "upper_3se": 0.7168476272903054,
+      "positive_above_3se": false
+    },
+    "within__persistent__AE_L92_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AE_L92_minus_L92__capture_income": {
+      "mean": 0.1239776611328125,
+      "se": 0.07534853146001064,
+      "n": 256,
+      "lower_3se": -0.10206793324721941,
+      "upper_3se": 0.3500232555128444,
+      "positive_above_3se": false
+    },
+    "within__persistent__AE_L92_minus_L92__ordinary_cost": {
+      "mean": 0.5098331772645472,
+      "se": 0.01546449323141353,
+      "n": 256,
+      "lower_3se": 0.4634396975703067,
+      "upper_3se": 0.5562266569587878,
+      "positive_above_3se": true
+    },
+    "within__persistent__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AI_control_minus_L92__F": {
+      "mean": 2.1022251775500016,
+      "se": 0.08640744944793273,
+      "n": 256,
+      "lower_3se": 1.8430028292062035,
+      "upper_3se": 2.3614475258937997,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_L92__captures": {
+      "mean": 0.93359375,
+      "se": 0.17450345757528465,
+      "n": 256,
+      "lower_3se": 0.410083377274146,
+      "upper_3se": 1.457104122725854,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AI_control_minus_L92__capture_income": {
+      "mean": 0.4558563232421875,
+      "se": 0.08520676639418195,
+      "n": 256,
+      "lower_3se": 0.20023602405964164,
+      "upper_3se": 0.7114766224247333,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_L92__ordinary_cost": {
+      "mean": 1.646368854307814,
+      "se": 0.018549049419411875,
+      "n": 256,
+      "lower_3se": 1.5907217060495784,
+      "upper_3se": 1.7020160025660498,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AI_control_minus_AE_L92__F": {
+      "mean": 1.4684143391526419,
+      "se": 0.08853263607577003,
+      "n": 256,
+      "lower_3se": 1.2028164309253317,
+      "upper_3se": 1.734012247379952,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_AE_L92__captures": {
+      "mean": 0.6796875,
+      "se": 0.17563498135581604,
+      "n": 256,
+      "lower_3se": 0.15278255593255186,
+      "upper_3se": 1.2065924440674483,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AI_control_minus_AE_L92__capture_income": {
+      "mean": 0.331878662109375,
+      "se": 0.08575926824014454,
+      "n": 256,
+      "lower_3se": 0.0746008573889414,
+      "upper_3se": 0.5891564668298086,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": 1.1365356770432669,
+      "se": 0.01865844161357989,
+      "n": 256,
+      "lower_3se": 1.080560352202527,
+      "upper_3se": 1.1925110018840066,
+      "positive_above_3se": true
+    },
+    "within__persistent__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AE_L92_minus_L92__F": {
+      "mean": 0.5955387637588708,
+      "se": 0.07467215904438985,
+      "n": 256,
+      "lower_3se": 0.37152228662570125,
+      "upper_3se": 0.8195552408920403,
+      "positive_above_3se": true
+    },
+    "within__turn100__AE_L92_minus_L92__captures": {
+      "mean": 0.171875,
+      "se": 0.1509994024708993,
+      "n": 256,
+      "lower_3se": -0.2811232074126979,
+      "upper_3se": 0.6248732074126979,
+      "positive_above_3se": false
+    },
+    "within__turn100__AE_L92_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AE_L92_minus_L92__capture_income": {
+      "mean": 0.08392333984375,
+      "se": 0.0737301769877438,
+      "n": 256,
+      "lower_3se": -0.13726719111948138,
+      "upper_3se": 0.3051138708069814,
+      "positive_above_3se": false
+    },
+    "within__turn100__AE_L92_minus_L92__ordinary_cost": {
+      "mean": 0.5116154239151208,
+      "se": 0.015146411480862819,
+      "n": 256,
+      "lower_3se": 0.46617618947253237,
+      "upper_3se": 0.5570546583577093,
+      "positive_above_3se": true
+    },
+    "within__turn100__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AI_control_minus_L92__F": {
+      "mean": 2.101053048818832,
+      "se": 0.09631145526783333,
+      "n": 256,
+      "lower_3se": 1.812118683015332,
+      "upper_3se": 2.3899874146223317,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_L92__captures": {
+      "mean": 0.91796875,
+      "se": 0.19582332096914817,
+      "n": 256,
+      "lower_3se": 0.33049878709255553,
+      "upper_3se": 1.5054387129074445,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AI_control_minus_L92__capture_income": {
+      "mean": 0.4482269287109375,
+      "se": 0.0956168559419669,
+      "n": 256,
+      "lower_3se": 0.16137636088503682,
+      "upper_3se": 0.7350774965368382,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_L92__ordinary_cost": {
+      "mean": 1.6528261201078946,
+      "se": 0.018482658193157645,
+      "n": 256,
+      "lower_3se": 1.5973781455284217,
+      "upper_3se": 1.7082740946873676,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AI_control_minus_AE_L92__F": {
+      "mean": 1.5055142850599617,
+      "se": 0.0920025021557143,
+      "n": 256,
+      "lower_3se": 1.2295067785928189,
+      "upper_3se": 1.7815217915271044,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_AE_L92__captures": {
+      "mean": 0.74609375,
+      "se": 0.1864963372001244,
+      "n": 256,
+      "lower_3se": 0.18660473839962677,
+      "upper_3se": 1.3055827616003732,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AI_control_minus_AE_L92__capture_income": {
+      "mean": 0.3643035888671875,
+      "se": 0.09106266464849824,
+      "n": 256,
+      "lower_3se": 0.09111559492169274,
+      "upper_3se": 0.6374915828126823,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": 1.1412106961927742,
+      "se": 0.018460469094983705,
+      "n": 256,
+      "lower_3se": 1.085829288907823,
+      "upper_3se": 1.1965921034777254,
+      "positive_above_3se": true
+    },
+    "within__turn100__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AE_L92_minus_L92__F": {
+      "mean": 0.47499090306397745,
+      "se": 0.06849166332025974,
+      "n": 256,
+      "lower_3se": 0.2695159131031982,
+      "upper_3se": 0.6804658930247567,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AE_L92_minus_L92__captures": {
+      "mean": -0.0859375,
+      "se": 0.140033990916964,
+      "n": 256,
+      "lower_3se": -0.506039472750892,
+      "upper_3se": 0.334164472750892,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AE_L92_minus_L92__low_light_captures": {
+      "mean": -0.0234375,
+      "se": 0.02532248350687354,
+      "n": 256,
+      "lower_3se": -0.09940495052062062,
+      "upper_3se": 0.05252995052062062,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AE_L92_minus_L92__capture_income": {
+      "mean": -0.041961669921875,
+      "se": 0.06837597212742383,
+      "n": 256,
+      "lower_3se": -0.24708958630414649,
+      "upper_3se": 0.16316624646039649,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AE_L92_minus_L92__ordinary_cost": {
+      "mean": 0.5169525729858524,
+      "se": 0.015091576749088238,
+      "n": 256,
+      "lower_3se": 0.4716778427385877,
+      "upper_3se": 0.5622273032331171,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AI_control_minus_L92__F": {
+      "mean": 2.01699116337616,
+      "se": 0.08508536645640773,
+      "n": 256,
+      "lower_3se": 1.761735064006937,
+      "upper_3se": 2.2722472627453834,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_L92__captures": {
+      "mean": 0.80078125,
+      "se": 0.17180378844516647,
+      "n": 256,
+      "lower_3se": 0.28536988466450053,
+      "upper_3se": 1.3161926153354995,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_L92__low_light_captures": {
+      "mean": -0.00390625,
+      "se": 0.02739622066471138,
+      "n": 256,
+      "lower_3se": -0.08609491199413413,
+      "upper_3se": 0.07828241199413413,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AI_control_minus_L92__capture_income": {
+      "mean": 0.3910064697265625,
+      "se": 0.08388856857674144,
+      "n": 256,
+      "lower_3se": 0.13934076399633816,
+      "upper_3se": 0.6426721754567868,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_L92__ordinary_cost": {
+      "mean": 1.6259846936495976,
+      "se": 0.01807688163761292,
+      "n": 256,
+      "lower_3se": 1.571754048736759,
+      "upper_3se": 1.6802153385624363,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__F": {
+      "mean": 1.5420002603121827,
+      "se": 0.07683559759052289,
+      "n": 256,
+      "lower_3se": 1.311493467540614,
+      "upper_3se": 1.7725070530837514,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__captures": {
+      "mean": 0.88671875,
+      "se": 0.15556048074684634,
+      "n": 256,
+      "lower_3se": 0.420037307759461,
+      "upper_3se": 1.353400192240539,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.01953125,
+      "se": 0.025636010233266546,
+      "n": 256,
+      "lower_3se": -0.05737678069979964,
+      "upper_3se": 0.09643928069979964,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__capture_income": {
+      "mean": 0.4329681396484375,
+      "se": 0.07595726598967106,
+      "n": 256,
+      "lower_3se": 0.2050963416794243,
+      "upper_3se": 0.6608399376174507,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": 1.1090321206637452,
+      "se": 0.018619104573488386,
+      "n": 256,
+      "lower_3se": 1.05317480694328,
+      "upper_3se": 1.1648894343842104,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__L92__F": {
+      "mean": 7.88610135563426,
+      "se": 0.1681850864787162,
+      "n": 256,
+      "lower_3se": 7.381546096198111,
+      "upper_3se": 8.390656615070409,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__L92__captures": {
+      "mean": 15.58203125,
+      "se": 0.35090650603339135,
+      "n": 256,
+      "lower_3se": 14.529311731899826,
+      "upper_3se": 16.634750768100176,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__L92__capture_income": {
+      "mean": 7.6084136962890625,
+      "se": 0.17134106739911686,
+      "n": 256,
+      "lower_3se": 7.094390494091712,
+      "upper_3se": 8.122436898486413,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__L92__ordinary_cost": {
+      "mean": 0.27768765934519724,
+      "se": 0.021046720339515983,
+      "n": 256,
+      "lower_3se": 0.2145474983266493,
+      "upper_3se": 0.34082782036374515,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AE_L92__F": {
+      "mean": 7.034248224099697,
+      "se": 0.14735022108849077,
+      "n": 256,
+      "lower_3se": 6.592197560834225,
+      "upper_3se": 7.476298887365169,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AE_L92__captures": {
+      "mean": 13.86328125,
+      "se": 0.3040830912850698,
+      "n": 256,
+      "lower_3se": 12.95103197614479,
+      "upper_3se": 14.77553052385521,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AE_L92__capture_income": {
+      "mean": 6.7691802978515625,
+      "se": 0.14847807191653797,
+      "n": 256,
+      "lower_3se": 6.323746082101948,
+      "upper_3se": 7.214614513601177,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AE_L92__ordinary_cost": {
+      "mean": 0.26506792624813447,
+      "se": 0.01887830489653796,
+      "n": 256,
+      "lower_3se": 0.2084330115585206,
+      "upper_3se": 0.32170284093774837,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AI_control__F": {
+      "mean": 3.7556447281311645,
+      "se": 0.12540842134662744,
+      "n": 256,
+      "lower_3se": 3.3794194640912822,
+      "upper_3se": 4.131869992171047,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control__captures": {
+      "mean": 7.3203125,
+      "se": 0.26160955341990805,
+      "n": 256,
+      "lower_3se": 6.535483839740276,
+      "upper_3se": 8.105141160259723,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AI_control__capture_income": {
+      "mean": 3.574371337890625,
+      "se": 0.12773903975581447,
+      "n": 256,
+      "lower_3se": 3.191154218623182,
+      "upper_3se": 3.957588457158068,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control__ordinary_cost": {
+      "mean": 0.1812733902405395,
+      "se": 0.013071109803661064,
+      "n": 256,
+      "lower_3se": 0.14206006082955633,
+      "upper_3se": 0.2204867196515227,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AI_control__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__F": {
+      "mean": -0.8518531315345628,
+      "se": 0.18265076065673852,
+      "n": 256,
+      "lower_3se": -1.3998054135047784,
+      "upper_3se": -0.30390084956434715,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__captures": {
+      "mean": -1.71875,
+      "se": 0.3778030451589459,
+      "n": 256,
+      "lower_3se": -2.8521591354768376,
+      "upper_3se": -0.5853408645231624,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__capture_income": {
+      "mean": -0.8392333984375,
+      "se": 0.18447414314401658,
+      "n": 256,
+      "lower_3se": -1.3926558278695498,
+      "upper_3se": -0.2858109690054502,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__ordinary_cost": {
+      "mean": -0.012619733097062722,
+      "se": 0.021563404328103268,
+      "n": 256,
+      "lower_3se": -0.07730994608137252,
+      "upper_3se": 0.05207047988724708,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__F": {
+      "mean": -4.1304566275030945,
+      "se": 0.18794270279659875,
+      "n": 256,
+      "lower_3se": -4.694284735892891,
+      "upper_3se": -3.5666285191132983,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__captures": {
+      "mean": -8.26171875,
+      "se": 0.3963193258259444,
+      "n": 256,
+      "lower_3se": -9.450676727477834,
+      "upper_3se": -7.072760772522167,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__capture_income": {
+      "mean": -4.0340423583984375,
+      "se": 0.19351529581344942,
+      "n": 256,
+      "lower_3se": -4.614588245838786,
+      "upper_3se": -3.4534964709580893,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__ordinary_cost": {
+      "mean": -0.09641426910465768,
+      "se": 0.024584102793069464,
+      "n": 256,
+      "lower_3se": -0.17016657748386607,
+      "upper_3se": -0.022661960725449293,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__F": {
+      "mean": -3.2786034959685324,
+      "se": 0.17844709281273552,
+      "n": 256,
+      "lower_3se": -3.813944774406739,
+      "upper_3se": -2.743262217530326,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__captures": {
+      "mean": -6.54296875,
+      "se": 0.369392870651732,
+      "n": 256,
+      "lower_3se": -7.651147361955196,
+      "upper_3se": -5.434790138044804,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__capture_income": {
+      "mean": -3.1948089599609375,
+      "se": 0.180367612622916,
+      "n": 256,
+      "lower_3se": -3.7359117978296856,
+      "upper_3se": -2.6537061220921894,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": -0.08379453600759497,
+      "se": 0.021913302995202513,
+      "n": 256,
+      "lower_3se": -0.1495344449932025,
+      "upper_3se": -0.01805462702198743,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__F": {
+      "mean": 0.12271005176552428,
+      "se": 0.07859402790033103,
+      "n": 256,
+      "lower_3se": -0.11307203193546879,
+      "upper_3se": 0.35849213546651737,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__captures": {
+      "mean": 0.2578125,
+      "se": 0.16132609424907604,
+      "n": 256,
+      "lower_3se": -0.2261657827472281,
+      "upper_3se": 0.7417907827472281,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__capture_income": {
+      "mean": 0.125885009765625,
+      "se": 0.07877250695755666,
+      "n": 256,
+      "lower_3se": -0.110432511107045,
+      "upper_3se": 0.362202530638295,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__ordinary_cost": {
+      "mean": -0.0031749580001007235,
+      "se": 0.008584989282957662,
+      "n": 256,
+      "lower_3se": -0.02892992584897371,
+      "upper_3se": 0.022580009848772262,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__F": {
+      "mean": 0.08443797712703538,
+      "se": 0.0855738209303102,
+      "n": 256,
+      "lower_3se": -0.17228348566389523,
+      "upper_3se": 0.341159439917966,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__captures": {
+      "mean": 0.17578125,
+      "se": 0.1768239093289876,
+      "n": 256,
+      "lower_3se": -0.35469047798696274,
+      "upper_3se": 0.7062529779869627,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__capture_income": {
+      "mean": 0.0858306884765625,
+      "se": 0.08633979947704473,
+      "n": 256,
+      "lower_3se": -0.1731887099545717,
+      "upper_3se": 0.3448500869076967,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__ordinary_cost": {
+      "mean": -0.0013927113495270926,
+      "se": 0.008817157763540563,
+      "n": 256,
+      "lower_3se": -0.027844184640148782,
+      "upper_3se": 0.025058761941094597,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__F": {
+      "mean": 0.12153792303435504,
+      "se": 0.0792997809265346,
+      "n": 256,
+      "lower_3se": -0.11636141974524875,
+      "upper_3se": 0.35943726581395885,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__captures": {
+      "mean": 0.2421875,
+      "se": 0.1648948888593466,
+      "n": 256,
+      "lower_3se": -0.25249716657803983,
+      "upper_3se": 0.7368721665780398,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__capture_income": {
+      "mean": 0.118255615234375,
+      "se": 0.08051508245085284,
+      "n": 256,
+      "lower_3se": -0.12328963211818353,
+      "upper_3se": 0.35980086258693356,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__ordinary_cost": {
+      "mean": 0.0032823077999800457,
+      "se": 0.005003070832787177,
+      "n": 256,
+      "lower_3se": -0.011726904698381484,
+      "upper_3se": 0.018291520298341576,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_minus_persistent__AI_control__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__F": {
+      "mean": -0.038272074638488876,
+      "se": 0.10069193088736235,
+      "n": 256,
+      "lower_3se": -0.3403478673005759,
+      "upper_3se": 0.2638037180235982,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__captures": {
+      "mean": -0.08203125,
+      "se": 0.2034204052465734,
+      "n": 256,
+      "lower_3se": -0.6922924657397203,
+      "upper_3se": 0.5282299657397203,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__capture_income": {
+      "mean": -0.0400543212890625,
+      "se": 0.09932636974930342,
+      "n": 256,
+      "lower_3se": -0.33803343053697277,
+      "upper_3se": 0.25792478795884777,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__ordinary_cost": {
+      "mean": 0.001782246650573631,
+      "se": 0.011339000461112648,
+      "n": 256,
+      "lower_3se": -0.03223475473276431,
+      "upper_3se": 0.035799248033911574,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__F": {
+      "mean": -0.0011721287311692447,
+      "se": 0.10417815874620048,
+      "n": 256,
+      "lower_3se": -0.31370660496977065,
+      "upper_3se": 0.3113623475074322,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__captures": {
+      "mean": -0.015625,
+      "se": 0.2134400164566148,
+      "n": 256,
+      "lower_3se": -0.6559450493698444,
+      "upper_3se": 0.6246950493698444,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__capture_income": {
+      "mean": -0.00762939453125,
+      "se": 0.10421875803545645,
+      "n": 256,
+      "lower_3se": -0.32028566863761937,
+      "upper_3se": 0.30502687957511937,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__ordinary_cost": {
+      "mean": 0.006457265800080772,
+      "se": 0.009693666542108592,
+      "n": 256,
+      "lower_3se": -0.022623733826245006,
+      "upper_3se": 0.03553826542640655,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__F": {
+      "mean": 0.03709994590731962,
+      "se": 0.11087859617547478,
+      "n": 256,
+      "lower_3se": -0.2955358426191047,
+      "upper_3se": 0.36973573443374397,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__captures": {
+      "mean": 0.06640625,
+      "se": 0.22666429318216044,
+      "n": 256,
+      "lower_3se": -0.6135866295464814,
+      "upper_3se": 0.7463991295464814,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__capture_income": {
+      "mean": 0.0324249267578125,
+      "se": 0.11067592440535177,
+      "n": 256,
+      "lower_3se": -0.2996028464582428,
+      "upper_3se": 0.3644526999738678,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": 0.004675019149507138,
+      "se": 0.009618045132150858,
+      "n": 256,
+      "lower_3se": -0.024179116246945437,
+      "upper_3se": 0.03352915454595971,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_minus_persistent__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__L92__F": {
+      "mean": -0.05527445344089271,
+      "se": 0.06260058596895662,
+      "n": 256,
+      "lower_3se": -0.24307621134776258,
+      "upper_3se": 0.13252730446597716,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__L92__captures": {
+      "mean": -0.1796875,
+      "se": 0.126688012685537,
+      "n": 256,
+      "lower_3se": -0.559751538056611,
+      "upper_3se": 0.20037653805661104,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__L92__low_light_captures": {
+      "mean": 0.109375,
+      "se": 0.021054281794037646,
+      "n": 256,
+      "lower_3se": 0.046212154617887066,
+      "upper_3se": 0.17253784538211292,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__L92__capture_income": {
+      "mean": -0.087738037109375,
+      "se": 0.061859381194109865,
+      "n": 256,
+      "lower_3se": -0.2733161806917046,
+      "upper_3se": 0.0978401064729546,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__L92__ordinary_cost": {
+      "mean": 0.032463583668482274,
+      "se": 0.006821777536965926,
+      "n": 256,
+      "lower_3se": 0.011998251057584494,
+      "upper_3se": 0.05292891627938005,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__F": {
+      "mean": -0.21409438877427495,
+      "se": 0.057120661715867285,
+      "n": 256,
+      "lower_3se": -0.3854563739218768,
+      "upper_3se": -0.04273240362667308,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__captures": {
+      "mean": -0.51953125,
+      "se": 0.11477161516738853,
+      "n": 256,
+      "lower_3se": -0.8638460955021656,
+      "upper_3se": -0.17521640449783443,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__low_light_captures": {
+      "mean": 0.0859375,
+      "se": 0.017551296929203233,
+      "n": 256,
+      "lower_3se": 0.033283609212390305,
+      "upper_3se": 0.13859139078760968,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__capture_income": {
+      "mean": -0.2536773681640625,
+      "se": 0.056040827718451425,
+      "n": 256,
+      "lower_3se": -0.4217998513194168,
+      "upper_3se": -0.08555488500870823,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__ordinary_cost": {
+      "mean": 0.03958297938978754,
+      "se": 0.006816723258415771,
+      "n": 256,
+      "lower_3se": 0.01913280961454023,
+      "upper_3se": 0.060033149165034855,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control__F": {
+      "mean": -0.14050846761473398,
+      "se": 0.057215176543291946,
+      "n": 256,
+      "lower_3se": -0.3121539972446098,
+      "upper_3se": 0.031137062015141853,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control__captures": {
+      "mean": -0.3125,
+      "se": 0.11826202629223423,
+      "n": 256,
+      "lower_3se": -0.6672860788767027,
+      "upper_3se": 0.04228607887670266,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control__low_light_captures": {
+      "mean": 0.10546875,
+      "se": 0.019234883830537286,
+      "n": 256,
+      "lower_3se": 0.04776409850838814,
+      "upper_3se": 0.16317340149161186,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__AI_control__capture_income": {
+      "mean": -0.152587890625,
+      "se": 0.05774513002550499,
+      "n": 256,
+      "lower_3se": -0.325823280701515,
+      "upper_3se": 0.020647499451514978,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control__ordinary_cost": {
+      "mean": 0.012079423010266026,
+      "se": 0.003727612264111802,
+      "n": 256,
+      "lower_3se": 0.000896586217930621,
+      "upper_3se": 0.02326225980260143,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__AI_control__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__F": {
+      "mean": -0.15881993533338226,
+      "se": 0.08116753931179448,
+      "n": 256,
+      "lower_3se": -0.40232255326876565,
+      "upper_3se": 0.08468268260200115,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__captures": {
+      "mean": -0.33984375,
+      "se": 0.16332903126290252,
+      "n": 256,
+      "lower_3se": -0.8298308437887075,
+      "upper_3se": 0.15014334378870753,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__low_light_captures": {
+      "mean": -0.0234375,
+      "se": 0.02532248350687354,
+      "n": 256,
+      "lower_3se": -0.09940495052062062,
+      "upper_3se": 0.05252995052062062,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__capture_income": {
+      "mean": -0.1659393310546875,
+      "se": 0.07975050354633911,
+      "n": 256,
+      "lower_3se": -0.40519084169370484,
+      "upper_3se": 0.07331217958432984,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__ordinary_cost": {
+      "mean": 0.00711939572130527,
+      "se": 0.009533788645218472,
+      "n": 256,
+      "lower_3se": -0.02148197021435015,
+      "upper_3se": 0.035720761656960684,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AE_L92_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__F": {
+      "mean": -0.08523401417384126,
+      "se": 0.08401909779101574,
+      "n": 256,
+      "lower_3se": -0.33729130754688846,
+      "upper_3se": 0.16682327919920598,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__captures": {
+      "mean": -0.1328125,
+      "se": 0.1718325203743773,
+      "n": 256,
+      "lower_3se": -0.6483100611231318,
+      "upper_3se": 0.38268506112313183,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__low_light_captures": {
+      "mean": -0.00390625,
+      "se": 0.02739622066471138,
+      "n": 256,
+      "lower_3se": -0.08609491199413413,
+      "upper_3se": 0.07828241199413413,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__capture_income": {
+      "mean": -0.064849853515625,
+      "se": 0.08390259783905141,
+      "n": 256,
+      "lower_3se": -0.3165576470327792,
+      "upper_3se": 0.18685794000152922,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__ordinary_cost": {
+      "mean": -0.020384160658216244,
+      "se": 0.007299726532403014,
+      "n": 256,
+      "lower_3se": -0.04228334025542529,
+      "upper_3se": 0.0015150189389928,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__F": {
+      "mean": 0.07358592115954098,
+      "se": 0.0811100132581337,
+      "n": 256,
+      "lower_3se": -0.1697441186148601,
+      "upper_3se": 0.3169159609339421,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__captures": {
+      "mean": 0.20703125,
+      "se": 0.16522170858082305,
+      "n": 256,
+      "lower_3se": -0.2886338757424691,
+      "upper_3se": 0.7026963757424691,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__low_light_captures": {
+      "mean": 0.01953125,
+      "se": 0.025636010233266546,
+      "n": 256,
+      "lower_3se": -0.05737678069979964,
+      "upper_3se": 0.09643928069979964,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__capture_income": {
+      "mean": 0.1010894775390625,
+      "se": 0.08067466239298002,
+      "n": 256,
+      "lower_3se": -0.14093450963987755,
+      "upper_3se": 0.3431134647180025,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__ordinary_cost": {
+      "mean": -0.02750355637952151,
+      "se": 0.0077847833804599595,
+      "n": 256,
+      "lower_3se": -0.050857906520901386,
+      "upper_3se": -0.0041492062381416304,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__AI_control_minus_AE_L92__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "retention__AI_control_vs_L92__pool__capture_difference": {
+      "mean": -7.328125,
+      "se": 0.35178199847139624,
+      "n": 256,
+      "lower_3se": -8.38347099541419,
+      "upper_3se": -6.272779004585811,
+      "positive_above_3se": false
+    },
+    "retention__AI_control_vs_L92__pool__ninety_percent_reference": {
+      "mean": -5.429296875,
+      "se": 0.3289482616545495,
+      "n": 256,
+      "lower_3se": -6.416141659963649,
+      "upper_3se": -4.442452090036352,
+      "positive_above_3se": false
+    },
+    "retention__AI_control_vs_AE_L92__persistent__capture_difference": {
+      "mean": 0.6796875,
+      "se": 0.17563498135581604,
+      "n": 256,
+      "lower_3se": 0.15278255593255186,
+      "upper_3se": 1.2065924440674483,
+      "positive_above_3se": true
+    },
+    "retention__AI_control_vs_AE_L92__persistent__ninety_percent_reference": {
+      "mean": 1.045703125,
+      "se": 0.1679923657446704,
+      "n": 256,
+      "lower_3se": 0.5417260277659888,
+      "upper_3se": 1.5496802222340111,
+      "positive_above_3se": true
+    }
+  },
+  "reanalysis_command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_frontier_20261015/analyze.py",
+    "--study",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_frontier_20261015",
+    "--out",
+    "/home/jgon/project/ml/cell-dev/outputs/cumulative_capability_20261015/terminal/independent/reanalysis"
+  ],
+  "reanalysis_cwd": "/",
+  "new_simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0,
+  "limitations": [
+    "Same chosen lineage and fixed revealed environments; not evolutionary replication.",
+    "Ten-percent retention margin is conventional; null effects do not establish retention.",
+    "A frozen genome may develop differently across worlds; no circuit or memory claim."
+  ]
+}

@@ -3,16 +3,18 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
-**Current work (2026-10-15).** AK is prepared: a bounded fixed-genome retention diagnostic follows
-L92 → AE_L92 → AI ordinary control through ancestral POOL, current persistent target, faster turns and brief
-irregular darkness. It evaluates all three unchanged genomes on 256 fresh shared seeds per world, with no search.
-Scope: 3,072 research + 4 startup lives, one two-thread worker, 2,400 CPU-second / 1,800 wall-second hard caps.
-`results/retention_frontier_20261015/` records the prospective protocol. Runtime release follows public review.
-The offline shared-panel audit in `results/cross_world_reuse_20261015/` finds no confirmed broad capture improver;
-D90 row54's fitness gains transfer mostly through economy. AK will guide an affordable next edge case while
-checking retained ability. All revealed AK cases become development data. AJ remains source-only and held;
-its same-world continuation has not been registered or launched. AI remains complete (`520227e`), with ordinary
-control gaining 0.695 ± 0.128 captures over its start and no consistent exploratory-reserve advantage.
+**Current work (2026-10-15).** AK is complete: AI's persistent-target capture gain repeats, but its ancestral
+POOL captures fall 38.6% relative to L92 (18.988 → 11.660). AI gains 0.680 ± 0.176 captures over AE in persistent
+and transfers that advantage to faster turns and brief irregular darkness. Perturbation-specific improvements
+remain unresolved. Cheaper bodies accompany a substantial old-task loss; this is not cumulative retention.
+All 3,072 research + 4 startup lives completed in 448.458997 CPU-seconds, with every research status zero and
+complete independent literal-ledger reconciliation of 2,254 paired vectors. Both leaders and the owned group
+exited. Evidence: `results/retention_frontier_20261015/REPORT.md`; prospective commit `08eaa5b`.
+The offline shared-panel audit in `results/cross_world_reuse_20261015/` finds no confirmed broad capture improver.
+Next priority is retention in the selection strategy, not another harder-edge-only continuation. Native held-out
+reports do not influence breeding. A small two-context selection comparison is being designed; the outstanding
+family-fitness/switching decision is not assumed approved. AJ remains source-only, unregistered and held.
+All AK contexts become development data; future new-context evaluation must be separate.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.

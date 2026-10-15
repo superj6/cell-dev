@@ -48,6 +48,15 @@ publication precede runtime release. No production, ABI, reward or in-life behav
 The retrospective four-world shared-panel analysis finds no independently confirmed broad capture improvement;
 its exploratory candidates do not justify replacing the continuing lineage.
 
+*2026-10-15 AK complete:* the latest AI genome retains only 61.4% of L92's ancestral POOL captures
+(−7.328 ± 0.352 per life), while its persistent gain over AE repeats (+0.680 ± 0.176) and transfers to the two
+nearby variants. Edge-specific interactions remain unresolved; no improved robustness or memory is established.
+Full physical costs show economy alongside lost ancestral acquisition. All 3,076 calls complete in 448.459 CPU
+seconds with independent raw accounting and cleared processes. Prioritize retaining earlier capability before
+harder-edge-only continuation. Observational held-out scores cannot enforce this; a small fixed two-context
+selection pilot needs its own explicit contract under the still-open family-fitness decision. No new search is
+released here. AK contexts are development data, and AJ remains held.
+
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
 trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does

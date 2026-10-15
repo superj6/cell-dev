@@ -1,0 +1,132 @@
+"""Plot a complete, explicitly pinned AK summary; no raw engine or study imports."""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import math
+import time
+from pathlib import Path
+
+WORLDS = ('pool', 'persistent', 'turn100', 'blink80_5')
+ROLES = ('L92', 'AE_L92', 'AI_control')
+WORLD_LABELS = ('Ancestral\nPOOL', 'Persistent\ntarget', 'Faster turns\n(mean 100)',
+                'Irregular dark gaps\n(on 80 / off 5)')
+ROLE_LABELS = ('POOL ancestor · L92', 'First persistent gain · AE L92',
+               'Latest descendant · AI control')
+COLORS = ('#64748b', '#007f8b', '#c96112')
+MARKERS = ('o', 's', 'D')
+PANELS = (('captures', 1., 'A  Food acquired', 'Captures per life'),
+          ('F', 1., 'B  Production fitness', 'Fitness F'),
+          ('ordinary_cost', -1., 'C  Physical expenditure', 'Physical cost per unit time'))
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def checked_values(summary):
+    expected = {'status': 'complete', 'research_lives': 3072, 'startup_lives': 4,
+                'total_calls': 3076, 'raw_rows': 12, 'paired_arrays': 2254}
+    if any(summary.get(key) != value for key, value in expected.items()):
+        raise ValueError('plot requires the complete fixed AK summary')
+    if set(summary['absolute']) != set(WORLDS):
+        raise ValueError('all four declared worlds are required')
+    rows = []
+    for world in WORLDS:
+        if set(summary['absolute'][world]) != set(ROLES):
+            raise ValueError('all three fixed lineage roles are required')
+        for role in ROLES:
+            for metric, sign, _, _ in PANELS:
+                item = summary['absolute'][world][role][metric]
+                if (item.get('n') != 256 or item.get('bounds_are_descriptive') is not True
+                        or not all(math.isfinite(item[k]) for k in ('mean', 'se', 'lower_3se', 'upper_3se'))
+                        or item['se'] < 0
+                        or not math.isclose(item['lower_3se'], item['mean'] - 3 * item['se'], abs_tol=1e-12)
+                        or not math.isclose(item['upper_3se'], item['mean'] + 3 * item['se'], abs_tol=1e-12)):
+                    raise ValueError('invalid descriptive summary statistic')
+                rows.append({'world': world, 'role': role, 'metric': metric,
+                             'display_mean': sign * item['mean'], 'se': item['se'],
+                             'lower_3se': sign * item['mean'] - 3 * item['se'],
+                             'upper_3se': sign * item['mean'] + 3 * item['se'], 'n': 256})
+    return rows
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--summary', type=Path, required=True)
+    parser.add_argument('--expected-summary-sha256', required=True)
+    parser.add_argument('--out', type=Path, required=True, help='Fresh output directory; refuses overwrite.')
+    args = parser.parse_args()
+    start_cpu, start_wall = time.process_time(), time.monotonic()
+    if sha(args.summary) != args.expected_summary_sha256:
+        raise ValueError('summary bytes differ from the explicitly frozen input')
+    summary = json.loads(args.summary.read_text())
+    values = checked_values(summary)
+    if args.out.exists():
+        raise ValueError('refuse overwriting an existing figure directory')
+
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
+    plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 10.5,
+                         'axes.spines.top': False, 'axes.spines.right': False,
+                         'svg.fonttype': 'none', 'axes.titleweight': 'bold'})
+    fig, axes = plt.subplots(1, 3, figsize=(15, 6.2), gridspec_kw={'wspace': .30})
+    offsets = (-.22, 0., .22)
+    for ax, (metric, _sign, title, ylabel) in zip(axes, PANELS, strict=True):
+        for i, (role, label, color, marker) in enumerate(zip(ROLES, ROLE_LABELS, COLORS, MARKERS, strict=True)):
+            selected = [next(row for row in values if row['world'] == world
+                             and row['role'] == role and row['metric'] == metric) for world in WORLDS]
+            ax.errorbar([x + offsets[i] for x in range(4)], [row['display_mean'] for row in selected],
+                        yerr=[3 * row['se'] for row in selected], fmt=marker, linestyle='none',
+                        markersize=6.5, capsize=3, elinewidth=1.25, color=color, label=label,
+                        markeredgecolor='white', markeredgewidth=.6, zorder=3)
+        ax.set_title(title, loc='left', pad=14)
+        ax.set_ylabel(ylabel)
+        ax.set_xticks(range(4), WORLD_LABELS)
+        ax.set_xlim(-.55, 3.55)
+        ax.tick_params(axis='x', length=0, pad=9)
+        ax.grid(axis='y', color='#e1e5e9', linewidth=.8)
+        ax.set_axisbelow(True)
+        ax.axhline(0, color='#a8afb8', linewidth=.7, zorder=1)
+        ax.margins(y=.13)
+    axes[2].text(0, 1.01, 'Lower means less expenditure', transform=axes[2].transAxes,
+                 color='#59636f', fontsize=9)
+    fig.suptitle('Which capabilities survive transfer?', x=.055, y=.97, ha='left',
+                 fontsize=20, fontweight='bold')
+    fig.text(.055, .905, 'Three fixed genomes · four declared worlds · 256 shared seeds per world',
+             fontsize=12, color='#47515d')
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper left', bbox_to_anchor=(.048, .87),
+               frameon=False, ncol=3, fontsize=10.5, columnspacing=2.)
+    fig.subplots_adjust(left=.055, right=.985, top=.72, bottom=.25)
+    fig.text(.055, .095,
+             'Dots are means; whiskers are ±3 SE across lives. Intervals are descriptive, not simultaneous confidence bounds.\n'
+             'All lineage roles and worlds are shown. These revealed cases are development data; POOL changes several physical settings.\n'
+             'Fitness retains guard and extinction charges. Physical expenditure is shown as a positive cost. No circuit or memory claim.',
+             fontsize=10, color='#47515d', linespacing=1.5)
+    args.out.mkdir(parents=True)
+    png, svg = args.out / 'retention_frontier.png', args.out / 'retention_frontier.svg'
+    fig.savefig(png, dpi=180, facecolor='white')
+    fig.savefig(svg, facecolor='white')
+    plt.close(fig)
+    (args.out / 'plotted_statistics.json').write_text(json.dumps(values, indent=2, allow_nan=False) + '\n')
+    if sha(args.summary) != args.expected_summary_sha256:
+        raise ValueError('frozen summary changed during plotting')
+    receipt = {'status': 'complete', 'summary_path': str(args.summary.resolve()),
+               'summary_sha256': args.expected_summary_sha256, 'protocol_sha256': summary['protocol_sha256'],
+               'script_sha256': sha(Path(__file__)), 'matplotlib_version': matplotlib.__version__,
+               'roles': list(ROLES), 'worlds': list(WORLDS), 'plotted_statistics': 36,
+               'interval': 'mean plus or minus 3 SE; descriptive, no multiplicity correction',
+               'cost_transform': 'Negate absolute ordinary_cost mean; preserve SE, then recompute bounds.',
+               'output_pins': {p.name: sha(p) for p in (png, svg, args.out / 'plotted_statistics.json')},
+               'cpu_seconds': time.process_time() - start_cpu, 'wall_seconds': time.monotonic() - start_wall,
+               'simulation_calls': 0, 'genetic_draws': 0}
+    (args.out / 'plot_receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+    print(json.dumps(receipt, indent=2))
+
+
+if __name__ == '__main__':
+    main()

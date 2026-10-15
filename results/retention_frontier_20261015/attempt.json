@@ -1,0 +1,24 @@
+{
+  "monitor": {
+    "pid": 1747438,
+    "ppid": 9421,
+    "pgid": 1747438,
+    "start_ticks": 6057332
+  },
+  "pid_namespace": "pid:[4026531836]",
+  "protocol_sha256": "0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3",
+  "release_sha256": "09bd2d947e63be74329f136c37977f779a3553517471dd17a029d0834b0d50d2",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-u",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_frontier_20261015/measure.py",
+    "--run-child"
+  ],
+  "budget": {
+    "cpu_seconds": 2400,
+    "wall_seconds": 1800,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10
+  }
+}
