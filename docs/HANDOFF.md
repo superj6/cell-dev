@@ -3,11 +3,13 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
-**Current work (2026-10-15).** AI is complete and independently verified: its reserve endpoint loses to
+**Current work (2026-10-15).** AI is complete and pushed (`520227e`): its reserve endpoint loses to
 ordinary control by 0.514 ± 0.119 captures per life, reversing AH's advantage. There is no consistent reserve
 benefit across the two pairs. AI ordinary control improves on its start by 0.695 ± 0.128 captures; most fitness
-gain still comes from economy. Terminal publication and a watchable comparison are being completed. A longer
-ordinary continuation is the next design candidate; it is not yet registered or released.
+gain still comes from economy. The watchable comparison is `results/atlas/exploratory_reserve_replication.html`.
+Source-only AJ prepares twelve more ordinary generations from all 32 AI-control final genomes. This deliberately
+chosen population preserves the capture-performing endpoint and existing variation. No AJ seeds, inputs,
+genetic draws, builds or lives are released yet; prices, world and local rules remain fixed.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.

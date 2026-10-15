@@ -12,6 +12,9 @@ JavaScript port validated bitwise against the C kernel on the retained parity ca
 [Watch the persistent-target comparison](results/atlas/persistent_target.html): the new selected mutants beside
 their parents, with the measured capture gains and cost savings from 512 fresh paired lives.
 
+[Watch the selection-policy repeat](results/atlas/exploratory_reserve_replication.html): the starting body,
+ordinary endpoint and reserve endpoint together. The aggregate results remain visible above the illustration.
+
 ## The current model: one continuous life (BODY-1)
 
 ```

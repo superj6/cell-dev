@@ -1,0 +1,27 @@
+{
+  "status": "one_authorized_attempt",
+  "argv": [
+    "/snap/firefox/current/usr/lib/firefox/firefox",
+    "--headless",
+    "--no-remote",
+    "--profile",
+    "/home/jgon/project/ml/cell-dev/outputs/ai_watchable_20261014/paused_browser/profile",
+    "--screenshot",
+    "/home/jgon/project/ml/cell-dev/outputs/ai_watchable_20261014/paused_browser/paused_firefox.png",
+    "--window-size",
+    "1440,1300",
+    "file:///home/jgon/project/ml/cell-dev/outputs/ai_watchable_20261014/paused_browser/diagnostic.html"
+  ],
+  "cwd": "/home/jgon/project/ml/cell-dev/outputs/ai_watchable_20261014/paused_browser",
+  "started_utc": "2026-10-15T07:40:44.376673+00:00",
+  "script_sha256": "72868395aabddde27318111530f59e95520d78f786f4ae6301f797082f44351c",
+  "preparation_sha256": "4a2b9797d3a83f39620ca28e2ee15da663e33b54da70c29bb8519854fad92df7",
+  "firefox_executable_sha256": "7d28e45594e88dd1730b512f816033a322e0d0be04e71cb8d8d6f0ddd4d8ff29",
+  "child_cpu_cap_seconds": 30,
+  "wall_cap_seconds": 45,
+  "screenshots": 1,
+  "permitted_initializations": 3,
+  "permitted_advance_or_run_calls": 0,
+  "pid_namespace": "pid:[4026534943]",
+  "identity_scope": "This execution PID namespace only, not host-global identities."
+}

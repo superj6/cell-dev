@@ -1,0 +1,76 @@
+{
+  "status": "paused_frame_rendered_browser_terminated_no_retry",
+  "scope": {
+    "browser_attempts": 1,
+    "initializations": 3,
+    "simulation_advances": 0,
+    "completed_simulated_lives": 0,
+    "playback_validation": false,
+    "desktop_screenshot_only": true
+  },
+  "browser_wrapper_status": "incomplete_no_retry",
+  "termination_reason": "wall cleanup threshold reached",
+  "exit_code": -9,
+  "cpu_seconds": 2.6081060000000003,
+  "wall_seconds": 43.04826246500306,
+  "child_cpu_cap_seconds": 30,
+  "wall_cap_seconds": 45,
+  "guard": {
+    "status": "passed",
+    "initializations": 3,
+    "advance_calls": 0,
+    "run_calls": 0,
+    "times": [
+      0,
+      0,
+      0
+    ],
+    "errors": [],
+    "aggregates": [
+      {
+        "contrast": "reserve-control",
+        "captures": "\u22120.514 \u00b1 0.119",
+        "fitness": "\u22120.274 \u00b1 0.057"
+      },
+      {
+        "contrast": "control-start",
+        "captures": "+0.695 \u00b1 0.128",
+        "fitness": "+1.478 \u00b1 0.063"
+      },
+      {
+        "contrast": "reserve-start",
+        "captures": "+0.182 \u00b1 0.127",
+        "fitness": "+1.204 \u00b1 0.064"
+      }
+    ]
+  },
+  "all_processes_exited_in_invocation": true,
+  "identity_scope": "Process IDs and group IDs are local to the recorded execution PID namespace.",
+  "pid_namespace": "pid:[4026534943]",
+  "manual_visual_review": {
+    "reviewer": "root",
+    "status": "passed_captured_frame_only",
+    "observations": "All three aggregate rows and panels are readable; the diagnostic shows time zero."
+  },
+  "files": {
+    "attempt.json": "b10fc27709240c9641c55a4c35cdf64d31d5e2aad4c9ce9b2964674dc64511ad",
+    "preparation.json": "4a2b9797d3a83f39620ca28e2ee15da663e33b54da70c29bb8519854fad92df7",
+    "run_once.py": "72868395aabddde27318111530f59e95520d78f786f4ae6301f797082f44351c",
+    "guard.js": "fb58fad375d8226bcc3a8802d01c23c370409e6659a019067d5be408ee623fc4",
+    "diagnostic.html": "c7736df123b9ed5f48e9d6bb3a474bae4001805417ccbc57d6b3e6c102c7c237",
+    "execution.json": "59a948ce4feb08e1ffab5402bc8b65e34b2e592f7f051d5003a957142b42cccf",
+    "stdout.txt": "61127627d6ce7fcca9589c634ec358a444e2387683eaa6a66f6d54a3705a5ceb",
+    "stderr.txt": "a3007d013aee5ff986adbcb5f9b27d11525bc875b1bf13a7028638596d37cf69",
+    "controller_stdout.json": "093fe0229dfc9e70f26ebe79901d717b1b0d2d2d846283ea113bfdc0c2cdd420",
+    "controller_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paused_firefox.png": "b1f9f6bee0583dfaae9d3414fed9540c57881ebf1509a0122e84abf7f73b9e50",
+    "profile/user.js": "162d45b7d575c8a535fc407e1b3ca1700c11b3b9fe173ce09248fee10a1bd772"
+  },
+  "original_viewer_status_sha256": "1e3be5cd14ee49d9da85fa145f8bb3ed096c53099017f2aa0ad4f491d793959c",
+  "limitations": [
+    "The screenshot and guard passed, but the Firefox process did not terminate naturally and was killed at the 43-second cleanup threshold. The attempt remains incomplete_no_retry.",
+    "No browser playback, cross-browser numerical parity, or interactive control validation was performed. Existing Node parity remains three fixed lives and 171 exact ledger columns.",
+    "Recorded PIDs and group IDs are local to the execution PID namespace and must not be interpreted as global host clearance identities.",
+    "The publication candidate changes only footer prose. Original HTML, scientific sources, engine, exported data, and first-attempt records remain unchanged."
+  ]
+}

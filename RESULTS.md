@@ -3369,3 +3369,30 @@ identity checks include all six goldens and the external selection adapter. Pros
 record, raw confirmation, populations, readers, independent checks, resource receipts and a four-panel figure.
 Fixed endpoint IDs are control **668**, reserve **887**; raw genotype hashes begin `657326d5…` / `7944ce86…`.
 Protocol `0dc38519…b6dff00`; budget `e8e7f316…4e098d`; summary `a070f5b9…c3f2f9`.
+
+## 2026-10-15 — Watchable AI comparison, with exact JavaScript replay and a bounded browser check
+
+`results/atlas/exploratory_reserve_replication.html` shows all three fixed AI roles side by side: AE L92 start,
+ordinary control and exploratory reserve. It starts paused and retains every aggregate contrast above the
+animation. The seed was fixed in advance to the first confirmation life, 52,360,000. It shows 9 / 8 / 5 captures
+for start / control / reserve, despite control's positive 512-life gain over start. This illustrates variability;
+the seed was not changed to make the outcome look better. Later target placements depend on each body's actions.
+
+The unchanged JavaScript engine reproduces all **171 retained C ledger values** in three full engineering
+replays, with zero statuses, in **5.198112 child CPU-seconds**. Mock UI tests pass 84 assertions at two widths.
+A separate guarded Firefox screenshot renders the paused page with exactly three initializations at time zero,
+zero simulation advances and all aggregate rows/panels present. Firefox did not exit before its cleanup threshold;
+the monitor terminated it at **43.048262 wall / 2.608106 child CPU-seconds** and verified group clearance.
+That attempt remains `incomplete_no_retry`; the screenshot checks layout, without establishing browser playback
+or long-run numerical parity. No completed life occurred in the browser diagnostic, and no new research life,
+C/Python simulation, genotype, kernel build, price, world or organism-rule change was introduced.
+
+`results/ai_watchable_20261014/` preserves the export, full truth, Node and mock checks, original source/build,
+guarded screenshot, browser failure/cleanup, root review and publication manifest. Only the final viewer footer
+changes from the original build to state the browser outcome accurately. Runtime profile/cache files stay under
+`outputs/`. Existing LGPL math-port notices remain intact. Artifact hashes and the standalone viewer are pinned.
+
+The next source-only candidate, AJ, keeps the full AI-control final population for a twelve-generation ordinary
+continuation in the same world. This is an outcome-informed choice to build on confirmed captures, not a claim
+that the population is generally superior or that contraction has ended. Registration and a bounded launch
+report remain ahead; no AJ inputs, genetic draws, builds or lives are released by this viewer milestone.

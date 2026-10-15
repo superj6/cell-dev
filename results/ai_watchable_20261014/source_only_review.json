@@ -1,0 +1,69 @@
+{
+  "status": "source_only_draft_reviewed_not_authorized_for_export_or_replay",
+  "source_pins": {
+    "README.md": "fcc56e6ee189da9b043d7c6880391b12648b58e4495f672fc3728dd68323f33f",
+    "source_origins.json": "e6a4309c5c9ac730e2957a119aa60b3496e8269a751744710902b130d7f06092",
+    "export.py": "583f6bf33b8750037d4eacd18b7fb106884e31463402dadaacd2d6043a199937",
+    "viewer.js": "368e0bc0ebe4a665a19234572bfba16423432d0e18f9b820125075ca4422f661",
+    "template.html": "413599290002d3d3e59e916f82e83d5e0dd2c8091605934910d9fe60de4855ba",
+    "check_replay.js": "a8151b1b75743b9ec2de1f50313c7bb370a380155ecb95d67754837bc9b77f6c",
+    "run_validation.py": "25c84a5a9bc80186b2fd297a31d342fce7da6cedf5a5ebebbbc37eb5e3e0aae3",
+    "build.py": "3fd570b4d6955e02d576fbb7bbfa0254fe97cf8b977d995bf657d84bc157926b",
+    "test_viewer.js": "7658ffaf866f5c551d83e1b1d3d55ca34b0ba35c249db53136a7cc2d304340a9"
+  },
+  "existing_public_viewer_sha256": "ae24640e61b08a9155e6bd195bdf3bf2e2a5592bb5b997d0a016a237b6b14879",
+  "engine_sha256": "6ce1c6b4652f4fef2e1db0267624baccc90782ce196fe1cca3677048e99c8256",
+  "fixed_roles": [
+    "AE_L92",
+    "AI_control",
+    "AI_reserve"
+  ],
+  "predetermined_confirmation_seed": 52360000,
+  "planned_engineering_replay_lives": 3,
+  "raw_columns_per_life": 57,
+  "planned_column_comparisons": 171,
+  "node_child_cpu_ceiling_seconds": 120,
+  "node_wall_ceiling_seconds": 180,
+  "new_C_lives": 0,
+  "new_research_lives": 0,
+  "actual_js_replays": 0,
+  "AI_genomes_read": false,
+  "AI_outcomes_read": false,
+  "scientific_inputs_exported": false,
+  "unchanged_LifeSimJS": true,
+  "checks": {
+    "mock_UI_assertions": 84,
+    "widths": [
+      540,
+      330
+    ],
+    "UI_receipt_sha256": "65e60c751b0516077dbddddc53286543c014fd0686129fd4f7682d28c1ebebb9",
+    "JavaScript_syntax_checks": [
+      "viewer.js",
+      "check_replay.js"
+    ],
+    "Python_AST_and_Ruff_passed": true,
+    "lint_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "default_export_no_data_read": {
+      "status": "source_only_unreleased",
+      "AI_outcomes_read": false,
+      "simulated_lives": 0
+    },
+    "default_validation_no_replay": {
+      "status": "source_only_unreleased",
+      "js_replay_lives": 0
+    }
+  },
+  "retained_limitations": [
+    "No outcome or genotype export performed; actual complete-summary/raw-identity path integration is pending terminal authorization.",
+    "No real browser render or screenshot performed; Firefox is available, mock DOM/canvas checks are not browser validation.",
+    "One predetermined life per role cannot represent typical performance or establish policy reliability or memory.",
+    "AI summary contrasts remain fully displayed even if the illustration disagrees.",
+    "Only a later authorized first bounded validation attempt can support the 171-column equality claim."
+  ],
+  "pending": [
+    "Root decision after completed AI terminal review.",
+    "Root terminal/source-hash authorization before export and three existing-life JS checks.",
+    "Any later publication remains root-owned."
+  ]
+}

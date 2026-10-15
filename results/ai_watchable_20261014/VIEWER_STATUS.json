@@ -1,0 +1,108 @@
+{
+  "status": "local_viewer_built_unpublished",
+  "authorization_sha256": "99981ad54da2afc43e102c9da987ae6a1317c49dfa5e3e709d23145c15cc82fb",
+  "protocol_sha256": "0dc385199dc871a86f7a31a62c393b2c160f0cbae018ceece3ec8f51bb6dff00",
+  "summary_sha256": "a070f5b95edd37d95fc8d6cc9a5a87203cac3edc65baf6f18105dc36ccc3f2f9",
+  "first_attempt_export": true,
+  "first_attempt_validation": true,
+  "js_replay_lives": 3,
+  "raw_ledger_columns_bitwise_equal": 171,
+  "node_child_cpu_seconds": 5.198112,
+  "wall_seconds": 3.7821132770041004,
+  "all_validation_processes_exited_in_invocation": true,
+  "new_C_lives": 0,
+  "new_research_lives": 0,
+  "browser_executions": 0,
+  "source_changes": false,
+  "engine_changes": false,
+  "genetic_draws": 0,
+  "fixed_seed": 52360000,
+  "illustrative_captures": {
+    "AE_L92": 9,
+    "AI_control": 8,
+    "AI_reserve": 5
+  },
+  "embedded_aggregate_estimates": {
+    "primary__AI_reserve": {
+      "captures": {
+        "mean": -0.513671875,
+        "se": 0.11901499132523088,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": true
+      },
+      "F": {
+        "mean": -0.2744439361902923,
+        "se": 0.057401348410393474,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": true
+      }
+    },
+    "gain__AI_control": {
+      "captures": {
+        "mean": 0.6953125,
+        "se": 0.12799835857973782,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "F": {
+        "mean": 1.4779508497503937,
+        "se": 0.06342670658186218,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      }
+    },
+    "gain__AI_reserve": {
+      "captures": {
+        "mean": 0.181640625,
+        "se": 0.12688324840086107,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "F": {
+        "mean": 1.2035069135601013,
+        "se": 0.0635123181068082,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      }
+    }
+  },
+  "artifacts": {
+    "exploratory_reserve_replication.html": "c94db106f97e189396bff3db514db8416a9efb3ee410d18af028a7712b880406",
+    "bodies.json": "94cc9451a283083ceaaabdabebc57135294fc289081e3051d983d0b14b0f925c",
+    "truth.json": "31950cb6e45ef8d42bc91ed0ed48721e62fc71788f4873b4e886d628efb1f732",
+    "export_receipt.json": "8483420149183c48f96f3799093d43e178de408e6d5c5101992c50b0a0ca8bd9",
+    "export_attempt.json": "3579d2f4faa367dde3036d9bc9d2699265459a26cc496b8b4c79702bfb21f103",
+    "export_execution.json": "d922c3f0b6e560a6577903ffbe3dd6ad4f31702f7de8f3d7ccbf4e2534adb6b8",
+    "export_stdout.json": "01d23f621d610637a09b971da67bf9fc2fff26c32ecebf32f531d68fd10e38f9",
+    "export_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation_command.json": "4e834247b195c77a2e3a09ac6cae48d7fa89745d1a2ffb0eeea297fa4be35135",
+    "validation_attempt.json": "64314e955f602f502c619856b2e8d4a54329ef6ec26ea3f6170ef0c8b65ea7ab",
+    "validation_budget.json": "8ed1590e781c884ddddaa5ffe99bda319bb6730eefd7616f1d85c78545352344",
+    "replay_stdout.json": "0c8c299a97935a8eb23e3150e9bb0d158c328b64ff0207f77d87745d826a824b",
+    "replay_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation_stdout.json": "8ed1590e781c884ddddaa5ffe99bda319bb6730eefd7616f1d85c78545352344",
+    "validation_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build_command.json": "0635b1bc312c8586470ad2e1750e72f3f01b5ba59ac1769eb0d48770cb4ef703",
+    "build_stdout.json": "8d90233f15e200b503d6adafd41ea51250d1edd01aacc2d2fd98679b691bfb17",
+    "build_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ui_check.json": "65e60c751b0516077dbddddc53286543c014fd0686129fd4f7682d28c1ebebb9"
+  },
+  "checks": [
+    "Embedded JSON exactly equals authorized export, including all aggregate contrasts.",
+    "Engine and viewer source embedded unchanged.",
+    "Exactly three recorded first-seed lives reproduced all physical ledger values bitwise.",
+    "All authorization-pinned source bytes remain unchanged; no browser or publication."
+  ],
+  "limitations": [
+    "Control captures8 versus start9 in this one illustration despite its positive aggregate gain; aggregate estimates remain visible.",
+    "No real-browser rendering or long-run browser parity check; current UI coverage is mock-only.",
+    "Relative study/license links target the intended results/atlas publication layout; local output is the standalone viewing artifact.",
+    "Process IDs in validation_budget.json belong to the tool execution PID namespace; in-invocation exit/reaping was verified and they must not be interpreted as global host PID identities."
+  ]
+}

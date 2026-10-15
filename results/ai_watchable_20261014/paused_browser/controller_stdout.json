@@ -1,0 +1,100 @@
+{
+  "status": "incomplete_no_retry",
+  "exit_code": -9,
+  "reason": "wall cleanup threshold reached",
+  "cpu_seconds": 2.6081060000000003,
+  "wall_seconds": 43.04826246500306,
+  "child_cpu_cap_seconds": 30,
+  "wall_cap_seconds": 45,
+  "pid_namespace": "pid:[4026534943]",
+  "process_identity": {
+    "pid": 5,
+    "ppid": 4,
+    "pgid": 5,
+    "start_ticks": 5441254
+  },
+  "observed_group_members": {
+    "5": {
+      "ppid": 4,
+      "pgid": 5,
+      "start_ticks": 5441254
+    },
+    "13": {
+      "ppid": 5,
+      "pgid": 5,
+      "start_ticks": 5441258
+    },
+    "62": {
+      "ppid": 5,
+      "pgid": 5,
+      "start_ticks": 5441288
+    },
+    "100": {
+      "ppid": 5,
+      "pgid": 5,
+      "start_ticks": 5441321
+    },
+    "101": {
+      "ppid": 100,
+      "pgid": 5,
+      "start_ticks": 5441340
+    },
+    "109": {
+      "ppid": 100,
+      "pgid": 5,
+      "start_ticks": 5441341
+    },
+    "121": {
+      "ppid": 100,
+      "pgid": 5,
+      "start_ticks": 5441342
+    },
+    "156": {
+      "ppid": 100,
+      "pgid": 5,
+      "start_ticks": 5441349
+    }
+  },
+  "process_groups": [
+    5
+  ],
+  "all_processes_exited": true,
+  "remaining": [],
+  "guard": {
+    "status": "passed",
+    "initializations": 3,
+    "advance_calls": 0,
+    "run_calls": 0,
+    "times": [
+      0,
+      0,
+      0
+    ],
+    "errors": [],
+    "aggregates": [
+      {
+        "contrast": "reserve-control",
+        "captures": "\u22120.514 \u00b1 0.119",
+        "fitness": "\u22120.274 \u00b1 0.057"
+      },
+      {
+        "contrast": "control-start",
+        "captures": "+0.695 \u00b1 0.128",
+        "fitness": "+1.478 \u00b1 0.063"
+      },
+      {
+        "contrast": "reserve-start",
+        "captures": "+0.182 \u00b1 0.127",
+        "fitness": "+1.204 \u00b1 0.064"
+      }
+    ]
+  },
+  "screenshot_sha256": "b1f9f6bee0583dfaae9d3414fed9540c57881ebf1509a0122e84abf7f73b9e50",
+  "stdout_sha256": "61127627d6ce7fcca9589c634ec358a444e2387683eaa6a66f6d54a3705a5ceb",
+  "stderr_sha256": "a3007d013aee5ff986adbcb5f9b27d11525bc875b1bf13a7028638596d37cf69",
+  "completed_simulated_lives": 0,
+  "retry": false,
+  "source_changes": false,
+  "identity_scope": "Process IDs and group IDs are local to the recorded execution PID namespace."
+}
+

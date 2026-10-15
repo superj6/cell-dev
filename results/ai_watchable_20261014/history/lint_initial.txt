@@ -1,0 +1,102 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> outputs/ai_watchable_20261014/build.py:2:1
+  |
+1 |   """Draft standalone AI viewer build; requires completed export, bounded replay and mock UI check."""
+2 | / from pathlib import Path
+3 | | import argparse
+4 | | import hashlib
+5 | | import json
+  | |___________^
+6 |
+7 |   HERE = Path(__file__).resolve().parent
+  |
+help: Organize imports
+  |
+1 | """Draft standalone AI viewer build; requires completed export, bounded replay and mock UI check."""
+  - from pathlib import Path
+2 | import argparse
+3 | import hashlib
+4 | import json
+5 + from pathlib import Path
+6 |
+  |
+
+E731 Do not assign a `lambda` expression, use a `def`
+  --> outputs/ai_watchable_20261014/build.py:15:5
+   |
+13 |     parser.add_argument('--output', type=Path, required=True)
+14 |     args = parser.parse_args()
+15 |     sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+16 |     receipt = json.loads((HERE / 'export_receipt.json').read_text())
+17 |     for name, digest in receipt['source_pins'].items():
+   |
+help: Rewrite `sha` as a `def`
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> outputs/ai_watchable_20261014/export.py:2:1
+  |
+1 |   """Draft export for completed AI; default is source-only and opens no AI artifacts."""
+2 | / from pathlib import Path
+3 | | import argparse
+4 | | import hashlib
+5 | | import json
+6 | | import sys
+  | |__________^
+7 |
+8 |   HERE = Path(__file__).resolve().parent
+  |
+help: Organize imports
+  |
+1 | """Draft export for completed AI; default is source-only and opens no AI artifacts."""
+  - from pathlib import Path
+2 | import argparse
+3 | import hashlib
+4 | import json
+5 | import sys
+6 + from pathlib import Path
+7 |
+  |
+
+E702 Multiple statements on one line (semicolon)
+  --> outputs/ai_watchable_20261014/export.py:77:45
+   |
+75 |         bodies.append({'name': role, 'abi': 3, 'mode': 'grn', 'world': world,
+76 |                        'genome': packed[i].tolist(), 'genotype_sha256': digest})
+77 |         name = f'persistent/row_{i:04d}.npz'; path = base / 'confirmation' / name
+   |                                             ^
+78 |         assert sha(path) == row_index[name]['sha256'] == summary['input_pins']['confirmation/' + name]
+79 |         paths.append(path)
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/ai_watchable_20261014/run_validation.py:2:1
+   |
+ 1 |   """Draft first-attempt wrapper for exactly three existing AI JS lives; no default replay."""
+ 2 | / from pathlib import Path
+ 3 | | import argparse
+ 4 | | import datetime
+ 5 | | import hashlib
+ 6 | | import json
+ 7 | | import os
+ 8 | | import resource
+ 9 | | import signal
+10 | | import subprocess
+11 | | import time
+   | |___________^
+12 |
+13 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+1  | """Draft first-attempt wrapper for exactly three existing AI JS lives; no default replay."""
+   - from pathlib import Path
+2  | import argparse
+--------------------------------------------------------------------------------
+10 | import time
+11 + from pathlib import Path
+12 |
+   |
+
+Found 5 errors.
+[*] 3 fixable with the `--fix` option (1 hidden fix can be enabled with the `--unsafe-fixes` option).
