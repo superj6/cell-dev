@@ -228,6 +228,17 @@ AH pilot; report it separately and do not pool life-level precision as search re
 bound-reader review plus public preparation precede runtime release. Evidence:
 `results/exploratory_reserve_replication_20261014/`. No larger family, paid compute or new organism rule is released.
 
+*2026-10-15 AI complete:* the unchanged reserve policy loses to its matched ordinary control by
+**−0.513672 ± 0.119015 captures / −0.274444 ± 0.057401 F** on 512 fresh paired lives, reversing AH's result.
+There is no consistent reserve-policy advantage across the two search pairs on this chosen background.
+Ordinary control gains **+0.695313 ± 0.127998 captures** over its start; reserve's own-start capture gain is
+unresolved. Both own-start F gains remain mainly economy. All 9,810 calls finish in 1,068.361098 CPU-seconds,
+with 1,536 healthy confirmation ledgers, three native initial-search guards per arm and all 219 paired vectors
+independently reproduced. Processes exited and release pins remain unchanged. Full evidence:
+`results/exploratory_reserve_replication_20261014/`. A longer ordinary continuation is the next design candidate,
+without changing prices or prescribing organism behavior. No new study is registered or released here, and
+neither the capture gain nor these two search pairs establish a richer algorithm or broad search reliability.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

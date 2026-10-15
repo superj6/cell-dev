@@ -1,0 +1,538 @@
+{
+  "status": "confirmed_independent_terminal_result",
+  "summary_sha256": "a070f5b95edd37d95fc8d6cc9a5a87203cac3edc65baf6f18105dc36ccc3f2f9",
+  "paired_vectors_sha256": "c92030a04349348cb95a4c5deccda09f966a1d5c960b84b2e14061b64464edf1",
+  "raw_review_sha256": "77ac1e9e46398c5268cac225d745d886c80480cd821803fa694e1d1db54c8867",
+  "execution_review_sha256": "e7497ae9d75ab7e7f45c4ff3a66f3924a58679d68ce54cce20d0c715ebb27c15",
+  "raw_rows": 3,
+  "raw_lives": 1536,
+  "native_search_lives": 8268,
+  "research_lives": 9804,
+  "startup_goldens": 6,
+  "total_calls": 9810,
+  "status_histogram": {
+    "0": 1536
+  },
+  "paired_vectors_exact": 219,
+  "timing": {
+    "total_cpu_seconds": 1068.361098,
+    "search_cpu_seconds": 923.782077,
+    "confirmation_cpu_seconds": 144.57902100000013,
+    "raw_confirmation_cpu_seconds": 133.77362372599998,
+    "wall_seconds": 305.3648780290023
+  },
+  "contrasts": {
+    "primary__AI_reserve": {
+      "baseline": "AI_control",
+      "quantities": {
+        "F": {
+          "mean": -0.2744439361902923,
+          "se": 0.057401348410393474,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "captures": {
+          "mean": -0.513671875,
+          "se": 0.11901499132523088,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "n_end": {
+          "mean": -0.54296875,
+          "se": 0.26809694786959626,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "spikes": {
+          "mean": 101.6171875,
+          "se": 16.101640389584496,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "path": {
+          "mean": 0.7446155121220844,
+          "se": 1.6156238641449425,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "clicks": {
+          "mean": 2.83203125,
+          "se": 0.43594020016444873,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "misses": {
+          "mean": 3.345703125,
+          "se": 0.3931118760763413,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        }
+      },
+      "capture_income": {
+        "mean": -0.25081634521484375,
+        "se": 0.058112788733022884,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": true
+      },
+      "ordinary_cost_saving": {
+        "mean": -0.023627590975448552,
+        "se": 0.00742126085963963,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": true
+      },
+      "guard_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "extinction_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      }
+    },
+    "gain__AI_control": {
+      "baseline": "AE_L92",
+      "quantities": {
+        "F": {
+          "mean": 1.4779508497503937,
+          "se": 0.06342670658186218,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "captures": {
+          "mean": 0.6953125,
+          "se": 0.12799835857973782,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "n_end": {
+          "mean": -44.375,
+          "se": 0.5240442446513943,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "spikes": {
+          "mean": -1539.5859375,
+          "se": 29.863944082601996,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "path": {
+          "mean": -50.30395427636495,
+          "se": 2.1010536118542253,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "clicks": {
+          "mean": -16.3125,
+          "se": 0.5574079149594946,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "misses": {
+          "mean": -17.0078125,
+          "se": 0.517645051785158,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        }
+      },
+      "capture_income": {
+        "mean": 0.339508056640625,
+        "se": 0.0624991985252626,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "ordinary_cost_saving": {
+        "mean": 1.1384427931097687,
+        "se": 0.012923309484716134,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "guard_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "extinction_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      }
+    },
+    "gain__AI_reserve": {
+      "baseline": "AE_L92",
+      "quantities": {
+        "F": {
+          "mean": 1.2035069135601013,
+          "se": 0.0635123181068082,
+          "n": 512,
+          "positive_above_3se": true,
+          "negative_below_minus_3se": false
+        },
+        "captures": {
+          "mean": 0.181640625,
+          "se": 0.12688324840086107,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": false
+        },
+        "n_end": {
+          "mean": -44.91796875,
+          "se": 0.5129669289569927,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "spikes": {
+          "mean": -1437.96875,
+          "se": 30.22275128223573,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "path": {
+          "mean": -49.55933876424286,
+          "se": 2.051663078995674,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "clicks": {
+          "mean": -13.48046875,
+          "se": 0.5730814795063413,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        },
+        "misses": {
+          "mean": -13.662109375,
+          "se": 0.5399669221414604,
+          "n": 512,
+          "positive_above_3se": false,
+          "negative_below_minus_3se": true
+        }
+      },
+      "capture_income": {
+        "mean": 0.08869171142578125,
+        "se": 0.06195471113323295,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "ordinary_cost_saving": {
+        "mean": 1.1148152021343203,
+        "se": 0.012963219490045117,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "guard_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "extinction_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      }
+    }
+  },
+  "native_replay": {
+    "control": {
+      "status": "passed",
+      "generation": 4,
+      "final_rank_zero_id": 668,
+      "genome_raw_sha256": "657326d5aaa87832166ca9c3d61ee65ed891f4da3725d59a1e69b76a51162349",
+      "prospective_initial_population_bitwise": true,
+      "all_final_population_rows_bound": true,
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_guard_lives_by_generation": [
+        0,
+        3,
+        0,
+        0
+      ],
+      "tie_ranking_calls_replayed": 12,
+      "policy_decisions": [
+        {
+          "generation": 0,
+          "active": false,
+          "protected_ids": [],
+          "protected_outside_ordinary_initial_top64": [],
+          "protected_outside_treatment_pooled_top32": [],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "6c9c8566e84b57ef5c8d2cc5b32bf1147b0e13ce02ceb26e46ba6acb5d3e1446"
+        },
+        {
+          "generation": 1,
+          "active": false,
+          "protected_ids": [],
+          "protected_outside_ordinary_initial_top64": [],
+          "protected_outside_treatment_pooled_top32": [],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "ce59824f8b2a8f49e745583c04e5316e604cc213a9be35e007e179f13dc34bf4"
+        },
+        {
+          "generation": 2,
+          "active": false,
+          "protected_ids": [],
+          "protected_outside_ordinary_initial_top64": [],
+          "protected_outside_treatment_pooled_top32": [],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "f6ad758eb72d32479f5d3830eebb357c8180176fc54aadc23a965369d9070ae0"
+        },
+        {
+          "generation": 3,
+          "active": false,
+          "protected_ids": [],
+          "protected_outside_ordinary_initial_top64": [],
+          "protected_outside_treatment_pooled_top32": [],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "fb6330114b5348956f0001c6314d222ced91be527d35b77d82f9ca9b291b149e"
+        }
+      ]
+    },
+    "reserve": {
+      "status": "passed",
+      "generation": 4,
+      "final_rank_zero_id": 887,
+      "genome_raw_sha256": "7944ce868034f14691d1864af2938b4ed3798a478a8029730846d84463723cf0",
+      "prospective_initial_population_bitwise": true,
+      "all_final_population_rows_bound": true,
+      "genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "initial_evaluation_guard_lives_by_generation": [
+        0,
+        3,
+        0,
+        0
+      ],
+      "tie_ranking_calls_replayed": 12,
+      "policy_decisions": [
+        {
+          "generation": 0,
+          "active": true,
+          "protected_ids": [
+            73,
+            226
+          ],
+          "protected_outside_ordinary_initial_top64": [
+            73,
+            226
+          ],
+          "protected_outside_treatment_pooled_top32": [
+            73,
+            226
+          ],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "6c9c8566e84b57ef5c8d2cc5b32bf1147b0e13ce02ceb26e46ba6acb5d3e1446"
+        },
+        {
+          "generation": 1,
+          "active": true,
+          "protected_ids": [
+            462,
+            284
+          ],
+          "protected_outside_ordinary_initial_top64": [
+            462,
+            284
+          ],
+          "protected_outside_treatment_pooled_top32": [
+            462,
+            284
+          ],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "ce59824f8b2a8f49e745583c04e5316e604cc213a9be35e007e179f13dc34bf4"
+        },
+        {
+          "generation": 2,
+          "active": true,
+          "protected_ids": [
+            656,
+            564
+          ],
+          "protected_outside_ordinary_initial_top64": [
+            564
+          ],
+          "protected_outside_treatment_pooled_top32": [
+            656,
+            564
+          ],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "f6ad758eb72d32479f5d3830eebb357c8180176fc54aadc23a965369d9070ae0"
+        },
+        {
+          "generation": 3,
+          "active": false,
+          "protected_ids": [],
+          "protected_outside_ordinary_initial_top64": [],
+          "protected_outside_treatment_pooled_top32": [],
+          "ranking_calls_exact": 3,
+          "tie_state_sha256": "fb6330114b5348956f0001c6314d222ced91be527d35b77d82f9ca9b291b149e"
+        }
+      ]
+    }
+  },
+  "first_cohort256_bitwise_equal": true,
+  "interpretation": [
+    "The AI reserve endpoint loses captures and F to its fresh matched ordinary-selection endpoint; both strict negative3SE criteria hold. This reverses the AH pair direction.",
+    "The AI control endpoint gains captures over the fixed start above3SE; reserve versus start capture gain remains unresolved. Both own-start F gains are mostly ordinary-cost savings.",
+    "Two matched search pairs on the chosen founder do not establish policy reliability. Fixed-endpoint life-seed uncertainty is not uncertainty across evolutionary runs."
+  ],
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "fresh_genetic_draws": 0,
+  "frozen_files_modified": false
+}

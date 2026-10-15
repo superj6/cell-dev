@@ -3,10 +3,11 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
-**Current work (2026-10-15).** AH is complete and pushed (`b46aca9`): one reserve endpoint beats its matched
-control in capture performance, without protected-offspring ancestry. AI repeats the unchanged comparison with
-an independent search seed. It is registered and prepared, with no simulation yet; actual-input checks and
-prospective publication precede runtime release. Detailed evidence and limitations appear in the entries below.
+**Current work (2026-10-15).** AI is complete and independently verified: its reserve endpoint loses to
+ordinary control by 0.514 ± 0.119 captures per life, reversing AH's advantage. There is no consistent reserve
+benefit across the two pairs. AI ordinary control improves on its start by 0.695 ± 0.128 captures; most fitness
+gain still comes from economy. Terminal publication and a watchable comparison are being completed. A longer
+ordinary continuation is the next design candidate; it is not yet registered or released.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.
@@ -307,6 +308,20 @@ preparation precede separate runtime release; no compiler or life ran during pre
 local asynchronous rules, genetic operators and production code remain unchanged. Evidence:
 `results/exploratory_reserve_replication_20261014/`. One further pair on this selected background cannot establish
 general policy reliability, memory or a richer algorithm. Longer ordinary depth remains a separate candidate.
+
+**AI complete (2026-10-15).** The independent repeat reverses AH: reserve minus ordinary control is
+**−0.513672 ± 0.119015 captures** and **−0.274444 ± 0.057401 F** on 512 fresh paired lives. Both losses exceed
+three SE. The two pairs give no consistent reserve advantage; life-level uncertainty is not search reliability.
+Ordinary control gains **+0.695313 ± 0.127998 captures** and **+1.477951 ± 0.063427 F** over its start; reserve's
+own-start capture gain (+0.181641 ± 0.126883) is unresolved. Most own-start fitness gain remains ordinary cost
+savings (+1.138443 / +1.114815 F). Mean captures are 4.027344 → 4.722656 / 4.208984 for start → control / reserve.
+This is modest capture adaptation, without identified prediction, memory or a new algorithm.
+All 9,804 research plus six golden calls complete in **1,068.361098 CPU-seconds**. All 1,536 confirmation statuses
+are zero; native initial logs retain three guarded lives per arm with penalties. First cohorts, final populations,
+all genetic/policy operations and all 219 paired vectors independently reproduce. Five of six protected children
+missed the initial ordinary top64; all six missed their treatment pooled top32. Four leaders/three groups exited;
+210 local/35 production pins remain unchanged. Evidence: `results/exploratory_reserve_replication_20261014/`.
+A longer ordinary continuation is being assessed, with fixed prices and local rules; no new run is released.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

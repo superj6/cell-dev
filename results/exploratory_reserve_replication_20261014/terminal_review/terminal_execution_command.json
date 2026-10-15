@@ -1,0 +1,37 @@
+{
+  "status": "running_authorized_offline_audit",
+  "root_terminal_clearance_sha256": "487a9373fd036fe5589f8c29fb276809fdb4bdb1902b2cc9bc2769eb72450d01",
+  "commands": {
+    "independent_raw": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_replication_20261014/review_terminal.py",
+      "--study",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_exploratory_reserve_replication_20261014",
+      "--run",
+      "--terminal-clearance-sha256",
+      "487a9373fd036fe5589f8c29fb276809fdb4bdb1902b2cc9bc2769eb72450d01",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_replication_20261014/independent_terminal_raw_review.json"
+    ],
+    "frozen_reader": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_exploratory_reserve_replication_20261014/analysis/analyze.py",
+      "--study",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_exploratory_reserve_replication_20261014",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_replication_20261014/frozen_reader_reanalysis"
+    ]
+  },
+  "cwd": "/home/jgon/project/ml/cell-dev",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "ATEN_CPU_CAPABILITY": "avx2",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "script_sha256": "fcbd357633d98ebd353668d31e61fdb81852240810dca9f6a3c11ca16982806b",
+  "executions": {},
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "fresh_genetic_draws": 0
+}

@@ -74,8 +74,11 @@ costs. Dark-phase improvement is unresolved and memory remains unestablished. A 
 [selection pilot](results/exploratory_reserve_20261014/TERMINAL_README.md) briefly protected two randomly chosen
 new offspring per generation. Its endpoint beats matched ordinary selection by **+0.557 ± 0.110 captures**
 and **+0.255 ± 0.054 F**, chiefly through extra capture income. Its capture gain over the starting genome is
-unresolved. This promising result comes from one search pair; an independent repeat is being prepared with the
-same policy, prices and local asynchronous rules.
+unresolved. An [independent repeat](results/exploratory_reserve_replication_20261014/TERMINAL_README.md)
+reversed that advantage: reserve loses **0.514 ± 0.119 captures** to ordinary selection, so the two pairs give no
+consistent policy benefit. Ordinary selection in the repeat gains **0.695 ± 0.128 captures** over its start,
+although most of its fitness gain remains cost savings. Longer ordinary evolution is the next candidate;
+prices and local asynchronous rules stay fixed.
 
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),

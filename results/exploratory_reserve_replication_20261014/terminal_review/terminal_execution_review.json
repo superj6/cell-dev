@@ -1,0 +1,57 @@
+{
+  "status": "complete_independent_raw_and_frozen_replay",
+  "root_terminal_clearance_sha256": "487a9373fd036fe5589f8c29fb276809fdb4bdb1902b2cc9bc2769eb72450d01",
+  "commands": {
+    "independent_raw": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_replication_20261014/review_terminal.py",
+      "--study",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_exploratory_reserve_replication_20261014",
+      "--run",
+      "--terminal-clearance-sha256",
+      "487a9373fd036fe5589f8c29fb276809fdb4bdb1902b2cc9bc2769eb72450d01",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_replication_20261014/independent_terminal_raw_review.json"
+    ],
+    "frozen_reader": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_exploratory_reserve_replication_20261014/analysis/analyze.py",
+      "--study",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_exploratory_reserve_replication_20261014",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_replication_20261014/frozen_reader_reanalysis"
+    ]
+  },
+  "cwd": "/home/jgon/project/ml/cell-dev",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "ATEN_CPU_CAPABILITY": "avx2",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "script_sha256": "fcbd357633d98ebd353668d31e61fdb81852240810dca9f6a3c11ca16982806b",
+  "executions": {
+    "independent_raw": {
+      "exit_code": 0,
+      "elapsed_wall_seconds": 0.31626477800455177,
+      "stdout_sha256": "f0fdbe0652c9028be271fcab03abb3239236b7f653bd00f4039615d2782ca36e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "frozen_reader": {
+      "exit_code": 0,
+      "elapsed_wall_seconds": 3.9102824950023205,
+      "stdout_sha256": "a070f5b95edd37d95fc8d6cc9a5a87203cac3edc65baf6f18105dc36ccc3f2f9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "fresh_genetic_draws": 0,
+  "summary_sha256": "a070f5b95edd37d95fc8d6cc9a5a87203cac3edc65baf6f18105dc36ccc3f2f9",
+  "paired_vectors_sha256": "c92030a04349348cb95a4c5deccda09f966a1d5c960b84b2e14061b64464edf1",
+  "paired_vectors_bitwise_identical": 219,
+  "summary_bytes_identical": true,
+  "npz_bytes_identical": true,
+  "raw_review_sha256": "77ac1e9e46398c5268cac225d745d886c80480cd821803fa694e1d1db54c8867",
+  "frozen_files_modified": false
+}

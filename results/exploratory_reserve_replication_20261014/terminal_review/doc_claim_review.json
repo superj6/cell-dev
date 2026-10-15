@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "source_pins": {
+    "outputs/audit_exploratory_reserve_replication_20261014/check_doc_claims.py": "f9a44d9dc666ee1cfabfa8d8d2d8f40971299f9c9a40dcc88564bf041501e556",
+    "outputs/audit_exploratory_reserve_replication_20261014/terminal_text.md": "e87d6d454cb4edda0701a43ff33379a3a2bb5483ea5e0a28a0dc31e7e31e4546",
+    "outputs/audit_exploratory_reserve_replication_20261014/update_terminal_docs.py": "9ebf0a81cb0c06e5ab65ef9c832adf1055da3414894e348a26e7ee42e780476a",
+    "outputs/audit_exploratory_reserve_replication_20261014/TERMINAL_README.md": "9004e70617a635422e455d67690f1b9cd65c8f27abd55223a68738b8c5ab855e",
+    "outputs/autonomous_exploratory_reserve_replication_20261014/analysis_result/summary.json": "a070f5b95edd37d95fc8d6cc9a5a87203cac3edc65baf6f18105dc36ccc3f2f9",
+    "outputs/autonomous_exploratory_reserve_replication_20261014/analysis_result/paired_vectors.npz": "c92030a04349348cb95a4c5deccda09f966a1d5c960b84b2e14061b64464edf1",
+    "outputs/audit_exploratory_reserve_replication_20261014/independent_terminal_raw_review.json": "77ac1e9e46398c5268cac225d745d886c80480cd821803fa694e1d1db54c8867",
+    "outputs/audit_exploratory_reserve_replication_20261014/terminal_execution_review.json": "e7497ae9d75ab7e7f45c4ff3a66f3924a58679d68ce54cce20d0c715ebb27c15",
+    "outputs/audit_exploratory_reserve_replication_20261014/figures/generate.py": "e61d8b180293bbb13ab5fc04ba153b92916f9f8d3df6cd0b50ceb33b5bdedbc3",
+    "outputs/audit_exploratory_reserve_replication_20261014/figures/capture_and_economy.png": "69a5cd838a0b66d3e7379e3117c9b32c65ba216e68293e730f8c358c58a5e947",
+    "outputs/audit_exploratory_reserve_replication_20261014/figures/capture_and_economy.svg": "36e898d93925742056d471df40048d94955977723cae5da70b0b575350fac1dd",
+    "README.md": "4405e7783dc70c2fb8fa6762abc6618c9f2924d411ecadd18b245cc97e3e79b1",
+    "RESULTS.md": "e7112f48d0cd2711407e2b78a91ed71e31d7806480ce7ebd42fdecd6ad8bbb04",
+    "docs/HANDOFF.md": "d24c70ae6580e8eb82ce442c0abc7fe0f948c06c3497096dad2864ac03f7139d",
+    "docs/TASK_VARIATION_PLAN.md": "953f02b520a5272a1e0c66bb22de02f023724db606e6311bdba6e94797bfe83f"
+  },
+  "table_contrasts_checked": 3,
+  "numeric_table_mean_se_pairs_checked": 12,
+  "strict_thresholds": {
+    "primary_captures_negative": true,
+    "primary_F_negative": true,
+    "control_minus_start_captures_positive": true,
+    "reserve_minus_start_captures_resolved": false,
+    "primary_ordinary_cost_increase_resolved": true
+  },
+  "native_initial_guard_summary": {
+    "control": 3,
+    "reserve": 3,
+    "paid": true
+  },
+  "protected_counts": {
+    "total": 6,
+    "outside_initial_top64": 5,
+    "outside_treatment_pooled_top32": 6
+  },
+  "interpretation": "AH and AI have opposite relative endpoint effects and are reported separately; no general reserve advantage or algorithm/memory claim. Ordinary AI control has resolved own-start captures, with most F gain from economy.",
+  "figure_review": "Generator reads exact pinned summary and uses three paired SE, three contrasts and four panels; PNG visual inspection recorded before packaging.",
+  "native_scope": "Full recorded-operation populations/ranks reproduced; search guard summaries are not complete per-life raw ledgers.",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "new_genetic_draws": 0
+}

@@ -1,0 +1,641 @@
+{
+  "status": "passed",
+  "ready_sha256": "a6d0bce01ead9acd34f357c8b2a71fa7d601611c4d7b5a296e77bc634c7c04b8",
+  "prelaunch_manifest_sha256": "369766d764fec89120c61558ea688b34490b9d31d3afc6a73b16eca8541c854a",
+  "source_pin_archive_paths": {
+    "PREPARED_STATUS.json": [
+      "PREPARED_STATUS.json"
+    ],
+    "PREREG.md": [
+      "PREREG.md"
+    ],
+    "README.md": [
+      "README.md"
+    ],
+    "SCHEMA.md": [
+      "SCHEMA.md"
+    ],
+    "analysis/README.md": [
+      "analysis/README.md"
+    ],
+    "analysis/actual_input_verification.json": [
+      "analysis/actual_input_verification.json"
+    ],
+    "analysis/analysis_review.json": [
+      "analysis/analysis_review.json"
+    ],
+    "analysis/analyze.py": [
+      "analysis/analyze.py"
+    ],
+    "analysis/analyzer_peer_review.json": [
+      "analysis/analyzer_peer_review.json"
+    ],
+    "analysis/binding_source_record.json": [
+      "analysis/binding_source_record.json"
+    ],
+    "analysis/bound_analyzer_peer_review.json": [
+      "analysis/bound_analyzer_peer_review.json"
+    ],
+    "analysis/bound_execution_command.json": [
+      "analysis/bound_execution_command.json"
+    ],
+    "analysis/bound_execution_review.json": [
+      "analysis/bound_execution_review.json"
+    ],
+    "analysis/bound_execution_stderr.txt": [
+      "analysis/bound_execution_stderr.txt"
+    ],
+    "analysis/bound_execution_stdout.json": [
+      "analysis/bound_execution_stdout.json"
+    ],
+    "analysis/helpers/genetics.py": [
+      "analysis/helpers/genetics.py"
+    ],
+    "analysis/history/AH_analyze.py.txt": [
+      "analysis/history/AH_analyze.py.txt"
+    ],
+    "analysis/history/AI_analyze_unbound.py.txt": [
+      "analysis/history/AI_analyze_unbound.py.txt"
+    ],
+    "analysis/history/test_replication_missing_seeds.py.txt": [
+      "analysis/history/test_replication_missing_seeds.py.txt"
+    ],
+    "analysis/initialization_replay.json": [
+      "analysis/initialization_replay.json"
+    ],
+    "analysis/native_audit.py": [
+      "analysis/native_audit.py"
+    ],
+    "analysis/offline_accounting.py": [
+      "analysis/offline_accounting.py"
+    ],
+    "analysis/reader_adaptation_plan.json": [
+      "analysis/reader_adaptation_plan.json"
+    ],
+    "analysis/reader_lint.txt": [
+      "analysis/reader_lint.txt"
+    ],
+    "analysis/reader_lint_final.txt": [
+      "analysis/reader_lint_final.txt"
+    ],
+    "analysis/reader_source_origins.json": [
+      "analysis/reader_source_origins.json"
+    ],
+    "analysis/reader_source_review.json": [
+      "analysis/reader_source_review.json"
+    ],
+    "analysis/reader_tests.log": [
+      "analysis/reader_tests.log"
+    ],
+    "analysis/reader_tests.xml": [
+      "analysis/reader_tests.xml"
+    ],
+    "analysis/reader_tests_final.log": [
+      "analysis/reader_tests_final.log"
+    ],
+    "analysis/reader_tests_final.xml": [
+      "analysis/reader_tests_final.xml"
+    ],
+    "analysis/selection.py": [
+      "analysis/selection.py"
+    ],
+    "analysis/test_replication.py": [
+      "analysis/test_replication.py"
+    ],
+    "analysis/verify_preparation.py": [
+      "analysis/verify_preparation.py"
+    ],
+    "analysis_pins.json": [
+      "analysis_pins.json"
+    ],
+    "common.py": [
+      "common.py"
+    ],
+    "configs/control.yaml": [
+      "configs/control.yaml"
+    ],
+    "configs/reserve.yaml": [
+      "configs/reserve.yaml"
+    ],
+    "generation_claim.json": [
+      "generation_claim.json"
+    ],
+    "initialization/L92.npy": [
+      "initialization/L92.npy"
+    ],
+    "initialization.json": [
+      "initialization.json"
+    ],
+    "inputs/AE/budget.json": [
+      "inputs/AE/budget.json"
+    ],
+    "inputs/AE/confirmation_genotypes.npz": [
+      "inputs/AE/confirmation_genotypes.npz"
+    ],
+    "inputs/AE/confirmation_roles.json": [
+      "inputs/AE/confirmation_roles.json"
+    ],
+    "inputs/AE/inputs/Y/inputs/L92/config.yaml": [
+      "inputs/AE/inputs/Y/inputs/L92/config.yaml"
+    ],
+    "inputs/AE/inputs/Y/inputs/L92/genomes.npy": [
+      "inputs/AE/inputs/Y/inputs/L92/genomes.npy"
+    ],
+    "inputs/AE/inputs/Y/inputs/L92/mutation_ops.json": [
+      "inputs/AE/inputs/Y/inputs/L92/mutation_ops.json"
+    ],
+    "inputs/AE/inputs/Y/inputs/L92/panel_manifest.json": [
+      "inputs/AE/inputs/Y/inputs/L92/panel_manifest.json"
+    ],
+    "inputs/AE/inputs/Y/inputs/L92/parent.json": [
+      "inputs/AE/inputs/Y/inputs/L92/parent.json"
+    ],
+    "inputs/AE/measurement/screen/L92/row_index.json": [
+      "inputs/AE/measurement/screen/L92/row_index.json"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0000.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0000.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0001.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0001.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0002.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0002.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0003.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0003.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0004.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0004.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0005.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0005.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0006.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0006.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0007.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0007.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0008.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0008.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0009.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0009.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0010.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0010.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0011.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0011.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0012.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0012.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0013.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0013.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0014.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0014.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0015.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0015.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0016.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0016.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0017.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0017.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0018.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0018.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0019.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0019.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0020.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0020.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0021.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0021.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0022.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0022.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0023.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0023.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0024.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0024.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0025.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0025.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0026.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0026.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0027.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0027.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0028.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0028.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0029.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0029.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0030.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0030.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0031.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0031.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0032.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0032.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0033.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0033.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0034.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0034.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0035.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0035.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0036.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0036.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0037.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0037.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0038.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0038.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0039.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0039.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0040.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0040.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0041.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0041.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0042.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0042.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0043.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0043.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0044.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0044.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0045.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0045.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0046.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0046.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0047.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0047.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0048.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0048.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0049.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0049.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0050.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0050.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0051.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0051.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0052.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0052.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0053.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0053.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0054.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0054.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0055.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0055.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0056.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0056.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0057.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0057.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0058.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0058.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0059.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0059.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0060.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0060.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0061.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0061.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0062.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0062.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0063.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0063.npz"
+    ],
+    "inputs/AE/measurement/screen/L92/screen/row_0064.npz": [
+      "inputs/AE/measurement/screen/L92/screen/row_0064.npz"
+    ],
+    "inputs/AE/protocol.json": [
+      "inputs/AE/protocol.json"
+    ],
+    "inputs/AE/selection.json": [
+      "inputs/AE/selection.json"
+    ],
+    "inputs/AE/startup_identity.json": [
+      "inputs/AE/startup_identity.json"
+    ],
+    "inputs/AE_L92.json": [
+      "inputs/AE_L92.json"
+    ],
+    "inputs/AE_cost_rows.json": [
+      "inputs/AE_cost_rows.json"
+    ],
+    "inputs/AE_summary.json": [
+      "inputs/AE_summary.json"
+    ],
+    "inputs/U_template.yaml": [
+      "inputs/U_template.yaml"
+    ],
+    "measure.py": [
+      "measure.py"
+    ],
+    "numerical.py": [
+      "numerical.py"
+    ],
+    "preparation_claim.json": [
+      "preparation_claim.json"
+    ],
+    "prepare.py": [
+      "original/outputs/autonomous_exploratory_reserve_replication_20261014/prepare.py",
+      "prepare.py"
+    ],
+    "protocol.json": [
+      "protocol.json"
+    ],
+    "registration.json": [
+      "registration.json"
+    ],
+    "release_review/accept_registration_reviews.py": [
+      "release_review/accept_registration_reviews.py"
+    ],
+    "release_review/acceptance_console.json": [
+      "release_review/acceptance_console.json"
+    ],
+    "release_review/acceptance_stderr.txt": [
+      "release_review/acceptance_stderr.txt"
+    ],
+    "release_review/actual_preparation_review.json": [
+      "release_review/actual_preparation_review.json"
+    ],
+    "release_review/actual_review_stderr.txt": [
+      "release_review/actual_review_stderr.txt"
+    ],
+    "release_review/actual_review_stdout.json": [
+      "release_review/actual_review_stdout.json"
+    ],
+    "release_review/actual_verification_execution.json": [
+      "release_review/actual_verification_execution.json"
+    ],
+    "release_review/archive.py": [
+      "release_review/archive.py"
+    ],
+    "release_review/canonical_installation.json": [
+      "release_review/canonical_installation.json"
+    ],
+    "release_review/check_actual_inputs.py": [
+      "release_review/check_actual_inputs.py"
+    ],
+    "release_review/check_independent_source_design.py": [
+      "release_review/check_independent_source_design.py"
+    ],
+    "release_review/check_public_preparation.py": [
+      "release_review/check_public_preparation.py"
+    ],
+    "release_review/clear_terminal.py": [
+      "release_review/clear_terminal.py"
+    ],
+    "release_review/copy_release_review.py": [
+      "release_review/copy_release_review.py"
+    ],
+    "release_review/final_namespace_acceptance.json": [
+      "release_review/final_namespace_acceptance.json"
+    ],
+    "release_review/historical_cost_review.json": [
+      "release_review/historical_cost_review.json"
+    ],
+    "release_review/history/check_actual_inputs.py.before_pin_count_literal_fix.txt": [
+      "release_review/history/check_actual_inputs.py.before_pin_count_literal_fix.txt"
+    ],
+    "release_review/history/independent_actual_input_review.stderr.txt.before_pin_count_literal_fix.txt": [
+      "release_review/history/independent_actual_input_review.stderr.txt.before_pin_count_literal_fix.txt"
+    ],
+    "release_review/history/independent_actual_input_review.stdout.json.before_pin_count_literal_fix.txt": [
+      "release_review/history/independent_actual_input_review.stdout.json.before_pin_count_literal_fix.txt"
+    ],
+    "release_review/independent_actual_input_review.json": [
+      "release_review/independent_actual_input_review.json"
+    ],
+    "release_review/independent_actual_input_review.stderr.txt": [
+      "release_review/independent_actual_input_review.stderr.txt"
+    ],
+    "release_review/independent_actual_input_review.stdout.json": [
+      "release_review/independent_actual_input_review.stdout.json"
+    ],
+    "release_review/independent_source_design_review.json": [
+      "release_review/independent_source_design_review.json"
+    ],
+    "release_review/independent_source_review.stderr.txt": [
+      "release_review/independent_source_review.stderr.txt"
+    ],
+    "release_review/independent_source_review.stdout.json": [
+      "release_review/independent_source_review.stdout.json"
+    ],
+    "release_review/install_analysis.py": [
+      "release_review/install_analysis.py"
+    ],
+    "release_review/preparation_command.json": [
+      "release_review/preparation_command.json"
+    ],
+    "release_review/preparation_execution_review.json": [
+      "release_review/preparation_execution_review.json"
+    ],
+    "release_review/preparation_stderr.txt": [
+      "release_review/preparation_stderr.txt"
+    ],
+    "release_review/preparation_stdout.json": [
+      "release_review/preparation_stdout.json"
+    ],
+    "release_review/preregister_docs_stderr.txt": [
+      "release_review/preregister_docs_stderr.txt"
+    ],
+    "release_review/preregister_docs_stdout.txt": [
+      "release_review/preregister_docs_stdout.txt"
+    ],
+    "release_review/preregister_text.md": [
+      "release_review/preregister_text.md"
+    ],
+    "release_review/preregister_text_draft.md": [
+      "release_review/preregister_text_draft.md"
+    ],
+    "release_review/producer_interface_review.json": [
+      "release_review/producer_interface_review.json"
+    ],
+    "release_review/producer_lint.txt": [
+      "release_review/producer_lint.txt"
+    ],
+    "release_review/producer_lint_final.txt": [
+      "release_review/producer_lint_final.txt"
+    ],
+    "release_review/producer_source_origins.json": [
+      "release_review/producer_source_origins.json"
+    ],
+    "release_review/producer_source_review.json": [
+      "release_review/producer_source_review.json"
+    ],
+    "release_review/producer_tests.log": [
+      "release_review/producer_tests.log"
+    ],
+    "release_review/producer_tests.xml": [
+      "release_review/producer_tests.xml"
+    ],
+    "release_review/producer_tests_final.log": [
+      "release_review/producer_tests_final.log"
+    ],
+    "release_review/producer_tests_final.xml": [
+      "release_review/producer_tests_final.xml"
+    ],
+    "release_review/register_study.py": [
+      "release_review/register_study.py"
+    ],
+    "release_review/registration_console.json": [
+      "release_review/registration_console.json"
+    ],
+    "release_review/registration_prerequisites.json": [
+      "release_review/registration_prerequisites.json"
+    ],
+    "release_review/registration_review_acceptance.json": [
+      "release_review/registration_review_acceptance.json"
+    ],
+    "release_review/registration_stderr.txt": [
+      "release_review/registration_stderr.txt"
+    ],
+    "release_review/release_study.py": [
+      "release_review/release_study.py"
+    ],
+    "release_review/review_preparation.py": [
+      "release_review/review_preparation.py"
+    ],
+    "release_review/root_helper_independent_review.json": [
+      "release_review/root_helper_independent_review.json"
+    ],
+    "release_review/root_helper_origins.json": [
+      "release_review/root_helper_origins.json"
+    ],
+    "release_review/root_helper_review_recovery.json": [
+      "release_review/root_helper_review_recovery.json"
+    ],
+    "release_review/root_helper_source_review.json": [
+      "release_review/root_helper_source_review.json"
+    ],
+    "release_review/source_history/AH/PREREG.md": [
+      "release_review/source_history/AH/PREREG.md"
+    ],
+    "release_review/source_history/AH/README.md": [
+      "release_review/source_history/AH/README.md"
+    ],
+    "release_review/source_history/AH/SCHEMA.md": [
+      "release_review/source_history/AH/SCHEMA.md"
+    ],
+    "release_review/source_history/AH/common.py": [
+      "release_review/source_history/AH/common.py"
+    ],
+    "release_review/source_history/AH/measure.py": [
+      "release_review/source_history/AH/measure.py"
+    ],
+    "release_review/source_history/AH/numerical.py": [
+      "release_review/source_history/AH/numerical.py"
+    ],
+    "release_review/source_history/AH/prepare.py": [
+      "release_review/source_history/AH/prepare.py"
+    ],
+    "release_review/source_history/AH/reserve_adapter.py": [
+      "release_review/source_history/AH/reserve_adapter.py"
+    ],
+    "release_review/source_history/AH/run_budgeted.py": [
+      "release_review/source_history/AH/run_budgeted.py"
+    ],
+    "release_review/source_history/AH/scoring.py": [
+      "release_review/source_history/AH/scoring.py"
+    ],
+    "release_review/source_history/AH/search.py": [
+      "release_review/source_history/AH/search.py"
+    ],
+    "release_review/source_history/AH/test_source.py": [
+      "release_review/source_history/AH/test_source.py"
+    ],
+    "release_review/source_history/AH/world_contract.py": [
+      "release_review/source_history/AH/world_contract.py"
+    ],
+    "release_review/source_history/historical_cost_review_AH.json": [
+      "release_review/source_history/historical_cost_review_AH.json"
+    ],
+    "release_review/source_history/producer_tests_before_archive_path.log": [
+      "release_review/source_history/producer_tests_before_archive_path.log"
+    ],
+    "release_review/source_history/producer_tests_before_archive_path.xml": [
+      "release_review/source_history/producer_tests_before_archive_path.xml"
+    ],
+    "release_review/source_history/review_preparation_AH.py.txt": [
+      "release_review/source_history/review_preparation_AH.py.txt"
+    ],
+    "release_review/source_history/test_replication_before_archive_path.py.txt": [
+      "release_review/source_history/test_replication_before_archive_path.py.txt"
+    ],
+    "release_review/update_preregister_docs.py": [
+      "release_review/update_preregister_docs.py"
+    ],
+    "reserve_adapter.py": [
+      "reserve_adapter.py"
+    ],
+    "resource_clearance.json": [
+      "operations/resource_clearance.json"
+    ],
+    "run_budgeted.py": [
+      "run_budgeted.py"
+    ],
+    "scoring.py": [
+      "scoring.py"
+    ],
+    "search.py": [
+      "search.py"
+    ],
+    "seed_audit.json": [
+      "seed_audit.json"
+    ],
+    "test_replication.py": [
+      "test_replication.py"
+    ],
+    "test_source.py": [
+      "test_source.py"
+    ],
+    "world_contract.py": [
+      "world_contract.py"
+    ]
+  },
+  "local_count": 210,
+  "production_count": 35,
+  "all_prelaunch_bytes_unchanged": true
+}

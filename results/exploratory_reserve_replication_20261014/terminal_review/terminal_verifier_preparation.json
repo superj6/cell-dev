@@ -1,0 +1,42 @@
+{
+  "status": "source_only_prepared_not_executed",
+  "original_literal_accounting_source": "outputs/audit_exploratory_reserve_20261014/review_terminal.py",
+  "original_sha256": "850671f8057d9100e398a0d07489ad88053ab9d81c1ca6e8883a960e4ad0d006",
+  "script_sha256": "7e4f91360ffc685eeed6170a087732a507513f62f9d3fb1935606ffc32241ffe",
+  "allowed_literal_replacements": [
+    [
+      "Independent AH terminal",
+      "Independent AI terminal"
+    ],
+    [
+      "0a9e505969ed11cd8f240f9404bbff2adf9a91d91d5387252fd9595874c61be4",
+      "0dc385199dc871a86f7a31a62c393b2c160f0cbae018ceece3ec8f51bb6dff00"
+    ],
+    [
+      "AH_control",
+      "AI_control"
+    ],
+    [
+      "AH_reserve",
+      "AI_reserve"
+    ]
+  ],
+  "entire_module_AST_identical_after_metadata_normalization": true,
+  "full57_ledger_arithmetic_unchanged": true,
+  "raw_rows": 3,
+  "raw_lives": 1536,
+  "research_lives": 9804,
+  "native_search_lives": 8268,
+  "startup_goldens": 6,
+  "total_calls": 9810,
+  "paired_vectors": 219,
+  "max_cpu_seconds": 5400,
+  "search_cpu_seconds": 3400,
+  "confirmation_reserved_cpu_seconds": 2000,
+  "runtime_artifacts_opened": 0,
+  "scientific_outcomes_read": false,
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "fresh_genetic_draws": 0,
+  "requires": "Explicit root terminal-clearance SHA, --run and complete canonical summary; separately rerun the frozen reader after root clearance for full genetic/policy replay."
+}
