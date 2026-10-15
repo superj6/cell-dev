@@ -1,0 +1,296 @@
+{
+  "status": "complete_independent_raw_analysis",
+  "protocol_sha256": "1880ff6e21b4689031e892d9dc6765a8d9673a35efeefb213acf268f5370adf4",
+  "ready_sha256": "8f04fdb3c1d41a2c5f68b89cc6b981e782ad7b3e1122ebd6e41d7e004755d62b",
+  "original_analyzer_sha256": "1f8bc838666f6ba2e58e8a64aac4506fc2a94488850d50a20de29c06120449d7",
+  "corrected_analyzer_sha256": "08b3bebe8f05a5d758bee3306ebaae6b6086a204e47ddbc556947b6bd32486b7",
+  "postanalysis_manifest_sha256": "f5eba1bc590ead918bae84dd9230b79f0571596159d0d40473c7bb34e1dd1306",
+  "identity_correction_review_sha256": "915dee215115d3fb26d263d0ad90edd9df1c678e8f9ec992e4c0131c650c4f66",
+  "scientific_code_unchanged": true,
+  "original_failed_invocation_preserved": true,
+  "research_lives": 6208,
+  "validation_lives": 10,
+  "total_lives": 6218,
+  "raw_ABI4_lives_accounted": 6216,
+  "retained_ABI3_engineering_goldens": 2,
+  "simulation_calls_in_analysis": 0,
+  "compiled_libraries_in_analysis": 0,
+  "resources": {
+    "total_cpu_seconds": 1768.464936,
+    "startup_screen_cpu_seconds": 1240.066735,
+    "confirmation_cpu_seconds": 528.398201,
+    "first_attempt_only": true,
+    "raw_stage_cpu_seconds": {
+      "calibration": 1.7976047909999995,
+      "screen": 1043.681005171,
+      "confirm": 450.40163671699975
+    }
+  },
+  "health": {
+    "calibration": {
+      "backgrounds": {
+        "D90": {
+          "lives": 4,
+          "guarded": 0,
+          "extinct": 0,
+          "implementation_invalid": 0,
+          "other_nonzero_status": 0,
+          "status_histogram": {
+            "0": 4
+          }
+        },
+        "L92": {
+          "lives": 4,
+          "guarded": 0,
+          "extinct": 0,
+          "implementation_invalid": 0,
+          "other_nonzero_status": 0,
+          "status_histogram": {
+            "0": 4
+          }
+        }
+      },
+      "lives": 8
+    },
+    "screen": {
+      "backgrounds": {
+        "D90": {
+          "lives": 2080,
+          "guarded": 0,
+          "extinct": 0,
+          "implementation_invalid": 0,
+          "other_nonzero_status": 0,
+          "status_histogram": {
+            "0": 2080
+          }
+        },
+        "L92": {
+          "lives": 2080,
+          "guarded": 0,
+          "extinct": 0,
+          "implementation_invalid": 0,
+          "other_nonzero_status": 0,
+          "status_histogram": {
+            "0": 2080
+          }
+        }
+      },
+      "lives": 4160
+    },
+    "confirm": {
+      "backgrounds": {
+        "D90": {
+          "lives": 1024,
+          "guarded": 0,
+          "extinct": 0,
+          "implementation_invalid": 0,
+          "other_nonzero_status": 0,
+          "status_histogram": {
+            "0": 1024
+          }
+        },
+        "L92": {
+          "lives": 1024,
+          "guarded": 0,
+          "extinct": 0,
+          "implementation_invalid": 0,
+          "other_nonzero_status": 0,
+          "status_histogram": {
+            "0": 1024
+          }
+        }
+      },
+      "lives": 2048
+    }
+  },
+  "results": {
+    "D90": {
+      "selection": {
+        "genome_row": 58,
+        "raw_sha256": "2317b26eb6c61d99e12d8a345436bcbcb16d7863048715278525148aec9b413e"
+      },
+      "paired_F": {
+        "mean": 0.44515075112781144,
+        "se": 0.07708720606058078,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "paired_captures": {
+        "mean": 0.888671875,
+        "se": 0.15682567991808308,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "paired_low_light_captures": {
+        "mean": 0.134765625,
+        "se": 0.060312158479908465,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "paired_bright_captures": {
+        "mean": 0.75390625,
+        "se": 0.1497739677686227,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "paired_spikes": {
+        "mean": -233.587890625,
+        "se": 39.97237457462987,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": true
+      },
+      "paired_path": {
+        "mean": -35.40170698323134,
+        "se": 0.876088183012583,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": true
+      },
+      "capture_income": {
+        "mean": 0.43392181396484375,
+        "se": 0.0765750390225015,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "ordinary_cost_saving": {
+        "mean": 0.011228937162967736,
+        "se": 0.006844028604749617,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "guard_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "extinction_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "parent_F": {
+        "mean": 0.09327898767565038,
+        "se": 0.07163985740712549,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "mutant_F": {
+        "mean": 0.5384297388034618,
+        "se": 0.07972983308546275,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      }
+    },
+    "L92": {
+      "selection": {
+        "genome_row": 24,
+        "raw_sha256": "6935252982803614cb973b8b938e7ca927ab2d72e5ef31aaa243c2625385d86a"
+      },
+      "paired_F": {
+        "mean": 0.09104162572293517,
+        "se": 0.07482925968911909,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "paired_captures": {
+        "mean": 0.197265625,
+        "se": 0.15397780578241857,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "paired_low_light_captures": {
+        "mean": 0.044921875,
+        "se": 0.07521086014434758,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "paired_bright_captures": {
+        "mean": 0.15234375,
+        "se": 0.14672036905744248,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "paired_spikes": {
+        "mean": 25.1328125,
+        "se": 22.184029159282623,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "paired_path": {
+        "mean": 0.569963233017129,
+        "se": 1.0567551745050234,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "capture_income": {
+        "mean": 0.09632110595703125,
+        "se": 0.07518447547969657,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "ordinary_cost_saving": {
+        "mean": -0.005279480234096088,
+        "se": 0.004113108525463596,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "guard_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "extinction_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512,
+        "positive_above_3se": false,
+        "negative_below_minus_3se": false
+      },
+      "parent_F": {
+        "mean": 1.7335236428736662,
+        "se": 0.07196263074929651,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      },
+      "mutant_F": {
+        "mean": 1.8245652685966012,
+        "se": 0.06981190897487903,
+        "n": 512,
+        "positive_above_3se": true,
+        "negative_below_minus_3se": false
+      }
+    }
+  },
+  "input_and_output_pins": {
+    "analysis_result/summary.json": "19143f75dcc3f8890ea9afd2523ab0fbf42a38d7a778213dd5be4f112da3fac2",
+    "analysis_result/paired_vectors.npz": "d4faa880c2d44717e3841e0da5d445549cef39463eaa632d5eda72757618b0dd",
+    "budget.json": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+    "report.json": "d48022a73a1d2cf924a2bedebfdc809e4e969ac35b46ca3fc323482123f70cd1",
+    "selection.json": "e1b2cc4cda465f2a439af1d212a15555091b9c5ba9a84c3cfcd8af140d234c2f"
+  },
+  "interpretation": "D90 has a confirmed capture-driven local production-fitness improvement in the blink world, accompanied by lower firing and travel. L92 confirmation is unresolved. Neither low-light contrast exceeds3SE; most resolved D90 capture gain is bright. This supports considering ordinary continuation and does not establish memory, prediction or capability-specific admission."
+}

@@ -1,0 +1,368 @@
+{
+  "status": "complete",
+  "scope": {
+    "total_cpu_seconds": 5400,
+    "startup_screen_cpu_seconds": 3400,
+    "confirmation_reserve_cpu_seconds": 2000,
+    "max_workers": 1,
+    "threads_per_worker": 2,
+    "research_lives": 6208,
+    "validation_lives": 10
+  },
+  "screen": {
+    "D90": {
+      "selected": {
+        "genome_row": 58,
+        "raw_sha256": "2317b26eb6c61d99e12d8a345436bcbcb16d7863048715278525148aec9b413e"
+      },
+      "complete_rows": 65,
+      "row_index_sha256": "2afe6200c876d97f2a671c33625cbfca3be841438f769ccd953adf5d1864b124"
+    },
+    "L92": {
+      "selected": {
+        "genome_row": 24,
+        "raw_sha256": "6935252982803614cb973b8b938e7ca927ab2d72e5ef31aaa243c2625385d86a"
+      },
+      "complete_rows": 65,
+      "row_index_sha256": "88b4882a2aa7814dcec152d86df838d1cb50738c611da1d2677cb717ca044716"
+    }
+  },
+  "confirmation": {
+    "D90": {
+      "F": {
+        "mean": 0.44515075112781144,
+        "se": 0.07708720606058078,
+        "n": 512
+      },
+      "F_kernel": {
+        "mean": 0.44515075112781144,
+        "se": 0.07708720606058078,
+        "n": 512
+      },
+      "n_end": {
+        "mean": 0.244140625,
+        "se": 0.3837375060409315,
+        "n": 512
+      },
+      "n_H_end": {
+        "mean": -0.439453125,
+        "se": 0.09220064827284535,
+        "n": 512
+      },
+      "live_time": {
+        "mean": -568.2494097114904,
+        "se": 274.4552206313785,
+        "n": 512
+      },
+      "spikes": {
+        "mean": -233.587890625,
+        "se": 39.97237457462987,
+        "n": 512
+      },
+      "packets": {
+        "mean": -1889.63671875,
+        "se": 823.2982593705109,
+        "n": 512
+      },
+      "misses": {
+        "mean": 0.14453125,
+        "se": 0.1914268417674684,
+        "n": 512
+      },
+      "clicks": {
+        "mean": 1.033203125,
+        "se": 0.20688702130421233,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.888671875,
+        "se": 0.15682567991808308,
+        "n": 512
+      },
+      "path": {
+        "mean": -35.40170698323134,
+        "se": 0.876088183012583,
+        "n": 512
+      },
+      "zone_samples": {
+        "mean": 4.775390625,
+        "se": 0.9265983282127681,
+        "n": 512
+      },
+      "samples": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "fitness_contributions": {
+        "income": {
+          "mean": 0.43392181396484375,
+          "se": 0.0765750390225015,
+          "n": 512
+        },
+        "cost_saving": {
+          "mean": 0.011228937162967736,
+          "se": 0.006844028604749617,
+          "n": 512
+        },
+        "guard_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "extinction_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "accounting_residual": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "cost_saving_components": {
+        "living": {
+          "mean": 0.011098621283427548,
+          "se": 0.005360453527956611,
+          "n": 512
+        },
+        "spiking": {
+          "mean": 0.0009124526977539064,
+          "se": 0.00015614208818214793,
+          "n": 512
+        },
+        "twitching": {
+          "mean": 0.0009124526977539064,
+          "se": 0.00015614208818214793,
+          "n": 512
+        },
+        "messages": {
+          "mean": 0.0013022003173828126,
+          "se": 0.0004539218181174519,
+          "n": 512
+        },
+        "division": {
+          "mean": -3.4332275390625e-05,
+          "se": 0.00018795692871618704,
+          "n": 512
+        },
+        "secretion": {
+          "mean": -0.0014640661681129528,
+          "se": 0.0006621372573091429,
+          "n": 512
+        },
+        "missed_clicks": {
+          "mean": -0.00141143798828125,
+          "se": 0.0018694027516354336,
+          "n": 512
+        },
+        "receptors": {
+          "mean": -8.69534015655518e-05,
+          "se": 2.070936605012472e-05,
+          "n": 512
+        },
+        "decoy_clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "guard_fraction": {
+        "parent": 0.0,
+        "winner": 0.0
+      },
+      "low_light_captures": {
+        "mean": 0.134765625,
+        "se": 0.060312158479908465,
+        "n": 512
+      },
+      "bright_captures": {
+        "mean": 0.75390625,
+        "se": 0.1497739677686227,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.43392181396484375,
+        "se": 0.0765750390225015,
+        "n": 512
+      },
+      "above_3se": true,
+      "interpretation": "Paired local fitness/capture improvement; no memory mechanism claim."
+    },
+    "L92": {
+      "F": {
+        "mean": 0.09104162572293517,
+        "se": 0.07482925968911909,
+        "n": 512
+      },
+      "F_kernel": {
+        "mean": 0.09104162572293517,
+        "se": 0.07482925968911909,
+        "n": 512
+      },
+      "n_end": {
+        "mean": -0.138671875,
+        "se": 0.09710748917656192,
+        "n": 512
+      },
+      "n_H_end": {
+        "mean": 0.0,
+        "se": 0.00782014058862318,
+        "n": 512
+      },
+      "live_time": {
+        "mean": -133.65149555630344,
+        "se": 95.41156427548687,
+        "n": 512
+      },
+      "spikes": {
+        "mean": 25.1328125,
+        "se": 22.184029159282623,
+        "n": 512
+      },
+      "packets": {
+        "mean": -390.109375,
+        "se": 288.71219331307856,
+        "n": 512
+      },
+      "misses": {
+        "mean": 0.796875,
+        "se": 0.3320848908408877,
+        "n": 512
+      },
+      "clicks": {
+        "mean": 0.994140625,
+        "se": 0.3802680684723038,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.197265625,
+        "se": 0.15397780578241857,
+        "n": 512
+      },
+      "path": {
+        "mean": 0.569963233017129,
+        "se": 1.0567551745050234,
+        "n": 512
+      },
+      "zone_samples": {
+        "mean": -0.2421875,
+        "se": 1.0156665725158591,
+        "n": 512
+      },
+      "samples": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "fitness_contributions": {
+        "income": {
+          "mean": 0.09632110595703125,
+          "se": 0.07518447547969657,
+          "n": 512
+        },
+        "cost_saving": {
+          "mean": -0.005279480234096088,
+          "se": 0.004113108525463596,
+          "n": 512
+        },
+        "guard_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "extinction_charge_saving": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        },
+        "accounting_residual": {
+          "mean": 1.734723475976807e-18,
+          "se": 5.490506000720935e-18,
+          "n": 512
+        }
+      },
+      "cost_saving_components": {
+        "living": {
+          "mean": 0.0026103807725840643,
+          "se": 0.0018635071147556032,
+          "n": 512
+        },
+        "spiking": {
+          "mean": -9.8175048828125e-05,
+          "se": 8.665636390344776e-05,
+          "n": 512
+        },
+        "twitching": {
+          "mean": -9.817504882812502e-05,
+          "se": 8.665626076288712e-05,
+          "n": 512
+        },
+        "messages": {
+          "mean": -0.00014918708801269534,
+          "se": 0.00013541181438371836,
+          "n": 512
+        },
+        "division": {
+          "mean": 5.14984130859375e-05,
+          "se": 4.7675951420739955e-05,
+          "n": 512
+        },
+        "secretion": {
+          "mean": 0.00019669328218403076,
+          "se": 0.0001314862162773267,
+          "n": 512
+        },
+        "missed_clicks": {
+          "mean": -0.007781982421875,
+          "se": 0.0032430165121180438,
+          "n": 512
+        },
+        "receptors": {
+          "mean": -1.0533094406127944e-05,
+          "se": 1.7329838172932386e-05,
+          "n": 512
+        },
+        "decoy_clicks": {
+          "mean": 0.0,
+          "se": 0.0,
+          "n": 512
+        }
+      },
+      "guard_fraction": {
+        "parent": 0.0,
+        "winner": 0.0
+      },
+      "low_light_captures": {
+        "mean": 0.044921875,
+        "se": 0.07521086014434758,
+        "n": 512
+      },
+      "bright_captures": {
+        "mean": 0.15234375,
+        "se": 0.14672036905744248,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.09632110595703125,
+        "se": 0.07518447547969657,
+        "n": 512
+      },
+      "above_3se": false,
+      "interpretation": "Paired local fitness/capture improvement; no memory mechanism claim."
+    }
+  },
+  "research_genome_lives": 6208,
+  "validation_lives": 10,
+  "total_genome_lives": 6218,
+  "row_cpu_seconds": 1495.8802466789998,
+  "row_index_sha256": {
+    "D90": "fac3a05492d701924e05f0e04417b118bb689c9e7ac6507da994d43d8ef5baf0",
+    "L92": "b31e78e0dddf68279b09bf14e9cb2554dce3ca73572928418798ea5be36785a5"
+  },
+  "limitations": [
+    "A32-life screen can select noise; confirmation does not exhaust accessible mutations.",
+    "Capture gains, including low-light captures, do not isolate a memory mechanism."
+  ]
+}

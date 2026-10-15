@@ -1,0 +1,9 @@
+# Postanalysis monitor-receipt correction
+
+The frozen Y analyzer rejected the complete study before returning scientific outcomes because it required a session ID (`sid`) that the monitor never persisted. The monitor's `process_identity()` records exactly `pid`, `ppid`, `pgid` and `start_ticks`. The separate live worker helper also reads a session ID while enforcing process ownership, but that field is not part of the monitor's attempt or budget schema. The original synthetic fixture mistakenly included it.
+
+This separate correction requires the four fields actually recorded. It retains exact monitor identity, worker parent, worker PID equal to its process-group ID, owned-group identity, all phase acknowledgments, first-attempt evidence, source/release pins and CPU ceilings. It does not invent a persisted session-ID proof. The pinned monitor still launches the worker with `start_new_session=True`, and the pinned live worker helper still checks session ownership before dependent work.
+
+All released `analysis/` files and ready bytes remain unchanged. The original reader is still required to match its released SHA256 `1f8bc838666f6ba2e58e8a64aac4506fc2a94488850d50a20de29c06120449d7`; the executing accountant remains byte-identical to its released version. This corrected reader is separately bound by its postanalysis diff, review and manifest rather than claiming it was part of the prelaunch ready marker.
+
+No price, raw-ledger rule, genotype, mutation, seed, row selection, paired contrast, completeness requirement or resource limit changes. The exact original failed invocation and its empty-outcome result are preserved. Five regression cases use the actual terminal attempt/budget receipts, reproduce the original rejection, accept the recorded schema and retain rejection of broken parent/group/start identities. No simulations or compilation are involved.

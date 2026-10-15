@@ -75,6 +75,18 @@ low-light captures add no reward. Prospective evidence is in `results/visibility
 No simulation has run at this registration. Gains will be decomposed into capture income and cost savings;
 neither fitness gains nor dark captures alone establish memory or a new algorithm.
 
+**Y completed (2026-10-14).** D90's selected ordinary mutant (row58) gains +0.445151 ± 0.077087 F and
++0.888672 ± 0.156826 captures per life on 512 fresh paired seeds. Capture income supplies +0.433922 F;
+cost savings supply only +0.011229. It spikes and travels less while catching more; terminal-cell difference
+is unresolved. L92 row24 has unresolved gains (+0.091042 ± 0.074829 F; +0.197266 ± 0.153978 captures).
+Dark-capture changes are unresolved in both; this is accessible adaptation, not demonstrated memory.
+All 6,208 research and ten validation lives completed in 1,768.464936 CPU-seconds; all processes exited.
+The original analyzer required a session-ID field absent from the monitor receipt. A separate source-reviewed
+correction uses the four recorded identity fields, preserving all scientific comparisons and original files.
+Full data, both analyzers and exact public reanalysis are at `results/visibility_gradient_20261014/`.
+A short ordinary blink continuation is being prepared from both fixed Y selections, regardless of their
+confirmation sign; it remains unreleased pending final namespace, input, cost and source review.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

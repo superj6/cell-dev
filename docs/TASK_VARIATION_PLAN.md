@@ -77,6 +77,15 @@ accessible adaptation and capture income versus economy, without claiming memory
 No Y simulation has run at preparation; frozen inputs, exact genetic replay and independent analysis are in
 `results/visibility_gradient_20261014/`.
 
+*2026-10-14 Y completed:* D90 row58 gains +0.445 ± 0.077 F and +0.889 ± 0.157 captures on 512 fresh paired
+lives, chiefly through capture income. It fires fewer spikes and travels less; terminal-cell change is unresolved.
+L92 row24 has unresolved fitness/capture gains. Both dark-capture gains are unresolved, so this establishes
+one accessible capture-driven improvement without a memory claim. All 6,218 total lives completed within
+1,768.464936 CPU-seconds. A separate analyzer correction removes an unsupported persisted session-ID check;
+all original inputs/data and scientific comparisons remain unchanged. `results/visibility_gradient_20261014/`
+preserves both readers and full reproducible results. A short native blink continuation from both fixed Y
+selections is being prepared, with fresh comparisons against their starts and original founders.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.

@@ -1,0 +1,33 @@
+--- released/analyze.py
++++ postanalysis/analyze.py
+@@ -209,7 +209,7 @@
+ 
+ 
+ def identity(value):
+-    keys = ("pid", "ppid", "pgid", "sid", "start_ticks")
++    keys = ("pid", "ppid", "pgid", "start_ticks")
+     if any(type(value.get(key)) is not int or value[key] < (0 if key == "ppid" else 1) for key in keys):
+         raise ValueError("incomplete process identity")
+     return {key: value[key] for key in keys}
+@@ -226,8 +226,10 @@
+     if any(ready["source_pins"].get(key) != digest for key, digest in required.items()):
+         raise ValueError("release does not bind all prepared analysis and inputs")
+     pins(base, ready["source_pins"], operational=True)
+-    if sha(__file__) != ready["source_pins"]["analysis/analyze.py"] or sha(A.__file__) != ready["source_pins"]["analysis/offline_accounting.py"]:
+-        raise ValueError("executing analyzer differs from released analysis")
++    # The released reader remains immutable; this separate correction is pinned by the postanalysis review.
++    if (sha(base / "analysis/analyze.py") != "1f8bc838666f6ba2e58e8a64aac4506fc2a94488850d50a20de29c06120449d7"
++            or sha(A.__file__) != ready["source_pins"]["analysis/offline_accounting.py"]):
++        raise ValueError("original released analyzer or executing accountant changed")
+     clearance = read(operation(base, "resource_clearance.json"))
+     if clearance["status"] != "cleared" or clearance["all_processes_exited"] is not True:
+         raise ValueError("prior work was not cleared")
+@@ -262,7 +264,7 @@
+         raise ValueError("one monitor and one worker identity required")
+     assert_equal(identity(process[0]), monitor, "attempt monitor identity")
+     worker = identity(process[1])
+-    if worker["ppid"] != monitor["pid"] or worker["pid"] != worker["pgid"] or worker["pid"] != worker["sid"]:
++    if worker["ppid"] != monitor["pid"] or worker["pid"] != worker["pgid"]:
+         raise ValueError("worker was not an owned process group")
+     assert_equal(budget["owned_process_groups"], [worker["pid"]], "owned worker group")
+     if not budget["affinity"] or any(type(x) is not int or not 0 <= x < 12 for x in budget["affinity"]):

@@ -2379,3 +2379,44 @@ require a hand-built winning body, prescribe an organism algorithm, or claim mem
 Both fixed panels reproduce exactly under genetic replay. All 44 preparation checks and 165 independent
 analysis/accounting tests pass without simulation or compilation. The prospective record is preserved at
 `results/visibility_gradient_20261014/`; no large selection matrix or paid compute is released.
+
+## 2026-10-14 — One ordinary blink mutant catches more while travelling less
+
+Y completed both full 64-mutant panels and fresh confirmation of their fixed selections. D90 row58 gains
+**+0.445151 ± 0.077087 F** and **+0.888672 ± 0.156826 captures per life** relative to its exact founder.
+Both exceed three paired SE. L92 row24's fitness and capture gains remain unresolved. Each comparison uses
+512 fresh paired T1024 seeds, separate from the 32-life screens; both selected rows were frozen before either
+confirmation. These SE describe the fixed selected genomes across world seeds, not independent search reliability.
+
+| Selected mutant minus own founder | D90 row58 | L92 row24 |
+|---|---:|---:|
+| Fitness F | +0.445151 ± 0.077087 | +0.091042 ± 0.074829 |
+| Captures per life | +0.888672 ± 0.156826 | +0.197266 ± 0.153978 |
+| Dark captures per life | +0.134766 ± 0.060312 | +0.044922 ± 0.075211 |
+| Bright captures per life | +0.753906 ± 0.149774 | +0.152344 ± 0.146720 |
+| Capture-income contribution to F | +0.433922 ± 0.076575 | +0.096321 ± 0.075184 |
+| Ordinary cost-saving contribution to F | +0.011229 ± 0.006844 | −0.005279 ± 0.004113 |
+
+D90's gain is chiefly additional capture income. It makes **233.588 ± 39.972 fewer spikes** and travels
+**35.402 ± 0.876 less distance** per life while catching more. Its terminal-cell difference is unresolved
+(+0.244 ± 0.384); the bodies are not experimentally matched. Absolute capture means rise from 9.391 to 10.279,
+and F from 0.093 to 0.538. Most additional captures occur while bright. Neither lineage has a dark-capture change
+resolved at three SE, and dark captures alone would not identify memory. This is an ordinary mutation improving
+performance in a richer environment, without identifying a new algorithm or explaining its mechanism.
+
+All **6,208 research lives plus ten validation lives** finished in **1,768.464936 of 5,400 CPU-seconds**.
+Startup/screens used 1,240.066735; confirmation/cleanup used 528.398201. All 6,216 raw ABI4 lives have zero status
+flags, including all eight calibration lives; the two retained ABI3 numerical goldens separately match their
+expected hashes. Both panels and all mutation operations replay exactly. Every experiment process/group exited.
+
+The frozen analyzer initially stopped before scientific output because it required a session-ID field absent
+from the monitor's persisted identity record. The separate corrected reader checks the actual process, parent,
+group and start-time fields, retaining attempt/release/source/budget checks. Its change has independent source
+reviews and five regressions using the actual receipts. Scientific accounting, prices, selection, comparisons
+and all 62 released pins are unchanged. The original reader and failed invocation remain preserved; no lives
+were repeated. Independent reanalysis reproduces the summary and all 150 paired arrays exactly.
+
+`results/visibility_gradient_20261014/` contains the prospective record, raw outcomes, explicit correction,
+portable reanalysis and confirmation figure. A short four-generation native blink continuation is being prepared
+from both fixed selected mutants, regardless of confirmation sign, to test whether further gains accumulate.
+It will retain fresh comparisons against the Y starts and original founders; it is not released by this result.

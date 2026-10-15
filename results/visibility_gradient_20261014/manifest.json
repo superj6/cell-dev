@@ -1,14 +1,14 @@
 {
   "format": 1,
-  "phase": "preparation",
+  "phase": "terminal",
   "protocol_sha256": "1880ff6e21b4689031e892d9dc6765a8d9673a35efeefb213acf268f5370adf4",
-  "status": "prepared_not_launched",
-  "scientific_lives_completed": 0,
-  "compiled_libraries": 0,
-  "release": false,
+  "status": "complete_with_separate_reviewed_receipt_schema_correction",
+  "scientific_lives_completed": 6218,
+  "compiled_libraries": 2,
+  "release": true,
   "planned_research_lives": 6208,
   "planned_validation_lives": 10,
-  "scientific_outcomes_claimed": false,
+  "scientific_outcomes_claimed": true,
   "working_directory": "outputs/autonomous_visibility_gradient_20261014",
   "dependency_budget_pins": {
     "outputs/autonomous_decoy_evolution_20261014/budget.json": "947e93896f902e35d4e132f9419f170393497631788259315038a73a6edb227a",
@@ -17,7 +17,19 @@
     "outputs/autonomous_visibility_information_x2_20261014/budget.json": "1c5d5743f5afd7c0852ac6e15e1791fa1d7ff92a91064e193e68bce39e00d963"
   },
   "dependency_clearance_status": "copied",
+  "research_lives": 6208,
+  "validation_lives": 10,
+  "cpu_seconds": 1768.464936,
+  "prelaunch_manifest_sha256": "691aa4b84fa21203ae7271c12c033a53b9c7612218fa3c6b3ebb8040c94f4074",
+  "corrected_analyzer_sha256": "08b3bebe8f05a5d758bee3306ebaae6b6086a204e47ddbc556947b6bd32486b7",
+  "postanalysis_manifest_sha256": "f5eba1bc590ead918bae84dd9230b79f0571596159d0d40473c7bb34e1dd1306",
+  "scientific_scope": "one-step ordinary-mutation diagnostic; no memory-mechanism or evolution-continuation claim",
   "artifacts": {
+    "ARCHIVE.md": {
+      "sha256": "88de5411d1dd1d13e1f08ce4fda1752e9dc377d06913aadb18945e6ed84651bb",
+      "bytes": 1571,
+      "origin": "outputs/audit_visibility_gradient_20261014/ARCHIVE.md"
+    },
     "README.md": {
       "sha256": "ea4f18ccd0df5ea3e37accb1eb3c30535c221fc07bf6f1602adc2f3294d6b5f3",
       "bytes": 3350,
@@ -123,10 +135,50 @@
       "bytes": 2106,
       "origin": "outputs/autonomous_visibility_gradient_20261014/analysis_pins.json"
     },
+    "analysis_result/paired_vectors.npz": {
+      "sha256": "d4faa880c2d44717e3841e0da5d445549cef39463eaa632d5eda72757618b0dd",
+      "bytes": 245143,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/analysis_result/paired_vectors.npz"
+    },
+    "analysis_result/summary.json": {
+      "sha256": "19143f75dcc3f8890ea9afd2523ab0fbf42a38d7a778213dd5be4f112da3fac2",
+      "bytes": 143891,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/analysis_result/summary.json"
+    },
+    "build-cache/life/life_4e7a60c72a280814.so": {
+      "sha256": "8b4055686d2fb9321c0b65efbf37269a9efc0c4f97b51db7fe22fc25952e47bd",
+      "bytes": 109192,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/build-cache/life/life_4e7a60c72a280814.so"
+    },
+    "build-cache/life/life_8e23480ead9414fa.so": {
+      "sha256": "67adee019d5e47e26e27d26a9ba7963fee38cf9919b6920d6c8610b566efde69",
+      "bytes": 101016,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/build-cache/life/life_8e23480ead9414fa.so"
+    },
+    "calibration_projection.json": {
+      "sha256": "ee43d4279da058caf1bdd82a55c9c9889c2638b9f882372cb73a48057827579c",
+      "bytes": 371,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/calibration_projection.json"
+    },
     "common.py": {
       "sha256": "13483b1425d4c10a409c46576262e62d22c10e6aeaa9bd347d5cd94c1503963e",
       "bytes": 3698,
       "origin": "outputs/autonomous_visibility_gradient_20261014/common.py"
+    },
+    "figures/confirmation.png": {
+      "sha256": "89be57b0b977eeabd8f0afadd8cb60582ca3f047bbb2a46847ffd7faffe6387c",
+      "bytes": 117936,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/figures/confirmation.png"
+    },
+    "figures/confirmation.svg": {
+      "sha256": "6e9d5e491ce982e5963cd89b0e0f8a6774eb3c716bf75f769b68bf70355a1cfa",
+      "bytes": 76516,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/figures/confirmation.svg"
+    },
+    "figures/plot_results.py": {
+      "sha256": "07455fd5b71b3d3c0af3e6b706c729ecfdde6ca445f7ce209b8531b0cb457755",
+      "bytes": 2750,
+      "origin": "outputs/audit_visibility_gradient_20261014/plot_results.py"
     },
     "inputs/D90/config.yaml": {
       "sha256": "52f57c85ec85dff27eaa563c991c36cb7079afb5959c171516aca8a02d9d2ed8",
@@ -218,25 +270,790 @@
       "bytes": 4131,
       "origin": "outputs/autonomous_visibility_gradient_20261014/inputs/reviews/manifest.json"
     },
+    "logs/gradient.log": {
+      "sha256": "999201105ae64115918be9d73779be8994de5ee44032696a4c4d0a0edaf672cd",
+      "bytes": 8467,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/logs/gradient.log"
+    },
     "measure.py": {
       "sha256": "45fb8d2974bfe71e5af3c576232825b346836da9de6d304bd8fec6707611e0fe",
       "bytes": 11865,
       "origin": "outputs/autonomous_visibility_gradient_20261014/measure.py"
+    },
+    "measurement/D90/calibration/row_0000.npz": {
+      "sha256": "3dd89a848b4c5590b673310ff310fd354cec544fbc8144b58806e2d65f021dc6",
+      "bytes": 14087,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/calibration/row_0000.npz"
+    },
+    "measurement/D90/calibration/row_0001.npz": {
+      "sha256": "ddaf1c41285ffe200c9805be8d5fcd37477a0b723585c1be7f317d7d463e6278",
+      "bytes": 14089,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/calibration/row_0001.npz"
+    },
+    "measurement/D90/calibration/scores.npz": {
+      "sha256": "fe59777b436bb04ff97d3eb66e2247e0f41166afec60615314b4c5bf3ddebe43",
+      "bytes": 13153,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/calibration/scores.npz"
+    },
+    "measurement/D90/confirm/row_0000.npz": {
+      "sha256": "4abd9257f8314a94d4ce9c74357139d975686f41a625f47614511331e6d2356b",
+      "bytes": 222048,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/confirm/row_0000.npz"
+    },
+    "measurement/D90/confirm/row_0058.npz": {
+      "sha256": "be197f5d6f29ed001c12a545a67608e2095e6982ce4aa237486c5cd6d6956308",
+      "bytes": 222366,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/confirm/row_0058.npz"
+    },
+    "measurement/D90/confirm/scores.npz": {
+      "sha256": "dc0c8dfa551dd6f34d0615aa1cbe7b82defcfebea01dea87436401152e0766ba",
+      "bytes": 203708,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/confirm/scores.npz"
+    },
+    "measurement/D90/row_index.json": {
+      "sha256": "fac3a05492d701924e05f0e04417b118bb689c9e7ac6507da994d43d8ef5baf0",
+      "bytes": 10410,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/row_index.json"
+    },
+    "measurement/D90/screen/row_0000.npz": {
+      "sha256": "819acdffcb3f76e2e4c3cd1587ff2c392acf009b9506cf8ca7b774e3579f75d9",
+      "bytes": 27726,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0000.npz"
+    },
+    "measurement/D90/screen/row_0001.npz": {
+      "sha256": "3a826a124abc0c1931a5fe1e63d6a2f8a68a11f8ed38d06918688b7b72d6ae10",
+      "bytes": 27715,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0001.npz"
+    },
+    "measurement/D90/screen/row_0002.npz": {
+      "sha256": "0aa4ec10b9d882fe2070a5cfae37d45e4082054e08f789dd45468fba3e30c26b",
+      "bytes": 27728,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0002.npz"
+    },
+    "measurement/D90/screen/row_0003.npz": {
+      "sha256": "15718ab94aaca8d5cc4448e2ab08aa4a945fb8617cc41250b8e4d7fc23684cf1",
+      "bytes": 27677,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0003.npz"
+    },
+    "measurement/D90/screen/row_0004.npz": {
+      "sha256": "c28c40e1eceac9ff9263ffd5ad409ebfda996923d4613c9d4051b846a93d2f29",
+      "bytes": 27754,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0004.npz"
+    },
+    "measurement/D90/screen/row_0005.npz": {
+      "sha256": "0191512c42387deb7ba2961b863b02e89be888f63cfc824cec6d582bc2cb5068",
+      "bytes": 27651,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0005.npz"
+    },
+    "measurement/D90/screen/row_0006.npz": {
+      "sha256": "6ba783a5d2e9aaad52c06bcafac63600ac66245340546c6643e3d06eac6da0a9",
+      "bytes": 27703,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0006.npz"
+    },
+    "measurement/D90/screen/row_0007.npz": {
+      "sha256": "261f6254e50734a2080c3ba9464d7a966ab7f6ad1ea6e2270de77d300637d819",
+      "bytes": 27599,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0007.npz"
+    },
+    "measurement/D90/screen/row_0008.npz": {
+      "sha256": "6c2bf6a97796109d1ba9fb8ef5a1a2207e34da2ba37aef2f923180d0cab2201b",
+      "bytes": 27749,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0008.npz"
+    },
+    "measurement/D90/screen/row_0009.npz": {
+      "sha256": "eef3ab381ceff5c2d2dd844a1d41d0112fdf077a8501b3ac5801a49797413180",
+      "bytes": 27736,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0009.npz"
+    },
+    "measurement/D90/screen/row_0010.npz": {
+      "sha256": "84c01fd4d0d5d441d1a8a7a4749efe580d678fcc478d10e2def809744462540e",
+      "bytes": 27729,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0010.npz"
+    },
+    "measurement/D90/screen/row_0011.npz": {
+      "sha256": "c80128ecc202f2f42754fe7c9c905835e9680a65447ff070229efc047ed199a9",
+      "bytes": 27731,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0011.npz"
+    },
+    "measurement/D90/screen/row_0012.npz": {
+      "sha256": "f5f78bd6840406e14d742c8af9663168813da638de40853f831b6db5432fb806",
+      "bytes": 27720,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0012.npz"
+    },
+    "measurement/D90/screen/row_0013.npz": {
+      "sha256": "a9b01533058c4fd87d42d9e8358f6ef6c8ed9437caf450f3eaa7a74eb95c653d",
+      "bytes": 27731,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0013.npz"
+    },
+    "measurement/D90/screen/row_0014.npz": {
+      "sha256": "f260d77ce9c90791658892dec045b858bb0c0d0362c6205a49345981bd8834db",
+      "bytes": 27679,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0014.npz"
+    },
+    "measurement/D90/screen/row_0015.npz": {
+      "sha256": "64b3e6c862b8d676f459e18536948e26ec8c67fa13b0119b5335d22ed7b92112",
+      "bytes": 27754,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0015.npz"
+    },
+    "measurement/D90/screen/row_0016.npz": {
+      "sha256": "0713eb03db30d2f198a408a16e10cd09f6b8bd5910f1602f2a619b05af9b5fd5",
+      "bytes": 27777,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0016.npz"
+    },
+    "measurement/D90/screen/row_0017.npz": {
+      "sha256": "02f2d31d2851a89a5ea21d7454cfdbc79fd0d381b73d84115498ad74f142ede2",
+      "bytes": 27742,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0017.npz"
+    },
+    "measurement/D90/screen/row_0018.npz": {
+      "sha256": "0a638b686ddfcab9b0c7a36ef96231af9f1c2c3a531645da28c1ad77a3c4e679",
+      "bytes": 27731,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0018.npz"
+    },
+    "measurement/D90/screen/row_0019.npz": {
+      "sha256": "71a013d250df598d0f67d136d678be34fe5937265506ac27eb37642084359978",
+      "bytes": 27766,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0019.npz"
+    },
+    "measurement/D90/screen/row_0020.npz": {
+      "sha256": "5ec8fdbbebb5418902067465d6491534b7d6543c20aef90c25d973925faf806c",
+      "bytes": 27727,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0020.npz"
+    },
+    "measurement/D90/screen/row_0021.npz": {
+      "sha256": "f202fc35113c939d04951bda5a0781ba085e9484964149e4c6c0552b0128e1e8",
+      "bytes": 27735,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0021.npz"
+    },
+    "measurement/D90/screen/row_0022.npz": {
+      "sha256": "7dc607dd6c3d6a4a9b7d4dce6df0032b332ee06b1ea684128e3ae53d39305914",
+      "bytes": 27650,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0022.npz"
+    },
+    "measurement/D90/screen/row_0023.npz": {
+      "sha256": "e7c9d63c6eb206298cbca3b312146099accedc27d6f24256fdd91e825f8881a4",
+      "bytes": 27734,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0023.npz"
+    },
+    "measurement/D90/screen/row_0024.npz": {
+      "sha256": "0dc98103e0d8f2e707975f5481f2fb077007d22481f25303996fba792e0c0576",
+      "bytes": 27777,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0024.npz"
+    },
+    "measurement/D90/screen/row_0025.npz": {
+      "sha256": "ebcfe705b7dbcbc008abc7fe0333015901f5ac22cdb7bdfc50a896c5a27f811b",
+      "bytes": 27738,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0025.npz"
+    },
+    "measurement/D90/screen/row_0026.npz": {
+      "sha256": "7ab378d87ccb4e5058a3969bf9f87c0322dc0a5e3ffdbb6bf50dfb0e8aa1cedd",
+      "bytes": 27714,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0026.npz"
+    },
+    "measurement/D90/screen/row_0027.npz": {
+      "sha256": "9053b9cb6e30ab556125667370b313f9573393e173e82c2899e643e030ba764a",
+      "bytes": 27766,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0027.npz"
+    },
+    "measurement/D90/screen/row_0028.npz": {
+      "sha256": "306827e6f9f28480fb60e9403bb229b1209870ddddb54b5031d11bae8494dd6f",
+      "bytes": 27722,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0028.npz"
+    },
+    "measurement/D90/screen/row_0029.npz": {
+      "sha256": "58ee23962a37fb49cef8adfa2831f09cde703110b6ac633742c04384af93cfb7",
+      "bytes": 27610,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0029.npz"
+    },
+    "measurement/D90/screen/row_0030.npz": {
+      "sha256": "194419d252c95e35d08c6a2f8ebc1756b5546be6a51a70f61821915907dd2618",
+      "bytes": 27828,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0030.npz"
+    },
+    "measurement/D90/screen/row_0031.npz": {
+      "sha256": "876fabd09bf7fc0e30cc46565a641f435de55b29b04d2fdb39fc0f3cb9f13bbe",
+      "bytes": 27731,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0031.npz"
+    },
+    "measurement/D90/screen/row_0032.npz": {
+      "sha256": "ed42e28fe16370cefa4a33e968fb0173634b87e2938bd26ad527d4d29fabc2ce",
+      "bytes": 27800,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0032.npz"
+    },
+    "measurement/D90/screen/row_0033.npz": {
+      "sha256": "c2b104af48ffc3bc6f6396ea48ef09491f70787487a7f01686fc183c27b79de9",
+      "bytes": 27673,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0033.npz"
+    },
+    "measurement/D90/screen/row_0034.npz": {
+      "sha256": "189f172c4d665dfeca5c11e100fb35da6fa0cf28fc706533d215e988a994a9b5",
+      "bytes": 27776,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0034.npz"
+    },
+    "measurement/D90/screen/row_0035.npz": {
+      "sha256": "33518f59fb48e623f0423caeb8bdf2fbd8dbf5c7a9efb01f0288569cfcc44f33",
+      "bytes": 27578,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0035.npz"
+    },
+    "measurement/D90/screen/row_0036.npz": {
+      "sha256": "e86596512d1d00fc272c13cefd549820a1f86ee6765ce743bab4c716d83c5ed1",
+      "bytes": 27725,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0036.npz"
+    },
+    "measurement/D90/screen/row_0037.npz": {
+      "sha256": "7935937a8c6c9717cbe67069ad3c964ee98cc3ad0f6a3ccb02fdef1f37e6c263",
+      "bytes": 27686,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0037.npz"
+    },
+    "measurement/D90/screen/row_0038.npz": {
+      "sha256": "5fee1829e110fe62f2f3caecf995d772e76a8b082b1d462ad420b75f903ede73",
+      "bytes": 27766,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0038.npz"
+    },
+    "measurement/D90/screen/row_0039.npz": {
+      "sha256": "85f224c7d54b1b36509b2c315fda1c24afb2adaa925d477f37b0f4f63cd7a1b5",
+      "bytes": 27741,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0039.npz"
+    },
+    "measurement/D90/screen/row_0040.npz": {
+      "sha256": "ec988c8213f8f41e3ea6bb51f1d90d1fc7e96685f06f3ddcab18daab08fe6ae6",
+      "bytes": 27771,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0040.npz"
+    },
+    "measurement/D90/screen/row_0041.npz": {
+      "sha256": "4aa2709dfcf75c8c62b7a08ca69e963594c732f136613542cf2edfc46ac3f838",
+      "bytes": 27786,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0041.npz"
+    },
+    "measurement/D90/screen/row_0042.npz": {
+      "sha256": "ae11fb14080e18904c220556f186cba7df9783f813c9c3f05a1b0c0fe5e179a8",
+      "bytes": 27736,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0042.npz"
+    },
+    "measurement/D90/screen/row_0043.npz": {
+      "sha256": "e024f150fada65687470057c8072edbf63b24cb3bda33c96ee3fdb8e3b9a9b3f",
+      "bytes": 27710,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0043.npz"
+    },
+    "measurement/D90/screen/row_0044.npz": {
+      "sha256": "22c07813d5fb015e4a4ebcfa58d9fd9623021f18b43d4a18eb36c2077c41773e",
+      "bytes": 27734,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0044.npz"
+    },
+    "measurement/D90/screen/row_0045.npz": {
+      "sha256": "942e33c414f32bc488191dfb9b9152ec4b2bb7914593c09a6376814d441839b7",
+      "bytes": 27769,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0045.npz"
+    },
+    "measurement/D90/screen/row_0046.npz": {
+      "sha256": "89e9a2b51496f61a258f3805539a1dbf55c78df7ce43734c60afaa80984687ef",
+      "bytes": 27770,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0046.npz"
+    },
+    "measurement/D90/screen/row_0047.npz": {
+      "sha256": "cf2d4b65875f7775bc512c7ffcda26c25f2ab9a271805d82bc652d70ffd1a54c",
+      "bytes": 27725,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0047.npz"
+    },
+    "measurement/D90/screen/row_0048.npz": {
+      "sha256": "03e1ecb295322d71df734e41e57e48c6738478babf6d2d45168f9f68479aaa49",
+      "bytes": 27719,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0048.npz"
+    },
+    "measurement/D90/screen/row_0049.npz": {
+      "sha256": "d9b7929c90171d2f0dbf628cbff53ec351576ac0ef3b719e69edb03b363c88b6",
+      "bytes": 27750,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0049.npz"
+    },
+    "measurement/D90/screen/row_0050.npz": {
+      "sha256": "fe786e1effe8e49f1a8a4ace6d9b2a2b75b6c430423cc262bbf0c878c228fdf2",
+      "bytes": 27717,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0050.npz"
+    },
+    "measurement/D90/screen/row_0051.npz": {
+      "sha256": "e955873108380d0cb72ac22acf786507c8735fcccd4c3bb7569dd213dd2e28f9",
+      "bytes": 27676,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0051.npz"
+    },
+    "measurement/D90/screen/row_0052.npz": {
+      "sha256": "87a66ba08ac29fa77b556ed02c5ceb10b26ab4f82acdadc724485b19dc34539d",
+      "bytes": 27734,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0052.npz"
+    },
+    "measurement/D90/screen/row_0053.npz": {
+      "sha256": "71e3475554a68ff04113567b467ea5066e02b388b66238b594d8ed7223e82b35",
+      "bytes": 27706,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0053.npz"
+    },
+    "measurement/D90/screen/row_0054.npz": {
+      "sha256": "a6e024758c363c4724055aa90161cbbb4cfa9a3c161ee9ee4f9b9b4713030d67",
+      "bytes": 27546,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0054.npz"
+    },
+    "measurement/D90/screen/row_0055.npz": {
+      "sha256": "5798ea4e4242ccbbcb94499b81aa09b45fa9e6341c2fa9ffead7f12342b2c8cb",
+      "bytes": 27746,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0055.npz"
+    },
+    "measurement/D90/screen/row_0056.npz": {
+      "sha256": "941d995d95f43f1a6c3f4c26112c672770d17103aea6a2b0b8aae53b4e79e414",
+      "bytes": 27631,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0056.npz"
+    },
+    "measurement/D90/screen/row_0057.npz": {
+      "sha256": "b60dcc8fbb410eff311b0ee8a12d1529b79727eb7a5b0c408de52014a369e586",
+      "bytes": 27649,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0057.npz"
+    },
+    "measurement/D90/screen/row_0058.npz": {
+      "sha256": "b1779da6d75e78ff199ade883f4614a0b7b3c597b5bc2880f61518bb8e069997",
+      "bytes": 27688,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0058.npz"
+    },
+    "measurement/D90/screen/row_0059.npz": {
+      "sha256": "6aee6413002bab3d0cc285471515efaa20e8e0e5e1d8eff472fe3e4f0fe5ef88",
+      "bytes": 27705,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0059.npz"
+    },
+    "measurement/D90/screen/row_0060.npz": {
+      "sha256": "dd7d20e1cecff0097d0eb28c1ea8eedf209bc7235867c93508d218e7b682afd0",
+      "bytes": 27730,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0060.npz"
+    },
+    "measurement/D90/screen/row_0061.npz": {
+      "sha256": "8e3fdccd72e0a09c4884697ee7085d55b2affce5dcde61d82cb69d9a27b090cc",
+      "bytes": 27668,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0061.npz"
+    },
+    "measurement/D90/screen/row_0062.npz": {
+      "sha256": "49650590f9816203f7800a55d22233f2a646c6c130a1ef0683bc9aebc36d379d",
+      "bytes": 27718,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0062.npz"
+    },
+    "measurement/D90/screen/row_0063.npz": {
+      "sha256": "7d09e2b4f15eb8d627e5bfdd86e658c2fefb56a19f5abe0bf50993748a4446cb",
+      "bytes": 27662,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0063.npz"
+    },
+    "measurement/D90/screen/row_0064.npz": {
+      "sha256": "737a139d8612de11a083e2928a1dc1961bca586e70d8de9944d41ea50aa60c1a",
+      "bytes": 27762,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/row_0064.npz"
+    },
+    "measurement/D90/screen/scores.npz": {
+      "sha256": "dde22d2e07332c370c592a214722202e1435549b6ac56d2369077ac82ecdd7cb",
+      "bytes": 372844,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/D90/screen/scores.npz"
+    },
+    "measurement/L92/calibration/row_0000.npz": {
+      "sha256": "c4f56dc76d511a4e18dcaded8df61b69be3bfcaa9345e97d26051d7a192b91ca",
+      "bytes": 14074,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/calibration/row_0000.npz"
+    },
+    "measurement/L92/calibration/row_0001.npz": {
+      "sha256": "58d8cac9464c5fdf8519d5b2f7f6133866d059085bfe196e04dc3b8078018107",
+      "bytes": 14042,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/calibration/row_0001.npz"
+    },
+    "measurement/L92/calibration/scores.npz": {
+      "sha256": "669a2fe8578a05fe42bcbaf8ab468d556e2f7f7f8ac35d6cce77cb59bb75f491",
+      "bytes": 13027,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/calibration/scores.npz"
+    },
+    "measurement/L92/confirm/row_0000.npz": {
+      "sha256": "8cdda8bf6c592595a6909bfffa332cf8a6443f776cd2ab35067542178b2bc44e",
+      "bytes": 217707,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/confirm/row_0000.npz"
+    },
+    "measurement/L92/confirm/row_0024.npz": {
+      "sha256": "1156f8772b30bf1de9f76e30a1c1886b5f1322e95e11d9beeacdd78db4febe6b",
+      "bytes": 217735,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/confirm/row_0024.npz"
+    },
+    "measurement/L92/confirm/scores.npz": {
+      "sha256": "3bb6a18a469e4b3051f1769432495cb77f991e8dd4d63137a8b1d7843a63a5c7",
+      "bytes": 188477,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/confirm/scores.npz"
+    },
+    "measurement/L92/row_index.json": {
+      "sha256": "b31e78e0dddf68279b09bf14e9cb2554dce3ca73572928418798ea5be36785a5",
+      "bytes": 10439,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/row_index.json"
+    },
+    "measurement/L92/screen/row_0000.npz": {
+      "sha256": "05592923b4432f407a8627687ed5da6aab8cce1520be57360abf246f7d91c600",
+      "bytes": 27465,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0000.npz"
+    },
+    "measurement/L92/screen/row_0001.npz": {
+      "sha256": "9682cd4f0cb8a6f5a7e09d226b125b25e5d70d408bbbc5f68d6fa4268e786b60",
+      "bytes": 27372,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0001.npz"
+    },
+    "measurement/L92/screen/row_0002.npz": {
+      "sha256": "0c46e0d86cea40b0a2dda07a4a6689b93acf83385b47ba6043b6b90a8db0c4de",
+      "bytes": 27399,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0002.npz"
+    },
+    "measurement/L92/screen/row_0003.npz": {
+      "sha256": "ec1cccbae4612a10eacc230ad94ce719a8e3a2657e750efad0804b62ceb21835",
+      "bytes": 27441,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0003.npz"
+    },
+    "measurement/L92/screen/row_0004.npz": {
+      "sha256": "91e128addd489717285f94ea94cbc01c0031af7e486559dcc8e1cf7f1c8e911a",
+      "bytes": 27453,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0004.npz"
+    },
+    "measurement/L92/screen/row_0005.npz": {
+      "sha256": "5a7ab6afe07b4933824d9d026ef2d54abe53ca80e33e4216da1dbe47af94a3f1",
+      "bytes": 27425,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0005.npz"
+    },
+    "measurement/L92/screen/row_0006.npz": {
+      "sha256": "a4fc4d21f41ba0bd428c2a6d867a3a940ccdbe000d94305be2a3ee2beb705c68",
+      "bytes": 27476,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0006.npz"
+    },
+    "measurement/L92/screen/row_0007.npz": {
+      "sha256": "7ccae10c68ab0ac8a531e7fee2590df9fcaba061aca92cc8f228adbc63d39770",
+      "bytes": 27478,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0007.npz"
+    },
+    "measurement/L92/screen/row_0008.npz": {
+      "sha256": "2c76cc8792f494775394acc8ad42fafe988162d3c1d55c7f02dcd90afc9830bd",
+      "bytes": 27458,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0008.npz"
+    },
+    "measurement/L92/screen/row_0009.npz": {
+      "sha256": "618cbb08c6e026bdc48c08d684b5c3bff41a0fd28bb4af907d5c1ddda7b224f0",
+      "bytes": 27298,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0009.npz"
+    },
+    "measurement/L92/screen/row_0010.npz": {
+      "sha256": "c04f4135602d8930654fd37774c98f7281dd8daec4fd562ee6641777cc61bee3",
+      "bytes": 27480,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0010.npz"
+    },
+    "measurement/L92/screen/row_0011.npz": {
+      "sha256": "624d1e808c072b572f60ba5d7b14fbc21d4c8289054108b5c8fe17b06fc6cb38",
+      "bytes": 27441,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0011.npz"
+    },
+    "measurement/L92/screen/row_0012.npz": {
+      "sha256": "a18ab933b01d85090d2a0afa266885f309c4e622763edfeb6d9e5b3ab6a34129",
+      "bytes": 27454,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0012.npz"
+    },
+    "measurement/L92/screen/row_0013.npz": {
+      "sha256": "22c840eb57842e829c7bec4d63b579b9cfd6e3bab8694f30dac64452875201a5",
+      "bytes": 27466,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0013.npz"
+    },
+    "measurement/L92/screen/row_0014.npz": {
+      "sha256": "32b1aa0cc643cd13c02ca3920a9b1c5e8dec8ad94f1c6d3c4b52b883f1cbc531",
+      "bytes": 27335,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0014.npz"
+    },
+    "measurement/L92/screen/row_0015.npz": {
+      "sha256": "09604ed211bc8d5bb4a628f7abb62f3d420e52fe047a6fa45e7afe563ef8f435",
+      "bytes": 27360,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0015.npz"
+    },
+    "measurement/L92/screen/row_0016.npz": {
+      "sha256": "b7273804116b683abaac1f4a6c4ba3397d200503e2a85285423d99a386948d57",
+      "bytes": 27418,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0016.npz"
+    },
+    "measurement/L92/screen/row_0017.npz": {
+      "sha256": "b0b15b0ff1baace9240c7a0182662f1fc16b4cb9b79e140168c12b080ba418e4",
+      "bytes": 27350,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0017.npz"
+    },
+    "measurement/L92/screen/row_0018.npz": {
+      "sha256": "b28e7cd7c06fcb75667747363667fc9df0b4e5309f50e83015a8ece5a7ea5c36",
+      "bytes": 27565,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0018.npz"
+    },
+    "measurement/L92/screen/row_0019.npz": {
+      "sha256": "e4b738146112f7159dd66be843026cd7159617a23c03469b37401a86bd41fb27",
+      "bytes": 27344,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0019.npz"
+    },
+    "measurement/L92/screen/row_0020.npz": {
+      "sha256": "3a455e452df83d9ebb30ae6a4a6ee787d6367c0ac11220d58091e6850cd44756",
+      "bytes": 27456,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0020.npz"
+    },
+    "measurement/L92/screen/row_0021.npz": {
+      "sha256": "3be6a786ae5b9818e798a307bd68d7d0b7e55e0819df29a44c08e86bd3e32c60",
+      "bytes": 27426,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0021.npz"
+    },
+    "measurement/L92/screen/row_0022.npz": {
+      "sha256": "cd2a138d2b648620f1f40b450ea09d9a2e7a595d4a3aec661775ebc03214e184",
+      "bytes": 27356,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0022.npz"
+    },
+    "measurement/L92/screen/row_0023.npz": {
+      "sha256": "6579ac79229521509ab6e7f66f01213df725eb5422a6ce37aab7db5b92626d5c",
+      "bytes": 27450,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0023.npz"
+    },
+    "measurement/L92/screen/row_0024.npz": {
+      "sha256": "7f9e6d1f2a9633bd6cd627ad3decbe84e355c57a2a5cb22b907117ffbff80c2d",
+      "bytes": 27462,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0024.npz"
+    },
+    "measurement/L92/screen/row_0025.npz": {
+      "sha256": "9f1ec5c2ce048951de3c016a50a7207d4db613c7781fd694f4c2fc1b5037c02f",
+      "bytes": 27463,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0025.npz"
+    },
+    "measurement/L92/screen/row_0026.npz": {
+      "sha256": "bc91692f0c42abd91d92006cd12dd1160abaa16591879595f7408ad15db3b8a7",
+      "bytes": 27506,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0026.npz"
+    },
+    "measurement/L92/screen/row_0027.npz": {
+      "sha256": "5af23eed3ea8c485fca6b0d454281dedab09978a55156429e142c8fb846021a0",
+      "bytes": 27461,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0027.npz"
+    },
+    "measurement/L92/screen/row_0028.npz": {
+      "sha256": "08f86bf361542a07bc8490b46eecce7c06808bd0dd931481529834a637f76067",
+      "bytes": 27500,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0028.npz"
+    },
+    "measurement/L92/screen/row_0029.npz": {
+      "sha256": "a38ddb39990ac756fe09e967ff40f4314c55d07c9372cc110ce5ab6d29c6038a",
+      "bytes": 27412,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0029.npz"
+    },
+    "measurement/L92/screen/row_0030.npz": {
+      "sha256": "ff9a86593dea23d8fd42875a27f4f808261bd681f5034155fb41c91dccf4c1f3",
+      "bytes": 27456,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0030.npz"
+    },
+    "measurement/L92/screen/row_0031.npz": {
+      "sha256": "76ae06bb6b4ef27c0ba79170ab73995c584a7f42ce9ddc84f58c04f3c41a444b",
+      "bytes": 27321,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0031.npz"
+    },
+    "measurement/L92/screen/row_0032.npz": {
+      "sha256": "cb9ecfb726dc136fa0d8ab916b4ac7c6e61e979a11a2844d8fc99a80612ff2d6",
+      "bytes": 27413,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0032.npz"
+    },
+    "measurement/L92/screen/row_0033.npz": {
+      "sha256": "25263cf5dda54bda76825f72829dd73439f95486a7f9d887bb623543defbb337",
+      "bytes": 27427,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0033.npz"
+    },
+    "measurement/L92/screen/row_0034.npz": {
+      "sha256": "3cf7b8b1264685274dd614a3356c4449d617ba7db67e93eef7ad5d738a2b48b2",
+      "bytes": 27390,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0034.npz"
+    },
+    "measurement/L92/screen/row_0035.npz": {
+      "sha256": "563f17bc378ff4fb3496cbdfb59fa7069c3a9f2a7fb346ce6ac78d6142d20c25",
+      "bytes": 27454,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0035.npz"
+    },
+    "measurement/L92/screen/row_0036.npz": {
+      "sha256": "01644669cfda83e682c9c0887a01093e85ef590331273308ec00dc1b7ba62350",
+      "bytes": 27461,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0036.npz"
+    },
+    "measurement/L92/screen/row_0037.npz": {
+      "sha256": "75a5df73cf2d9b29bf52f47c44b9ec35867cd4ad9b781705c34bbfe413685bbf",
+      "bytes": 27226,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0037.npz"
+    },
+    "measurement/L92/screen/row_0038.npz": {
+      "sha256": "11cf4141359b8d1b45e814272ee8d7053974cef571ae8048c468b5fa7093108d",
+      "bytes": 27546,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0038.npz"
+    },
+    "measurement/L92/screen/row_0039.npz": {
+      "sha256": "86d0459088919bc0f947774c89ded4a4e85bdb9f02e840ce8f10c3d99cf31cfc",
+      "bytes": 27403,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0039.npz"
+    },
+    "measurement/L92/screen/row_0040.npz": {
+      "sha256": "f31b66f93dec39c734dc70c6487b1e53e6846a3eb8406a0e38f6afeb989df70f",
+      "bytes": 27492,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0040.npz"
+    },
+    "measurement/L92/screen/row_0041.npz": {
+      "sha256": "80918856fe94b437fca595ac2b0815a4a25132784428fb256523fc3d67409565",
+      "bytes": 27465,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0041.npz"
+    },
+    "measurement/L92/screen/row_0042.npz": {
+      "sha256": "fd375ce946280daceb856641565e0eee4307632a999eb7d00d6234b9e87c7cb5",
+      "bytes": 27402,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0042.npz"
+    },
+    "measurement/L92/screen/row_0043.npz": {
+      "sha256": "44d74f648490d51189ab8f50ef2115c501615c747e6833fb67cc2ced92c5ac52",
+      "bytes": 27441,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0043.npz"
+    },
+    "measurement/L92/screen/row_0044.npz": {
+      "sha256": "1f79a6aa614dfcefda7ef6f686437b689fe86f1694ed09fb9b20bbe95636782b",
+      "bytes": 27484,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0044.npz"
+    },
+    "measurement/L92/screen/row_0045.npz": {
+      "sha256": "0e1abfa9741ab43348afca798b7bcc5614e40f04173f0b06410c39276eac8f96",
+      "bytes": 27356,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0045.npz"
+    },
+    "measurement/L92/screen/row_0046.npz": {
+      "sha256": "47c576b4638d40f8012d50283a3d921825f8e39954ca1c00c35d02819689b888",
+      "bytes": 27384,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0046.npz"
+    },
+    "measurement/L92/screen/row_0047.npz": {
+      "sha256": "308f575117967f47a8fdbb5393c3cf6958edf6473036bb5e01dc49ddd087c386",
+      "bytes": 27399,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0047.npz"
+    },
+    "measurement/L92/screen/row_0048.npz": {
+      "sha256": "494394bb1272c22b7942a53b67a46c2af9e8eb040c0f33ace800b8c9d36c195d",
+      "bytes": 27357,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0048.npz"
+    },
+    "measurement/L92/screen/row_0049.npz": {
+      "sha256": "ce0f2bfb10d1c6b92a17f1481dec7e98cee1a47e0af82feadeef23362239be95",
+      "bytes": 27457,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0049.npz"
+    },
+    "measurement/L92/screen/row_0050.npz": {
+      "sha256": "06458e3edc755b42e6526e5a8268d7fe6544862cd6b8f41e3b06e01362bb8ad7",
+      "bytes": 27334,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0050.npz"
+    },
+    "measurement/L92/screen/row_0051.npz": {
+      "sha256": "e3eeb44d832af18cf31a3f53a89a39cd5fac3b065557aace922506d9052e884b",
+      "bytes": 27459,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0051.npz"
+    },
+    "measurement/L92/screen/row_0052.npz": {
+      "sha256": "47255f3d96ee8711ff7f8b3c487aa9df681b2d92ee51dd45b627ecbfdcfbd86f",
+      "bytes": 27490,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0052.npz"
+    },
+    "measurement/L92/screen/row_0053.npz": {
+      "sha256": "6e28d20fdc2378cadc15ced8e6c43b0315da20bad76b1c4963cb3895fc8ddf8c",
+      "bytes": 27469,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0053.npz"
+    },
+    "measurement/L92/screen/row_0054.npz": {
+      "sha256": "7076f0d3e2e57b9eb65a893966a53839656296993f3234d126cfbd8747063105",
+      "bytes": 27376,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0054.npz"
+    },
+    "measurement/L92/screen/row_0055.npz": {
+      "sha256": "38b68a3960e28cff03020f0a70ba671ed96c4709698c813828dc9fc23eb6de7b",
+      "bytes": 27444,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0055.npz"
+    },
+    "measurement/L92/screen/row_0056.npz": {
+      "sha256": "4b45c48e7f24eb6a522ad9077dec9ae8253a61cc5f0d823a9de353cb0caaa4e7",
+      "bytes": 27454,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0056.npz"
+    },
+    "measurement/L92/screen/row_0057.npz": {
+      "sha256": "dcaf71c13adc57c2f793016a458bfb1ae43ae85913f15a514d0c9c2496d7b202",
+      "bytes": 27457,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0057.npz"
+    },
+    "measurement/L92/screen/row_0058.npz": {
+      "sha256": "e4c3540a72c3640d3d96a3c413c461c2e149f69e00cebed2c998a520302aeff0",
+      "bytes": 27359,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0058.npz"
+    },
+    "measurement/L92/screen/row_0059.npz": {
+      "sha256": "6ccc90473f5698a232f608a8ba9eb49b88e68c7548181d8187ab21ae2e8a815d",
+      "bytes": 27321,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0059.npz"
+    },
+    "measurement/L92/screen/row_0060.npz": {
+      "sha256": "f222fa18fbf498f541a5a441e5e5edb4c5f7edd74ce869fd4df2e653baba24ea",
+      "bytes": 27387,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0060.npz"
+    },
+    "measurement/L92/screen/row_0061.npz": {
+      "sha256": "8626b4834175b968e4aa6db0b7e53724a48216a2f9e98e2e13c80f3a72f0eb16",
+      "bytes": 27420,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0061.npz"
+    },
+    "measurement/L92/screen/row_0062.npz": {
+      "sha256": "88ddaae8b73ed63e68a25af29a774cff2fd52ba34ad863907618607c1f6146b9",
+      "bytes": 27399,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0062.npz"
+    },
+    "measurement/L92/screen/row_0063.npz": {
+      "sha256": "13552309727ec75c575b119a7cf869fb9dd389e0c01a3160e8b2554fa60791fe",
+      "bytes": 27465,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0063.npz"
+    },
+    "measurement/L92/screen/row_0064.npz": {
+      "sha256": "e0fea2a9944daaab024e1a03fc462c765d2bfc553e46e9baac7430aef5377114",
+      "bytes": 27479,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/row_0064.npz"
+    },
+    "measurement/L92/screen/scores.npz": {
+      "sha256": "081bde614f15b2fb80b4f8f9fad05c0112892c5fca78791a6e713ebba703b7cd",
+      "bytes": 300572,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/measurement/L92/screen/scores.npz"
     },
     "monitor.py": {
       "sha256": "de64b3d296680b8a555bde9f662d050a54adad4cd0805afad94e750b0f12e461",
       "bytes": 23859,
       "origin": "outputs/autonomous_visibility_gradient_20261014/monitor.py"
     },
+    "monitor_receipts/calibration_complete.json": {
+      "sha256": "16a2e7638afb136f56821a20cfc06b87fbc4d231bdba17e9eae4e20b91fd4b3d",
+      "bytes": 1196,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/monitor_receipts/calibration_complete.json"
+    },
+    "monitor_receipts/screens_complete.json": {
+      "sha256": "5d4c11146c7ad77c907adecfeb9cdae31ab88ca746f01e0a6322ef6be57ee4dd",
+      "bytes": 22979,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/monitor_receipts/screens_complete.json"
+    },
     "numerical.py": {
       "sha256": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
       "bytes": 1987,
       "origin": "outputs/autonomous_visibility_gradient_20261014/numerical.py"
     },
+    "operations/attempt.json": {
+      "sha256": "f217d06f9ad2e8821331a40e50079a1b50e3c3d96ea2c5147e93c0d4948a3bb9",
+      "bytes": 166,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/attempt.json"
+    },
+    "operations/budget.json": {
+      "sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+      "bytes": 38479,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/budget.json"
+    },
+    "operations/ready.json": {
+      "sha256": "8f04fdb3c1d41a2c5f68b89cc6b981e782ad7b3e1122ebd6e41d7e004755d62b",
+      "bytes": 10768,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/ready.json"
+    },
     "operations/resource_clearance.json": {
       "sha256": "5fefd7b1582c52066cd58cb9689f90b4ccec9564ba01ea225f309cb025d2a39c",
       "bytes": 1962,
       "origin": "outputs/autonomous_visibility_gradient_20261014/resource_clearance.json"
+    },
+    "operations/terminal_process_clearance.json": {
+      "sha256": "edcc6f15afcb35cd29aadd4bf127b402aaff9bc3b32ffde78a7476191a575fe5",
+      "bytes": 794,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/terminal_process_clearance.json"
     },
     "original/outputs/abi4_visibility_20261014/results/open_headroom/controllers/mcommon.py": {
       "sha256": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
@@ -463,6 +1280,76 @@
       "bytes": 258,
       "origin": "outputs/autonomous_visibility_gradient_20261014/panel_generation_claim.json"
     },
+    "postanalysis/ERRATUM.md": {
+      "sha256": "caea74f0cdcd6af7c94aadd1da007149ed181d044e135abd7789d143b73c7376",
+      "bytes": 1882,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/ERRATUM.md"
+    },
+    "postanalysis/analyze.py": {
+      "sha256": "08b3bebe8f05a5d758bee3306ebaae6b6086a204e47ddbc556947b6bd32486b7",
+      "bytes": 31245,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/analyze.py"
+    },
+    "postanalysis/fixtures/attempt.json": {
+      "sha256": "f217d06f9ad2e8821331a40e50079a1b50e3c3d96ea2c5147e93c0d4948a3bb9",
+      "bytes": 166,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/fixtures/attempt.json"
+    },
+    "postanalysis/fixtures/budget.json": {
+      "sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+      "bytes": 38479,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/fixtures/budget.json"
+    },
+    "postanalysis/independent_identity_review.json": {
+      "sha256": "915dee215115d3fb26d263d0ad90edd9df1c678e8f9ec992e4c0131c650c4f66",
+      "bytes": 2694,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/independent_identity_review.json"
+    },
+    "postanalysis/lint_execution.txt": {
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/lint_execution.txt"
+    },
+    "postanalysis/manifest.json": {
+      "sha256": "f5eba1bc590ead918bae84dd9230b79f0571596159d0d40473c7bb34e1dd1306",
+      "bytes": 1770,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/manifest.json"
+    },
+    "postanalysis/offline_accounting.py": {
+      "sha256": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+      "bytes": 10728,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/offline_accounting.py"
+    },
+    "postanalysis/original_failure.json": {
+      "sha256": "64fd05f3fb63d98ebb8bbf08fc6f9a4d4e51a982674987445f331d81763a59ef",
+      "bytes": 964,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/original_failure.json"
+    },
+    "postanalysis/original_failure_log.json": {
+      "sha256": "e1b4c3479d7219e3ebcbf820cf6a557409ff2586851044e8adaa172a1dc68876",
+      "bytes": 115,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/original_failure_log.json"
+    },
+    "postanalysis/source_diff.txt": {
+      "sha256": "348ca0917969d9660338879dba8384392771118c2fc3e75dac8e034b0bac50c5",
+      "bytes": 2164,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/source_diff.txt"
+    },
+    "postanalysis/test_execution.txt": {
+      "sha256": "4d2df7a96ce4a667da3ccf295f2d16c728a65ed0e861a3baa919f7bb469b02b5",
+      "bytes": 80,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/test_execution.txt"
+    },
+    "postanalysis/test_receipt_identity.py": {
+      "sha256": "3a8f07aed2144b62aed4af05432ba2622bad9ccc3a0ac2d9054d8a2b7aa411e9",
+      "bytes": 2307,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/test_receipt_identity.py"
+    },
+    "postanalysis/test_results.xml": {
+      "sha256": "2497a1e4434fe7bafc05cecd6d66b658f696e3872e3b00b92c816ccf270fef9c",
+      "bytes": 1203,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/postanalysis/test_results.xml"
+    },
     "prepare.py": {
       "sha256": "2efdc297f7a6593ea03ad9cf42a36bf1107003bb90b97ff19a7c19d2c747e960",
       "bytes": 10321,
@@ -661,7 +1548,7 @@
     "release_review/archive.py": {
       "sha256": "c6f26517a16f508e2cb41e99bf5cf8c09ed4a29c4d5a8c849b4bd0bdcd41a56d",
       "bytes": 11812,
-      "origin": "outputs/audit_visibility_gradient_20261014/archive.py"
+      "origin": "outputs/autonomous_visibility_gradient_20261014/release_review/archive.py"
     },
     "release_review/extract_founders.py": {
       "sha256": "396313c964ff518d03425015e7ca3a3083469bb617221cfbfcb8c5dad9d6677d",
@@ -713,10 +1600,60 @@
       "bytes": 99,
       "origin": "outputs/autonomous_visibility_gradient_20261014/release_review/prepared_tests.txt"
     },
+    "report.json": {
+      "sha256": "d48022a73a1d2cf924a2bedebfdc809e4e969ac35b46ca3fc323482123f70cd1",
+      "bytes": 9066,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/report.json"
+    },
+    "requests/calibration_complete.json": {
+      "sha256": "c7ceb6c04d182c0d43f3196dcba87c1fe8fa72c0b6e47e323605d0799b83f318",
+      "bytes": 401,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/requests/calibration_complete.json"
+    },
+    "requests/screens_complete.json": {
+      "sha256": "007ae5b772a816aa35ae36450b16648fc60ca95a281563012886337acc24b893",
+      "bytes": 403,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/requests/screens_complete.json"
+    },
     "scoring.py": {
       "sha256": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
       "bytes": 7721,
       "origin": "outputs/autonomous_visibility_gradient_20261014/scoring.py"
+    },
+    "selection.json": {
+      "sha256": "e1b2cc4cda465f2a439af1d212a15555091b9c5ba9a84c3cfcd8af140d234c2f",
+      "bytes": 249,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/selection.json"
+    },
+    "startup_identity.json": {
+      "sha256": "17b8f85c3d4c92f5151f50171ec9232b2b48b198deadc57244886bb99e56a1e2",
+      "bytes": 5545,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/startup_identity.json"
+    },
+    "terminal_review/archive_terminal.py": {
+      "sha256": "fa4098951c72616bfdc3f735a2b6584e6cd033feab9bfa5ec72473fa5588ac32",
+      "bytes": 14003,
+      "origin": "outputs/audit_visibility_gradient_20261014/archive_terminal.py"
+    },
+    "terminal_review/calibration_accounting_review.json": {
+      "sha256": "9483aa8b5b7ab30ef3b56043e8af13b96ae34e8a6718a08492be1ecff333fec7",
+      "bytes": 1987,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/terminal_review/calibration_accounting_review.json"
+    },
+    "terminal_review/corrected_analysis_log.json": {
+      "sha256": "19143f75dcc3f8890ea9afd2523ab0fbf42a38d7a778213dd5be4f112da3fac2",
+      "bytes": 143891,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/terminal_review/corrected_analysis_log.json"
+    },
+    "terminal_review/raw_analysis_review.json": {
+      "sha256": "a832a1edc3a4c134d7d38e7b51c86114b9c9e6c0f00003c755838a0ffed7cb5c",
+      "bytes": 8940,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/terminal_review/raw_analysis_review.json"
+    },
+    "terminal_review/root_reanalysis.json": {
+      "sha256": "c7111d331e3c51edc5b82238413581945b28ff9d4640f84e40184586e1a5b4ad",
+      "bytes": 387,
+      "origin": "outputs/autonomous_visibility_gradient_20261014/terminal_review/root_reanalysis.json"
     },
     "test_prepared.py": {
       "sha256": "7b50a8d519285f9901e9827ddda5a5cccb76663fe251e8f57d84a7e0698d1efa",
