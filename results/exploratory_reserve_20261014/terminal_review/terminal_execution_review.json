@@ -1,0 +1,109 @@
+{
+  "status": "passed_independent_terminal_verification",
+  "protocol_sha256": "0a9e505969ed11cd8f240f9404bbff2adf9a91d91d5387252fd9595874c61be4",
+  "budget_sha256": "24dadeb2d66bb4f4121c801534b40940cd9e1ff09dfbeafab244c9ff38a76ce6",
+  "terminal_clearance_sha256": "35e8ecbda7b332302406b57e88bea29151df9d48e140b0a7a865b4493b7fba7c",
+  "execution": {
+    "cwd": "/",
+    "literal_raw_recount_exit_code": 0,
+    "separate_frozen_reader_exit_code": 0,
+    "literal_script_sha256": "850671f8057d9100e398a0d07489ad88053ab9d81c1ca6e8883a960e4ad0d006",
+    "frozen_reader_sha256": "4a7804c6e6f64410a6cf65f0ae35cdfaa2553e1d1da5ff6883b8dab3077cfe67",
+    "stdout_stderr_pins": {
+      "terminal_raw_review.stdout.json": "fe1a1eb50676480b57cecbaeb0fad2827f7ad772185bc4eb50b0597cf7af0318",
+      "terminal_raw_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frozen_reanalysis.stdout.json": "fc097ab9a104d0211351ab77bc88cce351dee8cba05f0f597c369de6d132aa26",
+      "frozen_reanalysis.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "raw_review_sha256": "6005f8066107f0427a2f60e9f905e134f005e2768029d320fd61e72371c5ff86",
+  "canonical_summary_sha256": "fc097ab9a104d0211351ab77bc88cce351dee8cba05f0f597c369de6d132aa26",
+  "independent_summary_sha256": "fc097ab9a104d0211351ab77bc88cce351dee8cba05f0f597c369de6d132aa26",
+  "canonical_vectors_sha256": "724478ce3c95c3cdce8f0de374738ef27b2a23f135b77741f91239b068487a16",
+  "independent_vectors_sha256": "724478ce3c95c3cdce8f0de374738ef27b2a23f135b77741f91239b068487a16",
+  "summary_bytes_exact": true,
+  "all_paired_vectors_bitwise_equal": 219,
+  "vector_archive_bytes_exact": true,
+  "scope": {
+    "raw_confirmation_rows": 3,
+    "raw_confirmation_lives": 1536,
+    "raw57_status_histogram": {
+      "0": 1536
+    },
+    "native_lives": 8268,
+    "research_lives": 9804,
+    "recorded_standard_goldens": 6,
+    "total_calls": 9810
+  },
+  "source_pins": {
+    "local": 208,
+    "production": 35
+  },
+  "resources": {
+    "total_cpu_seconds": 862.767205,
+    "search_cpu_seconds": 720.896357,
+    "confirmation_cpu_seconds": 141.87084800000002,
+    "first_attempt_only": true,
+    "raw_confirmation_cpu_seconds": 131.48932170800003
+  },
+  "native_replay": {
+    "both_complete32_row_final_populations_bitwise": true,
+    "both_all256_first_cohorts_bitwise": true,
+    "first256_base_fitness_bitwise": true,
+    "recorded_point_additions_per_arm": 1854,
+    "tie_rank_calls_per_arm": 12,
+    "protected_offspring_total": 6,
+    "all6_outside_ordinary_initial_top64_and_treatment_pooled_top32": true,
+    "ordinary_final_generation": true,
+    "structural_mutations": 0,
+    "initial_guard_lives_control": [
+      6,
+      0,
+      6,
+      0
+    ],
+    "initial_guard_lives_reserve": [
+      6,
+      0,
+      0,
+      12
+    ]
+  },
+  "strict_unrounded_primary": {
+    "contrast": "AH_reserve_minus_AH_control",
+    "metric": "captures",
+    "mean": 0.556640625,
+    "se": 0.1101841821287823,
+    "n": 512,
+    "positive_above_3se": true,
+    "negative_below_minus_3se": false,
+    "interpretation": "Fixed-endpoint paired acquisition estimate; one paired search does not establish policy reliability."
+  },
+  "own_start_capture_comparisons": {
+    "AH_control": {
+      "mean": -0.21875,
+      "se": 0.11528907076801279,
+      "n": 512,
+      "positive_above_3se": false,
+      "negative_below_minus_3se": false
+    },
+    "AH_reserve": {
+      "mean": 0.337890625,
+      "se": 0.11596745317866479,
+      "n": 512,
+      "positive_above_3se": false,
+      "negative_below_minus_3se": false
+    }
+  },
+  "limitations": [
+    "One paired search on a deliberately chosen background; fixed-endpoint SE is not variation across evolutionary repetitions.",
+    "All1536 confirmation ledgers status0; search status evidence is native health summaries plus initial guard counts, not complete raw search ledgers.",
+    "Reserve beats its matched control in captures and F here; its capture gain over its own start misses the strict3SE criterion.",
+    "Six protected candidates affected selection, but this does not establish a necessary ancestral stepping stone, temporal memory, or algorithmic sophistication."
+  ],
+  "helper_errors": [],
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "fresh_genetic_draws": 0,
+  "frozen_files_modified": false
+}

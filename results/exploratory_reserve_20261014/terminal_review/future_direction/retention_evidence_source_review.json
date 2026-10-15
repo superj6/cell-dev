@@ -1,0 +1,28 @@
+{
+  "status": "source_only_notes_complete",
+  "note_pins": {
+    "retention_evidence.md": "03bc48148db3580658b4ed28f68a26a35480bb2a083200099589ce9e7704ab0b",
+    "ordinary_depth_source_design.md": "66495d5b2cbcc7a3b1159f8de00535adf79755d7b0574a4edd9cfeefb009da9f"
+  },
+  "source_pins": {
+    "src/evolve.py": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+    "outputs/autonomous_exploratory_reserve_20261014/reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "outputs/autonomous_exploratory_reserve_20261014/analysis/selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "outputs/autonomous_exploratory_reserve_20261014/analysis/helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b"
+  },
+  "review_scope": "Source-only interpretation and conditional next-step design; the separately labeled posthoc report reads completed AH records.",
+  "checks": [
+    "Exact six protected eligibility records and rank-based displacement differ from functional contribution.",
+    "Generation0 matched control provides same-cohort ordinary selection; later diverged candidates cannot be compared by numeric ID alone.",
+    "Treatment-shortlist pooled top32 is not generally the full ordinary survivor counterfactual.",
+    "Parent IDs, crossover masks and recorded mutations support ancestry/transmission; breeds and slot registry do not mark protected point-mutant lineages.",
+    "Full-population depth requires a separately pinned founder loader and new-run identity; no resume or input preparation occurred.",
+    "A capture-supported paired reserve result motivates unchanged replication before depth or policy tuning."
+  ],
+  "replaces": "history/retention_evidence_source_review.json.initial.txt",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "canonical_files_changed": false
+}

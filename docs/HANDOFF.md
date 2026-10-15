@@ -272,6 +272,24 @@ prospective publication precede separate root release. Evidence: `results/explor
 Prices, task F, ABI3 world, local rules and production defaults stay fixed. A single paired search cannot establish
 policy reliability, a necessary stepping stone, memory or a new algorithm.
 
+**AH complete (2026-10-14).** One matched four-generation exploratory-reserve pair produces a relative
+capture advantage: reserve minus ordinary control **+0.556641 ± 0.110184 captures** and
+**+0.254917 ± 0.054269 F** on 512 fresh paired lives. Extra income (+0.271797 F) explains the advantage;
+ordinary cost saving is −0.016880 F (unresolved). Reserve minus start captures **+0.337891 ± 0.115967**
+narrowly misses three SE; control minus start is unresolved **−0.218750 ± 0.115289**. Both own-start F gains
+are mostly economy. Mean terminal cells are about 109 at start and 61/60 at control/reserve endpoints.
+All six protected offspring were outside their initial top64 and treatment pooled top32; both first256
+candidate genomes/baseF and complete final populations replay exactly. This is one fixed-endpoint advantage,
+not established search reliability, a necessary stepping stone, memory or a new algorithm. A separate post hoc
+lineage check finds that the reserve winner descends from none of the six protected children; changed retention
+can redirect later breeding without leaving protected ancestry in the winner.
+All 9,804 research plus six golden calls finish in **862.767205 CPU-seconds**. All 1,536 confirmation statuses
+are zero; native initial logs retain 12/18 guarded lives with penalties. All 219 paired vectors independently
+reproduce. Four leaders/three groups exited; 208 local/35 production pins remain unchanged. Evidence:
+`results/exploratory_reserve_20261014/`. Source-only AI now prepares one independent matched-pair replication
+with the same AE L92 founder, policy, world and prices. No AI inputs, seeds, builds or lives are released.
+A longer ordinary search after initial contraction remains deferred; no larger family or price change is authorized.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

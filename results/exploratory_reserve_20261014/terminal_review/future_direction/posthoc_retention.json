@@ -1,0 +1,417 @@
+{
+  "status": "complete_posthoc_descriptive_only",
+  "input_pins": {
+    "analysis_result/summary.json": "fc097ab9a104d0211351ab77bc88cce351dee8cba05f0f597c369de6d132aa26",
+    "terminal_process_clearance.json": "35e8ecbda7b332302406b57e88bea29151df9d48e140b0a7a865b4493b7fba7c",
+    "runs/control/lineage.jsonl": "fa3f30afd05db62c0642568f86d3737c3c27feaad1c871fc9b6ff7ca0825c4dd",
+    "runs/reserve/lineage.jsonl": "8038de6b1500af4c2a28a892348beb2dee2b4877c51f54d35890037884c9920e"
+  },
+  "source_sha256": "a60d09f1865576a8670c5b8fa1aff782fa13b6dbf5b3bd885d9f513d34753d26",
+  "protected_opportunities": 6,
+  "selection_decisions": [
+    {
+      "generation": 0,
+      "protected_ids": [
+        144,
+        135
+      ],
+      "ordinary_initial_shortlist_displaced": [
+        20,
+        226
+      ],
+      "treatment_pooled_top32_displaced": [
+        234,
+        176
+      ],
+      "protected": [
+        {
+          "id": 144,
+          "initial_rank_of_256": 189,
+          "pooled_rank_of_treatment64": 63,
+          "initial_F": -0.9080812378418371,
+          "pooled_F": -1.0237089297002324
+        },
+        {
+          "id": 135,
+          "initial_rank_of_256": 84,
+          "pooled_rank_of_treatment64": 64,
+          "initial_F": -0.30577926294239005,
+          "pooled_F": -1.0459281342821467
+        }
+      ]
+    },
+    {
+      "generation": 1,
+      "protected_ids": [
+        458,
+        329
+      ],
+      "ordinary_initial_shortlist_displaced": [
+        417,
+        305
+      ],
+      "treatment_pooled_top32_displaced": [
+        398,
+        281
+      ],
+      "protected": [
+        {
+          "id": 458,
+          "initial_rank_of_256": 251,
+          "pooled_rank_of_treatment64": 64,
+          "initial_F": -1.4340761645607465,
+          "pooled_F": -0.8590898780798651
+        },
+        {
+          "id": 329,
+          "initial_rank_of_256": 108,
+          "pooled_rank_of_treatment64": 57,
+          "initial_F": -0.3356756198723758,
+          "pooled_F": -0.3005561403257212
+        }
+      ]
+    },
+    {
+      "generation": 2,
+      "protected_ids": [
+        538,
+        579
+      ],
+      "ordinary_initial_shortlist_displaced": [
+        614,
+        593
+      ],
+      "treatment_pooled_top32_displaced": [
+        497,
+        521
+      ],
+      "protected": [
+        {
+          "id": 538,
+          "initial_rank_of_256": 135,
+          "pooled_rank_of_treatment64": 62,
+          "initial_F": 0.2669740582087485,
+          "pooled_F": 0.2867817397737366
+        },
+        {
+          "id": 579,
+          "initial_rank_of_256": 121,
+          "pooled_rank_of_treatment64": 51,
+          "initial_F": 0.3724364283614873,
+          "pooled_F": 0.5724777821017076
+        }
+      ]
+    },
+    {
+      "generation": 3,
+      "protected_ids": [],
+      "ordinary_initial_shortlist_displaced": [],
+      "treatment_pooled_top32_displaced": [],
+      "protected": []
+    }
+  ],
+  "generation0_same_cohort_control_comparison": {
+    "ordinary_survivors_displaced": [
+      234,
+      176
+    ],
+    "reserve_survivors_added": [
+      144,
+      135
+    ],
+    "scope": "Same reconstructed first cohort; later generations do not have a common genotype population."
+  },
+  "final_endpoint_id": 895,
+  "genealogical_ancestry": [
+    {
+      "protected_id": 144,
+      "direct_child_counts_by_generation": [
+        0,
+        17,
+        0,
+        0
+      ],
+      "direct_children_by_generation": [
+        {
+          "generation": 0,
+          "children": []
+        },
+        {
+          "generation": 1,
+          "children": [
+            286,
+            303,
+            304,
+            328,
+            332,
+            354,
+            364,
+            369,
+            378,
+            382,
+            386,
+            414,
+            425,
+            428,
+            439,
+            445,
+            474
+          ]
+        },
+        {
+          "generation": 2,
+          "children": []
+        },
+        {
+          "generation": 3,
+          "children": []
+        }
+      ],
+      "final_population_genealogical_descendants": [],
+      "final_population_descendant_count": 0,
+      "final_endpoint_genealogical_descendant": false
+    },
+    {
+      "protected_id": 135,
+      "direct_child_counts_by_generation": [
+        0,
+        10,
+        0,
+        0
+      ],
+      "direct_children_by_generation": [
+        {
+          "generation": 0,
+          "children": []
+        },
+        {
+          "generation": 1,
+          "children": [
+            298,
+            319,
+            325,
+            328,
+            357,
+            410,
+            411,
+            422,
+            451,
+            471
+          ]
+        },
+        {
+          "generation": 2,
+          "children": []
+        },
+        {
+          "generation": 3,
+          "children": []
+        }
+      ],
+      "final_population_genealogical_descendants": [],
+      "final_population_descendant_count": 0,
+      "final_endpoint_genealogical_descendant": false
+    },
+    {
+      "protected_id": 458,
+      "direct_child_counts_by_generation": [
+        0,
+        0,
+        10,
+        0
+      ],
+      "direct_children_by_generation": [
+        {
+          "generation": 0,
+          "children": []
+        },
+        {
+          "generation": 1,
+          "children": []
+        },
+        {
+          "generation": 2,
+          "children": [
+            522,
+            561,
+            589,
+            612,
+            623,
+            655,
+            669,
+            672,
+            679,
+            690
+          ]
+        },
+        {
+          "generation": 3,
+          "children": []
+        }
+      ],
+      "final_population_genealogical_descendants": [],
+      "final_population_descendant_count": 0,
+      "final_endpoint_genealogical_descendant": false
+    },
+    {
+      "protected_id": 329,
+      "direct_child_counts_by_generation": [
+        0,
+        0,
+        13,
+        0
+      ],
+      "direct_children_by_generation": [
+        {
+          "generation": 0,
+          "children": []
+        },
+        {
+          "generation": 1,
+          "children": []
+        },
+        {
+          "generation": 2,
+          "children": [
+            530,
+            535,
+            544,
+            549,
+            552,
+            600,
+            611,
+            649,
+            668,
+            671,
+            680,
+            700,
+            703
+          ]
+        },
+        {
+          "generation": 3,
+          "children": []
+        }
+      ],
+      "final_population_genealogical_descendants": [
+        882,
+        668,
+        856
+      ],
+      "final_population_descendant_count": 3,
+      "final_endpoint_genealogical_descendant": false
+    },
+    {
+      "protected_id": 538,
+      "direct_child_counts_by_generation": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "direct_children_by_generation": [
+        {
+          "generation": 0,
+          "children": []
+        },
+        {
+          "generation": 1,
+          "children": []
+        },
+        {
+          "generation": 2,
+          "children": []
+        },
+        {
+          "generation": 3,
+          "children": [
+            716,
+            743,
+            772,
+            776,
+            788,
+            807,
+            808,
+            824,
+            825,
+            836,
+            872,
+            906
+          ]
+        }
+      ],
+      "final_population_genealogical_descendants": [],
+      "final_population_descendant_count": 0,
+      "final_endpoint_genealogical_descendant": false
+    },
+    {
+      "protected_id": 579,
+      "direct_child_counts_by_generation": [
+        0,
+        0,
+        0,
+        18
+      ],
+      "direct_children_by_generation": [
+        {
+          "generation": 0,
+          "children": []
+        },
+        {
+          "generation": 1,
+          "children": []
+        },
+        {
+          "generation": 2,
+          "children": []
+        },
+        {
+          "generation": 3,
+          "children": [
+            717,
+            767,
+            782,
+            792,
+            794,
+            800,
+            809,
+            811,
+            812,
+            828,
+            850,
+            857,
+            864,
+            868,
+            877,
+            883,
+            884,
+            919
+          ]
+        }
+      ],
+      "final_population_genealogical_descendants": [],
+      "final_population_descendant_count": 0,
+      "final_endpoint_genealogical_descendant": false
+    }
+  ],
+  "primary_frozen_result": {
+    "contrast": "AH_reserve_minus_AH_control",
+    "metric": "captures",
+    "mean": 0.556640625,
+    "se": 0.1101841821287823,
+    "n": 512,
+    "positive_above_3se": true,
+    "negative_below_minus_3se": false,
+    "interpretation": "Fixed-endpoint paired acquisition estimate; one paired search does not establish policy reliability."
+  },
+  "limitations": [
+    "Post hoc description; not preregistered mechanism evidence.",
+    "Parentage union ignores which units cross over, inactive units, later mutations and functional effects.",
+    "A protected ancestor is not proven necessary or beneficial by descendant membership.",
+    "Treatment-shortlist pooled displacement is not generally the full ordinary counterfactual.",
+    "No new capture estimate or genotype selection is made by this report."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0
+}

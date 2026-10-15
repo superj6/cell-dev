@@ -207,6 +207,17 @@ One shared initialization with 62 recorded additions is prepared without compila
 runtime release. Evidence: `results/exploratory_reserve_20261014/`. This tests exploration access, without new
 organism behavior or a secondary capture reward; it cannot make persistently uneconomic behavior competitive.
 
+*2026-10-14 AH complete:* the exploratory-reserve endpoint beats its matched ordinary-control endpoint by
+**+0.556641 ± 0.110184 captures** and **+0.254917 ± 0.054269 F** on 512 fresh paired lives. Added capture income
+explains that relative advantage. Its own-start capture gain (+0.337891 ± 0.115967) remains unresolved at three SE;
+both own-start fitness gains are mainly economy. All six random protected offspring would miss their initial
+ordinary top64 and treatment pooled top32. Exact first-cohort, full genetic/policy replay and independent raw
+accounting pass, reproducing 219 vectors. All 9,810 calls complete in 862.767205 CPU-seconds; processes exited,
+208/35 release pins unchanged. Evidence: `results/exploratory_reserve_20261014/`. The next source-only candidate,
+AI, repeats the same matched comparison with an independent search seed and fresh confirmation. This follows a
+positive pilot; it cannot treat 512 lives as evolutionary replicates or establish general reliability from one pair.
+Task F, prices, world and organism rules remain fixed. No AI registration, scientific inputs or runtime release yet.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

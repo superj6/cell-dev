@@ -1,0 +1,495 @@
+{
+  "status": "complete_independently_reconciled",
+  "protocol_sha256": "0a9e505969ed11cd8f240f9404bbff2adf9a91d91d5387252fd9595874c61be4",
+  "review_script_sha256": "850671f8057d9100e398a0d07489ad88053ab9d81c1ca6e8883a960e4ad0d006",
+  "terminal_process_clearance_sha256": "35e8ecbda7b332302406b57e88bea29151df9d48e140b0a7a865b4493b7fba7c",
+  "budget_sha256": "24dadeb2d66bb4f4121c801534b40940cd9e1ff09dfbeafab244c9ff38a76ce6",
+  "source_pins_verified": 208,
+  "production_pins_verified": 35,
+  "raw_rows": 3,
+  "raw_lives": 1536,
+  "raw_ledger_columns": 57,
+  "research_lives": 9804,
+  "native_search_lives": 8268,
+  "numerical_goldens": 6,
+  "total_calls": 9810,
+  "native_receipt_coverage": {
+    "control": {
+      "initial_search_lives": 3072,
+      "recheck_lives": 1024,
+      "validation_lives": 32,
+      "tiny_final_lives": 6,
+      "initial_guard_lives_by_generation": [
+        6,
+        0,
+        6,
+        0
+      ],
+      "final_rank_zero_sha256": "4bf7a2b2ce6be537d6d0bddad24de4b64d8f1dba46ab29336f194702dd22a7ae",
+      "full_reader_genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "full_reader_policy_replay": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 896,
+        "logged_point_mutations_including_initial_copies": 1854,
+        "founder_id_survives": false,
+        "final_ids": [
+          870,
+          818,
+          898,
+          784,
+          913,
+          854,
+          750,
+          902,
+          759,
+          712,
+          867,
+          633,
+          769,
+          752,
+          809,
+          670,
+          839,
+          878,
+          847,
+          763,
+          734,
+          500,
+          625,
+          923,
+          776,
+          851,
+          814,
+          822,
+          708,
+          816,
+          819,
+          502
+        ],
+        "policy_decisions": [
+          {
+            "generation": 0,
+            "active": false,
+            "protected_ids": [],
+            "protected_outside_ordinary_initial_top64": [],
+            "protected_outside_treatment_pooled_top32": [],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "dddd632b899bc5e5631176552bd789d5b40f133d2d7d76f7164dd067a3e2fc41"
+          },
+          {
+            "generation": 1,
+            "active": false,
+            "protected_ids": [],
+            "protected_outside_ordinary_initial_top64": [],
+            "protected_outside_treatment_pooled_top32": [],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "58fa79bc2c0e8daf3959d7340d27d7bd85ede0ba3e7cbf57928b28a7a8f92bcd"
+          },
+          {
+            "generation": 2,
+            "active": false,
+            "protected_ids": [],
+            "protected_outside_ordinary_initial_top64": [],
+            "protected_outside_treatment_pooled_top32": [],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "30819260d20b9d1b34bf82fe09d629fa54f0b11d34630cda29a99a248a8f995a"
+          },
+          {
+            "generation": 3,
+            "active": false,
+            "protected_ids": [],
+            "protected_outside_ordinary_initial_top64": [],
+            "protected_outside_treatment_pooled_top32": [],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "1af8e29c3649d873c5cc9c5e945dcc60e13d05d4063ada7a0097cd1a03089f41"
+          }
+        ],
+        "tie_ranking_calls_replayed": 12,
+        "genetic_random_draws": 0,
+        "simulation_calls": 0
+      }
+    },
+    "reserve": {
+      "initial_search_lives": 3072,
+      "recheck_lives": 1024,
+      "validation_lives": 32,
+      "tiny_final_lives": 6,
+      "initial_guard_lives_by_generation": [
+        6,
+        0,
+        0,
+        12
+      ],
+      "final_rank_zero_sha256": "3cc5a0db391406b0963fd537d2259a83bc3999ba99f307de278bc7a96a47c92f",
+      "full_reader_genetic_replay": {
+        "raw_population_replay_bitwise": true,
+        "point_mutations_including_initial_copies": 1854,
+        "duplication_events": 0,
+        "deletion_events": 0,
+        "retained_children_with_duplication": 0,
+        "retained_children_with_deletion": 0,
+        "duplication_origins": [],
+        "deletions": [],
+        "trajectory": [
+          {
+            "generation": 0,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 1,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 2,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          },
+          {
+            "generation": 3,
+            "duplication_events": 0,
+            "deletion_events": 0,
+            "mean_active_genes": 8.0,
+            "min_active_genes": 8,
+            "max_active_genes": 8,
+            "rank_zero_active_genes": 8,
+            "population_distinct_duplicate_origins": 0
+          }
+        ],
+        "final_rank_zero_active_genes": 8,
+        "final_rank_zero_duplicate_slots": [],
+        "final_rank_zero_duplicate_origin_ids": [],
+        "interpretation": "Recorded genetic operations and ancestry reproduce raw genomes exactly. Active gene count, duplication ancestry and survival do not establish functional use."
+      },
+      "full_reader_policy_replay": {
+        "exact_initial_founders": 1,
+        "initial_mutated_copies": 31,
+        "sexual_offspring": 896,
+        "logged_point_mutations_including_initial_copies": 1854,
+        "founder_id_survives": false,
+        "final_ids": [
+          895,
+          882,
+          750,
+          757,
+          727,
+          793,
+          545,
+          913,
+          786,
+          851,
+          520,
+          722,
+          876,
+          923,
+          633,
+          810,
+          865,
+          668,
+          856,
+          500,
+          431,
+          838,
+          832,
+          759,
+          922,
+          768,
+          879,
+          599,
+          641,
+          904,
+          675,
+          737
+        ],
+        "policy_decisions": [
+          {
+            "generation": 0,
+            "active": true,
+            "protected_ids": [
+              144,
+              135
+            ],
+            "protected_outside_ordinary_initial_top64": [
+              144,
+              135
+            ],
+            "protected_outside_treatment_pooled_top32": [
+              144,
+              135
+            ],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "dddd632b899bc5e5631176552bd789d5b40f133d2d7d76f7164dd067a3e2fc41"
+          },
+          {
+            "generation": 1,
+            "active": true,
+            "protected_ids": [
+              458,
+              329
+            ],
+            "protected_outside_ordinary_initial_top64": [
+              458,
+              329
+            ],
+            "protected_outside_treatment_pooled_top32": [
+              458,
+              329
+            ],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "58fa79bc2c0e8daf3959d7340d27d7bd85ede0ba3e7cbf57928b28a7a8f92bcd"
+          },
+          {
+            "generation": 2,
+            "active": true,
+            "protected_ids": [
+              538,
+              579
+            ],
+            "protected_outside_ordinary_initial_top64": [
+              538,
+              579
+            ],
+            "protected_outside_treatment_pooled_top32": [
+              538,
+              579
+            ],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "30819260d20b9d1b34bf82fe09d629fa54f0b11d34630cda29a99a248a8f995a"
+          },
+          {
+            "generation": 3,
+            "active": false,
+            "protected_ids": [],
+            "protected_outside_ordinary_initial_top64": [],
+            "protected_outside_treatment_pooled_top32": [],
+            "ranking_calls_exact": 3,
+            "tie_state_sha256": "1af8e29c3649d873c5cc9c5e945dcc60e13d05d4063ada7a0097cd1a03089f41"
+          }
+        ],
+        "tie_ranking_calls_replayed": 12,
+        "genetic_random_draws": 0,
+        "simulation_calls": 0
+      }
+    }
+  },
+  "raw_health": {
+    "AE_L92": {
+      "status_histogram": {
+        "0": 512
+      },
+      "all_fitness_rows_retained": 512
+    },
+    "AH_control": {
+      "status_histogram": {
+        "0": 512
+      },
+      "all_fitness_rows_retained": 512
+    },
+    "AH_reserve": {
+      "status_histogram": {
+        "0": 512
+      },
+      "all_fitness_rows_retained": 512
+    }
+  },
+  "status_histogram": {
+    "0": 1536
+  },
+  "paired_vectors_bitwise_checked": 219,
+  "all_three_contrasts": {
+    "primary__AH_reserve": {
+      "baseline": "AH_control",
+      "F": {
+        "mean": 0.25491684546312277,
+        "se": 0.05426923798638631,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.556640625,
+        "se": 0.1101841821287823,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.27179718017578125,
+        "se": 0.05380087018006948,
+        "n": 512
+      },
+      "ordinary_cost_saving": {
+        "mean": -0.016880334712658485,
+        "se": 0.007636518524958063,
+        "n": 512
+      },
+      "guard_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      }
+    },
+    "gain__AH_control": {
+      "baseline": "AE_L92",
+      "F": {
+        "mean": 1.094887023803969,
+        "se": 0.057418086800744804,
+        "n": 512
+      },
+      "captures": {
+        "mean": -0.21875,
+        "se": 0.11528907076801279,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": -0.1068115234375,
+        "se": 0.05629349158594374,
+        "n": 512
+      },
+      "ordinary_cost_saving": {
+        "mean": 1.2016985472414687,
+        "se": 0.011916094000121884,
+        "n": 512
+      },
+      "guard_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      }
+    },
+    "gain__AH_reserve": {
+      "baseline": "AE_L92",
+      "F": {
+        "mean": 1.3498038692670917,
+        "se": 0.05734301209616436,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.337890625,
+        "se": 0.11596745317866479,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.16498565673828125,
+        "se": 0.05662473299739492,
+        "n": 512
+      },
+      "ordinary_cost_saving": {
+        "mean": 1.1848182125288105,
+        "se": 0.012073924508942738,
+        "n": 512
+      },
+      "guard_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_charge_saving": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      }
+    }
+  },
+  "monitored_cpu_seconds": 862.767205,
+  "search_cpu_seconds": 720.896357,
+  "confirmation_cpu_seconds": 141.87084800000002,
+  "raw_confirmation_cpu_seconds": 131.48932170800003,
+  "raw_row_pins": {
+    "confirmation/persistent/row_0000.npz": "fd46b17fefd6d014f8928301b0382320a6e0469ff95a47288dd6589b02e1daf9",
+    "confirmation/persistent/row_0001.npz": "17f44e4d5e4954bf8c8f44a7dd4241388692cccd6341c7eb588e0f40c7326d0a",
+    "confirmation/persistent/row_0002.npz": "858eeba9339a908c08e8c8adc9430e9a5bb5ae49af745d3846f8fb3134e71e4b"
+  },
+  "output_pins": {
+    "summary.json": "fc097ab9a104d0211351ab77bc88cce351dee8cba05f0f597c369de6d132aa26",
+    "paired_vectors.npz": "724478ce3c95c3cdce8f0de374738ef27b2a23f135b77741f91239b068487a16"
+  },
+  "limits": [
+    "Literal raw accounting is independently reconstructed without importing the reader, worker or accountant.",
+    "Native full checkpoint/genetic/policy replay is supplied by the frozen reader and its separately repeated terminal audit; this helper rechecks source/count/log/endpoint/rank-coverage and health receipts.",
+    "Native search lacks retained per-life raw ledgers; search status coverage is limited to its recorded summaries and initial guard frequencies.",
+    "Six standard startup lives are bound by three numerical identity receipts and retained full/fast binaries; complete golden raw ledgers are not retained.",
+    "Paired life uncertainty is conditional on these fixed endpoints and does not identify prediction, memory or evolutionary reliability."
+  ],
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "frozen_files_modified": false
+}

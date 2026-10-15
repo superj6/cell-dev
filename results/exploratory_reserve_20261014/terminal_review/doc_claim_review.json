@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "source_pins": {
+    "outputs/audit_exploratory_reserve_20261014/check_doc_claims.py": "70d286ca15bd06b8c21c0d1662f8dd0fdbeaee0ab714cdf140884864abf2521f",
+    "outputs/audit_exploratory_reserve_20261014/terminal_text.md": "60e4a2a9708926ac1a8a9c7f0551c1c64c9202f4e644d8a09a8d4286a882bfcd",
+    "outputs/audit_exploratory_reserve_20261014/update_terminal_docs.py": "5295569b843b0bc68ae48238b729dbbb198cdf8fdba57da4dcfde1f3e174630d",
+    "outputs/audit_exploratory_reserve_20261014/TERMINAL_README.md": "6b7f62dc28a546960d5ecfcf7318cb575cd02f28394a3ce4ad73d2318d81598e",
+    "outputs/autonomous_exploratory_reserve_20261014/analysis_result/summary.json": "fc097ab9a104d0211351ab77bc88cce351dee8cba05f0f597c369de6d132aa26",
+    "outputs/autonomous_exploratory_reserve_20261014/analysis_result/paired_vectors.npz": "724478ce3c95c3cdce8f0de374738ef27b2a23f135b77741f91239b068487a16",
+    "outputs/audit_exploratory_reserve_20261014/independent_terminal_raw_review.json": "6005f8066107f0427a2f60e9f905e134f005e2768029d320fd61e72371c5ff86",
+    "outputs/audit_exploratory_reserve_20261014/terminal_execution_review.json": "ce3eb4916f58cbf08cba9cc24008c056e35dbdd444627fd5bcf4e9342891e021",
+    "outputs/audit_exploratory_reserve_20261014/posthoc_independent_review.json": "3079f1834866de23ff02c987b5ea70f5a2a68e67df2597f6c7360224cebe6dd7",
+    "outputs/audit_exploratory_reserve_20261014/future_direction/curated_manifest.json": "9282844cf43f668e8b9032386019aa8413b77d15341938356a6c3b0e3f6070ca",
+    "outputs/audit_exploratory_reserve_20261014/figures/generate.py": "56bdf1178e11b1456e547b2f89daad370cc75dee307920f072701f1cf6c1e9e7",
+    "outputs/audit_exploratory_reserve_20261014/figures/capture_and_economy.png": "b20ad6b8873439bd39bc217188c4472d1321139e9f59368c302408de4d9edfa2",
+    "outputs/audit_exploratory_reserve_20261014/figures/capture_and_economy.svg": "8ec8c36f2f71c048ed9df143fe5fa38d48701ff84606128262ffe30c5dec136c",
+    "README.md": "0f32eb75c9cd6a4fa5bb6fc1d8bac67a43a0118f1ac71ec0671296e6dc293aa9",
+    "RESULTS.md": "c385e39d4656eb1be22b2165a965e937c0dc9abc1636e7029a6b073a83d094c1",
+    "docs/HANDOFF.md": "08f276eb183be08aebf1bec71f94f0fa2c21293d1f1ce766fe1808478244d4e2",
+    "docs/TASK_VARIATION_PLAN.md": "d560877c94c7e9ce6f66aef9a932a69110152aafdf2ad5286906229eba6dcede"
+  },
+  "table_contrasts_checked": 3,
+  "numeric_table_mean_se_pairs_checked": 12,
+  "strict_thresholds": {
+    "primary_captures_positive": true,
+    "primary_F_positive": true,
+    "reserve_minus_start_captures_positive": false,
+    "control_minus_start_captures_resolved": false,
+    "relative_ordinary_cost_difference_resolved": false
+  },
+  "native_guard_summary": {
+    "control": 12,
+    "reserve": 18,
+    "paid": true,
+    "limit": "Initial-search summaries only; no complete per-life native raw ledger claim."
+  },
+  "policy_replay": "24rank calls,6protectedIDs and both final populations match. Actual treatment pooled ranks do not reveal later unobserved ordinary counterfactuals.",
+  "figure_review": "Viewed PNG directly: readable four panels, all three contrasts, explicit three-SE bars and single-pair limit; no clipping. Generator uses pinned summary means and3*SE.",
+  "narrative_scope": "Relative endpoint capture advantage supported by income; own-start capture change unresolved; one deliberately selected background/pair, no reliability or memory claim.",
+  "posthoc_scope": "Independent backward ancestry recount confirms no protected ancestry for endpoint895; only329 has3/32 final descendants. No functional contribution or necessary-step claim.",
+  "corrections": [
+    "Checker initially required six decimals in the three-decimal README overview; corrected only checker formatting, with source/error preserved in history. No numerical or narrative correction was needed."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "new_genetic_draws": 0
+}

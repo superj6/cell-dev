@@ -70,8 +70,12 @@ cells. This makes capture performance and richer use of information the central 
 fitness score alone is insufficient evidence of a more sophisticated algorithm. The completed
 [dark-flash test](results/visibility_dark_tail_gradient_20261014/TERMINAL_README.md) finds another modest capture
 gain (**+0.221 ± 0.071 per life**) in one selected mutant, with most fitness improvement again coming from lower
-costs. Dark-phase improvement is unresolved and memory remains unestablished. A small exploratory-selection
-comparison is being prepared, with prices and local asynchronous rules unchanged.
+costs. Dark-phase improvement is unresolved and memory remains unestablished. A subsequent
+[selection pilot](results/exploratory_reserve_20261014/TERMINAL_README.md) briefly protected two randomly chosen
+new offspring per generation. Its endpoint beats matched ordinary selection by **+0.557 ± 0.110 captures**
+and **+0.255 ± 0.054 F**, chiefly through extra capture income. Its capture gain over the starting genome is
+unresolved. This promising result comes from one search pair; an independent repeat is being prepared with the
+same policy, prices and local asynchronous rules.
 
 Read the [continuation results](results/continuation_20261013/README.md),
 [fixed-tissue experiment](results/frozen_20261013/README.md),

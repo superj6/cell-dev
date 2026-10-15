@@ -1,0 +1,32 @@
+{
+  "status": "source_only_postrun_evidence_scope",
+  "note_sha256": "bddebdfbbbce95c48ae5658a8424681feedc1404942aa8292d3f5cdf7c959f13",
+  "source_pins": {
+    "src/evolve.py": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+    "outputs/autonomous_exploratory_reserve_20261014/reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "outputs/autonomous_exploratory_reserve_20261014/analysis/selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "outputs/autonomous_exploratory_reserve_20261014/analysis/helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "runtime_or_outcome_files_opened": [],
+  "checks": [
+    "Exact six protected eligibility records and rank-based displacement differ from functional contribution.",
+    "Generation0 matched control provides same-cohort ordinary selection; later diverged candidates cannot be compared by numeric ID alone.",
+    "Treatment-shortlist pooled top32 is not generally the full ordinary survivor counterfactual.",
+    "Parent IDs, crossover masks and recorded mutations support ancestry/transmission; breeds and slot registry do not mark protected point-mutant lineages."
+  ],
+  "proposed_followup_only": {
+    "roles": "all six protected IDs plus unchanged AE L92 start, preserving duplicate roles",
+    "paired_lives_per_role": 128,
+    "research_calls": 896,
+    "golden_calls": 2,
+    "total_calls": 898,
+    "proposed_cpu_cap": 600,
+    "threads": 2,
+    "registered": false,
+    "feasibility": "Must use actual AH timing before later registration; no present timing or outcome review."
+  },
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "canonical_files_changed": false
+}
