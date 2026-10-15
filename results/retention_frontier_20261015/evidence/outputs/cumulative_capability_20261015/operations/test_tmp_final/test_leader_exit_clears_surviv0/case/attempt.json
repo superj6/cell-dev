@@ -1,0 +1,23 @@
+{
+  "monitor": {
+    "pid": 10,
+    "ppid": 3,
+    "pgid": 1,
+    "start_ticks": 6016560
+  },
+  "pid_namespace": "pid:[4026535230]",
+  "protocol_sha256": "protocol",
+  "release_sha256": "release",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-c",
+    "\nimport os, time\npid = os.fork()\nif pid == 0:\n    while True: time.sleep(.1)\nos._exit(0)\n"
+  ],
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 10.0,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 0.3
+  }
+}

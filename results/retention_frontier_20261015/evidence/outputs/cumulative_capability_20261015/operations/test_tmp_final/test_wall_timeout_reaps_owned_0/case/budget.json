@@ -1,0 +1,56 @@
+{
+  "status": "incomplete",
+  "exit_code": 1,
+  "worker_exit_code": -15,
+  "cpu_seconds": 0.173291,
+  "wall_seconds": 0.5446060409958591,
+  "cap_cpu_seconds": 10.0,
+  "cap_wall_seconds": 0.8,
+  "protocol_sha256": "protocol",
+  "release_sha256": "release",
+  "attempt_sha256": "3c1adc347eb5abf2bfaeb5e6a722f48eba4b1f911a889cab6a150a52dab1c90b",
+  "pid_namespace": "pid:[4026535230]",
+  "process_identities": [
+    {
+      "pid": 6,
+      "ppid": 3,
+      "pgid": 1,
+      "start_ticks": 6016454,
+      "name": "monitor"
+    },
+    {
+      "pid": 7,
+      "ppid": 6,
+      "pgid": 7,
+      "start_ticks": 6016461,
+      "name": "worker"
+    }
+  ],
+  "owned_process_groups": [
+    7
+  ],
+  "running": {},
+  "queued": [],
+  "reason": "wall_budget_exhausted",
+  "error": null,
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026535230]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  },
+  "wait4_receipts": [
+    {
+      "pid": 7,
+      "wait_status": 15,
+      "exit_code": -15,
+      "user_cpu_seconds": 0.017394,
+      "system_cpu_seconds": 0.008185
+    }
+  ]
+}

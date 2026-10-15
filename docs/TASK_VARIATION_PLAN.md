@@ -38,6 +38,16 @@ or choose the next challenge belong to development; reserve separate cases and p
 generalization evaluation. Do not infer a winning body or prescribe its algorithm to choose a task. This direction
 does not launch a curriculum or resolve existing approval boundaries, including population-responsive worlds.
 
+*2026-10-15 AK prepared:* follow the existing L92 → AE_L92 → AI ordinary lineage without further evolution.
+Compare three fixed genomes on ancestral POOL, persistent target, twice-as-frequent mean turns and irregular
+mean-five dark intervals, 256 fresh paired seeds each. This 3,072-life diagnostic separates capture retention and
+physical economy; a stated 10% loss tolerance is diagnostic, not selection or world admission. All cases become
+development data. No broad generalization, memory or replication claim follows. Limits are 2,400 CPU-seconds,
+1,800 wall seconds, one two-thread worker and four existing truth lives. Exact source/input review and prospective
+publication precede runtime release. No production, ABI, reward or in-life behavior change. AJ stays held.
+The retrospective four-world shared-panel analysis finds no independently confirmed broad capture improvement;
+its exploratory candidates do not justify replacing the continuing lineage.
+
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
 trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does

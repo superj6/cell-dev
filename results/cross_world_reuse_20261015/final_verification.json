@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "scope": "Post-analysis audit of actual completed data and narrative claims; no new dynamics",
+  "checks": [
+    "All588 input/source pin hashes and byte lengths match",
+    "Every output listed in output_hashes.json matches",
+    "All four world price dictionaries identical for c_live,c_spike,c_tw,c_msg,c_div,c_sec,c_miss,c_rec,R_cap,b2_value",
+    "D90 rows13/18/60 raw ledger bytes equal parent across all four screens"
+  ],
+  "new_simulation_calls": 0,
+  "engine_imports": [],
+  "stdout": "Final verification passed: all input/output hashes; equal prices; D90 neutral rows 13/18/60 exact raw-ledger equality in all worlds.",
+  "output_manifest_sha256": "29bf43bd0722b277014465ff936bbac20240c648519ede934b7bf852a065850f",
+  "report_sha256": "332ffff8b35f930f6920bee8b021ddbc6d63795cb86b1a43eb36d3dcfdc7f6cf"
+}

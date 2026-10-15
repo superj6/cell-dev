@@ -1,0 +1,122 @@
+{
+  "status": "passed_source_only_unprepared",
+  "scope": "Independent read-only producer and scientific-reader source/metadata review; no preparation, builds, goldens or dynamics. Monitor lifecycle tests belong to the operations reviewer; this receipt checks its producer/reader interface.",
+  "source_pins": {
+    "analyze.py": "45b5b47cba510f355d16f88241a9d98aa662867c48b0420b8452c8765e5a97fc",
+    "common.py": "a37ee229e48671009e53ef7bbfb4c3eccbabc0e660380d64d10a553aa55ede19",
+    "measure.py": "b0a41033902a371f64d4c757f35bc26cffdb573e107aca2915961bc549eb80f8",
+    "monitor.py": "5c7d6f13bf18514f5273ae9a443fc4e6e7a1d84477a2ec8a3871ecbcf1e14ee6",
+    "prepare.py": "241a5bc2dd10297465e9826e9bd650b295ae5af3631f8a1a09f0aa9896216cd6"
+  },
+  "reference_pins": {
+    "results/visibility_gradient_20261014/inputs/L92/parent.json": "717881fb17759381e032b6088417f848db33636dcc6be6ba33c4f92904846716",
+    "results/s7_continuation_20261014/runs/s51892/best_genome.json": "cd8b7e3e6795b43945628e8e87b66c194eb0b8b7616ec10b2125b9be93b525ea",
+    "results/s7_continuation_20261014/runs/s51892/config.yaml": "8531525d48e20a173369cd9e5666d5d19dea2831d12bf509751d7e458e13fb46",
+    "results/visibility_gradient_20261014/inputs/L92/genomes.npy": "6ad24101c26541bbc67ff505be2e846e49df30cc253e72d5932d6b0e64d97c01",
+    "results/prediction_gradient_20261014/selection.json": "cb100743be69bb4fcd9d64d6e1e24b6c7cfc6dc9f5b8cc2259ccf8e644874884",
+    "results/exploratory_reserve_replication_20261014/inputs/AE_L92.json": "257df304625d0f4564d0950bf10a319b5c447c80cd03be20684e7d1961059adc",
+    "results/exploratory_reserve_replication_20261014/runs/control/best_genome.json": "ee6fc847dad40baca1e4fe50f4c5e4a53fe8cc6a0eb187b68d2d06caac949e56",
+    "results/exploratory_reserve_replication_20261014/runs/control/config.yaml": "c7d844392f378f2e26fb7aa02806b6d9b4f40bd905ba5c8c3fbc76c5e736b956",
+    "results/exploratory_reserve_replication_20261014/confirmation/endpoints.json": "727bc1f29f5091b25399de06713c02939f6eac22e840e0e1125897fd9684fde8",
+    "results/exploratory_reserve_replication_20261014/protocol.json": "0dc385199dc871a86f7a31a62c393b2c160f0cbae018ceece3ec8f51bb6dff00",
+    "results/visibility_dark_tail_gradient_20261014/startup_identity.json": "068f233fd433d71dd11854c6efeee2c6c58cf219dfe4122ae3df1e5cd2a8e4d7",
+    "results/abi4_visibility_20261014/final_truth/truth.json": "bdd69384d4926b67a8e163dc68c616b7f4968b5df15bd90a1d7a42ce68c4f737",
+    "results/atlas/play/export_visibility.py": "c646b6d2613769be9f155b3c78b7e22719f63695ccfae42e372d64df6340293c",
+    "results/prediction_continuation_20261014/analysis/offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "src/genome.py": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "src/life/build.py": "bb15a7fecf19c6c15a1822fc291b4a100ca59ba462da296bcab24bca0af7e811",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2",
+    "scripts/taskvar_gates.py": "31c154ccd5ec91ebe4b239df13243d007613a423c21ca159e52fc575c0f38647",
+    "outputs/cumulative_capability_20261015/design/test_retention_analyze.py": "5bf889fb16b4fee52f04eacbafefb2cccfaf9a31e5c5e1176eb46174aeb51af5",
+    "outputs/cumulative_capability_20261015/design/reader_tests_final.xml": "83f88f58a852739eef4485a6236a45b9b27d1e15535cbeee2d8a1e6a6369a1b5",
+    "outputs/cumulative_capability_20261015/design/reader_source_review.json": "e12702a532d974110f0951119ae674591a739a668ef4de9fb508d1c477ec048a",
+    "outputs/cumulative_capability_20261015/design/root_plan.json": "345e4c35783b32e495ea854f0775c091938c208958376323f95a06ff8abfbc21"
+  },
+  "executed_checks": [
+    "prepare.plan metadata only; exact66/70 world vectors and57/58 ledger widths checked",
+    "Existing JSON float32 genotype bytes compared with ancestry records, no mutation or initialization",
+    "All current production source hashes match retained AG startup identity sources",
+    "Five retained AF accountant function ASTs equal: identical,stats,prices,physical_costs,validate_row",
+    "Read final37-check JUnit:37 passed,zero failures/errors; suite not rerun",
+    "Reviewed final measure.parent_check against actual monitor attempt schema; strong binding now present"
+  ],
+  "roles": {
+    "L92": {
+      "raw_sha256": "8f14c79b8bea73c08dff7f6bc1094dc848534f9f2d45598c99c4351cf364cf27",
+      "proof": "Exact float32 bytes match s51892/best_genome.json"
+    },
+    "AE_L92": {
+      "raw_sha256": "edc62b75a48c76cdc4214f04561d7528a77399c90837f6e07b3f90aea47755a7",
+      "proof": "Exact float32 bytes match original Y L92 panel row31 and retained AE selection"
+    },
+    "AI_control": {
+      "raw_sha256": "657326d5aaa87832166ca9c3d61ee65ed891f4da3725d59a1e69b76a51162349",
+      "proof": "Matches retained AI control rank0 endpoint receipt and best_genome JSON"
+    }
+  },
+  "world_contract": {
+    "baseline": "Exact retained AI/V persistent world; T1024,v_t0.3,tau_turn200,d0=1,d_min0.5",
+    "pool": "Exact original s51892 LifeEvaluator.world(T1024); only six differences from persistent: d0=.5,d_min=.25,sigma=.4,lam_s=4,v_t=.1,tau_turn=20",
+    "turn100": "Only tau_turn200 to100",
+    "blink80_5": "Only visibility_mode/on/off/low=2/80/5/0; persistent target motion/conduction retained",
+    "all_prices_unchanged": true,
+    "no_controller_genome_input_or_local_rule_changes": true,
+    "zygote_development_not_frozen_body_transfer": true
+  },
+  "counts": {
+    "roles": 3,
+    "worlds": 4,
+    "shared_research_seeds": 256,
+    "research_lives": 3072,
+    "startup_lives": 4,
+    "total_planned_lives": 3076,
+    "cpu_cap": 2400,
+    "wall_cap": 1800,
+    "threads": 2,
+    "workers": 1
+  },
+  "startup": {
+    "standard_ABI3_pair": "One checkpoint.numerical_identity invocation gives existing full/fast seed11 pair; retained AG identity sources equal current production",
+    "visibility_pair": "One full/fast body0_renewal_55040000 replay,T96; packed875 float64 body with no explicit cells matches original exporter. Full58-column ledger/five hashes checked against truth; fast/full ledger equality.",
+    "no_extra_lives_from_plan_or_evaluator_constructor": true,
+    "expected_golden_all": "ebb3ad6fcad2d938"
+  },
+  "scoring_and_reader": {
+    "status": "passed_source_review",
+    "production_F": "LifeEvaluator.columns uses supplied exact world draw and original extinction charge; capacity/mismatch fail; paid guards/extinction remain outcomes",
+    "ABI_transfer": "Build.run explicitV3/V4 uses existing neutral ABI projection; genomes packed exactly once per measurement row",
+    "accountant": "Five core functions AST-identical to retained AF accountant; ABI4 low-light column checked before reusing common57-column accountant",
+    "contrasts": "All3 lineage differences for4worlds, role environment changes and lineage interactions for3environments vs persistent; common256 IDs;2250 metric vectors plus4 retention vectors=2254",
+    "retention": "Predeclared descriptive new minus0.9old per-seed vector with full pairedSE; null difference does not establish retention",
+    "terminal": "Exact12rows, rawhash/schema/protocol/genotype/seeds, source/timing/accounting/actual four-field identities and namespace teardown required before outcomes; actual wait4 zeroexit/reapedCPU checked",
+    "recorded_tests_passed": 37,
+    "tests_rerun_by_peer": 0
+  },
+  "findings": [
+    {
+      "id": "AK_WORKER_BINDING",
+      "initial_severity": "must_fix_before_release",
+      "file": "measure.py",
+      "function": "parent_check",
+      "initial_source_sha256": "a14bef9e387cea6edaff1fa8079ea2a09b61fb3e1c135b8a65d6a3ff18872288",
+      "finding": "Original check trusted environment parentPID and ownPGID but did not bind persisted monitor identity, attempt hash or PID namespace.",
+      "status": "resolved_by_root_and_independently_source_checked",
+      "resolution": "Before startup and each raw row, exact attempt SHA, live monitor four-field identity/startticks, monitor/worker/environment/attempt namespace, protocol hash and release hash agree. No running-map publication race.",
+      "scientific_effect": "None; administrative ownership guard only"
+    }
+  ],
+  "remaining_blockers": [],
+  "limitations": [
+    "Outcome-informed fixed lineage, not evolutionary replication or untouched held-out task generalization",
+    "POOL changes several physics coordinates; only two edges isolate one modification",
+    "Renewal off duration is a mean, not an upper bound; low-light captures do not establish memory",
+    "ABI3 low-light metrics are derivedzero for neutralvisibility, not an extra rawcolumn",
+    "No runtime approval or release supplied by this source-only review; operations/cost/namespace acceptance remains separate"
+  ],
+  "new_simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "actual_input_preparation_calls": 0
+}

@@ -1,0 +1,56 @@
+{
+  "status": "monitor_failed",
+  "exit_code": 1,
+  "worker_exit_code": 0,
+  "cpu_seconds": 0.108882,
+  "wall_seconds": 0.0371295060031116,
+  "cap_cpu_seconds": 10.0,
+  "cap_wall_seconds": 10.0,
+  "protocol_sha256": "protocol",
+  "release_sha256": "release",
+  "attempt_sha256": "f9dcc6978312c06a497deb331ce046e695ebeb46ab46560e65f9b8ab36a6e02a",
+  "pid_namespace": "pid:[4026535230]",
+  "process_identities": [
+    {
+      "pid": 13,
+      "ppid": 3,
+      "pgid": 1,
+      "start_ticks": 6016576,
+      "name": "monitor"
+    },
+    {
+      "pid": 14,
+      "ppid": 13,
+      "pgid": 14,
+      "start_ticks": 6016584,
+      "name": "worker"
+    }
+  ],
+  "owned_process_groups": [
+    14
+  ],
+  "running": {},
+  "queued": [],
+  "reason": null,
+  "error": "ValueError: synthetic completion error",
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026535230]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  },
+  "wait4_receipts": [
+    {
+      "pid": 14,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 0.020232,
+      "system_cpu_seconds": 0.006069
+    }
+  ]
+}

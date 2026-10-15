@@ -1,0 +1,23 @@
+{
+  "monitor": {
+    "pid": 4,
+    "ppid": 3,
+    "pgid": 1,
+    "start_ticks": 6016438
+  },
+  "pid_namespace": "pid:[4026535230]",
+  "protocol_sha256": "protocol",
+  "release_sha256": "release",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-c",
+    "\nimport os\nassert os.getppid() == int(os.environ['CELLDEV_MONITOR_PID'])\nassert os.getpid() == os.getpgrp()\nassert os.environ['CELLDEV_PROTOCOL_SHA256'] == 'protocol'\nassert os.environ['OMP_NUM_THREADS'] == '2'\nassert 'CELLDEV_THREADS_FILE' not in os.environ\nprint('synthetic worker complete')\n"
+  ],
+  "budget": {
+    "cpu_seconds": 10.0,
+    "wall_seconds": 10.0,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 0.3
+  }
+}

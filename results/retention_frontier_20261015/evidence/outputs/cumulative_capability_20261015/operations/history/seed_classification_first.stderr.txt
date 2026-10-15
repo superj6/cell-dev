@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/cumulative_capability_20261015/operations/classify_seed_audit.py", line 73, in <module>
+    main()
+  File "/home/jgon/project/ml/cell-dev/outputs/cumulative_capability_20261015/operations/classify_seed_audit.py", line 49, in main
+    for low, high in record.get('seed_blocks', []):
+TypeError: 'NoneType' object is not iterable

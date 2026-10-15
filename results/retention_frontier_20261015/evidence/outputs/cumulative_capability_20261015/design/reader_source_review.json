@@ -1,0 +1,63 @@
+{
+  "status": "passed_source_only_unprepared",
+  "source_pins": {
+    "outputs/autonomous_retention_frontier_20261015/analyze.py": "45b5b47cba510f355d16f88241a9d98aa662867c48b0420b8452c8765e5a97fc",
+    "outputs/cumulative_capability_20261015/design/test_retention_analyze.py": "5bf889fb16b4fee52f04eacbafefb2cccfaf9a31e5c5e1176eb46174aeb51af5",
+    "outputs/cumulative_capability_20261015/design/reader_tests_final.xml": "83f88f58a852739eef4485a6236a45b9b27d1e15535cbeee2d8a1e6a6369a1b5",
+    "results/prediction_continuation_20261014/analysis/offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b"
+  },
+  "tests": {
+    "passed": 37,
+    "failures": 0,
+    "errors": 0,
+    "engine_calls": 0,
+    "builds": 0,
+    "genetic_draws": 0,
+    "ruff": "passed"
+  },
+  "schema": {
+    "roles": [
+      "L92",
+      "AE_L92",
+      "AI_control"
+    ],
+    "worlds": [
+      "pool",
+      "persistent",
+      "turn100",
+      "blink80_5"
+    ],
+    "raw_abi_widths": [
+      57,
+      57,
+      57,
+      58
+    ],
+    "research_lives": 3072,
+    "startup_lives": 4,
+    "metrics": 75,
+    "contrast_groups": 30,
+    "retention_vectors": 4,
+    "paired_arrays": 2254
+  },
+  "accountant_reuse": "AF validate_row, physical_costs, prices, stats and identical functions preserved with exact AST; ABI4 extra column checked separately. Saved production_F reconstructed independently from full raw ledger.",
+  "protocol_binding": "No self-hash cycle: root release binds prepared protocol; protocol source_pins binds exact executing analyze.py. No post-preparation source edit required.",
+  "new_checks": [
+    "full raw growing, extinct and guarded arithmetic; initial cell excluded from births",
+    "ABI3/ABI4 widths, saved production fitness, scalar timing and row identity",
+    "all fixed contrasts and paired interaction covariance",
+    "10% relative margin computed per seed, strict lower 3SE > 0, null not retention",
+    "actual retained JSON genotype raw hashes",
+    "mocked actual retained ABI4 truth parser conversion and exactly two calls",
+    "actual four-field namespace/ownership/exit and wait4 CPU receipt contract"
+  ],
+  "limitations": [
+    "Three genomes belong to one deliberately chosen lineage, not independent evolutionary replicates.",
+    "All revealed environments become development cases.",
+    "POOL differs in several physical fields.",
+    "Whole-genome transfer includes development; no frozen-circuit or memory inference.",
+    "Low-light capture zeros for neutral ABI3 worlds are derived diagnostics, not raw ABI3 columns.",
+    "Actual prepared inputs and terminal raw coverage are not yet available; reader fails closed without full release/terminal files."
+  ],
+  "runtime_files_present": []
+}

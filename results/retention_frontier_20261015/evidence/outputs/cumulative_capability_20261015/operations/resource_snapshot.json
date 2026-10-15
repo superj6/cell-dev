@@ -1,0 +1,364 @@
+{
+  "status": "read_only_snapshot_not_host_clearance",
+  "observed_at_utc": "2026-10-15T08:58:45Z",
+  "pid_namespace": "pid:[4026535116]",
+  "visible_processes": [
+    {
+      "pid": 1,
+      "command": "codex",
+      "ppid": 0,
+      "pgrp": 1,
+      "start_ticks": 5909391
+    },
+    {
+      "pid": 2,
+      "command": "bash",
+      "ppid": 1,
+      "pgrp": 1,
+      "start_ticks": 5909394
+    },
+    {
+      "pid": 3,
+      "command": "python",
+      "ppid": 2,
+      "pgrp": 1,
+      "start_ticks": 5909396
+    }
+  ],
+  "cpu_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "logical_cpu_count": 14,
+  "load_average": [
+    2.80224609375,
+    2.359375,
+    1.890625
+  ],
+  "memory": {
+    "MemTotal": "32350560 kB",
+    "MemAvailable": "20541924 kB"
+  },
+  "filesystem_available_bytes": 43567079424,
+  "canonical_budget_records": [
+    {
+      "path": "outputs/autonomous_continuation_20261013/budget.json",
+      "sha256": "67545e29e298b56b356a2d198583fa8c8fbaa885367fffc0b92a02c655ab8d59",
+      "status": "complete",
+      "cpu_seconds": 10013.037438,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_decoy_evolution_20261014/budget.json",
+      "sha256": "947e93896f902e35d4e132f9419f170393497631788259315038a73a6edb227a",
+      "status": "complete",
+      "cpu_seconds": 2919.4754490000005,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_decoy_gradient_20261014/budget.json",
+      "sha256": "5705e9137de85e0f577d93549638e55e6eb4e92482746b9f6fc23170c0486ece",
+      "status": "complete",
+      "cpu_seconds": 3105.780628,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_discrimination_20261013/budget.json",
+      "sha256": "04a42c85605ea44e3027881277d592021457f36f31522696853e3ddd6a8c638e",
+      "status": "complete",
+      "cpu_seconds": 496.44166490999993,
+      "running": null,
+      "queued": null,
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_duplicate_use_20261014/budget.json",
+      "sha256": "7b1f47599ce0fecdb37e3a97527d4fbb7a75f58a715954114842ad571d414b9b",
+      "status": "complete",
+      "cpu_seconds": 1197.683334,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_exploratory_reserve_20261014/budget.json",
+      "sha256": "24dadeb2d66bb4f4121c801534b40940cd9e1ff09dfbeafab244c9ff38a76ce6",
+      "status": "complete",
+      "cpu_seconds": 862.767205,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_exploratory_reserve_replication_20261014/budget.json",
+      "sha256": "e8e7f316d8f28d883793d8d0e9e9b0201c57d62bab3f7eae395e88658c4e098d",
+      "status": "complete",
+      "cpu_seconds": 1068.361098,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_frozen_20261013/budget.json",
+      "sha256": "e1d2499a089d35819b527c150a52feb32a951e2b1bb672bb37a973fcf3b3fe9a",
+      "status": "complete",
+      "cpu_seconds": 1216.1911730000002,
+      "running": null,
+      "queued": null,
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_gene_interaction_20261014/budget.json",
+      "sha256": "1ad6eb7da6e933160cc4c7141b20230d15ba35862ca02c6711ec435572163eaf",
+      "status": "complete",
+      "cpu_seconds": 410.154069,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_hidden_20261014/budget.json",
+      "sha256": "b9884ca51fa05853fb6a7d35f2f723162186f70f77e8bde6cd0763bf7d421801",
+      "status": "complete",
+      "cpu_seconds": 2674.948141,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_information_duration_20261014/budget.json",
+      "sha256": "3dc28d7fa4a8e67e712e50f88ed048869f74bdd2134508462de46f9d1e92d107",
+      "status": "complete",
+      "cpu_seconds": 1385.71551,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_next_step_20261014/budget.json",
+      "sha256": "967393fa6243407897ff2a517a53d3c50e750eb9516afd89a58284c9a63af0e0",
+      "status": "incomplete",
+      "cpu_seconds": 14381.265501,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_prediction_continuation_20261014/budget.json",
+      "sha256": "2393cfe4e90ed229b95562461755f39eb05b0fffaf31b2a9539ee29b14e51cd6",
+      "status": "complete",
+      "cpu_seconds": 1191.2903620000002,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_prediction_gradient_20261014/budget.json",
+      "sha256": "2b5518ca6fb48c11a827def46151ed1f01951854e2567c932c44eeacd14a28af",
+      "status": "complete",
+      "cpu_seconds": 1226.079103,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_prediction_information_20261014/budget.json",
+      "sha256": "49f319b1fff29853a92f95162403c80dd3a819e0706f7cceaa03d63e205d4a85",
+      "status": "complete",
+      "cpu_seconds": 320.819620533,
+      "running": null,
+      "queued": null,
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_regulation_20261014/budget.json",
+      "sha256": "9295ce4c45edfc44141ab29a8612b3c5d794b9d49aebf6f74eb21f3b287570ae",
+      "status": "complete",
+      "cpu_seconds": 2283.2505349999997,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_s7_20261014/budget.json",
+      "sha256": "452c7ad75e77a3d74742384eeed50aa67a757d3ed06a3af622f0056c18677fc5",
+      "status": "complete",
+      "cpu_seconds": 7695.470840999999,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_s7_hidden_20261014/budget.json",
+      "sha256": "b2f9b9786108c3297878b1eaf45faff48ff847baaae1c3de2ab380cf86d8c100",
+      "status": "monitor_failed",
+      "cpu_seconds": 14.165054000000001,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_structural_20261013/budget.json",
+      "sha256": "0f33212c1535d6c1d392f2ef23f6395ccc2a732cb9ea686f617e62d0d51c8fd8",
+      "status": "complete",
+      "cpu_seconds": 10942.922121,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_traces_20261014/budget.json",
+      "sha256": "c71e0414d6ac11293d25867254c61a71de8375fd3f2f637bca26356bdf192d1e",
+      "status": "complete",
+      "cpu_seconds": 786.219558,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_continuation_20261014/budget.json",
+      "sha256": "60d8116811b2181b81d6eec55391953754376d938821de7727a365ebbbbd24cb",
+      "status": "complete",
+      "cpu_seconds": 2716.8060210000003,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_dark_tail_gradient_20261014/budget.json",
+      "sha256": "932df03fe1f994ec1f3bee9a85c2b3772c380e08489a87f423655863af8d497d",
+      "status": "complete",
+      "cpu_seconds": 1204.0220709999999,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_dark_tail_information_20261014/budget.json",
+      "sha256": "efde24e31dffa6c8569b47ebab24739905e1e6605efeb662b0c36bf75c0915c2",
+      "status": "complete",
+      "cpu_seconds": 514.140424,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_flash_gradient_20261014/budget.json",
+      "sha256": "75107349982d8551ec914feb9223c3f15e118dc9b3b6e2dc9694c108d7baa5b2",
+      "status": "complete",
+      "cpu_seconds": 2044.626301,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_gradient_20261014/budget.json",
+      "sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+      "status": "complete",
+      "cpu_seconds": 1768.464936,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_information_20261014/budget.json",
+      "sha256": "38cb702e92d8c95ad172c5c4e6618ba8dce3ed71f4f38f81bb9e165669b579f3",
+      "status": "incomplete",
+      "cpu_seconds": 0.716548,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_information_x2_20261014/budget.json",
+      "sha256": "1c5d5743f5afd7c0852ac6e15e1791fa1d7ff92a91064e193e68bce39e00d963",
+      "status": "complete",
+      "cpu_seconds": 1348.464197,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_lateral_20261014/budget.json",
+      "sha256": "0d62b29e7cd96d70a583016c05ee6bcb5d72a596b67ea7497167492e960abd72",
+      "status": "complete",
+      "cpu_seconds": 355.92479299999997,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_visibility_precision_20261014/budget.json",
+      "sha256": "4d0bc330805576b85d5a42ceb5ffd08834eaedb2509273c9a34764734a0c71c4",
+      "status": "complete",
+      "cpu_seconds": 3028.748398,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    },
+    {
+      "path": "outputs/autonomous_weight_updates_20261014/budget.json",
+      "sha256": "4304d5fe9ca14809547f15a6f3478b35d27e891efd42195e3c0c79cfdd6ce0ac",
+      "status": "monitor_failed",
+      "cpu_seconds": 10.228412,
+      "running": {},
+      "queued": [],
+      "cleanup_error": null,
+      "pid_namespace": null
+    }
+  ],
+  "active_budget_records": [],
+  "limitations": [
+    "The tool PID namespace may differ from the host namespace; visible processes alone cannot clear historical host PID/group identities.",
+    "Load and memory are a momentary host resource snapshot, not reserved capacity. No process was signalled or altered."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0
+}

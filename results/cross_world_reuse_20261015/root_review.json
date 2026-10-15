@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "independent_reexecution": true,
+  "output_byte_identity": {
+    "existing_confirmation_table.csv": true,
+    "screen_table.csv": true,
+    "all_genomes_cross_world.csv": true,
+    "output_hashes.json": true,
+    "input_hashes.json": true,
+    "paired_vectors.npz": true,
+    "summary.json": true,
+    "cross_world_correlations.csv": true
+  },
+  "new_simulation_calls": 0,
+  "notes": [
+    "Read producer raw ledger and source pin checks; every candidate retained.",
+    "Different world seed sets are never elementwise paired across worlds.",
+    "No confirmed broad capture improver; screen-positive candidates remain exploratory."
+  ]
+}

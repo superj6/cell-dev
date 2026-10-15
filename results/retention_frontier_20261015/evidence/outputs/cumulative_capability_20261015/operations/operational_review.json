@@ -1,0 +1,103 @@
+{
+  "status": "source_ready_no_scientific_execution",
+  "monitor_sha256": "5c7d6f13bf18514f5273ae9a443fc4e6e7a1d84477a2ec8a3871ecbcf1e14ee6",
+  "source_path": "outputs/autonomous_retention_frontier_20261015/monitor.py",
+  "evidence_pins": {
+    "monitor_tests_first.log": "700bc0322b00f8e8db3ce495047983b54ab27ab59ed1fedac05f3aeba47dae24",
+    "monitor_tests_first.xml": "458a5e63c35822ff0c2d0bb65c2678a11073185d86b0518d63dbbeb14c294536",
+    "monitor_tests_final.log": "83a1593c5b5783693fe3006d1f6597bcb4f3a5968f23b59481ee09a0477f910a",
+    "monitor_tests_final.xml": "3b6344bcd2d8d3ef6b2a216bc0f3eb613d4f6252e88461d739a7b8d7004655f4",
+    "monitor_ruff.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "test_monitor.py": "4a7d26b9beb4a0af46ab8ac62025acbaa0a1fb17984acea85f9eba3fc41678fc",
+    "seed_audit.json": "60dd4357c4ef2c3f5201bc25d24d0112fdc0b5e720a34f9a44048eab613b8a41",
+    "candidate_seed_inventory.json": "2ae151f90f6943289a1eb347371a3307f59e4618c59acf0225896c3b50bbed43",
+    "audit_seed_block.py": "686b6e6539f7410472d26681fe2fe2a782374fd312ff65ea2f1f4e8ce923620f",
+    "classify_seed_audit.py": "f1cca24c886d505631788f596e479a5ed90a752631148ea74a11a03e0cb5a695",
+    "seed_audit_execution.log": "d9923f15c3f2ac43c21228ae01e0fed44ebce456ffe0889f5ec4a1132fabfcc8",
+    "seed_audit_execution.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "seed_classification.stdout.json": "801a31359e5a8291facff2b65a7b28b1a6e8bf129cc8616d2e9e1628d5b1360d",
+    "seed_classification.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resource_snapshot.json": "b3810709e0a74c66fa7c4f856e468b1e042916994d384c33aa55c0e5199c81e6",
+    "namespace_status.json": "d5bdc0216a41e21699cde16fb2f59778046d22aaa107de17890f0746d2fe1ba6",
+    "timing_evidence.json": "379516e6e337203880f870d1ce25e4210176fb770c93dfb4d513c629484eb2f7",
+    "recommendation.md": "2b5896bbcc9d813245afc2be79ba25c376f00d85048d6afc3d7a0e8bb956aea9"
+  },
+  "tests": {
+    "initial": 6,
+    "final": 7,
+    "failures": 0,
+    "scope": [
+      "complete owned worker and environment binding",
+      "wall-time termination",
+      "CPU termination and exact wait4 usage",
+      "leader exit with surviving child",
+      "completion-check error after exit",
+      "escaped setsid descendant cleanup by pidfd/start ticks",
+      "first-attempt refusal before spawning"
+    ],
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q outputs/cumulative_capability_20261015/operations/test_monitor.py --basetemp=outputs/cumulative_capability_20261015/operations/test_tmp_final --junitxml=outputs/cumulative_capability_20261015/operations/monitor_tests_final.xml"
+  },
+  "source_history": {
+    "history/classify_seed_audit_before_flat_range.py.txt": "01aec80f073f1c2bed13048078324d720767c0735d1e1169f69d646e5e10067d",
+    "history/classify_seed_audit_before_null_optional_blocks.py.txt": "ecf4902701b8e51b62d9fdf7d03dc942c292de33d9e8357446026e9ba277a1ef",
+    "history/monitor_before_descendant_cleanup.py.txt": "82c3c4fdf2322316d0195accd947ac015093c4cf5100718907475247407f36b0",
+    "history/monitor_before_import_sort.py.txt": "090f9683094af752e6b71257260a0f777c04966d356c1e684aa3f77d2b75aa34",
+    "history/seed_classification_first.stderr.txt": "4374ecc526b540f3f682184709a37489b92ce1490b51038befd7a1030107e5be",
+    "history/seed_classification_second.stderr.txt": "bc8002d4790da7973aa296c3d79d0bb3554dbbc3144d013f08cdd76c333122f0",
+    "history/test_monitor_before_descendant_cleanup.py.txt": "0c53779e34e54b0c95a33ea399da0bb950af1daca323129f80271081b1a06602",
+    "history/test_monitor_before_import_sort.py.txt": "779d2b606e9c85c553b4a01c8ae3c3c63a749f6fdfe19256be512c41617ed1b8"
+  },
+  "corrections": [
+    "Import sorting only after initial six successful checks; all non-import AST unchanged.",
+    "Root-approved lifecycle hardening additionally signals only owned descendants with verified start ticks and pidfd; seventh synthetic test covers a setsid escape.",
+    "Seed literal classifier initially assumed all optional historical block fields were nested lists. Null and one flat range were corrected; both local failures and sources retained, no scientific/source or seed inventory changes."
+  ],
+  "terminal_schema": {
+    "attempt": [
+      "monitor(pid,ppid,pgid,start_ticks)",
+      "pid_namespace",
+      "protocol_sha256",
+      "release_sha256",
+      "command",
+      "budget"
+    ],
+    "budget": [
+      "status",
+      "exit_code",
+      "worker_exit_code",
+      "cpu_seconds",
+      "wall_seconds",
+      "cap_cpu_seconds",
+      "cap_wall_seconds",
+      "protocol_sha256",
+      "release_sha256",
+      "attempt_sha256",
+      "pid_namespace",
+      "process_identities",
+      "owned_process_groups",
+      "running",
+      "queued",
+      "reason",
+      "error",
+      "cleanup_error",
+      "terminal_cleanup",
+      "wait4_receipts"
+    ]
+  },
+  "safety": [
+    "No production modules or engine imports in monitor/tests/audit.",
+    "Exactly one child command, no automatic resume or retries.",
+    "Stop at CPU or wall cap minus declared cleanup margin; final accounting includes monitor, live descendants and reaped children.",
+    "Cleanup verifies same PID namespace; only owned group and identity-verified descendants signaled.",
+    "Complete status requires bounded totals, empty descendant/group state and exact 12-row completion marker/hashes."
+  ],
+  "limits": [
+    "Resource snapshot inside tool namespace is not historical host-PID clearance; root must release in the host namespace.",
+    "Historical runtime is an estimate; new genotype-world transfers may hit the hard cap.",
+    "proc tick sampling can conservatively overcount during reaping transitions; max-so-far is retained and final wait4 receipts provide exact reaped usage."
+  ],
+  "scientific_lives": 0,
+  "engine_builds": 0,
+  "genetic_draws": 0,
+  "seed_reservations": 0
+}

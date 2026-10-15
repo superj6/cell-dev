@@ -3396,3 +3396,48 @@ The next source-only candidate, AJ, keeps the full AI-control final population f
 continuation in the same world. This is an outcome-informed choice to build on confirmed captures, not a claim
 that the population is generally superior or that contraction has ended. Registration and a bounded launch
 report remain ahead; no AJ inputs, genetic draws, builds or lives are released by this viewer milestone.
+
+## 2026-10-15 — Shared mutation panels: transferable economy, no confirmed broad capture improvement
+
+A NumPy-only retrospective joins all 130 exact genotypes from the two retained Y panels across blink, dim flash,
+persistent target and dark flash: 520 screen rows of 32 lives plus 24 retained confirmation rows of 512 lives.
+Within-world mutant-parent pairing is preserved; different worlds have different seeds and are not elementwise
+paired. All rows, physical costs and healthy statuses reconcile. Root independently reran the analyzer and all
+8 output files match bytewise, including 12,552 paired arrays. No new life, build or genetic draw occurred.
+
+Only L92 rows 3, 41, 59 have positive capture estimates in all four screens; every individual effect remains within
+three SE and none has 512-life confirmation. D90 row54 has confirmed fitness gains across all four worlds chiefly
+from economy: it loses 2.100 ± 0.171 captures in blink and 1.459 ± 0.181 in dim flash. Existing evidence therefore
+establishes transferable cost saving, without a confirmed broad capture improvement. This post hoc inspection
+uses selection data from 128 mutants and is not a held-out generalization test. Full evidence and limitations:
+`results/cross_world_reuse_20261015/`.
+
+## 2026-10-15 — AK registered and prepared: does a continuing lineage retain and extend capability?
+
+Following the user's emphasis on cumulative capability, this diagnostic freezes three actual stages of one lineage:
+L92 ancestral POOL endpoint, its ordinary mutant AE_L92 (Y row31), and the AI ordinary-control descendant.
+All three unchanged genomes receive 256 shared fresh lives in each of four worlds: exact ancestral POOL,
+current persistent target, persistent with mean turn time 100 instead of 200, and persistent with irregular
+mean 80 on / 5 off visibility and zero residual cue. Dark intervals have no upper bound. All physical prices,
+development, local asynchronous rules and ABI3/4 implementations remain unchanged.
+
+The primary contrasts are AI_control minus L92 captures in POOL and AI_control minus AE_L92 captures in
+persistent. The reader also retains all within-world pairs, environment contrasts, interactions, full fitness
+and cost decomposition, guards and extinction. A conventional 10% mean capture-loss tolerance uses the lower
+three-SE bound of the paired new−0.9×reference vector; it is diagnostic, never a selection gate. Unresolved loss
+does not establish retention. All 2,254 paired vectors are retained. POOL changes several physical parameters;
+only the two new edges isolate changes from persistent. Fresh-seed transfer in this chosen lineage does not
+establish broad generalization or evolutionary reliability; every revealed case becomes development data.
+
+The exact scope is 3,072 research plus four existing ABI3/4 truth lives, one two-thread worker, and hard caps of
+2,400 CPU-seconds and 1,800 wall seconds, including startup and cleanup. Historical timing suggests about 1,121
+CPU-seconds with padding; the hard caps bind. There is no mutation, endpoint replacement, retry, resume or scope
+extension. Block 138 reserves 52,380,000–52,389,999; actual lives use 52,380,000–52,380,255. The fresh-ID audit
+reopened 242 distinct retained seed payloads and found no overlap. AJ's candidate block 137 remains unregistered.
+
+Thirty-seven pure reader checks and seven synthetic monitor checks pass; independent source review verifies
+exact ancestry, physics, prices, ABI packing, startup identities and original production scoring. One-time
+preparation copies inputs without a compiler or life. Actual-input review and prospective publication precede
+separate root runtime release. No new organism behavior, global channel, clock, paid compute or responsive world.
+Protocol: `0b41f8f98d00536c2333389245c8866d568300c6151316801794200b5e5b56b3`.
+Evidence: `results/retention_frontier_20261015/`.

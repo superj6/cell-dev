@@ -3,13 +3,16 @@
 For an agent picking up this project. Read this first, then `docs/TASK_VARIATION_PLAN.md` section 0 (the current plan)
 and the last few entries of `RESULTS.md`.
 
-**Current work (2026-10-15).** AI is complete and pushed (`520227e`): its reserve endpoint loses to
-ordinary control by 0.514 ± 0.119 captures per life, reversing AH's advantage. There is no consistent reserve
-benefit across the two pairs. AI ordinary control improves on its start by 0.695 ± 0.128 captures; most fitness
-gain still comes from economy. The watchable comparison is `results/atlas/exploratory_reserve_replication.html`.
-Source-only AJ prepares twelve more ordinary generations from all 32 AI-control final genomes. This deliberately
-chosen population preserves the capture-performing endpoint and existing variation. No AJ seeds, inputs,
-genetic draws, builds or lives are released yet; prices, world and local rules remain fixed.
+**Current work (2026-10-15).** AK is prepared: a bounded fixed-genome retention diagnostic follows
+L92 → AE_L92 → AI ordinary control through ancestral POOL, current persistent target, faster turns and brief
+irregular darkness. It evaluates all three unchanged genomes on 256 fresh shared seeds per world, with no search.
+Scope: 3,072 research + 4 startup lives, one two-thread worker, 2,400 CPU-second / 1,800 wall-second hard caps.
+`results/retention_frontier_20261015/` records the prospective protocol. Runtime release follows public review.
+The offline shared-panel audit in `results/cross_world_reuse_20261015/` finds no confirmed broad capture improver;
+D90 row54's fitness gains transfer mostly through economy. AK will guide an affordable next edge case while
+checking retained ability. All revealed AK cases become development data. AJ remains source-only and held;
+its same-world continuation has not been registered or launched. AI remains complete (`520227e`), with ordinary
+control gaining 0.695 ± 0.128 captures over its start and no consistent exploratory-reserve advantage.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.
