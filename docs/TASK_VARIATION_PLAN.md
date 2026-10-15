@@ -57,6 +57,16 @@ and stopped before compilation or any life, using 0.716548 CPU-seconds. The pinn
 A separate X2 preparation fixes import order while retaining exact runtime checks, unchanged candidates and
 unconsumed seed IDs. Its smaller caps include the failed startup within the original total/validation budgets.
 
+*2026-10-14 X2 completed:* the external controller gains +7.727 ± 0.145 F in flash and +5.552 ± 0.120 in
+irregular blink at the same 56-cell footprint as the better reflex. Extra captures outweigh additional costs;
+all eight do-less variants have nonpositive mean advantages. Broad visibility-model ablation loses
+2.085 ± 0.161 F in flash but an unresolved 0.088 ± 0.129 in blink. These are information-payoff results,
+without isolated memory, local attainability or evolved-algorithm evidence. All 13,312 research and 82
+validation lives completed; combined X/X2 usage is 1,349.180745 CPU-seconds. A source-reviewed bookkeeping
+correction preserves both analyzer versions and all data in `results/visibility_information_x2_20261014/`.
+The next preparation is one blink mutation diagnostic around stronger evolved D90/L92 founders, testing
+accessible capture gains without a constructed-body gate or automatic capability-specific admission.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.

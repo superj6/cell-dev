@@ -1,0 +1,49 @@
+{
+  "status": "cleared",
+  "all_processes_exited": true,
+  "checked_at_utc": "2026-10-15T00:00:18.720302+00:00",
+  "budget_sha256": "1c5d5743f5afd7c0852ac6e15e1791fa1d7ff92a91064e193e68bce39e00d963",
+  "processes": [
+    {
+      "pid": 809367,
+      "ppid": 809366,
+      "pgid": 809366,
+      "start_ticks": 2604830,
+      "name": "monitor"
+    },
+    {
+      "pid": 809387,
+      "ppid": 809367,
+      "pgid": 809387,
+      "start_ticks": 2604859,
+      "name": "validation"
+    },
+    {
+      "pid": 811347,
+      "ppid": 809367,
+      "pgid": 811347,
+      "start_ticks": 2610233,
+      "name": "flash5_dim25"
+    },
+    {
+      "pid": 811348,
+      "ppid": 809367,
+      "pgid": 811348,
+      "start_ticks": 2610245,
+      "name": "blink20"
+    }
+  ],
+  "process_groups": [
+    809387,
+    811347,
+    811348
+  ],
+  "host_entries_checked": 540,
+  "study_cpu_seconds": 1348.464197,
+  "prior_X_cpu_seconds": 0.716548,
+  "combined_cpu_seconds": 1349.1807450000001,
+  "validation_cpu_seconds": 68.524434,
+  "research_lives": 13312,
+  "validation_lives": 82,
+  "scientific_analysis": "pending correction of original analyzer initial-cell accounting; no outcome emitted"
+}

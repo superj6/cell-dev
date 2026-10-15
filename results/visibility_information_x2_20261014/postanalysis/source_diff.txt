@@ -1,0 +1,80 @@
+--- released/accounting.py
++++ postanalysis/accounting.py
+@@ -210,8 +210,6 @@
+         ("rec_accept", "rec_cand"),
+         ("rec_events", "rec_accept"),
+         ("n_end", "n_peak"),
+-        ("rejects_wall", "rejects"),
+-        ("arrivals_dropped", "arrivals"),
+     ):
+         if np.any(ledger[:, L[small]] > ledger[:, L[large]]):
+             raise ValueError(f"{small} exceeds {large}")
+@@ -221,8 +219,11 @@
+         sum(ledger[:, L[k]] for k in ("live_S", "live_M", "live_H")), ledger[:, L["live_time"]], rtol=1e-9, atol=1e-9
+     ):
+         raise ValueError("plane cell-times do not sum to total cell-time")
+-    if not np.array_equal(ledger[:, L["births"]] - ledger[:, L["deaths"]], ledger[:, L["n_end"]]):
+-        raise ValueError("birth/death/end-cell accounting differs")
++    # Initial cells enter the census but are excluded from the production births counter.
++    # These fixed candidates cannot grow or die; candidate-bound census is checked by static_body.
++    for name in ("births", "deaths", "kills", "claims", "rejects", "rejects_wall"):
++        if np.any(ledger[:, L[name]] != 0):
++            raise ValueError("unexpected fixed-body growth or death event: " + name)
+     morph = sum(ledger[:, L[k]] for k in ("morph_decayed", "morph_lost", "morph_content_end", "morph_inflight_end"))
+     if not np.allclose(morph, ledger[:, L["morph_secreted"]], rtol=1e-9, atol=1e-9):
+         raise ValueError("morphogen accounting differs")
+--- released/analyze.py
++++ postanalysis/analyze.py
+@@ -256,12 +256,15 @@
+         "M": int(np.sum(cells[:, 2] == 1)),
+         "H": int(np.sum(cells[:, 2] >= 2)),
+     }
+-    for key in ("births", "n_end", "n_peak"):
++    for key in ("n_end", "n_peak"):
+         if np.any(ledger[:, A.L[key]] != len(cells)):
+             raise ValueError("fixed body cell count changed")
+-    for key in ("deaths", "kills", "claims", "rejects", "rejects_wall"):
++    for key in ("births", "deaths", "kills", "claims", "rejects", "rejects_wall"):
+         if np.any(ledger[:, A.L[key]] != 0):
+             raise ValueError("unexpected fixed-body growth or death event")
++    census = len(cells) + ledger[:, A.L["births"]] - ledger[:, A.L["deaths"]] - ledger[:, A.L["kills"]]
++    if not np.array_equal(census, ledger[:, A.L["n_end"]]):
++        raise ValueError("initial-cell plus birth/death/kill census differs")
+     for plane, count in counts.items():
+         if np.any(ledger[:, A.L["n_" + plane + "_end"]] != count) or not np.allclose(
+             ledger[:, A.L["live_" + plane]], count * world["T"], rtol=1e-9, atol=1e-9
+--- released/test_accounting.py
++++ postanalysis/test_accounting.py
+@@ -42,7 +42,7 @@
+         live_time=32,
+         live_S=16,
+         live_M=16,
+-        births=2,
++        births=0,
+         n_end=2,
+         n_peak=2,
+         n_S_end=1,
+--- released/test_analyze.py
++++ postanalysis/test_analyze.py
+@@ -13,11 +13,7 @@
+ SPEC = importlib.util.spec_from_file_location("visibility_offline", HERE / "analyze.py")
+ M = importlib.util.module_from_spec(SPEC)
+ SPEC.loader.exec_module(M)
+-SOURCE = (
+-    HERE.parent
+-    if (HERE.parent / "protocol.json").is_file()
+-    else HERE.parent / "autonomous_visibility_information_x2_20261014"
+-)
++SOURCE = HERE.parents[1] / "autonomous_visibility_information_x2_20261014"
+ 
+ 
+ def save(path, value):
+@@ -35,7 +31,7 @@
+         live_time=cells * w["T"],
+         live_S=sense * w["T"],
+         live_M=(cells - sense) * w["T"],
+-        births=cells,
++        births=0,
+         n_end=cells,
+         n_peak=cells,
+         n_S_end=sense,

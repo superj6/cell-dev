@@ -2318,3 +2318,43 @@ The separate preparation in `results/visibility_information_x2_20261014/` transf
 unconsumed blocks113/116 and binds X's terminal no-life evidence. Its 3,599/179 total/validation CPU-second
 caps leave both attempts within the original 3,600/180 allocation. No X2 compilation or simulated life has
 occurred at this milestone. This repairs measurement initialization and produces no scientific result.
+
+## 2026-10-14 — Flash and blink pay for useful information, chiefly through extra captures
+
+X2 completed all 13,312 research lives and 82 validation/calibration lives. At the same 56-cell footprint,
+the unchanged external controller beats the better whole reflex (R1 in both worlds) by **+7.726926 ± 0.144557 F
+in flash** and **+5.551957 ± 0.119805 F in irregular blink**. The fixed R0 comparisons are +7.780598 ± 0.143183
+and +5.578772 ± 0.118970. Values are paired means ± SE across 512 fresh seeds; selecting the reference by
+whole-sample mean makes that comparison descriptive. Both information-payoff and do-less-quarter checks pass.
+None of the eight fixed do-less variants has a positive mean advantage over R1; the best (D6) differs by
+−0.119854 ± 0.043303 in flash and −0.026815 ± 0.012284 in blink.
+
+| Full controller minus R1 | Flash | Irregular blink |
+|---|---:|---:|
+| Extra captures per life | +16.957 ± 0.298 | +11.494 ± 0.249 |
+| Extra low-light captures | +14.375 ± 0.279 | +3.197 ± 0.107 |
+| Extra bright captures | +2.582 ± 0.081 | +8.297 ± 0.220 |
+| Capture-income contribution to F | +8.279800 | +5.612373 |
+| Combined cost-saving contribution to F | −0.552875 | −0.060417 |
+
+The gains buy additional captures despite higher costs. About 84.8% of flash's extra captures occur while
+dim, versus 27.8% of blink's extra captures while dark (ratios of paired means). These timing readouts do not
+isolate memory. Removing the broad visibility model loses **2.085273 ± 0.160657 F in flash**, but only
+**0.087616 ± 0.129221 in blink**, an unresolved effect. Suppressing actions while believed dark loses
+10.660042 ± 0.140670 and 2.487956 ± 0.136208 respectively. Neither intervention removes only memory;
+capability-specific admission and duration transfer remain incomplete. The controller has free central
+computation and is an external instrument, not an evolved algorithm or a demonstrated local implementation.
+
+The final independent audit required a separate analyzer correction: initial cells are excluded from the
+kernel's birth counter, and wall/ordinary rejections and delivered/dropped arrivals are disjoint counts.
+The frozen analyzer's assumptions were wrong. Its source and failed invocation remain preserved; the corrected
+version changes those bookkeeping checks only. Two independent source reviews, all 82 actual validation
+ledgers and 164 tests verify the correction before full outcome analysis. Prices, fitness, candidates,
+contrasts and all 109 released source pins remain unchanged. No simulations were repeated.
+
+X2 used **1,348.464197 CPU-seconds**, including 68.524434 for validation; together with X's failed startup,
+total use is **1,349.180745 CPU-seconds**. Every process/group exited. Full raw records, both analyzers,
+the explicit erratum and portable corrected reanalysis are in `results/visibility_information_x2_20261014/`.
+The next bounded diagnostic will test ordinary mutations around the stronger D90/L92 evolved founders in
+irregular blink, emphasizing capture gains versus economy. This is a Phase 0 accessibility measurement,
+with no hand-built winning-body gate and no automatic memory-admission claim.

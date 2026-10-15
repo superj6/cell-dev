@@ -1,0 +1,48 @@
+{
+  "status": "source_correction_approved_before_research_outcome_analysis",
+  "protocol_sha256": "a2e3699ca131b0091473097607be054d6908c4470aadd1996ad5f2acc0a75d99",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "research_outcomes_read": false,
+  "tests_passed": 164,
+  "ruff": "pass",
+  "original_frozen_files": {
+    "analyze.py": "f3a0cf9cb8010e386c8fc99d15158543add4086d1666d139959b2551cc8e2503",
+    "accounting.py": "1906b67d73ed1a023048792d18a158ae56ce3e7f2ee49d1bf064a442b8488461",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_accounting.py": "e0b2ab9c31ac68f83714e4b2f0ca4416b467e4355f164a8c8357cc6dc20fc55e",
+    "test_analyze.py": "8492064f8caaae3bcc47fe5e12f1a0582293cbe18744d7e41848bf0e880d8555"
+  },
+  "corrected_files": {
+    "analyze.py": "b570720e9d52be48e46882568c867701119c4127f341804d67928d164f8f5c21",
+    "accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_accounting.py": "2deb4a7703bfb9a166792f3d50ee3dfd3c34bfa33360e037b4f2247637d90d3a",
+    "test_analyze.py": "3eab8a61f2fb02062533519a1c4daa51dcbfba2570414252eda4145610cc35a1",
+    "test_census_erratum.py": "7a08fcb5ea65cbbf091625849648a44fc634ee1dd6e572e89bbabef41698e474",
+    "ERRATUM.md": "485c60a28526e6346cbf2e9f1703532f612df4b5eb223eb941b0ce1bb0ec7100",
+    "source_diff.txt": "337b343a5502df0e9065b8776dc36af828e3f06268967e03edf6c75c3ed3cccb",
+    "fixtures/metadata.json": "aeb05d000fb4835d6618a402129af46cb18e2978ec1e6447e5ac3e762d03eafc",
+    "fixtures/blink20_R0_0_scratch.npz": "d069c9022e83ee215433ffb092d9b2dfde4b84d4f83afdc3ea43299489d80248",
+    "test_execution.txt": "cfdee3a183e09a4d48b953a0e6668069a3dca9b7dd85a0a056dfffdc3077c3f9",
+    "test_results.xml": "bdbbed6d1ea8df92a5aa3baaec97fc496c2f4a8c62ed1a855c2579031fa01bc5"
+  },
+  "source_proof": {
+    "pinned_abi3_kernel": {
+      "path": "outputs/autonomous_visibility_information_x2_20261014/original/src/life/kernel.c",
+      "sha256": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61",
+      "initial_birth_record": "birth() sets r->u3 = init_index >= 0",
+      "census": "R_BIRTH increments c->n; births increments only under !r->u3; deaths and kills counted separately",
+      "disjoint_counters": "R_RESOLVE rejects/rejects_wall are distinct outcomes; c_arrivals += n_del while c_arrdrop += n_arr-n_del"
+    }
+  },
+  "independent_review": {
+    "path": "outputs/audit_visibility_information_x2_20261014/postanalysis_independent_review.json",
+    "sha256": "f13f400e697245ba565f952957b35858b39bf50710f680e84d9be7b2f517416e"
+  },
+  "root_failure_record": {
+    "path": "outputs/autonomous_visibility_information_x2_20261014/postanalysis/root_failure_record.json",
+    "sha256": "54930e1bb2c6d82fd67a8f35de40b1d165cdd1f9454f1ccf0429fb0b0218cec4"
+  },
+  "scope": "Census and unsupported counter-subset correction only; no changed scientific formula, criterion, matrix, seed, source, budget or released bytes."
+}

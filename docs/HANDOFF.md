@@ -54,6 +54,17 @@ repair is registered with the same scientific matrix and unconsumed seeds; its 3
 Both ablations are broad; memory-specific admission remains incomplete regardless of their effect. This is an external measurement,
 with no new organism behavior or hand-built winning-body gate.
 
+**X2 completed (2026-10-14).** The fixed external controller gains +7.727 ± 0.145 F in flash and
++5.552 ± 0.120 in blink over the better same-footprint reflex, from extra captures despite higher costs.
+All eight do-less variants have nonpositive mean advantages. Broad visibility-model ablation loses
+2.085 ± 0.161 F in flash but an unresolved 0.088 ± 0.129 in blink; neither ablation isolates memory.
+All 13,312 research and 82 validation lives completed in 1,348.464197 CPU-seconds; combined with failed X,
+use is 1,349.180745. All processes exited. The original analyzer incorrectly counted initial cells as births;
+the separate corrected accountant has source reviews, actual validation regressions and 164 passing tests.
+Both versions and unchanged data are archived at `results/visibility_information_x2_20261014/`.
+A one-world ordinary-mutant diagnostic around confirmed D90/L92 endpoints is being prepared for blink;
+it is a Phase 0 accessibility study, not a memory claim or a large selection rollout.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

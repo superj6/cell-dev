@@ -1,0 +1,35 @@
+{
+  "status": "approved_source_semantics_correction",
+  "reviewer": "prediction_audit",
+  "simulation_calls": 0,
+  "research_outcomes_read": false,
+  "new_tests_run": 0,
+  "changed_functions": {
+    "accounting.py": [
+      "reconcile"
+    ],
+    "analyze.py": [
+      "static_body"
+    ]
+  },
+  "checks": [
+    "Pinned C birth() marks initial birth records with u3; acc_record increments census for all births but counts births only when !u3.",
+    "Pinned C deaths and kills are disjoint branches of the same removal event, so initial_count+births-deaths-kills=n_end for these t_open0 lives.",
+    "Static-body corrected checks still require zero births,deaths,kills,claims,rejects,rejects_wall plus exact candidate census and cell-times.",
+    "C rejects and rejects_wall are disjoint failure reasons; delivered arrivals and dropped arrivals are separately counted. The removed subset inequalities had no C support.",
+    "Full ledger pricing, payoffs, paired statistics, candidate reconstruction, CPU/source/validation/replay integrity and admission rules are unchanged.",
+    "Actual pinned pre-research validation fixture tests zero births with56initialcells and rejects restoring old interpretation; synthetic fixtures adjusted accordingly."
+  ],
+  "pins": {
+    "outputs/audit_visibility_information_x2_20261014/postanalysis/accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "outputs/audit_visibility_information_x2_20261014/postanalysis/analyze.py": "b570720e9d52be48e46882568c867701119c4127f341804d67928d164f8f5c21",
+    "outputs/audit_visibility_information_x2_20261014/postanalysis/test_census_erratum.py": "7a08fcb5ea65cbbf091625849648a44fc634ee1dd6e572e89bbabef41698e474",
+    "outputs/audit_visibility_information_x2_20261014/postanalysis/fixtures/metadata.json": "aeb05d000fb4835d6618a402129af46cb18e2978ec1e6447e5ac3e762d03eafc",
+    "outputs/audit_visibility_information_x2_20261014/postanalysis/fixtures/blink20_R0_0_scratch.npz": "d069c9022e83ee215433ffb092d9b2dfde4b84d4f83afdc3ea43299489d80248",
+    "outputs/autonomous_visibility_information_x2_20261014/original/src/life/kernel.c": "73c641d1eac5b3aa9396d635ab0debdf2fdde8a9faa38cc7e72e22d08bf3fe61"
+  },
+  "limits": [
+    "Approval covers the exact source correction and test design; independent test execution receipt remains with the implementing reviewer.",
+    "No research outcome was inspected or tuned during this review."
+  ]
+}

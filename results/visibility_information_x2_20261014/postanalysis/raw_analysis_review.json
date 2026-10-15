@@ -1,0 +1,87 @@
+{
+  "status": "complete",
+  "protocol_sha256": "a2e3699ca131b0091473097607be054d6908c4470aadd1996ad5f2acc0a75d99",
+  "simulation_calls_in_this_analysis": 0,
+  "compiled_libraries_in_this_analysis": 0,
+  "complete_study_lives": 13394,
+  "resources": {
+    "total_cpu_seconds": 1348.464197,
+    "validation_cpu_seconds": 68.524434,
+    "research_cpu_seconds": 1279.939763,
+    "first_attempt_only": true,
+    "monitor_accounting_includes_compilation": true,
+    "raw_research_row_cpu_seconds": 1017.4962233189999
+  },
+  "prior_failed_X_cpu_seconds": 0.716548,
+  "combined_X_X2_cpu_seconds": 1349.1807450000001,
+  "source_correction": "initial-cell census and disjoint-counter predicates only; released analyzer retained unchanged",
+  "files": {
+    "analyze.py": "b570720e9d52be48e46882568c867701119c4127f341804d67928d164f8f5c21",
+    "accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "ERRATUM.md": "485c60a28526e6346cbf2e9f1703532f612df4b5eb223eb941b0ce1bb0ec7100",
+    "source_diff.txt": "337b343a5502df0e9065b8776dc36af828e3f06268967e03edf6c75c3ed3cccb",
+    "correction_review.json": "833947fdcea9aa96729c1e4cfb10c1de088f4b3106ed98ed2cfe0bdae85839eb",
+    "prediction_independent_review.json": "1bcf7b5c6b1ca2e3f7d5f1d15cfcfff4780fa2e4de7717b17a4e73a3a486d9d1",
+    "test_results.xml": "bdbbed6d1ea8df92a5aa3baaec97fc496c2f4a8c62ed1a855c2579031fa01bc5",
+    "test_execution.txt": "cfdee3a183e09a4d48b953a0e6668069a3dca9b7dd85a0a056dfffdc3077c3f9",
+    "working_analysis_log.json": "36d08882e75a3606591f37b6129f6fcb1cd2d06bb65f05da2f3cc935a0ed7b3c",
+    "working_results/summary.json": "36d08882e75a3606591f37b6129f6fcb1cd2d06bb65f05da2f3cc935a0ed7b3c",
+    "working_results/paired_vectors.npz": "6ebc6a65e44ded165047483f1d5aaecbad87fe0e4f4935aafdaa12c0c0d9ac9a"
+  },
+  "independent_validation_review": {
+    "path": "outputs/audit_visibility_information_x2_20261014/postanalysis_independent_review.json",
+    "sha256": "f13f400e697245ba565f952957b35858b39bf50710f680e84d9be7b2f517416e"
+  },
+  "outcomes": {
+    "flash5_dim25": {
+      "reference_role": "R1",
+      "do_less_role": "D6",
+      "information_gap": {
+        "mean": 7.726925894550737,
+        "se": 0.14455733858122496,
+        "n": 512
+      },
+      "information_payoff_criterion": true,
+      "do_less_quarter_criterion": true,
+      "capability_specific_admission": "incomplete",
+      "fixed_broad_ablations": {
+        "A": {
+          "mean": 2.085273196483322,
+          "se": 0.16065672502204467,
+          "n": 512
+        },
+        "B": {
+          "mean": 10.660042236062033,
+          "se": 0.14067047480581607,
+          "n": 512
+        }
+      }
+    },
+    "blink20": {
+      "reference_role": "R1",
+      "do_less_role": "D6",
+      "information_gap": {
+        "mean": 5.551956723355235,
+        "se": 0.11980481994783594,
+        "n": 512
+      },
+      "information_payoff_criterion": true,
+      "do_less_quarter_criterion": true,
+      "capability_specific_admission": "incomplete",
+      "fixed_broad_ablations": {
+        "A": {
+          "mean": 0.08761643367978458,
+          "se": 0.12922112076490425,
+          "n": 512
+        },
+        "B": {
+          "mean": 2.487956022559101,
+          "se": 0.13620756934170436,
+          "n": 512
+        }
+      }
+    },
+    "interpretation": "Both fixed worlds have useful information payoff and no do-less challenge. These external controllers are yardsticks, not evolved behavior. Blink I-A is unresolved; broad ablations do not isolate memory. A production-ABI4 blink local-gradient diagnostic is supported by information payoff, without a capability-specific admission claim."
+  }
+}

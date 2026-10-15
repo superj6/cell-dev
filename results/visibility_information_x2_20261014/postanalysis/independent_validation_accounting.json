@@ -1,0 +1,347 @@
+{
+  "scope": "existing fixed validation ledgers only; no research files or scientific contrasts",
+  "validation_rows": 82,
+  "ledger_files": 64,
+  "checks": {
+    "hashes": true,
+    "births_zero": true,
+    "deaths_kills_claims_rejections_zero": true,
+    "initial_census": true,
+    "peak_census": true,
+    "income_bitwise": true,
+    "net_bitwise": true,
+    "fitness_bitwise": true,
+    "event_cost_kernel_tolerance": true,
+    "plane_census": true,
+    "plane_time": true,
+    "morph_balance": true,
+    "rec_events_le_accept_le_candidates": true,
+    "zone_le_samples": true,
+    "capture_plus_miss_clicks": true
+  },
+  "input_pins": {
+    "validation/flash5_dim25_R0_0_scratch.npz": {
+      "sha256": "42162b98539ba1222d63101956028e949888e5ccc7094f805cf5d9447cbd595f",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_R0_0_production.npz": {
+      "sha256": "7a10fe09b557681ce7f614d8c08193dc08b2d0e6e60c26cdc2cc00e3bcb296e4",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/flash5_dim25_R0_1_scratch.npz": {
+      "sha256": "bb7208e6ce81a63ead034bad29ff49e4a151c744d776b2bbbbd2c31817535e53",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_R0_1_production.npz": {
+      "sha256": "64a2c5ba14cb1b4abcbdd141294a9273216a55d4eea749421bf09041a5f5fceb",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/flash5_dim25_R1_0_scratch.npz": {
+      "sha256": "7b94a7021d81bf3a62a7d69f55a05ae6d1dce5bec9c28907d77db5f25b91df17",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_R1_0_production.npz": {
+      "sha256": "ac447d2385c7da19fa59d1af82ebdb89ebf27e61fe7498ffcb236f62bef8fed3",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/flash5_dim25_R1_1_scratch.npz": {
+      "sha256": "d22bfbc79e29c4fc66fae00474389946675d7bd496539764e33408cf99bfe25a",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_R1_1_production.npz": {
+      "sha256": "1ed94d73d8ac4e04ecdbd220024e6494debab99315bf8e4d3a37e5b61dae581a",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/flash5_dim25_I_full.npz": {
+      "sha256": "f945311c1bae16325121dd20616e5a5a4d30aacfc3a4b5d78ea4b30cda1f2e16",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_fast.npz": {
+      "sha256": "00196e3d675ba03f77a314ff5df151fb0b7c7d73101b00c794bec77b6fc5f049",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_full.npz": {
+      "sha256": "30b734562b2c5e03abe90c740a8a6647885e693919c9402222351ec4407f5279",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_fast.npz": {
+      "sha256": "d93432b5f3ddf15d5336db38fca21ebd4eea8ea656b0e8b876d3eba1d55ffcf5",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_full.npz": {
+      "sha256": "e6d7f9bc4f64e442d9b5519bc4723f67559cc22903d06417510269ccef452200",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_fast.npz": {
+      "sha256": "b0136e6c50025c41a6f65b9d33d509c4930c2f8c6074fbdf41cfb9553ee013ca",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_R0_0_scratch.npz": {
+      "sha256": "d069c9022e83ee215433ffb092d9b2dfde4b84d4f83afdc3ea43299489d80248",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_R0_0_production.npz": {
+      "sha256": "ce5b28e6a9a76a2d4b0849d6872db76e2b6be6e35d661f5dca4f1cefc10ab545",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/blink20_R0_1_scratch.npz": {
+      "sha256": "bbe7fe17b630c96bdfd7ee1eac533307206900dea2de84479c47718b1d8fb4cb",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_R0_1_production.npz": {
+      "sha256": "a2878914d1d44a5100cacc613d6c5e43557a5925c8a11049455ee273a5c4bd7a",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/blink20_R1_0_scratch.npz": {
+      "sha256": "92f4bcb0e5eb21084db21fb91662f79cc731fd84e5e458724cc736533353b8e0",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_R1_0_production.npz": {
+      "sha256": "9e7051fa951d7622041709cd0712d321475f1a782c2a5ad519f5d23d0a670eeb",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/blink20_R1_1_scratch.npz": {
+      "sha256": "2e4159fd42feab020539d13f94f30d7946d68638bac15fe2166eae10194fc4a5",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_R1_1_production.npz": {
+      "sha256": "60c3fc88fe8da026ebc3335ca72abfc8159edc4241a2c05da47b072fee05f132",
+      "rows": 1,
+      "ledger_columns": 58
+    },
+    "validation/blink20_I_full.npz": {
+      "sha256": "049d76a087420bceacea1e22b384cc81757b84cb331cc02a993d4f0ed4365fe9",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_fast.npz": {
+      "sha256": "6497df1c8f7774be6bd4fa7496c50d04f6686e8d2aecc0b37a40ad6fee6b44bc",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_full.npz": {
+      "sha256": "74aac9533d7802b802b7a042815b5bb179726b1ad7aa4a2119f7a17b5179433a",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_fast.npz": {
+      "sha256": "d9bac9394da92a712567b796b32a080df10b7179237fae95a54456994aa7e79f",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_full.npz": {
+      "sha256": "0c0d0ef9ba1cd099e6996f44bce57cbf2e2f333229822d085e486feb3902c538",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_fast.npz": {
+      "sha256": "bfcb216bb165e461b22c53b5a343e9d81a52981928556b91a7c313fd9f70f144",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_record.npz": {
+      "sha256": "5d44f38294523784875fa0a734221e909cd7f49d314cb3e6ea0ce5d7c3e392b3",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_same_life.npz": {
+      "sha256": "f63ea911b5792980aa127de07b69bee7de6149d9e243ef88f871fbb2f0250d00",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_other_life.npz": {
+      "sha256": "08d3fe899f455f2040c6213d17258cbec208441828131dacc77dcab3d3970ee3",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_other_world.npz": {
+      "sha256": "98aa49e609fde526ccc72f2b51666234cf8b75b98400160758bdbbcf7e360326",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_control.npz": {
+      "sha256": "a0cbb221c06a965609bfc97bc9e5971f6309253895cebb2f7223a63e71e4afd8",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_record.npz": {
+      "sha256": "ce1878c67e6592c7b5b2b84ac0cd40f7e661b19f6979e9359f59acf135eb441b",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_same_life.npz": {
+      "sha256": "be91819abd7c9a357d60f51ce1f6f99d99f74acbaba6c449b294d294118cb33a",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_other_life.npz": {
+      "sha256": "2771ea07c179963a663c8b1d85af27f3e6152c12ce611b8765153b65aa4a7f21",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_other_world.npz": {
+      "sha256": "bccf849760c181e0d5750ca0ee4875b9533478a3ef1aacecff4d98b0c92a0e4f",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_control.npz": {
+      "sha256": "1741a6f538d0da8da1833b3cf9cd887e43e5289bc95b32928a4c98a76918a854",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_record.npz": {
+      "sha256": "3034075c72a44500fd6ad343677832ef87612169b3c09b8b5e792b1c021c9237",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_same_life.npz": {
+      "sha256": "ebd615f1f2659717d3fbd09ce5d7224ee160ff6a4f59014c0207b1df47f432d8",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_other_life.npz": {
+      "sha256": "77fc478048f963230a4c0c1cb27ccbefaf4945a1dfa3d9020f34ba5c618a6445",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_other_world.npz": {
+      "sha256": "d00b2f66fd7de4b12bcecc18c0fa5a8077f8f51f6dd8af87d60170f0f0aa6e01",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_control.npz": {
+      "sha256": "3394f0d0a759ceb777700643e5b1b77ca541e1ad13662a22d00bc287b2df4b45",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_record.npz": {
+      "sha256": "dbbcbf6a1434faf40c6c6b9537a1e110a17213ba3143185e3942fc8704fc8e8a",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_same_life.npz": {
+      "sha256": "17761cbb88796af8adf05a9787eeda2b5a575700f6ae6b987d613794d34b60f7",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_other_life.npz": {
+      "sha256": "6068fd751ce939472e851fdd1184437a19ae33a106718d3a4770d2e575112d4b",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_other_world.npz": {
+      "sha256": "ba8691c5d6c58df9d1d0a43b0308c2e94e83e13897d739501be9153a7acd82fa",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_control.npz": {
+      "sha256": "d9239b047cff0d2e63bec7dd4150123dd6efb37a4cb1fa41646d49c26a2000c0",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_record.npz": {
+      "sha256": "e41bd2500491ee5235061d4ab1f6a3cf6add2598e3c0b0b99119da2a7e60585f",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_same_life.npz": {
+      "sha256": "432081bd7f9b6b35694dc92e3538fb8bf913743cfc8e5cb3e60555949b477aa0",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_other_life.npz": {
+      "sha256": "c211d948416bdcb5225d0f890473ec56492b7d332ab30529166c074676a7b70e",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_other_world.npz": {
+      "sha256": "a4cb16f33c5009754e7ceee6e394d5dff8815b62be7c60dc4002cf0ad1a2e28c",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_control.npz": {
+      "sha256": "7ed966aa724131ea80b6ca5d29eef7fa74903725792dd2ae7819468f9410ece6",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_record.npz": {
+      "sha256": "e93889adcca880e9a5cf4e1176f598848ece3d3290d5f7f1e4c86a3f66bab378",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_same_life.npz": {
+      "sha256": "23e653d1df57e0f6376509c90e745b8290bfd31c24f6868aece5d991baf44bf7",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_other_life.npz": {
+      "sha256": "a4cd675c7ea36bac23d5595efa64ad4e809f8db9f26efc4cd4ce132dd67e4e62",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_other_world.npz": {
+      "sha256": "060b67f00e669beb9b89717d6eec9b12799f3378bb4af187b8361b8493decfdf",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_control.npz": {
+      "sha256": "7675220c9b72c513b78e4fa0dd7c9a39258f608ae8f6f509b6d9bf41b746333d",
+      "rows": 1,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_I_calibration.npz": {
+      "sha256": "efc808215eddaf1db147e17e878a865d522bb8a7804951a6326336d318bfa1bd",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_A_calibration.npz": {
+      "sha256": "5593d0eced52d963d5c3caca6fcc82545d476ead0b5e0fcb247bbe8ba5416cab",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/flash5_dim25_B_calibration.npz": {
+      "sha256": "a96f6e73790dc6ee92ab1f0fc40c9fc5d658fb17d15a39c4c5d7df70704341a7",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_I_calibration.npz": {
+      "sha256": "2df070b8ab222885000a885a5e3f8e380b22da8206885ea365e9405a831d504c",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_A_calibration.npz": {
+      "sha256": "7cfb9fdb7ba6d80804d27314a79bbb56029421ca4c151a3cd9f92b4c1c72bd0c",
+      "rows": 2,
+      "ledger_columns": 57
+    },
+    "validation/blink20_B_calibration.npz": {
+      "sha256": "eaace49f451382b213f7c8757863be444e1172d5a9ba89f6d059dc72f48d0e79",
+      "rows": 2,
+      "ledger_columns": 57
+    }
+  },
+  "frozen_accounting_sha256": "1906b67d73ed1a023048792d18a158ae56ce3e7f2ee49d1bf064a442b8488461",
+  "new_lives": 0,
+  "compiles": 0
+}
