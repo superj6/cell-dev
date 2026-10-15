@@ -145,6 +145,15 @@ review. `results/prediction_gradient_20261014/` preserves prospective inputs; ro
 No preparation simulations ran. This is an accessibility diagnostic, without a prediction claim, world rejection
 criterion or hand-built-body requirement; larger selection plans remain unreleased.
 
+*2026-10-14 AE complete:* L92 row31 improves **+.72874 ± .05238 F** and **+.41797 ± .10489 captures**
+in the exact persistent-target world on 512 fresh paired lives. The capture gain exceeds three SE, but most
+fitness gain still comes from **+.52466 ± .01074 F** in cost savings; capture income adds **+.20409 ± .05122**.
+D90 row54 gains **+1.73327 ± .07687 F** through economy, with no resolved capture gain. All 6,218 calls completed
+in 1,226.079103 CPU-seconds; raw accounting, unchanged sources and all 128 paired arrays reconcile.
+`results/prediction_gradient_20261014/` records this modest accessible capture improvement, without a prediction
+or general evolvability claim. Source-only AF prepares two short ordinary continuations from both fixed AE
+selections to test accumulation. No new ABI, prices, organism rules or large rollout is introduced.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

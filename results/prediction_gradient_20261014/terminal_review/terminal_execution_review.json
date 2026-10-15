@@ -1,0 +1,146 @@
+{
+  "status": "complete_independently_verified",
+  "protocol_sha256": "0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849",
+  "terminal_process_clearance_sha256": "b8010a306ad046443d673362f2402d5b2e04d33e0d39e34235ddf1c2fe274894",
+  "budget_sha256": "2b5518ca6fb48c11a827def46151ed1f01951854e2567c932c44eeacd14a28af",
+  "reader_sha256": "6cb7df4bac7144ecd86b91407344c052ed3d57e92fe6da6fdc7b77e077c8714e",
+  "raw_helper_sha256": "808ca7548cb2e5ec368f7ccf53d6acee51ba3ca9e7886b37633d5a682c527d5a",
+  "raw_review_sha256": "bc6be939b4a3ddbd77ac86470c78b86229697fa2a79c2ee801395519f40c2f08",
+  "raw_review_exit_code": 0,
+  "frozen_reader_exit_code": 0,
+  "frozen_reader_working_directory": "/",
+  "summary_json_byte_equal": true,
+  "summary_object_equal": true,
+  "paired_arrays_bitwise_equal": 128,
+  "paired_npz_byte_equal": true,
+  "output_pins": {
+    "summary.json": "e269cab21b720053fcb0ae14febfd62b76a86c7a91bb49cc0a7cedc536721628",
+    "paired_vectors.npz": "e1cf445d6300bc8658637c81612ab73bac5e05f0bcb6d8be59e5c9d3429bf816"
+  },
+  "audit_output_pins": {
+    "terminal_raw_review.stdout.json": "96966f33b936228ce7ec9fabea6bee6a3ca0e13b5eaf9f60e2381fc8f098824e",
+    "terminal_raw_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen_reanalysis.stdout.json": "e269cab21b720053fcb0ae14febfd62b76a86c7a91bb49cc0a7cedc536721628",
+    "frozen_reanalysis.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "frozen_reader_reanalysis/summary.json": "e269cab21b720053fcb0ae14febfd62b76a86c7a91bb49cc0a7cedc536721628",
+    "frozen_reader_reanalysis/paired_vectors.npz": "e1cf445d6300bc8658637c81612ab73bac5e05f0bcb6d8be59e5c9d3429bf816"
+  },
+  "calls": {
+    "research": 6208,
+    "raw_calibration": 8,
+    "standard_goldens": 2,
+    "total": 6218
+  },
+  "status_histograms": {
+    "calibration": {
+      "0": 8
+    },
+    "screen": {
+      "0": 4160
+    },
+    "confirm": {
+      "0": 2048
+    },
+    "research": {
+      "0": 6208
+    }
+  },
+  "resources": {
+    "cpu_seconds": 1226.079103,
+    "wall_seconds": 540.5653536699974,
+    "startup_calibration_cpu_seconds": 13.689933,
+    "startup_screen_cpu_seconds": 874.7670439999999,
+    "confirmation_cpu_seconds": 351.3120590000001,
+    "raw_stage_cpu_seconds": {
+      "calibration": 1.4483922000000002,
+      "screen": 737.0086083079998,
+      "confirm": 301.7941701389999
+    }
+  },
+  "primary": {
+    "H_D90_minus_P_D90": {
+      "F": {
+        "mean": 1.733271516794726,
+        "se": 0.07687435004824916,
+        "n": 512
+      },
+      "captures": {
+        "mean": -0.328125,
+        "se": 0.14990001713063014,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": -0.16021728515625,
+        "se": 0.07319336773956549,
+        "n": 512
+      },
+      "ordinary_cost": {
+        "mean": 1.8934888019509757,
+        "se": 0.018796639197178968,
+        "n": 512
+      },
+      "guard_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      }
+    },
+    "H_L92_minus_P_L92": {
+      "F": {
+        "mean": 0.7287442295106801,
+        "se": 0.05237839866814052,
+        "n": 512
+      },
+      "captures": {
+        "mean": 0.41796875,
+        "se": 0.10489186607891714,
+        "n": 512
+      },
+      "capture_income": {
+        "mean": 0.2040863037109375,
+        "se": 0.05121673148384626,
+        "n": 512
+      },
+      "ordinary_cost": {
+        "mean": 0.5246579257997427,
+        "se": 0.010737680077191943,
+        "n": 512
+      },
+      "guard_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      },
+      "extinction_cost": {
+        "mean": 0.0,
+        "se": 0.0,
+        "n": 512
+      }
+    }
+  },
+  "selection": {
+    "D90": {
+      "genome_row": 54,
+      "raw_sha256": "8d7f4841934779ac7ef610d18d31cdb2fe2fab2ba3801acee64cc59932ac5f70"
+    },
+    "L92": {
+      "genome_row": 31,
+      "raw_sha256": "edc62b75a48c76cdc4214f04561d7528a77399c90837f6e07b3f90aea47755a7"
+    }
+  },
+  "activity": {
+    "new_simulations": 0,
+    "compilations": 0,
+    "new_mutation_draws": 0,
+    "frozen_files_modified": false
+  },
+  "limits": [
+    "The 2 compatibility goldens are verified by identity and retained library hashes; complete golden raw ledgers are not retained.",
+    "Two fixed mutation neighborhoods and prospective paired confirmations; no isolated tracking, prediction or memory inference."
+  ]
+}

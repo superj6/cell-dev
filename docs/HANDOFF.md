@@ -190,6 +190,19 @@ lives ran during preparation. Prospective evidence: `results/prediction_gradient
 This tests accessible capture improvement versus economy; it cannot by itself establish prediction or general
 evolvability, and it introduces no hand-built winning-body gate. Root runtime release follows publication.
 
+**AE complete (2026-10-14).** In V's exact persistent-target world, L92 row31 gains **+.72874 ± .05238 F**
+and **+.41797 ± .10489 captures** on 512 fresh paired lives; both exceed three SE. Capture income supplies
+**+.20409 ± .05122 F**, while ordinary cost savings supply **+.52466 ± .01074**. Mean captures rise from
+3.45703 to 3.87500, but absolute mean F remains −.82235. D90 selects the same row54 as flash: **+1.73327 ± .07687 F**
+from **+1.89349 ± .01880** cost savings, with unresolved capture change **−.32813 ± .14990**. Both bodies shrink
+and fire less. This establishes one modest accessible capture improvement, not prediction or a new algorithm.
+All 6,208 research plus ten validation lives completed in **1,226.079103 CPU-seconds**. All 6,216 raw statuses
+are zero; two startup goldens are separately verified. Both processes and the owned group exited, and all
+235 local/35 production release pins remain unchanged. Frozen analysis and independent raw recount reproduce
+all 128 paired vectors exactly. Complete evidence and figure: `results/prediction_gradient_20261014/`.
+Source-only AF now prepares short ordinary continuations from both fixed AE selections to test accumulation;
+no AF seeds, inputs, genetic draws, compilation or lives are released. Prices and local asynchronous rules stay fixed.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with
