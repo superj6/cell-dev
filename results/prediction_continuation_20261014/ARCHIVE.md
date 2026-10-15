@@ -1,0 +1,11 @@
+# AF prospective archive
+
+AF is prepared and unlaunched. It will continue both fixed AE selections in the exact existing ABI3 persistent-target world using two ordinary four-generation searches, then compare their final rank0 endpoints with their own starts on512 shared fresh confirmation seeds. The complete scope is10,316 research lives plus six startup goldens. Maximum aggregate CPU is5,400 seconds, with3,400 for startup/search and at least2,000 reserved for confirmation. No positive prior confirmation result is required of either start.
+
+Preparation copied existing evidence, created exactly two32-row native initial populations, and retained all124 recorded ordinary point additions. It compiled no libraries and ran no lives. The protocol and historical draft README/PREREG remain unchanged; PREPARED_STATUS records the current prepared state. Runtime still requires root release after prospective publication.
+
+All current scientific inputs, source definitions, initial tables, recorded operations, source/input reviews, resource receipts and the independent offline reader are present here. The archived reader resolves production definitions from `production/` and copied external receipts from `original/`; no network fetch is necessary for the scientific input and recorded-initialization check. Complete historical namespace verification additionally requires the exact committed repository artifacts listed in NAMESPACE_PROVENANCE.md; their large prior inventories are not copied again.
+
+`manifest.json` lists every artifact's exact bytes, hash and origin. `prelaunch/manifest.json` preserves this preparation snapshot. All canonical study files have an exact-origin/hash mapping; ignored nested paths require the accompanying force-add list. No synthetic test fixture tree is included. Source, logs and receipts of the tests are retained without claiming their mocks are real organism lives. The AE watchable illustration is preserved as prior engineering provenance only and reuses an already published seed.
+
+No AF outcomes, prediction/memory mechanism, or guarantee that mutant costs fit the budget are claimed. Future terminal archival will append runtime evidence while preserving these prepared bytes.

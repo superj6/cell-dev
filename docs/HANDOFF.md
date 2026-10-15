@@ -203,6 +203,20 @@ all 128 paired vectors exactly. Complete evidence and figure: `results/predictio
 Source-only AF now prepares short ordinary continuations from both fixed AE selections to test accumulation;
 no AF seeds, inputs, genetic draws, compilation or lives are released. Prices and local asynchronous rules stay fixed.
 
+**AF registered and prepared (2026-10-14).** Two ordinary four-generation searches retain both fixed AE
+selections, D90 row54 and L92 row31, in the exact V/AE ABI3 persistent-target world. Each uses native 32+224
+selection with 3+4 lives and one recorded 32-row initialization. Freeze both final rank-zero endpoints, then
+confirm endpoints and starts together on 512 fresh lives. The scope is 8,268 native search/diagnostic plus 2,048
+confirmation lives and six goldens, under 5,400 inclusive CPU-seconds; startup/search cap 3,400 preserves 2,000
+for confirmation. Two two-thread searches precede one two-thread confirmation worker. Six AE timing rows
+project 2,365.459/992.014 CPU-seconds with fixed margins; hard caps remain decisive. Runs 53224/53225 and
+confirmation 52,310,000–52,310,511 are audited; all 34 prior process identities, 24 groups and twelve budgets are clear.
+One-time input copying and both ordinary initializations are complete; no builds or lives ran in preparation.
+Protocol `ebdc3f37…15b5e0` pins 50 local/35 production files. Independent actual-input/reader review and prospective
+publication precede root release. Both capture contrasts and full cost decomposition are retained; no prediction,
+memory or general reliability claim follows. Prices and local rules remain fixed. Evidence:
+`results/prediction_continuation_20261014/`. First attempt only, no retry/resume or extension.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

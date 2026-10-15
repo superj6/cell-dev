@@ -1,0 +1,7 @@
+# Namespace proof and portability
+
+The current AF audit is retained under `original/outputs/audit_prediction_continuation_20261014/namespace/`. It checks both genetic/run seeds, all128 derived native life IDs, the entire half-open decimal block131 [52,310,000,52,320,000), and the512 selected confirmation IDs. Final delta and publication supplement retain the only new illustrative reuse: AE seed52,300,000. Registration is a separate root record; historical pre-registration wording remains intact.
+
+`history_references.json` gives13 exact repository paths, containing commits, sizes and SHA256s for36,177,409 bytes of already published historical inventory/proof. Those objects are not duplicated in this folder. The archive helper verifies each current file and its exact Git commit bytes before packaging. Full historical namespace verification therefore requires those referenced repository artifacts, not this folder alone. There is no network fetch or unpinned live-source substitution.
+
+Current scientific inputs, production definitions, initialization operations and analysis helpers are packaged inside this folder. An independent invocation from outside the repository must verify those inputs and replay all64 recorded initial rows using only archived definitions. It must report incomplete until a later root release and complete runtime evidence exist. This distinction between scientific input portability and historical namespace provenance is intentional.

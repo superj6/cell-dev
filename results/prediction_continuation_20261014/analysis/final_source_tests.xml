@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="25" time="0.642" timestamp="2026-10-14T21:44:28.701632-07:00" hostname="jgon-ThinkPad-X1-Carbon-Gen-13"><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_four_rows_two_primary_actual_producer_comparisons" time="0.136" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[raw58]" time="0.010" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[named_F]" time="0.010" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[identity_role]" time="0.009" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[seed_order]" time="0.009" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[genome_index]" time="0.009" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[negative_timing]" time="0.010" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[aggregate_order]" time="0.044" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[wrong_budget]" time="0.046" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[wrong_call_count]" time="0.063" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_real_Z_four_field_identity_and_current_monitor_ast" time="0.008" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_exact_one_confirmation_golden_call_and_fixed_four_roles" time="0.005" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_exact_unchanged_accountant_and_genetic_helpers" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_native_schedule_counts_without_draws_or_reserved_seeds" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_unregistered_refuses_outcomes" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_all_three_cost_sources_and_hard_feasibility[rates0]" time="0.007"><failure message="assert 917.2800000000001 == (180 + (((1.5 * 512) * 3) * 0.32))&#10; +  where 0.32 = sum(&lt;generator object test_all_three_cost_sources_and_hard_feasibility.&lt;locals&gt;.&lt;genexpr&gt; at 0x7cd37ce79a80&gt;)">rates = {'D90': {'H_screen': 0.2, 'H_confirm': 0.1, 'P_confirm': 0.15}, 'L92': {'H_screen': 0.1, 'H_confirm': 0.12, 'P_confirm': 0.08}}
+
+    @pytest.mark.parametrize(
+        "rates",
+        [
+            {
+                "D90": {"H_screen": 0.2, "H_confirm": 0.1, "P_confirm": 0.15},
+                "L92": {"H_screen": 0.1, "H_confirm": 0.12, "P_confirm": 0.08},
+            },
+            {
+                "D90": {"H_screen": 0.1, "H_confirm": 0.15, "P_confirm": 0.2},
+                "L92": {"H_screen": 0.08, "H_confirm": 0.1, "P_confirm": 0.12},
+            },
+            {
+                "D90": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+                "L92": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+            },
+        ],
+    )
+    def test_all_three_cost_sources_and_hard_feasibility(rates):
+        producer = pure_functions(
+            SOURCE / "prepare.py", ["cost_projection"], {"PARENTS": M.BACKGROUNDS, "math": __import__("math")}
+        )["cost_projection"](rates)
+        independent = M.expected_cost_projection(rates)
+        assert {k: producer[k] for k in independent} == independent
+        assert independent["startup_search_projection"] == 180 + 1.5 * 4134 * sum(max(x.values()) for x in rates.values())
+&gt;       assert independent["confirmation_projection"] == 180 + 1.5 * 512 * 3 * sum(max(x.values()) for x in rates.values())
+E       assert 917.2800000000001 == (180 + (((1.5 * 512) * 3) * 0.32))
+E        +  where 0.32 = sum(&lt;generator object test_all_three_cost_sources_and_hard_feasibility.&lt;locals&gt;.&lt;genexpr&gt; at 0x7cd37ce79a80&gt;)
+
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:324: AssertionError</failure></testcase><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_all_three_cost_sources_and_hard_feasibility[rates1]" time="0.007"><failure message="assert 917.2800000000001 == (180 + (((1.5 * 512) * 3) * 0.32))&#10; +  where 0.32 = sum(&lt;generator object test_all_three_cost_sources_and_hard_feasibility.&lt;locals&gt;.&lt;genexpr&gt; at 0x7cd37ce79000&gt;)">rates = {'D90': {'H_screen': 0.1, 'H_confirm': 0.15, 'P_confirm': 0.2}, 'L92': {'H_screen': 0.08, 'H_confirm': 0.1, 'P_confirm': 0.12}}
+
+    @pytest.mark.parametrize(
+        "rates",
+        [
+            {
+                "D90": {"H_screen": 0.2, "H_confirm": 0.1, "P_confirm": 0.15},
+                "L92": {"H_screen": 0.1, "H_confirm": 0.12, "P_confirm": 0.08},
+            },
+            {
+                "D90": {"H_screen": 0.1, "H_confirm": 0.15, "P_confirm": 0.2},
+                "L92": {"H_screen": 0.08, "H_confirm": 0.1, "P_confirm": 0.12},
+            },
+            {
+                "D90": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+                "L92": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+            },
+        ],
+    )
+    def test_all_three_cost_sources_and_hard_feasibility(rates):
+        producer = pure_functions(
+            SOURCE / "prepare.py", ["cost_projection"], {"PARENTS": M.BACKGROUNDS, "math": __import__("math")}
+        )["cost_projection"](rates)
+        independent = M.expected_cost_projection(rates)
+        assert {k: producer[k] for k in independent} == independent
+        assert independent["startup_search_projection"] == 180 + 1.5 * 4134 * sum(max(x.values()) for x in rates.values())
+&gt;       assert independent["confirmation_projection"] == 180 + 1.5 * 512 * 3 * sum(max(x.values()) for x in rates.values())
+E       assert 917.2800000000001 == (180 + (((1.5 * 512) * 3) * 0.32))
+E        +  where 0.32 = sum(&lt;generator object test_all_three_cost_sources_and_hard_feasibility.&lt;locals&gt;.&lt;genexpr&gt; at 0x7cd37ce79000&gt;)
+
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:324: AssertionError</failure></testcase><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_all_three_cost_sources_and_hard_feasibility[rates2]" time="0.007" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_invalid_cost_floor_rejected[0]" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_invalid_cost_floor_rejected[-1]" time="0.000" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_invalid_cost_floor_rejected[nan]" time="0.000" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_invalid_cost_floor_rejected[inf]" time="0.000" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_actual_ownership_corruptions[ppid-1]" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_actual_ownership_corruptions[pgid-1]" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_actual_ownership_corruptions[start_ticks-0]" time="0.001" /></testsuite></testsuites>

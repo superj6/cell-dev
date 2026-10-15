@@ -154,6 +154,16 @@ in 1,226.079103 CPU-seconds; raw accounting, unchanged sources and all 128 paire
 or general evolvability claim. Source-only AF prepares two short ordinary continuations from both fixed AE
 selections to test accumulation. No new ABI, prices, organism rules or large rollout is introduced.
 
+*2026-10-14 AF registered and prepared:* four ordinary generations from both fixed AE selections test whether
+capture improvements accumulate in the exact existing persistent-target world. Both final rank-zero endpoints
+and both starts receive 512 fresh paired lives, with capture income separated from economy. The fixed 10,322 calls
+include six startup goldens and fit a 5,400 CPU-second ceiling, with 3,400 for startup/search and 2,000 reserved
+for confirmation. Two two-thread searches precede one two-thread confirmation worker. Audited runs 53224/53225,
+fresh confirmation block131, recorded initial populations and six exact AE timing rows are frozen. No builds or
+lives occur during preparation; independent input/reader review, prospective publication and root release precede
+measurement. `results/prediction_continuation_20261014/` preserves the contract. Prices, ABI3 and local rules
+remain fixed, with no large rollout or claim of algorithmic sophistication.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

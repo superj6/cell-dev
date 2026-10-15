@@ -1,0 +1,35 @@
+{
+  "status": "approved_bound_prepared_unreleased",
+  "protocol_sha256": "ebdc3f37dc5d9a882b2b7d68ed3913a08540be4f476bdd6cf4b6c446e315b5e0",
+  "bound_analyzer_sha256": "cc4e12d6c857e8581002473471847feb539dbe1764d44e2d76b33e71502c0d36",
+  "unbound_analyzer_sha256": "49ff716ec70ccd0698be5641b3baf63ae4ebc1ba3bb5bff474abf2125c8f3553",
+  "full_AST_unchanged_except_protocol_literal_and_docstring": true,
+  "unchanged_helpers": {
+    "native_audit.py": "16e0e5251aecf43e0e62d979f366a32b106b8eaa6d30d3a71797e6b1e1d210f5",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "helpers/selection.py": "41b97ad3f22db01778d21fe3bb52952016423cb83f453aa1449743d36884c7bd"
+  },
+  "source_peer_review_sha256": "99f7d195187b3b4c6cca7424896650d40e6b49549bd8dbee9195c0f02b79f169",
+  "actual_preparation_review_sha256": "958cd5759fc75b9cfc3b2e3be38bc7f5fc046085bda35fe281a266c306f5531a",
+  "independent_actual_preparation_review_sha256": "afae697b324c84cb7100b99e0bf19bd2ef6b6661dd2af352c3e4a77872f60384",
+  "bound_verification_sha256": "c210ac614d3cafc36fac7aa3de48dd2310958c4061b0dc063ca79caad9547476",
+  "initialization_replay_sha256": "4ee7713018be748fbbfb7251705165f6705604374af1d9bb544c0b2093fe7ad0",
+  "file_pins_verified": 50,
+  "production_pins_verified": 35,
+  "checks": [
+    "Actual50/35 pins unchanged; frozen ABI3 world/66 packing and875-field starts/configs match reviewed source.",
+    "Independent recorded-operation replay receipt reconstructs both32-row tables/124 recorded point operations bitwise without fresh draws.",
+    "Actual128 native evaluation IDs plus512 paired confirmation IDs and six historical timing identities satisfy frozen contracts.",
+    "Only protocol anchor/docstring changed; all scientific statistics, native replay, accounting, resources and scope functions unchanged.",
+    "Missing ready yields incomplete with zero outcomes; no new tests/simulations needed for a literal-only binding."
+  ],
+  "remaining_limits": [
+    "Recorded RNG hashes remain bound but random draws are not rerun.",
+    "Full native genetic/search/raw confirmation audit awaits a completed separately released run."
+  ],
+  "reviewer_simulation_calls": 0,
+  "reviewer_compilation_calls": 0,
+  "reviewer_genetic_draws": 0,
+  "reviewer_additional_test_runs": 0
+}

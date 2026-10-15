@@ -1,0 +1,47 @@
+{
+  "rates": {
+    "D90": {
+      "H_screen": 0.11344131653124911,
+      "H_confirm": 0.11228023821875,
+      "P_confirm": 0.2041540473847656
+    },
+    "L92": {
+      "H_screen": 0.11714540000000184,
+      "H_confirm": 0.12472494805273415,
+      "P_confirm": 0.14828250489648442
+    }
+  },
+  "source_pins": {
+    "measurement/screen/D90/screen/row_0054.npz": "a982fb1baa8773aed410f1bf8cb6cd3d3a157befa6b0659f8c4a5bccaca8693c",
+    "measurement/screen/D90/row_index.json": "73e0b08bb3f889e4ba46c32b87cc5d819fc6ff9a0ff0abd272c48255fc0f05de",
+    "measurement/confirm/persistent/confirm/row_0002.npz": "d46b053ec9edf747acba7104a751047f064374216745eda1e461c977d45db9e2",
+    "measurement/confirm/persistent/row_index.json": "abd1709306c08eb2bb61f4f391e43d8c26b613ef263549a0d789b173f1c0236b",
+    "measurement/confirm/persistent/confirm/row_0000.npz": "62ca2fe88700399571de66d9356a4a459d6716daa9c422fbd068ce48e6059593",
+    "measurement/screen/L92/screen/row_0031.npz": "25ef526393c3189d63eac4b550279158dfe4ef5cc087c00efefd1fbd88d71519",
+    "measurement/screen/L92/row_index.json": "f4657eb9c12b4d048b792a0eb72e4a62d003f59f304326feda2cebbf9b29cbd9",
+    "measurement/confirm/persistent/confirm/row_0003.npz": "a3396444186ccd5a7b1cf73fe4659b5599176c7bc96a9e21ddae70e0d2406815",
+    "measurement/confirm/persistent/confirm/row_0001.npz": "e2eb7321c1207f729d99991b1337a7c141f55daa04b7a9015f56a5415fe9509f"
+  },
+  "projection": {
+    "rates_cpu_per_life": {
+      "D90": {
+        "H_screen": 0.11344131653124911,
+        "H_confirm": 0.11228023821875,
+        "P_confirm": 0.2041540473847656
+      },
+      "L92": {
+        "H_screen": 0.11714540000000184,
+        "H_confirm": 0.12472494805273415,
+        "P_confirm": 0.14828250489648442
+      }
+    },
+    "lineage_max_cpu_per_life": {
+      "D90": 0.2041540473847656,
+      "L92": 0.14828250489648442
+    },
+    "startup_search_projection": 2365.4590606960314,
+    "confirmation_projection": 992.0138164560001,
+    "feasible": true,
+    "limitation": "Observed AE timing maxima and fixed margins do not bound new mutants/endpoints; hard caps remain decisive."
+  }
+}

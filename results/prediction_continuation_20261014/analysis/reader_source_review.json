@@ -1,0 +1,153 @@
+{
+  "status": "source_only_reviewed_unbound",
+  "protocol_sha256": null,
+  "study": "AF ordinary persistent-target continuation",
+  "scope": {
+    "search_lives": 8268,
+    "confirmation_lives": 2048,
+    "startup_goldens": 6,
+    "total_calls": 10322,
+    "raw_confirmation_shape": [
+      4,
+      512,
+      57
+    ],
+    "primary_pairs": [
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "paired_vectors": 146,
+    "total_cpu_cap": 5400,
+    "search_cpu_cap": 3400,
+    "confirmation_reserve": 2000
+  },
+  "source_pins": {
+    "ANALYSIS_README.md": "d68c0ea25df42f06d340774fdb727a72837adbfe19c425dc348d50bac18708f1",
+    "analyze.py": "49ff716ec70ccd0698be5641b3baf63ae4ebc1ba3bb5bff474abf2125c8f3553",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "helpers/selection.py": "41b97ad3f22db01778d21fe3bb52952016423cb83f453aa1449743d36884c7bd",
+    "native_audit.py": "16e0e5251aecf43e0e62d979f366a32b106b8eaa6d30d3a71797e6b1e1d210f5",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "test_reader.py": "5b73d247b84755a8cb05a31a23516f6b3d9bfcdf0884421793347971a0c5e8ec"
+  },
+  "producer_pins": {
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "3a4777f0462b2913b9a3c1387c26c35e9fcfa9e314c4051e310c308abe0a2b27",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "b198d2f3aea28fe0f063eec8123b99c68062f236a7b3def07611006a435ad174",
+    "run_budgeted.py": "366f284c42566a1df7058a7aa0b4274f049eaaafcdcb18e3e295f77a621f9c19",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "test_preparation.py": "a7ebeb8e04644f4be127e970632a9b7670ee8fa53603629416065b478efcb3bb",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "origins": {
+    "analyze.py": {
+      "path": "results/visibility_continuation_20261014/analysis/analyze.py",
+      "sha256": "2c0616c3e9e042d0d8f14e220eac50fe9beddd6a5e20add17fb3655f6229dfc6",
+      "byte_identical": false
+    },
+    "native_audit.py": {
+      "path": "results/visibility_continuation_20261014/analysis/native_audit.py",
+      "sha256": "87bc651fd26b5024805bd0ad0ab8a95df08ea76e0fb76774d64e84e5b9c1ff8c",
+      "byte_identical": false
+    },
+    "offline_accounting.py": {
+      "path": "outputs/autonomous_prediction_gradient_20261014/analysis/offline_accounting.py",
+      "sha256": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+      "byte_identical": true
+    },
+    "helpers/selection.py": {
+      "path": "results/visibility_continuation_20261014/analysis/helpers/selection.py",
+      "sha256": "41b97ad3f22db01778d21fe3bb52952016423cb83f453aa1449743d36884c7bd",
+      "byte_identical": true
+    },
+    "helpers/genetics.py": {
+      "path": "results/visibility_continuation_20261014/analysis/helpers/genetics.py",
+      "sha256": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+      "byte_identical": true
+    }
+  },
+  "tests": [
+    {
+      "path": "draft_tests.xml",
+      "sha256": "979ed804dee62736c46d5436522f578229acba99e5f0bfa13b55149286d7dd04",
+      "tests": 15,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "source_tests.xml",
+      "sha256": "7b67dd0ca330cc8a08651abd04afc7685e84b9116d9e52c3a4d718dcc05b8f86",
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "final_source_tests.xml",
+      "sha256": "c6bbab322764b96cb89414fcb95775f56748ba8069a93c218976c7a73f7e215e",
+      "tests": 25,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "frozen_source_tests.xml",
+      "sha256": "45fc1de7cc9813929616af997e37bcc84bf1f2f19a377b66bfe6d6e0c80890ab",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "path_tests.xml",
+      "sha256": "ae7339fdfec1f67179492cc2ecba88fc2a54ad588684489b1d0f9ed01c8aeb03",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "final_tests_pass": true,
+  "ruff": "passed",
+  "preserved_test_errors": [
+    {
+      "receipt": "draft_tests.xml",
+      "issue": "Pure AST test omitted postponed-annotation semantics; fixed test compile flags only."
+    },
+    {
+      "receipt": "final_source_tests.xml",
+      "issue": "Test compared algebraically reassociated floating arithmetic exactly; producer and independent cost formulas already agreed exactly. Changed alternate algebra check to 1e-12 absolute tolerance only."
+    }
+  ],
+  "runtime_guards": [
+    "Fail closed while protocol literal is unset.",
+    "Complete AE provenance fixes both starts regardless of confirmation sign.",
+    "Actual persisted process schema is pid/ppid/pgid/start_ticks; no invented sid receipt.",
+    "Two native numerical receipts and one confirmation receipt imply exactly six startup golden lives; the audit executes none.",
+    "All four confirmation rows and all initial/final population bindings are mandatory.",
+    "Both exact-world cost projections are reconstructed from all six prior timing rows plus three indexes.",
+    "Paid guards/extinction remain scored; invalid/mismatch or incomplete evidence blocks complete inference."
+  ],
+  "deferred": [
+    "Actual protocol/source/input pin verification after authorized preparation.",
+    "Recorded 64-row initial population replay after authorized preparation.",
+    "Native full genetic/selection replay and confirmation outcomes only after terminal clearance."
+  ],
+  "activity": {
+    "scientific_input_copies": 0,
+    "genetic_draws": 0,
+    "engine_calls": 0,
+    "compiled_libraries": 0,
+    "simulated_lives": 0,
+    "seed_registrations": 0,
+    "canonical_analysis_installations": 0
+  }
+}

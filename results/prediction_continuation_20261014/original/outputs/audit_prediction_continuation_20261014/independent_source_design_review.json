@@ -1,0 +1,190 @@
+{
+  "status": "passed_source_design",
+  "registered": false,
+  "reserved": false,
+  "source_pins": {
+    "outputs/autonomous_prediction_continuation_20261014/PREREG.md": "34686ed7ee5db1668a5c723233e93e2e82a753438a16c332aa96dc898caeae72",
+    "outputs/autonomous_prediction_continuation_20261014/README.md": "37cd6b4cf08ec3fbe66c1e819af7c8e8d1449ccd4b388e05ed6c5be6508c5726",
+    "outputs/autonomous_prediction_continuation_20261014/SCHEMA.md": "cbe077a7dd906e40917487e9bd6488737c8056f66483ac4b6cb8bfdbb9506fc4",
+    "outputs/autonomous_prediction_continuation_20261014/common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "outputs/autonomous_prediction_continuation_20261014/measure.py": "3a4777f0462b2913b9a3c1387c26c35e9fcfa9e314c4051e310c308abe0a2b27",
+    "outputs/autonomous_prediction_continuation_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_prediction_continuation_20261014/prepare.py": "b198d2f3aea28fe0f063eec8123b99c68062f236a7b3def07611006a435ad174",
+    "outputs/autonomous_prediction_continuation_20261014/run_budgeted.py": "366f284c42566a1df7058a7aa0b4274f049eaaafcdcb18e3e295f77a621f9c19",
+    "outputs/autonomous_prediction_continuation_20261014/scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "outputs/autonomous_prediction_continuation_20261014/test_preparation.py": "a7ebeb8e04644f4be127e970632a9b7670ee8fa53603629416065b478efcb3bb",
+    "outputs/autonomous_prediction_continuation_20261014/world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687",
+    "outputs/audit_prediction_continuation_20261014/review_source_design.py": "98c69854fe7ff28c0c0480c45258100a847cbf5e97d03b15c56dd47ee7e612c2",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2",
+    "src/evolve.py": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+    "src/run.py": "8595d69317d8533cfb2fcea91f25cc78631799ab3503044c615b55cae8a1ae2c",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+    "src/genome.py": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+    "results/prediction_gradient_20261014/protocol.json": "0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849",
+    "results/prediction_gradient_20261014/operations/budget.json": "2b5518ca6fb48c11a827def46151ed1f01951854e2567c932c44eeacd14a28af",
+    "results/prediction_gradient_20261014/selection.json": "cb100743be69bb4fcd9d64d6e1e24b6c7cfc6dc9f5b8cc2259ccf8e644874884",
+    "results/prediction_gradient_20261014/confirmation_roles.json": "15104ab6793a06655d82482570f0644590b87de8bb263d2cabda41b657a47d2f",
+    "results/prediction_gradient_20261014/analysis_result/summary.json": "e269cab21b720053fcb0ae14febfd62b76a86c7a91bb49cc0a7cedc536721628",
+    "results/decoy_evolution_20261014/run_budgeted.py": "8e17e7912e2b3557b15d83de49a8d21aeb19bba7dcd00ba9b9733cb98c0b73bf",
+    "results/decoy_evolution_20261014/runs/s53091/config.yaml": "351e466bdf1f7869c1af5131e9a489f2ecdd0fad77da1786de2576781c42c715"
+  },
+  "reviewed_reuse": {
+    "monitor_lifecycle_AST_identical_functions": [
+      "own_cpu",
+      "child_cpu",
+      "proc_table",
+      "active_cpu",
+      "consumed_cpu",
+      "child_limit",
+      "send_signal",
+      "enable_subreaper",
+      "cleanup_group",
+      "cleanup",
+      "interrupt",
+      "process_identity"
+    ],
+    "AE_byte_identical_helpers": [
+      "scoring.py",
+      "numerical.py",
+      "world_contract.py"
+    ]
+  },
+  "world": {
+    "abi": 3,
+    "packed_fields": 66,
+    "ledger_fields": 57,
+    "genome_fields": 875,
+    "packing_sha256": "7c7dba940781645d720f8cace0aadee575c582f8aa4b5e8f21f3a5fecbb1e998",
+    "exact_retained_AE_V_world": true
+  },
+  "calls": {
+    "selection": 8192,
+    "periodic_validation": 64,
+    "final_diagnostics": 12,
+    "search_research": 8268,
+    "confirmation_research": 2048,
+    "research": 10316,
+    "startup_identity_invocations": 3,
+    "startup_goldens": 6,
+    "total": 10322,
+    "half_duration_diagnostic_calls": 4,
+    "unique_native_life_IDs_per_run": 64,
+    "unique_native_life_IDs_total": 128
+  },
+  "genetic_RNG": "Each native run uses cfg.seed for founder fill, parental choices/crossover/mutations; tie generator uses cfg.seed+7919001. These seed the genetic RNG, not direct life IDs. No draws executed by this review.",
+  "life_seed_schedule": "hash64(run_seed,LIFE+purpose,index,life): gen four generations\u00d7seven IDs, valid g0/g3\u00d716, final index0/1\u00d72. The half-duration diagnostics reuse final0 IDs.",
+  "cost_evidence": [
+    {
+      "path": "results/prediction_gradient_20261014/measurement/screen/D90/screen/row_0054.npz",
+      "sha256": "a982fb1baa8773aed410f1bf8cb6cd3d3a157befa6b0659f8c4a5bccaca8693c",
+      "background": "D90",
+      "timing_role": "H_screen",
+      "lives": 32,
+      "cpu_seconds": 3.6301221289999717,
+      "cpu_per_life": 0.11344131653124911
+    },
+    {
+      "path": "results/prediction_gradient_20261014/measurement/confirm/persistent/confirm/row_0002.npz",
+      "sha256": "d46b053ec9edf747acba7104a751047f064374216745eda1e461c977d45db9e2",
+      "background": "D90",
+      "timing_role": "H_confirm",
+      "lives": 512,
+      "cpu_seconds": 57.487481968,
+      "cpu_per_life": 0.11228023821875
+    },
+    {
+      "path": "results/prediction_gradient_20261014/measurement/confirm/persistent/confirm/row_0000.npz",
+      "sha256": "62ca2fe88700399571de66d9356a4a459d6716daa9c422fbd068ce48e6059593",
+      "background": "D90",
+      "timing_role": "P_confirm",
+      "lives": 512,
+      "cpu_seconds": 104.526872261,
+      "cpu_per_life": 0.2041540473847656
+    },
+    {
+      "path": "results/prediction_gradient_20261014/measurement/screen/L92/screen/row_0031.npz",
+      "sha256": "25ef526393c3189d63eac4b550279158dfe4ef5cc087c00efefd1fbd88d71519",
+      "background": "L92",
+      "timing_role": "H_screen",
+      "lives": 32,
+      "cpu_seconds": 3.748652800000059,
+      "cpu_per_life": 0.11714540000000184
+    },
+    {
+      "path": "results/prediction_gradient_20261014/measurement/confirm/persistent/confirm/row_0003.npz",
+      "sha256": "a3396444186ccd5a7b1cf73fe4659b5599176c7bc96a9e21ddae70e0d2406815",
+      "background": "L92",
+      "timing_role": "H_confirm",
+      "lives": 512,
+      "cpu_seconds": 63.859173402999886,
+      "cpu_per_life": 0.12472494805273415
+    },
+    {
+      "path": "results/prediction_gradient_20261014/measurement/confirm/persistent/confirm/row_0001.npz",
+      "sha256": "e2eb7321c1207f729d99991b1337a7c141f55daa04b7a9015f56a5415fe9509f",
+      "background": "L92",
+      "timing_role": "P_confirm",
+      "lives": 512,
+      "cpu_seconds": 75.92064250700003,
+      "cpu_per_life": 0.14828250489648442
+    }
+  ],
+  "cost_projection": {
+    "rates_cpu_per_life": {
+      "D90": {
+        "H_screen": 0.11344131653124911,
+        "H_confirm": 0.11228023821875,
+        "P_confirm": 0.2041540473847656
+      },
+      "L92": {
+        "H_screen": 0.11714540000000184,
+        "H_confirm": 0.12472494805273415,
+        "P_confirm": 0.14828250489648442
+      }
+    },
+    "lineage_max_cpu_per_life": {
+      "D90": 0.2041540473847656,
+      "L92": 0.14828250489648442
+    },
+    "startup_search_projection": 2365.4590606960314,
+    "confirmation_projection": 992.0138164560001,
+    "feasible": true,
+    "limitation": "Observed AE timing maxima and fixed margins do not bound new mutants/endpoints; hard caps remain decisive."
+  },
+  "cost_limitations": [
+    "CPU timings already count both worker threads; no wall-time substitution or second thread multiplier.",
+    "Each lineage rate is max of selected H32 screen,H512 confirmation,original P512 confirmation. The known start receives1r and unknown endpoint2r before outer1.5. These are planning allowances, not guaranteed bounds.",
+    "Each search costs4,134 measured lives conservatively all priced at T1024 although two diagnostics/run are T512. Startup/builds/failures/monitor/teardown are included by real aggregate accounting.",
+    "Search stops at3,390 CPU-s; aggregate total stops at5,390. The2,000 CPU-s reserve is minimum remaining capacity after the3,400 search ceiling, not an independent hard confirmation ceiling."
+  ],
+  "scientific_scope": [
+    "Both fixed AE selections are included regardless of previous gain sign; no comparison outcome selects a background.",
+    "Two four-generation runs test further local accessibility of capture improvements under unchanged production fitness. Cost-only gains remain possible and must be decomposed.",
+    "Endpoint is final population rank0 from each complete run, frozen together before paired512 confirmations; tiny native final redraws do not choose confirmation candidates.",
+    "No claim of memory, prediction, communication mechanism or general reliability across evolutionary runs follows from these two runs.",
+    "Native diagnostics retain summaries rather than complete raw ledgers; full raw accounting applies to2,048 confirmation lives."
+  ],
+  "review_helper_history": {
+    "first_attempt": "Pure audit helper referenced nonexistent Abi.genome_size instead of existing GENOME_SIZE constant; fixed helper only before timing review, no producer change or simulation.",
+    "error_sha256": "614a4f4074759c0a04dd320a69ee1a7fff1b1d7253b7fcb2a8c30a00688ce3be"
+  },
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "genotype_copies": 0,
+  "absent_runtime_paths": [
+    "inputs",
+    "configs",
+    "initialization",
+    "protocol.json",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "confirmation",
+    "build-cache",
+    "generation_claim.json",
+    "preparation_claim.json"
+  ]
+}

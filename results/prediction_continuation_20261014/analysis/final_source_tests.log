@@ -1,0 +1,71 @@
+...............FF........                                                [100%]
+=================================== FAILURES ===================================
+___________ test_all_three_cost_sources_and_hard_feasibility[rates0] ___________
+
+rates = {'D90': {'H_screen': 0.2, 'H_confirm': 0.1, 'P_confirm': 0.15}, 'L92': {'H_screen': 0.1, 'H_confirm': 0.12, 'P_confirm': 0.08}}
+
+    @pytest.mark.parametrize(
+        "rates",
+        [
+            {
+                "D90": {"H_screen": 0.2, "H_confirm": 0.1, "P_confirm": 0.15},
+                "L92": {"H_screen": 0.1, "H_confirm": 0.12, "P_confirm": 0.08},
+            },
+            {
+                "D90": {"H_screen": 0.1, "H_confirm": 0.15, "P_confirm": 0.2},
+                "L92": {"H_screen": 0.08, "H_confirm": 0.1, "P_confirm": 0.12},
+            },
+            {
+                "D90": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+                "L92": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+            },
+        ],
+    )
+    def test_all_three_cost_sources_and_hard_feasibility(rates):
+        producer = pure_functions(
+            SOURCE / "prepare.py", ["cost_projection"], {"PARENTS": M.BACKGROUNDS, "math": __import__("math")}
+        )["cost_projection"](rates)
+        independent = M.expected_cost_projection(rates)
+        assert {k: producer[k] for k in independent} == independent
+        assert independent["startup_search_projection"] == 180 + 1.5 * 4134 * sum(max(x.values()) for x in rates.values())
+>       assert independent["confirmation_projection"] == 180 + 1.5 * 512 * 3 * sum(max(x.values()) for x in rates.values())
+E       assert 917.2800000000001 == (180 + (((1.5 * 512) * 3) * 0.32))
+E        +  where 0.32 = sum(<generator object test_all_three_cost_sources_and_hard_feasibility.<locals>.<genexpr> at 0x7cd37ce79a80>)
+
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:324: AssertionError
+___________ test_all_three_cost_sources_and_hard_feasibility[rates1] ___________
+
+rates = {'D90': {'H_screen': 0.1, 'H_confirm': 0.15, 'P_confirm': 0.2}, 'L92': {'H_screen': 0.08, 'H_confirm': 0.1, 'P_confirm': 0.12}}
+
+    @pytest.mark.parametrize(
+        "rates",
+        [
+            {
+                "D90": {"H_screen": 0.2, "H_confirm": 0.1, "P_confirm": 0.15},
+                "L92": {"H_screen": 0.1, "H_confirm": 0.12, "P_confirm": 0.08},
+            },
+            {
+                "D90": {"H_screen": 0.1, "H_confirm": 0.15, "P_confirm": 0.2},
+                "L92": {"H_screen": 0.08, "H_confirm": 0.1, "P_confirm": 0.12},
+            },
+            {
+                "D90": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+                "L92": {"H_screen": 1.0, "H_confirm": 0.1, "P_confirm": 0.2},
+            },
+        ],
+    )
+    def test_all_three_cost_sources_and_hard_feasibility(rates):
+        producer = pure_functions(
+            SOURCE / "prepare.py", ["cost_projection"], {"PARENTS": M.BACKGROUNDS, "math": __import__("math")}
+        )["cost_projection"](rates)
+        independent = M.expected_cost_projection(rates)
+        assert {k: producer[k] for k in independent} == independent
+        assert independent["startup_search_projection"] == 180 + 1.5 * 4134 * sum(max(x.values()) for x in rates.values())
+>       assert independent["confirmation_projection"] == 180 + 1.5 * 512 * 3 * sum(max(x.values()) for x in rates.values())
+E       assert 917.2800000000001 == (180 + (((1.5 * 512) * 3) * 0.32))
+E        +  where 0.32 = sum(<generator object test_all_three_cost_sources_and_hard_feasibility.<locals>.<genexpr> at 0x7cd37ce79000>)
+
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:324: AssertionError
+=========================== short test summary info ============================
+FAILED outputs/audit_prediction_continuation_20261014/analysis/test_reader.py::test_all_three_cost_sources_and_hard_feasibility[rates0]
+FAILED outputs/audit_prediction_continuation_20261014/analysis/test_reader.py::test_all_three_cost_sources_and_hard_feasibility[rates1]

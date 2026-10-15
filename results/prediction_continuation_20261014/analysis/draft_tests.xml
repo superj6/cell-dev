@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="15" time="0.627" timestamp="2026-10-14T21:42:32.687453-07:00" hostname="jgon-ThinkPad-X1-Carbon-Gen-13"><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_four_rows_two_primary_actual_producer_comparisons" time="0.112"><failure message="AttributeError: 'types.SimpleNamespace' object has no attribute 'World'">complete = (PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_prediction_continuation_20261014/test_tmp/one_four_row_fixtur... 2., 2., 2., 2., 2.,
+       2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.,
+       2., 2.]), ...}})
+
+    def test_four_rows_two_primary_actual_producer_comparisons(complete):
+        base, p, ep, budget, expected = complete
+        rows, _, cpu, _ = M.load_rows(base, p, ep, budget)
+        assert len(rows) == 4 and cpu == pytest.approx(0.04)
+        vectors = {}
+        for a, b in M.PAIRS["primary"]:
+&gt;           report = actual_comparison(rows[a], rows[b], p["world"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:174: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:99: in actual_comparison
+    confirm = pure_functions(ROOT / "scripts/taskvar_confirm.py", ["compare_rows"], {"paired": gates["paired"]})
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+outputs/audit_prediction_continuation_20261014/analysis/test_reader.py:92: in pure_functions
+    exec(compile(ast.Module(body=functions, type_ignores=[]), str(path), "exec"), env)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Fresh paired confirmation and lateral lesions for a saved taskvar_gradient screen.
+    
+    Dry-run by default. Select ceil(5% of mutants) by screen mean, re-score those
+    on disjoint lives, and freeze one winner before independent confirmation.
+    Lesion parent and winner on a third shared seed set, keeping t_open=0 in both
+    arms. These are descriptive measurements and never change selection or worlds.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    import hashlib
+    import json
+    import math
+    import os
+    import time
+    from dataclasses import asdict, replace
+    from pathlib import Path
+    
+    # Match the screen and production search before importing torch indirectly.
+    os.environ.setdefault("ATEN_CPU_CAPABILITY", "avx2")
+    
+    import numpy as np
+    from omegaconf import OmegaConf
+    
+    from scripts.taskvar_gates import paired, validate_lives
+    from scripts.taskvar_gradient import COLS as SCREEN_COLS
+    from scripts.taskvar_gradient import atomic_json
+    from src.checkpoint import numerical_identity
+    from src.genome import Layout
+    from src.life import analysis, build, spec
+    from src.life.evaluate import LifeDraw, LifeEvaluator
+    
+    ROOT = Path(__file__).resolve().parents[1]
+    COLS = spec.V3.LEDGER + ("F_kernel", "extinct_charge", "window")
+    STAGES = ("rescore", "confirm", "lesion")
+    
+    
+    def sha(path: Path) -&gt; str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    
+    
+    def select_top(fitness, fraction: float = 0.05) -&gt; list[int]:
+        """Return genome row indices (parent is row zero); exact ties use row order."""
+        scores = np.asarray(fitness, dtype=float)
+        if scores.ndim != 2 or min(scores.shape) &lt; 2 or not np.isfinite(scores).all():
+            raise ValueError("screen needs finite parent/mutant rows and at least two lives")
+        if not 0 &lt; fraction &lt;= 1:
+            raise ValueError("selection fraction must lie in (0, 1]")
+        count = max(1, math.ceil(fraction * (len(scores) - 1)))
+        return sorted(range(1, len(scores)), key=lambda i: (-float(scores[i].mean()), i))[:count]
+    
+    
+    def stage_seeds(screen_seeds, lives: dict, blocks: dict) -&gt; dict:
+        """Reject overlap explicitly, even when a caller supplied arbitrary screen seeds."""
+        seen = set(screen_seeds)
+        if len(seen) != len(screen_seeds):
+            raise ValueError("screen seeds contain duplicates")
+        result = {}
+        for stage in STAGES:
+            n, block = lives[stage], blocks[stage]
+            if not 2 &lt;= n &lt;= 10_000 or not 0 &lt;= block &lt; 100:
+                raise ValueError("each stage needs 2..10000 lives and a seed block in 0..99")
+            seeds = analysis.fresh_seeds(n, seed0=51_000_000 + 10_000 * block)
+            if seen.intersection(seeds):
+                raise ValueError(f"{stage} seeds overlap a previous stage or the screen")
+            seen.update(seeds)
+            result[stage] = seeds
+        return result
+    
+    
+    def load_screen(screen: Path, parent: Path) -&gt; tuple[dict, np.ndarray, spec.World, LifeEvaluator, list[int]]:
+        """Bind the complete saved screen to its parent, configuration, genomes and sources."""
+        manifest = json.loads((screen / "manifest.json").read_text())
+        expected = {"parent_sha256": sha(parent), "config_sha256": sha(parent.parent / "config.yaml"),
+                    "runner_sha256": sha(ROOT / "scripts/taskvar_gradient.py"),
+                    "kernel_source_sha256": sha(ROOT / "src/life/kernel.c")}
+        if any(manifest.get(key) != value for key, value in expected.items()):
+            raise ValueError("screen parent, config, runner or kernel sources differ")
+        genomes = np.load(screen / "genomes.npy", allow_pickle=False)
+        if hashlib.sha256(genomes.tobytes()).hexdigest() != manifest["genomes_sha256"]:
+            raise ValueError("screen genomes differ from their manifest")
+        layout, ancestor = Layout.load(str(parent))
+        if genomes.ndim != 2 or genomes.shape[0] != manifest["mutants"] + 1:
+            raise ValueError("screen genome count differs from its manifest")
+        if not np.array_equal(genomes[0], ancestor.reshape(-1).float().numpy()):
+            raise ValueError("screen parent row differs from the original parent")
+        if manifest["world"] not in ("base", "pool"):
+            raise ValueError("only production ABI 3 base/POOL screens are supported")
+        world = spec.world("catch_speck_l4", **manifest["overrides"])
+        if world.t_open != 0 or world.t_fork != 0 or world.fork_flags:
+            raise ValueError("screen must use full-life, unlesioned accounting")
+        seeds = manifest["seeds"]
+        with np.load(screen / "scores.npz", allow_pickle=False) as saved:
+            if not np.array_equal(saved["seeds"], np.asarray(seeds, dtype=np.uint64)):
+                raise ValueError("screen scores have different seed order")
+            for key in SCREEN_COLS:
+                values = saved[key]
+                if values.shape != (len(genomes), len(seeds)) or not np.isfinite(values).all():
+                    raise ValueError(f"screen {key} has invalid shape or non-finite values")
+            status = saved["status"].astype(np.int64)
+            guards = spec.STATUS["guard_cells"] | spec.STATUS["guard_events"]
+            if np.any(status &amp; (spec.STATUS["capacity"] | spec.STATUS["ledger_mismatch"])):
+                raise ValueError("screen contains a capacity failure or ledger mismatch")
+            ended = status &amp; (spec.STATUS["extinct"] | guards) != 0
+            if np.any(~ended &amp; (saved["t_end"] != world.t0 + world.T)):
+                raise ValueError("screen contains an unexplained incomplete life")
+            expected_f = saved["F_kernel"] - saved["extinct_charge"]
+            if expected_f.tobytes() != saved["F"].tobytes():
+                raise ValueError("screen fitness differs from production guard/extinction accounting")
+            # A completed aggregate must agree with every incremental screen checkpoint.
+            for i in range(len(genomes)):
+                with np.load(screen / f"row_{i:04d}.npz", allow_pickle=False) as row:
+                    if any(saved[key][i].tobytes() != row[key].tobytes() for key in SCREEN_COLS):
+                        raise ValueError("screen scores disagree with an incremental row")
+            selected = select_top(saved["F"])
+        evaluator = LifeEvaluator(OmegaConf.load(parent.parent / "config.yaml"), layout)
+        return manifest, genomes, world, evaluator, selected
+    
+    
+    def atomic_npz(destination: Path, **values) -&gt; None:
+        tmp = destination.with_suffix(".tmp.npz")
+        np.savez_compressed(tmp, **values)
+        tmp.replace(destination)
+    
+    
+    def score_row(out: Path, index: int, genomes: np.ndarray, world: spec.World, seeds: list[int],
+                  evaluator: LifeEvaluator, threads: int) -&gt; dict:
+        """Each completed genome is atomic; resume validates raw and production-scored columns."""
+        out.mkdir(parents=True, exist_ok=True)
+        path = out / f"row_{index:04d}.npz"
+        draw = LifeDraw(tuple(seeds), tuple(world for _ in seeds))
+        if not path.exists():
+            wall_start, cpu_start = time.perf_counter(), time.process_time()
+            result = build.run(world, seeds, genomes=spec.V3.pack_genomes(genomes[index:index + 1], world.lattice),
+                               abi=spec.V3, fast=True, threads=threads)
+            validate_lives(result, world, allow_guards=True)
+            columns = evaluator.columns(result, 1, draw)
+            atomic_npz(path, seeds=np.asarray(seeds, dtype=np.uint64), genome_index=np.asarray(index),
+                       ledger=result.ledger, wall_seconds=np.asarray(time.perf_counter() - wall_start),
+                       cpu_seconds=np.asarray(time.process_time() - cpu_start),
+                       **{key: columns[key][0] for key in COLS})
+            print(json.dumps({"stage": out.name, "completed_genome_row": index, "lives": len(seeds)}), flush=True)
+        with np.load(path, allow_pickle=False) as saved:
+            if int(saved["genome_index"]) != index or not np.array_equal(saved["seeds"], seeds):
+                raise ValueError(f"{path}: row identity or seeds differ")
+            ledger = saved["ledger"].copy()
+            if ledger.shape != (len(seeds), spec.V3.LEDGER_SIZE):
+                raise ValueError(f"{path}: invalid ledger shape")
+            result = build.Lives(ledger, np.zeros((len(seeds), spec.V3.HASH_SIZE), dtype=np.uint64), abi=spec.V3)
+            validate_lives(result, world, allow_guards=True)
+            recomputed = evaluator.columns(result, 1, draw)
+            if any(saved[key].tobytes() != recomputed[key][0].tobytes() for key in COLS):
+                raise ValueError(f"{path}: saved columns disagree with production accounting")
+            return {key: saved[key].copy() for key in (*COLS, "cpu_seconds", "wall_seconds")}
+    
+    
+&gt;   def compare_rows(winner: dict, parent: dict, world: spec.World) -&gt; dict:
+                                                        ^^^^^^^^^^
+E   AttributeError: 'types.SimpleNamespace' object has no attribute 'World'
+
+scripts/taskvar_confirm.py:157: AttributeError</failure></testcase><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[raw58]" time="0.010" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[named_F]" time="0.011" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[identity_role]" time="0.010" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[seed_order]" time="0.009" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[genome_index]" time="0.009" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[negative_timing]" time="0.027" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[aggregate_order]" time="0.045" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[wrong_budget]" time="0.047" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_specific_corruptions[wrong_call_count]" time="0.047" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_real_Z_four_field_identity_and_current_monitor_ast" time="0.006" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_exact_one_confirmation_golden_call_and_fixed_four_roles" time="0.005" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_exact_unchanged_accountant_and_genetic_helpers" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_native_schedule_counts_without_draws_or_reserved_seeds" time="0.001" /><testcase classname="outputs.audit_prediction_continuation_20261014.analysis.test_reader" name="test_unregistered_refuses_outcomes" time="0.001" /></testsuite></testsuites>

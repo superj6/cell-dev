@@ -1,0 +1,60 @@
+{
+  "status": "passed_source_only_unregistered",
+  "source_pins": {
+    "PREREG.md": "34686ed7ee5db1668a5c723233e93e2e82a753438a16c332aa96dc898caeae72",
+    "README.md": "37cd6b4cf08ec3fbe66c1e819af7c8e8d1449ccd4b388e05ed6c5be6508c5726",
+    "SCHEMA.md": "cbe077a7dd906e40917487e9bd6488737c8056f66483ac4b6cb8bfdbb9506fc4",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "3a4777f0462b2913b9a3c1387c26c35e9fcfa9e314c4051e310c308abe0a2b27",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "b198d2f3aea28fe0f063eec8123b99c68062f236a7b3def07611006a435ad174",
+    "run_budgeted.py": "366f284c42566a1df7058a7aa0b4274f049eaaafcdcb18e3e295f77a621f9c19",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "test_preparation.py": "a7ebeb8e04644f4be127e970632a9b7670ee8fa53603629416065b478efcb3bb",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "origin_receipt_sha256": "9234d20895b0c5bd385c78e5e1f9ca8edeef1c08ea77ebc23ec0f33d268b5f0b",
+  "cost_feasibility_sha256": "6f4aa4dbe0f3906f8bb1a226f1f10bb35db961d346a9a89f5c9e6f3b85d24d94",
+  "tests": {
+    "count": 32,
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest outputs/autonomous_prediction_continuation_20261014/test_preparation.py -q --basetemp=outputs/audit_prediction_continuation_20261014/test_tmp --junitxml=outputs/audit_prediction_continuation_20261014/source_tests.xml",
+    "junit_sha256": "7b67dd0ca330cc8a08651abd04afc7685e84b9116d9e52c3a4d718dcc05b8f86",
+    "log_sha256": "5cba8a0d336f6301764b9e7cb54d2168880bd1238a4afa7c45b0666fad715409",
+    "ruff": "passed; only import spacing changed after pytest, no executable AST change"
+  },
+  "unchanged_lifecycle_functions": [
+    "own_cpu",
+    "child_cpu",
+    "proc_table",
+    "active_cpu",
+    "consumed_cpu",
+    "child_limit",
+    "send_signal",
+    "enable_subreaper",
+    "cleanup_group",
+    "cleanup",
+    "interrupt",
+    "process_identity"
+  ],
+  "unchanged_AE_helpers": [
+    "scoring.py",
+    "numerical.py",
+    "world_contract.py"
+  ],
+  "scope": {
+    "native_search_lives": 8268,
+    "confirmation_lives": 2048,
+    "research_lives": 10316,
+    "golden_lives": 6,
+    "total_lives": 10322,
+    "CPU_cap": 5400,
+    "startup_search_cap": 3400,
+    "confirmation_reserve": 2000
+  },
+  "pending": "root registration, one authorized preparation, exact protocol/input binding, initialization replay, public preparation and ready; no measurement authorized by this receipt",
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "genetic_draws": 0,
+  "scientific_input_copies": 0,
+  "namespace_ids_chosen": 0
+}
