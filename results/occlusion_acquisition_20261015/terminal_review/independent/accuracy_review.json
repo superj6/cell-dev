@@ -1,0 +1,220 @@
+{
+  "status": "passed",
+  "rows_verified": 15,
+  "lives_verified": 7680,
+  "canonical_accuracy_exact": true,
+  "canonical_summary_sha256": "1ce6412d0f063a429911ca80a5bc95c48cde08c087030a11def1abe46ac64512",
+  "literal_review_sha256": "6432b51e5c138043a4374d8a5fd83baccf929e716d24236cd2362bde22245ed9",
+  "script_sha256": "f5a380b2661c2e15438b16b246f33d462f0ce47b0fbb4c809ba72eeef4e0bbfd",
+  "raw_pins": {
+    "raw/pool/row_00.npz": "9aeb3b94a9fc8ea05d2da5d28ab9aae621300709663b08b73d1d07aa9a27369a",
+    "raw/pool/row_01.npz": "b73d26a23fb2da2cb6e4aba964b6e9aba1485576c05a80cd43813cef04ce30ff",
+    "raw/pool/row_02.npz": "124f5297e44dd656cf58459057ec08bbacc1421a1d1f425d300ed02154d8af03",
+    "raw/persistent/row_00.npz": "73e14fc3ac0a3aeeed1916dee00f58f2577300a2b35fb686dcf891f99be7da91",
+    "raw/persistent/row_01.npz": "07c4f180fc79658be3762f5805348e9f5636c1dce316a491b4e14e8e697e9acf",
+    "raw/persistent/row_02.npz": "79e2733bb2129a18c6974c614e789eeb08ee7c37368a9e2374b090d2980a5bdc",
+    "raw/blink80_5/row_00.npz": "38509a1f7b249668a1c5309cb41803fc53a9e83e5afcf652e2106f33b61059d8",
+    "raw/blink80_5/row_01.npz": "f7545b88818a0ae181807f0a7af0fc941911961c86372f151b86b91eb7daf26f",
+    "raw/blink80_5/row_02.npz": "2c78e66a619bbc372c0212e9bf1dc5cc639be3f6fb16e5949a0e5390201d79c1",
+    "raw/blink80_20/row_00.npz": "f3a68a67e336df233e5c84ead2bca02355971d6514b32b2ce2d1d9e123b96791",
+    "raw/blink80_20/row_01.npz": "aa21118fa358ce835b61dc87a9cef19f9003248f7d790a3ac17d67b8585118ca",
+    "raw/blink80_20/row_02.npz": "1c88dd02d06ff60fc834c94441b4f34af87348d3e9970e152940061cfe907cb7",
+    "raw/turn100_blink80_20/row_00.npz": "71dba30b15afbe9a2df2ef6fccf5d6241e6afa7824930bbae77541601bf079a4",
+    "raw/turn100_blink80_20/row_01.npz": "8fb8ff271afa173cef9ab2f9b77d222c1fd1347265c64297ad9451d8b0d31908",
+    "raw/turn100_blink80_20/row_02.npz": "607fabc4465af4cc8f7d911380c9e17c05c3fd92b3e2cec27dd98f847d2e9799"
+  },
+  "accuracy": {
+    "pool": {
+      "AM_current_start": {
+        "lives": 512,
+        "total_captures": 8598,
+        "total_misses": 11099,
+        "total_clicks": 19697,
+        "aggregate_capture_fraction": 0.436513174595116,
+        "mean_captures_per_life": 16.79296875,
+        "mean_misses_per_life": 21.677734375,
+        "mean_clicks_per_life": 38.470703125,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation4": {
+        "lives": 512,
+        "total_captures": 8487,
+        "total_misses": 8423,
+        "total_clicks": 16910,
+        "aggregate_capture_fraction": 0.5018923713778829,
+        "mean_captures_per_life": 16.576171875,
+        "mean_misses_per_life": 16.451171875,
+        "mean_clicks_per_life": 33.02734375,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation8": {
+        "lives": 512,
+        "total_captures": 7911,
+        "total_misses": 8794,
+        "total_clicks": 16705,
+        "aggregate_capture_fraction": 0.4735707871894642,
+        "mean_captures_per_life": 15.451171875,
+        "mean_misses_per_life": 17.17578125,
+        "mean_clicks_per_life": 32.626953125,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      }
+    },
+    "persistent": {
+      "AM_current_start": {
+        "lives": 512,
+        "total_captures": 2654,
+        "total_misses": 14940,
+        "total_clicks": 17594,
+        "aggregate_capture_fraction": 0.1508468796180516,
+        "mean_captures_per_life": 5.18359375,
+        "mean_misses_per_life": 29.1796875,
+        "mean_clicks_per_life": 34.36328125,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation4": {
+        "lives": 512,
+        "total_captures": 2756,
+        "total_misses": 11774,
+        "total_clicks": 14530,
+        "aggregate_capture_fraction": 0.18967653131452167,
+        "mean_captures_per_life": 5.3828125,
+        "mean_misses_per_life": 22.99609375,
+        "mean_clicks_per_life": 28.37890625,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation8": {
+        "lives": 512,
+        "total_captures": 2835,
+        "total_misses": 12182,
+        "total_clicks": 15017,
+        "aggregate_capture_fraction": 0.18878604248518346,
+        "mean_captures_per_life": 5.537109375,
+        "mean_misses_per_life": 23.79296875,
+        "mean_clicks_per_life": 29.330078125,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      }
+    },
+    "blink80_5": {
+      "AM_current_start": {
+        "lives": 512,
+        "total_captures": 2355,
+        "total_misses": 13308,
+        "total_clicks": 15663,
+        "aggregate_capture_fraction": 0.15035433824937752,
+        "mean_captures_per_life": 4.599609375,
+        "mean_misses_per_life": 25.9921875,
+        "mean_clicks_per_life": 30.591796875,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation4": {
+        "lives": 512,
+        "total_captures": 2484,
+        "total_misses": 10602,
+        "total_clicks": 13086,
+        "aggregate_capture_fraction": 0.18982118294360384,
+        "mean_captures_per_life": 4.8515625,
+        "mean_misses_per_life": 20.70703125,
+        "mean_clicks_per_life": 25.55859375,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation8": {
+        "lives": 512,
+        "total_captures": 2587,
+        "total_misses": 11216,
+        "total_clicks": 13803,
+        "aggregate_capture_fraction": 0.18742302398029415,
+        "mean_captures_per_life": 5.052734375,
+        "mean_misses_per_life": 21.90625,
+        "mean_clicks_per_life": 26.958984375,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      }
+    },
+    "blink80_20": {
+      "AM_current_start": {
+        "lives": 512,
+        "total_captures": 1806,
+        "total_misses": 10986,
+        "total_clicks": 12792,
+        "aggregate_capture_fraction": 0.14118198874296436,
+        "mean_captures_per_life": 3.52734375,
+        "mean_misses_per_life": 21.45703125,
+        "mean_clicks_per_life": 24.984375,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation4": {
+        "lives": 512,
+        "total_captures": 2024,
+        "total_misses": 8621,
+        "total_clicks": 10645,
+        "aggregate_capture_fraction": 0.1901362141850634,
+        "mean_captures_per_life": 3.953125,
+        "mean_misses_per_life": 16.837890625,
+        "mean_clicks_per_life": 20.791015625,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation8": {
+        "lives": 512,
+        "total_captures": 2042,
+        "total_misses": 9210,
+        "total_clicks": 11252,
+        "aggregate_capture_fraction": 0.1814788482047636,
+        "mean_captures_per_life": 3.98828125,
+        "mean_misses_per_life": 17.98828125,
+        "mean_clicks_per_life": 21.9765625,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      }
+    },
+    "turn100_blink80_20": {
+      "AM_current_start": {
+        "lives": 512,
+        "total_captures": 1887,
+        "total_misses": 11083,
+        "total_clicks": 12970,
+        "aggregate_capture_fraction": 0.14548959136468775,
+        "mean_captures_per_life": 3.685546875,
+        "mean_misses_per_life": 21.646484375,
+        "mean_clicks_per_life": 25.33203125,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation4": {
+        "lives": 512,
+        "total_captures": 2095,
+        "total_misses": 8964,
+        "total_clicks": 11059,
+        "aggregate_capture_fraction": 0.18943846640745093,
+        "mean_captures_per_life": 4.091796875,
+        "mean_misses_per_life": 17.5078125,
+        "mean_clicks_per_life": 21.599609375,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      },
+      "generation8": {
+        "lives": 512,
+        "total_captures": 2210,
+        "total_misses": 9376,
+        "total_clicks": 11586,
+        "aggregate_capture_fraction": 0.1907474538235802,
+        "mean_captures_per_life": 4.31640625,
+        "mean_misses_per_life": 18.3125,
+        "mean_clicks_per_life": 22.62890625,
+        "clickless_lives": 0,
+        "clickless_fraction": 0.0
+      }
+    }
+  },
+  "limits": "Aggregate fraction weights clicks; descriptive only, no binomial SE. Zero-click rows use null.",
+  "new_simulations": 0
+}

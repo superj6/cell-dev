@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_occlusion_acquisition_20261015/terminal_review/verify_accuracy.py", line 33, in <module>
+    assert actual==expected,(world,role,actual,expected)
+           ^^^^^^^^^^^^^^^^
+AssertionError: ('pool', 'AM_current_start', {'lives': 512, 'total_captures': 8598, 'total_misses': 11099, 'total_clicks': 19697, 'aggregate_capture_fraction': 0.436513174595116, 'mean_captures': 16.79296875, 'mean_misses': 21.677734375, 'mean_clicks': 38.470703125, 'clickless_lives': 0, 'clickless_fraction': 0.0}, {'lives': 512, 'total_captures': 8598, 'total_misses': 11099, 'total_clicks': 19697, 'aggregate_capture_fraction': 0.436513174595116, 'mean_captures_per_life': 16.79296875, 'mean_clicks_per_life': 38.470703125, 'mean_misses_per_life': 21.677734375, 'clickless_lives': 0, 'clickless_fraction': 0.0})

@@ -1,0 +1,21 @@
+{
+  "source_family": "completed AM native audit",
+  "origins": {
+    "outputs/audit_capture_value_selection_20261015/genetics/audit_native.py": "1640b5530fc44567758da00b529a43cf5200f81842c0bc635a90991c35a29ef8",
+    "outputs/audit_capture_value_selection_20261015/genetics/selection_replay.py": "2e03d0724e9b32be02944d42e029245b345e3de45d80e3076448c02c24bea963",
+    "outputs/audit_capture_value_selection_20261015/genetics/execute_full_audit.py": "4be63becf5d2bad2660e514e04f9e790a1e23495381b30657b0b4eb143a211fb",
+    "outputs/audit_capture_value_selection_20261015/genetics/test_replay.py": "3ca1b80c455177f1befb749339871e247c2572ac9aa0bda169e4b85f79f0e168",
+    "outputs/audit_capture_value_selection_20261015/genetics/full_audit_preparation.json": "b97ce9286a97e3635a2b4de99abc4fa07038cd202d8a26539f920f6d3ae76fda"
+  },
+  "selection_helper_byte_identical": true,
+  "producer_helpers": {
+    "native_replay.py": "999bce73224c937fbfd62ed8063fc8fb175b02b28ac2ce27a1e2bc86dee6b86c",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "changes": [
+    "One eight-generation acquisition run at ABI4 with exact fixed2/2/4 world allocation and500 prices.",
+    "Final checkpoint counters2048/4096; validations0/4/7; exact full32 raw/genetic replay.",
+    "Independent generation4 checkpoint replay and exact later log-prefix/snapshot binding.",
+    "Explicit --run and complete terminal-budget requirement; no source-only execution."
+  ]
+}

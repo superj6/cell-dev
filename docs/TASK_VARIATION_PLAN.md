@@ -74,6 +74,11 @@ issue. Complete a focused experiment, review its results, then choose the next h
 richer, reusable emergent algorithms. Follow-up sketches are options rather than a fixed sequence; reconsider
 information demands, incentives, search dynamics and mechanism probes together at each milestone.
 
+*2026-10-15 depth clarification:* the user emphasizes that a strategy showing good signs may warrant simply
+letting it run longer. Compare the expected value of more uninterrupted generations or more evaluation rollouts
+against changing tasks/operators/prices. Novelty is not required; use the observed trajectory, uncertainty,
+retention and resource cost. Existing fixed runs keep their limits; further bounded local studies are authorized.
+
 *2026-10-15 AL complete and incentive direction:* the mixture gains 3.684 ± 0.298 POOL captures over AI start;
 persistent change is −0.078 ± 0.200 and 90% retention is unresolved. Larger bodies add cost. The single-task
 endpoint loses both captures and fresh training-world F, leaving selection noise as an alternative explanation.
@@ -95,6 +100,16 @@ No life/build/draw occurs during preparation. One8generation continuation, fixed
 3roles×5worlds×512confirmation,28,222calls. Protocolca277b17…08b26b; evidence`results/occlusion_acquisition_20261015/`. Current gains weaken under brief darkness by
 0.422±0.132captures, and dark gains are unresolved. This motivates the new demand without making a memory claim
 or requiring a hand-built winner. See AM's `discussion/ROOT_DECISION.md`; reassess after the next complete result.
+
+*2026-10-15 AN complete and depth decision:* longer-gap capture gain is+0.460938±0.110891, but4→8gain
+is only+0.035156±0.120157, while POOL loses1.125000±0.234506. Generation4 passes both90%retention checks;
+finalPOOLretention is unresolved and absolute loss is resolved. Dark gains remain unresolved; later F gains are
+chiefly economy. All28222calls complete in3679.510CPU seconds; independent raw/genetic checks pass and all
+processes are clear. `results/occlusion_acquisition_20261015/REPORT.md`. Prepare AO: two24generation same-context
+continuations from all32ANsurvivors, unchanged25/25/50 versus50/25/25 POOL/persistent/longer-gap allocation,
+8+8scoring and originalprices. Both get more time, with fixed8/24endpoints andAMreference anchoring retention.
+The observed late tradeoff improves mixedF, so precision alone may reinforce it. This is source-only/unreleased;
+no harder world, new ABI or paid compute. Native53232/block142 are proposed pending fullnamespaceaudit.
 
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved

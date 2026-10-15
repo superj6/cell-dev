@@ -15,45 +15,49 @@ richer, reusable evolved behavior. Cost calibration, search operators, richer in
 analysis are competing options, not predetermined sequences. Existing follow-up design notes are candidates;
 choose the next study from the complete evidence and the broad objective, not momentum.
 
-**Current work (2026-10-15).** AM is complete. Original-price continuation gains captures over AL in all four
-known worlds: POOL **+1.332031 ±0.229478**, persistent **+0.865234 ±0.135134**, blink80/5 **+0.443359 ±0.128503**,
-and turn100+blink80/5 **+0.695312 ±0.127998**. Both training F gains are positive beyond3SE despite modest extra
-cost/body growth. Higher capture reward2,000 adds1.568359±0.241853 POOL captures over current value500 but has
-persistent difference−0.433594±0.151231, unresolved at3SE, and much higher body/miss costs; no joint price advantage.
-Both endpoints pass90% capture retention; AL-versus-AI persistent retention now passes on fresh512 lives too.
-Current persistent F still trails AI, so capture progress does not preserve every earlier cost-performance tradeoff.
-No optimal price, memory, new algorithm or broad generalization is established. Report:
-`results/capture_value_selection_20261015/REPORT.md`. All28,756calls complete in5112.441715CPU/2065.705032wall,
-peak326,066,176bytesRSS; all8192confirmationstatuses0. Four identities/threegroups clear. Full genetics and all4064
-literal paired vectors verify exactly. Prospective commitsbf431b6/16e46cd; protocol9210e218…922294;
-summary00bdc977…6b2137. No active research worker remains. AJ is still held source-only.
+**Depth and compute (user clarification, 2026-10-15).** A promising strategy may deserve more uninterrupted
+evolution or more evaluation rollouts before changing direction. Reassessing the highest-value next step does
+not require novelty. Judge the observed trajectory, uncertainty, retained skills and cost when deciding whether
+to continue longer, increase evaluation precision, or change the strategy. Safe bounded local compute remains
+authorized; this does not extend an already registered run midstream or authorize paid resources.
 
-**Next direction chosen after the complete result:** AN, prepared under
-`outputs/autonomous_occlusion_acquisition_20261015/`, with audit sister directory. One eight-generation ordinary
-continuation from ALL32 AM current-value survivors at500, fixed2POOL/2persistent/4blink80_20 per8selection lives,
-8initial+8recheck. Existing ABI4; only mean dark interval5→20 changes from the known blink context. Preserve exact
-generation4 and8 endpoints, then test start/mid/final on five worlds with512shared fresh lives. Candidate fifth
-world isturn100+blink80_20; audit prior exposure before calling it held out. Proposed28,222calls,
-10,800CPU (7200search/3600confirmation),5400wall,one2threadworker with AM memory safeguards.
-Native53231/block141 are now registered; exact protocolca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b.
-Preparation imports all32rows without a build, genetic draw or life. Both independent actual-input reviews pass;
-31producer+6operations+17reader tests pass. No prior recorded exact80/20world was found; turn100+off20 remains
-a narrow untrained diagnostic combination. Prior60identities/43groups clear. AM terminal milestone2b346af is pushed.
-Root owns common/monitor/release; richer_worlds producer+midpoint; prediction_audit reader; decoy_design prepare,
-namespace/resource/exposure audits. Source/input reviews pass; prospective commit/push and bounded launch report precede execution.
-Public evidence: `results/occlusion_acquisition_20261015/`. Exact reasoning is AM's `discussion/ROOT_DECISION.md`.
+**Current work (2026-10-15).** AN is complete. Longer-gap captures improve **+0.460938 ±0.110891** over
+AM start (3.527344→3.988281 per life), and narrow untrained turns-plus-longer-gap transfer improves
+**+0.630859 ±0.120726**. Dark-capture and occlusion-specific interaction gains remain unresolved; no memory
+or richer algorithm is established. Generation4 already has **+0.425781 ±0.122610** target captures and passes
+both90%old-task retention diagnostics. Generation8 adds only **+0.035156 ±0.120157** target captures over4,
+while losing **1.125000 ±0.234506** POOL captures. Final-minus-start POOL is **−1.341797 ±0.230936**;
+its90%retention margin is unresolved (lower3SE−0.323287), despite92.0%point retention. Persistent retention passes.
+Later gains are chiefly economy; target F rises0.237060 from4→8, with0.219894ordinary savings. Final bodies
+shrink and click accuracy improves over start, but no mechanism is isolated.
 
-Why this next: the current-price descendant's gain is0.421875±0.132148 smaller under brief darkness than steady
-visibility; dark-capture improvement is unresolved. It gives a nearby information-demand challenge while the
-lineage now demonstrates retained capture gains. A small causal probe, another price/weight comparison, operator
-changes and a matched longer pair were considered. A single longer continuation prioritizes new acquisition;
-it cannot establish curriculum or depth superiority. Reassess after its complete result, per the user's explicit
-no-telescoping guideline. Safe local experimentation remains authorized; stop to report if meaningful progress
-appears to require substantially more resources. No paid compute or new in-life rule/ABI is authorized here.
+Report: `results/occlusion_acquisition_20261015/REPORT.md`; viewer: `results/atlas/occlusion_acquisition.html`.
+All28,222calls finish in3679.509834CPU/1484.136535wall, peak312.824219MiB. All7680confirmationstatuses0;
+threeidentities/twogroups clear. All1792offspring/3584pointadditions, final32rows and independentmidpoint32rows
+replay exactly. Literal accounting matches all2933vectors and15accuracyratios; unchanged-reader bytes reproduce.
+Two retained bookkeeping mistakes affected no science: wrong status label in a pre-release wrapper stopped before
+any attempt/build/life; a separate accuracy helper needed three descriptive key names corrected. First owned
+research attempt completed. Protocolca277b17…08b26b, summary1ce6412d…c64512, prospectivecommit0a95793.
 
-Watch AL at `results/atlas/retention_selection.html`: six existing first-seed JS lives match all 342 C ledger
-values, with 106 mock UI checks and no real browser run. Evidence: `results/al_watchable_20261015/`.
-AK's earlier result—38.6% ancestral capture loss—remains at `results/retention_frontier_20261015/REPORT.md`.
+**Next direction after the complete result:** AO is source-only under `outputs/autonomous_retained_depth_20261015/`
+with audit sister directory. Give the promising lineage substantially more time while testing old-task allocation:
+two matched24generation branches from ALL32ANfinal survivors, freshmatchednative53232,8+8scoring, prices500.
+Unchanged25/25/50 versus balanced50/25/25 POOL/persistent/blink80_20. Six fixed roles (AMreference, ANstart,
+both generation8 and24 endpoints) on five known worlds×512freshblock142lives. Proposed138488calls,28800CPU
+(24000search/4800confirmation),14400wall,one2threadworker and unchanged memory safeguards. This is a fresh
+full-population continuation, not an RNG-exact resume. No new world, organism rule or ABI. Nothing has launched.
+
+Why this next: AN's later tradeoff still improves its true mixedF by about0.108, so more evaluation precision alone
+may reinforce forgetting. A matched allocation contrast gives both policies longer evolution without assuming
+more time will solve retention. Preserve AM as an older anchor so AN's POOL loss is not normalized away. More
+precision, circuit probes, prices and operators were considered. Reassess after the complete result; no automatic
+ladder or price sweep. Local compute is sufficient at present; no spending or additional hardware is needed.
+
+AM remains the earlier cumulative capture milestone: original-price continuation improves all four known worlds,
+while reward2000 has no joint task advantage and increases body/miss costs. `results/capture_value_selection_20261015/REPORT.md`.
+All AM and AN research workers have exited. AJ remains held source-only. AL viewer remains at
+`results/atlas/retention_selection.html`. AN's six existing first-seed JS replays match345C ledger values, with108mock
+UI checks and no real browser test; evidence `results/an_watchable_20261015/`.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.

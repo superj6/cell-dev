@@ -1,0 +1,38 @@
+{
+  "monitor": {
+    "pid": 2798881,
+    "ppid": 2798880,
+    "pgid": 2798880,
+    "start_ticks": 9878083
+  },
+  "pid_namespace": "pid:[4026531836]",
+  "protocol_sha256": "ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b",
+  "release_sha256": "ddc83703cf59e4e482f9423a3554b39642ff45b36d83702147ff62947e1a7015",
+  "commands": {
+    "acquisition": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_occlusion_acquisition_20261015/search.py",
+      "--arm",
+      "acquisition"
+    ],
+    "confirmation": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_occlusion_acquisition_20261015/measure.py",
+      "--run-child"
+    ]
+  },
+  "budget": {
+    "cpu_seconds": 10800,
+    "wall_seconds": 5400,
+    "search_cpu_seconds": 7200,
+    "confirmation_cpu_seconds": 3600,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

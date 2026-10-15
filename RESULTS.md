@@ -3705,3 +3705,38 @@ extension or paid compute. Prospective publication precedes runtime release.
 
 Protocol`ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b`.
 Evidence:`results/occlusion_acquisition_20261015/`; source lineage from completed AM milestone`2b346af`.
+## 2026-10-15 — AN complete: longer-gap acquisition, followed by economy and an older-task tradeoff
+
+Longer-gap captures improve3.527344→3.988281 (**+0.460938 ±0.110891**, lower3SE+0.128266), with narrow
+untrained turns-plus-longer-gap transfer **+0.630859 ±0.120726**. Brief-gap gain is+0.453125±0.133757;
+persistent gain+0.353516±0.143199 remains unresolved. FinalPOOLcaptures fall **1.341797 ±0.230936**.
+Generation4 already gains0.425781±0.122610targetcaptures and passes both90%old-task retention diagnostics.
+Generation8 retains92.0%POOL in the point estimate, but90%retention is unresolved: margin+0.337500±0.220262,
+lower3SE−0.323287. Persistent retention passes. Unresolved retention is not established failure below90%.
+
+From4→8, longer-gap captures change only **+0.035156 ±0.120157**, while POOL loses **1.125000 ±0.234506**.
+Longer-gap F improves0.237060±0.060541, including0.219894ordinary cost savings. Bodies shrink (persistent
+96.92→91.74→81.16cells), with fewer misses than start. Longer-gap aggregate capture/click fraction rises
+14.12%→19.01%→18.15%; counts remain visible. Final longer-gap dark-capture gain **+0.013672±0.020774** and
+its persistent-relative capture interaction **+0.107422±0.153306** are unresolved. Almost all capture gain is
+in bright periods. No memory, richer algorithm, broad generalization or plateau is established.
+
+All28,214research+8startupcalls complete in **3679.509834CPU/1484.136535wall**, peak312.824219MiB.
+All7680confirmationstatuses0; initialguards[0,0,0,8,0,6,0,0] retain penalties. Threeidentities/twogroups clear.
+All1792offspring/3584mutations andfinal32genomes/origins replay, including independently verified midpoint32rows
+and logprefix. All2933literal pairedvectors match exactly; separate frozen-reader bytes reproduce;15accuracy
+ratios reconcile. Nativeaudit adds4.886713CPU without simulations. Missing unsuccessful-parent base scores and
+tie permutations limit initial-ranking proof. A pre-release wrong-status-label wrapper failed before any
+attempt/build/life; a separate accuracy helper's three descriptive keys were corrected with both versions retained.
+No scientific change, research retry, scope extension or rented compute.
+
+The user says promising strategies may deserve more generations or evaluation rollouts. Choose AO after comparing
+competing directions: two matched24generation continuations fromALL32ANfinal survivors, fixedknowncontexts and
+prices, unchanged25/25/50 versus50/25/25 POOL/persistent/blink20 allocation. Both get more time; AMreference
+remains the earlier retention anchor. AN's late tradeoff increases true mixedF byabout0.108, so precision alone
+may reward it. This is source-only/unreleased, with no automatic harder-task or price ladder.
+
+Report/figure: `results/occlusion_acquisition_20261015/REPORT.md`. Viewer: `results/atlas/occlusion_acquisition.html`;
+all6existingJS lives match345ledger values,108mockUIassertions, no real browser run. Illustrations use the fixed
+first seed even though those particular lives look worse;512-life aggregates remain visible.
+Prospectivecommit0a95793; protocolca277b17…08b26b; summary1ce6412d…c64512; budget29f26b5c…ac5365.

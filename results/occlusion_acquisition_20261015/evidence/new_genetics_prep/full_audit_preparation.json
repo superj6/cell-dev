@@ -1,0 +1,48 @@
+{
+  "status": "source_only_ready_for_terminal_authorization",
+  "protocol_sha256": "ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b",
+  "files": {
+    "audit_native.py": "742c892ad2e42dc8b1305a1acbee57a638d5170577b81eacc80a4b1b8c1461ba",
+    "selection_replay.py": "2e03d0724e9b32be02944d42e029245b345e3de45d80e3076448c02c24bea963",
+    "execute_full_audit.py": "f2e6dc9b1b9aff3c2b84be19e00499fe00bbe5c2ade41d27c0a6732508827d8e",
+    "test_replay.py": "b33e54532455d4a8d420241c1ae002375089653f536f887b21b521ea7acc5166",
+    "tests.log": "32faef56d0289369b1ac111e68ee0bb7b2ed1bcf92d3f33b75313bd0556c3e6f",
+    "tests.xml": "6bc495386ad7fca8c0865d3a7c06ddb917fe34daf27809932d14b6053dbb3e13",
+    "README.md": "4e5c2e42e72d663feb50f7974ff7ed4097c840222ba38c98bce2e2dfa13294ed",
+    "helper_origins.json": "90858b3e5daf60daaad838cb7ebc8b4dfe52cf018a7b9af84ab348d740747c56",
+    "adaptation.diff": "b1f74fcd18f0a139ea8966db2589055951d826b76fcebc533500996d3b5dcf94",
+    "ruff_executables.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "dry_run.json": "f2c69cdb752ce63da31d4f396c4e059808e095175f984fa9f56d23338f4cf2c5"
+  },
+  "producer_helpers": {
+    "native_replay.py": "999bce73224c937fbfd62ed8063fc8fb175b02b28ac2ce27a1e2bc86dee6b86c",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "tests": {
+    "tests": 21,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "scope": {
+    "runs": [
+      "acquisition"
+    ],
+    "generations": 8,
+    "initial_rows": 32,
+    "offspring": 1792,
+    "point_mutations": 3584,
+    "midpoint_generation": 4,
+    "midpoint_rows": 32,
+    "final_rows": 32
+  },
+  "selection_helper_byte_identical_to_AM": true,
+  "no_actual_runtime_inputs_read": true,
+  "post_test_changes": "Only protocol/search-completion metadata guards were added; tested replay and midpoint functions unchanged.",
+  "lint_scope": "audit_native.py and execute_full_audit.py pass; inherited compact test source has style-only E701/E731 notices and was preserved.",
+  "actual_replay_executions": 0,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "random_draws": 0,
+  "frozen_study_source_pins_unchanged": true
+}

@@ -1,0 +1,146 @@
+{
+  "status": "source_only_ready_for_review_unreleased",
+  "protocol_sha256": "ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b",
+  "source_pins": {
+    "export.py": "2af77e041956c270531d5476dfd357cc49835e52acd3320126917770f1342943",
+    "viewer.js": "abb897ad0bfd709da371dd972431222a0c52a6e984b3dd89d59a96976550657b",
+    "template.html": "34fe669fb6ba605f8367db99797db2f32a2946ec624d3f63fbb1a287f3ef1887",
+    "check_replay.js": "a1aec5056b8ac1e68f99116712cbe09eb7c0a9e76403b1851fb1ad895d6f2d72",
+    "run_validation.py": "0d7f698f4e9d998a6f38a9d6f94cdd23f68823095c3ade2656e955de2bd8d4a5",
+    "build.py": "f59b74d04ae0e8b6ecac9acd6962c5526ef26f388fe323b899ae52af6137b65d",
+    "test_viewer.js": "e25e595aa4467b6ae84ccc89f98fbfb2b0304b4e582205d35f8a9b6e43d2b931",
+    "source_origins.json": "8066bb630e3ae45657241bc06ff03c7822827de4f660e030c231d2665a36f19b",
+    "README.md": "075b6fb96c96e5a7cd974b614b07108cf73639ffff394d94a04a1de2564f8f85",
+    "play/lifesim.js": "6ce1c6b4652f4fef2e1db0267624baccc90782ce196fe1cca3677048e99c8256",
+    "play/COPYING.LGPL-2.1": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+  },
+  "source_origins_sha256": "8066bb630e3ae45657241bc06ff03c7822827de4f660e030c231d2665a36f19b",
+  "fixed_scope": {
+    "roles": [
+      "AM_current_start",
+      "generation4",
+      "generation8"
+    ],
+    "worlds": [
+      "persistent",
+      "blink80_20"
+    ],
+    "seed": 52410000,
+    "selection_rule": "First confirmation seed and all prescribed roles; never replace an illustration based on outcome.",
+    "future_JS_lives": 6,
+    "ABI3_ledgers": 3,
+    "ABI4_ledgers": 3,
+    "future_bitwise_ledger_values": 345,
+    "new_C_or_Python_lives": 0,
+    "genetic_draws": 0,
+    "kernel_builds": 0
+  },
+  "ui_checks": {
+    "status": "passed",
+    "assertions": 108,
+    "layouts": [
+      {
+        "width": 540,
+        "numericCanvasArgumentsChecked": 5616,
+        "createdMockLives": 12
+      },
+      {
+        "width": 330,
+        "numericCanvasArgumentsChecked": 5616,
+        "createdMockLives": 12
+      }
+    ],
+    "realEngineLives": 0
+  },
+  "ui_receipt_sha256": "7c4613f56734c7e21551a5237dabee991c1b0575a10c6a3c71c0b7888cbc3f08",
+  "template_ids_checked": 72,
+  "default_and_syntax_checks": [
+    {
+      "command": [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+        "/home/jgon/project/ml/cell-dev/outputs/an_watchable_20261015/export.py"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "status": "source_only_unreleased",
+        "AN_artifacts_read": false,
+        "simulated_lives": 0
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+        "/home/jgon/project/ml/cell-dev/outputs/an_watchable_20261015/run_validation.py"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "status": "source_only_unreleased",
+        "js_replay_lives": 0
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+        "/home/jgon/project/ml/cell-dev/outputs/an_watchable_20261015/build.py"
+      ],
+      "exit_code": 0,
+      "stdout": {
+        "status": "source_only_unreleased",
+        "simulated_lives": 0
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/home/jgon/project/ml/cell-dev/outputs/an_watchable_20261015/viewer.js"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/home/jgon/project/ml/cell-dev/outputs/an_watchable_20261015/check_replay.js"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/home/jgon/project/ml/cell-dev/outputs/an_watchable_20261015/test_viewer.js"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "engineering_caps": {
+    "child_CPU_seconds": 120,
+    "wall_seconds": 180,
+    "owned_group_RSS_bytes": 1073741824,
+    "worker_RLIMIT_AS_bytes": 8589934592,
+    "minimum_host_MemAvailable_bytes": 4294967296,
+    "first_attempt_only": true
+  },
+  "interpretation": [
+    "Both displayed worlds retain all 512-life aggregate means and every fixed within-world difference. Illustration outcomes never replace aggregates.",
+    "Midpoint and final endpoints are prescribed before confirmation; no outcome substitution.",
+    "Off-signal target stays visually marked for the observer. Its color reads existing simulator visibility state only; no cell or world state is changed.",
+    "Cue-off captures do not prove memory. One continuation does not isolate extra generations or training context.",
+    "The unchanged engine and LGPL notice are copied; no real browser rendering or playback validation has occurred."
+  ],
+  "runtime_artifacts_read": false,
+  "scientific_genomes_read": false,
+  "simulation_calls": 0,
+  "browser_runs": 0,
+  "authorized_for_execution": false
+}

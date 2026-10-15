@@ -1,0 +1,354 @@
+--- AM/audit_native.py
++++ AN/audit_native.py
+@@ -1,4 +1,4 @@
+-"""Offline AM complete recorded-genetics and logged ordinary-selection audit; no lives or RNG draws."""
++"""Offline AN complete recorded-genetics and logged ordinary-selection audit; no lives or RNG draws."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -34,32 +34,94 @@
+     return json.loads(Path(path).read_text())
+ 
+ 
++def audit_midpoint(study, folder, protocol, cfg, identity, layout, initial,
++                   lines, curves, selected, operations, replay, spec):
++    """Replay the prescribed generation4 population against the uninterrupted final log prefix."""
++    middle = folder / 'generation4'
++    saved = torch.load(middle / 'checkpoint.pt', map_location='cpu', weights_only=True)
++    selected.equal(saved['format'], 1, 'midpoint checkpoint format')
++    selected.equal(saved['config'], cfg, 'midpoint eight-generation target configuration')
++    selected.equal(saved['identity'], identity, 'midpoint extended identity')
++    state = saved['state']
++    for key, value in {'generation': 4, 'evals': 1024, 'rc_lives': 2048}.items():
++        selected.equal(state[key], value, 'midpoint checkpoint ' + key)
++    selected.equal(state['curves'], curves[:4], 'midpoint curve prefix')
++    selected.equal(set(saved['logs']), {'curves.jsonl', 'lineage.jsonl', 'clones.jsonl'},
++                   'midpoint log coverage')
++    prefixes = {}
++    for name, metadata in saved['logs'].items():
++        size = metadata['bytes']
++        if type(size) is not int or size < 0:
++            raise ValueError('invalid midpoint log prefix length')
++        with (folder / name).open('rb') as stream:
++            data = stream.read(size)
++        selected.equal(len(data), size, 'midpoint log prefix length')
++        selected.equal(hashlib.sha256(data).hexdigest(), metadata['sha256'], 'midpoint log prefix hash')
++        prefixes[name] = [json.loads(line) for line in data.splitlines() if line.strip()]
++    selected.equal(prefixes['curves.jsonl'], curves[:4], 'exact midpoint curve records')
++    selected.equal(prefixes['lineage.jsonl'], lines[:5], 'exact midpoint lineage records')
++    selected.equal(prefixes['clones.jsonl'], [], 'disabled midpoint clone lives')
++    view_lines, view_curves = copy.deepcopy(lines[:5]), copy.deepcopy(curves[:4])
++    for row in [*view_lines[1:], *view_curves]:
++        if 'T' in row:
++            selected.equal(row['T'], 1024, 'midpoint optional duration')
++        row['T'] = 1024
++    selection = selected.audit_lineage(view_lines, view_curves, state, protocol['native_seed'], spec)
++    genetics = operations.replay_genetics(lines[:5], state, layout, initial[0], False,
++                                         initial_population=initial)
++    _, best = type(layout).load(middle / 'best_genome.json')
++    if not operations.same(best.numpy(), state['population'][0].numpy()):
++        raise ValueError('midpoint endpoint is not reconstructed rank zero')
++    snapshot = read(middle / 'snapshot.json')
++    expected = {'status': 'complete', 'generation': 4, 'rank': 0,
++        'rank_zero_id': int(state['ids'][0]), 'checkpoint_sha256': sha(middle / 'checkpoint.pt'),
++        'genome_file_sha256': sha(middle / 'best_genome.json'),
++        'genome_raw_sha256': replay.raw_sha(best.numpy()),
++        'population_raw_sha256': replay.raw_sha(state['population'].numpy()),
++        'identity': identity, 'log_prefix_pins': saved['logs'],
++        'protocol_sha256': sha(study / 'protocol.json'), 'release_sha256': sha(study / 'release.json'),
++        'added_lives': 0, 'random_draws': 0}
++    selected.equal(snapshot, expected, 'complete passive midpoint snapshot')
++    selected.equal(read(folder / 'search_complete.json')['midpoint'], snapshot,
++                   'completed search midpoint binding')
++    return {'status': 'passed', 'generation': 4, 'checkpoint_sha256': sha(middle / 'checkpoint.pt'),
++        'snapshot_sha256': sha(middle / 'snapshot.json'), 'selection': selection,
++        'genetic_replay': genetics, 'all_32_midpoint_rows_bound': True,
++        'rank_zero_id': int(state['ids'][0]), 'rank_zero_raw_sha256': replay.raw_sha(best.numpy()),
++        'uninterrupted_final_log_prefix_bound': True, 'added_lives': 0, 'random_draws': 0}
++
++
+ def audit(study):
+     study = Path(study).resolve()
+     protocol = read(study / 'protocol.json')
+     for name, digest in protocol['source_pins'].items():
+         if sha(study / name) != digest:
+             raise ValueError('pinned study source changed: ' + name)
+-    replay = load('AM_full_recorded_replay', study / 'native_replay.py')
+-    selected = load('AM_ordinary_selection', HERE / 'selection_replay.py')
++    replay = load('AN_full_recorded_replay', study / 'native_replay.py')
++    selected = load('AN_ordinary_selection', HERE / 'selection_replay.py')
+     operations = replay.operations()
+     layout, initial = replay.initial_population(study, protocol)
+     from src.life import spec
+ 
++    selected.equal(protocol['search'], {'arms': ['acquisition'], 'generations': 8,
++        'research_lives_per_arm': 20534, 'startup_lives_per_arm': 4,
++        'initial_lives': 8, 'recheck_lives': 8, 'parents': 32, 'offspring': 224},
++        'registered acquisition scope')
+     first = replay.first_cohort(study, protocol)
+     if (study / 'first_cohort_replay.json').exists() and read(study / 'first_cohort_replay.json') != first:
+         raise ValueError('saved first-cohort proof differs')
+     results, artifacts = {}, {}
+-    for arm in ('current_value', 'high_value'):
++    for arm in ('acquisition',):
+         folder = study / 'runs' / arm
+         cfg_path = study / protocol['configs'][arm]['path']
+         selected.equal(sha(cfg_path), protocol['configs'][arm]['sha256'], 'registered configuration')
+         cfg = selected.config_identity(cfg_path)
+         selected.equal(cfg['seed'], protocol['native_seed'], 'native seed')
+-        for key, value in {'generations': 4, 'mu': 32, 'lam': 224, 'breeding': 'sex', 'n_mut': 2,
++        for key, value in {'generations': 8, 'mu': 32, 'lam': 224, 'breeding': 'sex', 'n_mut': 2,
+                            'dup_rate': 0., 'del_rate': 0., 'dup_split': False, 'recheck_k': 64,
+                            'recheck_lives': 8, 'recheck_key': 'all', 'heldout_every': 4}.items():
+             selected.equal(cfg['evolve'][key], value, 'ordinary search ' + key)
++        selected.equal(cfg['life']['abi'], 4, 'neutral/visibility ABI4 search')
+         selected.equal(cfg['life']['lives'], 8, 'initial life budget')
+         selected.equal(cfg['life']['T'], 1024, 'duration')
+         selected.equal(cfg['life']['T_choices'], None, 'fixed duration')
+@@ -67,8 +129,8 @@
+         expected_population = {'version': 1, **protocol['population_start'], 'source_pins': {
+             name: sha(study / name) for name in ('population_loader.py', 'search.py')}}
+         expected_selection = {'version': 1, 'arm': arm, 'worlds': protocol['selection_worlds'],
+-            'rule': 'gen indices even=pool odd=persistent; gen R_cap by arm; diagnostics=persistent R_cap500',
+-            'selection_capture_value': {'current_value': 500., 'high_value': 2000.}[arm],
++            'rule': 'gen fixed 2pool/2persistent/4blink80_20 per8 repeated for recheck; diagnostics=persistent neutral; R_cap500',
++            'pattern': ['pool', 'persistent', 'blink80_20', 'blink80_20'] * 2,
+             'source_pins': {'selection.py': sha(study / 'selection.py')}}
+         selected.equal(cfg['population_start'], expected_population, 'loader configuration')
+         selected.equal(cfg['retention_selection'], expected_selection, 'world-allocation configuration')
+@@ -81,7 +143,7 @@
+         selected.equal(saved['identity'], expected_identity, 'extended numerical identity')
+         selected.equal(read(folder / 'determinism.json'), expected_identity, 'native identity file')
+         state = saved['state']
+-        for key, value in {'generation': 4, 'evals': 1024, 'rc_lives': 2048}.items():
++        for key, value in {'generation': 8, 'evals': 2048, 'rc_lives': 4096}.items():
+             selected.equal(state[key], value, 'native checkpoint ' + key)
+         logs = {}
+         for name, metadata in saved['logs'].items():
+@@ -93,8 +155,8 @@
+         selected.equal(logs['clones.jsonl'], [], 'disabled clone lives')
+         curves, lines = logs['curves.jsonl'], logs['lineage.jsonl']
+         selected.equal(curves, state['curves'], 'checkpoint curve history')
+-        selected.equal([row['gen'] for row in curves], list(range(4)), 'four generations')
+-        selected.equal([row['gen'] for row in curves if 'valid' in row], [0, 3], 'validation schedule')
++        selected.equal([row['gen'] for row in curves], list(range(8)), 'eight generations')
++        selected.equal([row['gen'] for row in curves if 'valid' in row], [0, 4, 7], 'validation schedule')
+         view_lines, view_curves = copy.deepcopy(lines), copy.deepcopy(curves)
+         for row in [*view_lines[1:], *view_curves]:
+             if 'T' in row:
+@@ -102,6 +164,8 @@
+             row['T'] = 1024
+         selection = selected.audit_lineage(view_lines, view_curves, state, protocol['native_seed'], spec)
+         genetics = operations.replay_genetics(lines, state, layout, initial[0], False, initial_population=initial)
++        midpoint = audit_midpoint(study, folder, protocol, cfg, expected_identity, layout, initial,
++                                  lines, curves, selected, operations, replay, spec)
+         public = read(folder / 'population.json')
+         final = torch.stack([layout.from_dict(row) for row in public['genomes']])
+         if not operations.same(final.numpy(), state['population'].numpy()):
+@@ -118,13 +182,18 @@
+         if any(not np.isfinite(x) or abs(x - round(x)) > 1e-8 for x in guard_counts):
+             raise ValueError('invalid guard count aggregate')
+         marker = read(folder / 'search_complete.json')
++        for key, value in {'status': 'complete', 'arm': arm, 'research_lives': 20534,
++                           'startup_lives': 4, 'protocol_sha256': sha(study / 'protocol.json'),
++                           'release_sha256': sha(study / 'release.json')}.items():
++            selected.equal(marker[key], value, 'completed acquisition ' + key)
+         for name, digest in marker['output_pins'].items():
+             selected.equal(sha(folder / name), digest, 'completed native output ' + name)
+             artifacts[str((folder / name).relative_to(study))] = digest
+         results[arm] = {'status': 'passed', 'checkpoint_sha256': sha(folder / 'checkpoint.pt'),
+             'selection': selection, 'genetic_replay': genetics, 'all_32_final_rows_bound': True,
+             'final_rank_zero_id': int(state['ids'][0]), 'final_rank_zero_raw_sha256': replay.raw_sha(final[0].numpy()),
+-            'initial_evaluation_lives': 8192, 'recheck_lives': 2048,
++            'initial_evaluation_lives': 16384, 'recheck_lives': 4096,
++            'midpoint': midpoint,
+             'initial_guard_counts_by_generation': [round(x) for x in guard_counts]}
+     forbidden = [name for name in sys.modules if name in ('src.life.build', 'src.life.evaluate',
+                   'src.checkpoint', 'src.evolve', 'src.run', 'src.life.reference')]
+--- AM/execute_full_audit.py
++++ AN/execute_full_audit.py
+@@ -1,6 +1,7 @@
+-"""Execute the prepared offline AM audit once, preserving exact sources and logs."""
++"""Execute the prepared offline AN audit once, preserving exact sources and logs."""
+ from __future__ import annotations
+ 
++import argparse
+ import hashlib
+ import json
+ import os
+@@ -13,7 +14,7 @@
+ 
+ ROOT = Path(__file__).resolve().parents[3]
+ SOURCE = Path(__file__).resolve().parent
+-STUDY = ROOT / 'outputs/autonomous_capture_value_selection_20261015'
++STUDY = ROOT / 'outputs/autonomous_occlusion_acquisition_20261015'
+ DEST = STUDY / 'terminal_review/native'
+ 
+ 
+@@ -23,16 +24,20 @@
+ 
+ def main():
+     prepared = json.loads((SOURCE / 'full_audit_preparation.json').read_text())
++    if sha(STUDY / 'protocol.json') != prepared['protocol_sha256']:
++        raise ValueError('prepared study protocol changed')
+     for name, digest in prepared['files'].items():
+         if sha(SOURCE / name) != digest:
+             raise ValueError('prepared helper changed: ' + name)
+     for name, digest in prepared['producer_helpers'].items():
+         if sha(STUDY / name) != digest:
+             raise ValueError('producer helper changed: ' + name)
+-    for arm in ('current_value', 'high_value'):
++    for arm in ('acquisition',):
+         marker = STUDY / 'runs' / arm / 'search_complete.json'
+         if json.loads(marker.read_text())['status'] != 'complete':
+             raise ValueError('search is incomplete: ' + arm)
++    if json.loads((STUDY / 'budget.json').read_text())['status'] != 'complete':
++        raise ValueError('terminal complete study required before full audit')
+     DEST.mkdir(exist_ok=False)
+     for name in dict.fromkeys([*prepared['files'], 'full_audit_preparation.json', 'README.md', Path(__file__).name]):
+         shutil.copyfile(SOURCE / name, DEST / name)
+@@ -73,4 +78,8 @@
+ 
+ 
+ if __name__ == '__main__':
+-    sys.exit(main())
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--run', action='store_true')
++    if parser.parse_args().run:
++        sys.exit(main())
++    print(json.dumps({'status': 'source_only', 'requires': 'root terminal authorization and explicit --run'}))
+--- AM/test_replay.py
++++ AN/test_replay.py
+@@ -10,7 +10,7 @@
+ 
+ HERE=Path(__file__).resolve().parent
+ ROOT=HERE.parents[2]
+-STUDY=ROOT/'outputs/autonomous_capture_value_selection_20261015'
++STUDY=ROOT/'outputs/autonomous_occlusion_acquisition_20261015'
+ 
+ def load(name,path):
+     spec=importlib.util.spec_from_file_location(name,path)
+@@ -18,9 +18,9 @@
+     spec.loader.exec_module(module)
+     return module
+ 
+-G=load('AM_test_ops',STUDY/'replay_ops.py')
+-L=load('AM_test_selection',HERE/'selection_replay.py')
+-R=load('AM_test_first',STUDY/'native_replay.py')
++G=load('AN_test_ops',STUDY/'replay_ops.py')
++L=load('AN_test_selection',HERE/'selection_replay.py')
++R=load('AN_test_first',STUDY/'native_replay.py')
+ 
+ class Layout:
+     size = 4
+@@ -49,7 +49,7 @@
+     def hash64(seed, kind, g, j):
+         return seed + kind * 10000 + g * 100 + j
+ 
+-def fixture(duplicate=False):
++def fixture(duplicate=False, generations=8):
+     initial = np.arange(128, dtype=np.float32).reshape(32, 4)
+     if duplicate:
+         initial[1] = initial[0]
+@@ -57,7 +57,7 @@
+     origins = {i: np.arange(2) + 2 * i for i in range(32)}
+     lines = [{"event": "founders", "sampled": 0, "ids": list(range(32)), "copies": []}]
+     curves = []
+-    for g in range(4):
++    for g in range(generations):
+         parents = list(pop)
+         allgen = dict(pop)
+         allorg = dict(origins)
+@@ -112,17 +112,17 @@
+         "population": torch.from_numpy(np.stack(list(pop.values()))),
+         "origins": torch.from_numpy(np.stack(list(origins.values()))),
+         "next_innov": 64,
+-        "next_id": 928,
++        "next_id": 32 + 224 * generations,
+     }
+     return torch.from_numpy(initial), lines, curves, state
+ 
+-def test_four_generation_recorded_genetics_and_pooled_selection():
++def test_eight_generation_recorded_genetics_and_pooled_selection():
+     initial, lines, curves, state=fixture(duplicate=True)
+     out=L.audit_lineage(lines,curves,state,7,Spec)
+-    assert out['sexual_offspring']==896
++    assert out['sexual_offspring']==1792
+     replay=G.replay_genetics(lines,state,Layout(),initial[0],False,initial_population=initial)
+     assert replay['raw_population_replay_bitwise']
+-    assert replay['point_mutations_including_initial_copies']==1792
++    assert replay['point_mutations_including_initial_copies']==3584
+     assert replay['duplication_events']==replay['deletion_events']==0
+ 
+ 
+@@ -191,7 +191,69 @@
+         row['fitness'] = (base[:32] + 1).tolist()
+         curve['fitness'] = row['fitness'][0]
+     state['fitness'] = torch.tensor(lines[-1]['fitness'], dtype=torch.float64)
+-    assert L.audit_lineage(lines, curves, state, 7, Spec)['sexual_offspring'] == 896
++    assert L.audit_lineage(lines, curves, state, 7, Spec)['sexual_offspring'] == 1792
+     lines[1]['fitness'] = lines[1]['recheck']['F_recheck'][:32]
+     with pytest.raises(ValueError, match='pooled scores'):
+         L.audit_lineage(lines, curves, state, 7, Spec)
++
++
++@pytest.fixture(scope='module')
++def midpoint_bundle(tmp_path_factory):
++    """One small synthetic on-disk prefix fixture, shared by all midpoint checks."""
++    import hashlib
++    import json
++    initial, lines, curves, _ = fixture(generations=8)
++    _, _, _, middle = fixture(generations=4)
++    base = tmp_path_factory.mktemp('midpoint')
++    folder = base / 'runs/acquisition'
++    (folder / 'generation4').mkdir(parents=True)
++    pins = {}
++    for name, all_rows, prefix_rows in (
++            ('curves.jsonl', curves, curves[:4]), ('lineage.jsonl', lines, lines[:5]),
++            ('clones.jsonl', [], [])):
++        encode = lambda rows: ''.join(json.dumps(row) + '\n' for row in rows).encode()
++        (folder / name).write_bytes(encode(all_rows))
++        prefix = encode(prefix_rows)
++        pins[name] = {'bytes': len(prefix), 'sha256': hashlib.sha256(prefix).hexdigest()}
++    middle.update(generation=4, evals=1024, rc_lives=2048, curves=curves[:4])
++    cfg, identity = {'evolve': {'generations': 8}}, {'synthetic': True}
++    saved = {'format': 1, 'config': cfg, 'identity': identity, 'state': middle, 'logs': pins}
++    for path in (base/'protocol.json', base/'release.json', folder/'generation4/checkpoint.pt',
++                 folder/'generation4/best_genome.json', folder/'generation4/snapshot.json'):
++        path.write_text('synthetic metadata\n')
++    A = load('AN_test_audit', HERE/'audit_native.py')
++    snapshot = {'status': 'complete', 'generation': 4, 'rank': 0,
++        'rank_zero_id': int(middle['ids'][0]),
++        'checkpoint_sha256': A.sha(folder/'generation4/checkpoint.pt'),
++        'genome_file_sha256': A.sha(folder/'generation4/best_genome.json'),
++        'genome_raw_sha256': R.raw_sha(middle['population'][0].numpy()),
++        'population_raw_sha256': R.raw_sha(middle['population'].numpy()),
++        'identity': identity, 'log_prefix_pins': pins,
++        'protocol_sha256': A.sha(base/'protocol.json'), 'release_sha256': A.sha(base/'release.json'),
++        'added_lives': 0, 'random_draws': 0}
++    return A, base, folder, cfg, identity, initial, lines, curves, saved, snapshot
++
++
++@pytest.mark.parametrize('corruption', [None, 'generation', 'raw', 'origins', 'prefix', 'snapshot'])
++def test_midpoint_population_and_exact_final_log_prefix(monkeypatch, midpoint_bundle, corruption):
++    A, base, folder, cfg, identity, initial, lines, curves, saved, snapshot = midpoint_bundle
++    saved, snapshot = copy.deepcopy(saved), copy.deepcopy(snapshot)
++    endpoint = saved['state']['population'][0].clone()
++    if corruption == 'generation': saved['state']['generation'] = 5
++    elif corruption == 'raw': saved['state']['population'][1, 0] += 1
++    elif corruption == 'origins': saved['state']['origins'][1, 0] += 1
++    elif corruption == 'prefix': saved['logs']['lineage.jsonl']['bytes'] += 1
++    elif corruption == 'snapshot': snapshot['added_lives'] = 1
++    monkeypatch.setattr(A.torch, 'load', lambda *args, **kwargs: saved)
++    monkeypatch.setattr(Layout, 'load', staticmethod(lambda path: (Layout(), endpoint)), raising=False)
++    monkeypatch.setattr(A, 'read', lambda path: snapshot if path.name == 'snapshot.json' else {'midpoint': snapshot})
++    args = (base, folder, {'native_seed': 7}, cfg, identity, Layout(), initial,
++            lines, curves, L, G, R, Spec)
++    if corruption:
++        with pytest.raises(ValueError): A.audit_midpoint(*args)
++    else:
++        result = A.audit_midpoint(*args)
++        assert result['all_32_midpoint_rows_bound'] and result['uninterrupted_final_log_prefix_bound']
++        assert result['selection']['sexual_offspring'] == 896
++        assert result['genetic_replay']['point_mutations_including_initial_copies'] == 1792
++        assert result['added_lives'] == result['random_draws'] == 0

@@ -1,0 +1,86 @@
+{
+  "status": "complete",
+  "phase": "confirmation",
+  "exit_code": 0,
+  "worker_exit_code": 0,
+  "cpu_seconds": 3679.509834,
+  "wall_seconds": 1484.1365346600069,
+  "cap_cpu_seconds": 10800,
+  "cap_wall_seconds": 5400,
+  "search_cpu_seconds": 2581.161125,
+  "confirmation_cpu_seconds": 1098.3487089999999,
+  "search_cpu_cap": 7200,
+  "confirmation_cpu_cap": 3600,
+  "protocol_sha256": "ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b",
+  "release_sha256": "ddc83703cf59e4e482f9423a3554b39642ff45b36d83702147ff62947e1a7015",
+  "attempt_sha256": "9e50dd293ab6dfa1ad3512f34f7a26abea17d539a89b6cb155642385330d2cbe",
+  "pid_namespace": "pid:[4026531836]",
+  "process_identities": [
+    {
+      "pid": 2798881,
+      "ppid": 2798880,
+      "pgid": 2798880,
+      "start_ticks": 9878083,
+      "name": "monitor"
+    },
+    {
+      "pid": 2798882,
+      "ppid": 2798881,
+      "pgid": 2798882,
+      "start_ticks": 9878126,
+      "name": "acquisition"
+    },
+    {
+      "pid": 2828150,
+      "ppid": 2798881,
+      "pgid": 2828150,
+      "start_ticks": 9982146,
+      "name": "confirmation"
+    }
+  ],
+  "owned_process_groups": [
+    2798882,
+    2828150
+  ],
+  "phase_records": {
+    "acquisition": {
+      "path": "execution/acquisition/budget.json",
+      "sha256": "031f980d25b26bceb831e890207628a41567442562af0358127297dfd8cff61b"
+    },
+    "confirmation": {
+      "path": "execution/confirmation/budget.json",
+      "sha256": "2428ff717d70c871320f1c3df05df008256bc5480f339ae5e0e7c390db4f0fcb"
+    }
+  },
+  "wait4_receipts": [
+    {
+      "pid": 2798882,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 2066.709826,
+      "system_cpu_seconds": 0.658698
+    },
+    {
+      "pid": 2828150,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 879.82333,
+      "system_cpu_seconds": 0.366903
+    }
+  ],
+  "running": {},
+  "queued": [],
+  "reason": null,
+  "error": null,
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026531836]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  }
+}
