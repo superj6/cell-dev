@@ -1,0 +1,36 @@
+{
+  "offline_accounting.py": {
+    "source": "outputs/autonomous_visibility_precision_20261014/analysis/offline_accounting.py",
+    "sha256": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "unchanged": true
+  },
+  "helpers/genetics.py": {
+    "source": "outputs/autonomous_visibility_precision_20261014/analysis/helpers/genetics.py",
+    "sha256": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "unchanged": true
+  },
+  "fixtures/Y_budget.json": {
+    "source": "outputs/autonomous_visibility_precision_20261014/analysis/fixtures/Y_budget.json",
+    "sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+    "unchanged": true
+  },
+  "fixtures/Y_attempt.json": {
+    "source": "outputs/autonomous_visibility_precision_20261014/analysis/fixtures/Y_attempt.json",
+    "sha256": "f217d06f9ad2e8821331a40e50079a1b50e3c3d96ea2c5147e93c0d4948a3bb9",
+    "unchanged": true
+  },
+  "analyze.py": {
+    "unchanged": false,
+    "basis": [
+      {
+        "source": "outputs/autonomous_visibility_gradient_20261014/postanalysis/analyze.py",
+        "sha256": "08b3bebe8f05a5d758bee3306ebaae6b6086a204e47ddbc556947b6bd32486b7"
+      },
+      {
+        "source": "outputs/autonomous_visibility_precision_20261014/analysis/analyze.py",
+        "sha256": "efe56680ea05fc76e0949695f9219272b9ea3a2b765029513265a2bee8d87d32"
+      }
+    ],
+    "scope": "Existing corrected whole-life study/receipt patterns; AC adds retained-panel coverage, actual historical rate reconstruction and per-seed flash-minus-blink contrasts."
+  }
+}

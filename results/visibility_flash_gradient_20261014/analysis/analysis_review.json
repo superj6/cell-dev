@@ -1,0 +1,81 @@
+{
+  "status": "approved_prepared_unreleased",
+  "protocol_sha256": "672ac123ca9283cd004e699cb6be1b0ac4203b468f75f03546140560cd58fda2",
+  "file_pins": {
+    "analyze.py": "270e4ac4b072ff72a4de2e05f3e4a82af6a88c9656fe8d147d2975d1cd357ea2",
+    "panel_replay.py": "59765b0aedac088796a40204edae1c7f2dc4767cb87067779df52eaea5df13a4",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_analyze.py": "82229789f3c5ea8ec005df272fefc234f3a4271e5af06bc15085941abc919f31",
+    "README.md": "f2d3732d1fdc75887881fc0340b2362bc7a0aba8bd941980c309386dd04bdfbc",
+    "SOURCE_REUSE.json": "18c9f6a45ba02ebd245d260e39ad90e46f8ae3a1f26d43d9bbdd4537a9104ccf",
+    "frozen_tests.xml": "4cb0e68a96871f94a5f7f7d46d8eed70865932e0a160a63d95e53c46d497acce",
+    "frozen_tests.log": "cb27fd7f42b6d224dfa05db3fc71777af0a383bcb32d6cfe1be44ebfcab22739",
+    "bound_tests.xml": "966b68b60faf169de2ab8e7961dd7c7a9758cfef849e860c4f8b5a2e25b9aaff",
+    "bound_tests.log": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236",
+    "panel_replay.json": "68dbcaf6bef09366f5611b6a2e0d951321ebde77299d117545978026853f8f3c",
+    "actual_input_review.stdout.json": "75e916f77cf4d6570b159d0e7966b8f924d3ce391ce4b02b2a459cf72e2f47fa",
+    "actual_input_review.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_review.json": "df61cfda7076f6c7721ed6b15e17fb1f2f5257b0e31be7e83abdba6414514aab",
+    "fixtures/Y_budget.json": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+    "fixtures/Y_attempt.json": "f217d06f9ad2e8821331a40e50079a1b50e3c3d96ea2c5147e93c0d4948a3bb9"
+  },
+  "actual_study_file_pins_verified": 167,
+  "production_pins_verified": 35,
+  "all130_retained_rows_bitwise_replayed": true,
+  "recorded_point_additions": 256,
+  "four_configs_differ_only_approved_preset": true,
+  "all130_historical_timing_rows_reconstructed": true,
+  "paired_output_contract": {
+    "primary": [
+      "within__flash__H_D90_minus_P_D90",
+      "within__flash__H_L92_minus_P_L92"
+    ],
+    "within_world_contrasts": 12,
+    "per_seed_world_interactions": 4,
+    "paired_arrays": 1200,
+    "independent_metrics_per_contrast": 75,
+    "producer_metrics_per_contrast": 66,
+    "interaction_orientation": "flash_minus_blink",
+    "duplicate_roles_preserved": true
+  },
+  "tests": {
+    "source_stage": {
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "4cb0e68a96871f94a5f7f7d46d8eed70865932e0a160a63d95e53c46d497acce"
+    },
+    "bound_stage": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "966b68b60faf169de2ab8e7961dd7c7a9758cfef849e860c4f8b5a2e25b9aaff",
+      "scope": "Only actual protocol binding, actual public Y metadata path, and unregistered fail-closed check after final literal binding."
+    },
+    "ruff": "passed",
+    "source_stage_to_final_reader_diff": "Only literal protocol digest and its explanatory docstring; reconstructed prebinding source SHA9825f0bfe63dd944333ae003cc16984d8ac3da1ea58ba1302fc328fb688a1895 verified. source_review.json remains the historical prebinding receipt."
+  },
+  "loaded_production_definitions": [
+    "src",
+    "src.genome",
+    "src.lattice",
+    "src.life.spec",
+    "src.life"
+  ],
+  "no_engine_imports_in_actual_input_review": true,
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "random_draws": 0,
+  "actual_panel_replay_calls": 1,
+  "released_files_modified": false,
+  "limitations": [
+    "Recorded-operation replay binds retained genetics but does not rerun random draws or dynamics.",
+    "Two fixed local panels and512 paired life seeds do not estimate general evolutionary-search reliability.",
+    "Flash/blink changes visibility schedule,residual cue strength and placement reset together; no isolated information-use,memory or prediction claim.",
+    "Guard and extinction lives retain production charges and weights. Partial failures emit no scientific outcome.",
+    "AB is a clean-terminal resource dependency, not a scientific-success gate."
+  ],
+  "peer_review_sha256": "a14d25a657a3c4e80c43f8af284591fb6e03bc3d10743a6061fca1f20348e889",
+  "peer_review_status": "approved_no_blockers"
+}

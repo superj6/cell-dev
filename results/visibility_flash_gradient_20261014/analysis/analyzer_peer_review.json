@@ -1,0 +1,78 @@
+{
+  "status": "passed_final_bound_reader_peer_review",
+  "protocol_sha256": "672ac123ca9283cd004e699cb6be1b0ac4203b468f75f03546140560cd58fda2",
+  "analysis_pins": {
+    "analyze.py": "270e4ac4b072ff72a4de2e05f3e4a82af6a88c9656fe8d147d2975d1cd357ea2",
+    "panel_replay.py": "59765b0aedac088796a40204edae1c7f2dc4767cb87067779df52eaea5df13a4",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_analyze.py": "82229789f3c5ea8ec005df272fefc234f3a4271e5af06bc15085941abc919f31"
+  },
+  "producer_pins": {
+    "prepare.py": "112b596611da776cb2f2d7ce27149ed5a6049211833c595908611b8911c30ef0",
+    "measure.py": "21c0f4c39355e5a9640e3a8acc76fde5a1c4a0b1b0f6d42814f19817b18f9515",
+    "monitor.py": "2462f51b32d8205e4cd9225cde3ea3aff4fbec9b794e205b7093bfd3c6715427",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "common.py": "be60caf4cba0d6e4d0b34dfbaa3da6d9e1e084e9decd8223c527324f7c07d61a",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "SCHEMA.md": "352b3fbad47916bfec2c3d4b15f11a0c1a56410892f92be71efda394e4fc96f4",
+    "PREREG.md": "999b447d58f932025bf190aca2d3add6f6faee6d96bd2d20ae72d2a9778a821c"
+  },
+  "evidence_pins": {
+    "source_review.json": "df61cfda7076f6c7721ed6b15e17fb1f2f5257b0e31be7e83abdba6414514aab",
+    "frozen_tests.xml": "4cb0e68a96871f94a5f7f7d46d8eed70865932e0a160a63d95e53c46d497acce",
+    "frozen_tests.log": "cb27fd7f42b6d224dfa05db3fc71777af0a383bcb32d6cfe1be44ebfcab22739",
+    "bound_tests.xml": "966b68b60faf169de2ab8e7961dd7c7a9758cfef849e860c4f8b5a2e25b9aaff",
+    "bound_tests.log": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236",
+    "panel_replay.json": "68dbcaf6bef09366f5611b6a2e0d951321ebde77299d117545978026853f8f3c",
+    "actual_input_review.stdout.json": "75e916f77cf4d6570b159d0e7966b8f924d3ce391ce4b02b2a459cf72e2f47fa",
+    "preparation_review.json": "d87ddad971a3db650fa4d968705239e5ec796507cb8ed883c9bc06b6e997af19"
+  },
+  "checks": [
+    "Actual producer/reader schemas agree: two 67-row screen stores plus two six-row confirmation stores; 146 raw rows and all stage aggregates.",
+    "Calibrations contain eight ABI4 lives, screen4160, confirmation6144, and one standard identity pair contributes exactly two ABI3 goldens.",
+    "Whole32-life production-F selection includes every mutant, excludes parent as candidate, keeps losing winners and breaks ties by lowest row.",
+    "Both winners and exact six-role table freeze before confirmation, with duplicate roles preserved in identities, costs and all paired comparisons.",
+    "Exact Y atomic_json indentation/newline/insertion order agrees with independently reconstructed calibration and screen row-index digests.",
+    "Actual monitor persists pid/ppid/pgid/start_ticks, without invented sid; reader verifies parent/group/attempt/terminal ownership.",
+    "Three cumulative phase ceilings, both cost gates, twelve role-rate contributions, acknowledged artifact hashes and committed-versus-monitored CPU agree.",
+    "Production full-life58-column accounting uses kernel fitness minus extinction; natural extinctions/guards retained, initial1 census and disjoint counter semantics preserved.",
+    "16 paired contrast groups match producer66 metrics; independent1200vectors retain additional cost categories. World interactions are flash-minus-blink per seed, preserving covariance.",
+    "Capture-income, ordinary-cost, guard and extinction signs reconstruct production fitness; low-light captures remain diagnostic without a memory claim.",
+    "Public Y operations/budget.json maps to canonical copied inputs/Y/budget.json; all130 historical screen rates are checked against exact retained raw identities/scalars.",
+    "AB is a clean terminal resource dependency only; complete Y panels remain the sole scientific input dependency.",
+    "Final reader literal binds the frozen actual protocol, all167 local+35 production pins and original130-row panel identities.",
+    "Independent recorded-operation replay reports all130 rows/256 existing point additions exact, four configs changing only preset, zero random draws/builds/lives."
+  ],
+  "tests": {
+    "source_suite": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "focused_bound_checks": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "execution": "Independent owner receipts inspected; this peer did not duplicate their tests or run lives."
+  },
+  "blocking_findings": [],
+  "limitations": [
+    "No runtime scientific outcome exists yet. Cost feasibility will be decided only by the released monitored fixed calibration and screen gates.",
+    "Final terminal archive must retain built full/fast library bytes for the strict startup-identity check.",
+    "Paired world differences concern fixed backgrounds and joint environment changes; they do not isolate memory or general search reliability."
+  ],
+  "performed_by_this_peer": {
+    "simulation_calls": 0,
+    "compilation_calls": 0,
+    "genetic_draws": 0,
+    "source_edits": 0
+  },
+  "pending": [
+    "Canonical analysis installation and independent prospective archive verification",
+    "Root publication and explicit ready/release"
+  ]
+}

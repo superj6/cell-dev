@@ -1,0 +1,73 @@
+{
+  "status": "source_only_preparation_complete_pending_independent_review_and_registration",
+  "study": "AC retained-panel flash gradient",
+  "source_pins": {
+    "PREREG.md": "999b447d58f932025bf190aca2d3add6f6faee6d96bd2d20ae72d2a9778a821c",
+    "README.md": "e2e4cbc65a3b2f5cfc908f3cf615f8f1495b9b00a88ea3811e9dffa0d391015f",
+    "SCHEMA.md": "352b3fbad47916bfec2c3d4b15f11a0c1a56410892f92be71efda394e4fc96f4",
+    "common.py": "be60caf4cba0d6e4d0b34dfbaa3da6d9e1e084e9decd8223c527324f7c07d61a",
+    "measure.py": "21c0f4c39355e5a9640e3a8acc76fde5a1c4a0b1b0f6d42814f19817b18f9515",
+    "monitor.py": "2462f51b32d8205e4cd9225cde3ea3aff4fbec9b794e205b7093bfd3c6715427",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "112b596611da776cb2f2d7ce27149ed5a6049211833c595908611b8911c30ef0",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "test_prepared.py": "781edaa4bbb92883f08e5880d94c36d4b0b80aae7974b7870b3ceb44ee3c6bda"
+  },
+  "checks": {
+    "pytest": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "70bd93f29a65727e5cc0991aac37bb59b433f6d667824853361ad51e262a38ec",
+      "junit_sha256": "715572b42e609b8b376bc11028f52eb44cf26b1740361efa6b3b99b829f70080"
+    },
+    "ruff": "passed",
+    "unchanged_scorer_and_numerical": true,
+    "reviewed_lifecycle_functions_AST_identical": 12,
+    "actual_public_Y_metadata_paths": "passed; operations/budget.json mapped to canonical inputs/Y/budget.json; no genotype array loaded or copied"
+  },
+  "absent_artifacts": [
+    "inputs",
+    "configs",
+    "protocol.json",
+    "registration.json",
+    "seed_audit.json",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "measurement",
+    "logs",
+    "build-cache",
+    "startup_identity.json",
+    "confirmation_genotypes.npz"
+  ],
+  "performed": {
+    "candidate_genotypes_generated": 0,
+    "candidate_inputs_copied": 0,
+    "simulated_lives": 0,
+    "compiled_libraries": 0,
+    "seed_allocations": 0
+  },
+  "planned_scope": {
+    "research_lives": 10304,
+    "startup_validation_lives": 10,
+    "total_lives": 10314,
+    "raw_rows": 146,
+    "workers": 1,
+    "threads_per_worker": 2,
+    "total_cpu_seconds": 7200,
+    "startup_screen_cpu_seconds": 3400,
+    "startup_calibration_cpu_seconds": 180,
+    "confirmation_reserve_cpu_seconds": 3800
+  },
+  "pending": [
+    "independent producer/monitor review",
+    "independent reader completion",
+    "root-reviewed clean AB terminal process clearance",
+    "root namespace registration",
+    "authorized retained-input preparation",
+    "final pinned review/publication/root release"
+  ],
+  "limitation": "Tests are source-only synthetic checks. No flash runtime feasibility or experimental outcome is claimed."
+}

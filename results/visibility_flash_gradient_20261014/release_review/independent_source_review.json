@@ -1,0 +1,95 @@
+{
+  "status": "passed_source_only",
+  "scope": "Independent read-only AC producer, monitor, preparation-path and fixed-cost review; actual prepared inputs and final protocol still require later review.",
+  "source_pins": {
+    "outputs/autonomous_visibility_flash_gradient_20261014/common.py": "be60caf4cba0d6e4d0b34dfbaa3da6d9e1e084e9decd8223c527324f7c07d61a",
+    "outputs/autonomous_visibility_flash_gradient_20261014/measure.py": "21c0f4c39355e5a9640e3a8acc76fde5a1c4a0b1b0f6d42814f19817b18f9515",
+    "outputs/autonomous_visibility_flash_gradient_20261014/monitor.py": "2462f51b32d8205e4cd9225cde3ea3aff4fbec9b794e205b7093bfd3c6715427",
+    "outputs/autonomous_visibility_flash_gradient_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_visibility_flash_gradient_20261014/prepare.py": "112b596611da776cb2f2d7ce27149ed5a6049211833c595908611b8911c30ef0",
+    "outputs/autonomous_visibility_flash_gradient_20261014/scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "outputs/autonomous_visibility_flash_gradient_20261014/test_prepared.py": "781edaa4bbb92883f08e5880d94c36d4b0b80aae7974b7870b3ceb44ee3c6bda",
+    "outputs/autonomous_visibility_flash_gradient_20261014/README.md": "e2e4cbc65a3b2f5cfc908f3cf615f8f1495b9b00a88ea3811e9dffa0d391015f",
+    "outputs/autonomous_visibility_flash_gradient_20261014/PREREG.md": "999b447d58f932025bf190aca2d3add6f6faee6d96bd2d20ae72d2a9778a821c",
+    "outputs/autonomous_visibility_flash_gradient_20261014/SCHEMA.md": "352b3fbad47916bfec2c3d4b15f11a0c1a56410892f92be71efda394e4fc96f4"
+  },
+  "prior_cost_design_sha256": "351f9f5e542fa1d8762739a58d7976ea0d95451d8693f56f0cdf794ee167faa8",
+  "namespace_delta_review_sha256": "2b70042b777b659d680f3289c36d52b5a5e1a0cb49551f7b4f3204aebcbfbebd",
+  "reuse": {
+    "lifecycle_AST_identical_to_Y": {
+      "proc_table": true,
+      "active_cpu": true,
+      "consumed_cpu": true,
+      "enable_subreaper": true,
+      "cleanup_group": true,
+      "child_limit": true,
+      "send_signal": true,
+      "cleanup": true,
+      "process_identity": true,
+      "own_cpu": true,
+      "child_cpu": true
+    },
+    "scoring_exact_Y": true,
+    "numerical_exact_Y": true
+  },
+  "corrected_public_Y_mapping": {
+    "canonical": "inputs/Y/budget.json",
+    "source": "results/visibility_gradient_20261014/operations/budget.json",
+    "source_sha256": "69b9ff9ee8877058bd05c105434315b22cb08a4c27eb8c61cf46fdc9971f4bae",
+    "all_reads_and_copy_use_historical_source": true
+  },
+  "resources": {
+    "single_persistent_worker": true,
+    "threads": 2,
+    "cumulative_caps": [
+      180,
+      3400,
+      7200
+    ],
+    "monitor_stop_thresholds": [
+      170,
+      3390,
+      7190
+    ],
+    "child_RLIMIT": "7200 minus aggregate CPU already consumed, not the initial phase ceiling",
+    "phase_acknowledgments": [
+      "calibration_complete",
+      "screens_complete"
+    ],
+    "process_accounting": "Recorded four-field pid/ppid/pgid/start_ticks schema, process-group CPU including descendants through mandatory teardown, subreaper, exact-parent binding and no resume.",
+    "initial_projection": "Monitor checks both 3390 screen and 3790 confirmation projections before allowing screen; startup uses monitored cumulative CPU.",
+    "selected_projection": "Both winners fixed first; all 12 role/world rates retained, including genotype duplicates; threshold3790."
+  },
+  "work": {
+    "numerical_identity_invocations": 1,
+    "ABI3_golden_lives": 2,
+    "ABI4_calibration_lives": 8,
+    "ABI4_screen_lives": 4160,
+    "ABI4_confirmation_lives": 6144,
+    "total_lives": 10314,
+    "genetic_draws": 0,
+    "retained_panel_rows": 130,
+    "selection": "Whole production F mean over all32 seeds, mutant rows1..64 only, lowest row-index tie."
+  },
+  "dependencies": {
+    "AB": "Operational clean terminal only; complete or incomplete/failure terminal accepted when queues empty and cleanup successful. No AB scientific outcome criterion.",
+    "Y": "Exact complete original panels, mutation provenance, original blink selections and all130 historical timing rows."
+  },
+  "phase_binding": "Startup identity, request/receipt hashes, row-index snapshots and frozen selection/projection/role/genotype artifacts rechecked at later boundaries and terminal completion.",
+  "checks": {
+    "owner_suite_tests": 44,
+    "suite_execution": "Owner execution receipt inspected; no duplicate test run by this reviewer.",
+    "suite_log_sha256": "70bd93f29a65727e5cc0991aac37bb59b433f6d667824853361ad51e262a38ec",
+    "suite_xml_sha256": "715572b42e609b8b376bc11028f52eb44cf26b1740361efa6b3b99b829f70080",
+    "current_preparation_and_runtime_absent": true
+  },
+  "limitations": [
+    "Four tiny flash calibration batches do not bound all mutant costs; cumulative monitored caps are authoritative.",
+    "Fixed backgrounds and world-by-selection interactions do not establish independent evolutionary replicates or isolate memory.",
+    "This source-only review does not authorize registration, preparation, release or simulation."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genotype_copies": 0,
+  "blocking_findings": []
+}

@@ -1,0 +1,113 @@
+{
+  "status": "passed_prepared_unreleased",
+  "protocol_sha256": "672ac123ca9283cd004e699cb6be1b0ac4203b468f75f03546140560cd58fda2",
+  "registration_sha256": "1501ea9ccedfc17c58a7328f78928fcdb374946fba052d6342453e4ca573fa24",
+  "local_file_pins": 167,
+  "production_pins": 35,
+  "original_reviewed_sources_unchanged": true,
+  "panels": {
+    "D90": {
+      "file_sha256": "97ff2d0ee7ef3af4964b1a0fd357a618cb4d0193baa320cd86c2d06f7a8b9cb9",
+      "raw_sha256": "6cd05b242fa3cb50eb2a90aa65fe828033c4009ddcbf904ba7f0cfc28ef12a06",
+      "shape": [
+        65,
+        875
+      ],
+      "original_bytes_equal": true
+    },
+    "L92": {
+      "file_sha256": "6ad24101c26541bbc67ff505be2e846e49df30cc253e72d5932d6b0e64d97c01",
+      "raw_sha256": "789bf7c9ae77f23d556de9ce06d74a6b915de90f8e21badf11e55bf4355c6eff",
+      "shape": [
+        65,
+        875
+      ],
+      "original_bytes_equal": true
+    }
+  },
+  "configs": {
+    "configs/flash_D90.yaml": {
+      "sha256": "8241086e714ae61224d95a69a6383b7274fd1d43e312c2293a506894802b774d",
+      "only_changed_field": "life.world",
+      "preset": "catch_speck_flash5_dim25_l4"
+    },
+    "configs/blink_D90.yaml": {
+      "sha256": "52f57c85ec85dff27eaa563c991c36cb7079afb5959c171516aca8a02d9d2ed8",
+      "only_changed_field": "none",
+      "preset": "catch_speck_blink20_20_l4"
+    },
+    "configs/flash_L92.yaml": {
+      "sha256": "29a369815c5afb86f55d44636458d8a841b73a3c1e06ddde9b9a379818105b06",
+      "only_changed_field": "life.world",
+      "preset": "catch_speck_flash5_dim25_l4"
+    },
+    "configs/blink_L92.yaml": {
+      "sha256": "aebca0e92d9e9328d2e287c638fcaf9d9ce560b49e1f0d9880e6ede8f82db604",
+      "only_changed_field": "none",
+      "preset": "catch_speck_blink20_20_l4"
+    }
+  },
+  "historical_timing_rows_exact": 130,
+  "historical_scalar_rates_recomputed": 130,
+  "worlds_exact_approved_presets": true,
+  "seed_counts": {
+    "calibration": 2,
+    "screen": 32,
+    "confirm": 512
+  },
+  "explicit_roles": [
+    "P_D90",
+    "P_L92",
+    "B_D90",
+    "B_L92",
+    "H_D90",
+    "H_L92"
+  ],
+  "scope": {
+    "total_cpu_seconds": 7200,
+    "startup_screen_cpu_seconds": 3400,
+    "confirmation_reserve_cpu_seconds": 3800,
+    "startup_calibration_cpu_seconds": 180,
+    "max_workers": 1,
+    "threads_per_worker": 2,
+    "research_lives": 10304,
+    "validation_lives": 10
+  },
+  "preparation_invocations": 1,
+  "exit_code": 0,
+  "performed": {
+    "candidate_genotypes_generated": 0,
+    "candidate_rows_copied": 130,
+    "genetic_draws": 0,
+    "compiled_libraries": 0,
+    "simulation_calls": 0
+  },
+  "absent_runtime_artifacts": [
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "measurement",
+    "logs",
+    "build-cache",
+    "startup_identity.json",
+    "selection.json",
+    "confirmation_genotypes.npz",
+    "confirmation_roles.json",
+    "report.json"
+  ],
+  "source_pins": {
+    "protocol.json": "672ac123ca9283cd004e699cb6be1b0ac4203b468f75f03546140560cd58fda2",
+    "preparation_claim.json": "e3f061d1cec7fa43baa3cb4121654dce8b5ed74936a04ae12ae8cd8d35d0f483",
+    "PREPARED_STATUS.json": "9b06739293a60d01d998a7fd398c95d3dcb90007b53e6932db57078b2fcaccb1"
+  },
+  "execution_evidence": {
+    "preparation_stdout.log": "c33053fdfb7df5e0dd5991869b745d6dbcc898b43bb60c2090480d39d9d80a8f",
+    "preparation_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "pending": [
+    "independent actual-input/panel-replay and reader binding",
+    "prospective publication",
+    "root ready/release"
+  ],
+  "limitation": "Prepared data and source identity only; no flash runtime feasibility or research outcome yet."
+}

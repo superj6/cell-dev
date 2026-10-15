@@ -126,11 +126,17 @@ populations replay exactly; 21 initial-search guarded evaluation calls retained 
 confirmation statuses are zero. The frozen reader passes unchanged and independent reanalysis matches all
 450 paired arrays. Evidence: `results/visibility_precision_20261014/`.
 
-**Next source-only preparation:** reuse both complete Y mutant panels in the approved flash environment, then
-confirm its selected mutants, original parents and fixed Y blink winners in both worlds. This tests whether
-changing visibility regimes makes different nearby mutations useful, with capture income separated from economy.
-It does not isolate memory. The design is independent of AB's outcome; only terminal resource clearance is needed
-from AB. No AC seed registration, genotype copying, compilation or simulated lives have been released.
+**AC registered (2026-10-14).** Reuse both complete Y mutant panels in the approved flash environment, then
+confirm its selected mutants, original parents and fixed Y blink winners in both worlds. Screen all 65 rows per
+background on 32 shared lives; select the best mutant by production F even if it loses to the parent. Freeze both
+selections before testing all six roles in both worlds on 512 fresh paired lives. Duplicate roles remain explicit.
+There are 10,304 research plus ten startup lives, one two-thread worker, and a 7,200 CPU-second cap: startup/calibration
+180, cumulative startup/screen 3,400, confirmation reserve 3,800. Calibration and selected-row cost checks can stop
+the first attempt, without retry, reselection or reduced scope. Blocks 123/124/125 at base 51M are registered for
+calibration/screen/confirmation. All 26 prior identities and 19 groups are clear. Capture income stays separate
+from economy; the joint visibility changes do not isolate memory. The design is independent of AB's scientific
+outcome. Input copying is authorized; no compilation or lives are released until independent actual-input review
+and prospective publication. Held S and the larger evolution proposal remain unreleased.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

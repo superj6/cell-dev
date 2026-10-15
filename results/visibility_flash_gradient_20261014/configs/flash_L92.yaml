@@ -1,0 +1,151 @@
+seed: 51892
+threads: 2
+lattice:
+  kind: hexprism
+  radius: 9
+  contact: uniform
+genome:
+  dims:
+    genes: 8
+    morph: 2
+    types: 4
+    channels: 2
+    stim: 2
+  init_scale: 1.0
+  life:
+    genes_max: 16
+    genes_init: 8
+    morph: 2
+    channels: 2
+    stim: 1
+    pheno: 22
+    cues: 2
+  knob_init:
+    b:
+    - 0.0
+    - 0.5
+    - 0.5
+    g_r:
+    - 0.5
+    - 0.5
+    - 0.5
+    kappa:
+    - 1.5
+    - 0.5
+    - 0.5
+    w0:
+    - 0.5
+    - 0.5
+    - 0.5
+    emit0:
+    - 0.5
+    - 0.5
+    - 0.5
+  readout_std:
+  - 0.5
+  - 0.5
+  input_init:
+    is_S: 2.0
+    is_M: 2.0
+    n_view: 8.0
+develop:
+  mode: grow
+  fixed_radius: 4
+  steps: 24
+  rate: 0.5
+  min_cycle: 2
+  substeps: 4
+  secretion: 0.5
+  jitter_seed: 51090
+cells:
+  quantize: true
+  messages: true
+task:
+  name: light
+  length: 4.0
+  rungs:
+  - light
+  - brightness
+  - memory
+  - motion
+  - flicker
+  start: 0
+  keep_earlier: 0.25
+  trials: 12
+  heldout_trials: 48
+  min_spikes: 1.0
+  score: lateral
+costs:
+  live: 0.001
+  spike: 0.002
+  divide: 0.0
+evolve:
+  breeding: sex
+  mu: 32
+  lam: 224
+  generations: 16
+  founders: 8
+  init_samples: 1024
+  min_founder_score: 0.0
+  max_init_samples: 16384
+  n_mut: 2
+  p_cell: 0.5
+  heldout_every: 4
+  immigrants: 0.0
+  advance_at: 0.9
+  batch: 256
+  recheck_k: 64
+  recheck_lives: 4
+  recheck_key: all
+  founder_key: fitness
+  n_mut_scale: true
+  dup_rate: 0.0
+  del_rate: 0.0
+  dup_split: false
+  seed_genome: outputs/autonomous_s7_20261014/inputs/founder_row29.json
+  seed_timer: 1.125
+  founder_all: true
+  random_ties: true
+logging:
+  output_dir: /home/jgon/project/ml/cell-dev/outputs/autonomous_s7_20261014/runs/s51892
+  gif: false
+  checkpoint_every: 4
+  lineage: all
+mode: life
+life:
+  world: catch_speck_flash5_dim25_l4
+  control: pool_s7_row29_continuation
+  T: 1024
+  lives: 3
+  founder_T: 1024
+  founder_lives: 2
+  flags: []
+  freeze_frac: null
+  t_open: 0
+  valid_lives: 16
+  heldout_lives: 4
+  heldout: []
+  skill_at: 4.0
+  final_lives: 2
+  final_top: 1
+  final_fork_lives: 0
+  phase_lives: 16
+  size_curve: []
+  size_curve_lives: 16
+  fast_kernel: true
+  T_choices: []
+  extinct_charge: true
+  abi: 4
+world: {}
+costs_life: {}
+envelope:
+  enabled: false
+clones:
+  every: 0
+  top: 8
+  times:
+  - 0.25
+  - 0.5
+  - 0.75
+  conditions: []
+  lives: 3

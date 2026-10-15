@@ -111,9 +111,15 @@ has a resolved capture gain over its Z start. D90 depth gains **+.37224 ± .0773
 losing **.72266 ± .16122 captures**. All 19,576 research and ten golden lives completed in 3,028.748398 CPU-seconds;
 first cohorts, final populations and all 450 paired arrays replay. The comparison trades precision against depth,
 not equal CPU or isolated precision; no general policy or algorithmic-sophistication claim follows. Evidence:
-`results/visibility_precision_20261014/`. A source-only flash diagnostic now reuses the complete Y neighborhoods
-and plans fresh tests of selected mutants in both visibility worlds. It is independent of AB's scientific outcome,
-with no new organism rules, seeds, genotypes or lives released yet.
+`results/visibility_precision_20261014/`.
+
+*2026-10-14 AC registered:* reuse both complete 65-row Y neighborhoods, screen all rows in approved flash and
+confirm both flash selections, both parents and both fixed blink selections in both worlds. The 10,304 research
+plus ten startup lives have a 7,200 CPU-second cap with 3,800 reserved for confirmation, one two-thread worker,
+and fixed pre-screen/pre-confirmation cost checks. No new candidate genotypes or organism rules. The design is
+independent of AB's scientific outcome; namespaces 123–125 at base 51M are registered after resource clearance.
+Capture-supported gains and world interactions are separate questions; neither establishes memory. Input copying
+is authorized, while runtime release awaits independent input/reader review and prospective publication.
 
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I

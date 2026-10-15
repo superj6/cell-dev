@@ -1,0 +1,54 @@
+{
+  "status": "passed_design_pending_fixed_calibration",
+  "measure_source_sha256": "e01e0ff8d83b971f925b44af2b694f4a9f511a0f5384bc2c41749e0391816cd8",
+  "fixed_calibration": {
+    "world": "flash",
+    "panel_rows": [
+      0,
+      1
+    ],
+    "backgrounds": [
+      "D90",
+      "L92"
+    ],
+    "paired_seed_count": 2,
+    "new_flash_lives": 8,
+    "existing_ABI3_goldens": 2,
+    "numerical_identity_invocations": 1
+  },
+  "fixed_scope": {
+    "retained_panels": 2,
+    "rows_per_panel": 65,
+    "screen_lives_per_row": 32,
+    "screen_lives": 4160,
+    "confirmation_roles_per_world": 6,
+    "confirmation_worlds": 2,
+    "confirmation_lives_per_role": 512,
+    "confirmation_lives": 6144,
+    "research_total": 10304,
+    "validation_total": 10,
+    "actual_total": 10314
+  },
+  "calibration_projection": "f_p = max(CPU(row0,2seeds),CPU(row1,2seeds))/2. Screen = monitored cumulative startupCPU +1.5*2080*sum(f_p). Confirmation =180+1.5*512*sum(all12 role rates). Flash rates use f_p for each of three roles/background; blink P/B use exact historical Y32 rates and unknownH uses max of all65 historical rates.",
+  "selected_projection": "After both complete screens and both winners fixed, recompute the12role sum from actual32flash row costs and historical32blink costs at [0,B,H], retaining duplicate roles.",
+  "caps": {
+    "total": 7200,
+    "startup_calibration": 180,
+    "calibration_stop": 170,
+    "startup_and_screen": 3400,
+    "screen_projection_threshold": 3390,
+    "confirmation_reserve": 3800,
+    "confirmation_projection_threshold": 3790
+  },
+  "cost_feasibility_known": false,
+  "limits": [
+    "Four fixed two-seed calibration batches cannot bound all65 panel bodies; phase/aggregate monitor caps remain authoritative.",
+    "Historical blink timings must remain bound to the exact original Y panels and complete32-life row receipts; no newer Z/AB genotypes substitute.",
+    "Confirmation roles and both flash winners must be frozen before confirmation outcomes; an infeasible cost estimate terminates the entire fixed attempt without winner substitution or scope reduction.",
+    "No calibration retries, extra evaluator golden calls, population generation or native run seed allocation are planned."
+  ],
+  "review_scope": "Producer formula, stage counts and single numerical_identity call reviewed; monitor and final preparation are still being authored and require later review.",
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "genotype_copies": 0
+}

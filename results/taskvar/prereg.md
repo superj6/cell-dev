@@ -1391,3 +1391,42 @@ distinct baseline seed payloads plus every added/changed NPZ seed member. Existi
 is disjoint; actual paired overlap is explicit. Registration generates no genotype, library or life. Prospective
 inputs, frozen independent reader and reviews will be published at `results/visibility_precision_20261014/`
 before root release. This is a new study; held S and the larger continuation proposal remain unreleased.
+
+## 2026-10-14 — AC retained-panel flash diagnostic
+
+AC reuses both exact Y panels: each original D90/L92 parent and all 64 recorded ordinary mutants. No new
+candidate genotype is generated, and neither AB nor AA outcomes determine which rows enter. The approved
+flash world is screened on 32 shared seeds per row. Select the greatest mean production-F mutant in each panel,
+with smallest-row tie breaking; retain that selection even if it loses to its parent. Fixed blink controls remain
+Y rows 58/24. Freeze both flash selections and the six-role genome table before any confirmation-cost decision.
+
+Confirm P_D90, P_L92, B_D90, B_L92, H_D90, H_L92 in both approved flash and blink on the same 512 fresh seeds.
+Duplicate roles are evaluated again. Primary effects are flash H−P in each background. Retain H−P, B−P and H−B
+within both worlds and flash-minus-blink interactions for H−P and H−B. Form interactions per seed before estimating
+means and SE. Report capture income, all ordinary costs, guard/extinction charges and dim/bright capture counts.
+A capture-supported improvement requires positive primary F and capture income beyond the descriptive three-SE
+threshold; this label never controls selection, sample size or inclusion. World interactions do not by themselves
+show that H beats B in flash. The worlds jointly change residual cue strength, visibility scheduling and placement
+reset semantics; this is not an isolated memory test or a measure of evolutionary reliability.
+
+Scope is 4,160 screen + 6,144 confirmation = **10,304 research lives**, plus one standard ABI3 identity pair and
+eight ABI4 calibration lives: **10,314 total**. One persistent two-thread worker has a **7,200 CPU-second** inclusive
+cap, startup/calibration ceiling 180, cumulative startup/screen ceiling 3,400 and confirmation reserve 3,800. Fixed
+cost projections use all twelve confirmation roles, including duplicates, with 1.5× observed rates and 180 seconds
+reserve. Before screening, unknown blink winner cost uses the largest historical rate among all 65 rows; after
+selection, exact selected-row flash and historical blink rates replace it. Hard caps remain binding. Failed cost
+checks, numerical checks or ceilings leave this first attempt incomplete without retry, reselection or reduced scope.
+
+The namespace review registered calibration 52,230,000–52,230,001, screen 52,240,000–52,240,031 and
+confirmation 52,250,000–52,250,511, disjoint from prior research. AB is an operational dependency only: its terminal
+budget and cleared processes suffice regardless of scientific outcome. All 26 prior process identities and 19 groups
+are clear. One-time retained-input copying is authorized; independent actual-input/reader review and prospective
+public archive are required before root runtime release. No compilation or simulated lives have run at registration.
+
+Preparation is complete: both 65-row panels and all 130 historical timing records match Y exactly; independent
+replay reconstructs all rows from 256 recorded point additions. The four configurations preserve every field
+except the approved flash preset (blink is unchanged). Forty-four producer checks, 33 independent reader checks
+and three focused protocol-binding checks pass. The frozen reader retains all 16 contrasts and 1,200 paired
+metric arrays, including all signs and duplicate roles. The protocol binds 167 local and 35 production files.
+The complete prospective archive is `results/visibility_flash_gradient_20261014/`; runtime release follows its
+publication. No new candidate genotypes, libraries or simulated lives were created during preparation.
