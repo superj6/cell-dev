@@ -28,17 +28,20 @@ peak326,066,176bytesRSS; all8192confirmationstatuses0. Four identities/threegrou
 literal paired vectors verify exactly. Prospective commitsbf431b6/16e46cd; protocol9210e218…922294;
 summary00bdc977…6b2137. No active research worker remains. AJ is still held source-only.
 
-**Next direction chosen after the complete result:** AN, source-only under
+**Next direction chosen after the complete result:** AN, prepared under
 `outputs/autonomous_occlusion_acquisition_20261015/`, with audit sister directory. One eight-generation ordinary
 continuation from ALL32 AM current-value survivors at500, fixed2POOL/2persistent/4blink80_20 per8selection lives,
 8initial+8recheck. Existing ABI4; only mean dark interval5→20 changes from the known blink context. Preserve exact
 generation4 and8 endpoints, then test start/mid/final on five worlds with512shared fresh lives. Candidate fifth
 world isturn100+blink80_20; audit prior exposure before calling it held out. Proposed28,222calls,
 10,800CPU (7200search/3600confirmation),5400wall,one2threadworker with AM memory safeguards.
-Native53231/block141 are only candidates, not registered. No inputs/builds/genetic draws/lives yet.
+Native53231/block141 are now registered; exact protocolca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b.
+Preparation imports all32rows without a build, genetic draw or life. Both independent actual-input reviews pass;
+31producer+6operations+17reader tests pass. No prior recorded exact80/20world was found; turn100+off20 remains
+a narrow untrained diagnostic combination. Prior60identities/43groups clear. AM terminal milestone2b346af is pushed.
 Root owns common/monitor/release; richer_worlds producer+midpoint; prediction_audit reader; decoy_design prepare,
-namespace/resource/exposure audits. Source review, actual input review, prospective commit/push and bounded launch
-report precede execution. Exact reasoning is AM's `discussion/ROOT_DECISION.md`.
+namespace/resource/exposure audits. Source/input reviews pass; prospective commit/push and bounded launch report precede execution.
+Public evidence: `results/occlusion_acquisition_20261015/`. Exact reasoning is AM's `discussion/ROOT_DECISION.md`.
 
 Why this next: the current-price descendant's gain is0.421875±0.132148 smaller under brief darkness than steady
 visibility; dark-capture improvement is unresolved. It gives a nearby information-demand challenge while the

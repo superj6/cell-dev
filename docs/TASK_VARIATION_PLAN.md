@@ -90,7 +90,9 @@ memory or richer behavior, and no AM run is launched by this note.
 and adds larger bodies/more misses. Both descendants pass90%capture retention. No algorithm or optimal price is
 established. All28,756calls complete in5112.442CPU seconds; raw/genetic checks pass and processes are clear.
 After broad reconsideration, prepare one longer continuation adding nearby longer cue gaps with old tasks retained;
-AN is source-only, with no inputs or registered namespace. Current gains weaken under brief darkness by
+AN is prepared with exact32row import and both metadata reviews passing; native53231/block141 registered.
+No life/build/draw occurs during preparation. One8generation continuation, fixedgeneration4/8endpoints,
+3roles×5worlds×512confirmation,28,222calls. Protocolca277b17…08b26b; evidence`results/occlusion_acquisition_20261015/`. Current gains weaken under brief darkness by
 0.422±0.132captures, and dark gains are unresolved. This motivates the new demand without making a memory claim
 or requiring a hand-built winner. See AM's `discussion/ROOT_DECISION.md`; reassess after the next complete result.
 

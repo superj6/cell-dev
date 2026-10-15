@@ -1,0 +1,226 @@
+.........FFFFF                                                           [100%]
+=================================== FAILURES ===================================
+______________ test_complete_midpoint_and_final_endpoint_contract ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x74427294e720>
+
+    def test_complete_midpoint_and_final_endpoint_contract(monkeypatch):
+        base,protocol,identity,_,_,_=endpoint_fixture(monkeypatch)
+>       _,review=M.verify_endpoints(base,protocol,identity)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:339: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:600: in verify_endpoints
+    if (rec["role"] != role or rec["path"] != path or sha(local(base, path)) != rec["file_sha256"]
+                                                          ^^^^^^^^^^^^^^^^^
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:448: in local
+    if not path.is_relative_to(base.resolve()):
+                               ^^^^^^^^^^^^^^
+/usr/lib/python3.12/pathlib.py:1252: in resolve
+    p.stat()
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:332: in <lambda>
+    monkeypatch.setattr(Path,'stat',lambda p,*args,**kwargs:SimpleNamespace(st_size=len(payload(p))) if str(p).startswith(str(base)) else original_stat(p,*args,**kwargs))
+                                                                                        ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/synthetic_AN_endpoints')
+
+    def payload(path):
+        k=key(path)
+        if k in blobs: return blobs[k]
+>       return json.dumps(docs[k],sort_keys=True).encode()
+                          ^^^^^^^
+E       KeyError: '/synthetic_AN_endpoints'
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:253: KeyError
+_______________ test_endpoint_corruption_fails[midpoint_prefix] ________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x74427294ccb0>
+corruption = 'midpoint_prefix'
+
+    @pytest.mark.parametrize('corruption',['midpoint_prefix','midpoint_role','extra_startup','midpoint_replaces_final'])
+    def test_endpoint_corruption_fails(monkeypatch,corruption):
+        base,protocol,identity,docs,blobs,digest=endpoint_fixture(monkeypatch)
+        manifest=docs[str(base/'endpoints.json')]
+        if corruption=='midpoint_prefix':
+            manifest['midpoint']['log_prefix_pins']['lineage.jsonl']['bytes']-=1
+        elif corruption=='midpoint_role':
+            manifest['midpoint']['generation']=5
+        elif corruption=='extra_startup':
+            docs[str(base/'runs/acquisition/search_complete.json')]['startup_lives']=6
+        else:
+            manifest['genomes'][2]=copy.deepcopy(manifest['genomes'][1])
+            manifest['genomes'][2]['role']='generation8'
+>       with pytest.raises(ValueError): M.verify_endpoints(base,protocol,identity)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:357: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:600: in verify_endpoints
+    if (rec["role"] != role or rec["path"] != path or sha(local(base, path)) != rec["file_sha256"]
+                                                          ^^^^^^^^^^^^^^^^^
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:448: in local
+    if not path.is_relative_to(base.resolve()):
+                               ^^^^^^^^^^^^^^
+/usr/lib/python3.12/pathlib.py:1252: in resolve
+    p.stat()
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:332: in <lambda>
+    monkeypatch.setattr(Path,'stat',lambda p,*args,**kwargs:SimpleNamespace(st_size=len(payload(p))) if str(p).startswith(str(base)) else original_stat(p,*args,**kwargs))
+                                                                                        ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/synthetic_AN_endpoints')
+
+    def payload(path):
+        k=key(path)
+        if k in blobs: return blobs[k]
+>       return json.dumps(docs[k],sort_keys=True).encode()
+                          ^^^^^^^
+E       KeyError: '/synthetic_AN_endpoints'
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:253: KeyError
+________________ test_endpoint_corruption_fails[midpoint_role] _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x744275899fa0>
+corruption = 'midpoint_role'
+
+    @pytest.mark.parametrize('corruption',['midpoint_prefix','midpoint_role','extra_startup','midpoint_replaces_final'])
+    def test_endpoint_corruption_fails(monkeypatch,corruption):
+        base,protocol,identity,docs,blobs,digest=endpoint_fixture(monkeypatch)
+        manifest=docs[str(base/'endpoints.json')]
+        if corruption=='midpoint_prefix':
+            manifest['midpoint']['log_prefix_pins']['lineage.jsonl']['bytes']-=1
+        elif corruption=='midpoint_role':
+            manifest['midpoint']['generation']=5
+        elif corruption=='extra_startup':
+            docs[str(base/'runs/acquisition/search_complete.json')]['startup_lives']=6
+        else:
+            manifest['genomes'][2]=copy.deepcopy(manifest['genomes'][1])
+            manifest['genomes'][2]['role']='generation8'
+>       with pytest.raises(ValueError): M.verify_endpoints(base,protocol,identity)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:357: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:600: in verify_endpoints
+    if (rec["role"] != role or rec["path"] != path or sha(local(base, path)) != rec["file_sha256"]
+                                                          ^^^^^^^^^^^^^^^^^
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:448: in local
+    if not path.is_relative_to(base.resolve()):
+                               ^^^^^^^^^^^^^^
+/usr/lib/python3.12/pathlib.py:1252: in resolve
+    p.stat()
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:332: in <lambda>
+    monkeypatch.setattr(Path,'stat',lambda p,*args,**kwargs:SimpleNamespace(st_size=len(payload(p))) if str(p).startswith(str(base)) else original_stat(p,*args,**kwargs))
+                                                                                        ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/synthetic_AN_endpoints')
+
+    def payload(path):
+        k=key(path)
+        if k in blobs: return blobs[k]
+>       return json.dumps(docs[k],sort_keys=True).encode()
+                          ^^^^^^^
+E       KeyError: '/synthetic_AN_endpoints'
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:253: KeyError
+________________ test_endpoint_corruption_fails[extra_startup] _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x744275899dc0>
+corruption = 'extra_startup'
+
+    @pytest.mark.parametrize('corruption',['midpoint_prefix','midpoint_role','extra_startup','midpoint_replaces_final'])
+    def test_endpoint_corruption_fails(monkeypatch,corruption):
+        base,protocol,identity,docs,blobs,digest=endpoint_fixture(monkeypatch)
+        manifest=docs[str(base/'endpoints.json')]
+        if corruption=='midpoint_prefix':
+            manifest['midpoint']['log_prefix_pins']['lineage.jsonl']['bytes']-=1
+        elif corruption=='midpoint_role':
+            manifest['midpoint']['generation']=5
+        elif corruption=='extra_startup':
+            docs[str(base/'runs/acquisition/search_complete.json')]['startup_lives']=6
+        else:
+            manifest['genomes'][2]=copy.deepcopy(manifest['genomes'][1])
+            manifest['genomes'][2]['role']='generation8'
+>       with pytest.raises(ValueError): M.verify_endpoints(base,protocol,identity)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:357: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:600: in verify_endpoints
+    if (rec["role"] != role or rec["path"] != path or sha(local(base, path)) != rec["file_sha256"]
+                                                          ^^^^^^^^^^^^^^^^^
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:448: in local
+    if not path.is_relative_to(base.resolve()):
+                               ^^^^^^^^^^^^^^
+/usr/lib/python3.12/pathlib.py:1252: in resolve
+    p.stat()
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:332: in <lambda>
+    monkeypatch.setattr(Path,'stat',lambda p,*args,**kwargs:SimpleNamespace(st_size=len(payload(p))) if str(p).startswith(str(base)) else original_stat(p,*args,**kwargs))
+                                                                                        ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/synthetic_AN_endpoints')
+
+    def payload(path):
+        k=key(path)
+        if k in blobs: return blobs[k]
+>       return json.dumps(docs[k],sort_keys=True).encode()
+                          ^^^^^^^
+E       KeyError: '/synthetic_AN_endpoints'
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:253: KeyError
+___________ test_endpoint_corruption_fails[midpoint_replaces_final] ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x74427589a5d0>
+corruption = 'midpoint_replaces_final'
+
+    @pytest.mark.parametrize('corruption',['midpoint_prefix','midpoint_role','extra_startup','midpoint_replaces_final'])
+    def test_endpoint_corruption_fails(monkeypatch,corruption):
+        base,protocol,identity,docs,blobs,digest=endpoint_fixture(monkeypatch)
+        manifest=docs[str(base/'endpoints.json')]
+        if corruption=='midpoint_prefix':
+            manifest['midpoint']['log_prefix_pins']['lineage.jsonl']['bytes']-=1
+        elif corruption=='midpoint_role':
+            manifest['midpoint']['generation']=5
+        elif corruption=='extra_startup':
+            docs[str(base/'runs/acquisition/search_complete.json')]['startup_lives']=6
+        else:
+            manifest['genomes'][2]=copy.deepcopy(manifest['genomes'][1])
+            manifest['genomes'][2]['role']='generation8'
+>       with pytest.raises(ValueError): M.verify_endpoints(base,protocol,identity)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:357: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:600: in verify_endpoints
+    if (rec["role"] != role or rec["path"] != path or sha(local(base, path)) != rec["file_sha256"]
+                                                          ^^^^^^^^^^^^^^^^^
+outputs/autonomous_occlusion_acquisition_20261015/analyze.py:448: in local
+    if not path.is_relative_to(base.resolve()):
+                               ^^^^^^^^^^^^^^
+/usr/lib/python3.12/pathlib.py:1252: in resolve
+    p.stat()
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:332: in <lambda>
+    monkeypatch.setattr(Path,'stat',lambda p,*args,**kwargs:SimpleNamespace(st_size=len(payload(p))) if str(p).startswith(str(base)) else original_stat(p,*args,**kwargs))
+                                                                                        ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/synthetic_AN_endpoints')
+
+    def payload(path):
+        k=key(path)
+        if k in blobs: return blobs[k]
+>       return json.dumps(docs[k],sort_keys=True).encode()
+                          ^^^^^^^
+E       KeyError: '/synthetic_AN_endpoints'
+
+outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:253: KeyError
+=========================== short test summary info ============================
+FAILED outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py::test_complete_midpoint_and_final_endpoint_contract
+FAILED outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py::test_endpoint_corruption_fails[midpoint_prefix]
+FAILED outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py::test_endpoint_corruption_fails[midpoint_role]
+FAILED outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py::test_endpoint_corruption_fails[extra_startup]
+FAILED outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py::test_endpoint_corruption_fails[midpoint_replaces_final]

@@ -1,0 +1,178 @@
+E702 Multiple statements on one line (semicolon)
+  --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:67:18
+   |
+66 | def test_fixed_final_primary_is_not_best_midpoint_and_strict_3se():
+67 |     data = rows(); flat_captures(data)
+   |                  ^
+68 |     data['blink80_20'][M.ROLES[1]]['captures'][:] = 100
+69 |     assert not M.verdicts(data)['primary_capture_gain_above_3se']
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:80:16
+   |
+78 | def test_four_retention_pairs_strict_margin():
+79 |     assert M.RETENTION == ((1,0,'pool'), (1,0,'persistent'), (2,0,'pool'), (2,0,'persistent'))
+80 |     data=rows(); flat_captures(data, 100.)
+   |                ^
+81 |     for world in ('pool','persistent'):
+82 |         for role in M.ROLES[1:]: data[world][role]['captures'][:] = 90
+   |
+
+E701 Multiple statements on one line (colon)
+  --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:82:32
+   |
+80 |     data=rows(); flat_captures(data, 100.)
+81 |     for world in ('pool','persistent'):
+82 |         for role in M.ROLES[1:]: data[world][role]['captures'][:] = 90
+   |                                ^
+83 |     report, arrays=M.retention_diagnostics(data)
+84 |     assert all(not value['passes_conventional_10_percent_diagnostic'] for value in report.values())
+   |
+
+E701 Multiple statements on one line (colon)
+  --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:92:35
+   |
+90 |     result=M.describe_counts(np.array([1.,1.]), np.array([0.,8.]), np.array([1.,9.]))
+91 |     assert result['aggregate_capture_fraction'] == .2
+92 |     with pytest.raises(ValueError): M.describe_counts(np.array([1.]), np.array([1.]), np.array([1.]))
+   |                                   ^
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:102:39
+    |
+100 |         state={'generation':generation, 'curves':[{'gen':g,'pop_invalid':0,'pop_mismatch':0,'recheck_invalid':0} for g in range(gener…
+101 |         assert worker.validate_search_state(state,generation)==dict(pop_invalid=0.,pop_mismatch=0.,recheck_invalid=0.)
+102 |         with pytest.raises(ValueError): worker.validate_search_state(state,6)
+    |                                       ^
+103 |     tree=ast.parse((STUDY/'measure.py').read_text())
+104 |     assert sum(isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='numerical_identity' for n in ast.walk(tr…
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:188:39
+    |
+186 |         assert M.verify_terminal(base,protocol)['cpu_seconds']==210
+187 |         docs[str(base/'budget.json')]['confirmation_cpu_seconds']=3600
+188 |         with pytest.raises(ValueError): M.verify_terminal(base,protocol)
+    |                                       ^
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:252:22
+    |
+250 |     def payload(path):
+251 |         k=key(path)
+252 |         if k in blobs: return blobs[k]
+    |                      ^
+253 |         return json.dumps(docs[k],sort_keys=True).encode()
+254 |     def digest(path): return hashlib.sha256(payload(path)).hexdigest()
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:257:45
+    |
+255 |     def raw(value): return hashlib.sha256(np.asarray(value).tobytes()).hexdigest()
+256 |     def put_lines(name,values): blobs[key(name)]=b''.join((json.dumps(v)+'\n').encode() for v in values)
+257 |     put('protocol.json', {'synthetic':True}); put('release.json',{'status':'released'})
+    |                                             ^
+258 |     for name in ('population_loader.py','selection.py','search.py'):
+259 |         blobs[key(name)]=name.encode()
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:261:35
+    |
+259 |         blobs[key(name)]=name.encode()
+260 |     pd,rd=digest('protocol.json'),digest('release.json')
+261 |     start=np.zeros(875,np.float32); mid=np.ones(875,np.float32); table=np.stack([np.full(875,i+2,np.float32) for i in range(32)])
+    |                                   ^
+262 |     prefix='runs/acquisition/'
+263 |     for path,genome in [('inputs/AM_current_start.json',start),(prefix+'generation4/best_genome.json',mid),(prefix+'best_genome.json'…
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:261:64
+    |
+259 |         blobs[key(name)]=name.encode()
+260 |     pd,rd=digest('protocol.json'),digest('release.json')
+261 |     start=np.zeros(875,np.float32); mid=np.ones(875,np.float32); table=np.stack([np.full(875,i+2,np.float32) for i in range(32)])
+    |                                                                ^
+262 |     prefix='runs/acquisition/'
+263 |     for path,genome in [('inputs/AM_current_start.json',start),(prefix+'generation4/best_genome.json',mid),(prefix+'best_genome.json'…
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:264:51
+    |
+262 |     prefix='runs/acquisition/'
+263 |     for path,genome in [('inputs/AM_current_start.json',start),(prefix+'generation4/best_genome.json',mid),(prefix+'best_genome.json'…
+264 |         put(path,{'synthetic_genome':raw(genome)}); genomes[key(path)]=genome
+    |                                                   ^
+265 |     for name in ('checkpoint.pt','generation4/checkpoint.pt','config.yaml'):
+266 |         blobs[key(prefix+name)]=name.encode()
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:268:21
+    |
+266 |         blobs[key(prefix+name)]=name.encode()
+267 |     curves=[dict(gen=g,evals=320*(g+1),recheck_k=64,pop_invalid=0,pop_mismatch=0,recheck_invalid=0,pop_guard=0,fitness=1.,mean_fitnes…
+268 |     for g in (0,4,7): curves[g]['valid']=1.
+    |                     ^
+269 |     lineage=[dict(event='founders',ids=list(range(32)),copies=[])]
+270 |     for g in range(8):
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:357:35
+    |
+355 |         manifest['genomes'][2]=copy.deepcopy(manifest['genomes'][1])
+356 |         manifest['genomes'][2]['role']='generation8'
+357 |     with pytest.raises(ValueError): M.verify_endpoints(base,protocol,identity)
+    |                                   ^
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:363:45
+    |
+361 | def test_two_startup_pairs_and_two_visibility_pairs(monkeypatch,corruption):
+362 |     base=Path('/synthetic_AN_startup')
+363 |     ledger=np.zeros((1,58),dtype=np.float64); hashes=np.zeros((1,5),dtype=np.uint64)
+    |                                             ^
+364 |     identity={'golden':{'all':'ebb3ad6fcad2d938'},'kernels':{'full':'library','fast':'library'}}
+365 |     fixture={'name':'body0_renewal_55040000','seed':55040000,'ledger':ledger[0].tolist(),'hashes':['0']*5}
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:371:42
+    |
+369 |     docs={'inputs/startup_identity.json':{'identity':identity},'inputs/visibility_truth.json':fixture,
+370 |           'startup.json':copy.deepcopy(expected),'runs/acquisition/search_startup.json':copy.deepcopy(expected)}
+371 |     if corruption=='missing_search_truth': docs['runs/acquisition/search_startup.json']['visibility']['lives']=0
+    |                                          ^
+372 |     elif corruption=='extra_search_calls': docs['runs/acquisition/search_startup.json']['startup_lives']=6
+373 |     monkeypatch.setattr(M,'read',lambda p:copy.deepcopy(docs[str(p.relative_to(base))]))
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:372:42
+    |
+370 |           'startup.json':copy.deepcopy(expected),'runs/acquisition/search_startup.json':copy.deepcopy(expected)}
+371 |     if corruption=='missing_search_truth': docs['runs/acquisition/search_startup.json']['visibility']['lives']=0
+372 |     elif corruption=='extra_search_calls': docs['runs/acquisition/search_startup.json']['startup_lives']=6
+    |                                          ^
+373 |     monkeypatch.setattr(M,'read',lambda p:copy.deepcopy(docs[str(p.relative_to(base))]))
+374 |     monkeypatch.setattr(M,'sha',lambda p:'protocol' if p.name=='protocol.json' else 'library')
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/audit_occlusion_acquisition_20261015/test_confirmation_reader.py:377:39
+    |
+375 |     monkeypatch.setattr(Path,'rglob',lambda p,_:iter([base/'build-cache/library.so']))
+376 |     if corruption:
+377 |         with pytest.raises(ValueError): M.verify_startup(base,{})
+    |                                       ^
+378 |     else:
+379 |         assert M.verify_startup(base,{})['total_startup_lives']==8
+    |
+
+Found 17 errors.

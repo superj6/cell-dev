@@ -3682,3 +3682,26 @@ before fresh confirmation; no automatic price sweep or mechanism gate. Exact dec
 
 Report/figure/evidence: `results/capture_value_selection_20261015/REPORT.md`.
 Prospective commits `bf431b6`, `16e46cd`; protocol9210e218…922294; summary00bdc977…6b2137; budget70242fe1…252604.
+
+## 2026-10-15 — AN registered: acquire longer-gap performance and measure retained capability
+
+After the complete AM result, choose one eight-generation continuation from all32 original-price AM survivors.
+Keep ordinary prices500, with fixed2POOL/2persistent/4blink80_20 selection lives per8initial, repeated for8extra
+recheck lives. Longer darkness changes meanoff5→20 at meanon80; all persistent physics and cell rules remain.
+Generation4 and8rank0 genomes are fixed during uninterrupted selection, then tested alongside AM start on512
+shared fresh lives in POOL,persistent,blink80_5,blink80_20,andturn100+blink80_20. Final is never replaced by midpoint.
+
+Primary: final-minus-start captures in longer darkness. Both checkpoints receive separate90%old-task retention
+diagnostics; physical costs, misses/click fractions, dark/bright captures and all39pairedcontrast groups remain.
+The archive audit found no prior exact80/20setting; the faster-turn combination is untrained in AN and at most
+a narrow transfer case. Neither dark captures nor one continuation establish memory, curriculum/depth superiority
+or broad generalization. Reconsider competing directions after the complete result rather than queueing a sweep.
+
+Prepared exact32rows with no genetic draw, compilation or life.54focusedchecks pass, both actual-input reviews
+agree, prior60identities/43groups clear. Native53231 has180unique life IDs; confirmation52,410,000–52,410,511
+is in block141. Scope20,534search+7,680confirmationresearch+8startup=28,222calls. Hardcaps10,800CPUtotal,
+7,200search/3,600confirmation,5,400wall;one2threadworker,4GiBownedRSS,8GiBAS,4GiBhostheadroom. No retry,
+extension or paid compute. Prospective publication precedes runtime release.
+
+Protocol`ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b`.
+Evidence:`results/occlusion_acquisition_20261015/`; source lineage from completed AM milestone`2b346af`.

@@ -1,0 +1,62 @@
+{
+  "status": "ready_for_independent_source_review",
+  "source_pins": {
+    "outputs/autonomous_occlusion_acquisition_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/autonomous_occlusion_acquisition_20261015/selection.py": "0e0768ca396f4c947458045147ce96e7b47e0042caad922b16d9c17b240f0d36",
+    "outputs/autonomous_occlusion_acquisition_20261015/search.py": "60502405207e8e61c4f781dbd0aa649c1ae090311d0598a3044d2b140b4eac65"
+  },
+  "test_pins": {
+    "outputs/audit_occlusion_acquisition_20261015/producer/test_selection.py": "fe8459b1085b2ab472413cc3cfdd74d5eb253e9a263fee62279f947da62dac66",
+    "outputs/audit_occlusion_acquisition_20261015/producer/tests.log": "1b8f208de3636df279448e40805982570c4351601ce5723301928feea7d343cf",
+    "outputs/audit_occlusion_acquisition_20261015/producer/tests.xml": "b7e88e980ba55d4cc2c141c47713f74170f2d24b45598b8b78c7e55813cd6ff8",
+    "outputs/audit_occlusion_acquisition_20261015/producer/ruff.txt": "aac3a0503d8b95052cc85fb9f1717dc82b74aa55853a5aa9749b41e30275d472",
+    "outputs/audit_occlusion_acquisition_20261015/producer/dry_run.json": "a60b54f2a6dcbb0b421e4dc292427a027ac922accd780d01d19c73273806bf37",
+    "outputs/audit_occlusion_acquisition_20261015/producer/source_origins.json": "f58e3351ba6aaaab97fd55e6d82b09f16ecd6db3bb3ef0005da0478cd3e7fbae",
+    "outputs/audit_occlusion_acquisition_20261015/producer/source_diff.txt": "2ec25cf566433e4a9e251ac92a22144635f0a9f249e0075eca0cbae25fc7c35c"
+  },
+  "tests": {
+    "passed": 31,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "scope": "Pure synthetic metadata/genome/checkpoint fixtures only; engine run/build monkeypatched to fail.",
+    "command": "PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 ATEN_CPU_CAPABILITY=avx2 .venv/bin/python -m pytest -q outputs/audit_occlusion_acquisition_20261015/producer/test_selection.py --basetemp=outputs/audit_occlusion_acquisition_20261015/producer/test_tmp --junitxml=outputs/audit_occlusion_acquisition_20261015/producer/tests.xml",
+    "post_test_change": "Ruff moved only the measure import within main; scientific code unchanged. Dry-run checked after import ordering."
+  },
+  "scope": {
+    "run": "acquisition",
+    "generations": 8,
+    "mu": 32,
+    "offspring": 224,
+    "initial_lives": 8,
+    "recheck_lives": 8,
+    "selection_lives": 20480,
+    "validation_lives": 48,
+    "final_lives": 6,
+    "research_lives": 20534,
+    "search_startup_lives": 4,
+    "snapshot_added_lives": 0,
+    "final_checkpoint_evals": 2048,
+    "final_checkpoint_rc_lives": 4096,
+    "native_counted_evals": 2560
+  },
+  "midpoint": {
+    "path": "runs/acquisition/generation4",
+    "generation": 4,
+    "rank": 0,
+    "native_checkpoint_bytes_copied_exactly": true,
+    "full_later_log_prefix_verified": true,
+    "source_restored_on_failure": true,
+    "rng_and_population_unchanged_in_synthetic_test": true
+  },
+  "startup": "Existing check_visibility_truth pair then exactly one native numerical_identity pair; receipt callback records actual checked base identity before native search. No extra validation or midpoint life.",
+  "limitations": [
+    "Source-only: no actual population import, registration, build or scientific life has been performed by this work.",
+    "Snapshotting adds file I/O and checkpoint deserialization but no search evaluations or random draws.",
+    "Selection retains ordinaryF and penalties; acquisition/retention claims require independent fresh confirmation.",
+    "Native logs omit nonsurviving-parent scores and exact tie permutations; later selection audit must retain that limitation."
+  ],
+  "genetic_draws": 0,
+  "compiled_libraries": 0,
+  "simulated_lives": 0
+}

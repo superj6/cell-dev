@@ -1,0 +1,24 @@
+{
+  "status": "source_only",
+  "originals": {
+    "outputs/autonomous_capture_value_selection_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/autonomous_capture_value_selection_20261015/selection.py": "f8370d3390a6e3bee1b18151444f8e81e64d04a6ba631d2c009527902782d7fa",
+    "outputs/autonomous_capture_value_selection_20261015/search.py": "d511ce56a44dad6520798e14a393d797e94288a90c134c231bec3356a858750e",
+    "outputs/autonomous_capture_value_selection_20261015/test_selection.py": "99027db2a80e9dc2823723fac36e157da5c0ba0507cc007b17134adad1021079"
+  },
+  "native_sources": {
+    "src/evolve.py": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+    "src/run.py": "8595d69317d8533cfb2fcea91f25cc78631799ab3503044c615b55cae8a1ae2c",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2"
+  },
+  "changes": [
+    "population_loader.py is byte-identical to AM/AJ.",
+    "One acquisition arm with fixed2POOL/2persistent/4blink80_20 per8 lives, exactprefix repetition for16; ABI4 neutral base; allR_cap500.",
+    "Native run has8 generations; validg0/4/7 and20534 research lives.",
+    "Passive checkpoint.save wrapper copies generation4 checkpoint and rank0 once, then restores; no RNG/evaluation/state modification.",
+    "Search startup adds one existing activeABI4 truth pair; one original numerical identity invocation records its actual result with the truth receipt.",
+    "Tests reuse AM import/prefix checks with small synthetic data plus ABI4/world-only/midpoint/noRNG/prefix/corruption checks."
+  ],
+  "no_actual_inputs_or_run": true
+}

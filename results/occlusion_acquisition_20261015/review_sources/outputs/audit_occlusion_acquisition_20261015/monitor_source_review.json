@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "prior_source_sha256": "5fdf819058832aaf3d2813d0f2ebe8fe4b4f2b5a10b552c0b4dd9b931b3d4114",
+  "source_sha256": "85eec62a8a1a76d805c6c30a86d33cf5d10616d8b665c7e8516d9aa7e8377764",
+  "unchanged_helpers": [
+    "pid_namespace",
+    "proc_table",
+    "identity",
+    "owned_live",
+    "consumed_cpu",
+    "memory_usage",
+    "child_limits",
+    "enable_subreaper",
+    "signal_owned",
+    "signal_descendant",
+    "reap",
+    "cleanup",
+    "cleanup_evidence",
+    "run_worker"
+  ],
+  "changed_function": "main",
+  "checks": [
+    "one acquisition worker then confirmation",
+    "search20534+4;confirmation7680+4;total28222",
+    "15 confirmation rows,512each",
+    "cumulative CPU limits10800total7200search3600confirmation;wall5400",
+    "exact AM ownership,namespace,memory,subreaper,cleanup helpers retained"
+  ],
+  "simulation_calls": 0
+}

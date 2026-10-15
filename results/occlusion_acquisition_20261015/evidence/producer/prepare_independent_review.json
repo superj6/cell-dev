@@ -1,0 +1,53 @@
+{
+  "status": "approved_source_only_no_blocker",
+  "study": "AN occlusion acquisition",
+  "scope": "Independent prepare/import/config review and producer-interface consistency; source and recorded tests only.",
+  "source_pins": {
+    "outputs/autonomous_occlusion_acquisition_20261015/prepare.py": "c27420f96e258806cd1972d700ef7256b7c15e2083c12729781294f6ba0185fb",
+    "outputs/autonomous_occlusion_acquisition_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/autonomous_occlusion_acquisition_20261015/selection.py": "0e0768ca396f4c947458045147ce96e7b47e0042caad922b16d9c17b240f0d36",
+    "outputs/autonomous_occlusion_acquisition_20261015/search.py": "60502405207e8e61c4f781dbd0aa649c1ae090311d0598a3044d2b140b4eac65"
+  },
+  "evidence_pins": {
+    "outputs/audit_occlusion_acquisition_20261015/operations/producer_operations_source_review.json": "3ff31e207b841989c5b9ee2912a1b1f961ec9ad4fd0752c0d8fae53346118932",
+    "outputs/audit_occlusion_acquisition_20261015/operations/test_prepare.py": "4d7319babcc550d9246c9162214c7a8df4fd6804b9f19a782aa1638205382c63",
+    "outputs/audit_occlusion_acquisition_20261015/operations/prepare_tests.xml": "d81e79e14bc0cd80b4eea7d1159da4ceee87de09e9799f17a35c12c54ed4edfb",
+    "outputs/audit_occlusion_acquisition_20261015/producer/producer_source_review.json": "6f07f5a5add2ac5084b9c748282d3f27ec5e6cec4a3170ae49bd81a178cddcfb",
+    "outputs/audit_occlusion_acquisition_20261015/producer/tests.xml": "b7e88e980ba55d4cc2c141c47713f74170f2d24b45598b8b78c7e55813cd6ff8",
+    "results/capture_value_selection_20261015/runs/current_value/config.yaml": "4ba51b39676520054662dc3b1c1177d7fef9490db48372423c3f0f2cade63e0a",
+    "results/capture_value_selection_20261015/protocol.json": "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294"
+  },
+  "recorded_tests_inspected": {
+    "producer": {
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "prepare": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "new_test_runs": 0,
+  "findings": [
+    "Preparation imports the exact ordered 32 AM current_value survivors, validates checkpoint, rank0 and prior complete genetic replay, resets IDs with an explicit crosswalk, and requires empty fill to retain bytes, empty operations and RNG state.",
+    "Against the retained AM current_value config, only the declared fresh seed/import/selection identities, output path, eight-generation scope and ABI4/control label change. Prices, physical costs, ordinary breeding, 8+8 lives and structural-off settings remain inherited.",
+    "POOL/persistent/known blink world records are copied exactly. New blink80_20 changes only visibility_off 5 to20; the predeclared combination additionally changes tau_turn200 to100. Selection/base use ABI4 neutral old contexts and 2/2/4 allocation; neutral confirmation preserves original ABI3 packing.",
+    "Generation4 is copied after the uninterrupted native checkpoint save with no evaluation or RNG draw. Exact checkpoint/rank0 bytes, extended identity and later full-log prefixes are bound; generation8 remains the fixed final endpoint.",
+    "Counts agree: 20480 selection +48 validation +6 final =20534 native research, plus7680 confirmation and8 startup =28222 calls. Budget remains10800 CPU,7200 search/3600 confirmation,5400 wall,one two-thread worker.",
+    "Measurement/reader source interfaces reviewed agree on separate generation4 and final8 records, all12 search output pins, both four-call startup receipts and the full15-row confirmation matrix. No endpoint is chosen using confirmation outcomes."
+  ],
+  "limitations": [
+    "No actual preparation, population copy, genetic draw, engine compilation or scientific life was performed in this review.",
+    "This receipt inspects the existing passing test evidence; it does not duplicate the suites or guarantee runtime feasibility.",
+    "Single deliberately chosen trajectory cannot establish curriculum superiority or a memory mechanism; later full genetic replay must retain the native initial-shortlist/tie-evidence limitations."
+  ],
+  "interrupted_operation": "The interrupted prior turn issued no write command; no partial auxiliary receipt was left.",
+  "simulation_calls": 0,
+  "genetic_draws": 0,
+  "compiled_libraries": 0,
+  "input_copies": 0
+}
