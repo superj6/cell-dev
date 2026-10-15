@@ -1,0 +1,265 @@
+{
+  "status": "concrete_read_only_plan_not_released",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "mutants_generated": 0,
+  "seed_reservations": [],
+  "decision": "Prefer irregular blink after complete X2 payoff review; this plan alone authorizes no research. No constructed-body or evolved-founder winning gate.",
+  "founder_manifest": {
+    "path": "founders/manifest.json",
+    "sha256": "865840416face9112dd1f1343b739fb57b8fefe3f9936d33619ee110136490f4"
+  },
+  "founders": {
+    "D90": {
+      "label": "s51090_final_rank0",
+      "raw_sha256": "1287ee4421f88fc108c073eae282f625bd0e340a5e4b12d590cd27cbc046bfac",
+      "row_index": 3,
+      "parent_path": "founders/D90/parent.json",
+      "genome_path": "founders/D90/genome.npy",
+      "original_config": "founders/D90/config.yaml"
+    },
+    "L92": {
+      "label": "s51892_final_rank0",
+      "raw_sha256": "8f14c79b8bea73c08dff7f6bc1094dc848534f9f2d45598c99c4351cf364cf27",
+      "row_index": 3,
+      "parent_path": "founders/L92/parent.json",
+      "genome_path": "founders/L92/genome.npy",
+      "original_config": "founders/L92/config.yaml"
+    }
+  },
+  "approved_world_snapshot": {
+    "path": "approved_blink_world.json",
+    "sha256": "3700c79f9d3dbf5c517747ca872dce84d91fbfb103d02f53b017b2c5a224d985",
+    "preset": "catch_speck_blink20_20_l4",
+    "T": 1024,
+    "visibility": [
+      2,
+      20,
+      20,
+      0
+    ],
+    "d0": 1,
+    "d_min": 0.5,
+    "sigma": 0.6,
+    "lam_s": 2,
+    "abi_sizes": [
+      4,
+      875,
+      129,
+      70,
+      58,
+      5,
+      23,
+      1024,
+      7,
+      18
+    ]
+  },
+  "mutation": {
+    "helper": "scripts/taskvar_gradient.py:make_mutants",
+    "mutants_per_parent": 64,
+    "n_mut": 2,
+    "p_cell": 0.5,
+    "scale_n_mut": true,
+    "dup_rate": 0,
+    "del_rate": 0,
+    "split": false,
+    "generation_policy": "Generate each entire panel once after reviewed registration, freeze all65 genome rows and mutation ops before any scientific score. Preserve duplicates/no-op mutations. No regeneration or filtering."
+  },
+  "stages": {
+    "screen": {
+      "backgrounds": 2,
+      "rows_per_background": 65,
+      "lives_per_row": 32,
+      "genome_lives": 4160
+    },
+    "confirmation": {
+      "backgrounds": 2,
+      "rows_per_background": 2,
+      "lives_per_row": 512,
+      "genome_lives": 2048
+    },
+    "research_total": 6208,
+    "rescore": false
+  },
+  "selection": "For each background choose min(rows1..64,key=(-mean_production_F,row_index)); never seedwise selection. Freeze both winner byte hashes before either fresh confirmation; retain negative/null effects.",
+  "seed_suggestions_unreserved": {
+    "decimal_base": 51000000,
+    "stride": 10000,
+    "screen": {
+      "block": 117,
+      "first": 52170000,
+      "last_inclusive": 52170031
+    },
+    "confirmation": {
+      "block": 118,
+      "first": 52180000,
+      "last_inclusive": 52180511
+    },
+    "cost_calibration": {
+      "block": 119,
+      "seeds": [
+        52190000,
+        52190001
+      ]
+    },
+    "mutation_rng": {
+      "D90": 53117,
+      "L92": 53118
+    },
+    "numerical_goldens": {
+      "seed": 11,
+      "lives": 2,
+      "purpose": "Deliberate retained deterministic replay; not fresh scientific evidence."
+    },
+    "status": "Numeric inventory clear of actual seed/interval overlap;480 matches are independently checked exclusive block116 upper endpoints. Final text and closed-study namespace review remain required before registration."
+  },
+  "resources": {
+    "total_cpu_cap": 5400,
+    "startup_and_screen_cumulative_cap": 3400,
+    "minimum_confirmation_cleanup_reserve": 2000,
+    "measurement_processes": 1,
+    "simulation_threads_per_process": 2,
+    "monitor_stop_margin_seconds": 10,
+    "first_attempt_only": true,
+    "validation_lives": 10,
+    "validation": {
+      "existing_numerical_identity_T200_full_fast_goldens": 2,
+      "cost_calibration_T1024": 8,
+      "calibration_rows": "Each background parent(row0) and predetermined row1 mutant on the same two fresh calibration seeds; four2-seed batches. Record every raw ledger and batchCPU; no phenotype inspection or tuning."
+    },
+    "planned_total_lives": 6218,
+    "feasibility": "For each background r=max(parent_batchCPU/2,row1_batchCPU/2). Stop before screening if observed startup+calibrationCPU +1.5*2080*sum(r)>3400, or1.5*1024*sum(r)>2000. This is a planning screen, not a bound on unsampled mutants. All incomplete work remains archived if later caps stop it; no cap/life-count rescue.",
+    "historical_endpoint_rate_projection_for_6208_lives": 1541.2572706488747,
+    "cost_warning": "Old fast POOL rates are a baseline only. Eight new calibration lives cannot bound slow mutants or a selected winner; aggregate hard caps and incomplete preservation remain mandatory."
+  },
+  "configuration_adaptation": {
+    "life.abi": 4,
+    "life.world": "catch_speck_blink20_20_l4",
+    "life.T": 1024,
+    "life.T_choices": [],
+    "life.flags": [],
+    "life.t_open": 0,
+    "life.freeze_frac": null,
+    "life.fast_kernel": true,
+    "life.extinct_charge": "Preserve true from both archived configs.",
+    "world": {},
+    "costs_life": {},
+    "threads": 2,
+    "envelope": {
+      "enabled": false
+    },
+    "note": "Archive original configs unchanged; write explicit derived study configs later. Enforce full asdict(evaluator.world()) equals approved snapshot. Do not inherit old fast-conduction/POOL overrides."
+  },
+  "raw_row_schema": {
+    "ledger": "float64[n,58] unchanged kernel ledger",
+    "seeds": "uint64[n] explicit ordered seeds",
+    "genome_index": "scalar integer",
+    "scored_columns": "All58 V4 ledger labels, with saved F production-scored; plus F_kernel,extinct_charge,window. Raw ledger retains kernel F.",
+    "cpu_seconds": "finite nonnegative scalar process CPU",
+    "wall_seconds": "finite nonnegative scalar elapsed wall time",
+    "identity": "Protocol/source/config/panel hash, ABI4, world, stage, row and ordered seeds checked by manifest + row checkpoint. Fast mode hashes are not scientific trajectory evidence."
+  },
+  "analysis": {
+    "primary": "Paired selected-mutant minus own-parent production F mean,SE,n512 separately for D90 andL92. Report exact values and3SEdirection descriptively, no pooled winner/combined decision.",
+    "pieces": [
+      "capture_income",
+      "living_cost_saving",
+      "spike_cost_saving",
+      "twitch_cost_saving",
+      "message_cost_saving",
+      "division_cost_saving",
+      "secretion_cost_saving",
+      "miss_cost_saving",
+      "receptor_cost_saving",
+      "guard_charge_saving",
+      "extinction_charge_saving"
+    ],
+    "diagnostics": [
+      "captures",
+      "low_light_captures",
+      "bright_captures=captures-low_light_captures",
+      "live_time",
+      "n_end",
+      "n_H_end",
+      "spikes",
+      "packets",
+      "clicks",
+      "path",
+      "status_flags"
+    ],
+    "fitness": "F_kernel=(income-cost-guard_charge)/(T-t_open); production F=F_kernel-extinct_charge for valid lives. Validate full ledger and exact saved production columns. Low-light count has no additional reward.",
+    "failure_policy": "Retain natural death and valid guard-ended lives with production penalties. Nonfinite/capacity/accounting mismatch/unexplained incomplete lives block a complete verdict. Never discard costly or losing mutants.",
+    "interpretation": "Capture-directed confirmed gains justify considering short ordinary continuation. Economy-only gains diagnose accessible mutation directions; no memory/prediction claim. Negative or null confirmation does not prove no useful algorithm can evolve."
+  },
+  "minimal_changes": [
+    {
+      "path": "study-local measure.py copied from I",
+      "change": "Set D90/L92 inputs/exactblinkworld/newseedlists/caps; replace three-stage orchestration by two screens and direct fresh confirmation."
+    },
+    {
+      "path": "study-local score_row/COLS adapter copied from taskvar_confirm",
+      "change": "Replace everyV3 packing/run/Lives/ledger57 assumption with explicitV4 and58columns; add lowlight/bright diagnostics; retain evaluator.columns and penalties."
+    },
+    {
+      "path": "study-local RowStore copied from taskvar_second_step",
+      "change": "Bind locally adapted score_row andV4COLS explicitly; preserve atomic records/integrity. Firstattemptonly externalmonitor owns aggregate caps."
+    },
+    {
+      "path": "reviewed monitor template",
+      "change": "Reuse existing process identity/owned group cleanup accounting; hard enforce cumulative phase budget and stop before research if calibration fails. One2-thread child, noindependent per-parent caps."
+    },
+    {
+      "path": "offline retained accountant",
+      "change": "Production58 ledger arithmetic and extinction charge; avoid X2 fixed-static scratch scorer."
+    }
+  ],
+  "source_sha256": {
+    "results/decoy_gradient_20261014/measure.py": "ed570e9d61923748ef4d25219e946034eab6900f97678873284dfeb027a292d9",
+    "results/decoy_gradient_20261014/prepare.py": "7c3e9eadd053f527955749f6e1026ea926696a7b97c4b7ac0c5e27a1fb1439f2",
+    "scripts/taskvar_gradient.py": "7bfaec88b7db57213496fdeab9cdedf1705ae43bc1f1622da7a0fe4438507aae",
+    "scripts/taskvar_confirm.py": "531e0d281ce0261e240101e74b346828eabda279a8d70018a0e1e19f6681cfc4",
+    "scripts/taskvar_second_step.py": "aa19ea6d34f98c6576b80e9221b355e5c4a0f85751f739338a662f6d05f635d2",
+    "scripts/taskvar_gates.py": "31c154ccd5ec91ebe4b239df13243d007613a423c21ca159e52fc575c0f38647",
+    "src/genome.py": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "src/life/build.py": "bb15a7fecf19c6c15a1822fc291b4a100ca59ba462da296bcab24bca0af7e811",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2",
+    "src/life/kernel.c": "3b683af571ecda2faccbd1ab2506250095b8d30e9218e8d8e5d4528866cd8683",
+    "outputs/autonomous_visibility_information_x2_20261014/monitor.py": "e9c14647abef03d99f86d6962cfc49df71c4a9ca436dae6180b968c49184bcb3"
+  },
+  "remaining_preparation": [
+    "Review complete X2 and select one world.",
+    "Review source-only plan and final seed inventory; register once.",
+    "Generate fixed panels once and freeze exact operations/configs/sources before scoring.",
+    "Implement only listed local adapter/monitor changes, focused synthetic58-column/selection/cap tests, review.",
+    "Report concrete bounded run before release; no additional world/duration/cell-rule/ABI changes."
+  ],
+  "namespace_suggestion_review": {
+    "path": "namespace_suggestion_review.json",
+    "sha256": "5ae699def1d1193ec1843fcb3ff6d29b69adecba3a54f8dea2719dc4d7df2f5f"
+  },
+  "historical_endpoint_costs": {
+    "D90": {
+      "path": "outputs/autonomous_continuation_20261013/confirmation/1024/row_0003.npz",
+      "sha256": "2eb8ab0c2d9e5ca29a3241cbe7ac5d3a81e8d8be21825874b0854506b475a682",
+      "genome_index": 3,
+      "lives": 256,
+      "cpu_seconds": 81.25963949800001,
+      "cpu_seconds_per_life": 0.31742046678906255
+    },
+    "L92": {
+      "path": "outputs/autonomous_s7_20261014/confirmation/1024/row_0003.npz",
+      "sha256": "ed77c9f450392858e140625c17b9647e51f44134c9669b2052641d7c05bbe5ef",
+      "genome_index": 3,
+      "lives": 256,
+      "cpu_seconds": 45.85436220499997,
+      "cpu_seconds_per_life": 0.17911860236328114
+    }
+  },
+  "independent_design_review": {
+    "path": "independent_design_review.json",
+    "sha256": "79516af0dfba6450bddd1ffb8448a6b1826ef6f0698c3f0e52069acdc16d550c"
+  }
+}

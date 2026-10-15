@@ -1,0 +1,44 @@
+{
+  "status": "pass",
+  "review_type": "independent_source_and_producer_compatibility_review",
+  "protocol_sha256": "1880ff6e21b4689031e892d9dc6765a8d9673a35efeefb213acf268f5370adf4",
+  "reviewed_analysis_pins": {
+    "analyze.py": "1f8bc838666f6ba2e58e8a64aac4506fc2a94488850d50a20de29c06120449d7",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "genetic_replay.py": "06a9e1b996789956510e498632f9c82d7cae9a52118be30284aedbab7d33ddec",
+    "genetic_replay.json": "a0344e664e5b8a3d8eb13c771f22366dae919c38ec471da74df5ec5b34e6a533",
+    "test_analyze.py": "265156855decd9427e40fac3a67e7b31089852797b2c9f26b9016324edce360d",
+    "test_offline_accounting.py": "6907d44aed1114c0b2b48e429acc657c59e86d00665be550a2051cbe9d6f83c7"
+  },
+  "producer_pins": {
+    "measure.py": "45fb8d2974bfe71e5af3c576232825b346836da9de6d304bd8fec6707611e0fe",
+    "scoring.py": "8b4871a1987d33367054c13254a18e6439c9c3c3648820bf46862304e27a96fd",
+    "monitor.py": "de64b3d296680b8a555bde9f662d050a54adad4cd0805afad94e750b0f12e461",
+    "common.py": "13483b1425d4c10a409c46576262e62d22c10e6aeaa9bd347d5cd94c1503963e",
+    "SCHEMA.md": "a8261178a0789331986b8dcf1a2e8334b09b11a59c2845b9120e06940ad96460"
+  },
+  "checks": [
+    "Exact138 raw rows and ordered aggregate arrays: two backgrounds each with2calibration,65screen,2confirmation rows; all58raw ledger and61named production columns.",
+    "Actual atomic_json insertion order, indentation and newline match reconstructed calibration/screen row-index snapshots and worker screen-report hashes.",
+    "Whole32-life mutant mean selection excludes parent and resolves exact ties by original row number; both selection hashes remain frozen before confirmation.",
+    "Raw named F equals F_kernel minus retained extinction charge; independent ordinary costs, guard charges, capture income and all worker comparison keys/signs/mean/SE fields match production report.",
+    "Growing census uses1+births-deaths-kills=n_end; initial cell is not a counted birth. Natural extinction/valid paid guards remain; wall rejects and dropped arrivals are disjoint counters, not subsets.",
+    "One numerical identity invocation records exactly two ABI3 seed11/T200 compatibility goldens; full+fast library hashes require retained matching bytes; source/runtime metadata equals preregistration.",
+    "All protocol/source/panel/registration/replay/ready/attempt/resource/phase pins checked; raw CPU totals cannot exceed each monitored phase; partial or malformed archives emit no scientific outcomes.",
+    "Genetic replay checks all130row bytes and recorded operations using pinned helper/RNG; replay is independent invocation, not an independent mutation implementation.",
+    "Concrete portability findings fixed: replay prefers archived production source; copied tests resolve containing study and archived production inputs."
+  ],
+  "tests_reviewed": {
+    "focused_complete_archive_tests": 22,
+    "independent_row_accounting_tests": 143,
+    "execution_note": "Inspected author test sources and retained execution evidence; this peer source review does not rerun simulations or tests."
+  },
+  "limitations": [
+    "Synthetic complete archives are structural/accounting tests, not research evidence.",
+    "No memory-specific interpretation follows from fitness or low-light capture gains.",
+    "Final root release must bind these exact analysis and peer-review bytes; all runtime outcomes remain pending."
+  ],
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "unresolved_findings": []
+}

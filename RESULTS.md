@@ -2358,3 +2358,24 @@ the explicit erratum and portable corrected reanalysis are in `results/visibilit
 The next bounded diagnostic will test ordinary mutations around the stronger D90/L92 evolved founders in
 irregular blink, emphasizing capture gains versus economy. This is a Phase 0 accessibility measurement,
 with no hand-built winning-body gate and no automatic memory-admission claim.
+
+## 2026-10-14 — Ordinary mutation study registered in irregular blink
+
+Y tests whether ordinary mutations around the stronger confirmed D90/L92 evolved founders can exploit the
+approved blink environment. Each founder receives 64 mutants under the unchanged mutation policy. All mutants
+and the parent share 32 screening lives; both selected mutant rows are frozen before mutant/parent comparisons
+on 512 fresh paired lives. There is no intermediate rescore. Blocks117/118/119 and mutation RNG 53117/53118
+are registered after the namespace review found no overlap with prior scientific seeds or reservations.
+
+The fixed scope is **6,208 research plus ten validation lives**, with one two-thread worker and a **5,400
+CPU-second cap**. Startup and screens are capped at 3,400, reserving 2,000 for confirmation and cleanup.
+Eight ABI4 calibration lives must support the unchanged scope before screening; two retained numerical goldens
+also count in startup. Guard/extinction penalties and all ordinary costs remain in fitness. The additional
+low-light readout carries no reward. Exact growing founders, mutation operations, all raw ledger columns and
+fresh paired comparisons will distinguish capture income from economy.
+
+This is a bounded accessibility diagnostic motivated by X2's capture-driven information payoff. It does not
+require a hand-built winning body, prescribe an organism algorithm, or claim memory from dark captures alone.
+Both fixed panels reproduce exactly under genetic replay. All 44 preparation checks and 165 independent
+analysis/accounting tests pass without simulation or compilation. The prospective record is preserved at
+`results/visibility_gradient_20261014/`; no large selection matrix or paid compute is released.

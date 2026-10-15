@@ -1,0 +1,60 @@
+{
+  "status": "source_only_plan_review_implementation_pending",
+  "simulation_calls": 0,
+  "kernel_compilations": 0,
+  "mutants_generated": 0,
+  "X2_outcomes_read": false,
+  "concrete_plan_sha256": "4bfa2be58fcebb14f90b1d390edb152e6c85bca3d48b5c465af2b11b49fa4be6",
+  "scope": {
+    "screen": 4160,
+    "confirmation": 2048,
+    "calibration": 8,
+    "goldens": 2,
+    "total_lives": 6218,
+    "workers": 1,
+    "threads": 2,
+    "startup_screen_cap": 3400,
+    "total_cap": 5400
+  },
+  "narrow_reuse": [
+    "Reuse unchanged make_mutants (64 ordinary mutants per founder, preserve duplicates), whole-mean ranking with row-index ties, atomic raw rows, and paired production-score accounting. Omit the old top4/rescore stage as explicitly planned.",
+    "Study-local adapter must bind its own V4 COLS and score_row: old RowStore imports V3 helpers globally. Replace V3 packing/run/Lives/57-column shape assumptions at taskvar_confirm.py:34,134-149; use 875 genome entries and float64[n,58] raw ledger.",
+    "life.abi=4 is required before evaluator construction; retain unchanged BODY genome fields and exactly compare derived world against approved_blink_world.json. Remove inherited POOL/fast-conduction overrides as already planned.",
+    "Keep production extinction and guard charges, plus raw F_kernel. Preserve low_light_captures index57 only as a diagnostic. Reject capacity/mismatch/nonfinite or unexplained short lives; retain natural death and legitimate guards with their penalties.",
+    "External owned-group monitor is the aggregate cap authority. Old per-parent RowStore process_time counts do not cover compiler children or enforce total budget."
+  ],
+  "specific_startup_findings": [
+    {
+      "source": "src/life/evaluate.py:119",
+      "finding": "LifeEvaluator construction validates configuration but calls no kernel builder or life runner."
+    },
+    {
+      "source": "src/checkpoint.py:82",
+      "finding": "Each successful numerical_identity invocation requests full and fast libraries, then executes golden_life. Function is not cached."
+    },
+    {
+      "source": "src/checkpoint.py:56",
+      "finding": "golden_life calls build.run twice: full then fast on fixed seed11,T200,ABI3 compatibility world. Count exactly2 completed lives on success; record partial count if an earlier step fails."
+    },
+    {
+      "source": "src/life/evaluate.py:230",
+      "finding": "kernel_threads can increase configured threads from CELLDEV_THREADS_FILE. Prefer explicit build.run threads=2 or reject/sanitize inherited elastic-thread file."
+    }
+  ],
+  "release_conditions": [
+    "Invoke numerical_identity exactly once inside the monitored worker startup; never in zero-run preparation or per founder/stage.",
+    "Freeze both selected mutant byte hashes before either fresh confirmation.",
+    "Source implementation and registered seeds remain to be reviewed; this receipt approves no launch and introduces no tests."
+  ],
+  "source_sha256": {
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "src/life/build.py": "bb15a7fecf19c6c15a1822fc291b4a100ca59ba462da296bcab24bca0af7e811",
+    "scripts/taskvar_confirm.py": "531e0d281ce0261e240101e74b346828eabda279a8d70018a0e1e19f6681cfc4",
+    "scripts/taskvar_second_step.py": "aa19ea6d34f98c6576b80e9221b355e5c4a0f85751f739338a662f6d05f635d2",
+    "scripts/taskvar_gradient.py": "7bfaec88b7db57213496fdeab9cdedf1705ae43bc1f1622da7a0fe4438507aae",
+    "scripts/taskvar_gates.py": "31c154ccd5ec91ebe4b239df13243d007613a423c21ca159e52fc575c0f38647",
+    "results/decoy_gradient_20261014/measure.py": "ed570e9d61923748ef4d25219e946034eab6900f97678873284dfeb027a292d9"
+  }
+}

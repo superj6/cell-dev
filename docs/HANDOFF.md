@@ -62,8 +62,18 @@ All 13,312 research and 82 validation lives completed in 1,348.464197 CPU-second
 use is 1,349.180745. All processes exited. The original analyzer incorrectly counted initial cells as births;
 the separate corrected accountant has source reviews, actual validation regressions and 164 passing tests.
 Both versions and unchanged data are archived at `results/visibility_information_x2_20261014/`.
-A one-world ordinary-mutant diagnostic around confirmed D90/L92 endpoints is being prepared for blink;
+A one-world ordinary-mutant diagnostic around confirmed D90/L92 endpoints is registered for blink;
 it is a Phase 0 accessibility study, not a memory claim or a large selection rollout.
+
+**Y registered (2026-10-14).** Each exact D90/L92 founder receives 64 ordinary mutants, screened with its
+parent on 32 shared lives. Both selected mutant rows are frozen before either mutant/parent comparison on
+512 fresh paired lives. Blocks117/118/119 supply screen/confirmation/calibration seeds; mutation RNG seeds
+are 53117/53118. The fixed scope is 6,208 research plus ten validation lives under 5,400 CPU-seconds, with
+startup/screening capped at 3,400 to reserve 2,000 for confirmation and cleanup. Calibration must support the
+unchanged scope before screening. All growing-body costs, guard and extinction penalties remain in fitness;
+low-light captures add no reward. Prospective evidence is in `results/visibility_gradient_20261014/`.
+No simulation has run at this registration. Gains will be decomposed into capture income and cost savings;
+neither fitness gains nor dark captures alone establish memory or a new algorithm.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

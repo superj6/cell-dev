@@ -1,0 +1,24 @@
+{
+  "status": "approved_row_accounting_component",
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "new_tests_run": 0,
+  "pins": {
+    "outputs/audit_visibility_gradient_20261014/offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "outputs/audit_visibility_gradient_20261014/test_offline_accounting.py": "6907d44aed1114c0b2b48e429acc657c59e86d00665be550a2051cbe9d6f83c7",
+    "outputs/audit_visibility_gradient_20261014/archived_growth_accounting_check.json": "686dc30cd00bcf7bfa64f3758b501c1befaa87ddb5c34f760106c259726bad2e",
+    "src/life/spec.py": "2a3d55ec9447c38299514b146afe08e207f4e85beb96ec7938a05bc3a97db0fc",
+    "src/life/kernel.c": "3b683af571ecda2faccbd1ab2506250095b8d30e9218e8d8e5d4528866cd8683",
+    "src/life/evaluate.py": "13d1d75678c2de99edf7064af0fea30d6c1a59917fcb3251be4e9d6f64aaa9a2"
+  },
+  "review_checks": [
+    "All58 literal ledger labels and indices equal current production V4 exactly; no scratch aliases.",
+    "Independent ordinary prices use the same left-to-right kernel order and exact accumulated-cost mismatch tolerance.",
+    "Guard and extinction charges remain separate, natural death/valid guards retained, invalid capacity/mismatch rejected.",
+    "Correct initial1+births-deaths-kills census and separately counted dropped/delivered arrivals and reject types; no static-body assumption.",
+    "Raw kernelF versus named productionF is checked; each raw/named ledger field must be byte-identical except namedF includes the extinction charge.",
+    "Paired income/cost/guard/extinction decomposition has correct signs and reconciles productionF; low-light/bright counts remain diagnostics.",
+    "Historical growing-founder compatibility receipt explicitly labels appendedzero visibility count synthetic; no newblink evidence claimed."
+  ],
+  "scope_limit": "This approves the row accountant only. Final archive validation must bind exact protocol/candidate/source identities, ordered seeds, complete rows, phase receipts and aggregate resource evidence."
+}

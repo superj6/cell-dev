@@ -1,0 +1,75 @@
+{
+  "status": "final_namespace_clear_for_root_registration",
+  "reserved": false,
+  "simulation_calls": 0,
+  "seed_reservations": [],
+  "candidate_blocks": [
+    117,
+    118,
+    119
+  ],
+  "base": 51000000,
+  "stride": 10000,
+  "whole_blocks_half_open": [
+    [
+      52170000,
+      52180000
+    ],
+    [
+      52180000,
+      52190000
+    ],
+    [
+      52190000,
+      52200000
+    ]
+  ],
+  "mutation_rng": {
+    "D90": 53117,
+    "L92": 53118
+  },
+  "inventory_sha256": "4e49e2d199aa55c79644dee0754a3a93ddcf449fdaac50d3a066b9bc15096361",
+  "inventory_helper_sha256": "3dba6632c98c5feb3d4e3c24fb7986311d74bee411870c1c8e678f91f13ffa1f",
+  "json_files_scanned": 45663,
+  "npz_files_inspected": 59360,
+  "npz_seed_arrays_scanned": 7666,
+  "literal_numeric_matches": 600,
+  "match_classification": "Every match was checked in its original JSON tree and equals the final component of [52160000,52170000], the exclusive endpoint of prior block116. None is a seed array entry or overlapping interval.",
+  "actual_numeric_seed_or_reserved_interval_overlap": false,
+  "text_matches": 16,
+  "text_review": "All block117/118/119 formula declarations found outside own Y preparation/audit refer to retained memory harness base43000000 (actual44170000..44200000), disjoint from proposed Y52170000..52200000. No mutation53117/53118 declaration was found.",
+  "text_scan_output_sha256": "da89dbeb394b37ff78d0656b2cd45e8a19a698e5aafadd998df693bcf5b195d6",
+  "text_source_sha256": {
+    "outputs/abi4_visibility_20261014/results/open_headroom/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "outputs/autonomous_visibility_information_20261014/original/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "outputs/autonomous_visibility_information_x2_20261014/original/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "outputs/openhr/memory/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "outputs/openhr/memory/recovered_orig/mcommon.py": "90ae91090e056d2649914fcaa33831f0e54577ca86b1c5e6ea56b02735438509",
+    "outputs/openhr/memory/recovered_orig/rescore.py": "5eb586a4b76334261ff31696090118bf43deb23fecdec4c986f4ae6032291d1b",
+    "outputs/openhr/memory/rescore.py": "20709c413d634eefce1f37759a129152ddb7ccd458cab0bf94e8bb0e332d3faa",
+    "outputs/openhr/memory/retune_reflex_mem.py": "2156842e36f4a8e0de537d012e06ee02e0eb88e62241c5e37ccb55beb511dcab",
+    "outputs/openhr/memory/t0_sanity.py": "caa950dc49cd0cad3c6b3b6b2e6c712dd3db1425a7bf0c7248b0a410e7eef286",
+    "outputs/openhr/memory/t2_explore.py": "3861cb1108cda8f711c4c7047fbd883e282dde8f30354fc2fb39fa38da0939c7",
+    "outputs/openhr/memory/t6_score.py": "5adb2fcd1aa954593431273f220361eea3cad0ae844af38e6295682213a57970",
+    "results/open_headroom/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "results/visibility_information_20261014/original/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "results/visibility_information_20261014/original/results/open_headroom/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "results/visibility_information_x2_20261014/original/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "results/visibility_information_x2_20261014/original/results/open_headroom/controllers/mcommon.py": "87f421c4b840ca95e3875f2a097d4a4b557b3c6a845d9f414301d281ae6a9233",
+    "results/open_headroom/harness/harness.py": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de"
+  },
+  "malformed_nonfixture_json": [
+    {
+      "path": "outputs/autonomous_visibility_information_x2_20261014/reanalysis_console.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interpretation": "Empty stdout capture from frozen failed first analyzer, contains no seed data."
+    }
+  ],
+  "unexplained_malformed_real_json": 0,
+  "npz_real_errors": 0,
+  "synthetic_malformed_json": 6098,
+  "synthetic_invalid_npz": 130,
+  "exclusions": "Own gradient audit and original X preparation excluded by retained inventory helper. Original X seedmatrix was independently shown identical to X2 and uses113/116. Y preparation currently contains only source/docs and no protocol/panels or simulations.",
+  "next_step": "Root may register these fixed namespaces; this review itself does not reserve or generate them."
+}

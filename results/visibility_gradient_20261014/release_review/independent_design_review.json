@@ -1,0 +1,56 @@
+{
+  "status": "conditional_scientific_review_only",
+  "research_simulations": 0,
+  "new_tests": 0,
+  "mutants_generated": 0,
+  "X2_partial_results_read": false,
+  "proposal_sha256": "4684dc1372486eccec4d8ad42685c0d89bfd6a85157ea6772fb4baa01f470d37",
+  "proposal_json_sha256": "94f3e2f137e31e6ec249f19d8cbc21f79ae50b90778317cb88a3f4958c9f438e",
+  "recommendation": "Prefer one irregular-blink world if complete X2 shows useful sensory payoff; ordinary D90/L92 mutant panel is a bounded accessibility diagnostic before short evolutionary continuation.",
+  "historical_endpoint_costs": {
+    "D90": {
+      "source": "outputs/autonomous_continuation_20261013/confirmation/1024/row_0003.npz",
+      "sha256": "2eb8ab0c2d9e5ca29a3241cbe7ac5d3a81e8d8be21825874b0854506b475a682",
+      "lives": 256,
+      "cpu_seconds": 81.25963949800001,
+      "cpu_per_life": 0.31742046678906255
+    },
+    "L92": {
+      "source": "outputs/autonomous_s7_20261014/confirmation/1024/row_0003.npz",
+      "sha256": "ed77c9f450392858e140625c17b9647e51f44134c9669b2052641d7c05bbe5ef",
+      "lives": 256,
+      "cpu_seconds": 45.85436220499997,
+      "cpu_per_life": 0.17911860236328114
+    }
+  },
+  "equal_cost_projection_not_a_visibility_prediction": {
+    "screen_cpu_seconds": 1032.8012638368748,
+    "confirmation_cpu_seconds": 508.45600681199994,
+    "research_cpu_seconds": 1541.2572706488747,
+    "screen_cap_multiple": 3.2920176601730136,
+    "confirmation_reserve_multiple": 3.933476983662608,
+    "total_cap_multiple": 3.503633107097416
+  },
+  "planned_calls": {
+    "screen": 4160,
+    "confirmation": 2048,
+    "calibration": 8,
+    "numerical_golden": 2,
+    "total": 6218
+  },
+  "required_clarifications_before_release": [
+    "Use the production mutation accountant: preserve F_kernel, extinction charge and guard charges separately; growing/dead/guarded mutants cannot use X2 static-body rejection rules.",
+    "Enforce aggregate startup+screen3400 and total5400 in the external monitor. RowStore per-row checks alone cannot preserve the2000 confirmation/cleanup reserve.",
+    "Register calibration feasibility rule before seeing values. Eight fixed lives are a rough cost estimate and cannot upper-bound 128 untested mutants or selected winners.",
+    "Record exactly which call performs the two T200 goldens and prevent repeated numerical_identity calls from adding implicit simulation lives.",
+    "Freeze both winner IDs after all128mutants are screened, before either confirmation; retain null/negative outcomes and declarewhole-study incomplete if fixed scope cannot complete."
+  ],
+  "interpretation_limits": [
+    "This tests accessible local fitness/capture improvement, not emergence of memory or a sophisticated algorithm.",
+    "More low-light captures can result from more cells, continued motion, chance interception, altered firing or fewer misses; report allcapture/cost/body-size components without imposing a newselectionobjective.",
+    "Historical D/L values are from fastPOOL; newold-conduction visibility transfer is unmeasured. Size alone doesnot establish computational sophistication.",
+    "A32-seedbestof64 screen maymiss usefulmutants orselectnoise; fresh512confirmation estimatesonlythese selectedeffects. Nullconfirmation cannot prove absence ofusefuldirections.",
+    "No founder orconstructedbody score is a worldadmission requirement; specific temporalmechanism evidence canremainincomplete while ordinaryevolution proceeds.",
+    "Do not automatically run bothworlds, originalpilotpanels, or durationextensions."
+  ]
+}

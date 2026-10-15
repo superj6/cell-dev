@@ -1,0 +1,44 @@
+{
+  "status": "approved_prospective_complete_study_analysis",
+  "protocol_sha256": "1880ff6e21b4689031e892d9dc6765a8d9673a35efeefb213acf268f5370adf4",
+  "science_simulation_calls": 0,
+  "compiled_libraries": 0,
+  "registered_panels_unchanged": true,
+  "tests_passed": {
+    "complete_analysis_test_results.xml": 22,
+    "offline_test_results.xml": 143
+  },
+  "total_tests_passed": 165,
+  "ruff": "pass",
+  "reused_row_accountant": {
+    "path": "results/decoy_gradient_20261014/offline_accounting.py",
+    "sha256": "4e6800a092455649357cbd411b1352afcd3e4f82f6119ce7b597f068edd8df6c"
+  },
+  "source_and_evidence_pins": {
+    "analyze.py": "1f8bc838666f6ba2e58e8a64aac4506fc2a94488850d50a20de29c06120449d7",
+    "offline_accounting.py": "7d61ecfbc8c3ae96f3808655901a04c3542c6418fea5d6cc5f696afe22836421",
+    "genetic_replay.py": "06a9e1b996789956510e498632f9c82d7cae9a52118be30284aedbab7d33ddec",
+    "genetic_replay.json": "a0344e664e5b8a3d8eb13c771f22366dae919c38ec471da74df5ec5b34e6a533",
+    "genetic_replay_execution.txt": "e4a948283264b0789b43fe97723d51be0d5dd94bdd70ecdf3cb6467ce973c78c",
+    "test_analyze.py": "265156855decd9427e40fac3a67e7b31089852797b2c9f26b9016324edce360d",
+    "test_offline_accounting.py": "6907d44aed1114c0b2b48e429acc657c59e86d00665be550a2051cbe9d6f83c7",
+    "complete_analysis_test_results.xml": "5d41a31bbd0e8a596426b79a6539c93d3d8c1ab3c2afd49d25ceabebb285a1d0",
+    "complete_analysis_test_execution.txt": "e2289c230135b682d66e48107f8caab30f5b37878e8daf2e9fb92df9aebb1375",
+    "offline_test_results.xml": "87ff765179d6b48cee2db5880a14c368fbbe59046b2c69fa9d283eb66f6e756b",
+    "offline_test_execution.txt": "91dcb8076ccd39d3b7c026c953d5a5e2a9df3a2cebbe5c2c4aab69bb5eb45838",
+    "archived_growth_accounting_check.json": "686dc30cd00bcf7bfa64f3758b501c1befaa87ddb5c34f760106c259726bad2e",
+    "offline_accounting_review.json": "ccb0372369742c2d91e03f53fde43e47158f26de0dd386ead90b8a8366d8195d",
+    "analyzer_peer_review.json": "cf967bb69440fada2284c5ad9815bb43a87c020aab18cc4937a08b20755445a8",
+    "ACCOUNTING_REVIEW.md": "c32f59400a2458023ca1dc1d05ed0df4b17ac1c1782083f50525a7e703450995",
+    "ANALYSIS_README.md": "42d76c6c968be257a9ad9678eb59f20bc01862f6e7273464833c4d2ceef1c230",
+    "lint_execution.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "genetic_replay": {
+    "final_rows_replayed": 130,
+    "final_mutation_replay_calls": 2,
+    "simulation_calls": 0,
+    "compilation_calls": 0,
+    "prior_audit_only_replay": "Initial130-row replay also passed; script/receipt preserved under *_original in audit directory before portable-source-root correction. Registered panels were never rewritten."
+  },
+  "scope": "Both full original65-row screens, two frozen whole-row winners,4x512 confirmation,8calibration+2retainedgoldens; exact first attempt and phase accounting required. No outcomes from partial or corrupt data."
+}

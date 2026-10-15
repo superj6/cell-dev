@@ -1239,3 +1239,40 @@ so adding X's failed startup gives maxima 3,599.716548/179.716548, below the ori
 X2 retains its own first-attempt lock, no resume/replacement, complete-batch analysis and process cleanup.
 Its resource clearance binds X's terminal budget in addition to U/V. At this amendment, X2 has compiled no
 library and simulated no life. The real fixed validation package still precedes every research row.
+
+### Y. Ordinary mutation accessibility in irregular blink (2026-10-14)
+
+Complete X2 evidence supports useful information payoff in both approved visibility worlds. This bounded
+diagnostic selects irregular blink, where the cue disappears, without requiring a constructed body or evolved
+founder to win. It measures accessible ordinary mutations around the exact confirmed D90 and L92 endpoints
+(rows 3 of the D/L confirmation genotype arrays), not a memory mechanism or a large selection rollout.
+
+Each background receives the unchanged ordinary mutation policy: 64 mutants, two scaled mutations, cell
+probability .5, and no duplication/deletion/split. Preserve duplicate/no-op mutants. Generate each panel once
+with RNG seeds 53117/53118 and freeze all 65 rows and operations before scoring. Both panels and their parents
+share 32 screen seeds from block 117 (52,170,000–52,170,031). Select the highest mean production F among rows 1–64
+within each background, breaking ties by row order, even if its parent comparison is negative. Freeze both
+winners before either confirmation. Each winner and its own parent share 512 fresh block 118 seeds
+(52,180,000–52,180,511); no rescore stage or endpoint replacement is included.
+
+The exact production ABI4 blink preset at T1024 retains ordinary conduction and SPECK prices. Old founder
+POOL/fast-conduction overrides are removed in explicit derived configs; original configs remain archived.
+Every raw 58-column ledger, ordinary guard/extinction penalty and cost component is retained. Primary
+comparisons are paired mutant-minus-own-parent F, separately for D90/L92. Report captures, dark/bright
+captures, capture income, cost savings, body size and activity. More dark captures alone cannot distinguish
+memory from coasting, chance or morphology; an unresolved confirmation does not prove no useful mutation exists.
+
+The first-attempt-only limit is 5,400 cumulative CPU-seconds with one two-thread worker. Startup and screens
+have a 3,400-second ceiling, leaving 2,000 for confirmation and cleanup; both have ten-second stopping margins.
+Scope is 6,208 research plus ten validation lives. Startup calls the existing numerical identity once, including
+two deliberate ABI3 seed 11/T200 goldens, then evaluates each parent and its predetermined first mutant on
+block 119 seeds 52,190,000/1 (eight ABI4 calibration lives). Compilation, startup, failures, monitor and descendants
+count. Expected source/runtime metadata is pinned beforehand; newly captured library/golden hashes are
+identified as such rather than described as independently replayed proof.
+
+Calibration uses each background's larger parent/first-mutant CPU per life. With a 1.5 safety factor, observed
+startup/calibration plus projected screening must fit 3,390 seconds, and projected confirmation must fit 1,990.
+Otherwise the unchanged study stops incomplete before screening. These rates cannot bound unseen mutants;
+aggregate caps remain enforced. No automatic retry, resume, scope reduction, sample replacement or budget
+extension is allowed. Complete fixed coverage and independent raw/genetic/accounting checks precede inference.
+Prospective artifacts are preserved at `results/visibility_gradient_20261014/`; preparation runs no simulations.

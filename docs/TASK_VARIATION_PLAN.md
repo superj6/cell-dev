@@ -67,6 +67,16 @@ correction preserves both analyzer versions and all data in `results/visibility_
 The next preparation is one blink mutation diagnostic around stronger evolved D90/L92 founders, testing
 accessible capture gains without a constructed-body gate or automatic capability-specific admission.
 
+*2026-10-14 Y registered:* the one-world blink diagnostic gives each exact D90/L92 founder 64 ordinary mutants
+on 32 screen lives, then compares its selected mutant and parent on 512 fresh paired lives. Both winners are
+fixed before confirmation. Blocks117/118/119 and mutation RNG 53117/53118 are registered; full scope is 6,208
+research plus ten validation lives under 5,400 CPU-seconds. Startup/screens have a 3,400-second ceiling and
+calibration must support the unchanged scope, preserving 2,000 seconds for confirmation and cleanup. Growing
+body costs and guard/extinction penalties remain in fitness; low-light captures add no reward. This tests
+accessible adaptation and capture income versus economy, without claiming memory from dark captures alone.
+No Y simulation has run at preparation; frozen inputs, exact genetic replay and independent analysis are in
+`results/visibility_gradient_20261014/`.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.
