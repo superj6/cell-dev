@@ -1,0 +1,20 @@
+{
+  "status": "passed_source_review_no_rerun",
+  "reviewed": {
+    "outputs/cost_incentives_20261015/al_posthoc/analyze.py": "3cd582469ce03583ec89713f602b75efd9cad9578752f7f21a8303668b4579e9",
+    "outputs/cost_incentives_20261015/al_posthoc/analysis_result/summary.json": "1836b12ba8f9f90a12e5d036773a2a99b5e76fe25394e3cf84ccb4ee0f78a85f",
+    "outputs/cost_incentives_20261015/al_posthoc/README.md": "aa7b94c42d5782e76b63f30d9d89ac16cfd0b6b471afb43bb662cc33aea7ec05"
+  },
+  "checks": [
+    "Positive selected-charge sign is correct.",
+    "F_counter = F + (1-scale)*charge; per-seed pairing precedes SE.",
+    "Break-even point1+deltaF/deltaCharge is a descriptive score crossing, not an optimum.",
+    "Both displayed cost fractions are ratios of mean charges.",
+    "All observed AL statuses0 permit fixed guard/extinction bookkeeping without changing these repriced numbers.",
+    "No engine or evolution is invoked; same observed lives reused."
+  ],
+  "limits": [
+    "Independent source/math review, not a repeated full raw recount.",
+    "No conclusion about future genotype trajectories or optimal prices."
+  ]
+}

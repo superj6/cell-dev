@@ -3553,3 +3553,68 @@ parent base scores or exact tie permutations, so ranking claims remain limited t
 Protocol: `25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf`.
 Prospective evidence: `results/retention_selection_20261015/`; exact scope: `docs/TWO_CONTEXT_RETENTION_PILOT.md`.
 Publication and final actual-input review precede root runtime release. No AL research life has run at registration.
+
+## 2026-10-15 — AL complete: ancestral capture recovery at extra cost; persistent retention unresolved
+
+Fixed two-task selection improves POOL captures over its AI start by **3.683594 ± 0.298366 per life**. Mean
+captures rise **11.324 → 15.008**, while the persistent-only branch falls to **4.504**. The primary mixture-minus-
+control effect is **10.503906 ± 0.296786**; the separate own-start gain shows actual partial recovery beyond
+control deterioration. This experiment includes no fresh original L92 reference and does not establish full
+ancestral restoration.
+
+Persistent captures are **4.765625 → 4.687500** for start → mixture, a change of **−0.078125 ± 0.199511**.
+The 90% retention margin is **+0.398438 ± 0.189813**, lower three-SE bound **−0.171000**: retention remains
+unresolved despite the 98.36% mean ratio. Mixture-minus-start captures also remain unresolved in brief darkness
+(−0.101562 ± 0.183552) and the untrained turn-plus-darkness combination (−0.011719 ± 0.162366). There is no
+strict simultaneous gain, memory, new algorithm or broad generalization claim. All revealed cases become
+development data.
+
+Mixture POOL F rises **1.203470 ± 0.142712**, from **1.798630** additional capture income despite **0.595160**
+extra ordinary cost. Persistent F falls **0.687747 ± 0.096043**, chiefly because ordinary costs rise **0.649600**.
+Mean terminal cells grow from about **59 to 83** in POOL and **65 to 90** in persistent. More cells, spikes or
+hidden cells do not establish richer circuitry. Whole-genome development differences prevent a size-causality claim.
+
+The persistent-only endpoint loses **2.636719 ± 0.160385 persistent captures** and **0.331624 ± 0.076098 F**
+despite cost saving. Its poor result therefore cannot be explained solely as optimizing economy successfully;
+sparse selection and evolutionary noise remain plausible contributors. This is one paired four-generation search.
+
+All **13,388 research + eight startup calls** complete in **1,098.051813 CPU /450.990839 wall seconds**, with
+peak sampled owned RSS **324,759,552 bytes** (about 310 MiB). Four process identities and three groups are clear.
+All 3,072 confirmation statuses are zero; four control and two mixture initial guarded search lives retain their
+penalties. Each arm's 896 offspring, 1,792 point additions and all 32 final genomes/origins replay bytewise.
+Logged pooled selection passes; omitted unsuccessful-parent scores and tie permutations limit initial-ranking
+verification. The frozen reader and independent literal accountant agree exactly on all **2,254 vectors** and
+independent summary/vector bytes match. No retry, extension or paid compute.
+
+Evidence and figure: `results/retention_selection_20261015/REPORT.md`. Prospective commits `da2a01f`, `6ad0266`;
+protocol `25575f9e…ad19bf`; summary `29e46492…d5555`; budget `e7602ddc…69d00`.
+
+## 2026-10-15 — Cost incentives and watchable AL outcomes
+
+The user explicitly asks whether cost penalties encourage the intended capabilities. Post hoc analysis of AL's
+unchanged saved trajectories shows maintenance is **79.36%** of the mixture's persistent ordinary cost, while
+spikes plus messages are **0.72%**. Mixture beats the small control by **2.558594 ± 0.160285 captures** but loses
+**0.356124 ± 0.075793 F** under current prices. Halving all ordinary charges changes that fixed-trajectory F
+contrast to **+0.446595 ± 0.076461**; halving living cost alone gives **+0.297835 ± 0.075940**. Reducing spike/message
+charges to one quarter barely changes it (**−0.345725 ± 0.075851**).
+
+This is ranking sensitivity, not an optimal price or a prediction of evolution. Mixture's persistent point-estimate
+F still trails AI start under every requested nonnegative multiplier because its capture change is unresolved
+and its costs are higher. All four contexts, original charges, 12 contrasts and 240 absolute/paired vectors are
+retained. Root independently reconstructs every vector from raw cost/live-time/spike/contact columns, agreeing
+within 5.31e-13. No new life, genetic draw, compiler call or production-price change. Evidence:
+`results/cost_incentives_20261015/al_posthoc/`.
+
+`results/atlas/retention_selection.html` shows the three fixed AL roles in POOL and persistent, starts paused,
+and keeps both full 256-life aggregate comparisons visible. First-seed illustrations at52,390,000 give captures
+**12 /5 /13** in POOL and **2 /5 /2** in persistent; the latter deliberately differs from the aggregate ordering.
+All six existing JS lives match **342 C ledger values** bitwise, using **8.367305 child CPU /6.976489 wall seconds**
+and **97,071,104 bytes** peak RSS. Host cleanup passes; 106 mock UI checks pass and no real browser was run.
+No new C/Python research lives. Engine and LGPL notice are preserved in `results/al_watchable_20261015/`.
+
+AM is being prepared as a local incentive comparison from all 32 AL-mixture survivors: current capture value500
+versus2,000 during fixed two-task selection, with all penalties unchanged and more evaluation lives in both arms.
+Fresh confirmation uses common original prices and includes both earlier AI and AL starts. Report captures,
+retention, full physical cost and click accuracy; extra bodies or blind clicks are plausible outcomes, not algorithmic
+progress. No AM run is launched by this milestone. Safe local experimentation is authorized; report if meaningful
+progress appears to require substantially more resources.

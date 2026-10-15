@@ -1,0 +1,1890 @@
+{
+  "status": "passed",
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "budget_sha256": "e7602ddcba63abfd721d15eedc0c3599229f82ef7783c8b19fdb68cea5b69d00",
+  "clearance_sha256": "85628abf731e21d0cb9e6909ef4615d174051ce1c9aa2424368ca0164f2da355",
+  "script_sha256": "d0ba8b184e336e673e0f43cd0850d32af7a71eb4bb628edaf06962f0716d97a7",
+  "analyzer_sha256": "1152fbef215aad60f09b010fb8308f3b908aa36fc995dcbab7921a1e5dc05302",
+  "canonical_summary_sha256": "29e464929a7ab43e404688e939de81a4bfdb7bbafd48b9220225f443669d5555",
+  "canonical_arrays_sha256": "325c72793e7a20810af3384de3eb9fa6e07d41820b7ba80657d7480ac24ce2bf",
+  "raw_rows": 12,
+  "raw_confirmation_lives": 3072,
+  "native_search_research_lives": 10316,
+  "research_lives": 13388,
+  "startup_lives": 8,
+  "total_calls": 13396,
+  "native_counts_and_summary_health": {
+    "persistent_control": {
+      "research_lives": 5158,
+      "startup_lives": 2,
+      "count_proof": {
+        "selection": 5120,
+        "valid": 32,
+        "final": 6,
+        "half_duration": 2,
+        "native_evals": 1280,
+        "generations": 4,
+        "children_per_generation": 224
+      },
+      "aggregate_health": {
+        "pop_invalid": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pop_mismatch": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "recheck_invalid": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pop_guard": [
+          0.00390625,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_guard_rate": 0.0,
+        "guard_scope": "Recorded aggregate guards retain native penalties; full per-life search status is not retained."
+      },
+      "limitation": "Native summaries, not complete per-life raw search ledgers."
+    },
+    "balanced_mixture": {
+      "research_lives": 5158,
+      "startup_lives": 2,
+      "count_proof": {
+        "selection": 5120,
+        "valid": 32,
+        "final": 6,
+        "half_duration": 2,
+        "native_evals": 1280,
+        "generations": 4,
+        "children_per_generation": 224
+      },
+      "aggregate_health": {
+        "pop_invalid": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pop_mismatch": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "recheck_invalid": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pop_guard": [
+          0.001953125,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_guard_rate": 0.0,
+        "guard_scope": "Recorded aggregate guards retain native penalties; full per-life search status is not retained."
+      },
+      "limitation": "Native summaries, not complete per-life raw search ledgers."
+    }
+  },
+  "literal_vectors_checked": 2254,
+  "max_literal_absolute_error": 0.0,
+  "canonical_frozen_reanalysis_exact_bytes": true,
+  "status_counts": {
+    "pool": {
+      "AI_control_start": {
+        "0": 256
+      },
+      "persistent_control_final": {
+        "0": 256
+      },
+      "mixture_final": {
+        "0": 256
+      }
+    },
+    "persistent": {
+      "AI_control_start": {
+        "0": 256
+      },
+      "persistent_control_final": {
+        "0": 256
+      },
+      "mixture_final": {
+        "0": 256
+      }
+    },
+    "blink80_5": {
+      "AI_control_start": {
+        "0": 256
+      },
+      "persistent_control_final": {
+        "0": 256
+      },
+      "mixture_final": {
+        "0": 256
+      }
+    },
+    "turn100_blink80_5": {
+      "AI_control_start": {
+        "0": 256
+      },
+      "persistent_control_final": {
+        "0": 256
+      },
+      "mixture_final": {
+        "0": 256
+      }
+    }
+  },
+  "row_cpu_seconds": 249.27691125700002,
+  "total_cpu_seconds": 1098.051813,
+  "total_wall_seconds": 450.99083856299694,
+  "search_cpu_seconds": 782.27063,
+  "confirmation_cpu_seconds": 315.78118300000006,
+  "effects": {
+    "within__pool__persistent_control_final_minus_AI_control_start__F": {
+      "mean": -2.5374756674118295,
+      "se": 0.12340954381757625,
+      "n": 256,
+      "lower_3se": -2.9077042988645583,
+      "upper_3se": -2.1672470359591007,
+      "positive_above_3se": false
+    },
+    "within__pool__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": -6.8203125,
+      "se": 0.26266143422436233,
+      "n": 256,
+      "lower_3se": -7.608296802673087,
+      "upper_3se": -6.032328197326913,
+      "positive_above_3se": false
+    },
+    "within__pool__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": -3.330230712890625,
+      "se": 0.12825265342986442,
+      "n": 256,
+      "lower_3se": -3.714988673180218,
+      "upper_3se": -2.945472752601032,
+      "positive_above_3se": false
+    },
+    "within__pool__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.7927550454787952,
+      "se": 0.015720923116222165,
+      "n": 256,
+      "lower_3se": 0.7455922761301287,
+      "upper_3se": 0.8399178148274616,
+      "positive_above_3se": true
+    },
+    "within__pool__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_AI_control_start__F": {
+      "mean": 1.2034695670449391,
+      "se": 0.14271191546649542,
+      "n": 256,
+      "lower_3se": 0.7753338206454529,
+      "upper_3se": 1.6316053134444255,
+      "positive_above_3se": true
+    },
+    "within__pool__mixture_final_minus_AI_control_start__captures": {
+      "mean": 3.68359375,
+      "se": 0.29836593097160524,
+      "n": 256,
+      "lower_3se": 2.788495957085184,
+      "upper_3se": 4.578691542914815,
+      "positive_above_3se": true
+    },
+    "within__pool__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": 1.7986297607421875,
+      "se": 0.1456864897322291,
+      "n": 256,
+      "lower_3se": 1.3615702915455001,
+      "upper_3se": 2.235689229938875,
+      "positive_above_3se": true
+    },
+    "within__pool__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.5951601936972483,
+      "se": 0.011790468020920987,
+      "n": 256,
+      "lower_3se": -0.6305315977600112,
+      "upper_3se": -0.5597887896344853,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__F": {
+      "mean": 3.740945234456769,
+      "se": 0.13825972846903015,
+      "n": 256,
+      "lower_3se": 3.3261660490496787,
+      "upper_3se": 4.155724419863859,
+      "positive_above_3se": true
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__captures": {
+      "mean": 10.50390625,
+      "se": 0.2967861991480547,
+      "n": 256,
+      "lower_3se": 9.613547652555836,
+      "upper_3se": 11.394264847444164,
+      "positive_above_3se": true
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": 5.1288604736328125,
+      "se": 0.1449151363027611,
+      "n": 256,
+      "lower_3se": 4.694115064724529,
+      "upper_3se": 5.563605882541096,
+      "positive_above_3se": true
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": -1.3879152391760434,
+      "se": 0.01727118780254269,
+      "n": 256,
+      "lower_3se": -1.4397288025836714,
+      "upper_3se": -1.3361016757684154,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__pool__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__F": {
+      "mean": -0.33162358362832317,
+      "se": 0.07609788778892673,
+      "n": 256,
+      "lower_3se": -0.5599172469951034,
+      "upper_3se": -0.10332992026154297,
+      "positive_above_3se": false
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": -2.63671875,
+      "se": 0.1603847455388526,
+      "n": 256,
+      "lower_3se": -3.1178729866165575,
+      "upper_3se": -2.1555645133834425,
+      "positive_above_3se": false
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": -1.2874603271484375,
+      "se": 0.07831286403264287,
+      "n": 256,
+      "lower_3se": -1.522398919246366,
+      "upper_3se": -1.052521735050509,
+      "positive_above_3se": false
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.9558367435201144,
+      "se": 0.015894282622015473,
+      "n": 256,
+      "lower_3se": 0.908153895654068,
+      "upper_3se": 1.0035195913861608,
+      "positive_above_3se": true
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__F": {
+      "mean": -0.6877472017747597,
+      "se": 0.09604309458367256,
+      "n": 256,
+      "lower_3se": -0.9758764855257773,
+      "upper_3se": -0.39961791802374197,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__captures": {
+      "mean": -0.078125,
+      "se": 0.19951064136320362,
+      "n": 256,
+      "lower_3se": -0.6766569240896109,
+      "upper_3se": 0.5204069240896109,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": -0.03814697265625,
+      "se": 0.09741730535312677,
+      "n": 256,
+      "lower_3se": -0.33039888871563033,
+      "upper_3se": 0.25410494340313033,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.6496002291185097,
+      "se": 0.014550735762786707,
+      "n": 256,
+      "lower_3se": -0.6932524364068698,
+      "upper_3se": -0.6059480218301495,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__F": {
+      "mean": -0.35612361814643645,
+      "se": 0.07579304388910565,
+      "n": 256,
+      "lower_3se": -0.5835027498137534,
+      "upper_3se": -0.12874448647911949,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__captures": {
+      "mean": 2.55859375,
+      "se": 0.16028472548978898,
+      "n": 256,
+      "lower_3se": 2.077739573530633,
+      "upper_3se": 3.039447926469367,
+      "positive_above_3se": true
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": 1.2493133544921875,
+      "se": 0.07826402611806103,
+      "n": 256,
+      "lower_3se": 1.0145212761380045,
+      "upper_3se": 1.4841054328463705,
+      "positive_above_3se": true
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": -1.605436972638624,
+      "se": 0.018827254257977155,
+      "n": 256,
+      "lower_3se": -1.6619187354125553,
+      "upper_3se": -1.5489552098646926,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__persistent__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__F": {
+      "mean": -0.1731259589516656,
+      "se": 0.07558452230869704,
+      "n": 256,
+      "lower_3se": -0.3998795258777567,
+      "upper_3se": 0.053627607974425506,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": -2.296875,
+      "se": 0.15760138640744573,
+      "n": 256,
+      "lower_3se": -2.769679159222337,
+      "upper_3se": -1.824070840777663,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": -0.0625,
+      "se": 0.02444230902734509,
+      "n": 256,
+      "lower_3se": -0.13582692708203525,
+      "upper_3se": 0.010826927082035268,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": -1.12152099609375,
+      "se": 0.07695380195676062,
+      "n": 256,
+      "lower_3se": -1.3523824019640318,
+      "upper_3se": -0.8906595902234682,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.9483950371420843,
+      "se": 0.015879514001158234,
+      "n": 256,
+      "lower_3se": 0.9007564951386096,
+      "upper_3se": 0.996033579145559,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__F": {
+      "mean": -0.6801272096753417,
+      "se": 0.08803429220489666,
+      "n": 256,
+      "lower_3se": -0.9442300862900317,
+      "upper_3se": -0.41602433306065173,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__captures": {
+      "mean": -0.1015625,
+      "se": 0.18355153743961417,
+      "n": 256,
+      "lower_3se": -0.6522171123188425,
+      "upper_3se": 0.4490921123188425,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": -0.02734375,
+      "se": 0.03052055362332513,
+      "n": 256,
+      "lower_3se": -0.11890541086997539,
+      "upper_3se": 0.06421791086997539,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": -0.049591064453125,
+      "se": 0.0896247741404366,
+      "n": 256,
+      "lower_3se": -0.3184653868744348,
+      "upper_3se": 0.21928325796818482,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.6305361452222167,
+      "se": 0.01363020204714761,
+      "n": 256,
+      "lower_3se": -0.6714267513636595,
+      "upper_3se": -0.5896455390807739,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__F": {
+      "mean": -0.5070012507236761,
+      "se": 0.06826416233096505,
+      "n": 256,
+      "lower_3se": -0.7117937377165713,
+      "upper_3se": -0.3022087637307809,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__captures": {
+      "mean": 2.1953125,
+      "se": 0.14509095223671212,
+      "n": 256,
+      "lower_3se": 1.7600396432898635,
+      "upper_3se": 2.6305853567101365,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.03515625,
+      "se": 0.02496431084615164,
+      "n": 256,
+      "lower_3se": -0.039736682538454915,
+      "upper_3se": 0.11004918253845491,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": 1.071929931640625,
+      "se": 0.0708451915218321,
+      "n": 256,
+      "lower_3se": 0.8593943570751288,
+      "upper_3se": 1.2844655062061212,
+      "positive_above_3se": true
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": -1.578931182364301,
+      "se": 0.017665779713536185,
+      "n": 256,
+      "lower_3se": -1.6319285215049097,
+      "upper_3se": -1.5259338432236924,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__blink80_5__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__F": {
+      "mean": -0.09049806650228667,
+      "se": 0.07525624289601221,
+      "n": 256,
+      "lower_3se": -0.3162667951903233,
+      "upper_3se": 0.13527066218574996,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": -2.11328125,
+      "se": 0.15615020557015516,
+      "n": 256,
+      "lower_3se": -2.5817318667104656,
+      "upper_3se": -1.6448306332895344,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": -0.09375,
+      "se": 0.027045599656585796,
+      "n": 256,
+      "lower_3se": -0.1748867989697574,
+      "upper_3se": -0.012613201030242605,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": -1.0318756103515625,
+      "se": 0.07624521756355232,
+      "n": 256,
+      "lower_3se": -1.2606112630422195,
+      "upper_3se": -0.8031399576609055,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.9413775438492757,
+      "se": 0.015933494500881027,
+      "n": 256,
+      "lower_3se": 0.8935770603466326,
+      "upper_3se": 0.9891780273519188,
+      "positive_above_3se": true
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__F": {
+      "mean": -0.6403602272708927,
+      "se": 0.07841242946201953,
+      "n": 256,
+      "lower_3se": -0.8755975156569513,
+      "upper_3se": -0.40512293888483414,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__captures": {
+      "mean": -0.01171875,
+      "se": 0.16236631207747787,
+      "n": 256,
+      "lower_3se": -0.4988176862324336,
+      "upper_3se": 0.4753801862324336,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.02734375,
+      "se": 0.03199087304498186,
+      "n": 256,
+      "lower_3se": -0.06862886913494559,
+      "upper_3se": 0.12331636913494559,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": -0.0057220458984375,
+      "se": 0.07928042581908099,
+      "n": 256,
+      "lower_3se": -0.24356332335568046,
+      "upper_3se": 0.23211923155880546,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.6346381813724553,
+      "se": 0.014458491227868393,
+      "n": 256,
+      "lower_3se": -0.6780136550560605,
+      "upper_3se": -0.5912627076888501,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__F": {
+      "mean": -0.5498621607686061,
+      "se": 0.0675113416418663,
+      "n": 256,
+      "lower_3se": -0.752396185694205,
+      "upper_3se": -0.34732813584300715,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__captures": {
+      "mean": 2.1015625,
+      "se": 0.1409743414088598,
+      "n": 256,
+      "lower_3se": 1.6786394757734207,
+      "upper_3se": 2.5244855242265793,
+      "positive_above_3se": true
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.12109375,
+      "se": 0.02690251491348612,
+      "n": 256,
+      "lower_3se": 0.040386205259541647,
+      "upper_3se": 0.20180129474045835,
+      "positive_above_3se": true
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": 1.026153564453125,
+      "se": 0.06883512764104482,
+      "n": 256,
+      "lower_3se": 0.8196481815299905,
+      "upper_3se": 1.2326589473762595,
+      "positive_above_3se": true
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": -1.576015725221731,
+      "se": 0.018304380153389414,
+      "n": 256,
+      "lower_3se": -1.6309288656818992,
+      "upper_3se": -1.521102584761563,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "within__turn100_blink80_5__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AI_control_start__F": {
+      "mean": 3.3783745440069994,
+      "se": 0.12432594147788459,
+      "n": 256,
+      "lower_3se": 3.0053967195733455,
+      "upper_3se": 3.7513523684406533,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control_start__captures": {
+      "mean": 6.55859375,
+      "se": 0.26053539725982916,
+      "n": 256,
+      "lower_3se": 5.776987558220513,
+      "upper_3se": 7.340199941779487,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AI_control_start__capture_income": {
+      "mean": 3.2024383544921875,
+      "se": 0.12721454944327595,
+      "n": 256,
+      "lower_3se": 2.8207947061623595,
+      "upper_3se": 3.5840820028220155,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control_start__ordinary_cost": {
+      "mean": 0.17593618951481182,
+      "se": 0.012044488332401803,
+      "n": 256,
+      "lower_3se": 0.13980272451760642,
+      "upper_3se": 0.21206965451201723,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__persistent_control_final__F": {
+      "mean": 1.1725224602234927,
+      "se": 0.08702327944293553,
+      "n": 256,
+      "lower_3se": 0.9114526218946861,
+      "upper_3se": 1.4335922985522993,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__persistent_control_final__captures": {
+      "mean": 2.375,
+      "se": 0.1792720848100921,
+      "n": 256,
+      "lower_3se": 1.8371837455697237,
+      "upper_3se": 2.9128162544302763,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__persistent_control_final__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__persistent_control_final__capture_income": {
+      "mean": 1.15966796875,
+      "se": 0.0875351976611778,
+      "n": 256,
+      "lower_3se": 0.8970623757664666,
+      "upper_3se": 1.4222735617335334,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__persistent_control_final__ordinary_cost": {
+      "mean": 0.012854491473492765,
+      "se": 0.007734145730296925,
+      "n": 256,
+      "lower_3se": -0.01034794571739801,
+      "upper_3se": 0.036056928664383536,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__mixture_final__F": {
+      "mean": 5.269591312826698,
+      "se": 0.15063104128857938,
+      "n": 256,
+      "lower_3se": 4.81769818896096,
+      "upper_3se": 5.721484436692436,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__mixture_final__captures": {
+      "mean": 10.3203125,
+      "se": 0.3156394841124282,
+      "n": 256,
+      "lower_3se": 9.373394047662716,
+      "upper_3se": 11.267230952337284,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__mixture_final__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__mixture_final__capture_income": {
+      "mean": 5.039215087890625,
+      "se": 0.15412084185177158,
+      "n": 256,
+      "lower_3se": 4.5768525623353105,
+      "upper_3se": 5.5015776134459395,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__mixture_final__ordinary_cost": {
+      "mean": 0.23037622493607318,
+      "se": 0.018521393752986486,
+      "n": 256,
+      "lower_3se": 0.17481204367711373,
+      "upper_3se": 0.28594040619503264,
+      "positive_above_3se": true
+    },
+    "environment__pool_minus_persistent__mixture_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__pool_minus_persistent__mixture_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__F": {
+      "mean": -2.2058520837835065,
+      "se": 0.1357289222867568,
+      "n": 256,
+      "lower_3se": -2.6130388506437767,
+      "upper_3se": -1.7986653169232363,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": -4.18359375,
+      "se": 0.2820283644820071,
+      "n": 256,
+      "lower_3se": -5.029678843446021,
+      "upper_3se": -3.337508656553979,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": -2.0427703857421875,
+      "se": 0.13770916234473002,
+      "n": 256,
+      "lower_3se": -2.4558978727763776,
+      "upper_3se": -1.6296428987079974,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.16308169804131906,
+      "se": 0.014060460184330806,
+      "n": 256,
+      "lower_3se": -0.20526307859431148,
+      "upper_3se": -0.12090031748832664,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__F": {
+      "mean": 1.8912167688196988,
+      "se": 0.17778443838779656,
+      "n": 256,
+      "lower_3se": 1.357863453656309,
+      "upper_3se": 2.4245700839830886,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__captures": {
+      "mean": 3.76171875,
+      "se": 0.37255051398986355,
+      "n": 256,
+      "lower_3se": 2.6440672080304095,
+      "upper_3se": 4.8793702919695905,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": 1.8367767333984375,
+      "se": 0.18190943065911305,
+      "n": 256,
+      "lower_3se": 1.2910484414210983,
+      "upper_3se": 2.3825050253757767,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.05444003542126133,
+      "se": 0.01780441455156608,
+      "n": 256,
+      "lower_3se": 0.00102679176656309,
+      "upper_3se": 0.10785327907595957,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__F": {
+      "mean": 4.097068852603206,
+      "se": 0.15140363191744374,
+      "n": 256,
+      "lower_3se": 3.6428579568508748,
+      "upper_3se": 4.551279748355537,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__captures": {
+      "mean": 7.9453125,
+      "se": 0.3188144969109211,
+      "n": 256,
+      "lower_3se": 6.988869009267237,
+      "upper_3se": 8.901755990732763,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": 3.879547119140625,
+      "se": 0.1556711410697857,
+      "n": 256,
+      "lower_3se": 3.412533695931268,
+      "upper_3se": 4.346560542349982,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": 0.21752173346258039,
+      "se": 0.019835780796851037,
+      "n": 256,
+      "lower_3se": 0.15801439107202728,
+      "upper_3se": 0.2770290758531335,
+      "positive_above_3se": true
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__pool_minus_persistent__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__F": {
+      "mean": -0.21951093775343564,
+      "se": 0.058364560493085464,
+      "n": 256,
+      "lower_3se": -0.394604619232692,
+      "upper_3se": -0.04441725627417925,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__captures": {
+      "mean": -0.46875,
+      "se": 0.12061868189285037,
+      "n": 256,
+      "lower_3se": -0.8306060456785511,
+      "upper_3se": -0.10689395432144888,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__low_light_captures": {
+      "mean": 0.12109375,
+      "se": 0.022567333124598875,
+      "n": 256,
+      "lower_3se": 0.05339175062620338,
+      "upper_3se": 0.18879574937379662,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__capture_income": {
+      "mean": -0.2288818359375,
+      "se": 0.05889584076799334,
+      "n": 256,
+      "lower_3se": -0.40556935824148,
+      "upper_3se": -0.05219431363351998,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__ordinary_cost": {
+      "mean": 0.00937089818406437,
+      "se": 0.0035890505747529864,
+      "n": 256,
+      "lower_3se": -0.0013962535401945888,
+      "upper_3se": 0.02013804990832333,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__F": {
+      "mean": -0.06101331307677809,
+      "se": 0.01937507953851325,
+      "n": 256,
+      "lower_3se": -0.11913855169231785,
+      "upper_3se": -0.0028880744612383366,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__captures": {
+      "mean": -0.12890625,
+      "se": 0.039284753751268366,
+      "n": 256,
+      "lower_3se": -0.2467605112538051,
+      "upper_3se": -0.011051988746194896,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__low_light_captures": {
+      "mean": 0.05859375,
+      "se": 0.015714739236098653,
+      "n": 256,
+      "lower_3se": 0.011449532291704041,
+      "upper_3se": 0.10573796770829597,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__capture_income": {
+      "mean": -0.0629425048828125,
+      "se": 0.019182008667611508,
+      "n": 256,
+      "lower_3se": -0.12048853088564702,
+      "upper_3se": -0.005396478879977976,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__ordinary_cost": {
+      "mean": 0.0019291918060344048,
+      "se": 0.001471210524356231,
+      "n": 256,
+      "lower_3se": -0.0024844397670342887,
+      "upper_3se": 0.006342823379103099,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__F": {
+      "mean": -0.21189094565401773,
+      "se": 0.06376111159199065,
+      "n": 256,
+      "lower_3se": -0.40317428042998965,
+      "upper_3se": -0.0206076108780458,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__captures": {
+      "mean": -0.4921875,
+      "se": 0.13121698785350944,
+      "n": 256,
+      "lower_3se": -0.8858384635605283,
+      "upper_3se": -0.09853653643947169,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__low_light_captures": {
+      "mean": 0.09375,
+      "se": 0.019860882580156027,
+      "n": 256,
+      "lower_3se": 0.03416735225953192,
+      "upper_3se": 0.15333264774046806,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__capture_income": {
+      "mean": -0.240325927734375,
+      "se": 0.06407079485034639,
+      "n": 256,
+      "lower_3se": -0.4325383122854142,
+      "upper_3se": -0.04811354318333583,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__ordinary_cost": {
+      "mean": 0.028434982080357232,
+      "se": 0.005623605698745083,
+      "n": 256,
+      "lower_3se": 0.011564164984121984,
+      "upper_3se": 0.045305799176592484,
+      "positive_above_3se": true
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__blink80_5_minus_persistent__mixture_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__F": {
+      "mean": 0.1584976246766575,
+      "se": 0.060671059584294446,
+      "n": 256,
+      "lower_3se": -0.023515554076225825,
+      "upper_3se": 0.3405108034295409,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": 0.33984375,
+      "se": 0.12496528891524375,
+      "n": 256,
+      "lower_3se": -0.03505211674573128,
+      "upper_3se": 0.7147396167457313,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": -0.0625,
+      "se": 0.02444230902734509,
+      "n": 256,
+      "lower_3se": -0.13582692708203525,
+      "upper_3se": 0.010826927082035268,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": 0.1659393310546875,
+      "se": 0.06101820747814636,
+      "n": 256,
+      "lower_3se": -0.017115291379751596,
+      "upper_3se": 0.3489939534891266,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.007441706378029971,
+      "se": 0.0036963823442437435,
+      "n": 256,
+      "lower_3se": -0.018530853410761203,
+      "upper_3se": 0.0036474406547012603,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__F": {
+      "mean": 0.0076199920994178445,
+      "se": 0.08364325581635867,
+      "n": 256,
+      "lower_3se": -0.24330977534965817,
+      "upper_3se": 0.25854975954849385,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__captures": {
+      "mean": -0.0234375,
+      "se": 0.1723832447568982,
+      "n": 256,
+      "lower_3se": -0.5405872342706945,
+      "upper_3se": 0.49371223427069455,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": -0.02734375,
+      "se": 0.03052055362332513,
+      "n": 256,
+      "lower_3se": -0.11890541086997539,
+      "upper_3se": 0.06421791086997539,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": -0.011444091796875,
+      "se": 0.0841715062289542,
+      "n": 256,
+      "lower_3se": -0.2639586104837376,
+      "upper_3se": 0.2410704268899876,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.019064083896292862,
+      "se": 0.006130304707262226,
+      "n": 256,
+      "lower_3se": 0.0006731697745061826,
+      "upper_3se": 0.03745499801807954,
+      "positive_above_3se": true
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__F": {
+      "mean": -0.15087763257723963,
+      "se": 0.06829604842036563,
+      "n": 256,
+      "lower_3se": -0.3557657778383365,
+      "upper_3se": 0.05401051268385726,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__captures": {
+      "mean": -0.36328125,
+      "se": 0.1400944427023153,
+      "n": 256,
+      "lower_3se": -0.7835645781069459,
+      "upper_3se": 0.05700207810694591,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.03515625,
+      "se": 0.02496431084615164,
+      "n": 256,
+      "lower_3se": -0.039736682538454915,
+      "upper_3se": 0.11004918253845491,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": -0.1773834228515625,
+      "se": 0.06840548960073989,
+      "n": 256,
+      "lower_3se": -0.38259989165378216,
+      "upper_3se": 0.027833045950657165,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": 0.026505790274322837,
+      "se": 0.005713873732492431,
+      "n": 256,
+      "lower_3se": 0.009364169076845542,
+      "upper_3se": 0.04364741147180013,
+      "positive_above_3se": true
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__F": {
+      "mean": -0.24570450920107756,
+      "se": 0.08199523867217924,
+      "n": 256,
+      "lower_3se": -0.4916902252176153,
+      "upper_3se": 0.00028120681546017767,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__captures": {
+      "mean": -0.53515625,
+      "se": 0.16977870877491733,
+      "n": 256,
+      "lower_3se": -1.044492376324752,
+      "upper_3se": -0.025820123675247997,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__low_light_captures": {
+      "mean": 0.14453125,
+      "se": 0.025859118145605476,
+      "n": 256,
+      "lower_3se": 0.06695389556318357,
+      "upper_3se": 0.22210860443681643,
+      "positive_above_3se": true
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__capture_income": {
+      "mean": -0.2613067626953125,
+      "se": 0.08289976014400259,
+      "n": 256,
+      "lower_3se": -0.5100060431273203,
+      "upper_3se": -0.012607482263304715,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__ordinary_cost": {
+      "mean": 0.015602253494234965,
+      "se": 0.004947371019339789,
+      "n": 256,
+      "lower_3se": 0.0007601404362155978,
+      "upper_3se": 0.030444366552254333,
+      "positive_above_3se": true
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__F": {
+      "mean": -0.004578992075041068,
+      "se": 0.05973980225047174,
+      "n": 256,
+      "lower_3se": -0.1837983988264563,
+      "upper_3se": 0.17464041467637417,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__captures": {
+      "mean": -0.01171875,
+      "se": 0.12220934178371783,
+      "n": 256,
+      "lower_3se": -0.37834677535115346,
+      "upper_3se": 0.35490927535115346,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__low_light_captures": {
+      "mean": 0.05078125,
+      "se": 0.013748798827881614,
+      "n": 256,
+      "lower_3se": 0.009534853516355163,
+      "upper_3se": 0.09202764648364484,
+      "positive_above_3se": true
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__capture_income": {
+      "mean": -0.0057220458984375,
+      "se": 0.059672530167830966,
+      "n": 256,
+      "lower_3se": -0.1847396364019304,
+      "upper_3se": 0.1732955446050554,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__ordinary_cost": {
+      "mean": 0.0011430538233964398,
+      "se": 0.0027914833711561726,
+      "n": 256,
+      "lower_3se": -0.0072313962900720785,
+      "upper_3se": 0.009517503936864957,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__F": {
+      "mean": -0.1983175346972107,
+      "se": 0.0888182821393462,
+      "n": 256,
+      "lower_3se": -0.4647723811152493,
+      "upper_3se": 0.06813731172082793,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__captures": {
+      "mean": -0.46875,
+      "se": 0.1834843684905942,
+      "n": 256,
+      "lower_3se": -1.0192031054717825,
+      "upper_3se": 0.08170310547178261,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__low_light_captures": {
+      "mean": 0.171875,
+      "se": 0.02549674984093032,
+      "n": 256,
+      "lower_3se": 0.09538475047720904,
+      "upper_3se": 0.24836524952279096,
+      "positive_above_3se": true
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__capture_income": {
+      "mean": -0.2288818359375,
+      "se": 0.08959197680204795,
+      "n": 256,
+      "lower_3se": -0.49765776634364384,
+      "upper_3se": 0.03989409446864384,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__ordinary_cost": {
+      "mean": 0.030564301240289308,
+      "se": 0.007080249928032251,
+      "n": 256,
+      "lower_3se": 0.009323551456192555,
+      "upper_3se": 0.05180505102438606,
+      "positive_above_3se": true
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "environment__turn100_blink80_5_minus_persistent__mixture_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__F": {
+      "mean": 0.24112551712603647,
+      "se": 0.08974367983516908,
+      "n": 256,
+      "lower_3se": -0.028105522379470782,
+      "upper_3se": 0.5103565566315438,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__captures": {
+      "mean": 0.5234375,
+      "se": 0.18498556577069708,
+      "n": 256,
+      "lower_3se": -0.031519197312091185,
+      "upper_3se": 1.0783941973120912,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__low_light_captures": {
+      "mean": -0.09375,
+      "se": 0.027045599656585796,
+      "n": 256,
+      "lower_3se": -0.1748867989697574,
+      "upper_3se": -0.012613201030242605,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__capture_income": {
+      "mean": 0.255584716796875,
+      "se": 0.09032498328647319,
+      "n": 256,
+      "lower_3se": -0.015390233062544556,
+      "upper_3se": 0.5265596666562946,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__ordinary_cost": {
+      "mean": -0.014459199670838528,
+      "se": 0.00564102855536195,
+      "n": 256,
+      "lower_3se": -0.03138228533692438,
+      "upper_3se": 0.0024638859952473228,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__persistent_control_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__F": {
+      "mean": 0.047386974503866836,
+      "se": 0.10861698755218133,
+      "n": 256,
+      "lower_3se": -0.27846398815267714,
+      "upper_3se": 0.37323793716041087,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__captures": {
+      "mean": 0.06640625,
+      "se": 0.2244912239863858,
+      "n": 256,
+      "lower_3se": -0.6070674219591574,
+      "upper_3se": 0.7398799219591574,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__low_light_captures": {
+      "mean": 0.02734375,
+      "se": 0.03199087304498186,
+      "n": 256,
+      "lower_3se": -0.06862886913494559,
+      "upper_3se": 0.12331636913494559,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__capture_income": {
+      "mean": 0.0324249267578125,
+      "se": 0.10961485546210244,
+      "n": 256,
+      "lower_3se": -0.2964196396284948,
+      "upper_3se": 0.3612694931441198,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__ordinary_cost": {
+      "mean": 0.01496204774605434,
+      "se": 0.007277500123645285,
+      "n": 256,
+      "lower_3se": -0.0068704526248815154,
+      "upper_3se": 0.0367945481169902,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_AI_control_start__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__F": {
+      "mean": -0.1937385426221696,
+      "se": 0.09033658965177353,
+      "n": 256,
+      "lower_3se": -0.4647483115774902,
+      "upper_3se": 0.07727122633315098,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__captures": {
+      "mean": -0.45703125,
+      "se": 0.18768484939453364,
+      "n": 256,
+      "lower_3se": -1.020085798183601,
+      "upper_3se": 0.1060232981836009,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__low_light_captures": {
+      "mean": 0.12109375,
+      "se": 0.02690251491348612,
+      "n": 256,
+      "lower_3se": 0.040386205259541647,
+      "upper_3se": 0.20180129474045835,
+      "positive_above_3se": true
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__capture_income": {
+      "mean": -0.2231597900390625,
+      "se": 0.09164299286842463,
+      "n": 256,
+      "lower_3se": -0.4980887686443364,
+      "upper_3se": 0.05176918856621138,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__ordinary_cost": {
+      "mean": 0.029421247416892872,
+      "se": 0.007617828550217744,
+      "n": 256,
+      "lower_3se": 0.0065677617662396395,
+      "upper_3se": 0.052274733067546104,
+      "positive_above_3se": true
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__guard_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "interaction__turn100_blink80_5_minus_persistent__mixture_final_minus_persistent_control_final__extinction_cost": {
+      "mean": 0.0,
+      "se": 0.0,
+      "n": 256,
+      "lower_3se": 0.0,
+      "upper_3se": 0.0,
+      "positive_above_3se": false
+    },
+    "retention__persistent_control_final_vs_AI_control_start__persistent__capture_difference": {
+      "mean": -2.63671875,
+      "se": 0.1603847455388526,
+      "n": 256,
+      "lower_3se": -3.1178729866165575,
+      "upper_3se": -2.1555645133834425,
+      "positive_above_3se": false
+    },
+    "retention__persistent_control_final_vs_AI_control_start__persistent__ninety_percent_reference": {
+      "mean": -2.16015625,
+      "se": 0.14764457820348847,
+      "n": 256,
+      "lower_3se": -2.6030899846104654,
+      "upper_3se": -1.7172225153895346,
+      "positive_above_3se": false
+    },
+    "retention__mixture_final_vs_AI_control_start__persistent__capture_difference": {
+      "mean": -0.078125,
+      "se": 0.19951064136320362,
+      "n": 256,
+      "lower_3se": -0.6766569240896109,
+      "upper_3se": 0.5204069240896109,
+      "positive_above_3se": false
+    },
+    "retention__mixture_final_vs_AI_control_start__persistent__ninety_percent_reference": {
+      "mean": 0.3984374999999999,
+      "se": 0.18981251129855925,
+      "n": 256,
+      "lower_3se": -0.17100003389567786,
+      "upper_3se": 0.9678750338956776,
+      "positive_above_3se": false
+    }
+  },
+  "reanalysis_command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/analyze.py",
+    "--study",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015",
+    "--out",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/terminal_review/independent/reanalysis"
+  ],
+  "reanalysis_cwd": "/",
+  "new_simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0,
+  "limitations": [
+    "One paired evolution from one chosen lineage; confirmation seeds are not evolutionary repetitions.",
+    "Raw status coverage is all3072 confirmation lives; native search statuses have only saved aggregate coverage.",
+    "A positive mixture-control POOL difference alone is not recovery relative to AI start or ancestral L92.",
+    "Full native genetic and selection replay is a separate independent audit.",
+    "Ten-percent retention margin is conventional; null effects do not establish retention.",
+    "A frozen genome may develop differently across worlds; no circuit or memory claim."
+  ]
+}

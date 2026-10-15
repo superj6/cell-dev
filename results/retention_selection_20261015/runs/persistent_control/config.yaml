@@ -1,0 +1,553 @@
+seed: 53229
+threads: 2
+lattice:
+  kind: hexprism
+  radius: 9
+  contact: uniform
+genome:
+  dims:
+    genes: 8
+    morph: 2
+    types: 4
+    channels: 2
+    stim: 2
+  init_scale: 1.0
+  life:
+    genes_max: 16
+    genes_init: 8
+    morph: 2
+    channels: 2
+    stim: 1
+    pheno: 22
+    cues: 2
+  knob_init:
+    b:
+    - 0.0
+    - 0.5
+    - 0.5
+    g_r:
+    - 0.5
+    - 0.5
+    - 0.5
+    kappa:
+    - 1.5
+    - 0.5
+    - 0.5
+    w0:
+    - 0.5
+    - 0.5
+    - 0.5
+    emit0:
+    - 0.5
+    - 0.5
+    - 0.5
+  readout_std:
+  - 0.5
+  - 0.5
+  input_init:
+    is_S: 2.0
+    is_M: 2.0
+    n_view: 8.0
+develop:
+  mode: grow
+  fixed_radius: 4
+  steps: 24
+  rate: 0.5
+  min_cycle: 2
+  substeps: 4
+  secretion: 0.5
+  jitter_seed: 51089
+cells:
+  quantize: true
+  messages: true
+task:
+  name: light
+  length: 4.0
+  rungs:
+  - light
+  - brightness
+  - memory
+  - motion
+  - flicker
+  start: 0
+  keep_earlier: 0.25
+  trials: 12
+  heldout_trials: 48
+  min_spikes: 1.0
+  score: lateral
+costs:
+  live: 0.001
+  spike: 0.002
+  divide: 0.0
+evolve:
+  breeding: sex
+  mu: 32
+  lam: 224
+  generations: 4
+  founders: 8
+  init_samples: 1024
+  min_founder_score: 0.0
+  max_init_samples: 16384
+  n_mut: 2
+  p_cell: 0.5
+  heldout_every: 4
+  immigrants: 0.0
+  advance_at: 0.9
+  batch: 256
+  recheck_k: 64
+  recheck_lives: 4
+  recheck_key: all
+  founder_key: fitness
+  n_mut_scale: true
+  dup_rate: 0.0
+  del_rate: 0.0
+  dup_split: false
+  seed_genome: /home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/inputs/input_population.json
+  seed_timer: 1.125
+  founder_all: true
+  random_ties: true
+logging:
+  output_dir: /home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/runs/persistent_control
+  gif: false
+  checkpoint_every: 1
+  lineage: all
+mode: life
+life:
+  world: catch_speck_l4
+  control: retention_selection_AL
+  T: 1024
+  lives: 4
+  founder_T: 1024
+  founder_lives: 2
+  flags: []
+  freeze_frac: null
+  t_open: 0.0
+  valid_lives: 16
+  heldout_lives: 4
+  heldout: []
+  skill_at: 4.0
+  final_lives: 2
+  final_top: 1
+  final_fork_lives: 0
+  phase_lives: 16
+  size_curve: []
+  size_curve_lives: 16
+  fast_kernel: true
+  T_choices: null
+  extinct_charge: true
+  abi: 3
+world:
+  d0: 1.0
+  d_min: 0.5
+  v_t: 0.3
+  tau_turn: 200.0
+costs_life: {}
+envelope:
+  enabled: false
+clones:
+  every: 0
+  top: 8
+  times:
+  - 0.25
+  - 0.5
+  - 0.75
+  conditions: []
+  lives: 3
+population_start:
+  version: 1
+  population_file: inputs/input_population.json
+  file_sha256: 04942c2dc31b116b9b47cb2d2485522159d31d099feef032f0aad0d3a85d67cd
+  population_raw_sha256: a2e038ac389c5739c4b7f2b08eaefc1cd6c1fea8e5edc4be6fa5f6ac1c09c6f1
+  shape:
+  - 32
+  - 875
+  old_ids:
+  - 668
+  - 756
+  - 864
+  - 893
+  - 855
+  - 726
+  - 748
+  - 648
+  - 909
+  - 851
+  - 706
+  - 922
+  - 667
+  - 730
+  - 536
+  - 807
+  - 707
+  - 752
+  - 927
+  - 924
+  - 884
+  - 895
+  - 714
+  - 575
+  - 787
+  - 817
+  - 810
+  - 882
+  - 773
+  - 846
+  - 908
+  - 911
+  new_ids:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  row_sha256:
+  - 657326d5aaa87832166ca9c3d61ee65ed891f4da3725d59a1e69b76a51162349
+  - 709040ac7b029cc92cd95eb8f9c1c3f8f05ab808b18e09063ab823ffcc37af15
+  - be37b466524494bbc514e110349f75c9bd64b19af95e9e91e0c2130db160df68
+  - c721d0412fcd0d16c4ba80c5a91ad1d4d1177de37e88e1ba3894a9485b509998
+  - 5c586471384ed7f662828f9c3753eeb6faf30191c1a5c3b897b693008d05d867
+  - b9af11964ec0a0b00b90e0fb245b03abe8a40aaaae455e733a01510413f91fd2
+  - 991f5a6cb197ac9025c05e46fefaeb30c0e4b61484cda4e6ba4e949aa85b4d74
+  - fa352282117ca18df5a9b14214973fbca75ce9b7f33f05d38eee3380eb17c689
+  - 82f60da7e1a44b0e980045de563ae08958dd3b291291db5062eeb778b24bf54d
+  - ea40853e81c69dc8cbed1d2dbfbecd6ec0e27a5f9189470fa31d3a6f63ab003a
+  - 868f9df4cf9c5685140cdba5faa03de46bc1779518c03263f3d54d7a80ac7ce1
+  - 9247cf166e8496ae9ac4904e39647cc5b10825a6862875e57695d8ae81bd206f
+  - 53d027371286eb74c688ec35f38af57008d3b819ec4e3db64bdb01ecf02c5b1e
+  - 1ac3d6c1e549af9475332d2f6a04e73e2b3035d8402a368945e5642e91438bf2
+  - c26df612898ec9f811b2db4b1e2f11e6374ee9faeb80460c86f2210bc91834cd
+  - a6f56612c950626535f4c9f933b30615b9a3c95dc9135b1c5375f0d6f8cd055c
+  - 90a0e7c40a4243c6fbc13ee4525db0d3151e28330f1b008126af260951346398
+  - 8efb86958a715de642821a713df44f27e357b7272a29c4238b794dd469b92158
+  - a39ddc18d3dbaa7cb5dc041f1736512b268e3dec74d85720d4b1c4de8e3e846c
+  - 8366a08946f23c95b8197a3bc91edbb0407f9938ca0d28d4ee449bf17f266de6
+  - 5021eb785bc525b6608c37ecf8ec63e80509345ddd2c4a598d7619531c8769a5
+  - 20c06ebdb6f35c52ffa6da32b3ead915106072a00188e4748df6ff3512b5d43d
+  - 5cc3bb1f1b3c20c633cefac83874f061051110cc7cfd385486e64b66adf9ccd8
+  - 3a3ef85264420af910c03a2b491aec4e9f5f8d9849b17ef4b0f2bd8095c6c542
+  - 0140f4e8510af18e35463fb16a8cc88f44cafae1f330ff2ed6e2b1e91d2f0eb9
+  - 4bd14766089fdd61f6f24957cfcb52c671a234919f1f7fd7d2e8144f770d49b7
+  - 5cb6261cfe946fde21ca8656f9100df5a89eca89f77756f53dbc76ed33232aee
+  - 90444f938abe4839e3dc086598273ea4bb1a2d0ee14b0e106e0b2c813ce88119
+  - a3a40b89241ed860e1639fa3035b1be2c6bfd36af6e0466c16631481505180cb
+  - cd60348a88081961e809ee8ade89296bf45e97224e90884fca86983f94669f52
+  - a98f490fd92f31a05c29ef549bf0f17050ff73261aada8834f77cf7c7eff16ca
+  - 67f600fc3f89dd40748cfb37844a4dab3f5f4e4739f074faeadc7bb40cad61ca
+  old_to_new:
+  - old_id: 668
+    new_id: 0
+    row: 0
+    raw_sha256: 657326d5aaa87832166ca9c3d61ee65ed891f4da3725d59a1e69b76a51162349
+  - old_id: 756
+    new_id: 1
+    row: 1
+    raw_sha256: 709040ac7b029cc92cd95eb8f9c1c3f8f05ab808b18e09063ab823ffcc37af15
+  - old_id: 864
+    new_id: 2
+    row: 2
+    raw_sha256: be37b466524494bbc514e110349f75c9bd64b19af95e9e91e0c2130db160df68
+  - old_id: 893
+    new_id: 3
+    row: 3
+    raw_sha256: c721d0412fcd0d16c4ba80c5a91ad1d4d1177de37e88e1ba3894a9485b509998
+  - old_id: 855
+    new_id: 4
+    row: 4
+    raw_sha256: 5c586471384ed7f662828f9c3753eeb6faf30191c1a5c3b897b693008d05d867
+  - old_id: 726
+    new_id: 5
+    row: 5
+    raw_sha256: b9af11964ec0a0b00b90e0fb245b03abe8a40aaaae455e733a01510413f91fd2
+  - old_id: 748
+    new_id: 6
+    row: 6
+    raw_sha256: 991f5a6cb197ac9025c05e46fefaeb30c0e4b61484cda4e6ba4e949aa85b4d74
+  - old_id: 648
+    new_id: 7
+    row: 7
+    raw_sha256: fa352282117ca18df5a9b14214973fbca75ce9b7f33f05d38eee3380eb17c689
+  - old_id: 909
+    new_id: 8
+    row: 8
+    raw_sha256: 82f60da7e1a44b0e980045de563ae08958dd3b291291db5062eeb778b24bf54d
+  - old_id: 851
+    new_id: 9
+    row: 9
+    raw_sha256: ea40853e81c69dc8cbed1d2dbfbecd6ec0e27a5f9189470fa31d3a6f63ab003a
+  - old_id: 706
+    new_id: 10
+    row: 10
+    raw_sha256: 868f9df4cf9c5685140cdba5faa03de46bc1779518c03263f3d54d7a80ac7ce1
+  - old_id: 922
+    new_id: 11
+    row: 11
+    raw_sha256: 9247cf166e8496ae9ac4904e39647cc5b10825a6862875e57695d8ae81bd206f
+  - old_id: 667
+    new_id: 12
+    row: 12
+    raw_sha256: 53d027371286eb74c688ec35f38af57008d3b819ec4e3db64bdb01ecf02c5b1e
+  - old_id: 730
+    new_id: 13
+    row: 13
+    raw_sha256: 1ac3d6c1e549af9475332d2f6a04e73e2b3035d8402a368945e5642e91438bf2
+  - old_id: 536
+    new_id: 14
+    row: 14
+    raw_sha256: c26df612898ec9f811b2db4b1e2f11e6374ee9faeb80460c86f2210bc91834cd
+  - old_id: 807
+    new_id: 15
+    row: 15
+    raw_sha256: a6f56612c950626535f4c9f933b30615b9a3c95dc9135b1c5375f0d6f8cd055c
+  - old_id: 707
+    new_id: 16
+    row: 16
+    raw_sha256: 90a0e7c40a4243c6fbc13ee4525db0d3151e28330f1b008126af260951346398
+  - old_id: 752
+    new_id: 17
+    row: 17
+    raw_sha256: 8efb86958a715de642821a713df44f27e357b7272a29c4238b794dd469b92158
+  - old_id: 927
+    new_id: 18
+    row: 18
+    raw_sha256: a39ddc18d3dbaa7cb5dc041f1736512b268e3dec74d85720d4b1c4de8e3e846c
+  - old_id: 924
+    new_id: 19
+    row: 19
+    raw_sha256: 8366a08946f23c95b8197a3bc91edbb0407f9938ca0d28d4ee449bf17f266de6
+  - old_id: 884
+    new_id: 20
+    row: 20
+    raw_sha256: 5021eb785bc525b6608c37ecf8ec63e80509345ddd2c4a598d7619531c8769a5
+  - old_id: 895
+    new_id: 21
+    row: 21
+    raw_sha256: 20c06ebdb6f35c52ffa6da32b3ead915106072a00188e4748df6ff3512b5d43d
+  - old_id: 714
+    new_id: 22
+    row: 22
+    raw_sha256: 5cc3bb1f1b3c20c633cefac83874f061051110cc7cfd385486e64b66adf9ccd8
+  - old_id: 575
+    new_id: 23
+    row: 23
+    raw_sha256: 3a3ef85264420af910c03a2b491aec4e9f5f8d9849b17ef4b0f2bd8095c6c542
+  - old_id: 787
+    new_id: 24
+    row: 24
+    raw_sha256: 0140f4e8510af18e35463fb16a8cc88f44cafae1f330ff2ed6e2b1e91d2f0eb9
+  - old_id: 817
+    new_id: 25
+    row: 25
+    raw_sha256: 4bd14766089fdd61f6f24957cfcb52c671a234919f1f7fd7d2e8144f770d49b7
+  - old_id: 810
+    new_id: 26
+    row: 26
+    raw_sha256: 5cb6261cfe946fde21ca8656f9100df5a89eca89f77756f53dbc76ed33232aee
+  - old_id: 882
+    new_id: 27
+    row: 27
+    raw_sha256: 90444f938abe4839e3dc086598273ea4bb1a2d0ee14b0e106e0b2c813ce88119
+  - old_id: 773
+    new_id: 28
+    row: 28
+    raw_sha256: a3a40b89241ed860e1639fa3035b1be2c6bfd36af6e0466c16631481505180cb
+  - old_id: 846
+    new_id: 29
+    row: 29
+    raw_sha256: cd60348a88081961e809ee8ade89296bf45e97224e90884fca86983f94669f52
+  - old_id: 908
+    new_id: 30
+    row: 30
+    raw_sha256: a98f490fd92f31a05c29ef549bf0f17050ff73261aada8834f77cf7c7eff16ca
+  - old_id: 911
+    new_id: 31
+    row: 31
+    raw_sha256: 67f600fc3f89dd40748cfb37844a4dab3f5f4e4739f074faeadc7bb40cad61ca
+  source_pins:
+    population_loader.py: 8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7
+    search.py: a163820b178f5d257ed53e78f3df48a8aec13a4178289fd0d48d5a4182779370
+retention_selection:
+  version: 1
+  arm: persistent_control
+  worlds:
+    pool:
+      name: catch_speck_l4
+      stage: body-s1
+      implemented: true
+      lattice: hexprism
+      lives: 3
+      T: 1024.0
+      t0: 0.0
+      t_open: 0.0
+      t_fork: 0.0
+      flags: 0
+      fork_flags: 0
+      d_min: 0.25
+      d0: 0.5
+      delay_sd: 0.1
+      jit: 0.1
+      tau_mis: 0.05
+      P0: 2.0
+      clock_sd: 0.05
+      tick_jit: 0.1
+      tau_z: 2.5
+      th: 0.6
+      th_lo: 0.25
+      tau_R: 6.0
+      tau_e: 0.5
+      h_inc: 1.0
+      c_live: 0.02
+      c_spike: 0.004
+      c_tw: 0.004
+      c_msg: 0.001
+      c_div: 0.5
+      c_sec: 0.004
+      n_max: 1024
+      e_max: 5000000
+      fabric_R: 0
+      oracle_cap: 0
+      window_h: 0.0
+      drop_p: 0.0
+      noise_rate: 0.0
+      kill_t: -1.0
+      kill_frac: 0.0
+      stuck_t: -1.0
+      stuck_a: 0
+      stuck_b: 0
+      kill_rate: 0.0
+      wound_rate: 0.0
+      drift_tau: 0.0
+      world_kind: 1
+      L_max: 4
+      stuck_z: 0
+      sigma: 0.4
+      lam_s: 4.0
+      lam_bg: 0.05
+      g_n: 1.0
+      drag_exp: 0.5
+      th_click: 0.6
+      th_rel: 0.25
+      rho_c: 1.0
+      v_t: 0.1
+      tau_turn: 20.0
+      R_min: 2.0
+      R_max: 6.0
+      t_resp: 50.0
+      R_cap: 500.0
+      c_miss: 10.0
+      c_rec: 0.001
+      b2_amp: 0.0
+      b2_sigma: 1.5
+      b2_value: 0.0
+      b2_rho: 1.0
+      b2_p: 1.0
+      b2_mode: 0
+      visibility_mode: 0
+      visibility_on: 0.0
+      visibility_off: 0.0
+      visibility_low: 1.0
+    persistent:
+      name: catch_speck_l4
+      stage: body-s1
+      implemented: true
+      lattice: hexprism
+      lives: 3
+      T: 1024
+      t0: 0.0
+      t_open: 0.0
+      t_fork: 0.0
+      flags: 0
+      fork_flags: 0
+      d_min: 0.5
+      d0: 1.0
+      delay_sd: 0.1
+      jit: 0.1
+      tau_mis: 0.05
+      P0: 2.0
+      clock_sd: 0.05
+      tick_jit: 0.1
+      tau_z: 2.5
+      th: 0.6
+      th_lo: 0.25
+      tau_R: 6.0
+      tau_e: 0.5
+      h_inc: 1.0
+      c_live: 0.02
+      c_spike: 0.004
+      c_tw: 0.004
+      c_msg: 0.001
+      c_div: 0.5
+      c_sec: 0.004
+      n_max: 1024
+      e_max: 5000000
+      fabric_R: 0
+      oracle_cap: 0
+      window_h: 0.0
+      drop_p: 0.0
+      noise_rate: 0.0
+      kill_t: -1.0
+      kill_frac: 0.0
+      stuck_t: -1.0
+      stuck_a: 0
+      stuck_b: 0
+      kill_rate: 0.0
+      wound_rate: 0.0
+      drift_tau: 0.0
+      world_kind: 1
+      L_max: 4
+      stuck_z: 0
+      sigma: 0.6
+      lam_s: 2.0
+      lam_bg: 0.05
+      g_n: 1.0
+      drag_exp: 0.5
+      th_click: 0.6
+      th_rel: 0.25
+      rho_c: 1.0
+      v_t: 0.3
+      tau_turn: 200.0
+      R_min: 2.0
+      R_max: 6.0
+      t_resp: 50.0
+      R_cap: 500.0
+      c_miss: 10.0
+      c_rec: 0.001
+      b2_amp: 0.0
+      b2_sigma: 1.5
+      b2_value: 0.0
+      b2_rho: 1.0
+      b2_p: 1.0
+      b2_mode: 0
+      visibility_mode: 0
+      visibility_on: 0.0
+      visibility_off: 0.0
+      visibility_low: 1.0
+  rule: gen indices even=pool odd=persistent; control and diagnostics=persistent
+  source_pins:
+    selection.py: 28a0560cb01b60b474a5aedbfebf0e5430458420c1b68d71c740dd700c33d6cb

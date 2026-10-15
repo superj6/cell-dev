@@ -9,24 +9,32 @@ without repeated permission requests. Use one modest worker, explicit memory/CPU
 if the evidence indicates substantially more resources are needed for meaningful progress. No rented compute
 or spending is authorized. The objective remains evolved local asynchronous algorithms and cumulative capability.
 
-**Current work (2026-10-15).** AK is complete: AI's persistent-target capture gain repeats, but its ancestral
-POOL captures fall 38.6% relative to L92 (18.988 → 11.660). AI gains 0.680 ± 0.176 captures over AE in persistent
-and transfers that advantage to faster turns and brief irregular darkness. Perturbation-specific improvements
-remain unresolved. Cheaper bodies accompany a substantial old-task loss; this is not cumulative retention.
-All 3,072 research + 4 startup lives completed in 448.458997 CPU-seconds, with every research status zero and
-complete independent literal-ledger reconciliation of 2,254 paired vectors. Both leaders and the owned group
-exited. Evidence: `results/retention_frontier_20261015/REPORT.md`; prospective commit `08eaa5b`.
-The offline shared-panel audit in `results/cross_world_reuse_20261015/` finds no confirmed broad capture improver.
-Next priority is retention in the selection strategy, not another harder-edge-only continuation. Native held-out
-reports do not influence breeding. The reviewed small two-context selection proposal is `docs/TWO_CONTEXT_RETENTION_PILOT.md`;
-the user’s instruction to continue on our judgment authorizes this bounded comparison. AL is prepared and
-registered for 13,396 total calls under 5,400 CPU-seconds, one two-thread worker, an 8 GiB address-space limit
-and a 4 GiB RSS stop. Its protocol is `25575f9e…ad19bf`; prospective evidence is
-`results/retention_selection_20261015/`. No further approval is needed for this local work. AJ remains source-only,
-unregistered and held. Final actual-input review and publication precede runtime release.
-All AK contexts become development data; future new-context evaluation must be separate.
-Watch both old and new tasks at `results/atlas/retention_frontier.html`: six fixed existing JS lives match all
-342 C ledger values, with 106 mock UI checks and no real browser run. See `results/ak_watchable_20261015/`.
+**Current work (2026-10-15).** AL is complete. Fixed two-task selection recovers ancestral POOL captures:
+AI start 11.324 → mixture 15.008, a gain of **3.684 ± 0.298** per life. Persistent captures are close in the mean,
+4.766 → 4.688, but the conventional 90% retention criterion remains unresolved (margin +0.398 ± 0.190;
+lower three-SE bound −0.171). No strict simultaneous improvement, memory or new algorithm is established.
+The persistent-only branch loses captures in both tasks and loses fresh persistent F too, so sparse selection
+noise remains a plausible problem alongside incentives. Mixture bodies are larger and cost more: terminal cells
+rise about 59 → 83 in POOL and 65 → 90 in persistent. All 13,396 calls complete in 1,098.051813 CPU /450.990839
+wall seconds; peak sampled RSS is about 310 MiB. All confirmation statuses are zero. Full raw genetics,
+limited logged shortlist selection and all 2,254 literal paired vectors verify. Four process leaders and three
+groups are clear. Evidence: `results/retention_selection_20261015/REPORT.md`; prospective commits `da2a01f`,
+`6ad0266`; protocol `25575f9e…ad19bf`. AJ remains source-only, unregistered and held.
+
+**Current direction:** the user explicitly asks whether cost penalties encourage the desired capabilities.
+Combined with their broad local-experiment authorization, study-local incentive comparisons are in scope;
+production defaults and prior-study prices remain their fixed baselines. AL post hoc repricing shows maintenance
+accounts for about 79% of the mixture's persistent ordinary cost; spike/message charges are under 1%.
+Halving maintenance would reverse mixture-versus-control persistent F on those recorded lives. This is ranking
+sensitivity, not an optimum or a prediction of evolution. AM is being prepared to compare capture value 500
+versus 2,000 during fixed two-task selection, retaining every existing physical penalty, from all 32 AL-mixture
+survivors. Both arms get more selection lives to reduce noise; final comparisons use original prices. No AM run
+has launched. Continue on judgment within local CPU/memory bounds; stop to report if meaningful progress
+appears to need more resources. All AL contexts are now development data.
+
+Watch AL at `results/atlas/retention_selection.html`: six existing first-seed JS lives match all 342 C ledger
+values, with 106 mock UI checks and no real browser run. Evidence: `results/al_watchable_20261015/`.
+AK's earlier result—38.6% ancestral capture loss—remains at `results/retention_frontier_20261015/REPORT.md`.
 
 **Primary objective, clarified by the user (2026-10-14):** advance the sophistication of the algorithms we can
 make emerge, especially in more interesting environments. Prioritize environments that reward richer computation.
@@ -729,7 +737,11 @@ truth lives. Only the fast build may skip hashes.
   re-tuning overfits its tuning lives by 0.15-0.5 F.
 - Selection noise is large: the paired per-life SD is about 3-4 F.
 
-**Prices.** The prices are frozen. c_live is load-bearing: at x3 the router's lead nearly vanishes.
+**Prices.** Production defaults and completed-study prices remain fixed comparison baselines. The user's
+2026-10-15 request to investigate incentives, together with broad local experimentation authorization, permits
+explicit study-local price comparisons. Record every change, retain physical costs/captures and common-price
+confirmation, and do not mistake larger bodies or cheaper scores for richer algorithms. c_live is load-bearing:
+at x3 the historical router's lead nearly vanishes; AL maintenance dominates current ordinary costs.
 
 **Seeds already used** (`fresh_seeds(n, seed0)`):
 - 30-31.35M and 39-39.1M: earlier gates and studies;

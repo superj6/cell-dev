@@ -1,0 +1,69 @@
+{
+  "status": "complete",
+  "arm": "balanced_mixture",
+  "research_lives": 5158,
+  "startup_lives": 2,
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "release_sha256": "412be5b7c9eaf03397a40fea013ded4d6f9c0a3fef37b3917179ab1c5a19f42d",
+  "count_proof": {
+    "selection": 5120,
+    "valid": 32,
+    "final": 6,
+    "half_duration": 2,
+    "native_evals": 1280,
+    "generations": 4,
+    "children_per_generation": 224
+  },
+  "health": {
+    "pop_invalid": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pop_mismatch": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "recheck_invalid": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pop_guard": [
+      0.001953125,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "final_guard_rate": 0.0,
+    "guard_scope": "Recorded aggregate guards retain native penalties; full per-life search status is not retained."
+  },
+  "output_pins": {
+    "checkpoint.pt": "e626d967708feda47753a186d3cc0efcfc947ed8b4dd4d27da51aa2e18e25854",
+    "config.yaml": "d70bd2f2fbf524b53f9403ad0dd9ff5bd72b4700097155fa56156263b8d18c8e",
+    "determinism.json": "dd80a4e3f15e98678ebde862af51736d49bc9e0d864414659866b58705e0eb5b",
+    "curves.jsonl": "96076c24e5e8c1ef8404784203b18d0338610c7e37be9ef4e210962681771cf4",
+    "lineage.jsonl": "5fa56096b3019f18b5c595467f59589f4f298b1044f05f3a707e035db571abd1",
+    "population.json": "2c70dc7c05425e76c787b144c0d4a7c7a174ee6e0ed1476a7e395f3b3a4149ed",
+    "best_genome.json": "749e7ddc5b96ebc35af0dbd3100232b7633b0b557f0377dd09d82c018e30d1e3",
+    "results.jsonl": "46a53964d3e61f53dc918eb6fad6f1cda491b7df3f31b3dcc8d69eb8d5c7d317"
+  },
+  "checkpoint_log_pins": {
+    "curves.jsonl": {
+      "bytes": 3978,
+      "sha256": "96076c24e5e8c1ef8404784203b18d0338610c7e37be9ef4e210962681771cf4"
+    },
+    "lineage.jsonl": {
+      "bytes": 185821,
+      "sha256": "5fa56096b3019f18b5c595467f59589f4f298b1044f05f3a707e035db571abd1"
+    },
+    "clones.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

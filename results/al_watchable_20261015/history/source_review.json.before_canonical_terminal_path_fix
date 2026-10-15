@@ -1,0 +1,58 @@
+{
+  "status": "source_only_ready_for_root_review",
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "source_pins": {
+    "export.py": "d0acc8c521522b5bb81e5e11381f0e852f7ca0022076c29b267fd14c580d859d",
+    "viewer.js": "a68c0849b8ceb1b9bcbebe351e82a8581818cfec902536b222eafe4fb966264b",
+    "template.html": "add63443fd7833231281972a8df6048d1d8b55fc0d1e6b7b1b5cec369c0e48a8",
+    "check_replay.js": "05aa9f12d5b50e42f4e3be2cf0b7f23a47a7890e8977d94506e7ea03c2a28f21",
+    "run_validation.py": "e917e3c4045c19645d56fea9136e85f8554aa3b048561a25038e52171b7adf5a",
+    "build.py": "6ee10d9ca050f523a910bce631cbd864d5abe483454b3d2d1054271d5f2fd6ce",
+    "test_viewer.js": "9a8adc1532acdd2e2c340fff72c0497923f4e96132d961d7d900518c7982109d",
+    "source_origins.json": "c0102a3a9f5a075b91e20bbe36808c83ecf4a89aa7bbbe073bb2e93cddeae36a"
+  },
+  "roles": [
+    "AI_control_start",
+    "persistent_control_final",
+    "mixture_final"
+  ],
+  "worlds": [
+    "pool",
+    "persistent"
+  ],
+  "seed": 52390000,
+  "ui_mock_receipt_sha256": "a7a7abbd6139ac1da2e935082d90df06281cb682ed5d6869c64f9aacb9eb828f",
+  "mock_assertions": 106,
+  "expected_replay_lives": 6,
+  "expected_bitwise_ledger_values": 342,
+  "new_C_lives": 0,
+  "new_Python_lives": 0,
+  "new_research_lives": 0,
+  "actual_engine_calls_so_far": 0,
+  "watchdog": {
+    "cpu_seconds": 120,
+    "wall_seconds": 180,
+    "rss_cap_bytes": 1073741824,
+    "minimum_host_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592,
+    "node_old_space_MiB": 512,
+    "first_attempt_only": true
+  },
+  "contract": [
+    "Exporter requires exact root authorization/source pins and complete hash-pinned summary, terminal clearance, budget, endpoint manifest and raw row identities.",
+    "Exactly three fixed roles in each of two ABI3 worlds use the first confirmation seed. No outcome-dependent seed or role selection.",
+    "The unchanged LifeSimJS engine must match all 342 retained fast-C ledger values before build; no extra C/Python life or build.",
+    "Both worlds' full 256-life means and all six fixed within-world contrasts remain visible, including negative signs. Costs and captures remain separate.",
+    "Starts paused; mock-only UI checks. No real browser run is requested or claimed.",
+    "Original LGPL engine/notice source is retained; final build embeds unchanged engine and links its exact source/license."
+  ],
+  "limitations": [
+    "An illustrative life can disagree with the aggregate. These fixed illustrations do not establish broad browser compatibility or memory/circuit mechanism.",
+    "A relative advantage is distinct from recovery over start, and 90% retention is distinct from simultaneous improvement."
+  ],
+  "local_source_and_license": {
+    "lifesim.js": "6ce1c6b4652f4fef2e1db0267624baccc90782ce196fe1cca3677048e99c8256",
+    "COPYING.LGPL-2.1": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+  },
+  "source_review_note": "Before release, exporter source-pin lookup was aligned to the AL reader: common start is protocol-input-pinned; final endpoints are summary-input-pinned. No export had run."
+}

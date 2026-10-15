@@ -69,6 +69,17 @@ seconds, 3,600 wall seconds, 8 GiB address space and a 4 GiB RSS stop, with a 4 
 Block139/native53229 are registered. No life or scientific genetic draw occurred in preparation. Publish and
 review actual inputs before release; continue useful local experiments afterward under the user's authorization.
 
+*2026-10-15 AL complete and incentive direction:* the mixture gains 3.684 ± 0.298 POOL captures over AI start;
+persistent change is −0.078 ± 0.200 and 90% retention is unresolved. Larger bodies add cost. The single-task
+endpoint loses both captures and fresh training-world F, leaving selection noise as an alternative explanation.
+All 13,396 calls complete in 1,098.052 CPU-seconds with independent raw/genetic checks and cleared processes.
+The user asks whether penalties encourage desired capabilities. Study-local incentive comparisons are authorized
+under their safe-local-experiment instruction; defaults stay baseline. Post hoc AL pricing identifies maintenance
+as the dominant observed charge, not spike/message costs. Next, AM compares capture value 500 versus 2,000 in
+two-task selection, from the full AL-mixture population; use common original prices in confirmation and report
+captures, retained ability, physical cost and click accuracy separately. This does not establish an optimal price,
+memory or richer behavior, and no AM run is launched by this note.
+
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved
 trained-minus-width-swapped interaction (+1.080 ± 0.177 F); the reversal changes signal geometry and does

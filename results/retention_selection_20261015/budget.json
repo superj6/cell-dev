@@ -1,0 +1,105 @@
+{
+  "status": "complete",
+  "phase": "confirmation",
+  "exit_code": 0,
+  "worker_exit_code": 0,
+  "cpu_seconds": 1098.051813,
+  "wall_seconds": 450.99083856299694,
+  "cap_cpu_seconds": 5400,
+  "cap_wall_seconds": 3600,
+  "search_cpu_seconds": 782.27063,
+  "confirmation_cpu_seconds": 315.78118300000006,
+  "search_cpu_cap": 3600,
+  "confirmation_cpu_cap": 1800,
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "release_sha256": "412be5b7c9eaf03397a40fea013ded4d6f9c0a3fef37b3917179ab1c5a19f42d",
+  "attempt_sha256": "9f28c400fa8c3ba2a9f952045416446fd3b4933b8e2c6eedfc68c22a7a9dd3a7",
+  "pid_namespace": "pid:[4026531836]",
+  "process_identities": [
+    {
+      "pid": 2513066,
+      "ppid": 9421,
+      "pgid": 2513066,
+      "start_ticks": 9240222,
+      "name": "monitor"
+    },
+    {
+      "pid": 2513067,
+      "ppid": 2513066,
+      "pgid": 2513067,
+      "start_ticks": 9240257,
+      "name": "persistent_control"
+    },
+    {
+      "pid": 2514814,
+      "ppid": 2513066,
+      "pgid": 2514814,
+      "start_ticks": 9245718,
+      "name": "balanced_mixture"
+    },
+    {
+      "pid": 2522733,
+      "ppid": 2513066,
+      "pgid": 2522733,
+      "start_ticks": 9272430,
+      "name": "confirmation"
+    }
+  ],
+  "owned_process_groups": [
+    2513067,
+    2514814,
+    2522733
+  ],
+  "phase_records": {
+    "persistent_control": {
+      "path": "execution/persistent_control/budget.json",
+      "sha256": "c51d5da2dacd1486fa1936736d6301a0a824dd5c2f65ee201e2c8959f5aca7b1"
+    },
+    "balanced_mixture": {
+      "path": "execution/balanced_mixture/budget.json",
+      "sha256": "1eade896165a2f6928a6c9d460fcb139c70953db6d03fd3b0f5e50c23d2339a3"
+    },
+    "confirmation": {
+      "path": "execution/confirmation/budget.json",
+      "sha256": "f31b06eac3c2d7797ce26b191a2b35485344d4fbd6f3c076409282ea32c1ec91"
+    }
+  },
+  "wait4_receipts": [
+    {
+      "pid": 2513067,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 97.219966,
+      "system_cpu_seconds": 0.539687
+    },
+    {
+      "pid": 2514814,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 527.868938,
+      "system_cpu_seconds": 0.397001
+    },
+    {
+      "pid": 2522733,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 252.795989,
+      "system_cpu_seconds": 0.307907
+    }
+  ],
+  "running": {},
+  "queued": [],
+  "reason": null,
+  "error": null,
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026531836]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  }
+}

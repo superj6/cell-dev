@@ -1,0 +1,128 @@
+{
+  "status": "complete_local_viewer_unpublished",
+  "source_pins": {
+    "export.py": "c224de78be1805c8310b97d60f397cefd95c1ccf3c438c62e151e538b17cdde5",
+    "viewer.js": "a68c0849b8ceb1b9bcbebe351e82a8581818cfec902536b222eafe4fb966264b",
+    "template.html": "add63443fd7833231281972a8df6048d1d8b55fc0d1e6b7b1b5cec369c0e48a8",
+    "check_replay.js": "05aa9f12d5b50e42f4e3be2cf0b7f23a47a7890e8977d94506e7ea03c2a28f21",
+    "run_validation.py": "e917e3c4045c19645d56fea9136e85f8554aa3b048561a25038e52171b7adf5a",
+    "build.py": "6ee10d9ca050f523a910bce631cbd864d5abe483454b3d2d1054271d5f2fd6ce",
+    "test_viewer.js": "9a8adc1532acdd2e2c340fff72c0497923f4e96132d961d7d900518c7982109d",
+    "source_origins.json": "c0102a3a9f5a075b91e20bbe36808c83ecf4a89aa7bbbe073bb2e93cddeae36a"
+  },
+  "artifact_pins": {
+    "authorization.json": "c12b043b52db633ea4b4e1aa1e18ca39ce4dc69df6915e8872f20cc739f0d3a8",
+    "source_review.json": "b7268ef774efcb6c984afc11ecc41497e86cdf419db31200229ab864339cf697",
+    "source_origins.json": "c0102a3a9f5a075b91e20bbe36808c83ecf4a89aa7bbbe073bb2e93cddeae36a",
+    "export_attempt.json": "5a2657e8821be19cf5bbfd95e16365ce2a445fd5c41511af924e71f31b42a3bf",
+    "export_execution.json": "ce141121f509176dc46af035a5efec44c5d1bbc276d2f1e5819b4490b7878e10",
+    "export_receipt.json": "2684431d33de6417e5ebdabf1500c76085e4d9e9581a76e3dceab6ea0bc44ba0",
+    "export_stdout.json": "4435afa5e389378f301cb5cd3c1d28290862d40076e8433796c1d0dcd22887c8",
+    "export_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation_command.json": "9e7f0d86ca5cad543b5a0cfc9a1424b172842b9895ffb1848d8d5dfc69595df0",
+    "validation_attempt.json": "5d5cbb9ad40989860a46c3675288dc442deeb244b9104ca2a89e550669fedfb9",
+    "validation_execution.json": "88e82b7661c8adaa188a258376215142919bf03a0e6a56e5dc62d0507bffda0d",
+    "validation_budget.json": "eb538dd18be6870a1e163cd28a3fab84bb14f2a205b0e2816a63203c7f85a541",
+    "validation_stdout.json": "eb538dd18be6870a1e163cd28a3fab84bb14f2a205b0e2816a63203c7f85a541",
+    "validation_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "replay_stdout.json": "e71e80eb72f3f100f0eb669d4f601437856902f37b044c3389ed541bbdd4d2e7",
+    "replay_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "host_cleanup.json": "cb4341d3dbc3b7582bf0e6558e8ca27db9b30f2025d88a41bc07fd6987447e0a",
+    "build_command.json": "08fc230929865426214eb1c5404d2154426931667f641d1602afab9958893661",
+    "build_execution.json": "2c6cd441631c71b7c646320ed551ec6bce1fded87a69888ae6dc8d32f70ac6a5",
+    "build_stdout.json": "d6b234b131b719ae49d10741c114846e6362699d189ba979663c431e34cbb960",
+    "build_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ui_check.json": "a7a7abbd6139ac1da2e935082d90df06281cb682ed5d6869c64f9aacb9eb828f",
+    "ui_check.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bodies.json": "e733bff0d0031904a977615e8d232a8e2b6bbef4f76729dec6073f986b9e0c36",
+    "truth.json": "8fb30d56de35a064a18aa59b262a710be9a455399ad420a407d74e1f61f0ad9b",
+    "viewer.html": "3e0a97f9421a734f0f42759ff526b75be2fee6a37b6da0c07e28ffb089d6322c"
+  },
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "summary_sha256": "29e464929a7ab43e404688e939de81a4bfdb7bbafd48b9220225f443669d5555",
+  "illustration_seed": 52390000,
+  "fixed_roles": [
+    "AI_control_start",
+    "persistent_control_final",
+    "mixture_final"
+  ],
+  "fixed_worlds": [
+    "pool",
+    "persistent"
+  ],
+  "illustrative_rows": [
+    {
+      "role": "pool__AI_control_start",
+      "seed": 52390000,
+      "ledger_columns_bitwise_equal": 57,
+      "frames": 512,
+      "captures": 12,
+      "status": 0
+    },
+    {
+      "role": "pool__persistent_control_final",
+      "seed": 52390000,
+      "ledger_columns_bitwise_equal": 57,
+      "frames": 512,
+      "captures": 5,
+      "status": 0
+    },
+    {
+      "role": "pool__mixture_final",
+      "seed": 52390000,
+      "ledger_columns_bitwise_equal": 57,
+      "frames": 512,
+      "captures": 13,
+      "status": 0
+    },
+    {
+      "role": "persistent__AI_control_start",
+      "seed": 52390000,
+      "ledger_columns_bitwise_equal": 57,
+      "frames": 512,
+      "captures": 2,
+      "status": 0
+    },
+    {
+      "role": "persistent__persistent_control_final",
+      "seed": 52390000,
+      "ledger_columns_bitwise_equal": 57,
+      "frames": 512,
+      "captures": 5,
+      "status": 0
+    },
+    {
+      "role": "persistent__mixture_final",
+      "seed": 52390000,
+      "ledger_columns_bitwise_equal": 57,
+      "frames": 512,
+      "captures": 2,
+      "status": 0
+    }
+  ],
+  "ledger_values_bitwise_equal": 342,
+  "js_replay_lives": 6,
+  "new_C_lives": 0,
+  "new_Python_lives": 0,
+  "new_research_lives": 0,
+  "genetic_draws": 0,
+  "engine_builds": 0,
+  "validation_cpu_seconds": 8.367305,
+  "validation_wall_seconds": 6.976489473003312,
+  "peak_owned_rss_bytes": 97071104,
+  "caps": {
+    "cpu_seconds": 120,
+    "wall_seconds": 180,
+    "rss_bytes": 1073741824,
+    "address_space_bytes": 8589934592
+  },
+  "host_cleanup": "cleared exact recorded leader identity and process group in original host PID namespace; wrapper also completed",
+  "mock_UI_assertions": 106,
+  "real_browser_steps": 0,
+  "interpretation": "First registered confirmation seed in both worlds, without seed shopping. All 256-life aggregates and fixed contrasts remain visible independently of the illustration.",
+  "limits": [
+    "Six Node matches validate only these retained lives, not every JS life or browser.",
+    "Browser rendering and playback remain untested.",
+    "Relative benefit, recovery over start, conventional 90% retention and simultaneous gain are separate claims."
+  ]
+}

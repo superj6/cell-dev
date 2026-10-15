@@ -1,0 +1,45 @@
+{
+  "monitor": {
+    "pid": 2513066,
+    "ppid": 9421,
+    "pgid": 2513066,
+    "start_ticks": 9240222
+  },
+  "pid_namespace": "pid:[4026531836]",
+  "protocol_sha256": "25575f9ef690d00741fea0c62570d15aeb526d66a13a42025a91c5cd2fad19bf",
+  "release_sha256": "412be5b7c9eaf03397a40fea013ded4d6f9c0a3fef37b3917179ab1c5a19f42d",
+  "commands": {
+    "persistent_control": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/search.py",
+      "--arm",
+      "persistent_control"
+    ],
+    "balanced_mixture": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/search.py",
+      "--arm",
+      "balanced_mixture"
+    ],
+    "confirmation": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_retention_selection_20261015/measure.py",
+      "--run-child"
+    ]
+  },
+  "budget": {
+    "cpu_seconds": 5400,
+    "wall_seconds": 3600,
+    "search_cpu_seconds": 3600,
+    "confirmation_cpu_seconds": 1800,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

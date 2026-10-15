@@ -1,0 +1,40 @@
+{
+  "status": "complete",
+  "exit_code": 0,
+  "reason": null,
+  "cpu_seconds": 8.367305,
+  "wall_seconds": 6.976489473003312,
+  "cap_cpu_seconds": 120,
+  "processes": [
+    {
+      "pid": 2537076,
+      "pgid": 2537076,
+      "ppid": 2537074,
+      "start_ticks": 9317475
+    }
+  ],
+  "process_groups": [
+    2537076
+  ],
+  "running": [],
+  "queued": [],
+  "all_processes_exited": true,
+  "cleanup_error": null,
+  "source_pins": {
+    "check_replay.js": "05aa9f12d5b50e42f4e3be2cf0b7f23a47a7890e8977d94506e7ea03c2a28f21",
+    "bodies.json": "e733bff0d0031904a977615e8d232a8e2b6bbef4f76729dec6073f986b9e0c36",
+    "truth.json": "8fb30d56de35a064a18aa59b262a710be9a455399ad420a407d74e1f61f0ad9b",
+    "run_validation.py": "e917e3c4045c19645d56fea9136e85f8554aa3b048561a25038e52171b7adf5a"
+  },
+  "engine_sha256": "6ce1c6b4652f4fef2e1db0267624baccc90782ce196fe1cca3677048e99c8256",
+  "pid_namespace": "pid:[4026531836]",
+  "stdout_sha256": "e71e80eb72f3f100f0eb669d4f601437856902f37b044c3389ed541bbdd4d2e7",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "peak_owned_rss_bytes": 97071104,
+  "rss_cap_bytes": 1073741824,
+  "minimum_host_available_bytes": 4294967296,
+  "worker_address_space_bytes": 8589934592,
+  "js_replay_lives": 6,
+  "new_C_lives": 0,
+  "new_research_lives": 0
+}
