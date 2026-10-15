@@ -1,0 +1,53 @@
+{
+  "status": "source_and_synthetic_tests_passed",
+  "source_pins": {
+    "outputs/autonomous_retention_selection_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/autonomous_retention_selection_20261015/selection.py": "28a0560cb01b60b474a5aedbfebf0e5430458420c1b68d71c740dd700c33d6cb",
+    "outputs/autonomous_retention_selection_20261015/search.py": "a163820b178f5d257ed53e78f3df48a8aec13a4178289fd0d48d5a4182779370",
+    "outputs/autonomous_retention_selection_20261015/test_selection.py": "60e7cd9238af615a55e518e67048d0ca930af5d7c48c0d8e4abaf41bbbc15977"
+  },
+  "loader_source": {
+    "path": "outputs/autonomous_population_depth_20261015/population_loader.py",
+    "sha256": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "byte_identical": true
+  },
+  "checks": [
+    "Native LifeEvaluator.draw prefix and recheck slicing preserved; exact4+4 counts and50/50 treatment worlds.",
+    "Native seed sequence and ordinary selection/scoring unchanged; no added RNG calls.",
+    "Valid/final/full/half diagnostics unchanged; wrong selection duration/count/overrides/envelope rejected.",
+    "All32 synthetic input rows and duplicate bytes preserved; empty fill produces no mutations or RNG change.",
+    "Configured population and selection identities bind source and checkpoint; exactly one original numerical identity invocation.",
+    "Completed output scope binds four native generations,5158 research calls,two startup lives,checkpoints/logs/population/rank0.",
+    "Guarded lives retained; invalid/mismatch or corrupted final artifacts rejected."
+  ],
+  "first_cohort_equality": "To be independently replayed from unchanged native lineage after both authorized searches, before confirmation; no genetic draws for this review.",
+  "interface": {
+    "search_cli": "python search.py --arm persistent_control|balanced_mixture; default inert",
+    "release": "common.checked_release()->protocol; common.parent_check()",
+    "phase": "exact execution/{arm}/attempt.json environment binding",
+    "selection": "selection_identity(arm,protocol.selection_worlds)",
+    "population": "unchanged AJ loader_identity(protocol.population_start)",
+    "identity_extension_keys": [
+      "population_start",
+      "retention_selection"
+    ],
+    "completion": "runs/{arm}/search_complete.json"
+  },
+  "validation": {
+    "pytest_tests": 23,
+    "pytest_failures": 0,
+    "pytest_errors": 0,
+    "junit_path": "outputs/cumulative_capability_20261015/proposal/implementation/selection_tests_final.xml",
+    "junit_sha256": "c04531c482d9362bce549a6332949c2139827953f2c7b6e6c92f93520bec4645",
+    "ruff": "All checks passed!"
+  },
+  "limitations": [
+    "Full per-life search status is not retained by the native engine logs; aggregate guards and available invalid/mismatch fields are reported.",
+    "No real retained population was imported or run by this work."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "scientific_genetic_draws": 0,
+  "actual_inputs_copied": 0,
+  "production_edits": 0
+}
