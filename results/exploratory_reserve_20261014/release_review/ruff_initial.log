@@ -1,0 +1,248 @@
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/prepare.py:271:24
+    |
+269 |             or len(operations) != 31 or any(set(o) != {'mut'} or len(o['mut']) != 2 for o in operations)):
+270 |         raise ValueError('ordinary shared initialization differs')
+271 |     data = io.BytesIO(); np.save(data, population, allow_pickle=False)
+    |                        ^
+272 |     pop_path = STUDY / 'initialization/L92.npy'; freeze(pop_path, data.getvalue())
+273 |     init = {'population_file': 'initialization/L92.npy', 'file_sha256': sha(pop_path),
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/prepare.py:272:48
+    |
+270 |         raise ValueError('ordinary shared initialization differs')
+271 |     data = io.BytesIO(); np.save(data, population, allow_pickle=False)
+272 |     pop_path = STUDY / 'initialization/L92.npy'; freeze(pop_path, data.getvalue())
+    |                                                ^
+273 |     init = {'population_file': 'initialization/L92.npy', 'file_sha256': sha(pop_path),
+274 |             'population_raw_sha256': hashlib.sha256(population.tobytes()).hexdigest(), 'generator_before_sha256': before,
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/prepare.py:279:45
+    |
+277 |     for run in RUNS:
+278 |         current = search_config(run, reg['paired_native_seed'], start_file)
+279 |         path = STUDY / f'configs/{run}.yaml'; freeze(path, OmegaConf.to_yaml(current, resolve=True).encode())
+    |                                             ^
+280 |         configs[run] = {'path': str(path.relative_to(STUDY)), 'sha256': sha(path)}
+281 |     freeze_json(STUDY / 'initialization.json', {'status': 'pure_genetic_preparation', 'simulation_calls': 0,
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:136:30
+    |
+134 | @pytest.mark.parametrize('ties', [False, True])
+135 | def test_reserve_exact_exclusions_order_and_final_ordinary(ties):
+136 |     native = native_fixture(); generator = torch.Generator().manual_seed(55)
+    |                              ^
+137 |     parents = list(range(32))
+138 |     with A.installed(native, 0, 'reserve'):
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:142:53
+    |
+140 |             parents, result = generation(native, generator, g, parents, ties=ties)
+141 |             meta = native.records[-1]['exploratory_reserve']
+142 |             full = meta['ranking_calls'][1]['order']; pooled = meta['ranking_calls'][2]['order']
+    |                                                     ^
+143 |             protected = A.reserve_indices(0, g) if g < 3 else []
+144 |             normal = [i for i in full if i not in protected][:64-len(protected)]
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:167:26
+    |
+165 |     parents = list(range(32))
+166 |     with A.installed(full, 0, 'reserve'):
+167 |         for g in range(4): parents, _ = generation(full, a, g, parents, ties=True)
+    |                          ^
+168 |     parents = list(range(32))
+169 |     with A.installed(split, 0, 'reserve'):
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:170:26
+    |
+168 |     parents = list(range(32))
+169 |     with A.installed(split, 0, 'reserve'):
+170 |         for g in range(2): parents, _ = generation(split, b, g, parents, ties=True)
+    |                          ^
+171 |     saved_rng = b.get_state().clone(); saved_parents = list(parents)
+172 |     resumed = torch.Generator(); resumed.set_state(saved_rng)
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:171:38
+    |
+169 |     with A.installed(split, 0, 'reserve'):
+170 |         for g in range(2): parents, _ = generation(split, b, g, parents, ties=True)
+171 |     saved_rng = b.get_state().clone(); saved_parents = list(parents)
+    |                                      ^
+172 |     resumed = torch.Generator(); resumed.set_state(saved_rng)
+173 |     with A.installed(split, 0, 'reserve', parent_ids=saved_parents):
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:172:32
+    |
+170 |         for g in range(2): parents, _ = generation(split, b, g, parents, ties=True)
+171 |     saved_rng = b.get_state().clone(); saved_parents = list(parents)
+172 |     resumed = torch.Generator(); resumed.set_state(saved_rng)
+    |                                ^
+173 |     with A.installed(split, 0, 'reserve', parent_ids=saved_parents):
+174 |         for g in range(2, 4): parents, _ = generation(split, resumed, g, parents, ties=True)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:174:29
+    |
+172 |     resumed = torch.Generator(); resumed.set_state(saved_rng)
+173 |     with A.installed(split, 0, 'reserve', parent_ids=saved_parents):
+174 |         for g in range(2, 4): parents, _ = generation(split, resumed, g, parents, ties=True)
+    |                             ^
+175 |     assert split.records == full.records
+176 |     assert torch.equal(a.get_state(), resumed.get_state())
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:180:30
+    |
+179 | def test_adapter_restore_on_exception():
+180 |     native = native_fixture(); old = (native.rank_desc, native.recheck, native.Lineage.write)
+    |                              ^
+181 |     with pytest.raises(RuntimeError):
+182 |         with A.installed(native, 0, 'reserve'):
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:188:13
+    |
+187 | def test_identity_calls_original_once_and_binds_config():
+188 |     calls=[]; base={'golden':'synthetic','sources':{}}
+    |             ^
+189 |     configured=A.selection_identity('reserve')
+190 |     fn=S.one_identity(lambda: calls.append(1) or base, base, configured, 'reserve')
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:192:55
+    |
+190 |     fn=S.one_identity(lambda: calls.append(1) or base, base, configured, 'reserve')
+191 |     assert fn()==dict(base,external_selection=configured) and calls==[1]
+192 |     with pytest.raises(ValueError,match='exactly one'):fn()
+    |                                                       ^
+193 |     for field in ('mode','policy_sha256','source_pins'):
+194 |         wrong=copy.deepcopy(configured);wrong[field]='changed'
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:194:40
+    |
+192 |     with pytest.raises(ValueError,match='exactly one'):fn()
+193 |     for field in ('mode','policy_sha256','source_pins'):
+194 |         wrong=copy.deepcopy(configured);wrong[field]='changed'
+    |                                        ^
+195 |         with pytest.raises(ValueError,match='adapter/config'):A.extended_identity(base,wrong,'reserve')
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:195:62
+    |
+193 |     for field in ('mode','policy_sha256','source_pins'):
+194 |         wrong=copy.deepcopy(configured);wrong[field]='changed'
+195 |         with pytest.raises(ValueError,match='adapter/config'):A.extended_identity(base,wrong,'reserve')
+    |                                                              ^
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:202:34
+    |
+200 |     tree=ast.parse((ROOT/'src/checkpoint.py').read_text())
+201 |     fn=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name=='config_identity')
+202 |     space={'OmegaConf':OmegaConf};exec(compile(ast.Module(body=[fn],type_ignores=[]),'config_identity','exec'),space)
+    |                                  ^
+203 |     cfg=P.search_config('reserve',0,'synthetic.json')
+204 |     result=space['config_identity'](cfg)
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:206:71
+    |
+204 |     result=space['config_identity'](cfg)
+205 |     assert result['exploratory_reserve']==A.selection_identity('reserve')
+206 |     changed=OmegaConf.create(OmegaConf.to_container(cfg,resolve=True));changed.exploratory_reserve.policy_sha256='different'
+    |                                                                       ^
+207 |     assert result!=space['config_identity'](changed)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:214:22
+    |
+212 |     configs=[P.search_config(run,0,'synthetic.json') for run in P.RUNS]
+213 |     a,b=[OmegaConf.to_container(c,resolve=True) for c in configs]
+214 |     for item in (a,b):item['logging'].pop('output_dir');item.pop('exploratory_reserve')
+    |                      ^
+215 |     assert a==b
+216 |     cfg=configs[0]
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:214:56
+    |
+212 |     configs=[P.search_config(run,0,'synthetic.json') for run in P.RUNS]
+213 |     a,b=[OmegaConf.to_container(c,resolve=True) for c in configs]
+214 |     for item in (a,b):item['logging'].pop('output_dir');item.pop('exploratory_reserve')
+    |                                                        ^
+215 |     assert a==b
+216 |     cfg=configs[0]
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:228:63
+    |
+226 | def test_first_preparation_guard_and_no_unregistered_access(monkeypatch,tmp_path):
+227 |     monkeypatch.setattr(P,'STUDY',tmp_path)
+228 |     with pytest.raises(FileNotFoundError,match='registration'):P.prepare()
+    |                                                               ^
+229 |     assert not list(tmp_path.iterdir())
+230 |     (tmp_path/'generation_claim.json').write_text('{}')
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:231:61
+    |
+229 |     assert not list(tmp_path.iterdir())
+230 |     (tmp_path/'generation_claim.json').write_text('{}')
+231 |     with pytest.raises(ValueError,match='first preparation'):P.prepare()
+    |                                                             ^
+
+E702 Multiple statements on one line (semicolon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:235:18
+    |
+234 | def test_cost_and_fixed_phase_caps():
+235 |     rates=[.2]*65;p=P.cost_projection(rates)
+    |                  ^
+236 |     assert p['startup_search_projection']==180+1.5*8268*.2
+237 |     assert p['confirmation_projection']==180+1.5*512*5*.2
+    |
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:245:35
+    |
+243 | @pytest.mark.parametrize('bad',[0.,-1.,float('nan'),float('inf')])
+244 | def test_bad_historical_cost_rejected(bad):
+245 |     with pytest.raises(ValueError):P.cost_projection([.1]*64+[bad])
+    |                                   ^
+
+E701 Multiple statements on one line (colon)
+   --> outputs/autonomous_exploratory_reserve_20261014/test_source.py:264:35
+    |
+262 |     M.validate_search_state(state)
+263 |     state['curves'][1]['recheck_invalid']=float('nan')
+264 |     with pytest.raises(ValueError):M.validate_search_state(state)
+    |                                   ^
+
+Found 28 errors (4 fixed, 24 remaining).

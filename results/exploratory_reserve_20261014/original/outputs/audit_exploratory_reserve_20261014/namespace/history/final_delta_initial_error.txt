@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_20261014/namespace/final_namespace_delta.py", line 239, in <module>
+    main()
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_20261014/namespace/final_namespace_delta.py", line 88, in main
+    assert any(word in value['status'] for word in ('passed', 'approved')), path
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: /home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_20261014/reader_source_review.json

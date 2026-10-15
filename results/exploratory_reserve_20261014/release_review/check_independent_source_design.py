@@ -1,0 +1,152 @@
+"""Independent AH source/metadata review; no producer import, genomes or lives."""
+from pathlib import Path
+import ast
+import hashlib
+import io
+import json
+import math
+import xml.etree.ElementTree as ET
+import zipfile
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[2]
+AUDIT = Path(__file__).resolve().parent
+STUDY = ROOT / 'outputs/autonomous_exploratory_reserve_20261014'
+AE = ROOT / 'results/prediction_gradient_20261014'
+AF = ROOT / 'results/prediction_continuation_20261014'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read(path):
+    return json.loads(path.read_text())
+
+
+def definitions(path):
+    return {node.name: node for node in ast.parse(path.read_text()).body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+
+
+def npy(archive, name):
+    return np.load(io.BytesIO(archive.read(name + '.npy')), allow_pickle=False)
+
+
+def main():
+    author = read(AUDIT / 'producer_source_review.json')
+    assert author['status'] == 'passed_source_only_unregistered'
+    for name, digest in author['producer_source_pins'].items():
+        assert sha(STUDY / name) == digest, name
+    assert len(author['producer_source_pins']) == 13
+    for name in author['absent_paths']:
+        assert not (STUDY / name).exists(), name
+    origins = read(AUDIT / 'source_origins.json')
+    for name in ('scoring.py', 'common.py', 'numerical.py', 'world_contract.py'):
+        assert sha(STUDY / name) == sha(AF / name) == origins[name]['sha256']
+    old, new = definitions(AF / 'run_budgeted.py'), definitions(STUDY / 'run_budgeted.py')
+    for name in author['unchanged_AF_lifecycle_function_ASTs']:
+        assert ast.dump(old[name], include_attributes=False) == ast.dump(new[name], include_attributes=False), name
+    assert len(author['unchanged_AF_lifecycle_function_ASTs']) == 12
+    tests = ET.parse(AUDIT / 'source_tests_final.xml').getroot()
+    suites = [tests] if tests.tag == 'testsuite' else list(tests)
+    assert sum(int(x.attrib['tests']) for x in suites) == 20
+    assert all(int(x.attrib.get('failures', 0)) == int(x.attrib.get('errors', 0)) == 0 for x in suites)
+    assert sha(AUDIT / 'source_tests_final.xml') == author['tests']['junit_sha256']
+    assert sha(AUDIT / 'source_tests_final.log') == author['tests']['log_sha256']
+    protocol = read(AE / 'protocol.json')
+    assert sha(AE / 'protocol.json') == '0f5a591fbfb66fd29b5f9cd11d42b482eb8cb09e74613b17cc384ed2c3daa849'
+    vp = ROOT / 'results/prediction_information_20261014/protocol.json'
+    assert sha(vp) == protocol['V_protocol_sha256']
+    assert read(vp)['world'] == protocol['world']
+    packing = protocol['world_packing']
+    assert packing['abi'] == 3 and len(packing['keys']) == len(packing['values']) == 66
+    assert hashlib.sha256(np.array(packing['values'], dtype=np.float64).tobytes()).hexdigest() == packing['raw_sha256']
+    assert protocol['world']['R_cap'] == 500 and protocol['world']['T'] == 1024
+    summary = read(AE / 'analysis_result/summary.json')
+    old_cost = read(AUDIT / 'historical_cost_review.json')
+    assert sha(AUDIT / 'historical_cost_review.json') == author['historical_cost_review_sha256']
+    assert sha(AE / 'analysis_result/summary.json') == old_cost['AE_summary_sha256']
+    index_name = 'measurement/screen/L92/row_index.json'
+    index = read(AE / index_name)
+    assert sha(AE / index_name) == summary['input_pins'][index_name] == old_cost['source_pins'][str((AE / index_name).relative_to(ROOT))]
+    rates = []
+    for row_index in range(65):
+        name = f'measurement/screen/L92/screen/row_{row_index:04d}.npz'
+        path = AE / name
+        entry = index[f'screen/row_{row_index:04d}.npz']
+        assert sha(path) == entry['sha256'] == summary['input_pins'][name] == old_cost['source_pins'][str(path.relative_to(ROOT))]
+        with zipfile.ZipFile(path) as archive:
+            identity = json.loads(str(npy(archive, 'identity')))
+            assert identity == {'protocol_sha256': sha(AE / 'protocol.json'), 'background': 'L92',
+                'world': 'persistent', 'stage': 'screen', 'genome_index': row_index,
+                'genome_sha256': protocol['panel_genotype_sha256']['L92'][row_index], 'seeds': protocol['seeds']['screen']}
+            seeds = npy(archive, 'seeds')
+            assert seeds.dtype == np.uint64 and seeds.tolist() == identity['seeds']
+            assert int(npy(archive, 'genome_index')) == row_index
+            cpu, wall = float(npy(archive, 'cpu_seconds')), float(npy(archive, 'wall_seconds'))
+            assert cpu == entry['cpu_seconds'] and math.isfinite(cpu) and cpu > 0
+            assert math.isfinite(wall) and wall >= 0
+            with archive.open('ledger.npy') as stream:
+                version = np.lib.format.read_magic(stream)
+                assert version in ((1, 0), (2, 0))
+                header_reader = (np.lib.format.read_array_header_1_0 if version == (1, 0)
+                                 else np.lib.format.read_array_header_2_0)
+                shape, fortran, dtype = header_reader(stream)
+                assert shape == (32, 57) and dtype == np.float64 and not fortran
+            rates.append(cpu / 32)
+    assert rates == old_cost['rates_cpu_per_life']
+    node = definitions(STUDY / 'prepare.py')['cost_projection']
+    namespace = {'math': math}
+    exec(compile(ast.Module(body=[node], type_ignores=[]), str(STUDY / 'prepare.py'), 'exec'), namespace)
+    projection = namespace['cost_projection'](rates)
+    assert projection == old_cost['projection'] and projection['feasible']
+    assert projection['startup_search_projection'] == 180 + 1.5 * 8268 * max(rates)
+    assert projection['confirmation_projection'] == 180 + 1.5 * 512 * 5 * max(rates)
+    root_register = AUDIT / 'register_study.py'
+    ast.parse(root_register.read_text())  # Deliberately never import or execute root registration.
+    proposal = ROOT / 'outputs/audit_visibility_dark_tail_gradient_20261014/future_direction/exploratory_reserve_independent_review.md'
+    assert sha(proposal) == 'b5da4e9b70c79faea52b531ab0d010372afa5b3020ef749443be6775e64875d0'
+    paths = [Path(__file__), AUDIT / 'producer_source_review.json', AUDIT / 'historical_cost_review.json',
+             AUDIT / 'source_origins.json', AUDIT / 'source_tests_final.xml', AUDIT / 'source_tests_final.log',
+             root_register, proposal, vp, AE / 'protocol.json', AE / 'analysis_result/summary.json',
+             ROOT / 'results/decoy_evolution_20261014/runs/s53091/config.yaml',
+             ROOT / 'src/run.py', ROOT / 'src/evolve.py', ROOT / 'src/checkpoint.py',
+             ROOT / 'src/life/evaluate.py', ROOT / 'src/life/spec.py',
+             AUDIT / 'history/check_independent_source_design_initial.py.txt',
+             AUDIT / 'history/independent_source_review_initial_error.txt']
+    result = {'status': 'approved_source_only_unregistered', 'producer_source_pins': author['producer_source_pins'],
+        'source_pins': {str(p.relative_to(ROOT)): sha(p) for p in paths},
+        'prior_design_review_sha256': sha(proposal), 'blockers': [],
+        'review': {
+            'world_and_prices': 'Exact retained V and AE world dictionaries agree, ABI3 packing is66float64 coordinates with matching bytes; scorer/common/numerical/world contract are byte-identical to AF. Native setup and confirmation explicitly require the same world and extinction charging.',
+            'source_closure': 'Preparation pins all src Python files, kernel.c and three exact scoring scripts against completed AE identity; protocol/ready checks cover the scratch adapter, driver, configs and all current imported production files.',
+            'policy': 'Two distinct uniform fresh positions among224 are chosen with separate stateless SHA256 rejection, independent of phenotype/F. Constrained64shortlist and32survivors follow native full ranks; control and generation3 call the original recheck. All3native rank calls keep sizes256/256/64 and native tie RNG consumption.',
+            'identity_and_checkpoint': 'One original numerical_identity invocation per search; exact AE base compared before adapter/driver/policy identity extension. Config also contains the extension. Durable native lineage embeds all256base F/IDs,3exact ranking inputs/orders/tie hashes and reserve/survivor metadata before checkpoint log hashing. No live resume is exposed; synthetic interrupted-state coverage is not a new C checkpoint experiment.',
+            'first_cohort_and_endpoint': 'Before confirmation, both complete checkpoint identities/health/log prefixes and final rank0 genomes are checked. Founder copies and all224first-child ID/parents/mask/ops plus256baseF must match. Independent recorded genetic replay remains a separate required reader proof; live metadata equality alone is not described as byte replay.',
+            'startup_calls': 'Two search workers plus one confirmation child each invoke original identity once:6standard seed11/T200 golden calls. Confirmation validates extended endpoint identity without another identity call; monitor metadata check performs no goldens.',
+            'resources': 'Twelve lifecycle ASTs equal reviewed AF. Two owned2thread search groups then one2thread confirmation group; subreaper, group cleanup, live/reaped CPU and exact parent/start checks retained. Search stop3390,total5390 inside3400/5400; compilation, failed work and teardown included. No retry or partial-result inference.',
+            'registration': 'Root draft is syntactically valid and unexecuted. It requires an explicit review-acceptance bundle, exact576unique IDs with intentional64-ID cross-arm sharing, fixed AE row31, published historical bytes, and clean prior resources before any writes. It authorizes one future preparation only; readiness/publication/run remain separate.',
+            'interpretation': 'Primary is reserve-minus-control captures with unchanged F decomposition; both gains versus start retained. L92 is deliberately chosen using completed AE/AF observations, not an independently prospective background. One pair cannot estimate policy reliability or prove memory/necessary stepping stones.'},
+        'timing_review': {'row_count': 65, 'row_lives': 32, 'identity_and_index_checks': 'all65passed',
+            'ledger_access': 'NPY header only; no outcome/genotype arrays read',
+            'maximum_cpu_per_life': max(rates), 'maximum_row': int(np.argmax(rates)),
+            'startup_search_projection': projection['startup_search_projection'],
+            'confirmation_projection': projection['confirmation_projection'],
+            'thresholds': [3390, 1990],
+            'limitation': 'Historical maximum plus margins is feasibility evidence, not a bound on protected offspring cost. Hard monitor caps remain decisive.'},
+        'existing_author_checks_verified': 20, 'new_test_cases': 0,
+        'reviewer_execution_history': 'Initial metadata-only review stopped because installed NumPy lacks the private header reader; retained exact script/error, then used public versioned NPY header APIs. Producer unchanged, no outcomes read or lives run.',
+        'approval_scope': 'Minor external selection experiment fits standing authorization; no new in-life rule, world constant, ABI, price, global organism channel or hand-designed organism behavior. Root registration/release remain pending.',
+        'simulation_calls': 0, 'compiled_libraries': 0, 'genetic_draws': 0, 'genotype_copies': 0,
+        'production_edits': 0, 'prepared_inputs': 0}
+    path = AUDIT / 'independent_source_design_review.json'
+    path.write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps({'status': result['status'], 'sha256': sha(path), 'historical_timing_rows': 65,
+                      'startup_search_projection': projection['startup_search_projection'],
+                      'confirmation_projection': projection['confirmation_projection'], 'blockers': []}))
+
+
+if __name__ == '__main__':
+    main()

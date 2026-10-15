@@ -1,0 +1,11 @@
+{
+  "status": "root_review_acceptance_stopped_before_writes",
+  "error": "AssertionError: ('namespace/candidate_namespace_review.json', 'passed_candidate_pending_final_delta')",
+  "cause": "Root inline acceptance incorrectly expected the initial candidate receipt to have status passed; the historical candidate receipt explicitly leaves its later final delta pending. The separate final delta and seed audit both pass.",
+  "correct_status": "passed_candidate_pending_final_delta",
+  "acceptance_written": false,
+  "registration_invoked": false,
+  "study_inputs_created": false,
+  "simulation_calls": 0,
+  "genetic_draws": 0
+}

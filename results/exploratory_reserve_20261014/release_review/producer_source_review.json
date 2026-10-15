@@ -1,0 +1,85 @@
+{
+  "status": "passed_source_only_unregistered",
+  "producer_source_pins": {
+    "PREREG.md": "4a852106f5036d30e63c9fe70c5b980c4e10ca8e4e2183b1cfaa823769547f31",
+    "README.md": "abfe2ec618c04f9b1537ed7cea7a1369db15f28373eea5caa6fcd23152c3da11",
+    "SCHEMA.md": "de49cd99a8e98dc99adf58f959069615fca1324054f7500c83fa59e5af3d3c98",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "647dd363ab01c6676ed216f793cc0aa473bc82f68982bc812955445ebe53e592",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "943be9d1b96f75b4d63ded6168493df4ecec3b47327f919100a5422226528bc0",
+    "reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "run_budgeted.py": "bf9dd3f9a664d0f6f909401669a40bb262df91346d77530b2b298e4880bb7a13",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "search.py": "5d6d561cda5f7ac66479097d328af9fbfd2449f0fbb39f52435b9605bc341f2e",
+    "test_source.py": "5840b9c19e586b3d75af48420f92c9b524c8cbedbc3d99b1d8e1513eaa4dcc77",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "historical_cost_review_sha256": "128f56d1e74db06f76ff4f3f6914ca0edcd0f2241ec3100ef455d7146d35dca0",
+  "source_origins_sha256": "dd3071cf2adeeea774d9a0e2310ce25ddc81c18bc6e3483279007b60a7fdf7eb",
+  "unchanged_AF_helper_bytes": [
+    "scoring.py",
+    "common.py",
+    "numerical.py",
+    "world_contract.py"
+  ],
+  "unchanged_AF_lifecycle_function_ASTs": [
+    "proc_table",
+    "consumed_cpu",
+    "enable_subreaper",
+    "child_limit",
+    "send_signal",
+    "cleanup_group",
+    "cleanup",
+    "interrupt",
+    "process_identity",
+    "phase_limit",
+    "budget_reason",
+    "resource_clearance"
+  ],
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest outputs/autonomous_exploratory_reserve_20261014/test_source.py -q --basetemp=outputs/audit_exploratory_reserve_20261014/test_tmp_final --junitxml=outputs/audit_exploratory_reserve_20261014/source_tests_final.xml",
+    "passed": 20,
+    "junit_sha256": "a77b11009d2076e5074ffd3cab7b85a50569d12d087214133f672fd53f8fd3fb",
+    "log_sha256": "c66ef7936b32d2201bf6eb901cf69cbc8e71996669c38afe1f70ad40098e04a3",
+    "ruff_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "scope": "Synthetic evaluator, source ASTs and pure metadata only; no C lives."
+  },
+  "checks": [
+    "Original control recheck output and tie RNG unchanged, including ties.",
+    "Protected shortlist/survivor exclusion and full-rank ordering; final generation ordinary.",
+    "All three exact ranking inputs and tie states durably recorded.",
+    "Synthetic interrupted/restored parent and RNG state matches uninterrupted execution.",
+    "One original identity call; adapter/policy bound through config and extended identity.",
+    "Exact life/resource counts and first-preparation refusal.",
+    "Metadata-only all-65 historical cost gate; no fixed-body success condition."
+  ],
+  "absent_paths": [
+    "protocol.json",
+    "registration.json",
+    "seed_audit.json",
+    "inputs",
+    "configs",
+    "initialization",
+    "preparation_claim.json",
+    "generation_claim.json",
+    "ready.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "confirmation",
+    "logs",
+    "build-cache"
+  ],
+  "prepared_initial_populations": 0,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "production_source_edits": 0,
+  "limitations": [
+    "Independent reader and namespace reviews remain separate release prerequisites.",
+    "One paired search does not estimate policy reliability.",
+    "No raw ledger is retained for every native search life.",
+    "Source-only readiness does not authorize preparation or execution."
+  ]
+}

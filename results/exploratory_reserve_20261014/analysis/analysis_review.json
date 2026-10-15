@@ -1,0 +1,46 @@
+{
+  "status": "bound_prepared_unreleased",
+  "protocol_sha256": "0a9e505969ed11cd8f240f9404bbff2adf9a91d91d5387252fd9595874c61be4",
+  "source_review_sha256": "eb0e1bd8862ba54223076e2f08275013d1088150eac3bb253499e2869b1c9245",
+  "source_peer_sha256": "09552457ed64d23c41a8f235eee7f759eb6d9fba56b506b1be54198e6e3047a3",
+  "bound_reader_sha256": "4a7804c6e6f64410a6cf65f0ae35cdfaa2553e1d1da5ff6883b8dab3077cfe67",
+  "unbound_reader_sha256": "89388f4fb1ab46ac86318f18eba9626539c2e9412eced6dfcd267e4705676e64",
+  "binding_change": "Only PROTOCOL_SHA literal changed; normalized entire module AST matches reviewed unbound source.",
+  "unchanged_sources": {
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "actual_input_verification_sha256": "1a605969f4aeaab4023b1eadeff7a6ecea193f5e3330a75b13c8fc1d8a5a2f99",
+  "initialization_replay_sha256": "37d67a3aa80d91236efb55916ce4a7f326c657f243f79d6aeb01eebf2fcd7716",
+  "execution": {
+    "exit_code": 0,
+    "cwd": "/",
+    "command_sha256": "d0489ae4cabe77d2eae8daf836a2be0ad093a6ff8fd9a54433824b20197dc0a0",
+    "stdout_sha256": "a0b60977a1ac8918905506b2a665760225a3c759a6f20b89f3e2c6232dbe1b42",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  "verified": {
+    "local_pins": 102,
+    "production_pins": 35,
+    "configurations": 2,
+    "world_values": 66,
+    "historical_timings": 65,
+    "shared_initial_rows": 32,
+    "recorded_point_additions": 62,
+    "all_initial_rows_bitwise_equal": true,
+    "confirmation_roles": 3,
+    "future_paired_vectors": 219,
+    "prelaunch_outcomes_emitted": false
+  },
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "fresh_genetic_draws": 0,
+  "limitations": [
+    "Actual measurement and complete first-cohort/native endpoint replay remain prospective.",
+    "Metadata and retained numerical identities were checked without executing numerical goldens.",
+    "One chosen background and one paired search do not estimate policy reliability."
+  ]
+}

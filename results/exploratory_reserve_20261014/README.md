@@ -1,0 +1,19 @@
+# AH: two-slot exploratory reserve
+
+This is a source-only candidate. No registration, scientific inputs, initial populations, libraries, or lives have been produced. Later preparation and release require root authorization. A separate prepared-status receipt will describe any authorized change in that state; this historical source-only text stays pinned.
+
+The experiment asks whether briefly retaining two randomly chosen new offspring helps ordinary evolution find better capture behavior in the existing persistent-target world. It uses the fixed AE L92 winner, one matched four-generation control/reserve pair, and three fixed genotypes on 512 fresh paired confirmation lives. L92 is a deliberately selected case motivated by AE's capture gain and AF's later loss; AF is not reused as the control. The ordinary fitness function, its prices, the ABI3 world, organism rules, and production source remain unchanged.
+
+In generations 0 through 2, the reserve arm chooses two distinct members uniformly from all 224 fresh offspring. Those two enter the 64-member recheck shortlist and survive into the 32-member next population. The remaining places follow the ordinary fitness rankings, excluding the protected members. Protection expires after that selection. Generation 3 uses ordinary selection in both arms. All selected survivors retain pooled-fitness rank order, including the rank-zero organism used by final diagnostics.
+
+The separate adapter consumes no genetic or tie RNG draws. A stateless SHA256 rejection lottery derives its two choices from the run seed and generation. Both arms share the native genetic seed, initial cohort, first offspring, and life seed schedule intentionally. They consume the same three native tie-permutation calls per generation. Subsequent genomes and actual CPU costs may differ.
+
+`search.py` wraps the unchanged native runner. The adapter and its policy are bound in both configuration and checkpoint numerical identity. The original numerical identity runs once per worker. Full ranking inputs, orders, state hashes, and protected IDs are embedded in the existing durable lineage log. The scientific pilot permits no resume; synthetic tests cover state restoration without any engine lives.
+
+The scope is 8,268 native research lives plus 1,536 confirmation lives, with six standard golden lives: 9,810 total calls. Search uses two workers with two threads each. Confirmation uses one worker with two threads. The inclusive CPU cap is 5,400 seconds, with a 3,400-second search ceiling and 2,000-second confirmation reserve. The monitor stops at 3,390 and 5,390 seconds to leave cleanup room. Historical timing projections are feasibility checks, not cost bounds for new offspring.
+
+The primary contrast is reserve endpoint minus control endpoint captures. Production fitness, capture income, ordinary costs, guard charges, extinction charges, and both endpoint-minus-start gains are also retained. Better fitness through lower costs alone is not evidence of improved acquisition. Fresh-life uncertainty describes these fixed genotypes; one evolutionary pair cannot establish reliable policy superiority, a memory mechanism, or necessary low-fitness stepping stones.
+
+Preparation requires completed AE input provenance and clean AG terminal resource clearance. AG's outcome sign or scientific success is not a prerequisite. A missing arm, cap stop, incomplete confirmation, or failed audit yields an incomplete study with no complete-study outcome claim. There is no retry, endpoint replacement, scope reduction, or budget extension.
+
+`prepare.py` and `measure.py` default to dry-run reports. `run_budgeted.py` requires explicit root release and `--run`. `SCHEMA.md` defines the registration, raw, checkpoint, and resource contracts; `PREREG.md` fixes the comparisons and interpretation.

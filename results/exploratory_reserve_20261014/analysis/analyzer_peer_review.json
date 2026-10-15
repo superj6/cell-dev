@@ -1,0 +1,69 @@
+{
+  "status": "approved_source_only_unbound",
+  "reviewer": "decoy_design",
+  "reader_source_review_sha256": "eb0e1bd8862ba54223076e2f08275013d1088150eac3bb253499e2869b1c9245",
+  "reader_source_pins": {
+    "analyze.py": "89388f4fb1ab46ac86318f18eba9626539c2e9412eced6dfcd267e4705676e64",
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_reader.py": "a7fd589494a256155ba3db01164413c62d1784baa2aa2b36e7b0d3179e3b462d",
+    "test_selection.py": "1b1b2efd6cbdfdf0c3d0d9ee4a6e42301c373ef1f9e5f06df9c9c6f56a91a781"
+  },
+  "producer_source_pins": {
+    "PREREG.md": "4a852106f5036d30e63c9fe70c5b980c4e10ca8e4e2183b1cfaa823769547f31",
+    "README.md": "abfe2ec618c04f9b1537ed7cea7a1369db15f28373eea5caa6fcd23152c3da11",
+    "SCHEMA.md": "de49cd99a8e98dc99adf58f959069615fca1324054f7500c83fa59e5af3d3c98",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "647dd363ab01c6676ed216f793cc0aa473bc82f68982bc812955445ebe53e592",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "943be9d1b96f75b4d63ded6168493df4ecec3b47327f919100a5422226528bc0",
+    "reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "run_budgeted.py": "bf9dd3f9a664d0f6f909401669a40bb262df91346d77530b2b298e4880bb7a13",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "search.py": "5d6d561cda5f7ac66479097d328af9fbfd2449f0fbb39f52435b9605bc341f2e",
+    "test_source.py": "5840b9c19e586b3d75af48420f92c9b524c8cbedbc3d99b1d8e1513eaa4dcc77",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "supersedes_policy_core_scope": {
+    "receipt": "policy_peer_review.json",
+    "sha256": "e535096df7d2d129bf25bd59d9f47b01d1d471b957af8fd273095cad7e508ec5",
+    "meaning": "Extends the prior unchanged policy-core source review to the complete reader/native/resource/accounting wrapper."
+  },
+  "checks": [
+    "Actual producer registration/protocol/founder and 65-row timing contracts match; actual binding remains pending.",
+    "One shared 32-row initialization and full first-256 reconstruction match the flat producer genetics digest and bitwise base-F requirement.",
+    "Independent lottery and native tie-stream replay, exact pooled rank values, top62/top30 exclusions, all final population rows and rank-zero endpoint bindings match.",
+    "External adapter/policy is bound in each config and extended checkpoint/determinism identity; confirmation uses the retained base identity without extra calls.",
+    "Both complete native log prefixes, no resume, 8268 search plus1536 confirmation and6 goldens agree with actual producer call paths.",
+    "Actual four-field process ownership, 3 groups, all phase ceilings, readiness and source/helper closures match monitor receipts.",
+    "Exact unchanged AF57 accountant retains initial-cell census, physical prices, guard and extinction penalties, three raw rows and219 paired vectors.",
+    "Report primary/gain names, all signs, cost decomposition and strict3SE capture column match actual scorer. Explicit primary_behavioral_estimate points to those existing capture statistics."
+  ],
+  "tests": {
+    "author_run_passed": 47,
+    "junit_sha256": "590d200a31af89c8abedd65b81941abdf2f5ff7a56670915c5f85119dc2307a1",
+    "independent_rerun": false,
+    "post_test_change_reviewed": "Summary metadata only for primary captures, plus test-only archive source-root resolution. All normalized test function ASTs are unchanged; one focused path/import/lottery check passes. No validation, arithmetic or vector change."
+  },
+  "findings": [],
+  "scope_limits": [
+    "No actual AH protocol, inputs or initial population exists yet. Actual prepared-input and bound-source checks are required before release.",
+    "One deliberately selected L92 case and one paired evolutionary seed do not establish general reliability or a memory mechanism.",
+    "Full raw ledger reconciliation applies to confirmation; native search has recorded scores and summaries, not every life ledger.",
+    "The inherited producer above_3se field diagnoses F; the primary acquisition estimate is captures."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "source_changes_by_reviewer": false,
+  "test_path_portability_review": {
+    "prior_peer_receipt": "outputs/audit_exploratory_reserve_20261014/source_history/analyzer_peer_review_before_test_path.json",
+    "prior_peer_sha256": "02fb67596017192b277590a33cb8196a642cdc7ce7a59f1c5cd84fdb238715ae",
+    "normalized_test_function_AST_equal": true,
+    "focused_test_passed": 1,
+    "junit_sha256": "74ff5f4924e6f0fc3bd334afaf6fbe44340e81f9fbcd6fcb424ba2ea2ed4659c",
+    "source_changes": "Test-only containing-study and production/src fallback; reader/native/accountant/policy source unchanged."
+  }
+}

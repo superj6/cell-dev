@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_20261014/check_independent_source_design.py", line 146, in <module>
+    main()
+  File "/home/jgon/project/ml/cell-dev/outputs/audit_exploratory_reserve_20261014/check_independent_source_design.py", line 93, in main
+    shape, fortran, dtype = np.lib.format._read_array_header(stream, version)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'numpy.lib.format' has no attribute '_read_array_header'. Did you mean: 'read_array_header_1_0'?

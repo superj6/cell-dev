@@ -257,6 +257,21 @@ Evidence: `results/visibility_dark_tail_gradient_20261014/`. Source-only AH now 
 versus two-slot exploratory-reserve pilot from AE L92 in the persistent-target world. The reserve changes
 external selection only; prices, F and local rules stay fixed. No AH inputs, seeds, builds or lives are released.
 
+**AH registered and prepared (2026-10-14).** One matched four-generation pair from fixed AE L92
+row31 compares ordinary selection with a two-slot fresh-offspring reserve. L92 is deliberately chosen after
+AE's capture gain and AF's later loss, not a representative background. In treatment generations 0–2, two random
+fresh offspring join the recheck shortlist and breeder population regardless of F; the other slots use unchanged
+F ranking. The final generation is ordinary. Both arms share their initial cohort/native seed and must match
+their first 256 candidate genotypes byte-for-byte. The start and both fixed final rank-zero endpoints then receive 512 fresh paired
+lives. Reserve-minus-control captures leads the report, with both gains versus start and full F/cost accounting.
+The 9,804 research plus six golden calls have a 5,400 CPU-second cap, startup/search at 3,400 and confirmation
+reserve 2,000; historical timing projections are 2,690.125/957.204 seconds. Shared native seed 53226 and fresh
+block 135 are audited. One shared 32-row initialization with 62 recorded point additions is prepared; no lives
+or builds ran. Protocol `0a9e5059…4c61be4` pins 102 local/35 production files. Actual-input/reader review and
+prospective publication precede separate root release. Evidence: `results/exploratory_reserve_20261014/`.
+Prices, task F, ABI3 world, local rules and production defaults stay fixed. A single paired search cannot establish
+policy reliability, a necessary stepping stone, memory or a new algorithm.
+
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their
 dependency guards before any measurement. S's scoring-budget comparison remains fully prepared but held, with

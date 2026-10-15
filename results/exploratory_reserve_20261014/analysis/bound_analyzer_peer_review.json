@@ -1,0 +1,45 @@
+{
+  "status": "approved_bound_prepared_unreleased",
+  "reviewer": "decoy_design",
+  "protocol_sha256": "0a9e505969ed11cd8f240f9404bbff2adf9a91d91d5387252fd9595874c61be4",
+  "reader_sha256": "4a7804c6e6f64410a6cf65f0ae35cdfaa2553e1d1da5ff6883b8dab3077cfe67",
+  "unbound_reader_sha256": "89388f4fb1ab46ac86318f18eba9626539c2e9412eced6dfcd267e4705676e64",
+  "entire_module_AST_equal_except_protocol_literal": true,
+  "unchanged_scientific_helpers": {
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139"
+  },
+  "source_peer_sha256": "09552457ed64d23c41a8f235eee7f759eb6d9fba56b506b1be54198e6e3047a3",
+  "analysis_review_sha256": "d935c18fbbe04b0d355988cb789caca19133b994607729f1883b1a39644be95a",
+  "actual_input_verification_sha256": "1a605969f4aeaab4023b1eadeff7a6ecea193f5e3330a75b13c8fc1d8a5a2f99",
+  "initialization_replay_sha256": "37d67a3aa80d91236efb55916ce4a7f326c657f243f79d6aeb01eebf2fcd7716",
+  "author_preparation_review_sha256": "446c31cbf2443ca339c3208ea27a64c3c04c01b07c03dd545cfbf03f084e1dae",
+  "verified": {
+    "local_pins": 102,
+    "production_pins": 35,
+    "exact_ABI3_world_values": 66,
+    "historical_timing_rows": 65,
+    "configurations": 2,
+    "shared_initial_rows": 32,
+    "recorded_point_additions": 62,
+    "native_ids_intentionally_shared": 64,
+    "fresh_confirmation_ids": 512,
+    "prelaunch_outcomes_emitted": false
+  },
+  "checks": [
+    "Bound reader differs only in protocol literal from the reviewed source; all scientific math, policy replay, resource and accounting checks unchanged.",
+    "Author actual-copy/config/world/seed/cost verification agrees with independent actual verification.",
+    "Independent recorded-addition replay establishes all32 initial row bytes without fresh genetics or lives.",
+    "Complete first256 offspring and both final populations remain prospective runtime evidence; no current claim of those outcomes."
+  ],
+  "findings": [],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "review_genetic_draws": 0,
+  "limitations": [
+    "One deliberately chosen background and one paired search do not establish general policy reliability.",
+    "No runtime authorization is granted by this approval; prospective publication and root readiness remain required."
+  ]
+}

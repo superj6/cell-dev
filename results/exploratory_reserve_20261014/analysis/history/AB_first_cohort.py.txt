@@ -1,0 +1,24 @@
+def first_cohort(layout, initial, children, helper):
+    """Reconstruct the recorded first cohort, without drawing another mutation."""
+    equal([c["id"] for c in children], list(range(32, 256)), "first offspring IDs")
+    parents = torch.from_numpy(initial)
+    candidates = [row.copy() for row in initial]
+    records = []
+    for child in children:
+        pa, pb, mask = child["pa"], child["pb"], child["mask"]
+        if not 0 <= pa < 32 or not 0 <= pb < 32 or not isinstance(mask, int) or not 0 <= mask < 1 << layout.n_units:
+            raise ValueError("invalid first-cohort genetic record")
+        equal(set(child["ops"]), {"mut"}, "ordinary first-cohort operations")
+        units = torch.tensor([(mask >> i) & 1 for i in range(layout.n_units)], dtype=torch.bool)
+        mixed = layout.silence(torch.where(units[layout.unit_of], parents[pa], parents[pb]))
+        candidates.append(helper.point_mutation(layout, mixed, child["ops"]).numpy())
+        records.append({k: child[k] for k in ("id", "pa", "pb", "mask", "ops")})
+    table = np.stack(candidates)
+    return {
+        "candidate_shape": list(table.shape),
+        "candidate_dtype": str(table.dtype),
+        "initial_raw_sha256": raw(initial),
+        "all256_raw_sha256": raw(table),
+        "row_raw_sha256": [raw(row) for row in table],
+        "recorded_genetics": records,
+    }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="19" time="2.380" timestamp="2026-10-14T22:58:37.401126-07:00" hostname="jgon-ThinkPad-X1-Carbon-Gen-13"><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[control-0-False-False]" time="0.121" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[control-2-True-False]" time="0.033" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[reserve-0-False-False]" time="0.032" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[reserve-1-True-False]" time="0.032" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[reserve-2-False-True]" time="0.032" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[reserve-3-False-False]" time="0.031" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_actual_native_adapter_selection[reserve-3-True-False]" time="0.032" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[lottery]" time="0.032" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[policy]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[candidate_ids]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[base]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[pooled]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[rank]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[tie]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[short]" time="0.030" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[pick]" time="0.030"><failure message="Failed: DID NOT RAISE ValueError">corruption = 'pick'
+
+    @pytest.mark.parametrize("corruption", ["lottery", "policy", "candidate_ids", "base", "pooled", "rank", "tie", "short", "pick", "survivor"])
+    def test_policy_corruption_fails(corruption):
+        args = fixture()
+        row = args[0]
+        item = row["exploratory_reserve"]
+        if corruption == "lottery":
+            item["reserve_indices"][0] = 0
+        elif corruption == "policy":
+            item["policy_sha256"] = "0" * 64
+        elif corruption == "candidate_ids":
+            item["candidate_ids"][0] = 99999
+        elif corruption == "base":
+            item["base_F"][0] += 1
+        elif corruption == "pooled":
+            item["ranking_calls"][2]["fitness"][0] += 1
+        elif corruption == "rank":
+            item["ranking_calls"][0]["order"][:2] = reversed(item["ranking_calls"][0]["order"][:2])
+        elif corruption == "tie":
+            item["ranking_calls"][1]["tie_after_sha256"] = "0" * 64
+        elif corruption == "short":
+            item["shortlist_indices"][-1] = 0
+        elif corruption == "pick":
+            item["pick_positions"][-1] = 63
+        else:
+            row["fitness"][0] += 1
+&gt;       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE ValueError
+
+outputs/audit_exploratory_reserve_20261014/analysis/test_selection.py:161: Failed</failure></testcase><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_policy_corruption_fails[survivor]" time="0.031" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_lottery_rejection_and_distinctness" time="0.001" /><testcase classname="outputs.audit_exploratory_reserve_20261014.analysis.test_selection" name="test_separate_lottery_agrees_with_declared_adapter" time="0.001" /></testsuite></testsuites>

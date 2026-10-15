@@ -194,6 +194,19 @@ raw accounting independently reproduce. Processes exited and release pins remain
 selection versus two temporarily protected fresh offspring in the existing persistent-target world. It tests
 exploration under unchanged F and prices, not a new organism rule or reward, and is not yet registered or run.
 
+*2026-10-14 AH registered and prepared:* a small external-selection pilot compares ordinary selection
+with two uniformly chosen fresh offspring protected through recheck and breeding in generations 0–2, followed
+by ordinary final selection. Both four-generation arms share fixed AE L92, their initial cohort and native seed.
+This deliberately chosen background motivates a targeted pilot, not a reliability claim. Confirm the start and
+both final endpoints on 512 fresh shared lives; lead with reserve-minus-control captures and retain both own-start
+gains plus full net-F accounting. Task F, prices, world and local asynchronous rules are unchanged. All 9,810 calls
+fit a fixed 5,400 CPU-second ceiling, with 2,000 reserved for confirmation; actual costs may exceed the historical
+planning assumptions. Seed 53226 supplies intentionally shared native IDs; block 135 provides fresh confirmation.
+One shared initialization with 62 recorded additions is prepared without compilation or lives. Protocol
+`0a9e5059…4c61be4` pins 102 local/35 production files. Actual-input/reader review and public preparation precede
+runtime release. Evidence: `results/exploratory_reserve_20261014/`. This tests exploration access, without new
+organism behavior or a secondary capture reward; it cannot make persistently uneconomic behavior competitive.
+
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
 **+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged

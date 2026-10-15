@@ -1,0 +1,34 @@
+{
+  "status": "approved_source_only_policy_core",
+  "reviewer": "decoy_design",
+  "scope": "Independent selection.py replay compatibility with actual AH adapter and native selection source; full reader wrapper reviewed separately when frozen.",
+  "pins": {
+    "outputs/audit_exploratory_reserve_20261014/analysis/selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "outputs/audit_exploratory_reserve_20261014/analysis/test_selection.py": "16e905a34441d63ed908ff2b30802c6123217ee7a6b2daedd584f6483c174095",
+    "outputs/audit_exploratory_reserve_20261014/policy_tests_final.xml": "748d1cf6d0218d9d764ae99535dcd67aa39df970966dfa8421f5c7d3d88161f8",
+    "outputs/audit_exploratory_reserve_20261014/policy_tests_final.log": "0caf379acbcb845c31b98bf4efeffb865a66d527d27d5bb4f34018bea0099078",
+    "outputs/autonomous_exploratory_reserve_20261014/reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "src/evolve.py": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+    "src/checkpoint.py": "835d5529e40d8651511c5ee1ac5e682b9b1efd5b0a1b045f3200e6f16ab5df1b"
+  },
+  "findings": [],
+  "checks": [
+    "SHA256 ASCII domain/seed/generation/counter stream, little-endian rejection sampling and removal match declared lottery; fresh eligibility is score-independent.",
+    "All three native ranking call sizes, exact fitness arrays, stable tie permutations and before/after states are replayed independently.",
+    "All 256 base scores and 64 exact pooled fitness values remain distinct from approximate recombination of rounded means.",
+    "Top62 and top30 exclusions and complete ranking order match adapter; ordinary control/final generation match native semantics.",
+    "Recorded life IDs, checkpoint final IDs/fitness/tie state, child kept flags and rank-zero curves are checked."
+  ],
+  "test_evidence": {
+    "author_run_passed": 19,
+    "independent_test_rerun": false,
+    "scope": "Fabricated fitness and AST-extracted pure native functions; no engine lives or genetic draws."
+  },
+  "limitations": [
+    "This is a policy-core source review; full protocol, resource, genotype and raw accounting wrapper approval remains pending.",
+    "Tie RNG replay is an external audit calculation, not a new search or mutation draw."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0
+}

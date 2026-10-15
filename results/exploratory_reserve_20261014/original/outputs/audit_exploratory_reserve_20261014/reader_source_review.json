@@ -1,0 +1,90 @@
+{
+  "status": "source_only_reviewed_unregistered",
+  "protocol_sha256": null,
+  "reader_sources": {
+    "analyze.py": "89388f4fb1ab46ac86318f18eba9626539c2e9412eced6dfcd267e4705676e64",
+    "native_audit.py": "851950810eaed8e0e7829e552448d13bd935bbba52e3316327afd0813aca7864",
+    "selection.py": "b1a5bfb55f3cf9fdbb8ad46aa1aebd8f2aa5cacd8e02cc0b4ae943f025b107b8",
+    "offline_accounting.py": "5a20bb4966660ff5d44b74b67c6e124b9bbe1ef6ff03ea7c9cf280eba03dac0b",
+    "helpers/genetics.py": "8fd717bdecb5f0e073e04838bbf286a4a968924bc9848b55c5a8d2b2055f4139",
+    "test_reader.py": "a7fd589494a256155ba3db01164413c62d1784baa2aa2b36e7b0d3179e3b462d",
+    "test_selection.py": "1b1b2efd6cbdfdf0c3d0d9ee4a6e42301c373ef1f9e5f06df9c9c6f56a91a781"
+  },
+  "producer_sources": {
+    "PREREG.md": "4a852106f5036d30e63c9fe70c5b980c4e10ca8e4e2183b1cfaa823769547f31",
+    "README.md": "abfe2ec618c04f9b1537ed7cea7a1369db15f28373eea5caa6fcd23152c3da11",
+    "SCHEMA.md": "de49cd99a8e98dc99adf58f959069615fca1324054f7500c83fa59e5af3d3c98",
+    "common.py": "3a84cbdf701fa211cc85b54351407f062c76130c2fdf20a071bc58d243275332",
+    "measure.py": "647dd363ab01c6676ed216f793cc0aa473bc82f68982bc812955445ebe53e592",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "943be9d1b96f75b4d63ded6168493df4ecec3b47327f919100a5422226528bc0",
+    "reserve_adapter.py": "d1aae4a6ab2ef3ec8fdbb2b28ed9ae7922e64b139c3c4033b60e2292c7ee7e3c",
+    "run_budgeted.py": "bf9dd3f9a664d0f6f909401669a40bb262df91346d77530b2b298e4880bb7a13",
+    "scoring.py": "0466ad4807c92e9e5fb069800da0fca336d2083b6268d869419358571b8f3e51",
+    "search.py": "5d6d561cda5f7ac66479097d328af9fbfd2449f0fbb39f52435b9605bc341f2e",
+    "test_source.py": "5840b9c19e586b3d75af48420f92c9b524c8cbedbc3d99b1d8e1513eaa4dcc77",
+    "world_contract.py": "b8ceb7804fce4dbe8900b76efaeaafeafb6b40e1f84f137aea07fc0c07e7f687"
+  },
+  "tests": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_sha256": "590d200a31af89c8abedd65b81941abdf2f5ff7a56670915c5f85119dc2307a1",
+    "log_sha256": "325b7cf7b0d6ead544ebb7e833a08009fa10cf90ce29b8f9021e2ede461488f5",
+    "lint_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "scope": {
+    "native_jobs": 2,
+    "shared_initial_populations": 1,
+    "native_lives": 8268,
+    "confirmation_lives": 1536,
+    "startup_goldens": 6,
+    "total_calls": 9810,
+    "raw_confirmation_rows": 3,
+    "paired_vectors": 219
+  },
+  "reviewed_contracts": [
+    "Exact unchanged AF57 whole-life accountant, initial-cell census, guard and extinction charges.",
+    "Three fixed roles; reserve-minus-control captures primary, both endpoint-minus-start contrasts; all73 independent metrics each.",
+    "All65 historical AE L92 timing identities and maximum-rate forecasts; AG terminal is operational only.",
+    "Policy plus adapter/driver source identity in both search config and checkpoint; confirmation retains original identity.",
+    "Independent SHA256 rejection lottery; all256 initial and64 actual pooled rank values; exact three native tie draws per generation.",
+    "Control/final ordinary top64/top32; active treatment protected2 plus top62/top30, ordered by original full rankings.",
+    "Recorded genetics, all256 first-cohort genotype hashes and both full base-F byte arrays; exact final rank0 endpoints.",
+    "Actual four-field process receipts, first-attempt caps and phase order; native checkpoint/log offsets and health summaries."
+  ],
+  "limitations": [
+    "No actual AH protocol, inputs or initialization exists; actual checks await authorized preparation and completed measurement.",
+    "Synthetic score and row tests use no genotype arrays, engine calls or scientific seeds; external tie streams are replayed.",
+    "Native search per-life ledgers are not retained; only confirmation has all raw57 columns.",
+    "One chosen background and one matched search pair cannot estimate general policy reliability or establish a memory mechanism.",
+    "Six recorded numerical goldens are audited; the reader executes none."
+  ],
+  "preserved_test_errors": [
+    {
+      "path": "policy_tests.log",
+      "source": "analysis/history/test_selection_initial.py.txt",
+      "cause": "Corruption fixture initially assigned an unchanged shortlist index."
+    },
+    {
+      "path": "reader_policy_tests.log",
+      "source": "analysis/history/test_selection_missing_curve_gen.py.txt",
+      "cause": "Four new cumulative-policy fixtures lacked curve.gen; only the fixtures were corrected."
+    }
+  ],
+  "draft_receipt_error": "An earlier inline packaging attempt tried json.dumps(dict_keys) while printing producer keys; it failed before writing the receipt. No scientific code or data was executed.",
+  "post_test_change": "After47passingchecks: explicit primary_behavioral_estimate metadata references existing capture stats; test-only source-root resolution supports archived production. One focused import/lottery check passes; normalized test function AST equal. No scientific arithmetic/validation changed.",
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "genetic_generation_calls": 0,
+  "test_path_portability": {
+    "change": "Prefer containing study and its production/src/evolve.py for AST-only pure ranking functions; repository fallback remains. No scientific source change.",
+    "previous_review_sha256": "8a7d42292d740108a0a99581cf29ce29e842e9467d97be9a03006c870be10d25",
+    "previous_test_sha256": "d84ff245c6f3e54a9f59ddcaecb012c165afa90f971f090fc81a830e7c085609",
+    "test_function_AST_equal_after_root_name_normalization": true,
+    "focused_test_passed": 1,
+    "junit_sha256": "74ff5f4924e6f0fc3bd334afaf6fbe44340e81f9fbcd6fcb424ba2ea2ed4659c",
+    "log_sha256": "423b1d0e014eb1eab96f4420f7b344c2615be505dd574b756ac884826ca74f2d"
+  }
+}
