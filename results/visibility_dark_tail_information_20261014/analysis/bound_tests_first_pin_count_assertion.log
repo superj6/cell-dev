@@ -1,0 +1,14 @@
+F...                                                                     [100%]
+=================================== FAILURES ===================================
+______________ test_actual_prepared_inputs_and_physical_transfer _______________
+
+    def test_actual_prepared_inputs_and_physical_transfer():
+        p, review = M.verify_protocol(SOURCE)
+>       assert len(p["file_pins"]) > 40 and len(p["production_pins"]) == 35
+E       AssertionError: assert (98 > 40 and 56 == 35)
+E        +  where 98 = len({'PREREG.md': '6be186d05846a0d74c62b464b21333c0741aab16f6e57631e86780d9f98d449e', 'README.md': '79130bc181e1445ceb5d5a...bb44f130ed244348e81abece8d9a9', 'bundle.json': '283e67f3a0f1731e21f3c2ab82a4e72aa746c2723715a1f4ff1ec42414167680', ...})
+E        +  and   56 = len({'src/__init__.py': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'src/lattice.py': 'd2019da35fa...ec7938a05bc3a97db0fc', 'src/life/__init__.py': '7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf', ...})
+
+outputs/audit_visibility_dark_tail_information_20261014/test_bound.py:22: AssertionError
+=========================== short test summary info ============================
+FAILED outputs/audit_visibility_dark_tail_information_20261014/test_bound.py::test_actual_prepared_inputs_and_physical_transfer

@@ -1,0 +1,50 @@
+{
+  "status": "source_only_unregistered",
+  "source_pins": {
+    "PREREG.md": "6be186d05846a0d74c62b464b21333c0741aab16f6e57631e86780d9f98d449e",
+    "README.md": "79130bc181e1445ceb5d5ac352bd6cba224e1dac0bdba643f3c59873d355f50b",
+    "SCHEMA.md": "dae25ef20f033869105d3fc0090b598544ebb44f130ed244348e81abece8d9a9",
+    "common.py": "01d92887b371a651e7345f4aec9833b55b2ca122c77a4f78682d220082ec8c07",
+    "contracts.py": "95ee050a55e13e301110bae2cf298aa675c6dc7c557792284984d685bb200ca1",
+    "frozen.py": "fa9d9892e688352617ce6a2cb3bcd08173d3dc90eeee76c61e8a08dcd23c14bd",
+    "measure.py": "56934d88fe8764ae24fa936db515c2ef86c1f1d636ea264b19bac57699cf6f48",
+    "monitor.py": "6d36e59231560243d2cfd505e1afabda01c906eca6058971d98b9bf6fa442243",
+    "numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "prepare.py": "cd5437dc5a8da044d6d0f14517d0e9925ca757a6d21a3223e26a71c7b13648f6",
+    "production_identity.py": "0573357c11f33ddb6d1f8e9659ce7183903ab2ca0d9227375526e48f43f9adc0",
+    "production_run.py": "17e1c1f9b9478eecb215d24d715ea8257bcf3818ca024db6257b5f9fb854598a",
+    "production_snapshot.py": "b0cc75b67a2ae483577c4c2a8c3ac2dfd7c4de9d8c896f28610a9f0d5cc4e0bb",
+    "raw.py": "ebda3d74c4f941523694bed86ffeb13ade7d76580de43f78e579eefb7484e1b3",
+    "test_source.py": "c750c63e6c3847d2c0411f16d1062f7f70d1ed777c0ab35157e9544f6bb7ebe3",
+    "validate.py": "7b803052a3e8d2726265dbbb7a2edcdd461545f7086618950f93d6067042a29c"
+  },
+  "checks": {
+    "focused_mocked_tests": 11,
+    "pytest_junit_sha256": "12ebd4340373a58d66475fb184fb31f5366e3d605cc947bfc1f61cc42f794972",
+    "ruff": "passed",
+    "six_dry_run_entry_points": "aa5a84a7a38cf3d008f494e5d4232a1f7c3b54d77cd75d1131fafa23518f189f",
+    "lifecycle_reuse": "831c2047194b35ee1624fd6006b3a6c2a799e9e6ef9e8efb51fe1e93b143bf92",
+    "historical_cost_review": "ae4c2cf56d0a2befd2fe20c4332423ec8550d6e7683da609ed8ad38392819576"
+  },
+  "scope": {
+    "research_lives": 6656,
+    "validation_lives": 76,
+    "total_calls": 6732,
+    "cpu_cap": 2400,
+    "validation_cap": 180,
+    "threads": 2,
+    "max_concurrent_workers": 1
+  },
+  "counts_completed": {
+    "simulation_calls": 0,
+    "compiled_libraries": 0,
+    "copied_inputs": 0,
+    "controller_or_genotype_draws": 0
+  },
+  "limitations": [
+    "Actual protocol and inputs are absent; final registration/prepare/review/release remain root-owned.",
+    "Eleven tests use synthetic arrays and mocked calls, not engineering simulations.",
+    "Synthetic orchestration writes clearly marked dummy library bytes in audit test directories; no real shared library was built or loaded.",
+    "Standard identity goldens run only after release in the isolated production child."
+  ]
+}

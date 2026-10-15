@@ -1,0 +1,21 @@
+{
+  "status": "source_only_unbound",
+  "sources": {
+    "outputs/autonomous_visibility_information_x2_20261014/postanalysis/analyze.py": "b570720e9d52be48e46882568c867701119c4127f341804d67928d164f8f5c21",
+    "outputs/autonomous_visibility_information_x2_20261014/postanalysis/accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "outputs/autonomous_visibility_information_x2_20261014/postanalysis/candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "outputs/autonomous_visibility_information_x2_20261014/postanalysis/test_analyze.py": "3eab8a61f2fb02062533519a1c4daa51dcbfba2570414252eda4145610cc35a1"
+  },
+  "exact_copies": {
+    "accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5"
+  },
+  "adaptations": {
+    "analyze.py": "Reuses corrected X2 utilities, four-field resource checks, full validation matrix and raw loading; one world,76calls,all-rolecalibration,ownedidentitypair,and I/B physical-description coordinate only. Statistical policy unchanged.",
+    "test_runtime.py": "Reuses X2 scalar synthetic ledger/raw/matrix fixture functions; no engine code executes and preparation verification is explicitly substituted."
+  },
+  "protocol_sha256": null,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "copied_scientific_inputs": 0
+}

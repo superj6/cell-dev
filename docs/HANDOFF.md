@@ -147,14 +147,19 @@ This uses no new lives, changes no production price, and cannot predict what wou
 selection. All twelve within-world contrasts and all three prices are retained; independent raw accounting
 reproduces all 36 paired vectors. `results/capture_value_sensitivity_20261014/` contains the exploratory analysis.
 
-**Next source-only preparation:** a one-world information-payoff diagnostic changes existing flash
+**AD prepared (2026-10-14):** a one-world information-payoff diagnostic changes existing flash
 `visibility_low` from .25 to zero, removing weak current target cues after the flash. This is a preapproved world
 constant, not a new ABI, channel or organism rule. Reuse the 13 existing external instruments, matching only the
 I/B instruments' declared dark amplitude to the known zero value. Their algorithm and all other parameters stay
 fixed. Neither their success nor darkness would establish evolved memory; motor persistence, queued signals,
-retained direction and blind search remain alternatives. AD's proposed 6,656 research plus 76 validation calls
-have a 2,400 CPU-second cap, subject to actual source/reader/resource/namespace review. No AD input copying,
-registration, compilation or simulated lives are released; held S and larger evolution plans remain unreleased.
+retained direction and blind search remain alternatives. The fixed 6,656 research plus 76 validation calls
+have a 2,400 CPU-second cap, including a 180-second validation ceiling, at most one two-thread worker and a
+thirteen-role cost feasibility gate. Seeds are 52,260,000–52,260,002 for validation and 52,270,000–52,270,511
+for research. Registration and one-time preparation are complete; independent actual-input and frozen-reader
+reviews pass. Protocol `ee041636…100fe` binds 98 local and 56 production/provenance files, and all prior
+processes are clear. The prospective archive is `results/visibility_dark_tail_information_20261014/`.
+No AD compilation or lives have run at preparation; root release follows publication. First attempt only,
+with no retry, scope reduction or extension. Held S and larger evolution plans remain unreleased.
 
 **Wrap-up complete (2026-10-14).** All released research processes have exited. P completed both searches but
 hit its fixed CPU cap during fresh confirmation; it has no confirmed fitness outcome. Q and R stopped at their

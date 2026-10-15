@@ -1,0 +1,21 @@
+--- historical unbound reader
++++ bound reader
+@@ -1,7 +1,7 @@
+-"""Source-only AD reader draft; deliberately refuses any unregistered protocol.
++"""Independent AD reader; accepts only the reviewed registered protocol.
+ 
+ NumPy only. No controller execution, engine imports, compilation or simulations.
+-This draft prepares candidate/accounting/statistics checks, not operational release.
++All scientific outcomes require complete pinned source, validation, resource and raw records.
+ """
+ 
+ from __future__ import annotations
+@@ -25,7 +25,7 @@
+ 
+ 
+ A, C = helper("accounting"), helper("candidates")
+-REVIEWED_PROTOCOL_SHA256 = None
++REVIEWED_PROTOCOL_SHA256 = "ee041636fec03ab3dc8e468b0d3427d75a2ac2736436b4dd954e3ac1c96100fe"
+ ROLES = C.ROLES
+ WORLDS = ["flash5_dark"]
+ SCOPE = dict(

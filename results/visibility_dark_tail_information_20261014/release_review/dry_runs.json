@@ -1,0 +1,160 @@
+[
+  {
+    "script": "prepare.py",
+    "exit_code": 0,
+    "output": {
+      "status": "source_only_unregistered",
+      "monitor_scope": {
+        "total_cpu_seconds": 2400,
+        "validation_cpu_seconds": 180,
+        "max_workers": 1,
+        "threads_per_worker": 2,
+        "research_lives": 6656,
+        "validation_lives": 76,
+        "worlds": [
+          "flash5_dark"
+        ],
+        "roles": [
+          "R0",
+          "R1",
+          "I",
+          "A",
+          "B",
+          "D0",
+          "D1",
+          "D2",
+          "D3",
+          "D4",
+          "D5",
+          "D6",
+          "D7"
+        ]
+      },
+      "validation_matrix": {
+        "production_bridge": 8,
+        "full_fast": 12,
+        "callback_replay": 15,
+        "calibration": 39,
+        "identity": 2
+      },
+      "planned_simulation_calls": 6732,
+      "simulation_calls": 0,
+      "compiled_libraries": 0,
+      "copied_inputs": 0
+    }
+  },
+  {
+    "script": "monitor.py",
+    "exit_code": 0,
+    "output": {
+      "status": "dry_run",
+      "simulated_lives": 0,
+      "monitor_scope": {
+        "total_cpu_seconds": 2400,
+        "validation_cpu_seconds": 180,
+        "max_workers": 1,
+        "threads_per_worker": 2,
+        "research_lives": 6656,
+        "validation_lives": 76,
+        "worlds": [
+          "flash5_dark"
+        ],
+        "roles": [
+          "R0",
+          "R1",
+          "I",
+          "A",
+          "B",
+          "D0",
+          "D1",
+          "D2",
+          "D3",
+          "D4",
+          "D5",
+          "D6",
+          "D7"
+        ]
+      },
+      "planned_simulation_calls": 6732,
+      "commands": {
+        "validation": [
+          "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+          "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_dark_tail_information_20261014/validate.py",
+          "--run",
+          "--expected-parent",
+          "31"
+        ],
+        "flash5_dark": [
+          "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+          "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_dark_tail_information_20261014/measure.py",
+          "--run",
+          "--world",
+          "flash5_dark",
+          "--expected-parent",
+          "31"
+        ]
+      }
+    }
+  },
+  {
+    "script": "validate.py",
+    "exit_code": 0,
+    "output": {
+      "status": "dry_run",
+      "simulation_calls": 0,
+      "planned_validation_lives": 76,
+      "research_lives": 6656,
+      "compiled_libraries": 0,
+      "planned_libraries": 6,
+      "standard_identity_invocations": 1,
+      "validation_cpu_cap": 180,
+      "note": "No compilation/simulation performed by this dry run."
+    }
+  },
+  {
+    "script": "measure.py",
+    "exit_code": 0,
+    "output": {
+      "status": "dry_run",
+      "research_lives": 6656,
+      "worlds": [
+        "flash5_dark"
+      ],
+      "roles": [
+        "R0",
+        "R1",
+        "I",
+        "A",
+        "B",
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "threads_per_worker": 2
+    }
+  },
+  {
+    "script": "production_identity.py",
+    "exit_code": 0,
+    "output": {
+      "status": "dry_run",
+      "simulation_calls": 0,
+      "compiled_libraries": 0,
+      "planned_identity_invocations": 1,
+      "planned_simulation_calls": 2
+    }
+  },
+  {
+    "script": "production_run.py",
+    "exit_code": 0,
+    "output": {
+      "status": "dry_run",
+      "simulation_calls": 0
+    }
+  }
+]

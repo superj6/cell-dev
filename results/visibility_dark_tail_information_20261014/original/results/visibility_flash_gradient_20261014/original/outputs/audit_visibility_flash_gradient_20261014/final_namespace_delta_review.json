@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "scope": "Independent same-candidate terminal delta after AB completion and public terminal copy; no reservation or registration.",
+  "accepted_seed_audit_sha256": "3c2f903d4651587d6e06140d395fb664ccd1c2c2a44f3ff8863d87cdf92d705d",
+  "delta_sha256": "50e527b8269d0ea1b6066fdda5ef0633ec8c53cb40ee5be1848fc6e0e0d6a118",
+  "script_sha256": "a08a46f99458725728b59c3327c55ab36fee0edf5e2bb344998e2e7c48deb9cd",
+  "execution_log_sha256": "ca9624a6897409937a205e5e3524f8f2692249215c55a35f4dac4ec3674a0bbb",
+  "candidate_blocks": [
+    [
+      52230000,
+      52240000
+    ],
+    [
+      52240000,
+      52250000
+    ],
+    [
+      52250000,
+      52260000
+    ]
+  ],
+  "AB_terminal_status": "complete",
+  "AB_terminal_budget_sha256": "4d0bc330805576b85d5a42ceb5ffd08834eaedb2509273c9a34764734a0c71c4",
+  "AB_root_clearance_sha256": "ffbfe92aa1a904b53595ea5125af4e4fd23c020c8a9db939a7fe49280cec92f1",
+  "AB_registered_schedule_sha256": "479beeff4d6e45b282e7e05104fe8794415dd588b8f923fa455dc3ed1a48829d",
+  "current_npz_paths": 67424,
+  "unchanged_from_candidate_audit": 67404,
+  "new_or_modified_paths": 20,
+  "new_or_modified_seed_members_read": 14,
+  "actual_overlap_count": 0,
+  "real_error_count": 0,
+  "json_endpoint_hits": 5,
+  "json_hit_interpretation": "All five hits are prior AB block122 exclusive upper endpoints, not seed members or block allocations.",
+  "history": "Accepted whole-block candidate audit separately reread the 221 unique SHA-pinned historical seed payloads, covered prior reservations and AB intentional native reuse; this delta reuses that same-candidate result only for filesystem-stat-identical paths.",
+  "limits": "Same-candidate baseline reuse uses recorded filesystem identity/stat and the earlier SHA-pinned seed-payload audit; no full-NPZ cryptographic hash claim. New/modified seed-token members only. No outcomes read.",
+  "registered": false,
+  "reserved": false,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genotype_copies": 0
+}

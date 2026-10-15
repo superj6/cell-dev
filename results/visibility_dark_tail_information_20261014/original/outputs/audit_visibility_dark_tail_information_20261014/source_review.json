@@ -1,0 +1,35 @@
+{
+  "status": "source_only_operational_draft",
+  "protocol_sha256": null,
+  "tests": {
+    "count": 22,
+    "junit_sha256": "aca74bb83c368a7c6df41bba85b4ceab7160cfc4a34209414229ee4c4709a98e",
+    "log_sha256": "e2289c230135b682d66e48107f8caab30f5b37878e8daf2e9fb92df9aebb1375",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q outputs/audit_visibility_dark_tail_information_20261014/test_draft.py outputs/audit_visibility_dark_tail_information_20261014/test_runtime.py -p no:cacheprovider --basetemp=outputs/audit_visibility_dark_tail_information_20261014/test_runtime_cases --junitxml=outputs/audit_visibility_dark_tail_information_20261014/runtime_tests.xml",
+    "scope": "Synthetic operational coverage; actual protocol/input binding remains pending."
+  },
+  "file_pins": {
+    "analyze.py": "421ec9b08d8b8cea14b1b0786b6e4112e98618f54b6d1c0c490ff3da4aee8d96",
+    "accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_draft.py": "b9eba5993de816fafc6124f499be2146bd77ba22ad9ffc1de20141ced5735726",
+    "test_runtime.py": "4d26b3b8fed2edb6f46366c962687f85219c41c3dc688e69b14a077c958a5fb4",
+    "README.md": "4db23f22798f705eba3f73ab1b0094e1a023e98db8cf5f3c58abf121e6a7d1b5",
+    "SOURCE_REUSE.json": "73d4ad18d952eb688e5ec7eb286c84cfb88eba46260fcd33d3ca1c17ffcf6093"
+  },
+  "scope": {
+    "research_lives": 6656,
+    "validation_lives": 76,
+    "total_calls": 6732,
+    "total_cpu_cap": 2400,
+    "validation_cpu_cap": 180
+  },
+  "pending": [
+    "root registration and exact seed audit",
+    "one authorized preparation and actual input binding",
+    "source peer receipt"
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "source_only_caveat": "Synthetic .so files are inert marker bytes; no library loaded. Last code change after test run changes only LIMITATIONS strings; no arithmetic or validation logic changed."
+}

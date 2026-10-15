@@ -1,0 +1,96 @@
+{
+  "status": "passed_source_only_review",
+  "protocol_or_input_binding_complete": false,
+  "source_pins": {
+    "outputs/autonomous_visibility_dark_tail_information_20261014/PREREG.md": "6be186d05846a0d74c62b464b21333c0741aab16f6e57631e86780d9f98d449e",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/README.md": "79130bc181e1445ceb5d5ac352bd6cba224e1dac0bdba643f3c59873d355f50b",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/SCHEMA.md": "dae25ef20f033869105d3fc0090b598544ebb44f130ed244348e81abece8d9a9",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/common.py": "01d92887b371a651e7345f4aec9833b55b2ca122c77a4f78682d220082ec8c07",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/contracts.py": "95ee050a55e13e301110bae2cf298aa675c6dc7c557792284984d685bb200ca1",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/frozen.py": "fa9d9892e688352617ce6a2cb3bcd08173d3dc90eeee76c61e8a08dcd23c14bd",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/measure.py": "56934d88fe8764ae24fa936db515c2ef86c1f1d636ea264b19bac57699cf6f48",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/monitor.py": "6d36e59231560243d2cfd505e1afabda01c906eca6058971d98b9bf6fa442243",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/numerical.py": "31e2264c55e1312a63a5dd090f8436994da9be0e1f6bcf00fa83a99e0a4c9149",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/prepare.py": "cd5437dc5a8da044d6d0f14517d0e9925ca757a6d21a3223e26a71c7b13648f6",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/production_identity.py": "0573357c11f33ddb6d1f8e9659ce7183903ab2ca0d9227375526e48f43f9adc0",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/production_run.py": "17e1c1f9b9478eecb215d24d715ea8257bcf3818ca024db6257b5f9fb854598a",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/production_snapshot.py": "b0cc75b67a2ae483577c4c2a8c3ac2dfd7c4de9d8c896f28610a9f0d5cc4e0bb",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/raw.py": "ebda3d74c4f941523694bed86ffeb13ade7d76580de43f78e579eefb7484e1b3",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/test_source.py": "c750c63e6c3847d2c0411f16d1062f7f70d1ed777c0ab35157e9544f6bb7ebe3",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/validate.py": "7b803052a3e8d2726265dbbb7a2edcdd461545f7086618950f93d6067042a29c"
+  },
+  "review_source_sha256": "ae8eaf894da60a7201e56617105373620b530af837451fcce2dc74d547bc48e9",
+  "reused_lifecycle_functions_AST_identical": [
+    "proc_table",
+    "own_cpu",
+    "child_cpu",
+    "active_cpu",
+    "consumed_cpu",
+    "child_limit",
+    "send_signal",
+    "enable_subreaper",
+    "cleanup_group",
+    "cleanup",
+    "process_identity",
+    "budget_reason"
+  ],
+  "live_parent_guard_AST_identical_to_X2": true,
+  "numerical_source_byte_identical_to_AC": true,
+  "scope": {
+    "research_lives": 6656,
+    "validation_lives": 76,
+    "total_calls": 6732,
+    "cpu_cap": 2400,
+    "validation_cap": 180,
+    "stop_thresholds": [
+      170,
+      2390
+    ],
+    "concurrent_worker_groups": 1,
+    "threads_per_worker": 2
+  },
+  "identity": {
+    "invocations": 1,
+    "lives": 2,
+    "seed": 11,
+    "T": 200,
+    "ABI": 3,
+    "inherited_owned_validation_group": true,
+    "persisted_monitor_identity_fields": [
+      "pid",
+      "ppid",
+      "pgid",
+      "start_ticks"
+    ],
+    "expected_recorded_leaders": 3,
+    "nested_PID_individually_recorded": false,
+    "source_evidence": "validate.py invokes one production_identity.py child before scratch imports; no new session; nested parent_check binds live monitor attempt/start ticks, parent, session/group and phase. Group CPU and teardown include descendants. No unsupported nested-PID or persisted sid claim."
+  },
+  "ABI_boundary": "Frozen ABI3 metadata [3,875,129,66,57,5,23,1024,7,18] precedes raw data calls; explicit contiguous shapes include world66, ledger57 and1024x4 cells. Separate production child verifies ABI4 metadata [4,875,129,70,58,5,23,1024,7,18]; bridge maps scratch21 to production57 and excludes only scratch aliases21/22 plus all/world hashes.",
+  "candidate_delta": "Only physical visibility_low .25->0 and scratch dark_amp .25->0; I/B params[21] .25->0. A parameters unchanged, its metadata difference list becomes [9,10]; bodies, programs, all other parameters and controller sources are retained.",
+  "validation": "8 R0/R1 bridge +12 I/A/B full-fast +15 recorded/replayed/control +39 all-role calibration +2 isolated goldens; callback and requested-action bytes matched, truth-read count remains zero; no scientific outcome selection.",
+  "budget": "One validation group then one research group; cumulative monitor/children/group CPU includes compiler failures and teardown. 180 allowance plus 1.5 times512 times sum(max(new3lifeCPU/3, old512lifeCPU/512)) must be <=2390, every role retained. First attempt only; clean AC terminal status is resource dependency, not success gate.",
+  "historical_cost": {
+    "timing_rows_checked": 13,
+    "research_cpu_seconds": 569.1666001449998,
+    "historical_floor_projection": 1033.7499002174998,
+    "new_calibration_required": true,
+    "cost_review_sha256": "ae4c2cf56d0a2befd2fe20c4332423ec8550d6e7683da609ed8ad38392819576"
+  },
+  "existing_mock_tests": {
+    "count": 11,
+    "junit_sha256": "12ebd4340373a58d66475fb184fb31f5366e3d605cc947bfc1f61cc42f794972",
+    "rerun_by_this_review": false
+  },
+  "limitations": [
+    "These unchanged transferred reflexes are not newly optimized in darkness.",
+    "Model and idle-action ablations are broad instruments, not isolated memory lesions.",
+    "Finite flash and motor/queued-signal persistence can support simple old-direction strategies.",
+    "Information payoff does not prove evolved memory or require a hand-built winning organism.",
+    "Actual prepared source/input pins and final reader still require review before root release."
+  ],
+  "blockers": [],
+  "new_lives": 0,
+  "new_compilations": 0,
+  "genotypes_copied_or_generated": 0
+}

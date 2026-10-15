@@ -119,10 +119,13 @@ capture gain **+.56836 ± .19139** narrowly misses the predeclared three-SE crit
 the prior blink selection in flash is **+.38214 ± .09221 F / +.68945 ± .18827 captures**, without a resolved F
 interaction or reciprocal specialization. Thus no primary capture-supported gain or richer algorithm is established.
 All 10,314 calls completed in 2,044.626301 CPU-seconds; frozen accounting and all 1,200 vectors reconcile. Evidence:
-`results/visibility_flash_gradient_20261014/`. Next source-only AD measures information payoff when the existing
+`results/visibility_flash_gradient_20261014/`. AD measures information payoff when the existing
 flash's residual cue multiplier is zero, using retained external algorithms with only the known amplitude parameter
-matched. This is a minor world-constant change; no organism rule or ABI change. No AD seeds, inputs, builds or lives
-are released yet, and capability-specific memory admission remains incomplete.
+matched. This is a minor world-constant change; no organism rule or ABI change. AD is now registered and prepared
+for 6,656 research plus 76 validation calls under 2,400 inclusive CPU-seconds. Its actual inputs, namespace,
+resource state and frozen reader pass review. `results/visibility_dark_tail_information_20261014/` contains the
+prospective evidence; root runtime release follows publication. No AD builds or lives ran during preparation.
+Capability-specific memory admission remains incomplete, and larger selection proposals remain unreleased.
 
 *2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
 balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,

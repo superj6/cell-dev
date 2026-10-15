@@ -1430,3 +1430,49 @@ and three focused protocol-binding checks pass. The frozen reader retains all 16
 metric arrays, including all signs and duplicate roles. The protocol binds 167 local and 35 production files.
 The complete prospective archive is `results/visibility_flash_gradient_20261014/`; runtime release follows its
 publication. No new candidate genotypes, libraries or simulated lives were created during preparation.
+
+## 2026-10-14 — Fully dark flash information payoff registered (AD)
+
+AD changes the existing flash world's residual target-cue multiplier from .25 to zero. The target is visible
+for five time units after placement, then emits no target receptor pings until the next placement. All other
+physical parameters stay fixed. Thirteen existing X2 external instruments are retained in order R0, R1, I, A,
+B, D0–D7; only I/B's declared physical dark-amplitude parameter changes to match zero. Bodies, controller
+programs and all other parameter values are unchanged. These are measuring instruments with free central
+computation, not evolved organisms or a hand-built winning-body requirement. R0/R1 are retained references,
+not newly optimized darkness reflexes.
+
+Each instrument receives the same 512 fresh T1024 seeds, 52,270,000–52,270,511: 6,656 research lives. Report
+fixed I−R0 and I−R1, the gap above the better whole-mean reference, all eight do-less comparisons, and broad
+model/action ablations I−A/I−B. Preserve all costs, both signs and all 836 paired metric vectors. The existing
+descriptive checks require an information gap above 1 F and three paired SE, and do-less advantages below a
+quarter of that gap. They do not establish a memory-specific result. Motor persistence, queued signals,
+retained direction, blind search and capture-triggered new flashes remain alternatives; the retained external
+controller also approximates the fixed flash deadline with an exponential transition model. No paired causal
+comparison against X2's old .25 world is registered, because that study used different seeds.
+
+The fixed validation matrix has 76 calls: eight scratch/production bridge, twelve full/fast, fifteen callback
+record/replay/control, 39 cost calibration and two standard ABI3 seed11/T200 identity lives. The production
+identity runs exactly once in an isolated owned subprocess before scratch imports. Validation seeds are
+52,260,000–52,260,002, with all intentional engineering reuse counted. Total scope is **6,732 calls** under
+**2,400 inclusive CPU-seconds**, including a 180-second validation ceiling and ten-second stop margins.
+One two-thread worker runs at a time. Before research, require
+`180 + 1.5 * 512 * sum(max(new role CPU / 3, historical role CPU / 512)) <= 2390` across all thirteen roles.
+Compilation, descendants, monitoring, failures and cleanup count. First attempt only; no retry, extension,
+resumption, row dropping or reduced scope.
+
+Preparation was invoked once without compilation or simulation. Protocol `ee041636…100fe` binds 98 local
+and 56 production/provenance files. The 42-file ABI3 bundle, all candidates and thirteen historical timing rows
+match their sources; independent reviews verify only the stated amplitude changes. Twenty-five distinct reader
+checks pass, including a complete synthetic 76+6,656-call fixture. The reader's scientific and operational logic
+is unchanged after source review. A mistaken pin-count assertion in one binding test was corrected to the exact
+X2∪Y source map; its failure is preserved, with no reader or producer logic change. All seven registration-pinned
+review receipts remain unchanged.
+
+The namespace review checks both fresh ranges against historical records and all AC IDs. AC's terminal status
+is solely an operational dependency, with no scientific-success prerequisite. All 28 prior identities, 20 groups
+and nine budgets are clear. The prospective archive is `results/visibility_dark_tail_information_20261014/`;
+its scientific inputs are bundled, while exact historical namespace evidence already in Git is referenced by
+path, commit and hash. Full namespace provenance therefore needs those earlier repository artifacts. A retained
+historical scratch library is provenance, not a new AD compilation. Root runtime release follows publication.
+This bounded diagnostic changes no organism rule, ABI, reward or population-dependent world behavior, and
+does not release held S or the larger selection proposals.

@@ -1,0 +1,40 @@
+{
+  "status": "verified_existing_public_content_references",
+  "purpose": "Avoid duplicating large immutable namespace evidence in a future AD archive. These references require the containing cell-dev repository checkout; they are not a standalone bundled copy.",
+  "containing_prelaunch_manifest_sha256": "07c5224224219e945d5c53a8e2da61c0e84f475a4e93c6a5f35887e89aca69e4",
+  "content_by_sha256": {
+    "b5fbb637071e0bebae670b532742c4e8dec33cf05c7d6399419f06bb3daffb58": {
+      "repository_path": "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_lateral_20261014/npz_seed_baseline.json",
+      "source_origin": "outputs/audit_visibility_lateral_20261014/npz_seed_baseline.json",
+      "bytes": 29934241,
+      "containing_public_commit": "ffd5507963ea1872bba350e4c941cde3a9645523"
+    },
+    "2b0a2c623ef2ec3303eb088094ee1ded1e33c59ad35c339e7c7e9c1c2b91a468": {
+      "repository_path": "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_lateral_20261014/npz_seed_classification.json",
+      "source_origin": "outputs/audit_visibility_lateral_20261014/npz_seed_classification.json",
+      "bytes": 1870,
+      "containing_public_commit": "ffd5507963ea1872bba350e4c941cde3a9645523"
+    },
+    "bb065a1f29f4e04a0f3017281b27788e6f2e1a92425cedb5b245830ed141a8d6": {
+      "repository_path": "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_flash_gradient_20261014/candidate_namespace_inventory.json",
+      "source_origin": "outputs/audit_visibility_flash_gradient_20261014/candidate_namespace_inventory.json",
+      "bytes": 508806,
+      "containing_public_commit": "ffd5507963ea1872bba350e4c941cde3a9645523"
+    },
+    "50e527b8269d0ea1b6066fdda5ef0633ec8c53cb40ee5be1848fc6e0e0d6a118": {
+      "repository_path": "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_flash_gradient_20261014/final_namespace_delta.json",
+      "source_origin": "outputs/audit_visibility_flash_gradient_20261014/final_namespace_delta.json",
+      "bytes": 12607,
+      "containing_public_commit": "ffd5507963ea1872bba350e4c941cde3a9645523"
+    },
+    "cb2defcdd9baa6f6e61bfc53dbdf1687d77bb0b1dbf20625ea6a2759a1431278": {
+      "repository_path": "results/visibility_flash_gradient_20261014/original/results/decoy_evolution_20261014/sources/seed_review/namespace_lists.json",
+      "source_origin": "results/decoy_evolution_20261014/sources/seed_review/namespace_lists.json",
+      "bytes": 1953204,
+      "containing_public_commit": "ffd5507963ea1872bba350e4c941cde3a9645523"
+    }
+  },
+  "total_existing_bytes_not_recopied": 32410728,
+  "actual_new_archive_changes": 0,
+  "simulation_calls": 0
+}

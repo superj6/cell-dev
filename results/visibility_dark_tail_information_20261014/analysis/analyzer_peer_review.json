@@ -1,0 +1,46 @@
+{
+  "status": "passed_source_only_peer_review",
+  "review_scope": "Actual AD producer interface versus independent NumPy-only reader; no protocol/inputs or release yet",
+  "source_pins": {
+    "outputs/audit_visibility_dark_tail_information_20261014/analyze.py": "421ec9b08d8b8cea14b1b0786b6e4112e98618f54b6d1c0c490ff3da4aee8d96",
+    "outputs/audit_visibility_dark_tail_information_20261014/accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "outputs/audit_visibility_dark_tail_information_20261014/candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "outputs/audit_visibility_dark_tail_information_20261014/runtime_tests.xml": "aca74bb83c368a7c6df41bba85b4ceab7160cfc4a34209414229ee4c4709a98e",
+    "outputs/audit_visibility_dark_tail_information_20261014/source_review.json": "d7b4c4309e7cff1631fe34d97227693c3fdca54bd84ffdc4396dabad91eb052d",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/prepare.py": "cd5437dc5a8da044d6d0f14517d0e9925ca757a6d21a3223e26a71c7b13648f6",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/validate.py": "7b803052a3e8d2726265dbbb7a2edcdd461545f7086618950f93d6067042a29c",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/production_identity.py": "0573357c11f33ddb6d1f8e9659ce7183903ab2ca0d9227375526e48f43f9adc0",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/contracts.py": "95ee050a55e13e301110bae2cf298aa675c6dc7c557792284984d685bb200ca1",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/monitor.py": "6d36e59231560243d2cfd505e1afabda01c906eca6058971d98b9bf6fa442243",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/measure.py": "56934d88fe8764ae24fa936db515c2ef86c1f1d636ea264b19bac57699cf6f48",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/raw.py": "ebda3d74c4f941523694bed86ffeb13ade7d76580de43f78e579eefb7484e1b3",
+    "outputs/autonomous_visibility_dark_tail_information_20261014/SCHEMA.md": "dae25ef20f033869105d3fc0090b598544ebb44f130ed244348e81abece8d9a9"
+  },
+  "findings": [],
+  "checked": [
+    "World transfer changes only physical low amplitude; controller transfer changes only I/B parameter21; A vector stays identical and metadata is [9,10].",
+    "Reader reconstructs all original candidates and verifies all body/program/controller arrays, 13 retained raw timing rows and exact cost floors.",
+    "Raw row/checkpoint/complete markers and canonical JSON identities match actual producer serialization.",
+    "Reader maps all 76 validation calls, including startup JSON, all 13 three-life calibrations, bridge full/fast/replay comparisons and raw timing totals.",
+    "Monitor persists four-field leader identities, three leaders/two groups; source-owned nested production identity stays in the validation group and is included in monitor CPU.",
+    "Exactly one standard numerical_identity invocation runs before frozen scratch imports in an isolated child; expected full identity and retained full/fast library bytes are verified.",
+    "Static census excludes initial cells from births; disjoint counter semantics and full 57-ledger raw accountant F are retained from corrected X2.",
+    "Both fixed reflex comparisons, selected retained reference and all do-less/broad-model paired effects use unchanged X2 criteria; no memory-specific or optimal-reflex claim.",
+    "All-role feasibility formula and independent raw timing-to-monitor reconciliation agree.",
+    "Reader fails closed with protocol anchor unset; portable production/dependency resolver does not substitute original ABI3 src for ABI4 source."
+  ],
+  "validation_evidence": {
+    "reader_focused_synthetic_tests": 22,
+    "producer_focused_mocked_tests": 11,
+    "reader_tests_reviewed_not_rerun": true
+  },
+  "limits": [
+    "No actual prepared protocol, copied inputs or real AD outcomes exist, so actual input binding and terminal validation remain future checks.",
+    "Synthetic tests verify serialization and refusals, not the physical dark-world compatibility; planned engineering validations cover that after root release.",
+    "Complete fixed-candidate information payoff cannot establish evolved sophistication, memory use, or controller optimality."
+  ],
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "input_copying": 0,
+  "release_authorized": false
+}

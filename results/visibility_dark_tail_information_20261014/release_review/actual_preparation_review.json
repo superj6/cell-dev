@@ -1,0 +1,108 @@
+{
+  "status": "passed_prepared_unreleased",
+  "protocol_sha256": "ee041636fec03ab3dc8e468b0d3427d75a2ac2736436b4dd954e3ac1c96100fe",
+  "source_changed_after_review": false,
+  "registration_sha256": "5a3f3e2d2504db1d52968d3c116768e65812210f48ff6f63010f91e041349081",
+  "resource_clearance_sha256": "1e3af5311115aebaf5d90c6a134ab2b04a243de9b253f9cac0414093e09f2d04",
+  "seed_audit_sha256": "ce78bf3ce0fb719e04bcdc9a59b580e704b9bfe28d47ebc07a794ca30c2433a6",
+  "file_pin_count": 98,
+  "production_pin_count": 56,
+  "original_bundle_file_count": 42,
+  "candidate_count": 13,
+  "historical_timing_rows": 13,
+  "historical_timing_row_pins": {
+    "R0": "24d57f740473c18c703f574eb62f8fd85bbff517da567e5e43f217ee1a0a2424",
+    "R1": "52e56e6e4b1595742865a3a31feb47db400ae83d000ba9edee8eecda86fd5807",
+    "I": "6f713f98b12845eed88d6e9bc4d68021c0ff04bb6114a7abde239e3376b91f1a",
+    "A": "1c0270d02d7552298e9e42f966d4395fae18dc503eebf22d3fa46ddc2af50ef4",
+    "B": "471f521b56c02d402c64511faae91a0919bfe4c52f96dd08a0956e29a87948a3",
+    "D0": "a4c59f4209231c914908d6b8c532476713101fdc1bba1252708ba30955739ac4",
+    "D1": "7492f6b082e154dab1d57eff18d6f6194f31b514ff1bcb708891fd33656f1313",
+    "D2": "0bf7fbfb7c9521d69a0b7e2b5b84145bf68c2ff5030661ae7862c2db94c0fefd",
+    "D3": "90edf663282f5bea2324c6b29492da5489eafc32b395f9289d5b640794a518be",
+    "D4": "d31d9bfcf89306e7b09a092bc9b268716b666f521fd3f12a8b5e7f379afce24d",
+    "D5": "bc563a41d696f29b9325ef833de5da154fb16f526d29db7e6b8b848f62ee9bf1",
+    "D6": "31a8b00248873e69590932c05fa07c6496a9143ba8f310b42cd67eca94f83ea1",
+    "D7": "d9abe0816f8c8ac470b35462486bcb845651dfa1c88f079144e02ff16bbf2b42"
+  },
+  "parameter_changes": {
+    "I": [
+      21
+    ],
+    "A": [],
+    "B": [
+      21
+    ]
+  },
+  "A_metadata_change": {
+    "from": [
+      9,
+      10,
+      21
+    ],
+    "to": [
+      9,
+      10
+    ]
+  },
+  "world_changes": {
+    "scratch_coordinate": 16,
+    "production_coordinate": 69,
+    "production_field": "visibility_low",
+    "old": 0.25,
+    "new": 0.0
+  },
+  "all_program_and_cell_bytes_unchanged": true,
+  "all_other_candidate_values_unchanged": true,
+  "exact_registered_seeds": true,
+  "validation_matrix": {
+    "production_bridge": 8,
+    "full_fast": 12,
+    "callback_replay": 15,
+    "calibration": 39,
+    "identity": 2
+  },
+  "monitor_scope": {
+    "total_cpu_seconds": 2400,
+    "validation_cpu_seconds": 180,
+    "max_workers": 1,
+    "threads_per_worker": 2,
+    "research_lives": 6656,
+    "validation_lives": 76,
+    "worlds": [
+      "flash5_dark"
+    ],
+    "roles": [
+      "R0",
+      "R1",
+      "I",
+      "A",
+      "B",
+      "D0",
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6",
+      "D7"
+    ]
+  },
+  "standard_identity_sources_and_expected_result_bound": true,
+  "preparation_command": {
+    "command": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_dark_tail_information_20261014/prepare.py",
+      "--prepare"
+    ],
+    "invocations": 1,
+    "returncode": 0,
+    "wall_seconds": 5.225288264002302,
+    "stdout_sha256": "860826cfd350c09647d26b0f9095aac3bb250204b7c26f99c66748f6853b5d60",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "no_new_runtime_artifacts": true,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "controller_or_genotype_draws": 0
+}

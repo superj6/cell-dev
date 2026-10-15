@@ -1,0 +1,69 @@
+{
+  "status": "passed_actual_input_binding",
+  "protocol_sha256": "ee041636fec03ab3dc8e468b0d3427d75a2ac2736436b4dd954e3ac1c96100fe",
+  "analyzer_sha256": "97a5d075c88ce5693f07975f0ee59a1606964fae42f8cc0a28c73896f8b3139a",
+  "local_pins_verified": 98,
+  "production_pins_verified": 56,
+  "candidate_review": {
+    "candidate_count": 13,
+    "full_parameter_bytes_sha256": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+    "independent_arrays_reconstructed": true,
+    "physical_description_changes": {
+      "I": {
+        "original_sha256": "6dd3d97fcb86d718a036d500d514ead0752323e4f668b06a62b0849db1281523",
+        "new_sha256": "f410ed88ae10ae035c7e7d557d0a7f9e89b213808947a40dfc3d2787a75e8949",
+        "changed_indices": [
+          21
+        ],
+        "original_value": 0.25,
+        "new_value": 0.0
+      },
+      "B": {
+        "original_sha256": "69807a8c15025c4e72b46c754452b5568049ae3be4112056ad971c8f8ef368fb",
+        "new_sha256": "a26aaa893381287dc4c44670927f7f054c9f1e82d897c47b55aab6afeb6769dc",
+        "changed_indices": [
+          21
+        ],
+        "original_value": 0.25,
+        "new_value": 0.0
+      }
+    },
+    "strategy_retuned": false
+  },
+  "historical_role_timing_rows": 13,
+  "historical_cpu_per_life": {
+    "R0": 0.03569521630078125,
+    "R1": 0.03650756468554688,
+    "I": 0.2964211477734375,
+    "A": 0.1807057146660156,
+    "B": 0.31856750022265623,
+    "D0": 0.02868703483398427,
+    "D1": 0.0324315834472656,
+    "D2": 0.029503891630859314,
+    "D3": 0.0015313918476562716,
+    "D4": 0.03590007990429689,
+    "D5": 0.03812941637499989,
+    "D6": 0.037545815964843854,
+    "D7": 0.04002715825585934
+  },
+  "seed_counts": {
+    "research": 512,
+    "validation": 3
+  },
+  "validation_matrix": {
+    "production_bridge": 8,
+    "full_fast": 12,
+    "callback_replay": 15,
+    "calibration": 39,
+    "identity": 2
+  },
+  "world_packing_only_low_changed": true,
+  "prelaunch_verdict": {
+    "status": "incomplete",
+    "scientific_outcomes_emitted": false,
+    "error": "[Errno 2] No such file or directory: '/home/jgon/project/ml/cell-dev/outputs/autonomous_visibility_dark_tail_information_20261014/operations/ready.json'"
+  },
+  "engine_modules_imported": false,
+  "simulation_calls": 0,
+  "compilations": 0
+}

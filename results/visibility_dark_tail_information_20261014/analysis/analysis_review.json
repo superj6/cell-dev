@@ -1,0 +1,47 @@
+{
+  "status": "passed_bound_input_review",
+  "protocol_sha256": "ee041636fec03ab3dc8e468b0d3427d75a2ac2736436b4dd954e3ac1c96100fe",
+  "analyzer_sha256": "97a5d075c88ce5693f07975f0ee59a1606964fae42f8cc0a28c73896f8b3139a",
+  "prior_source_review_sha256": "d7b4c4309e7cff1631fe34d97227693c3fdca54bd84ffdc4396dabad91eb052d",
+  "prior_peer_review_sha256": "91b9dc1a8e363d2ffd587d3c2c4f4c3b3e06f2a3c4b1ea8943f8e92df856d552",
+  "prior_reader_sha256": "421ec9b08d8b8cea14b1b0786b6e4112e98618f54b6d1c0c490ff3da4aee8d96",
+  "binding_only_changes": [
+    "module docstring",
+    "REVIEWED_PROTOCOL_SHA256 literal"
+  ],
+  "scientific_and_operational_function_AST_unchanged": true,
+  "test_only_change": "Unset-protocol test now explicitly monkeypatches None, permitting portable rerun after literal binding; its original source remains in history.",
+  "actual_input_review_stdout_sha256": "36b17cdbc0ffae42eccc8f1ad3584aed26155f9ca2209016e1ce64895b20d3b7",
+  "actual_input_review_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "local_pins": 98,
+  "external_pins": 56,
+  "external_pin_closure": "exact union of retained X2 and Y production maps",
+  "candidate_count": 13,
+  "historical_role_timing_rows": 13,
+  "focused_bound_tests": 4,
+  "new_distinct_tests": 3,
+  "source_tests_previously_passed": 22,
+  "bound_junit_sha256": "5a9351ca792e12623fe2577ede5967a9de6b52dc57ea6a1293f5edec93e6d359",
+  "bound_log_sha256": "c4b808d34f4db00b333696dec1f3a43a2887d8bfe0cb7af07a3cb98ff43a7830",
+  "first_bound_invocation": "Reader preparation verification passed, but a new test incorrectly assumed35externalpins. ExactX2/Yunion has56. Corrected new test only; first failure XML/log preserved.",
+  "source_provenance_pins": {
+    "binding_diff.txt": "adb41ccb75ea4200ca724ece21c99f3fae2939620b9b5fd832c7b234e708755f",
+    "history/analyze.py.unbound.txt": "421ec9b08d8b8cea14b1b0786b6e4112e98618f54b6d1c0c490ff3da4aee8d96",
+    "history/test_draft.py.unbound.txt": "b9eba5993de816fafc6124f499be2146bd77ba22ad9ffc1de20141ced5735726",
+    "SOURCE_REUSE.json": "73d4ad18d952eb688e5ec7eb286c84cfb88eba46260fcd33d3ca1c17ffcf6093",
+    "accounting.py": "d088d429791673906f9200f19d982046fb49fd0f713935767e7b4d62f6854316",
+    "candidates.py": "c92f24d6ce85d7849ddc7f050a5124d9c20f2fe6272422f58e804782d4a342c5",
+    "test_draft.py": "dc326a6b2aa796b3a2b2e85e5af4bb64e3851a076c3b1565cdfcbdc1841954da",
+    "test_runtime.py": "4d26b3b8fed2edb6f46366c962687f85219c41c3dc688e69b14a077c958a5fb4",
+    "test_bound.py": "4f274494b2c68b3824550fd51609ebc05651190f3b359dab774d964cf6c57d06"
+  },
+  "seed_counts": {
+    "research": 512,
+    "validation": 3
+  },
+  "prelaunch_complete_outputs": false,
+  "engine_imports": false,
+  "simulations": 0,
+  "compilations": 0,
+  "pending": "final peer bound receipt and root publication/release"
+}
