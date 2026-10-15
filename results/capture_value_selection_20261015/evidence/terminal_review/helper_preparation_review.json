@@ -1,0 +1,28 @@
+{
+  "status": "prepared_source_only_unexecuted",
+  "terminal_execution_authorized": false,
+  "sources": {
+    "verify_terminal_raw.py": "55f4ba3a87d37cc6245e1e26f70d796f0deb7c5dbc42dac84dca8af0d3e24b00",
+    "adapt_terminal_helper.py": "abb9812bd0c31428f27a9e945c5ab9a90b029c0429c3d774ee5b08e6e1230b8d",
+    "test_terminal_source.py": "947d43f28c95fa21accfd23f6ec62eaf16f3e44eb6d5533e085efe660e42b2f1"
+  },
+  "source_origin": {
+    "outputs/audit_retention_selection_20261015/terminal_review/verify_terminal_raw.py": "d0ba8b184e336e673e0f43cd0850d32af7a71eb4bb628edaf06962f0716d97a7"
+  },
+  "prepared_protocol_sha256": "9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294",
+  "frozen_analyzer_sha256": "3c22015e7415467e273ace9cf8248b53b4ecf37f4584c406e73807fe196ed474",
+  "prepare_schema_reviewed_sha256": "1a5d3de5ede391b282e5cff7a81f562d4e01a5ed9836af342736675d640364cd",
+  "exact_literal_arithmetic_except_vector_length": true,
+  "literal_vector_count": 4064,
+  "tests": {
+    "passed": 3,
+    "junit_sha256": "345299a3a56a77c15173c01d6013e6aa6125cfc3e2e63bdecd2bec67ae6e4897",
+    "log_sha256": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236"
+  },
+  "execution_gate": "Requires explicit exact root-reviewed protocol,budget,host-clearance hashes plus complete budget and canonical reader summary before any scientific row reads.",
+  "usage": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python outputs/audit_capture_value_selection_20261015/terminal_review/verify_terminal_raw.py --protocol-sha256 9210e218d92d912f8b63822980de7fab868ad8904417d0f438a55e2b42922294 --budget-sha256 ROOT_TERMINAL_SHA --clearance-sha256 ROOT_CLEARANCE_SHA --out outputs/autonomous_capture_value_selection_20261015/terminal_review/independent",
+  "runtime_outcomes_read": false,
+  "simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0
+}

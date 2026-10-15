@@ -1,5 +1,6 @@
 """Build a source-only AM verifier from the completed AL literal audit."""
 from pathlib import Path
+
 ROOT = Path(__file__).resolve().parents[3]
 OLD = ROOT / 'outputs/audit_retention_selection_20261015/terminal_review/verify_terminal_raw.py'
 OUT = Path(__file__).resolve().parent / 'verify_terminal_raw.py'
