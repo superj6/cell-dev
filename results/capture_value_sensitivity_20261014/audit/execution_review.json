@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "exit_code": 0,
+  "receipt_sha256": "e5f33c37ff4316f3ff945c06479e81c08ac23e35781fe336000c35a7dba18571",
+  "review_source_sha256": "a8e3d5684107e9ac30d426bbd1c61aac51ac1e2f8e4957faf2b097a3b87a68ed",
+  "stdout_sha256": "e4ce39d322ff255a5d6b595797f1018ac0207a06045360695490c887cf4ee644",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_bytes": 0,
+  "initial_review_helper_errors": {
+    "first_invocation_schema_error.txt": "Draft helper used ordered_roles; actual AC field is roles. Corrected helper only.",
+    "second_invocation_relative_path_error.txt": "Draft helper mixed relative AC path and absolute repository path. Resolved CLI paths before audit. Corrected helper only."
+  },
+  "initial_error_pins": {
+    "first_invocation_schema_error.txt": "6b403a1069c18104ae49acbf0368b13bb8bd05051c4d91f737f073e967dbf877",
+    "second_invocation_relative_path_error.txt": "dfa7471c9b17be6ad8330d6e5b1b7c884042e5315ab98fd7f22c53cbf0b43ca6"
+  },
+  "author_source_or_results_modified": false,
+  "simulation_calls": 0,
+  "compilation_calls": 0,
+  "source_proof": {
+    "src/life/kernel.c": {
+      "R_cap_initialization": 2172,
+      "sole_R_cap_dynamic_read_capture_income": 1453,
+      "income_consumed_final_score": 1923,
+      "guard_price_independent": 1912
+    },
+    "src/life/evaluate.py": {
+      "extinction_c_live_only": 269,
+      "production_F_after_price_independent_extinction": 270
+    }
+  }
+}

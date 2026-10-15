@@ -124,6 +124,12 @@ flash's residual cue multiplier is zero, using retained external algorithms with
 matched. This is a minor world-constant change; no organism rule or ABI change. No AD seeds, inputs, builds or lives
 are released yet, and capability-specific memory admission remains incomplete.
 
+*2026-10-14 post hoc capture-value sensitivity:* AC's saved fixed-genome outcomes show that reward-to-cost
+balance can reverse the ranking. D90's flash H−B fitness difference is **+.94127 ± .10003** at capture value 500,
+**+.06103 ± .19489** at 1,000 and **−1.69945 ± .38576** at 2,000. This is exploratory repricing of unchanged
+observations, not new behavioral evidence or a prediction of evolution. No production reward changes or new
+lives were made. All 36 results and independent raw verification are in `results/capture_value_sensitivity_20261014/`.
+
 *2026-10-14 autonomous work resumed:* the user requested continued autonomous work. New U explores ordinary
 evolution in the existing harmful-decoy world, whose information payoff is already measured. Two fixed I
 founders each receive four generations; fresh confirmation includes width reversal and frozen lateral lesions.

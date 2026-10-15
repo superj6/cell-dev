@@ -2738,3 +2738,30 @@ after five time units. It changes one preapproved world constant, retains the ex
 algorithms and matches their known dark-amplitude parameter to zero. It is not an evolved-memory claim or an
 automatic large search. Existing silent-duplication studies already failed to establish a useful copied gene;
 there is no evidence yet that controller capacity is the main bottleneck. AD remains unregistered and unlaunched.
+
+## 2026-10-14 — Exploratory capture-value sensitivity of the fixed flash-panel outcomes
+
+The repeated economy gains motivate checking the reward-to-cost balance using AC's saved data. This is a
+post hoc analysis chosen after seeing AC, with no new simulations, selection or production-price changes.
+All twelve within-world contrasts are retained at capture values 500, 1,000 and 2,000. For each paired seed,
+reprice F as `original F difference + (new value / 500 - 1) * capture-income difference`, leaving every ordinary
+cost, guard charge and extinction charge fixed. Means and SE are computed from the repriced paired vectors.
+
+| D90 flash-selected H minus prior blink-selected B | Capture value 500 | 1,000 | 2,000 |
+|---|---:|---:|---:|
+| Flash F difference | +.94127 ± .10003 | +.06103 ± .19489 | −1.69945 ± .38576 |
+| Blink F difference | +.45299 ± .08349 | −.92984 ± .16514 | −3.69550 ± .32986 |
+
+Doubling capture value nearly eliminates the economical D90 mutant's advantage in flash; quadrupling it
+reverses the ranking beyond three SE. This shows that the price balance matters for which existing genome
+ranks better. It does not show that changing the price would produce more captures, sophisticated algorithms
+or a different evolutionary trajectory. The same outcomes are reused, so these are not additional independent
+confirmations. L92's flash H−P and H−B means rise with capture value; all signed outcomes remain archived.
+
+Independent reconstruction from all twelve raw AC confirmation ledgers reproduces all **36 paired vectors**
+bytewise, including means, SE and threshold flags. Direct per-life repricing followed by paired subtraction
+agrees within 7.11e−15, the observed floating-point operation-order difference. Source review confirms that
+capture value feeds capture income but no physical or organism input; accounting ledger bytes may change.
+The compact public replay uses 24 extracted source vectors. Full raw auditing uses the exact already-published
+AC records identified by commit and hashes. Both draft review-helper errors are preserved separately; neither
+changed the analysis or generated lives. Evidence: `results/capture_value_sensitivity_20261014/`.

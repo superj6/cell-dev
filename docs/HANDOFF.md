@@ -140,6 +140,13 @@ Both recorded processes and the owned group exited. The frozen reader passes unc
 matches all **1,200 paired arrays**. All 204 local and 35 production release pins remain unchanged. Evidence:
 `results/visibility_flash_gradient_20261014/`.
 
+**Capture-value sensitivity (post hoc, 2026-10-14).** Repricing AC's saved outcomes at capture values
+500/1,000/2,000 changes D90's flash H−B advantage from **+.94127 ± .10003** to **+.06103 ± .19489** and
+**−1.69945 ± .38576 F**. Reward-to-cost balance can reverse the ranking of these existing fixed genomes.
+This uses no new lives, changes no production price, and cannot predict what would evolve under different
+selection. All twelve within-world contrasts and all three prices are retained; independent raw accounting
+reproduces all 36 paired vectors. `results/capture_value_sensitivity_20261014/` contains the exploratory analysis.
+
 **Next source-only preparation:** a one-world information-payoff diagnostic changes existing flash
 `visibility_low` from .25 to zero, removing weak current target cues after the flash. This is a preapproved world
 constant, not a new ABI, channel or organism rule. Reuse the 13 existing external instruments, matching only the
