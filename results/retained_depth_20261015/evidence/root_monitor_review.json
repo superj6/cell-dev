@@ -1,0 +1,32 @@
+{
+  "status": "passed_source_only",
+  "source_pins": {
+    "common.py": "cee8f544cbeb3033345e3a1e1657709348d8b192be286b05cdf3df212520a3a8",
+    "monitor.py": "46790d206b70c47ac7536db2e1d9828a65929c9b961d2f122b604b9a70cd57d8"
+  },
+  "unchanged_watchdog_helpers": {
+    "pid_namespace": true,
+    "proc_table": true,
+    "identity": true,
+    "owned_live": true,
+    "consumed_cpu": true,
+    "memory_usage": true,
+    "child_limits": true,
+    "enable_subreaper": true,
+    "signal_owned": true,
+    "signal_descendant": true,
+    "reap": true,
+    "cleanup": true,
+    "cleanup_evidence": true,
+    "run_worker": true
+  },
+  "reviewed_main": [
+    "one worker across unchanged/balanced/confirmation",
+    "cumulative search cap24000; confirmation cap4800 reserved; total28800",
+    "wall14400 and inherited memory/process cleanup safeguards",
+    "61558search research perarm,15360confirmation,138476research+12startup",
+    "30exact512-life rows and six role indices",
+    "search CPU snapshot only after botharms; no auto retry or adjustment"
+  ],
+  "simulation_calls": 0
+}

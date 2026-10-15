@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "protocol_sha256": "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+  "analyzer_sha256": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91",
+  "prepare_sha256": "83f0bd3693b3d9076ed5fef377bfac29334ad668a56cef696c2fc9a774fe79dc",
+  "script_sha256": "6300e8acd9158e66202a2f6a0d6878e47638423a00aea5bdfbdd2a013c2e36de",
+  "pin_counts": {
+    "source_pins": 10,
+    "input_pins": 17,
+    "production_pins": 33,
+    "original_input_pins": 13,
+    "review_pins": 10
+  },
+  "exact_original_copy_mapping": {
+    "results/occlusion_acquisition_20261015/runs/acquisition/population.json": [
+      "inputs/input_population.json"
+    ],
+    "results/occlusion_acquisition_20261015/runs/acquisition/best_genome.json": [
+      "inputs/AN_start.json"
+    ],
+    "results/occlusion_acquisition_20261015/inputs/AM_current_start.json": [
+      "inputs/AM_reference.json"
+    ],
+    "results/occlusion_acquisition_20261015/runs/acquisition/checkpoint.pt": [
+      "inputs/AN_checkpoint.pt"
+    ],
+    "results/occlusion_acquisition_20261015/runs/acquisition/determinism.json": [
+      "inputs/AN_determinism.json"
+    ],
+    "results/occlusion_acquisition_20261015/runs/acquisition/config.yaml": [
+      "inputs/AN_config.yaml"
+    ],
+    "results/occlusion_acquisition_20261015/analysis_result/summary.json": [
+      "inputs/AN_summary.json"
+    ],
+    "results/occlusion_acquisition_20261015/terminal_review/native/complete_native_audit.json": [
+      "inputs/AN_native_audit.json"
+    ],
+    "results/occlusion_acquisition_20261015/protocol.json": [
+      "inputs/AN_protocol.json"
+    ],
+    "results/occlusion_acquisition_20261015/inputs/persistent_protocol.json": [
+      "inputs/persistent_protocol.json"
+    ],
+    "results/occlusion_acquisition_20261015/inputs/startup_identity.json": [
+      "inputs/startup_identity.json"
+    ],
+    "results/occlusion_acquisition_20261015/inputs/visibility_truth.json": [
+      "inputs/visibility_truth.json"
+    ],
+    "outputs/audit_retained_depth_20261015/new_prepare_prep/seed_audit.json": [
+      "inputs/seed_audit.json"
+    ]
+  },
+  "imported_rows": 32,
+  "shape": [
+    32,
+    875
+  ],
+  "population_raw_sha256": "1bc6451666f6ceac8d14188fece685d19925b5bbf9a9ffc92766972d6d20045b",
+  "reference_raw_sha256": "f58014373aa7402c8286b8d1aa0ee3bf667cfed2a9f030baf023c0c9b265153c",
+  "all_worlds_exact_AN": true,
+  "new_world_changes": [],
+  "all_capture_prices": 500,
+  "native_diagnostic_base_physics_exact_AN": true,
+  "runtime_paths_absent": [
+    "release.json",
+    "attempt.json",
+    "budget.json",
+    "runs",
+    "raw",
+    "build-cache",
+    "startup.json",
+    "endpoints.json"
+  ],
+  "engine_imports": false,
+  "simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0
+}

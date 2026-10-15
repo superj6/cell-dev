@@ -39,13 +39,18 @@ Two retained bookkeeping mistakes affected no science: wrong status label in a p
 any attempt/build/life; a separate accuracy helper needed three descriptive key names corrected. First owned
 research attempt completed. Protocolca277b17…08b26b, summary1ce6412d…c64512, prospectivecommit0a95793.
 
-**Next direction after the complete result:** AO is source-only under `outputs/autonomous_retained_depth_20261015/`
+**Next direction after the complete result:** AO is prepared and registered under `outputs/autonomous_retained_depth_20261015/`
 with audit sister directory. Give the promising lineage substantially more time while testing old-task allocation:
 two matched24generation branches from ALL32ANfinal survivors, freshmatchednative53232,8+8scoring, prices500.
 Unchanged25/25/50 versus balanced50/25/25 POOL/persistent/blink80_20. Six fixed roles (AMreference, ANstart,
 both generation8 and24 endpoints) on five known worlds×512freshblock142lives. Proposed138488calls,28800CPU
 (24000search/4800confirmation),14400wall,one2threadworker and unchanged memory safeguards. This is a fresh
 full-population continuation, not an RNG-exact resume. No new world, organism rule or ABI. Nothing has launched.
+Protocol2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d;63focusedchecks pass,
+both actual-input reviews pass; all32rows imported without builds/lives/geneticdraws. Prior64identities/46groups
+clear with18.9GBavailable. Publicprospective `results/retained_depth_20261015/`; ANmilestone4eff70d is pushed.
+MeasuredANphase scaling×1.5 fits the fixedcaps; the older pessimistic timing model does not and remains an
+explicit completion risk. Root runtime release follows prospective publication.
 
 Why this next: AN's later tradeoff still improves its true mixedF by about0.108, so more evaluation precision alone
 may reinforce forgetting. A matched allocation contrast gives both policies longer evolution without assuming

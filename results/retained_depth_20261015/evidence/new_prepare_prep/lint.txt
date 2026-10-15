@@ -1,0 +1,88 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/audit_retained_depth_20261015/new_prepare_prep/audit_namespace.py:2:1
+   |
+ 1 |   """Candidate-only AO native 53232 and block 142 audit; reopen distinct seed payloads, no engine imports."""
+ 2 | / from __future__ import annotations
+ 3 | |
+ 4 | | import ast
+ 5 | | import hashlib
+ 6 | | import io
+ 7 | | import json
+ 8 | | import os
+ 9 | | from pathlib import Path
+10 | | from types import SimpleNamespace
+11 | | import re
+12 | | import subprocess
+13 | | import zipfile
+14 | |
+15 | | import numpy as np
+   | |__________________^
+16 |
+17 |   ROOT = Path(__file__).resolve().parents[3]
+   |
+help: Organize imports
+   |
+8  | import os
+   - from pathlib import Path
+   - from types import SimpleNamespace
+9  | import re
+10 | import subprocess
+11 | import zipfile
+12 + from pathlib import Path
+13 + from types import SimpleNamespace
+14 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/audit_retained_depth_20261015/new_prepare_prep/review_resources_timing.py:2:1
+   |
+ 1 |   """AO planning: verify prior cleanup and read AN timing metadata; no scientific execution."""
+ 2 | / import hashlib
+ 3 | | import json
+ 4 | | import os
+ 5 | | from pathlib import Path
+ 6 | | import zipfile
+ 7 | |
+ 8 | | import numpy as np
+   | |__________________^
+ 9 |
+10 |   OUT = Path(__file__).resolve().parent
+   |
+help: Organize imports
+  |
+4 | import os
+5 + import zipfile
+6 | from pathlib import Path
+  - import zipfile
+7 |
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/audit_retained_depth_20261015/new_prepare_prep/test_prepare.py:2:1
+   |
+ 1 |   """AO source-only preparation contracts. No dynamics, genetic draws or input copies."""
+ 2 | / import ast
+ 3 | | import importlib.util
+ 4 | | import json
+ 5 | | import os
+ 6 | | from pathlib import Path
+ 7 | | import subprocess
+ 8 | | import sys
+ 9 | |
+10 | | from omegaconf import OmegaConf
+   | |_______________________________^
+11 |
+12 |   ROOT = Path(__file__).resolve().parents[3]
+   |
+help: Organize imports
+  |
+5 | import os
+  - from pathlib import Path
+6 | import subprocess
+7 | import sys
+8 + from pathlib import Path
+9 |
+  |
+
+Found 3 errors.
+[*] 3 fixable with the `--fix` option.

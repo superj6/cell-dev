@@ -1,0 +1,110 @@
+F.....FF.                                                                [100%]
+=================================== FAILURES ===================================
+_________ test_exact_recorded_cohort_without_rng_or_outcome_dependence _________
+
+    def test_exact_recorded_cohort_without_rng_or_outcome_dependence():
+        initial, lines = fixture()
+        before = torch.get_rng_state().clone()
+>       result = R.replay_first(Layout(), initial, lines)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_retained_depth_20261015/new_producer_prep/test_first_cohort.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_retained_depth_20261015/native_replay.py:89: in replay_first
+    reconstructed.append(ops.point_mutation(layout, mixed, child['ops']))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+layout = <test_first_cohort.Layout object at 0x790112302810>
+parent = tensor([0., 1., 2., 3.])
+operations = {'mut': [['b', [0], 0.25], ['b', [1], -0.125]]}
+
+    def point_mutation(layout, parent, operations):
+        """Replay recorded float32 additions, enforcing the ordinary active-mask/block constraints."""
+        mutant = parent.clone()
+        changes = operations.get("mut", [])
+        equal(len(changes), int(layout.n_mut_of(parent[None], 2)[0]), "point mutation count")
+>       allowed = layout.mutable(parent[None])[0]
+                  ^^^^^^^^^^^^^^
+E       AttributeError: 'Layout' object has no attribute 'mutable'
+
+outputs/autonomous_retained_depth_20261015/replay_ops.py:31: AttributeError
+_______________________ test_paired_first_cohort_receipt _______________________
+
+tmp_path = PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_retained_depth_20261015/new_producer_prep/replay_test_tmp/test_paired_first_cohort_recei0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7900f355ec90>
+
+    def test_paired_first_cohort_receipt(tmp_path, monkeypatch):
+        protocol = synthetic_pair(tmp_path, monkeypatch)
+>       result = R.first_cohort(tmp_path, protocol)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+outputs/audit_retained_depth_20261015/new_producer_prep/test_first_cohort.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_retained_depth_20261015/native_replay.py:113: in first_cohort
+    runs[arm] = {**replay_first(layout, initial, lines), 'lineage_sha256': sha(folder / 'lineage.jsonl')}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+outputs/autonomous_retained_depth_20261015/native_replay.py:89: in replay_first
+    reconstructed.append(ops.point_mutation(layout, mixed, child['ops']))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+layout = <test_first_cohort.Layout object at 0x7900f38067e0>
+parent = tensor([0., 1., 2., 3.])
+operations = {'mut': [['b', [0], 0.25], ['b', [1], -0.125]]}
+
+    def point_mutation(layout, parent, operations):
+        """Replay recorded float32 additions, enforcing the ordinary active-mask/block constraints."""
+        mutant = parent.clone()
+        changes = operations.get("mut", [])
+        equal(len(changes), int(layout.n_mut_of(parent[None], 2)[0]), "point mutation count")
+>       allowed = layout.mutable(parent[None])[0]
+                  ^^^^^^^^^^^^^^
+E       AttributeError: 'Layout' object has no attribute 'mutable'
+
+outputs/autonomous_retained_depth_20261015/replay_ops.py:31: AttributeError
+_____ test_distinct_recorded_operation_rejected_even_with_updated_log_pin ______
+
+tmp_path = PosixPath('/home/jgon/project/ml/cell-dev/outputs/audit_retained_depth_20261015/new_producer_prep/replay_test_tmp/test_distinct_recorded_operati0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7900f355d430>
+
+    def test_distinct_recorded_operation_rejected_even_with_updated_log_pin(tmp_path, monkeypatch):
+        protocol = synthetic_pair(tmp_path, monkeypatch)
+        out = tmp_path / 'runs/balanced'
+        lines = [json.loads(s) for s in (out / 'lineage.jsonl').read_text().splitlines()]
+        lines[1]['children'][0]['ops']['mut'][0][2] = .5
+        (out / 'lineage.jsonl').write_text('\n'.join(json.dumps(x) for x in lines) + '\n')
+        marker = json.loads((out / 'search_complete.json').read_text())
+        marker['output_pins']['lineage.jsonl'] = R.sha(out / 'lineage.jsonl')
+        (out / 'search_complete.json').write_text(json.dumps(marker))
+        with pytest.raises(ValueError, match='paired first cohorts differ'):
+>           R.first_cohort(tmp_path, protocol)
+
+outputs/audit_retained_depth_20261015/new_producer_prep/test_first_cohort.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+outputs/autonomous_retained_depth_20261015/native_replay.py:113: in first_cohort
+    runs[arm] = {**replay_first(layout, initial, lines), 'lineage_sha256': sha(folder / 'lineage.jsonl')}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+outputs/autonomous_retained_depth_20261015/native_replay.py:89: in replay_first
+    reconstructed.append(ops.point_mutation(layout, mixed, child['ops']))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+layout = <test_first_cohort.Layout object at 0x7900f4eefb60>
+parent = tensor([0., 1., 2., 3.])
+operations = {'mut': [['b', [0], 0.25], ['b', [1], -0.125]]}
+
+    def point_mutation(layout, parent, operations):
+        """Replay recorded float32 additions, enforcing the ordinary active-mask/block constraints."""
+        mutant = parent.clone()
+        changes = operations.get("mut", [])
+        equal(len(changes), int(layout.n_mut_of(parent[None], 2)[0]), "point mutation count")
+>       allowed = layout.mutable(parent[None])[0]
+                  ^^^^^^^^^^^^^^
+E       AttributeError: 'Layout' object has no attribute 'mutable'
+
+outputs/autonomous_retained_depth_20261015/replay_ops.py:31: AttributeError
+=========================== short test summary info ============================
+FAILED outputs/audit_retained_depth_20261015/new_producer_prep/test_first_cohort.py::test_exact_recorded_cohort_without_rng_or_outcome_dependence
+FAILED outputs/audit_retained_depth_20261015/new_producer_prep/test_first_cohort.py::test_paired_first_cohort_receipt
+FAILED outputs/audit_retained_depth_20261015/new_producer_prep/test_first_cohort.py::test_distinct_recorded_operation_rejected_even_with_updated_log_pin

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="13" time="2.151" timestamp="2026-10-15T13:36:37.358482-07:00" hostname="jgon-ThinkPad-X1-Carbon-Gen-13"><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_unchanged_physics_and_truth" time="0.095"><failure message="assert False&#10; +  where False = all(&lt;generator object test_unchanged_physics_and_truth.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f239498f5b0&gt;)">def test_unchanged_physics_and_truth():
+        for filename, names in [
+            (
+                "analyze.py",
+                (
+                    "identical",
+                    "stats",
+                    "prices",
+                    "physical_costs",
+                    "validate_row",
+                    "reconstruct",
+                    "json_genome",
+                    "describe_counts",
+                    "contrasts",
+                    "retention_diagnostics",
+                ),
+            ),
+            ("measure.py", ("parent_check", "check_visibility_truth")),
+        ]:
+            old, new = functions(AN / filename), functions(STUDY / filename)
+&gt;           assert all(ast.dump(old[k]) == ast.dump(new[k]) for k in names)
+E           assert False
+E            +  where False = all(&lt;generator object test_unchanged_physics_and_truth.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f239498f5b0&gt;)
+
+outputs/audit_retained_depth_20261015/new_reader_prep/test_confirmation_reader.py:66: AssertionError</failure></testcase><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_all11967_vectors_covariance_and_duplicates" time="0.896" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_joint_claim_requires_both_and_discloses_actual_blink_loss" time="0.067" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_unrounded_three_se_blink_margin" time="0.066" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_fixed_reference_checkpoint_order_and_single_confirmation_identity" time="0.045" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_three_phase_inclusive_caps" time="0.007" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_exact_thirty_rows[False]" time="0.250" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_exact_thirty_rows[True]" time="0.058" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_three_startup_receipts[None]" time="0.002" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_three_startup_receipts[missing_search_truth]" time="0.002" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_three_startup_receipts[extra_search_calls]" time="0.002" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_arm_checkpoint_prefix_and_counts[unchanged]" time="0.101" /><testcase classname="outputs.audit_retained_depth_20261015.new_reader_prep.test_confirmation_reader" name="test_arm_checkpoint_prefix_and_counts[balanced]" time="0.072" /></testsuite></testsuites>

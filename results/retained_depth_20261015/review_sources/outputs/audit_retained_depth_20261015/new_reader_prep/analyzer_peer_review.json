@@ -1,0 +1,56 @@
+{
+  "status": "approved_source_only",
+  "source_pins": {
+    "measure.py": "f0f8af81b16addea0bbcee2fbc102f341f475e008f609a40c7f813110a8fe27d",
+    "analyze.py": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91"
+  },
+  "producer_source_pins": {
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "0141e344fc3612953aff56d84ce4de0652d70fc7facf4d44ec958f414aa3be20",
+    "search.py": "6c7fa134b00b1a2c19a1f10aebff3e8b6021dfae0fe8c315e84f638477d05417",
+    "native_replay.py": "9c5a893ec6f67fc0168084c693de93c1daaf9888cb038a9029ae52d25ac46eb8",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "reviewed_source_receipt": {
+    "path": "outputs/audit_retained_depth_20261015/new_reader_prep/reader_source_review.json",
+    "sha256": "d860f77412535d51e6369964b202a1a55500f8428b5f275b067f358ea3a3609c"
+  },
+  "tests_inspected": 13,
+  "tests_rerun": 0,
+  "unchanged_function_AST_verified": {
+    "analyze.py": [
+      "identical",
+      "stats",
+      "prices",
+      "physical_costs",
+      "validate_row",
+      "reconstruct",
+      "json_genome",
+      "describe_counts",
+      "retention_diagnostics"
+    ],
+    "measure.py": [
+      "parent_check",
+      "check_visibility_truth"
+    ]
+  },
+  "scope_checks": [
+    "All six fixed roles and30 rows/15360confirmationlives required, including last role; no midpoint substitution.",
+    "Paired gen8 snapshots andgen24 finals bind exact checkpoint/config/identity, logs/prefixes, rawgenomes andordered finalpopulation.",
+    "Counts61558research+4startup perarm, confirmation15360+4, total138488; native counters andvalidation schedule agreeproducer.",
+    "Producer selection_identity exactly matched both unchanged2/2/4 andbalanced4/2/2patterns withR500.",
+    "Pairedfirst_cohort recorded32+224 proof matches AM schema; signatures/log/source/rawrow hashes bound beforeconfirmation.",
+    "All15rolepairs andcovariant world/interactions preserved:159groups\u00d775 plus42retention=11967vectors.",
+    "Jointprimary is POOLgain andblink20 90%noninferiority, notpositivegainboth; actualblinkdifference andallown-start differences remainvisible.",
+    "Three startupreceipts exacttruth/identity12total; same-namespace sequentialmonitor/3workers, phaseCPU/memory/teardown agreecontract."
+  ],
+  "findings": [],
+  "limitations": [
+    "Source-only review; no actual preparation or runtime validated here.",
+    "One paired evolutionaryrealization, development-known worlds; no generalpolicy/memory/depthcausality claim.",
+    "Nativefullgenetic replay separate; exactunrecorded firstshortlist/tieRNG not claimed."
+  ],
+  "compiled_libraries": 0,
+  "simulation_calls": 0,
+  "genetic_draws": 0
+}

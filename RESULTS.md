@@ -3740,3 +3740,33 @@ Report/figure: `results/occlusion_acquisition_20261015/REPORT.md`. Viewer: `resu
 all6existingJS lives match345ledger values,108mockUIassertions, no real browser run. Illustrations use the fixed
 first seed even though those particular lives look worse;512-life aggregates remain visible.
 Prospectivecommit0a95793; protocolca277b17…08b26b; summary1ce6412d…c64512; budget29f26b5c…ac5365.
+
+## 2026-10-15 — AO registered: more evolution with a direct retention-allocation comparison
+
+Give all32 ordered ANfinal survivors24 more generations in each of two matched fresh searches. Both retain
+ordinary prices500,8initial+8recheck lives, native32+224 breeding and unchanged local asynchronous cells.
+The sole branch difference is fixed POOL/persistent/blink80_20 allocation:25/25/50 versus50/25/25. Only two
+blink positions per8 becomePOOL; persistent and existingPOOLpositions retain their shared random-life IDs.
+These are fresh full-population continuations with matchedRNG, not exact resumes of AN.
+
+The user explicitly values letting promising strategies play out longer. AN's target capture acquisition motivates
+more time; its later tradeoff improves true mixedF, so greater precision alone could reinforce old-task loss.
+Retain an unchanged-allocation branch and an olderAMreference. Fix each branch's generation8 and24rank0,
+then measure allfour descendants plusANstart andAMreference in the five known ANworlds,512freshpaired lives
+perrow. No outcome-based checkpoint replacement. Joint primary: balanced24 beatsunchanged24POOLcaptures
+and retains90%of its longer-gap captures, each lower3SE>0; actualblinkdifference is reported evenifnegative.
+Allown-start/older-reference retention, physicalcosts, click fractions and11967pairedvectors remain visible.
+Allworlds aredevelopment-known; one matchedpair doesnotestablish optimalallocation, searchreliability,
+causaldepthsuperiority, memory or broadgeneralization. See `discussion/ROOT_DECISION.md` in the archive.
+
+Scope:2×61558searchresearch+15360confirmationresearch+12startup=**138488calls**. Native53232 supplies500unique
+IDs deliberately shared acrossarms; block142 confirmation52,420,000–52,420,511 is fresh. Hardcaps28800CPUtotal,
+24000search/4800confirmation,14400wall,one2threadworker,4GiBownedRSS,8GiBAS,4GiBhostheadroom. MeasuredANphase
+scaling with1.5margin projects23230.450search/3295.046confirmationCPU and fits. Older generic pessimistic
+projections37881.945/4883.709 do notfit and remain an explicit completionrisk if bodies/eventrates grow.
+No retry, arm-dropping, scope shrinking, cap extension or paidcompute.
+
+Preparation imports exact32rows with no build, life or scientificgeneticdraw.63focusedchecks pass, bothactual
+inputreviews agree, prior64identities/46groups clear with18.9GBavailable. Prospectivepublication precedes release.
+Protocol`2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d`.
+Evidence:`results/retained_depth_20261015/`; completedANmilestone`4eff70d`.

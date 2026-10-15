@@ -109,7 +109,9 @@ processes are clear. `results/occlusion_acquisition_20261015/REPORT.md`. Prepare
 continuations from all32ANsurvivors, unchanged25/25/50 versus50/25/25 POOL/persistent/longer-gap allocation,
 8+8scoring and originalprices. Both get more time, with fixed8/24endpoints andAMreference anchoring retention.
 The observed late tradeoff improves mixedF, so precision alone may reinforce it. This is source-only/unreleased;
-no harder world, new ABI or paid compute. Native53232/block142 are proposed pending fullnamespaceaudit.
+no harder world, new ABI or paid compute. Native53232/block142 are now audited andregistered,500unique native IDs deliberatelyshared acrossarms.
+AOprotocol2cfc3ac9…e6d68d,138488calls;63focusedchecks andbothactualinputreviews pass. Prior64identities/46groups
+clear. Evidence `results/retained_depth_20261015/`. Runtime release follows prospectivepublication; no life has run.
 
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved

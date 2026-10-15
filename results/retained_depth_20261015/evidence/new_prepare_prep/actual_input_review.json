@@ -1,0 +1,197 @@
+{
+  "status": "passed_actual_prepared_inputs",
+  "protocol_sha256": "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+  "pin_counts": {
+    "source_pins": 10,
+    "input_pins": 17,
+    "production_pins": 33,
+    "original_input_pins": 13,
+    "review_pins": 10
+  },
+  "population_shape": [
+    32,
+    875
+  ],
+  "population_raw_sha256": "1bc6451666f6ceac8d14188fece685d19925b5bbf9a9ffc92766972d6d20045b",
+  "ordered_rows_checked": 32,
+  "new_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "old_ids": [
+    1666,
+    1482,
+    1629,
+    1713,
+    1726,
+    1667,
+    1766,
+    1820,
+    1513,
+    1746,
+    1799,
+    1817,
+    1757,
+    1692,
+    1818,
+    1477,
+    1785,
+    1671,
+    1753,
+    1291,
+    1662,
+    1617,
+    1655,
+    1648,
+    1690,
+    1802,
+    1624,
+    1484,
+    1747,
+    1368,
+    1685,
+    1608
+  ],
+  "row0_old_id": 1666,
+  "only_declared_public_AN_config_differences": true,
+  "exact_immutable_AM_reference": true,
+  "native_unique_ids_per_arm": 500,
+  "native_arm_count": 2,
+  "native_IDs_deliberately_shared": true,
+  "confirmation_ids": 512,
+  "confirmation_ids_shared_across_all_roles_and_worlds": true,
+  "worlds": {
+    "pool": {
+      "abi": 3,
+      "world_size": 66,
+      "ledger_size": 57
+    },
+    "persistent": {
+      "abi": 3,
+      "world_size": 66,
+      "ledger_size": 57
+    },
+    "blink80_5": {
+      "abi": 4,
+      "world_size": 70,
+      "ledger_size": 58
+    },
+    "blink80_20": {
+      "abi": 4,
+      "world_size": 70,
+      "ledger_size": 58
+    },
+    "turn100_blink80_20": {
+      "abi": 4,
+      "world_size": 70,
+      "ledger_size": 58
+    }
+  },
+  "all_five_worlds_exact_prior_AN": true,
+  "selection_patterns": {
+    "unchanged": [
+      "pool",
+      "persistent",
+      "blink80_20",
+      "blink80_20",
+      "pool",
+      "persistent",
+      "blink80_20",
+      "blink80_20"
+    ],
+    "balanced": [
+      "pool",
+      "persistent",
+      "pool",
+      "blink80_20",
+      "pool",
+      "persistent",
+      "pool",
+      "blink80_20"
+    ]
+  },
+  "budget": {
+    "cpu_seconds": 28800,
+    "wall_seconds": 14400,
+    "search_cpu_seconds": 24000,
+    "confirmation_cpu_seconds": 4800,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  },
+  "research_lives": 138476,
+  "startup_lives": 12,
+  "total_calls": 138488,
+  "measured_phase_search_projection_cpu_seconds": 23230.450125,
+  "measured_phase_confirmation_projection_cpu_seconds": 3295.0461269999996,
+  "historical_pessimistic_projection": {
+    "formula": "180 + 1.5 * research calls * 0.2041540473847656, per phase",
+    "search_CPU_seconds": 37881.94454673421,
+    "confirmation_CPU_seconds": 4883.709251745,
+    "combined_CPU_seconds": 42765.65379847921,
+    "fits_search_cap": false,
+    "fits_confirmation_cap": false,
+    "interpretation": "This older per-life floor does not pass. It remains an explicit runtime risk, not a claimed feasibility gate."
+  },
+  "simulation_calls": 0,
+  "engine_imports": false,
+  "engine_builds": 0,
+  "genetic_draws": 0,
+  "review_script_sha256": "dc9c7129eb0af1ddea6bf9c7afa9ff05379d9d778f261b97d40a451076c0ccad",
+  "source_pins": {
+    "common.py": "cee8f544cbeb3033345e3a1e1657709348d8b192be286b05cdf3df212520a3a8",
+    "prepare.py": "83f0bd3693b3d9076ed5fef377bfac29334ad668a56cef696c2fc9a774fe79dc",
+    "monitor.py": "46790d206b70c47ac7536db2e1d9828a65929c9b961d2f122b604b9a70cd57d8",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "0141e344fc3612953aff56d84ce4de0652d70fc7facf4d44ec958f414aa3be20",
+    "search.py": "6c7fa134b00b1a2c19a1f10aebff3e8b6021dfae0fe8c315e84f638477d05417",
+    "measure.py": "f0f8af81b16addea0bbcee2fbc102f341f475e008f609a40c7f813110a8fe27d",
+    "analyze.py": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91",
+    "native_replay.py": "9c5a893ec6f67fc0168084c693de93c1daaf9888cb038a9029ae52d25ac46eb8",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "evidence_pins": {
+    "seed_audit.json": "3f06b4bce14ccebc0ec07e3d0ec70d1c2206db2dd4578fd4dd5f9c799ebd14a7",
+    "producer_operations_source_review.json": "6edb0e9c95556020f06eaa3dbeb20eb4710c80579a078ec00a512e2817969537",
+    "timing_review.json": "91318c138b452d8e5ad369fb9075e3eb01aec1cb82578ba98f65b679b1dceff6"
+  },
+  "limitations": [
+    "Historical prices, worlds and rules remain fixed; only allocation and longer duration are studied.",
+    "The old pessimistic runtime model exceeds caps. Actual AN phase scaling fits; hard caps decide completion if bodies regrow.",
+    "All 32 ordered rows are exact, but old fitness/RNG/IDs are not resumed.",
+    "All worlds are development-known; captures and economy are distinct outcomes, and neither implies memory or anatomical sophistication."
+  ]
+}

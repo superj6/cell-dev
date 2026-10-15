@@ -1,0 +1,27 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/audit_retained_depth_20261015/new_reader_prep/test_confirmation_reader.py:3:1
+   |
+ 1 |   """AO changed coverage/decision rules; no inputs, draws, engines or file fixture tree."""
+ 2 |
+ 3 | / import ast
+ 4 | | import copy
+ 5 | | import hashlib
+ 6 | | import importlib.util
+ 7 | | import json
+ 8 | | import sys
+ 9 | | from pathlib import Path
+10 | | import numpy as np
+11 | | import pytest
+   | |_____________^
+12 |
+13 |   ROOT = next(p for p in Path(__file__).resolve().parents if (p / "src/life/spec.py").is_file())
+   |
+help: Organize imports
+   |
+9  | from pathlib import Path
+10 +
+11 | import numpy as np
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

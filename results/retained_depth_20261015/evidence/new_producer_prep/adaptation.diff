@@ -1,0 +1,226 @@
+--- outputs/autonomous_occlusion_acquisition_20261015/selection.py
++++ outputs/autonomous_retained_depth_20261015/selection.py
+@@ -1,4 +1,4 @@
+-"""AN fixed acquisition mixture; only draw-world allocation changes ordinary evolution."""
++"""AO paired retained-depth allocation; only draw-world allocation changes ordinary evolution."""
+ from __future__ import annotations
+ 
+ import copy
+@@ -8,15 +8,16 @@
+ from pathlib import Path
+ 
+ STUDY = Path(__file__).resolve().parent
+-ARMS = ('acquisition',)
+-PATTERN = ('pool', 'persistent', 'blink80_20', 'blink80_20') * 2
+-RULE = 'gen fixed 2pool/2persistent/4blink80_20 per8 repeated for recheck; diagnostics=persistent neutral; R_cap500'
++ARMS = ('unchanged', 'balanced')
++PATTERNS = {'unchanged': ('pool', 'persistent', 'blink80_20', 'blink80_20') * 2,
++            'balanced': ('pool', 'persistent', 'pool', 'blink80_20') * 2}
++RULE = 'gen fixed per-arm allocation per8 repeated for recheck; unchanged2/2/4 balanced4/2/2; diagnostics=persistent neutral; R_cap500'
+ 
+ 
+ def selection_identity(arm, worlds):
+     if (arm not in ARMS or set(worlds) != {'pool', 'persistent', 'blink80_20'}
+             or any(w['R_cap'] != 500 or w['T'] != 1024 for w in worlds.values())):
+-        raise ValueError('exact AN acquisition arm and three 500-price worlds required')
++        raise ValueError('exact AO retained-depth arm and three 500-price worlds required')
+     neutral = {'visibility_mode': 0, 'visibility_on': 0., 'visibility_off': 0., 'visibility_low': 1.}
+     if any(any(worlds[name][key] != value for key, value in neutral.items())
+            for name in ('pool', 'persistent')):
+@@ -25,7 +26,7 @@
+                                'visibility_on': 80., 'visibility_off': 20., 'visibility_low': 0.}:
+         raise ValueError('acquisition context may change only the four declared visibility fields')
+     return {'version': 1, 'arm': arm, 'worlds': copy.deepcopy(worlds), 'rule': RULE,
+-            'pattern': list(PATTERN),
++            'pattern': list(PATTERNS[arm]),
+             'source_pins': {'selection.py': hashlib.sha256((STUDY / 'selection.py').read_bytes()).hexdigest()}}
+ 
+ 
+@@ -50,7 +51,7 @@
+     for world in worlds.values():
+         spec.V4.validate_world(world)
+         if world.T != 1024:
+-            raise ValueError('AN selection duration must be 1024')
++            raise ValueError('AO selection duration must be 1024')
+     original = evaluator_class.draw
+ 
+     def draw(self, purpose, index, lives=None, T=None, overrides=None, envelope=None):
+@@ -59,15 +60,15 @@
+         if purpose != 'gen':
+             return original(self, purpose, index, lives=lives, T=T, overrides=overrides, envelope=envelope)
+         count = self.lives if lives is None else int(lives)
+-        if (self.abi.version != 4 or count not in (8, 16) or int(index) != index or index not in range(8)
++        if (self.abi.version != 4 or count not in (8, 16) or int(index) != index or index not in range(24)
+                 or (T is not None and T != 1024) or overrides is not None or envelope not in (None, False)
+                 or self.T_choices or self.has_envelope or self.envelope.get('enabled', False)
+                 or asdict(self.world()) != configured['worlds']['persistent']):
+-            raise ValueError('AN requires exact fixed 8+8 ABI4 persistent500 base without overrides or envelope')
++            raise ValueError('AO requires exact fixed 8+8 ABI4 persistent500 base without overrides or envelope')
+         result = original(self, purpose, index, lives=lives, T=T, overrides=overrides, envelope=envelope)
+         if result.n != count or len(result.worlds) != count:
+             raise ValueError('native draw length differs')
+-        return replace(result, worlds=tuple(worlds[PATTERN[i % 8]] for i in range(count)))
++        return replace(result, worlds=tuple(worlds[configured['pattern'][i % 8]] for i in range(count)))
+ 
+     evaluator_class.draw = draw
+     try:
+--- outputs/autonomous_occlusion_acquisition_20261015/search.py
++++ outputs/autonomous_retained_depth_20261015/search.py
+@@ -1,4 +1,4 @@
+-"""AN uninterrupted eight-generation acquisition with a passive generation-four snapshot."""
++"""AO paired24-generation continuation with a passive generation-eight snapshot."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -45,7 +45,7 @@
+ 
+ @contextmanager
+ def midpoint_installed(checkpoint, cfg, expected_identity, layout):
+-    """Copy the completed generation4 checkpoint and rank0 without touching native state/RNG."""
++    """Copy the completed generation8 checkpoint and rank0 without touching native state/RNG."""
+     from common import save, sha
+ 
+     original = checkpoint.save
+@@ -54,13 +54,13 @@
+ 
+     def capture(path, *, cfg, identity, state):
+         result = original(path, cfg=cfg, identity=identity, state=state)
+-        if state['generation'] != 4:
++        if state['generation'] != 8:
+             return result
+         if (tracker['captures'] or Path(path) != out / 'checkpoint.pt'
+-                or identity != expected_identity or cfg.evolve.generations != 8
+-                or state['evals'] != 1024 or state['rc_lives'] != 2048):
++                or identity != expected_identity or cfg.evolve.generations != 24
++                or state['evals'] != 2048 or state['rc_lives'] != 4096):
+             raise ValueError('unexpected or repeated midpoint checkpoint')
+-        folder = out / 'generation4'
++        folder = out / 'generation8'
+         folder.mkdir(exist_ok=False)
+         target = folder / 'checkpoint.pt'
+         with target.open('xb') as stream:
+@@ -74,7 +74,7 @@
+             raise ValueError('midpoint population shape differs')
+         genome_path = folder / 'best_genome.json'
+         layout.save(population[0], genome_path)
+-        receipt = {'status': 'complete', 'generation': 4, 'rank': 0,
++        receipt = {'status': 'complete', 'generation': 8, 'rank': 0,
+             'rank_zero_id': int(payload['state']['ids'][0]),
+             'checkpoint_sha256': sha(target), 'genome_file_sha256': sha(genome_path),
+             'genome_raw_sha256': raw_sha(population[0]),
+@@ -98,13 +98,13 @@
+     from src import checkpoint
+     from src.genome import Layout
+ 
+-    folder = out / 'generation4'
++    folder = out / 'generation8'
+     receipt = read(folder / 'snapshot.json')
+     payload = checkpoint.load(folder / 'checkpoint.pt')
+     checkpoint.validate(payload, cfg, identity)
+     state = payload['state']
+     _, genome = Layout.load(folder / 'best_genome.json')
+-    if (receipt != {'status': 'complete', 'generation': 4, 'rank': 0,
++    if (receipt != {'status': 'complete', 'generation': 8, 'rank': 0,
+                    'rank_zero_id': int(state['ids'][0]),
+                    'checkpoint_sha256': sha(folder / 'checkpoint.pt'),
+                    'genome_file_sha256': sha(folder / 'best_genome.json'),
+@@ -112,10 +112,10 @@
+                    'population_raw_sha256': raw_sha(state['population']), 'identity': identity,
+                    'log_prefix_pins': payload['logs'], 'protocol_sha256': sha(STUDY / 'protocol.json'),
+                    'release_sha256': sha(STUDY / 'release.json'), 'added_lives': 0, 'random_draws': 0}
+-            or state['generation'] != 4 or state['evals'] != 1024 or state['rc_lives'] != 2048
++            or state['generation'] != 8 or state['evals'] != 2048 or state['rc_lives'] != 4096
+             or tuple(state['population'].shape) != (32, 875)
+             or raw_sha(genome) != receipt['genome_raw_sha256']
+-            or [row['gen'] for row in state['curves']] != list(range(4))):
++            or [row['gen'] for row in state['curves']] != list(range(8))):
+         raise ValueError('midpoint snapshot/configuration/rank0 differs')
+     for name, pin in payload['logs'].items():
+         with (out / name).open('rb') as stream:
+@@ -137,8 +137,8 @@
+     out = Path(cfg.logging.output_dir)
+     saved = checkpoint.load(out / 'checkpoint.pt')
+     checkpoint.validate(saved, cfg, identity)
+-    if (arm != 'acquisition' or saved['state']['generation'] != 8 or saved['state']['evals'] != 2048
+-            or saved['state']['rc_lives'] != 4096):
++    if (arm not in ('unchanged', 'balanced') or saved['state']['generation'] != 24 or saved['state']['evals'] != 6144
++            or saved['state']['rc_lives'] != 12288):
+         raise ValueError('native search checkpoint counts differ')
+     if read(out / 'determinism.json') != identity:
+         raise ValueError('native recorded identity differs')
+@@ -151,9 +151,9 @@
+     curves = [json.loads(line) for line in (out / 'curves.jsonl').read_text().splitlines()]
+     lineage = [json.loads(line) for line in (out / 'lineage.jsonl').read_text().splitlines()]
+     generations = [row for row in lineage if 'gen' in row]
+-    if ([row['gen'] for row in curves] != list(range(8))
+-            or [row['gen'] for row in generations] != list(range(8))
+-            or [row['gen'] for row in curves if 'valid' in row] != [0, 4, 7]):
++    if ([row['gen'] for row in curves] != list(range(24))
++            or [row['gen'] for row in generations] != list(range(24))
++            or [row['gen'] for row in curves if 'valid' in row] != [0, 4, 8, 12, 16, 20, 23]):
+         raise ValueError('native generation/validation schedule differs')
+     for g, row in enumerate(curves):
+         if (row['evals'] != 320 * (g + 1) or row['recheck_k'] != 64
+@@ -174,7 +174,7 @@
+     if len(results) != 1:
+         raise ValueError('one native final result required')
+     final = results[0]
+-    if (final['generations'] != 8 or final['evals'] != 2560 or final['lives'] != 2
++    if (final['generations'] != 24 or final['evals'] != 7680 or final['lives'] != 2
+             or final['founders_sampled'] != 0 or final['top_best_rank'] != 0
+             or final['invalid_lives'] != 0 or final['mismatch_lives'] != 0
+             or not math.isfinite(float(final['F']))):
+@@ -197,11 +197,11 @@
+         raise ValueError('four-call search startup proof differs')
+     names = ('checkpoint.pt', 'config.yaml', 'determinism.json', 'curves.jsonl', 'lineage.jsonl',
+              'population.json', 'best_genome.json', 'results.jsonl', 'search_startup.json',
+-             'generation4/checkpoint.pt', 'generation4/best_genome.json', 'generation4/snapshot.json')
+-    return {'status': 'complete', 'arm': arm, 'research_lives': 20534, 'startup_lives': 4,
++             'generation8/checkpoint.pt', 'generation8/best_genome.json', 'generation8/snapshot.json')
++    return {'status': 'complete', 'arm': arm, 'research_lives': 61558, 'startup_lives': 4,
+             'protocol_sha256': sha(STUDY / 'protocol.json'), 'release_sha256': sha(STUDY / 'release.json'),
+-            'count_proof': {'selection': 20480, 'valid': 48, 'final': 6, 'half_duration': 2,
+-                            'native_evals': 2560, 'generations': 8, 'children_per_generation': 224,
++            'count_proof': {'selection': 61440, 'valid': 112, 'final': 6, 'half_duration': 2,
++                            'native_evals': 7680, 'generations': 24, 'children_per_generation': 224,
+                             'midpoint_added_lives': 0}, 'midpoint': midpoint,
+             'health': {'pop_invalid': [row['pop_invalid'] for row in curves],
+                        'pop_mismatch': [row['pop_mismatch'] for row in curves],
+@@ -214,7 +214,7 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('--arm', choices=('acquisition',))
++    parser.add_argument('--arm', choices=('unchanged', 'balanced'))
+     args = parser.parse_args()
+     if args.arm is None:
+         print(json.dumps({'status': 'dry_run', 'scope': 'one named arm only after explicit release'}))
+--- outputs/autonomous_capture_value_selection_20261015/native_replay.py
++++ outputs/autonomous_retained_depth_20261015/native_replay.py
+@@ -23,7 +23,7 @@
+ 
+ def operations():
+     path = HERE / 'replay_ops.py'
+-    spec = importlib.util.spec_from_file_location('AM_recorded_ops', path)
++    spec = importlib.util.spec_from_file_location('AO_recorded_ops', path)
+     module = importlib.util.module_from_spec(spec)
+     spec.loader.exec_module(module)
+     return module
+@@ -102,7 +102,7 @@
+             raise ValueError('recorded replay helper source changed')
+     layout, initial = initial_population(base, protocol)
+     runs = {}
+-    for arm in ('current_value', 'high_value'):
++    for arm in ('unchanged', 'balanced'):
+         folder = base / 'runs' / arm
+         marker = json.loads((folder / 'search_complete.json').read_text())
+         if (marker['status'] != 'complete' or marker['arm'] != arm
+@@ -112,7 +112,7 @@
+         lines = [json.loads(line) for line in (folder / 'lineage.jsonl').read_text().splitlines()]
+         runs[arm] = {**replay_first(layout, initial, lines), 'lineage_sha256': sha(folder / 'lineage.jsonl')}
+     for key in ('candidate_raw_sha256', 'candidate_row_sha256', 'genetic_signature_sha256'):
+-        if runs['current_value'][key] != runs['high_value'][key]:
++        if runs['unchanged'][key] != runs['balanced'][key]:
+             raise ValueError('paired first cohorts differ: ' + key)
+     return {'status': 'passed', 'protocol_sha256': sha(base / 'protocol.json'),
+             'initial_population_raw_sha256': raw_sha(initial.numpy()),

@@ -1,0 +1,31 @@
+F............                                                            [100%]
+=================================== FAILURES ===================================
+_______________________ test_unchanged_physics_and_truth _______________________
+
+    def test_unchanged_physics_and_truth():
+        for filename, names in [
+            (
+                "analyze.py",
+                (
+                    "identical",
+                    "stats",
+                    "prices",
+                    "physical_costs",
+                    "validate_row",
+                    "reconstruct",
+                    "json_genome",
+                    "describe_counts",
+                    "contrasts",
+                    "retention_diagnostics",
+                ),
+            ),
+            ("measure.py", ("parent_check", "check_visibility_truth")),
+        ]:
+            old, new = functions(AN / filename), functions(STUDY / filename)
+>           assert all(ast.dump(old[k]) == ast.dump(new[k]) for k in names)
+E           assert False
+E            +  where False = all(<generator object test_unchanged_physics_and_truth.<locals>.<genexpr> at 0x7f239498f5b0>)
+
+outputs/audit_retained_depth_20261015/new_reader_prep/test_confirmation_reader.py:66: AssertionError
+=========================== short test summary info ============================
+FAILED outputs/audit_retained_depth_20261015/new_reader_prep/test_confirmation_reader.py::test_unchanged_physics_and_truth

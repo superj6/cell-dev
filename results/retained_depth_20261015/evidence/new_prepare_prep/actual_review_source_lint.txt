@@ -1,0 +1,29 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/audit_retained_depth_20261015/new_prepare_prep/review_actual_inputs.py:2:1
+   |
+ 1 |   """Read-only prepared AO review; NumPy/YAML and AST only, no engine imports or draws."""
+ 2 | / import argparse
+ 3 | | import ast
+ 4 | | import copy
+ 5 | | import hashlib
+ 6 | | import json
+ 7 | | import sys
+ 8 | | from pathlib import Path
+ 9 | |
+10 | | import numpy as np
+11 | | import yaml
+12 | |
+13 | | from audit_namespace import derive_native_ids
+   | |_____________________________________________^
+14 |
+15 |   ROOT = Path(__file__).resolve().parents[3]
+   |
+help: Organize imports
+   |
+11 | import yaml
+   -
+12 | from audit_namespace import derive_native_ids
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

@@ -1,0 +1,81 @@
+{
+  "status": "passed_source_only",
+  "sources": {
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "0141e344fc3612953aff56d84ce4de0652d70fc7facf4d44ec958f414aa3be20",
+    "search.py": "6c7fa134b00b1a2c19a1f10aebff3e8b6021dfae0fe8c315e84f638477d05417",
+    "native_replay.py": "9c5a893ec6f67fc0168084c693de93c1daaf9888cb038a9029ae52d25ac46eb8",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "test_suites": [
+    {
+      "file": "tests.xml",
+      "tests": 35,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "file": "replay_tests.xml",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "total_passing_tests": 44,
+  "lint": "All five producer files and both focused test files pass Ruff; raw outputs retained.",
+  "scope": {
+    "arms": [
+      "unchanged",
+      "balanced"
+    ],
+    "generations_per_arm": 24,
+    "base_world_abi": 4,
+    "selection_lives": 8,
+    "recheck_lives": 8,
+    "population": 32,
+    "offspring": 224,
+    "research_lives_per_arm": 61558,
+    "startup_lives_per_arm": 4,
+    "midpoint_generation": 8,
+    "midpoint_added_lives": 0,
+    "confirmation_lives": 15360,
+    "total_calls": 138488
+  },
+  "checks": [
+    "Exact reviewed AN loader byte reuse; all32 rows/order/duplicates retained, no initial mutated copies or RNG advance.",
+    "Only draw-world allocation changes: unchanged2POOL/2persistent/4blink20 versus balanced4/2/2; only positions2/6 change, with exact native seed prefixes and RNG state.",
+    "Original checkpoint save precedes passivegen8 snapshot; no state/RNG/evaluation changes; final24 and prefix/output hashes checked.",
+    "Gen8 counters2048/4096; final24 counters6144/12288; native counted evals7680; validg0/4/8/12/16/20/23.",
+    "Per search exactly native identitypair plus existingABI4truthpair; no additional identitycall.",
+    "Paired first-cohort AM helper differs only arm/module labels; replay_ops byte exact. Recorded32+224 genomes compared before confirmation without genetic draws.",
+    "First synthetic helper attempt failed because toyLayout lacked mutable/block_of; source/log/XML preserved underhistory; production helper untouched."
+  ],
+  "limitations": [
+    "One paired evolutionary realization, not independent policy replication.",
+    "MeanF allocation may trade captures or favor economy; capture retention is measured separately.",
+    "First cohort proof covers recorded operations and identical first256 candidate bytes; fitness and later trajectories may differ.",
+    "Full terminal genetic replay separate; initial unrecorded parent fitness and exact tie permutations are not reconstructed."
+  ],
+  "no_actual_input_copies": true,
+  "compiled_libraries": 0,
+  "simulation_calls": 0,
+  "genetic_draws": 0,
+  "evidence_pins": {
+    "source_origins.json": "a8bb21279b869af9e1028c04508dce3c64abb48dad69f5b176cbab1e68850eed",
+    "test_first_cohort.py": "271d69104a445d5c1b269a7fab0593196174c96bd8c1e2f9d8b5821f3f5d4cc5",
+    "replay_tests.xml": "cbbbd82b2d0216bdbe848d0b29ee084ea9c5b6e2f936015014c7a7de20d44408",
+    "tests.xml": "ea040f8fd916625524cf2dfbca2641985214f513d4fcce5d9bbebae4afe29365",
+    "test_selection.py": "a3a5a49e497c0066a6eb72a3bc1e583904867407d5fea898cbdc24ec99fb6019",
+    "ruff.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "tests.log": "23814bd54c3f40e10907bbb3fbbf634b818152cf7afb3d0013ebceb07460326b",
+    "search_dry_run.json": "a60b54f2a6dcbb0b421e4dc292427a027ac922accd780d01d19c73273806bf37",
+    "adaptation.diff": "4415c2a2038943baed4124e063f99b4602b3829b5e327457a31c1b718bb0f92d",
+    "replay_ruff.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "replay_tests.log": "585ba42829657b9e2d56f8614be6c3365a8405474eed008559511ab50f2ffcfb",
+    "history/replay_test_fixture_incomplete/test_first_cohort.py": "ddcb6780b6c249cf63f8eefd4d0109294c3c43b55855575a6ecce8a2a0bcbc17",
+    "history/replay_test_fixture_incomplete/replay_tests.xml": "d716dfc39fe2076c9017c8f5456ad558539e75514e3668aa6728851997f6227c",
+    "history/replay_test_fixture_incomplete/replay_tests.log": "da821e853e61568989bbbd6ade14ea71982bb777aa299b4e6eebed65bce737ff"
+  }
+}

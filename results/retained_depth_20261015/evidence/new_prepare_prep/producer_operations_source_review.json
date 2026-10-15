@@ -1,0 +1,82 @@
+{
+  "status": "source_only_reviewed_unprepared",
+  "prepare_sha256": "83f0bd3693b3d9076ed5fef377bfac29334ad668a56cef696c2fc9a774fe79dc",
+  "source_pins": {
+    "common.py": "cee8f544cbeb3033345e3a1e1657709348d8b192be286b05cdf3df212520a3a8",
+    "prepare.py": "83f0bd3693b3d9076ed5fef377bfac29334ad668a56cef696c2fc9a774fe79dc",
+    "monitor.py": "46790d206b70c47ac7536db2e1d9828a65929c9b961d2f122b604b9a70cd57d8",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "0141e344fc3612953aff56d84ce4de0652d70fc7facf4d44ec958f414aa3be20",
+    "search.py": "6c7fa134b00b1a2c19a1f10aebff3e8b6021dfae0fe8c315e84f638477d05417",
+    "measure.py": "f0f8af81b16addea0bbcee2fbc102f341f475e008f609a40c7f813110a8fe27d",
+    "analyze.py": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91",
+    "native_replay.py": "9c5a893ec6f67fc0168084c693de93c1daaf9888cb038a9029ae52d25ac46eb8",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "source_origin": {
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_occlusion_acquisition_20261015/prepare.py": "c27420f96e258806cd1972d700ef7256b7c15e2083c12729781294f6ba0185fb",
+    "prior_public_protocol_sha256": "ca277b17294bbce52a4fd6bde77e5847b6b5230c00d285ba8492538f7508b26b"
+  },
+  "test_command": "PYTHONDONTWRITEBYTECODE=1 ATEN_CPU_CAPABILITY=avx2 .venv/bin/python -m pytest -q -p no:cacheprovider outputs/audit_retained_depth_20261015/new_prepare_prep/test_prepare.py --junitxml=outputs/audit_retained_depth_20261015/new_prepare_prep/prepare_tests.xml",
+  "tests_passed": 6,
+  "test_pins": {
+    "test_prepare.py": "bf06f54ea28c07befb9886fed8fe77edf765fec80b23b9ac5ce0e16d23a5005b",
+    "prepare_tests.xml": "6f94e767b59fc1ff23a9a776c5eade99e306698e1fff449b45f6853d221f4ece",
+    "prepare_tests.log": "700bc0322b00f8e8db3ce495047983b54ab27ab59ed1fedac05f3aeba47dae24",
+    "prepare_lint.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "source_contracts": [
+    "Both configurations preserve the complete public AN settings except seed, output paths, 24 generations, imported population/source identity and declared fixed world allocation.",
+    "Five exact AN development worlds and prices are copied; mixed ABI3/4 confirmation metadata is preserved.",
+    "Preparation later imports all 32 ordered AN final rows, checks checkpoint/native replay, uses fresh IDs, and asserts fill changes no bytes or RNG and records no operations. No initialization exists yet.",
+    "Native 53232 and 500 unique native IDs are deliberately shared across both arms; 512 fresh confirmation IDs are shared across six roles and five worlds.",
+    "Each arm uses 61,558 research calls; confirmation uses 15,360; 12 startup calls yield 138,488 total.",
+    "Primary POOL actual capture difference and blink noninferiority are explicit; actual blink difference remains reported even if negative.",
+    "Generation 8 and 24 endpoints from both arms are fixed before confirmation, with immutable AM and AN references."
+  ],
+  "watchdog_unchanged_helper_ASTs": [
+    "child_limits",
+    "cleanup",
+    "cleanup_evidence",
+    "consumed_cpu",
+    "enable_subreaper",
+    "identity",
+    "memory_usage",
+    "owned_live",
+    "pid_namespace",
+    "proc_table",
+    "reap",
+    "run_worker",
+    "signal_descendant",
+    "signal_owned"
+  ],
+  "watchdog_main_scope": {
+    "phases": [
+      "unchanged",
+      "balanced",
+      "confirmation"
+    ],
+    "search_lives_per_arm": 61558,
+    "confirmation_lives": 15360,
+    "confirmation_rows": 30,
+    "total_calls": 138488,
+    "CPU_cap": 28800,
+    "search_CPU_cap": 24000,
+    "confirmation_CPU_cap": 4800,
+    "wall_cap": 14400
+  },
+  "evidence_pins": {
+    "seed_audit.json": "3f06b4bce14ccebc0ec07e3d0ec70d1c2206db2dd4578fd4dd5f9c799ebd14a7",
+    "prior_resource_evidence.json": "0ba90e9d6d1beb3a18711fcd6e44af0cbe3346a75b997a44e3dbb18f8d8b4aae",
+    "timing_review.json": "91318c138b452d8e5ad369fb9075e3eb01aec1cb82578ba98f65b679b1dceff6"
+  },
+  "limitations": [
+    "No inputs, seeds, genetic draws, engine builds or scientific lives have been produced by this source-only work. Root acceptance and one-time preparation remain required.",
+    "The old historical rate projection exceeds caps. Measured complete AN phase scaling with a 1.5 margin fits, but growing bodies can still exhaust the unchanged hard caps.",
+    "Audit-script Ruff found only inherited import-order style notices; canonical prepare Ruff passes, and source snapshots used in receipts remain unchanged."
+  ],
+  "new_lives": 0,
+  "genetic_draws": 0,
+  "input_copies": 0,
+  "engine_builds": 0
+}
