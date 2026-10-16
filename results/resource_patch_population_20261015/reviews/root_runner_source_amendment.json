@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "scope": "Final source-only amendment to independent runner/helper/protocol review; original review retained unchanged.",
+  "prior_review": "reviews/root_runner_source_review.json",
+  "prior_review_sha256": "655d7d7de7ce522a9a8bc3db88506dc916c8856fd7ef766ced06dceddd3afb3b",
+  "source_pins": {
+    "common.py": "c2f2b5eb0f849b4d71a073e211d5a893c319e184de1802f3eb2a5e4ef81d8624",
+    "monitor_core.py": "6df0431f755128ae3d008007f393ead18575891d21ee909e48e47f915686ef92",
+    "run.py": "f1a091ed060a5f83868023fd0fd5b467feb3499ac6dba829a15441775ceaa706",
+    "PROTOCOL.md": "167bc7271fbbb31893fee8eff8a60c80f1922592ea0597add22b3f261710f073",
+    "prepare.py": "0070896ac6fcd8c4deb96d63421409d12b3c5c783c9a10dc3f9795e87e412eae",
+    "prepare_inputs.py": "bbc2e78baab724fbe68f363b9ea7de308ee6064f545e4697991186411765b556",
+    "measure.py": "6e9668dfd63220ddd92ad5ecbf78dbdfef5ef3d40814076e9d942ae018dad221",
+    "analyze.py": "b493c208bd6062c671a6450f0554a8c1ceb464e3d5f26da008b5a19e6454b322",
+    "source_origins.json": "b0eb8e114edb5c0947ebe33c49deae5b3c6fad048b22104b83a892236ae4a867"
+  },
+  "changes_reviewed": [
+    "monitor_core removes unused argparse/json and common ROOT/checked_release/read imports; all fourteen worker-function ASTs remain identical to the prior public watchdog.",
+    "prepare removes its unused Path import and normalizes import grouping; preparation constants and function semantics remain unchanged.",
+    "PROTOCOL spacing edits do not change the fixed populations, worlds, call inventory, interpretation or resource caps.",
+    "run.complete_check now requires a complete summary bound to the current protocol, and study_complete pins summary.json. This follows successful owned-worker analysis and precedes a terminal successful monitor receipt.",
+    "source_origins.json now pins the current import-cleaned monitor and explicitly records the unused-import removal; its prior bytes are preserved."
+  ],
+  "watchdog_functions_AST_identical": true,
+  "watchdog_function_count": 14,
+  "material_blockers": [],
+  "activity": {
+    "tests": 0,
+    "simulator_calls": 0,
+    "builds": 0,
+    "random_draws": 0,
+    "runtime_source_edits": 0
+  },
+  "remaining_scope": "Review exact materialized inputs after READY is produced; this amendment does not attest to uncreated protocol/input artifacts."
+}

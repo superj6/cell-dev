@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "protocol_sha256": "6fb2a4f9744ff15377346bde4b2d7af42a7e12087e5f9d2d9cc622af7a5ee33f",
+  "source_amendment_sha256": "b1bdb87467fd89d8d5c96152731a22028146941fee504d97181c9f8154b929c2",
+  "reader_checks_sha256": "a0d4e9802d2dbc3c741c059ff4093e9a9712686058f1aac8f11bf0e0b8c275df",
+  "reviewer_source_sha256": "d6228826b655e94ba6b4ebe1d68f77f55880d3f8d1cb3df7b60dc0c9eb0e7f12",
+  "ready_sha256": "d6ae899ba9c8c23be1daf20f3186ef3cbee2a42060db489e712efdef7a5dec0c",
+  "rows_manifest_sha256": "1940813099dbda45292c896ef8ac94f310eba4d877dc49e73940e753b14be778",
+  "matrix_file_sha256": "ac39b416dbb2efe09bed92dce04b892ae39b6a11168948f52442cf0439b98766",
+  "matrix_raw_sha256": "36229f5520f333802f2a44d98753e6ca6da2bef1a22d25e5d489831724da28d3",
+  "population_raw_sha256": {
+    "G8": "5423725d8e1fd629ed9e4184ada618864aadefdc0f89747ec88c650208bdd420",
+    "mean4": "282f685959ab6a43e7fe0c7908367d655c0b02976447e4d186a01a3591b22b09",
+    "pareto4": "81ba62ed64f47e64b278e86679075f5e3dd76a2ca0f26c858d35858c0beedb6f"
+  },
+  "cached16_mapping": {
+    "mean4": {
+      "rows": 32,
+      "lives_per_row": 16,
+      "domain_lives": [
+        8,
+        4,
+        4
+      ],
+      "reported_endpoint_row": 0,
+      "reported_endpoint_id": 663
+    },
+    "pareto4": {
+      "rows": 32,
+      "lives_per_row": 16,
+      "domain_lives": [
+        8,
+        4,
+        4
+      ],
+      "reported_endpoint_row": 11,
+      "reported_endpoint_id": 883
+    }
+  },
+  "pinned_files_checked": {
+    "input_pins": 27,
+    "source_pins": 8,
+    "production_pins": 33,
+    "original_input_pins": 33
+  },
+  "ordered_genomes": 97,
+  "unchanged_worlds": 5,
+  "shared_development_seeds": 32,
+  "research_lives": 15520,
+  "startup_lives": 4,
+  "planned_total_calls": 15524,
+  "native_lives_executed": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "scope": "Exact saved inputs, checkpoint order/IDs, cached16 mapping, unchanged world/prices, constructor-only scorer, pins and resource/count contract.",
+  "limitations": "No numerical identity call, kernel build, simulation or fresh namespace scan; the already accepted collision receipt is hash-bound."
+}

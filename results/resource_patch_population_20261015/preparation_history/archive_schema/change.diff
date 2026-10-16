@@ -1,0 +1,44 @@
+--- original/prepare_inputs.py
++++ prepare_inputs.py
+@@ -19,6 +19,7 @@
+ GROUPS = ('G8', 'mean4', 'pareto4', 'AO')
+ WORLDS = ('patch', 'pool', 'persistent', 'blink80_20', 'transfer')
+ SEEDS = tuple(range(52510000, 52510032))
++REVISION = '5d556443e91d558de8de27ab2e5dc7ae11a51415'
+ 
+ 
+ def sha(path):
+@@ -44,7 +45,7 @@
+     if any((STUDY / name).exists() for name in ('inputs', 'protocol.json', 'release.json', 'attempt.json')):
+         raise ValueError('first materialization requires absent inputs/protocol/runtime artifacts')
+     head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+-    if len(revision) != 40 or revision != head:
++    if revision != REVISION or revision != head:
+         raise ValueError('explicit current completed milestone revision required')
+     audit = read(STUDY / 'namespace/seed_audit.json')
+     if (audit['status'] != 'passed' or audit['reserved']
+@@ -64,13 +65,21 @@
+ 
+     torch.set_num_threads(1)
+     public = {root: read(root / 'manifest.json') for root in (CURRENT, PRIOR, AO)}
+-    if any(item['status'] != 'complete' for item in public.values()):
+-        raise ValueError('completed public source archives required')
++    manifest_entries = {}
++    for archive, item in public.items():
++        if archive == AO:
++            if item.get('phase') != 'terminal' or not isinstance(item.get('artifacts'), dict):
++                raise ValueError('AO terminal phase/artifacts manifest required')
++            manifest_entries[archive] = item['artifacts']
++        else:
++            if item.get('status') != 'complete' or not isinstance(item.get('files'), dict):
++                raise ValueError('patch complete status/files manifest required')
++            manifest_entries[archive] = item['files']
+     source_pins, copies = {}, {}
+ 
+     def bind(source, archive, destination=None):
+         relative = str(source.relative_to(archive))
+-        pin = public[archive]['files'][relative]
++        pin = manifest_entries[archive][relative]
+         digest = sha(source)
+         if digest != pin['sha256'] or source.stat().st_size != pin['bytes']:
+             raise ValueError('public scientific input differs: ' + str(source))

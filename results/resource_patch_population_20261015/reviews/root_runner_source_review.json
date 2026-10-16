@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "scope": "Independent source-only review of root-authored common, watchdog, launcher and protocol; adjacent input/reader interfaces inspected for compatibility.",
+  "source_pins": {
+    "common.py": "c2f2b5eb0f849b4d71a073e211d5a893c319e184de1802f3eb2a5e4ef81d8624",
+    "monitor_core.py": "263a0222209c5c19f4b3e8585a5ea7846ec53bca6249d133a8b268712cabbfee",
+    "run.py": "dff724ce0187184b45705d25a77cbaa24787e056660557449747d8eb7541e760",
+    "PROTOCOL.md": "2d0d4fd41f1ae4efe6b6147bb11932015fef142b4130bf6320b5c59986787e8b",
+    "prepare.py": "85ac767876a21ca2f272c91df97417c9e9391a1452a301e37a731629a3d8e455",
+    "prepare_inputs.py": "bbc2e78baab724fbe68f363b9ea7de308ee6064f545e4697991186411765b556",
+    "measure.py": "6e9668dfd63220ddd92ad5ecbf78dbdfef5ef3d40814076e9d942ae018dad221",
+    "analyze.py": "b493c208bd6062c671a6450f0554a8c1ceb464e3d5f26da008b5a19e6454b322",
+    "source_origins.json": "3fc9b30d19b6a015ed546b9a5fb8a5082699fe8107a1cae53011bfa0360df6ed"
+  },
+  "watchdog_origin": "results/resource_patch_selection_20261015/monitor.py",
+  "watchdog_origin_sha256": "404457571c0f2716e336e8860c2f401ec49a161a2ff7c0568f302d4a2bf8f998",
+  "watchdog_function_count": 14,
+  "watchdog_functions_AST_identical": true,
+  "only_removed_function": "main",
+  "checks": [
+    "Single execution/attempt.json, same monitor identity/PID namespace, owned child session and fixed thread environment agree between common, run and inherited watchdog.",
+    "The 97 ordered fixed rows comprise three complete 32-row populations plus AO. Five worlds and 32 seeds imply 15520 research lives, four retained startup lives and 15524 total calls; four groups times five worlds imply twenty raw/scored batches and 485 genome/world rows.",
+    "Runtime caps are 2640 CPU and 1740 wall seconds with one two-thread worker; full 60 CPU/60 wall reserve yields the stated 2700/1800 package cap. Owned RSS, address-space, host floor and cleanup limits are passed unchanged to the watchdog.",
+    "Launcher and measurement complete markers agree exactly on twelve fields. Worker writes and validates raw/scored batches, performs saved-data analysis before successful exit, then the monitor checks hashes and cleared ownership before terminal completion.",
+    "The reused accounting reconstruct and describe functions use supplied row length. New analyzer does not call the old four-role/512-life analysis entrypoint. Cartesian genotype-major batch flattening is split consistently into 32-life rows.",
+    "Input/source/production pins, namespace receipt/reservation pins, prospective publication commit/manifest, actual-input review and release/attempt provenance connect through the current single-worker paths.",
+    "The protocol treats all five worlds and the full panel as development evidence, retains duplicates, uses seed-level population uncertainty, labels fresh joint ranks descriptive and does not replace historical endpoints."
+  ],
+  "material_blockers": [],
+  "limits": [
+    "No materialized protocol or input arrays existed at review time; exact actual-input and namespace acceptance remains a separate prelaunch check.",
+    "This review establishes source/interface consistency, not empirical worker execution, runtime sufficiency or an independent reimplementation of the inherited accounting reducer."
+  ],
+  "activity": {
+    "source_reads": true,
+    "AST_comparison": true,
+    "tests": 0,
+    "simulator_calls": 0,
+    "builds": 0,
+    "random_draws": 0,
+    "source_edits": 0
+  }
+}

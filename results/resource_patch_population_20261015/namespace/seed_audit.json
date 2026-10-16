@@ -1,0 +1,2735 @@
+{
+  "status": "passed",
+  "reserved": false,
+  "registered": false,
+  "development_seeds": [
+    52510000,
+    52510001,
+    52510002,
+    52510003,
+    52510004,
+    52510005,
+    52510006,
+    52510007,
+    52510008,
+    52510009,
+    52510010,
+    52510011,
+    52510012,
+    52510013,
+    52510014,
+    52510015,
+    52510016,
+    52510017,
+    52510018,
+    52510019,
+    52510020,
+    52510021,
+    52510022,
+    52510023,
+    52510024,
+    52510025,
+    52510026,
+    52510027,
+    52510028,
+    52510029,
+    52510030,
+    52510031
+  ],
+  "whole_block_half_open": [
+    52510000,
+    52520000
+  ],
+  "source_revision": "5d556443e91d558de8de27ab2e5dc7ae11a51415",
+  "inventory_sha256": "239a94074dda542a1b71cdbfc6b311a249bcee451be91d1ddcbab0f5661c2ecf",
+  "source_sha256": "0882042259759ca14bf004e6b6fd8a5ba9df06572c5443d6cecd878aa7167371",
+  "source_audit_sha256": "901d4b246b7a83eab6608bbe15f609e2d6de1b179763c6676d374e56a1db12ac",
+  "historical_inventory_references": {
+    "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_lateral_20261014/npz_seed_baseline.json": "b5fbb637071e0bebae670b532742c4e8dec33cf05c7d6399419f06bb3daffb58",
+    "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_flash_gradient_20261014/candidate_namespace_inventory.json": "bb065a1f29f4e04a0f3017281b27788e6f2e1a92425cedb5b245830ed141a8d6",
+    "results/visibility_flash_gradient_20261014/original/outputs/audit_visibility_flash_gradient_20261014/final_namespace_delta.json": "50e527b8269d0ea1b6066fdda5ef0633ec8c53cb40ee5be1848fc6e0e0d6a118",
+    "results/visibility_dark_tail_information_20261014/original/outputs/audit_visibility_dark_tail_information_20261014/candidate_namespace_inventory.json": "1c515418b1bbe25219970d445aba547bee0d9d97849f144601408a3cbeac51b3",
+    "results/visibility_dark_tail_information_20261014/original/outputs/audit_visibility_dark_tail_information_20261014/final_namespace_delta.json": "811267e72e55e91fa1b030636cd12e9e1fd0d8b21802b564db281cb625757d27",
+    "results/prediction_gradient_20261014/original/outputs/audit_prediction_gradient_20261014/new_ae/namespace/candidate_namespace_inventory.json": "f54bdf9bed418dfa1b7981f9819a1304e6dca02b2e311e1ef3fcde966a42fa75",
+    "results/prediction_gradient_20261014/original/outputs/audit_prediction_gradient_20261014/new_ae/namespace/final_namespace_delta.json": "6e99958579745e54cbeecf702fae255f187f3d3380dc2f33df0d7002d3c7b5ea",
+    "results/prediction_continuation_20261014/original/outputs/audit_prediction_continuation_20261014/namespace/candidate_namespace_inventory.json": "f29e30913de10d16dccd634c0aa07d38498745fb2e598a147c56504cf2ca6304",
+    "results/prediction_continuation_20261014/original/outputs/audit_prediction_continuation_20261014/namespace/final_namespace_delta.json": "249a2c26ccdbd1e1de801d3c2ab8ecf73925109307a276075d241b2791fb6b04",
+    "results/visibility_dark_tail_gradient_20261014/original/outputs/audit_visibility_dark_tail_gradient_20261014/namespace/candidate_namespace_inventory.json": "126bf37a45ca8f6db88bf872bccd9adffce3fbaeff8a56e32e0ac8ff3aee708b",
+    "results/visibility_dark_tail_gradient_20261014/original/outputs/audit_visibility_dark_tail_gradient_20261014/namespace/final_namespace_delta.json": "2f355af217767abf83762adae4bc10086141ef198aa89c1c81d78882c425a897",
+    "results/exploratory_reserve_20261014/original/outputs/audit_exploratory_reserve_20261014/namespace/candidate_namespace_inventory.json": "91e8a411ac735a451200b4dc69ab45854f1f42a58b87be1e00df0e7991923260",
+    "results/exploratory_reserve_20261014/original/outputs/audit_exploratory_reserve_20261014/namespace/final_namespace_delta.json": "6d0eae362b0c78c969db0e5eaaa5e2fff439b8e6050183dfccc784c62f9bb083",
+    "results/exploratory_reserve_replication_20261014/original/outputs/audit_exploratory_reserve_replication_20261014/namespace/candidate_namespace_inventory.json": "f306b39ddadcd0c781161f96dd989f7619e191ce155810397551016ac2599c5f",
+    "results/exploratory_reserve_replication_20261014/original/outputs/audit_exploratory_reserve_replication_20261014/namespace/final_namespace_delta.json": "f45627424683d923cd78986aea82f9a2901ca499f06a2c658f720559f117b0cf",
+    "outputs/audit_population_depth_20261015/namespace/candidate_namespace_inventory.json": "01ad947b6992e59342a989bc11419b9f922e714b9f4efce74b61d43619f594d8",
+    "outputs/audit_population_depth_20261015/namespace/final_namespace_delta.json": "b512c93f8f85bceebb3fe6aec27852ac8eae0291bf75ac5e8581446b691bfbf8",
+    "outputs/cumulative_capability_20261015/operations/candidate_seed_inventory.json": "2ae151f90f6943289a1eb347371a3307f59e4618c59acf0225896c3b50bbed43",
+    "outputs/audit_retention_selection_20261015/operations/candidate_seed_inventory.json": "77ff771ef4fb547a4634b7613813bbd4f120e56401d317b284c6ba8bc2363e2c",
+    "outputs/audit_capture_value_selection_20261015/operations/candidate_seed_inventory.json": "0cb3b9611db56acb2937bd5c435d6c7063f631585d78b5255715cf863f68034b",
+    "outputs/audit_occlusion_acquisition_20261015/operations/candidate_seed_inventory.json": "255ca76d3c2ad57c6155bfdbed431255e08b2c4cb596b706fd41f81ce80b8f90",
+    "outputs/audit_retained_depth_20261015/new_prepare_prep/candidate_seed_inventory.json": "d0e5820e48f6288965eea615ae80d7b537920e737733581ff8975e468cae35b8",
+    "outputs/delayed_match_baseline_20261015/candidate_seed_inventory.json": "f34d91ccd4d9e0e768f97507a12840b3b139b5bd53e81ca8c8f2e39fe0f9201a",
+    "outputs/delayed_match_information_20261015/candidate_seed_inventory.json": "a5213c5749e0e0726d0c397bf903d8a3118e56a7a2a23cff177386c86f5cf7b1",
+    "outputs/delayed_match_evolution_20261015/namespace/candidate_seed_inventory.json": "d1974fd66e9d653a22477b09cf613bb2da58fe5586efad9082207f261f620300",
+    "outputs/resource_patch_baseline_20261015/namespace/candidate_seed_inventory.json": "7050f679cf88d4d844382f98aa1c17006053380f9a00c03ecbfee8e53e26034f",
+    "outputs/resource_patch_evolution_20261015/namespace/candidate_seed_inventory.json": "31de108cfd392a5fdd1b703eec7d62f95decba9bc9c1a8120960e4fab1fe2e5b",
+    "results/resource_patch_selection_20261015/namespace/candidate_seed_inventory.json": "fc2f2a66ff0d544211c353caad760da4412ebb8d2c3ab009e19debca710b83e1"
+  },
+  "classified_legacy_fixture_errors": [
+    {
+      "path": "outputs/audit_prediction_continuation_20261014/test_tmp_v2/one_four_row_fixture0/confirmation/genotypes.npz",
+      "sha256": "7ff423c4dfef6c76dd2dcf4f69398a2b2e1016f420d63cf49935d9c296ccddad",
+      "bytes": 55,
+      "prior_stat": {
+        "size": 55,
+        "mtime_ns": 1792039368725448017,
+        "ctime_ns": 1792039368725448017,
+        "dev": 66309,
+        "ino": 20865680
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam0/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036598709473863,
+        "ctime_ns": 1792036598711629085,
+        "dev": 66309,
+        "ino": 20863720
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam1/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036598758322078,
+        "ctime_ns": 1792036598760628837,
+        "dev": 66309,
+        "ino": 20863732
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam2/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036598797000085,
+        "ctime_ns": 1792036598809628589,
+        "dev": 66309,
+        "ino": 20863743
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam3/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036598845178802,
+        "ctime_ns": 1792036598847628397,
+        "dev": 66309,
+        "ino": 20863754
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam4/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036598892762084,
+        "ctime_ns": 1792036598894628158,
+        "dev": 66309,
+        "ino": 20863765
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam5/confirmation_genotypes.npz",
+      "sha256": "77b01363acc203191afa23be9dbe314a8c9f3bf3ec63b2f0080d3a8fe3e58d62",
+      "bytes": 22,
+      "prior_stat": {
+        "size": 22,
+        "mtime_ns": 1792036598950517523,
+        "ctime_ns": 1792036598952627865,
+        "dev": 66309,
+        "ino": 20863779
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam6/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036598979481739,
+        "ctime_ns": 1792036598981627718,
+        "dev": 66309,
+        "ino": 20863787
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_final_tmp/test_acknowledged_artifact_tam7/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036599028125608,
+        "ctime_ns": 1792036599029627475,
+        "dev": 66309,
+        "ino": 20863818
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam0/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036554765049617,
+        "ctime_ns": 1792036554767876470,
+        "dev": 66309,
+        "ino": 20863605
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam1/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036554797564043,
+        "ctime_ns": 1792036554799876271,
+        "dev": 66309,
+        "ino": 20863616
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam2/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036554854657306,
+        "ctime_ns": 1792036554856875916,
+        "dev": 66309,
+        "ino": 20863627
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam3/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036554901875636,
+        "ctime_ns": 1792036554904875617,
+        "dev": 66309,
+        "ino": 20863638
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam4/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036554939501501,
+        "ctime_ns": 1792036554942875381,
+        "dev": 66309,
+        "ino": 20863656
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam5/confirmation_genotypes.npz",
+      "sha256": "77b01363acc203191afa23be9dbe314a8c9f3bf3ec63b2f0080d3a8fe3e58d62",
+      "bytes": 22,
+      "prior_stat": {
+        "size": 22,
+        "mtime_ns": 1792036554996293139,
+        "ctime_ns": 1792036554998875033,
+        "dev": 66309,
+        "ino": 20863651
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam6/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036555065268122,
+        "ctime_ns": 1792036555067874605,
+        "dev": 66309,
+        "ino": 20863671
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_prediction_gradient_20261014/new_ae/test_tmp/test_acknowledged_artifact_tam7/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792036555185101156,
+        "ctime_ns": 1792036555207873738,
+        "dev": 66309,
+        "ino": 20863682
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_continuation_20261014/analysis_test_fixtures/test_six_row_corruptions_fail_1/confirmation/blink/row_0000.npz",
+      "sha256": "11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792026606636507884,
+        "ctime_ns": 1792026606636507884,
+        "dev": 66309,
+        "ino": 20750670
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_continuation_20261014/analysis_test_fixtures_final/test_six_row_corruptions_fail_1/confirmation/blink/row_0000.npz",
+      "sha256": "11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792026667967346239,
+        "ctime_ns": 1792026667967346239,
+        "dev": 66309,
+        "ino": 20750848
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_continuation_20261014/analysis_test_fixtures_frozen/test_six_row_corruptions_fail_1/confirmation/blink/row_0000.npz",
+      "sha256": "11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792026720983844479,
+        "ctime_ns": 1792026720983844479,
+        "dev": 66309,
+        "ino": 20751057
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam0/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380719576872,
+        "ctime_ns": 1792041380719576872,
+        "dev": 66309,
+        "ino": 20868170
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam1/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380731491058,
+        "ctime_ns": 1792041380731491058,
+        "dev": 66309,
+        "ino": 20868181
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam2/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380741484949,
+        "ctime_ns": 1792041380741484949,
+        "dev": 66309,
+        "ino": 20868192
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam3/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380752757863,
+        "ctime_ns": 1792041380752757863,
+        "dev": 66309,
+        "ino": 20868203
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam4/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380765107880,
+        "ctime_ns": 1792041380765107880,
+        "dev": 66309,
+        "ino": 20868214
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam5/confirmation_genotypes.npz",
+      "sha256": "77b01363acc203191afa23be9dbe314a8c9f3bf3ec63b2f0080d3a8fe3e58d62",
+      "bytes": 22,
+      "prior_stat": {
+        "size": 22,
+        "mtime_ns": 1792041380781777700,
+        "ctime_ns": 1792041380781777700,
+        "dev": 66309,
+        "ino": 20868228
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam6/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380796098972,
+        "ctime_ns": 1792041380796098972,
+        "dev": 66309,
+        "ino": 20868236
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_dark_tail_gradient_20261014/test_tmp/test_acknowledged_artifact_tam7/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792041380810856449,
+        "ctime_ns": 1792041380810856449,
+        "dev": 66309,
+        "ino": 20868247
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam0/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535130109290,
+        "ctime_ns": 1792032535130109290,
+        "dev": 66309,
+        "ino": 20755831
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam1/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535144105211,
+        "ctime_ns": 1792032535144105211,
+        "dev": 66309,
+        "ino": 20755842
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam2/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535168975843,
+        "ctime_ns": 1792032535168975843,
+        "dev": 66309,
+        "ino": 20755855
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam3/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535179293317,
+        "ctime_ns": 1792032535179293317,
+        "dev": 66309,
+        "ino": 20755866
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam4/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535189729677,
+        "ctime_ns": 1792032535189729677,
+        "dev": 66309,
+        "ino": 20755877
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam5/confirmation_genotypes.npz",
+      "sha256": "77b01363acc203191afa23be9dbe314a8c9f3bf3ec63b2f0080d3a8fe3e58d62",
+      "bytes": 22,
+      "prior_stat": {
+        "size": 22,
+        "mtime_ns": 1792032535218377986,
+        "ctime_ns": 1792032535218377986,
+        "dev": 66309,
+        "ino": 20755891
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam6/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535229748963,
+        "ctime_ns": 1792032535229748963,
+        "dev": 66309,
+        "ino": 20755899
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/final_source_test_temp/test_acknowledged_artifact_tam7/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032535254433539,
+        "ctime_ns": 1792032535254433539,
+        "dev": 66309,
+        "ino": 20755910
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam0/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312869727322,
+        "ctime_ns": 1792032312869727322,
+        "dev": 66309,
+        "ino": 20755707
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam1/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312886788180,
+        "ctime_ns": 1792032312886788180,
+        "dev": 66309,
+        "ino": 20755718
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam2/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312898740003,
+        "ctime_ns": 1792032312898740003,
+        "dev": 66309,
+        "ino": 20755729
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam3/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312910942874,
+        "ctime_ns": 1792032312911279937,
+        "dev": 66309,
+        "ino": 20755740
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam4/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312929912164,
+        "ctime_ns": 1792032312930280064,
+        "dev": 66309,
+        "ino": 20755751
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam5/confirmation_genotypes.npz",
+      "sha256": "77b01363acc203191afa23be9dbe314a8c9f3bf3ec63b2f0080d3a8fe3e58d62",
+      "bytes": 22,
+      "prior_stat": {
+        "size": 22,
+        "mtime_ns": 1792032312946409395,
+        "ctime_ns": 1792032312946409395,
+        "dev": 66309,
+        "ino": 20755765
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam6/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312963151654,
+        "ctime_ns": 1792032312963280285,
+        "dev": 66309,
+        "ino": 20755773
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_flash_gradient_20261014/test_temp/test_acknowledged_artifact_tam7/confirmation_genotypes.npz",
+      "sha256": "f6fdd6d447ed659806b97f390cc3db5722f2cae46581e1b34fe7da3cefdbdc57",
+      "bytes": 45,
+      "prior_stat": {
+        "size": 45,
+        "mtime_ns": 1792032312974220956,
+        "ctime_ns": 1792032312974280359,
+        "dev": 66309,
+        "ino": 20755784
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100524458176,
+        "ctime_ns": 1792020100524458176,
+        "dev": 66309,
+        "ino": 20590127
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100526548028,
+        "ctime_ns": 1792020100526548028,
+        "dev": 66309,
+        "ino": 20590130
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100528663300,
+        "ctime_ns": 1792020100528663300,
+        "dev": 66309,
+        "ino": 20590133
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100530507975,
+        "ctime_ns": 1792020100530507975,
+        "dev": 66309,
+        "ino": 20590136
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100532529253,
+        "ctime_ns": 1792020100532529253,
+        "dev": 66309,
+        "ino": 20590139
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100534684192,
+        "ctime_ns": 1792020100534684192,
+        "dev": 66309,
+        "ino": 20590142
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100536093496,
+        "ctime_ns": 1792020100536093496,
+        "dev": 66309,
+        "ino": 20590145
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100537378989,
+        "ctime_ns": 1792020100537378989,
+        "dev": 66309,
+        "ino": 20590148
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100538623614,
+        "ctime_ns": 1792020100538623614,
+        "dev": 66309,
+        "ino": 20590151
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100541438312,
+        "ctime_ns": 1792020100541438312,
+        "dev": 66309,
+        "ino": 20590154
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100522181963,
+        "ctime_ns": 1792020100522181963,
+        "dev": 66309,
+        "ino": 20590124
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100511078454,
+        "ctime_ns": 1792020100511078454,
+        "dev": 66309,
+        "ino": 20590118
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/blink20/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100513478680,
+        "ctime_ns": 1792020100513478680,
+        "dev": 66309,
+        "ino": 20590121
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100494609865,
+        "ctime_ns": 1792020100494609865,
+        "dev": 66309,
+        "ino": 20590085
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100496003557,
+        "ctime_ns": 1792020100496003557,
+        "dev": 66309,
+        "ino": 20590088
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100497241044,
+        "ctime_ns": 1792020100497241044,
+        "dev": 66309,
+        "ino": 20590091
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100498284380,
+        "ctime_ns": 1792020100498284380,
+        "dev": 66309,
+        "ino": 20590094
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100499375339,
+        "ctime_ns": 1792020100499375339,
+        "dev": 66309,
+        "ino": 20590097
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100500524928,
+        "ctime_ns": 1792020100500524928,
+        "dev": 66309,
+        "ino": 20590100
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100501881467,
+        "ctime_ns": 1792020100501881467,
+        "dev": 66309,
+        "ino": 20590103
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100503171672,
+        "ctime_ns": 1792020100503171672,
+        "dev": 66309,
+        "ino": 20590106
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100504313050,
+        "ctime_ns": 1792020100504313050,
+        "dev": 66309,
+        "ino": 20590109
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100505424429,
+        "ctime_ns": 1792020100505424429,
+        "dev": 66309,
+        "ino": 20590112
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100493014779,
+        "ctime_ns": 1792020100493014779,
+        "dev": 66309,
+        "ino": 20590082
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100490331037,
+        "ctime_ns": 1792020100490331037,
+        "dev": 66309,
+        "ino": 20590076
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_both_live_worlds_stopped_0/study/rows/flash5_dim25/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100491752974,
+        "ctime_ns": 1792020100491752974,
+        "dev": 66309,
+        "ino": 20590079
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100214116130,
+        "ctime_ns": 1792020100214116130,
+        "dev": 66309,
+        "ino": 20589655
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100215419431,
+        "ctime_ns": 1792020100215419431,
+        "dev": 66309,
+        "ino": 20589658
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100216665834,
+        "ctime_ns": 1792020100216665834,
+        "dev": 66309,
+        "ino": 20589661
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100217795758,
+        "ctime_ns": 1792020100217795758,
+        "dev": 66309,
+        "ino": 20589664
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100219256021,
+        "ctime_ns": 1792020100219256021,
+        "dev": 66309,
+        "ino": 20589667
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100220397676,
+        "ctime_ns": 1792020100220397676,
+        "dev": 66309,
+        "ino": 20589670
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100221555222,
+        "ctime_ns": 1792020100221555222,
+        "dev": 66309,
+        "ino": 20589673
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100222692675,
+        "ctime_ns": 1792020100222692675,
+        "dev": 66309,
+        "ino": 20589676
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100223953247,
+        "ctime_ns": 1792020100223953247,
+        "dev": 66309,
+        "ino": 20589679
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100225130562,
+        "ctime_ns": 1792020100225130562,
+        "dev": 66309,
+        "ino": 20589682
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/I/row.npz",
+      "sha256": "d67e2e944994496c8d8ec76eed0cf9f09679448d584b532bebf941852a37f5ed",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792020100226832078,
+        "ctime_ns": 1792020100226832078,
+        "dev": 66309,
+        "ino": 20589652
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100209846087,
+        "ctime_ns": 1792020100209846087,
+        "dev": 66309,
+        "ino": 20589646
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_changed_raw_row_is_reject0/study/rows/flash5_dim25/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100211300770,
+        "ctime_ns": 1792020100211300770,
+        "dev": 66309,
+        "ino": 20589649
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100292144717,
+        "ctime_ns": 1792020100292144717,
+        "dev": 66309,
+        "ino": 20589763
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100293625572,
+        "ctime_ns": 1792020100293625572,
+        "dev": 66309,
+        "ino": 20589766
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100294804615,
+        "ctime_ns": 1792020100294804615,
+        "dev": 66309,
+        "ino": 20589769
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100296101812,
+        "ctime_ns": 1792020100296101812,
+        "dev": 66309,
+        "ino": 20589772
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100297175615,
+        "ctime_ns": 1792020100297175615,
+        "dev": 66309,
+        "ino": 20589775
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100298378771,
+        "ctime_ns": 1792020100298378771,
+        "dev": 66309,
+        "ino": 20589778
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100299467337,
+        "ctime_ns": 1792020100299467337,
+        "dev": 66309,
+        "ino": 20589781
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100300676126,
+        "ctime_ns": 1792020100300676126,
+        "dev": 66309,
+        "ino": 20589784
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100302761508,
+        "ctime_ns": 1792020100302761508,
+        "dev": 66309,
+        "ino": 20589787
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100305119912,
+        "ctime_ns": 1792020100305119912,
+        "dev": 66309,
+        "ino": 20589790
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100284083266,
+        "ctime_ns": 1792020100284083266,
+        "dev": 66309,
+        "ino": 20589760
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100281819858,
+        "ctime_ns": 1792020100281819858,
+        "dev": 66309,
+        "ino": 20589753
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/blink20/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100282942921,
+        "ctime_ns": 1792020100282942921,
+        "dev": 66309,
+        "ino": 20589756
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100266394823,
+        "ctime_ns": 1792020100266394823,
+        "dev": 66309,
+        "ino": 20589720
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100267476969,
+        "ctime_ns": 1792020100267476969,
+        "dev": 66309,
+        "ino": 20589723
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100268569831,
+        "ctime_ns": 1792020100268569831,
+        "dev": 66309,
+        "ino": 20589726
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100269710683,
+        "ctime_ns": 1792020100269710683,
+        "dev": 66309,
+        "ino": 20589729
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100270730019,
+        "ctime_ns": 1792020100270730019,
+        "dev": 66309,
+        "ino": 20589732
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100271903823,
+        "ctime_ns": 1792020100271903823,
+        "dev": 66309,
+        "ino": 20589735
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100273185699,
+        "ctime_ns": 1792020100273185699,
+        "dev": 66309,
+        "ino": 20589738
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100274283500,
+        "ctime_ns": 1792020100274283500,
+        "dev": 66309,
+        "ino": 20589741
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100275328936,
+        "ctime_ns": 1792020100275328936,
+        "dev": 66309,
+        "ino": 20589744
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100276423328,
+        "ctime_ns": 1792020100276423328,
+        "dev": 66309,
+        "ino": 20589747
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100265412887,
+        "ctime_ns": 1792020100265412887,
+        "dev": 66309,
+        "ino": 20589717
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100262936508,
+        "ctime_ns": 1792020100262936508,
+        "dev": 66309,
+        "ino": 20589711
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_source_changed_during_run0/study/rows/flash5_dim25/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100264273704,
+        "ctime_ns": 1792020100264273704,
+        "dev": 66309,
+        "ino": 20589714
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100362049148,
+        "ctime_ns": 1792020100362049148,
+        "dev": 66309,
+        "ino": 20589828
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100363803039,
+        "ctime_ns": 1792020100363803039,
+        "dev": 66309,
+        "ino": 20589831
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100364818243,
+        "ctime_ns": 1792020100364818243,
+        "dev": 66309,
+        "ino": 20589834
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100365784623,
+        "ctime_ns": 1792020100365784623,
+        "dev": 66309,
+        "ino": 20589837
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100366823868,
+        "ctime_ns": 1792020100366823868,
+        "dev": 66309,
+        "ino": 20589840
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100367820333,
+        "ctime_ns": 1792020100367820333,
+        "dev": 66309,
+        "ino": 20589843
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100368816097,
+        "ctime_ns": 1792020100368816097,
+        "dev": 66309,
+        "ino": 20589846
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100369795891,
+        "ctime_ns": 1792020100369795891,
+        "dev": 66309,
+        "ino": 20589849
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100370730460,
+        "ctime_ns": 1792020100370730460,
+        "dev": 66309,
+        "ino": 20589856
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100372412100,
+        "ctime_ns": 1792020100372412100,
+        "dev": 66309,
+        "ino": 20589859
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100359740579,
+        "ctime_ns": 1792020100359740579,
+        "dev": 66309,
+        "ino": 20589825
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100349849258,
+        "ctime_ns": 1792020100349849258,
+        "dev": 66309,
+        "ino": 20589819
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_spawn_failure_reaps_exist0/study/rows/flash5_dim25/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100356779276,
+        "ctime_ns": 1792020100356779276,
+        "dev": 66309,
+        "ino": 20589822
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100150380092,
+        "ctime_ns": 1792020100150380092,
+        "dev": 66309,
+        "ino": 20589574
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100151686070,
+        "ctime_ns": 1792020100151686070,
+        "dev": 66309,
+        "ino": 20589577
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100153011289,
+        "ctime_ns": 1792020100153011289,
+        "dev": 66309,
+        "ino": 20589580
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100154209339,
+        "ctime_ns": 1792020100154209339,
+        "dev": 66309,
+        "ino": 20589583
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100155396719,
+        "ctime_ns": 1792020100155396719,
+        "dev": 66309,
+        "ino": 20589586
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100156553552,
+        "ctime_ns": 1792020100156553552,
+        "dev": 66309,
+        "ino": 20589589
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100157670054,
+        "ctime_ns": 1792020100157670054,
+        "dev": 66309,
+        "ino": 20589592
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100158758126,
+        "ctime_ns": 1792020100158758126,
+        "dev": 66309,
+        "ino": 20589595
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100160097683,
+        "ctime_ns": 1792020100160097683,
+        "dev": 66309,
+        "ino": 20589598
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100161190685,
+        "ctime_ns": 1792020100161190685,
+        "dev": 66309,
+        "ino": 20589601
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100149139100,
+        "ctime_ns": 1792020100149139100,
+        "dev": 66309,
+        "ino": 20589571
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100140240030,
+        "ctime_ns": 1792020100140240030,
+        "dev": 66309,
+        "ino": 20589565
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/blink20/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100141810890,
+        "ctime_ns": 1792020100141810890,
+        "dev": 66309,
+        "ino": 20589568
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100123155500,
+        "ctime_ns": 1792020100123155500,
+        "dev": 66309,
+        "ino": 20589532
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100124516590,
+        "ctime_ns": 1792020100124516590,
+        "dev": 66309,
+        "ino": 20589535
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100125714879,
+        "ctime_ns": 1792020100125714879,
+        "dev": 66309,
+        "ino": 20589538
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100127036929,
+        "ctime_ns": 1792020100127036929,
+        "dev": 66309,
+        "ino": 20589541
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100128248644,
+        "ctime_ns": 1792020100128248644,
+        "dev": 66309,
+        "ino": 20589544
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100129547822,
+        "ctime_ns": 1792020100129547822,
+        "dev": 66309,
+        "ino": 20589547
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100130869928,
+        "ctime_ns": 1792020100130869928,
+        "dev": 66309,
+        "ino": 20589550
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100132143417,
+        "ctime_ns": 1792020100132143417,
+        "dev": 66309,
+        "ino": 20589553
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100133391335,
+        "ctime_ns": 1792020100133391335,
+        "dev": 66309,
+        "ino": 20589556
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100134716941,
+        "ctime_ns": 1792020100134716941,
+        "dev": 66309,
+        "ino": 20589559
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100122001349,
+        "ctime_ns": 1792020100122001349,
+        "dev": 66309,
+        "ino": 20589529
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100119251085,
+        "ctime_ns": 1792020100119251085,
+        "dev": 66309,
+        "ino": 20589523
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_total_cpu_race_at_final_e0/study/rows/flash5_dim25/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020100120654980,
+        "ctime_ns": 1792020100120654980,
+        "dev": 66309,
+        "ino": 20589526
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099694705665,
+        "ctime_ns": 1792020099694705665,
+        "dev": 66309,
+        "ino": 20589011
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099695731447,
+        "ctime_ns": 1792020099695731447,
+        "dev": 66309,
+        "ino": 20589014
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099696743018,
+        "ctime_ns": 1792020099696743018,
+        "dev": 66309,
+        "ino": 20589017
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099697751431,
+        "ctime_ns": 1792020099697751431,
+        "dev": 66309,
+        "ino": 20589020
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099698861345,
+        "ctime_ns": 1792020099698861345,
+        "dev": 66309,
+        "ino": 20589023
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099699895257,
+        "ctime_ns": 1792020099699895257,
+        "dev": 66309,
+        "ino": 20589026
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099700939112,
+        "ctime_ns": 1792020099700939112,
+        "dev": 66309,
+        "ino": 20589029
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099702184376,
+        "ctime_ns": 1792020099702184376,
+        "dev": 66309,
+        "ino": 20589032
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099703274461,
+        "ctime_ns": 1792020099703274461,
+        "dev": 66309,
+        "ino": 20589035
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099704394679,
+        "ctime_ns": 1792020099704394679,
+        "dev": 66309,
+        "ino": 20589038
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099693678015,
+        "ctime_ns": 1792020099693678015,
+        "dev": 66309,
+        "ino": 20589008
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099691540662,
+        "ctime_ns": 1792020099691540662,
+        "dev": 66309,
+        "ino": 20589002
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/blink20/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099692653493,
+        "ctime_ns": 1792020099692653493,
+        "dev": 66309,
+        "ino": 20589005
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/A/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099671295439,
+        "ctime_ns": 1792020099671295439,
+        "dev": 66309,
+        "ino": 20588969
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/B/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099672343924,
+        "ctime_ns": 1792020099672343924,
+        "dev": 66309,
+        "ino": 20588972
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099679613658,
+        "ctime_ns": 1792020099679613658,
+        "dev": 66309,
+        "ino": 20588975
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099680744576,
+        "ctime_ns": 1792020099680744576,
+        "dev": 66309,
+        "ino": 20588978
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D2/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099681769618,
+        "ctime_ns": 1792020099681769618,
+        "dev": 66309,
+        "ino": 20588981
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D3/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099682783095,
+        "ctime_ns": 1792020099682783095,
+        "dev": 66309,
+        "ino": 20588984
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D4/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099683781471,
+        "ctime_ns": 1792020099683781471,
+        "dev": 66309,
+        "ino": 20588987
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D5/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099684774139,
+        "ctime_ns": 1792020099684774139,
+        "dev": 66309,
+        "ino": 20588990
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D6/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099685766645,
+        "ctime_ns": 1792020099685766645,
+        "dev": 66309,
+        "ino": 20588993
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/D7/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099686658437,
+        "ctime_ns": 1792020099686658437,
+        "dev": 66309,
+        "ino": 20588996
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/I/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099670266907,
+        "ctime_ns": 1792020099670266907,
+        "dev": 66309,
+        "ino": 20588966
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/R0/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099668054589,
+        "ctime_ns": 1792020099668054589,
+        "dev": 66309,
+        "ino": 20588960
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_information_20261014/monitor_pytest/test_validation_then_two_world0/study/rows/flash5_dim25/R1/row.npz",
+      "sha256": "f8e6450e0940b6d5d2a0e226d4215d4373e6b66ddd8e3e4027f49b4e713d9c03",
+      "bytes": 46,
+      "prior_stat": {
+        "size": 46,
+        "mtime_ns": 1792020099669195114,
+        "ctime_ns": 1792020099669195114,
+        "dev": 66309,
+        "ino": 20588963
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_precision_20261014/bound_test_fixtures/test_six_row_corruptions_fail_1/confirmation/blink/row_0000.npz",
+      "sha256": "11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792030685308564754,
+        "ctime_ns": 1792030685308564754,
+        "dev": 66309,
+        "ino": 20754590
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_precision_20261014/final_test_fixtures/test_six_row_corruptions_fail_1/confirmation/blink/row_0000.npz",
+      "sha256": "11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792030509385414923,
+        "ctime_ns": 1792030509385414923,
+        "dev": 66309,
+        "ino": 20753718
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    },
+    {
+      "path": "outputs/audit_visibility_precision_20261014/test_fixtures/test_six_row_corruptions_fail_1/confirmation/blink/row_0000.npz",
+      "sha256": "11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075",
+      "bytes": 7,
+      "prior_stat": {
+        "size": 7,
+        "mtime_ns": 1792030426654487686,
+        "ctime_ns": 1792030426654487686,
+        "dev": 66309,
+        "ino": 20753002
+      },
+      "classification": "unchanged literal synthetic placeholder/corruption fixture; no seed payload"
+    }
+  ],
+  "unresolved_NPZ_errors": 0,
+  "original_NPZ_error_count": 177,
+  "actual_seed_collisions": 0,
+  "JSON_classification": [
+    {
+      "path": "outputs/resource_patch_selection_20261015/inputs/seed_audit.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/namespace/candidate_seed_inventory.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/namespace/seed_audit.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reservation.json",
+      "field": "seed_blocks.0.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reviews/preparation_history/pre_launcher/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reviews/preparation_history/pre_protocol_spacing/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reviews/preparation_history/pre_rankzero_clarification/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reviews/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/inputs/seed_audit.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/namespace/candidate_seed_inventory.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/namespace/seed_audit.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reservation.json",
+      "field": "seed_blocks.0.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reviews/preparation_history/pre_launcher/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reviews/preparation_history/pre_protocol_spacing/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reviews/preparation_history/pre_rankzero_clarification/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reviews/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/inputs/seed_audit.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/namespace/candidate_seed_inventory.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/namespace/seed_audit.json",
+      "field": "whole_block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reservation.json",
+      "field": "seed_blocks.0.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reviews/preparation_history/pre_launcher/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reviews/preparation_history/pre_protocol_spacing/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reviews/preparation_history/pre_rankzero_clarification/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reviews/preparation_source_review.json",
+      "field": "checks.namespace.block_half_open.1",
+      "value": 52510000,
+      "classification": "exclusive upper endpoint of preceding block150"
+    }
+  ],
+  "text_classification": [
+    {
+      "path": "results/weight_updates_20261014/operational_status/archive_operational.py",
+      "line": 98,
+      "classification": "count of preserved artifacts, not a seed block"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reviews/check_actual_inputs.py",
+      "line": 246,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/reviews/check_actual_inputs.py",
+      "line": 247,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/prepare.py",
+      "line": 178,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/PROTOCOL.md",
+      "line": 64,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/namespace/classify_namespace.py",
+      "line": 17,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/namespace/audit_namespace.py",
+      "line": 22,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "results/resource_patch_selection_20261015/namespace/audit_namespace.py",
+      "line": 183,
+      "classification": "preceding candidate audit search pattern, not an assignment"
+    },
+    {
+      "path": "results/atlas/atlas.html",
+      "line": 244,
+      "classification": "comma-separated small array indices matched formatting regex; no actual candidate integer"
+    },
+    {
+      "path": "results/atlas/atlas_play.html",
+      "line": 2656,
+      "classification": "comma-separated small array indices matched formatting regex; no actual candidate integer"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reviews/check_actual_inputs.py",
+      "line": 246,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/reviews/check_actual_inputs.py",
+      "line": 247,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/prepare.py",
+      "line": 178,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/PROTOCOL.md",
+      "line": 64,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/namespace/classify_namespace.py",
+      "line": 17,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/namespace/audit_namespace.py",
+      "line": 22,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_20261015/namespace/audit_namespace.py",
+      "line": 183,
+      "classification": "preceding candidate audit search pattern, not an assignment"
+    },
+    {
+      "path": "outputs/openhr/switching/summary.md",
+      "line": 43,
+      "classification": "older43million-base block151 means44510000..44511023; disjoint"
+    },
+    {
+      "path": "outputs/audit_r_20261014/archive_operational.py",
+      "line": 98,
+      "classification": "count of preserved artifacts, not a seed block"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reviews/check_actual_inputs.py",
+      "line": 246,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/reviews/check_actual_inputs.py",
+      "line": 247,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/prepare.py",
+      "line": 178,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/PROTOCOL.md",
+      "line": 64,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/namespace/classify_namespace.py",
+      "line": 17,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/namespace/audit_namespace.py",
+      "line": 22,
+      "classification": "preceding block150 has exclusive upper endpoint52510000"
+    },
+    {
+      "path": "outputs/resource_patch_selection_terminal_stage_20261015/namespace/audit_namespace.py",
+      "line": 183,
+      "classification": "preceding candidate audit search pattern, not an assignment"
+    },
+    {
+      "path": "outputs/abi5_delayed_match_20261015/worktree/results/weight_updates_20261014/operational_status/archive_operational.py",
+      "line": 98,
+      "classification": "count of preserved artifacts, not a seed block"
+    },
+    {
+      "path": "outputs/abi5_delayed_match_20261015/worktree/results/atlas/atlas.html",
+      "line": 243,
+      "classification": "comma-separated small array indices matched formatting regex; no actual candidate integer"
+    },
+    {
+      "path": "outputs/abi5_delayed_match_20261015/worktree/results/atlas/atlas_play.html",
+      "line": 2656,
+      "classification": "comma-separated small array indices matched formatting regex; no actual candidate integer"
+    },
+    {
+      "path": "outputs/abi4_visibility_20261014/results/weight_updates_20261014/operational_status/archive_operational.py",
+      "line": 98,
+      "classification": "count of preserved artifacts, not a seed block"
+    },
+    {
+      "path": "outputs/abi4_visibility_20261014/results/atlas/atlas.html",
+      "line": 242,
+      "classification": "comma-separated small array indices matched formatting regex; no actual candidate integer"
+    },
+    {
+      "path": "outputs/abi4_visibility_20261014/results/atlas/atlas_play.html",
+      "line": 2656,
+      "classification": "comma-separated small array indices matched formatting regex; no actual candidate integer"
+    }
+  ],
+  "text_source_pins": {
+    "results/weight_updates_20261014/operational_status/archive_operational.py": "e5c0a64300f7655b31afb025a2b184e6af4e9029ae473a6f2ae4069725950697",
+    "results/resource_patch_selection_20261015/reviews/check_actual_inputs.py": "8a697d9fd454a50e1287d38a64f0066434a70a7a279588b44a4a65182292afa7",
+    "results/resource_patch_selection_20261015/prepare.py": "e778bbf8baab79df4891696c50ea1016379d530c41e6d3741a461abd422e2143",
+    "results/resource_patch_selection_20261015/PROTOCOL.md": "2a63baf34b75f689499b59e89a3adedef3733120dc712fa8fb72526af1643122",
+    "results/resource_patch_selection_20261015/namespace/classify_namespace.py": "4a9fe9e0f19e1be47422e4a338a04e494a0f7f9bd90b9d69f604e577ab16850e",
+    "results/resource_patch_selection_20261015/namespace/audit_namespace.py": "933b65400580bf09b670803548c5f66a524aa128caae73dc0f456e8b7a731174",
+    "results/atlas/atlas.html": "01b141e121a6843b5c3599a970898b986a863baeb985eeefa03e823bdb47618f",
+    "results/atlas/atlas_play.html": "d38906d8f43a48ea627c72c40297fe9536e7b035cb04f57e2a9ab7a79cd814be",
+    "outputs/resource_patch_selection_20261015/reviews/check_actual_inputs.py": "8a697d9fd454a50e1287d38a64f0066434a70a7a279588b44a4a65182292afa7",
+    "outputs/resource_patch_selection_20261015/prepare.py": "e778bbf8baab79df4891696c50ea1016379d530c41e6d3741a461abd422e2143",
+    "outputs/resource_patch_selection_20261015/PROTOCOL.md": "2a63baf34b75f689499b59e89a3adedef3733120dc712fa8fb72526af1643122",
+    "outputs/resource_patch_selection_20261015/namespace/classify_namespace.py": "4a9fe9e0f19e1be47422e4a338a04e494a0f7f9bd90b9d69f604e577ab16850e",
+    "outputs/resource_patch_selection_20261015/namespace/audit_namespace.py": "933b65400580bf09b670803548c5f66a524aa128caae73dc0f456e8b7a731174",
+    "outputs/openhr/switching/summary.md": "8ff533236f36e913ad070be985afc247fb0440b4cc0d51afb4e727e89e0da1d9",
+    "outputs/audit_r_20261014/archive_operational.py": "e5c0a64300f7655b31afb025a2b184e6af4e9029ae473a6f2ae4069725950697",
+    "outputs/resource_patch_selection_terminal_stage_20261015/reviews/check_actual_inputs.py": "8a697d9fd454a50e1287d38a64f0066434a70a7a279588b44a4a65182292afa7",
+    "outputs/resource_patch_selection_terminal_stage_20261015/prepare.py": "e778bbf8baab79df4891696c50ea1016379d530c41e6d3741a461abd422e2143",
+    "outputs/resource_patch_selection_terminal_stage_20261015/PROTOCOL.md": "2a63baf34b75f689499b59e89a3adedef3733120dc712fa8fb72526af1643122",
+    "outputs/resource_patch_selection_terminal_stage_20261015/namespace/classify_namespace.py": "4a9fe9e0f19e1be47422e4a338a04e494a0f7f9bd90b9d69f604e577ab16850e",
+    "outputs/resource_patch_selection_terminal_stage_20261015/namespace/audit_namespace.py": "933b65400580bf09b670803548c5f66a524aa128caae73dc0f456e8b7a731174",
+    "outputs/abi5_delayed_match_20261015/worktree/results/weight_updates_20261014/operational_status/archive_operational.py": "e5c0a64300f7655b31afb025a2b184e6af4e9029ae473a6f2ae4069725950697",
+    "outputs/abi5_delayed_match_20261015/worktree/results/atlas/atlas.html": "b469efcdc6bbf00f36da691744ceb59099f3d193ebc4e9f34e636ca4abdb42dc",
+    "outputs/abi5_delayed_match_20261015/worktree/results/atlas/atlas_play.html": "d38906d8f43a48ea627c72c40297fe9536e7b035cb04f57e2a9ab7a79cd814be",
+    "outputs/abi4_visibility_20261014/results/weight_updates_20261014/operational_status/archive_operational.py": "e5c0a64300f7655b31afb025a2b184e6af4e9029ae473a6f2ae4069725950697",
+    "outputs/abi4_visibility_20261014/results/atlas/atlas.html": "4645eb9b161431fe99d848938039ae93df3187a414b2597aa669a2c91400615c",
+    "outputs/abi4_visibility_20261014/results/atlas/atlas_play.html": "d38906d8f43a48ea627c72c40297fe9536e7b035cb04f57e2a9ab7a79cd814be"
+  },
+  "older_label_source_pins": {
+    "outputs/openhr/harness/harness.py": "3976573d5bb374df337bb8a23791d1f148c3de93dc7b461523bde75194aa41de",
+    "outputs/openhr/switching/swlib.py": "80dede5e085d71766aa9d08b42275590a7c3ae1427fc60c6a259ba026c20bebe",
+    "outputs/openhr/switching/score2.py": "f1e6bb55b7415974e901cfe5ae162ffaadf8d9d8098aa5ecc36d2833bd94b48a",
+    "src/life/analysis.py": "5f0c7e18825ec8848fe8bb78d69ac38b4428eb249e807452c096445a598b92e3"
+  },
+  "simulation_calls": 0,
+  "engine_builds": 0,
+  "genetic_draws": 0,
+  "scope": "Actual recorded NPZ seed payloads and numeric JSON/embedded-JSON declarations, plus literal text review.",
+  "intentional_reuse": "All97 fixed rows/five worlds share32 new development seeds; startup alone replays retained fixtures.",
+  "resources": {
+    "cpu_seconds": 0.578064325,
+    "wall_seconds": 0.5795267370122019,
+    "peak_rss_bytes": 178601984
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "status": "source_prepared",
+  "files": {
+    "measure.py": "6e9668dfd63220ddd92ad5ecbf78dbdfef5ef3d40814076e9d942ae018dad221",
+    "analyze.py": "b493c208bd6062c671a6450f0554a8c1ceb464e3d5f26da008b5a19e6454b322",
+    "tests/test_readers.py": "c046f137c4668bfd7814dbb9898f4ad75ca55633a255f26bd9b579823d68fe5d"
+  },
+  "static_checks": {
+    "AST": "passed",
+    "Ruff": "passed",
+    "python_max_line_length": 120
+  },
+  "test_execution": false,
+  "prepared_cases": 7,
+  "simulation_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "materialization_calls": 0,
+  "scope": {
+    "genomes": 97,
+    "groups": [
+      "G8",
+      "mean4",
+      "pareto4",
+      "AO"
+    ],
+    "worlds": [
+      "patch",
+      "pool",
+      "persistent",
+      "blink80_20",
+      "transfer"
+    ],
+    "panel_seeds": 32,
+    "native_batches": 20,
+    "genome_world_rows": 485,
+    "research_lives": 15520,
+    "startup_lives": 4,
+    "total_calls": 15524
+  },
+  "reuse": {
+    "accounting_source": "inputs/accounting.py",
+    "accounting_sha256": "0ac39bb7b11a754f73acff2b77c0690ce4b525b688664da34cc6006b9da1373b",
+    "native_batching": "LifeEvaluator.run, unchanged genotype-major Cartesian batch expansion",
+    "startup": "Existing golden full/fast pair and existing ABI6 first truth full/fast pair"
+  },
+  "interpretation": [
+    "All rows and duplicates retained; no endpoint replacement.",
+    "Fresh weighted F uses0.5patch/.25POOL/.25persistent; fixed AO scales only.",
+    "All32-life means, bounds, ranks and population summaries are development diagnostics.",
+    "Population SE clusters by shared seed rather than treating genomes as independent."
+  ],
+  "notes": [
+    "Initial source-only lint findings (import grouping, loop binding, one121-character line) corrected before final source checks.",
+    "Source review caught implicit build.run table-mapping risk; final worker delegates Cartesian expansion to the existing evaluator.run. No simulations or tests preceded this fix.",
+    "Current sources and seven literal-array tests await review/authorized bounded test execution."
+  ]
+}

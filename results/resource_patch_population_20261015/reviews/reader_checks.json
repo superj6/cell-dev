@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "scope": "Seven literal/supplied-array reader tests; source-only Cartesian batch audit.",
+  "files": {
+    "measure.py": "6e9668dfd63220ddd92ad5ecbf78dbdfef5ef3d40814076e9d942ae018dad221",
+    "analyze.py": "b493c208bd6062c671a6450f0554a8c1ceb464e3d5f26da008b5a19e6454b322",
+    "tests/test_readers.py": "c046f137c4668bfd7814dbb9898f4ad75ca55633a255f26bd9b579823d68fe5d"
+  },
+  "source_preparation_sha256": "6bd4d3daa1620168280e5a9b54eddbd03b15212d27b06e994857915c627a2521",
+  "test_cases": 7,
+  "test_attempts": 1,
+  "test_exit_code": 0,
+  "fixtures": "Literal algebraic arrays only; no new scientific observations. Temporary files stay under reviews/reader_checks/fixtures.",
+  "limits": {
+    "cpu_seconds": 10,
+    "wall_seconds": 30,
+    "address_space_bytes": 1073741824,
+    "threads": 1
+  },
+  "resources": {
+    "cpu_seconds": 0.29,
+    "user_cpu_seconds": 0.25,
+    "system_cpu_seconds": 0.04,
+    "wall_seconds": 0.3,
+    "peak_rss_bytes": 50585600
+  },
+  "logs": {
+    "reviews/reader_checks/stdout.txt": "83a1593c5b5783693fe3006d1f6597bcb4f3a5968f23b59481ee09a0477f910a",
+    "reviews/reader_checks/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reviews/reader_checks/resources.txt": "cff5ab0cad5cf948e5b1cc7ccdc942bde67ff6caf2ea1eb31dd2b003f7743a5e"
+  },
+  "simulation_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "materialization_calls": 0,
+  "cartesian_source_review": {
+    "status": "passed",
+    "source_pins": {
+      "src/life/evaluate.py": "ecf0febef8b8a33b0a522c14d02d61b404ac7c820a1d148a1b86917e6b12c44e",
+      "src/life/build.py": "26520efd9f42454167b49d989857350cc6e928293069f3333a3207a83f10b484",
+      "src/life/spec.py": "91f286fa460bda49a0dfbc0365e337e5ace42e32ac2839f355b6bcf78c6e4958",
+      "src/life/kernel.c": "ceaa928a22b53287478da62651527a98bf235373c38fcddffca9c812e82a9a21"
+    },
+    "checks": [
+      "LifeEvaluator.table preserves raw genome row order while packing; LifeEvaluator.run explicitly repeats each draw world and seed for each genome.",
+      "genome_of=np.repeat(np.arange(B),L) maps life b*L+l to genome b; B=32 or1 and L=32 in this worker.",
+      "build.run preserves world/seed row order, converts explicit genome_of to contiguous int32, and validates its length and range.",
+      "C life_run indexes world, seeds, selected genome and output ledger/hash by the same life i. OpenMP completion order does not reorder rows.",
+      "LifeEvaluator.columns reshapes the same native ledger into [B,L,107], matching reconstruct_batch slices and explicit row_indices.",
+      "The worker constructs a fixed LifeDraw directly and never calls draw; parent_check rejects elastic thread override and the monitor removes it.",
+      "The worker rechecks checked_release and release file SHA at completion before writing the exact12-field marker."
+    ],
+    "limitations": [
+      "Source inspection establishes the existing batching interface; no additional native replay was run for this diagnostic preparation."
+    ]
+  }
+}
