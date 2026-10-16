@@ -13,7 +13,32 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
-**Whole-population development panel registered (2026-10-15).** Measure every ordered survivor from the G8,
+**Whole-population diagnostic complete (2026-10-15).** Useful survivor variation remains. By the same joint
+acquisition rule, the historically reported mean/Pareto genomes move from cached rank 1 to fresh ranks
+**29/32 and 25/32** within their populations; G8's reported genome ranks 15/32. These 32-life development
+ranks do not certify replacement winners. The cached samples had only four POOL and four persistent lives.
+
+Across all survivors, Pareto gains **1.166016 ±0.239681 POOL captures** over mean selection and
+**0.875977 ±0.191965** over G8. Its patch, persistent, longer-gap and revealed-combination capture changes
+remain unresolved. The large pursuit losses of the earlier fixed endpoint are not established population-wide;
+that earlier 512-life result remains valid for its fixed genomes. Higher physical costs are population-wide.
+Point estimates retain at least 90% of AO captures in all three old worlds for 10 G8, 8 mean and 16 Pareto rows;
+none clears all three descriptive lower-three-SE margins. No new joint capability or memory is established.
+
+All **15,524 calls** complete in **861.068225 CPU /429.966323 wall seconds**, peak 344.30 MiB, with all research
+statuses zero and owned workers clear. Independent accounting checks every research ledger and 25,288
+statistics. An inefficient saved-data reader hit its CPU cap; caching each cohort once fixes it without new
+scientific calls. Original failure evidence is retained. Report and population/ranking plots:
+`results/resource_patch_population_20261015/REPORT.md`; manifest `c950f9b3…1223f5`.
+
+Next give the full Pareto population eight more generations with 32 initial +32 recheck lives, unchanged
+objectives/world allocation/physics/operators, and a separate all-survivor endpoint panel before fresh
+confirmation. Include development-selected starting row26/ID918 as a new-study comparator, never a replacement
+for historical ID883. This tests combined depth and measurement effort, not the causal superiority of a sampling
+policy. Freeze the new budget/inputs before launch; no run follows automatically. Reconsider a richer accessible
+interaction after the bounded result rather than automatically tuning selection again.
+
+**Whole-population development panel registered (2026-10-15; historical).** Measure every ordered survivor from the G8,
 mean4 and Pareto4 populations, plus unchanged AO: 97 genomes, five existing worlds and 32 fresh shared lives.
 This asks whether useful combinations remain available and how the reporting rule's small cached sample ranks
 them. It retains duplicates and historical endpoints, reports uncertainty over shared life seeds, and certifies

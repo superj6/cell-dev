@@ -1,0 +1,14 @@
+--- outputs/resource_patch_population_20261015/terminal_review/attempt1/independent_review.initial.py
++++ outputs/resource_patch_population_20261015/terminal_review/independent_review.py
+@@ -284,7 +284,10 @@
+                                   ('lives', len(indices)*32), ('sha256', sha(study/path)),
+                                   ('scored_path', scored_path), ('scored_sha256', sha(study/scored_path))):
+                 require(entry[key] == expected, 'cohort index '+key)
+-            with np.load(study/path, allow_pickle=False) as raw, np.load(study/scored_path, allow_pickle=False) as s:
++            with np.load(study/path, allow_pickle=False) as raw_file, \
++                    np.load(study/scored_path, allow_pickle=False) as scored_file:
++                raw = {key: raw_file[key] for key in raw_file.files}
++                s = {key: scored_file[key] for key in scored_file.files}
+                 require(raw['ledger'].dtype == np.float64 and raw['ledger'].shape == (len(indices)*32, 107)
+                         and raw['hashes'].dtype == np.uint64 and raw['hashes'].shape == (len(indices)*32, 5)
+                         and (raw['hashes'] == HASH_INIT).all(), 'native cohort schema/fast constants')

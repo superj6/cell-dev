@@ -1,0 +1,20 @@
+{
+  "status": "source_checked_saved_data_efficiency_amendment",
+  "original_source_sha256": "7681d85e82eade932aff1c2c357121c4b430d081b6389713544dd66b8aaa9b65",
+  "amended_source_sha256": "ea97a0abbd384cf3015423df04b4f1bb0233f057aa92029ecfa60c1d1da52d35",
+  "original_failure_sha256": "64d3da5785c53f87c8be3140e1ee36be0442014a14f3bfd2b13db626423d253f",
+  "diff_sha256": "c04689e0487a85c5659474ddde0c308be721725ad4b7e24f3c21dd325ea0ddaa",
+  "exact_single_replacement_verified": true,
+  "reason": "NpzFile lookup repeatedly decompressed each cohort array inside per-life checks; eagerly cache each array once.",
+  "changed": "Only archive read materialization; scalar arithmetic, checks, scope, thresholds and scientific files unchanged.",
+  "scientific_retry": false,
+  "new_lives": 0,
+  "new_builds": 0,
+  "new_seed_or_genetic_draws": 0,
+  "corrected_saved_data_attempt": {
+    "cpu_limit_seconds": 10,
+    "wall_limit_seconds": 30,
+    "address_space_bytes": 1073741824,
+    "threads": 1
+  }
+}

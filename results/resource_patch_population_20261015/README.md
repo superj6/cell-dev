@@ -1,34 +1,27 @@
-# Whole-population resource-patch development diagnostic
+# Whole-population acquisition diagnostic — complete
 
-**Prospective: zero scientific or startup lives executed.** Planned total: 15,524 calls
-(15,520 research + four retained startup checks). Namespace inspection and source/input checks are preparation.
+All 97 fixed genomes completed the five-world, 32-life development panel: **15,524 total calls** in
+861.07 CPU seconds, with 344.30 MiB peak owned RSS. Independent accounting and rank checks pass.
 
-This panel measures all 32 ordered survivors from G8, mean4 and pareto4, plus unchanged AO rank zero.
-All 97 genomes face the same 32 fresh development seeds in the five current worlds: trained patches,
-POOL, persistent pursuit, longer cue gaps and the previously tested transfer combination. Worlds, prices,
-genomes and previously reported endpoints stay fixed. There is no evolution or endpoint replacement.
+The cached first-choice genomes rank 29th and 25th within their surviving populations on the new panel.
+Pareto selection increases population-average POOL acquisition; its previously reported endpoint's large
+pursuit losses are not established population-wide. Useful variation remains, without a confirmed new
+joint winner. No further evolution or endpoint substitution occurs in this diagnostic.
 
-The question is whether the saved populations contain joint candidates overlooked by noisy cached endpoint
-scores, or instead show acquisition/retention tradeoffs throughout. Every row remains in the report.
-The minimum normalized capture statistic and weighted production F describe the population; choosing the
-best of 97 noisy rows would not constitute independent winner confirmation. This is development evidence,
-not a new generalization claim or evidence of a capacity ceiling.
+Read [REPORT.md](REPORT.md), [TABLES.md](TABLES.md), the [population plot](population_acquisition.svg),
+and [cached/fresh ranks](cached_fresh_ranks.svg). The full row table is `population_rows.csv`.
 
-Package limits: 2,700 CPU seconds / 1,800 wall seconds, including 60 CPU / 60 wall seconds for preparation and terminal
-work. One worker uses two threads, at most 4 GiB RSS / 8 GiB address space, with 4 GiB host memory reserved.
-Development seeds are 52510000–52510031; block 151 is audited separately from historical block labels.
+The original prospective manifest, README and publication helpers remain under `registration/`.
+Frozen protocol/source/input bytes are unchanged. Native ledgers, scores, startup records, ownership budgets,
+reviews and the saved-data audit's preserved I/O failure are included. Build caches and synthetic temporary
+fixture trees are excluded. Earlier public archives supply the explicitly pinned namespace and accounting
+references.
 
-`PROTOCOL.md` and `protocol.json` define the frozen study. `inputs/rows.json` and `inputs/genomes.npy`
-preserve exact row order/identity. Source, actual-input reviews and preparation failures/corrections are
-retained; temporary synthetic fixture trees and caches are excluded. Historical namespace inventories are
-referenced by public path and SHA256 rather than copied again.
-
-Verify the archive without simulations or builds from the repository root:
+Verify hashes and receipts without simulations or builds from the repository root:
 
 ```sh
-.venv/bin/python results/resource_patch_population_20261015/verify_public.py
+.venv/bin/python results/resource_patch_population_20261015/verify.py
 ```
 
-The verifier checks every included file, frozen sources/inputs, public provenance and committed production
-dependencies. It needs the repository's earlier public archives and Git revision
-`5d556443e91d558de8de27ab2e5dc7ae11a51415`.
+Source revision: `5d556443e91d558de8de27ab2e5dc7ae11a51415`.
+Prospective publication: `c994f779eda9bf97b7d2588d774f13d3f0cb268e`.
