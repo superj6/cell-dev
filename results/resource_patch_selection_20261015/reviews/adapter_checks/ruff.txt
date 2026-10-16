@@ -1,0 +1,131 @@
+I001 [*] Import block is un-sorted or un-formatted
+   --> outputs/resource_patch_selection_20261015/native_replay.py:192:5
+    |
+190 |       must still check its ranking mathematics separately; no simulator or RNG is invoked.
+191 |       """
+192 | /     import pareto
+193 | |     from selection import endpoint_from_arrays
+194 | |     from src.life import spec
+    | |_____________________________^
+195 |
+196 |       parents = {i: row.clone() for i, row in enumerate(initial)}
+    |
+help: Organize imports
+    |
+193 |     from selection import endpoint_from_arrays
+194 +
+195 |     from src.life import spec
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/resource_patch_selection_20261015/search.py:48:5
+   |
+46 |   def _endpoint_record(out, cfg, identity, *, write_genome=False):
+47 |       """Derive from the already evaluated final32; no backend, evaluator or RNG invocation."""
+48 | /     import numpy as np
+49 | |
+50 | |     from common import read, sha
+51 | |     from selection import ENDPOINT_RULE, endpoint_from_arrays
+52 | |     from src import checkpoint
+53 | |     from src.genome import Layout
+   | |_________________________________^
+54 |
+55 |       out = Path(out)
+   |
+help: Organize imports
+   |
+48 |     import numpy as np
+49 +     from selection import ENDPOINT_RULE, endpoint_from_arrays
+50 |
+51 |     from common import read, sha
+   -     from selection import ENDPOINT_RULE, endpoint_from_arrays
+52 |     from src import checkpoint
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> outputs/resource_patch_selection_20261015/selection.py:96:5
+    |
+ 94 |       Every cache entry is consumed within its generation; resume needs no hidden cache state.
+ 95 |       """
+ 96 | /     import torch
+ 97 | |     from omegaconf import OmegaConf
+ 98 | |
+ 99 | |     import pareto
+100 | |     from src.life import spec
+    | |_____________________________^
+101 |
+102 |       if configured != selection_identity(configured['arm'], configured['worlds']):
+    |
+help: Organize imports
+    |
+95  |     """
+96  +     import pareto
+97  |     import torch
+98  |     from omegaconf import OmegaConf
+99  |
+    -     import pareto
+100 |     from src.life import spec
+    |
+
+E402 Module level import not at top of file
+  --> outputs/resource_patch_selection_20261015/tests/test_selection_adapter.py:19:1
+   |
+17 | sys.path.insert(0, str(HERE))
+18 |
+19 | import selection
+   | ^^^^^^^^^^^^^^^^
+20 | import src.evolve as native
+21 | from src.life import spec
+   |
+help: Move module level imports to top of file
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/resource_patch_selection_20261015/tests/test_selection_adapter.py:19:1
+   |
+17 |   sys.path.insert(0, str(HERE))
+18 |
+19 | / import selection
+20 | | import src.evolve as native
+21 | | from src.life import spec
+22 | | from src.life.evaluate import LifeDraw
+   | |______________________________________^
+help: Organize imports
+   |
+19 | import selection
+20 +
+21 | import src.evolve as native
+   |
+
+E402 Module level import not at top of file
+  --> outputs/resource_patch_selection_20261015/tests/test_selection_adapter.py:20:1
+   |
+19 | import selection
+20 | import src.evolve as native
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+21 | from src.life import spec
+22 | from src.life.evaluate import LifeDraw
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> outputs/resource_patch_selection_20261015/tests/test_selection_adapter.py:21:1
+   |
+19 | import selection
+20 | import src.evolve as native
+21 | from src.life import spec
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+22 | from src.life.evaluate import LifeDraw
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> outputs/resource_patch_selection_20261015/tests/test_selection_adapter.py:22:1
+   |
+20 | import src.evolve as native
+21 | from src.life import spec
+22 | from src.life.evaluate import LifeDraw
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: Move module level imports to top of file
+
+Found 8 errors.
+[*] 4 fixable with the `--fix` option.

@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "reviewer": "/root/delayed_match_js",
+  "review_type": "independent source review; no execution of the adapters or tests by this reviewer",
+  "material_blockers": [],
+  "source_pins": {
+    "selection.py": "e133580cc5cba98683345b5f466f193dfa390d94de0ff4b21387beca7fbc43fd",
+    "search.py": "ecbe2061252ee58032510f47bc9c7d56ef1a974a92be8c613dbf932ed23dab01",
+    "native_replay.py": "1e9056d59b3199ed216a709bf67cf042d1f20699b484b0a7b96eea673878427a",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+    "pareto.py": "eb418c7218498519ec0085043792a973411a932599cad392dffe8a1b603e14ae",
+    "tests/test_selection_adapter.py": "01b118c780c0da129b96a17eaeb202b31e0bf37a90bd7c19eee8d4db6ac4585c"
+  },
+  "reader_interface_pins": {
+    "measure.py": "20e4238e74bfe697c31699cc65aaac62c1b0ff5fc69d8f12a7953e9516f8ca7a",
+    "analyze.py": "0ac39bb7b11a754f73acff2b77c0690ce4b525b688664da34cc6006b9da1373b"
+  },
+  "author_check_receipt": {
+    "path": "reviews/adapter_source_checks.json",
+    "sha256": "70d99491fd86aa4a24bb4374953096d4976391ca995222d698265f46999eff3d",
+    "reported_passed_cases": 6,
+    "reported_test_runs": 1,
+    "review_note": "Author execution is separate evidence. Original tested sources and the import-only final amendment are retained; the amendment was inspected and no test rerun is requested."
+  },
+  "checks": [
+    "All 32 imported population rows and their native order are bound to source, file, row and crosswalk hashes; no founder search or population selection is added.",
+    "Generation draws retain native uint64 seeds, substitute only the declared 4/2/2 patch/POOL/persistent world pattern, and repeat the pattern for the native recheck draw.",
+    "The evaluator observer captures each candidate's eight captures, ordinary production F, native F, extinction charge and health columns before aggregation; invalid or mismatch results fail.",
+    "Mean selection preserves native stable F ordering and the existing diagnostic256/shortlist256/final64 tie-permutation inventory. Pareto changes ranking while retaining the same three supplied permutation calls, population sizes, recheck lives and original F.",
+    "The recheck joins eight base and eight recheck lives. Its pooled ordinary F is checked against native aggregation, and returned LifeEval rows remain in the selected survivor order.",
+    "Per-generation arrays bind all candidate genomes, uint64 seeds, world vectors, exact objective matrices, three permutations, shortlist and survivor indices to lineage IDs and checkpoint log hashes.",
+    "Selection NPZ creation now uses a flushed and fsynced temporary file followed by atomic replacement. An existing target is reusable only when every array matches in shape, dtype and bytes.",
+    "Common endpoints use the final32 cached pooled16 scores, fixed AO normalization and native survivor IDs, with no extra backend call or RNG draw. Joint genome and endpoint receipts bind the actual selected checkpoint row rather than assuming rank zero.",
+    "Search markers and startup bindings match the reader's two arms, four generations, 10278 research plus four startup lives per arm, exact seven count-proof fields and selected endpoint schema.",
+    "Offline replay reconstructs recorded children and all selected rows, verifies per-generation score arrays and rankings, checks identical first cohorts across arms, and binds both joint endpoints.",
+    "All six temporary hooks and the numerical-identity wrapper restore on failure. Nonselection draw delegation and the existing population loader/recorded-operation helper remain unchanged.",
+    "Supplied-data tests cover unsigned seeds, row and pooled-score identity, native mean ordering, endpoint IDs, invalid rows and hook restoration without simulator or random draws."
+  ],
+  "limits": [
+    "This is source and interface review, not evidence from a new organism life or completed new search.",
+    "The adapter tests use supplied evaluator columns and supplied tie permutations; they do not establish whole-search simulator parity.",
+    "Offline selection replay deliberately reuses the registered pure selector. Independent terminal accounting must separately check ranking mathematics and retained raw outcomes.",
+    "Native rank-zero diagnostics remain distinct from the common joint endpoint used in confirmation; neither endpoint establishes evolved circuitry or memory by provenance alone."
+  ],
+  "review_calls": {
+    "simulator_calls": 0,
+    "kernel_builds": 0,
+    "genetic_random_draws": 0,
+    "tie_random_draws": 0,
+    "test_runs": 0
+  }
+}

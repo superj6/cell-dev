@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/resource_patch_selection_20261015/reviews/check_actual_inputs.py", line 291, in <module>
+    main(args.protocol_sha256, args.source_revision)
+  File "/home/jgon/project/ml/cell-dev/outputs/resource_patch_selection_20261015/reviews/check_actual_inputs.py", line 99, in main
+    assert sha(STUDY / filename) == pin, (name, filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('preparation_source_review.json', 'PROTOCOL.md')

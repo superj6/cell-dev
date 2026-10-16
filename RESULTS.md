@@ -4178,3 +4178,25 @@ per branch must face every evaluation world; a portfolio of specialists is insuf
 is four generations per branch, with a common endpoint rule and a new reserved combination. Source review,
 exact budget and prospective registration precede execution. See the completed archive's `NEXT_DECISION.md`;
 this result does not release a new run. Safe local resources remain adequate.
+
+## 2026-10-15 — Preserving partial acquisition advantages: selection comparison registered
+
+Two four-generation branches now inherit all 32 ordered
+survivors of the completed resource continuation. One uses ordinary mean fitness; the other preserves
+nondominated tradeoffs among patch, POOL and persistent capture plus ordinary fitness. Worlds, physical
+prices, mutation, mating and life budgets are identical. This tests whether useful partial acquisition
+advantages survive long enough to combine, without prescribing circuitry or changing the organism.
+
+Both branches use the same final-genome rule: maximize the weakest relative acquisition across the three
+training worlds, using cached selection lives and fixed ancestral reference scales. Each chosen genome and
+both ancestors then face the same 512 fresh lives in five worlds. The reserved combination has two patches,
+radii 3.5–5.5 and refill intervals 60/180; the earlier count-four combination is now development evidence.
+One unchanged genome must carry the gains; population specialization alone is insufficient.
+
+Maximum **30,808 calls** (30,796 research +12 startup), under **5,400 CPU /3,600 wall seconds** including
+120 seconds preparation/terminal allowance. One two-thread worker, 4 GiB owned RSS, 8 GiB address space and
+4 GiB host-memory reserve. Native 53235/block 150 are collision-audited. Source and supplied-data checks,
+exact-input review and prospective archive verification pass with zero new lives. A stale prose review pin
+was corrected with original failure evidence preserved; scientific inputs did not change. Protocol
+`529d6571…31d8dd`, evidence `results/resource_patch_selection_20261015/`. Runtime release follows publication;
+this note records no result and makes no formal admission, memory or generality claim.

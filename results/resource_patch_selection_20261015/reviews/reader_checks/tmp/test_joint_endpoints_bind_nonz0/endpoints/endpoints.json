@@ -1,0 +1,146 @@
+{
+  "protocol_sha256": "c5c7ff01e140a81440f487c07c99484ee96b18c69fff24611d6f433dc18d16db",
+  "roles": [
+    "AO_start",
+    "patch8_start",
+    "mean4",
+    "pareto4"
+  ],
+  "genomes": [
+    {
+      "role": "AO_start",
+      "path": "inputs/AO_start.json",
+      "file_sha256": "7bef89fee9e6ea16b9520ff8a1c69e50541b7cf2bffd0b0f094eea0d28bbe348",
+      "raw_sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f"
+    },
+    {
+      "role": "patch8_start",
+      "path": "inputs/patch8_start.json",
+      "file_sha256": "4dc4e12cd90f1afb9411597e5073dd5e2c922cdd76caf4e356c96eeb44dc3fed",
+      "raw_sha256": "e2d28c7c5d71897ea98866f9e24f3551759fa1168b372b7bee2289d449d58853"
+    },
+    {
+      "role": "mean4",
+      "path": "runs/mean/joint_genome.json",
+      "file_sha256": "d6a58941d1158e285b42412ff395ae04a7692bd5a90fb0473466eb6ae556302a",
+      "raw_sha256": "a8aa8d6b0dc0a51ec14bffa67f6b64d903e1dcdd876d2db62c8b0d1c7c8b930f"
+    },
+    {
+      "role": "pareto4",
+      "path": "runs/pareto/joint_genome.json",
+      "file_sha256": "887c0878e0dafb9466c524bb36022db193717962a4054eaed706c7fe337c4e57",
+      "raw_sha256": "a035e2bbd59eadafc3030a379498180e491ce1bcace596c45a8bb8508a69c774"
+    }
+  ],
+  "searches": {
+    "mean": {
+      "generation": 4,
+      "selected_rank": 7,
+      "selected_id": 107,
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "checkpoint_sha256": "ffe373b9b611fb0ec1d1d82b1cf453e3139aeb9dcd368e404ecfc813e2448ed8",
+      "checkpoint_log_pins": {
+        "curves.jsonl": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lineage.jsonl": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "clones.jsonl": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "endpoint": {
+        "status": "complete",
+        "arm": "mean",
+        "generation": 4,
+        "rank": 7,
+        "id": 107,
+        "genome_file_sha256": "d6a58941d1158e285b42412ff395ae04a7692bd5a90fb0473466eb6ae556302a",
+        "genome_raw_sha256": "a8aa8d6b0dc0a51ec14bffa67f6b64d903e1dcdd876d2db62c8b0d1c7c8b930f",
+        "population_raw_sha256": "29a6f309706f712fd18ebf9e296edb15d74deecc79c4d56874aef8f470b17987",
+        "checkpoint_sha256": "ffe373b9b611fb0ec1d1d82b1cf453e3139aeb9dcd368e404ecfc813e2448ed8",
+        "added_lives": 0,
+        "random_draws": 0
+      },
+      "endpoint_selection_sha256": "2897006ec86d9a21ca9395ab1dd32eadd14ed3886b1d010ad72bffcc05b4f8c8",
+      "population_file_sha256": "d3dabd640564864b23dfa675d133ffb4c286e23e549353dc656217ef43516b5f",
+      "determinism_sha256": "de36c2029fa21d71a2e5f3022ac46d128f94bc74c65c0f579f6cde9979511241",
+      "results_sha256": "ffe373b9b611fb0ec1d1d82b1cf453e3139aeb9dcd368e404ecfc813e2448ed8",
+      "numerical_identity": {
+        "stub_identity": true,
+        "population_start": {
+          "fixture": true
+        },
+        "retention_selection": {
+          "arm": "mean",
+          "worlds": {
+            "fixture": true
+          }
+        }
+      }
+    },
+    "pareto": {
+      "generation": 4,
+      "selected_rank": 11,
+      "selected_id": 111,
+      "search_health": {
+        "pop_invalid": 0.0,
+        "pop_mismatch": 0.0,
+        "recheck_invalid": 0.0
+      },
+      "checkpoint_sha256": "a4a0b0eb61b40a1fa788f2e7cdcd4cb7e72ca2fb2510efea8906c4b91e275d57",
+      "checkpoint_log_pins": {
+        "curves.jsonl": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lineage.jsonl": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "clones.jsonl": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "endpoint": {
+        "status": "complete",
+        "arm": "pareto",
+        "generation": 4,
+        "rank": 11,
+        "id": 111,
+        "genome_file_sha256": "887c0878e0dafb9466c524bb36022db193717962a4054eaed706c7fe337c4e57",
+        "genome_raw_sha256": "a035e2bbd59eadafc3030a379498180e491ce1bcace596c45a8bb8508a69c774",
+        "population_raw_sha256": "cce888af17d1997b989bc663fdb69157d688ff57dcf333fa714e2b9e669c1cd2",
+        "checkpoint_sha256": "a4a0b0eb61b40a1fa788f2e7cdcd4cb7e72ca2fb2510efea8906c4b91e275d57",
+        "added_lives": 0,
+        "random_draws": 0
+      },
+      "endpoint_selection_sha256": "1fce07f00469652902edab7e88cb654756252932db3399378a00e540fb633e08",
+      "population_file_sha256": "53a0c6ff987c8d80ddfcfb589f9ba041c0908902b64715fcdaa5af06435fa827",
+      "determinism_sha256": "4ad39d05d3501bd057081105163d5258770f115d535eb96d2371ae3695fcb2dd",
+      "results_sha256": "a4a0b0eb61b40a1fa788f2e7cdcd4cb7e72ca2fb2510efea8906c4b91e275d57",
+      "numerical_identity": {
+        "stub_identity": true,
+        "population_start": {
+          "fixture": true
+        },
+        "retention_selection": {
+          "arm": "pareto",
+          "worlds": {
+            "fixture": true
+          }
+        }
+      }
+    }
+  },
+  "selection": "Both arms use their frozen common-rule endpoint from all32 final survivors' cached base8+recheck8 lives, before confirmation; native rank0 remains distinct."
+}

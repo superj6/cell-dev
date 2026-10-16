@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "author": "/root/delayed_match_review",
+  "review_type": "author supplied-data checks, not independent review",
+  "tests": {
+    "passed": 6,
+    "runs": 1,
+    "source_pins_at_execution": {
+      "selection.py": "b059f6e7321151f2249378579849681b5ca637a967b6b0b7edb6153caf6c256b",
+      "search.py": "69b809968080db3f55798d5111a24e95d36987032de435139cf405204b06e3e5",
+      "native_replay.py": "d2341cb24ca8b49eb949e2197a38e48989d3db048cc2194861d028b9ab13e5d8",
+      "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+      "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+      "tests/test_selection_adapter.py": "c8bd56bc35b2e97486f6c5e85fdb6fdc188578d85001baf595b6c907c35cf177"
+    },
+    "stdout": "reviews/adapter_checks/stdout.txt",
+    "stderr": "reviews/adapter_checks/stderr.txt",
+    "resources": "reviews/adapter_checks/resources.txt",
+    "cpu_seconds": 2.57,
+    "wall_seconds": 2.61,
+    "max_rss_kib": 251360,
+    "exit_code": 0
+  },
+  "static": {
+    "ast_final_passed": true,
+    "ruff_final_passed": true,
+    "initial_ruff_failed": "import grouping/order plus intentional test sys.path E402 only",
+    "prior_sources": "reviews/adapter_checks/before_import_format",
+    "amendment": "reviews/adapter_checks/import_format_amendment.diff",
+    "amendment_scope": "import placement/blank lines and test E402 annotations only; no statements other than imports changed",
+    "tests_not_rerun_for_format_amendment": true,
+    "metered_cpu_seconds": 0.03,
+    "metered_wall_seconds": 0.03
+  },
+  "source_pins": {
+    "selection.py": "e133580cc5cba98683345b5f466f193dfa390d94de0ff4b21387beca7fbc43fd",
+    "search.py": "ecbe2061252ee58032510f47bc9c7d56ef1a974a92be8c613dbf932ed23dab01",
+    "native_replay.py": "1e9056d59b3199ed216a709bf67cf042d1f20699b484b0a7b96eea673878427a",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "tests/test_selection_adapter.py": "01b118c780c0da129b96a17eaeb202b31e0bf37a90bd7c19eee8d4db6ac4585c"
+  },
+  "resources": {
+    "metered_checks_cpu_seconds": 2.6,
+    "metered_checks_wall_seconds": 2.64,
+    "max_rss_kib": 251360,
+    "cpu_limit_seconds": 30,
+    "wall_limit_seconds": 60,
+    "address_space_limit_bytes": 2147483648,
+    "additional_unmetered": "brief source-only stdlib AST parsing, SHA and receipt writes; included in package preparation allowance"
+  },
+  "calls": {
+    "simulated_lives": 0,
+    "kernel_builds": 0,
+    "genetic_random_draws": 0,
+    "tie_random_draws": 0
+  },
+  "scope": [
+    "uint64 supplied seeds above2^63",
+    "unchanged raw genome order and 8+8 life matrices",
+    "three supplied permutations256/256/64",
+    "native stable torch scalar ordering in mean arm",
+    "pooled16 production F and charge preservation",
+    "separate joint endpoint mapping and exact IDs",
+    "invalid native row rejection",
+    "all hooks restore on failure",
+    "nonselection draw delegation unchanged"
+  ],
+  "limits": [
+    "Supplied evaluator columns; no new C/Python organism lives were run.",
+    "Native replay source reviewed but not executed before data exist.",
+    "Selection/genetic replay reuses registered selector/recorded-operation helper, not an independent reimplementation."
+  ]
+}

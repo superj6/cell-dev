@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "reviewer": "root",
+  "files": {
+    "pareto.py": "eb418c7218498519ec0085043792a973411a932599cad392dffe8a1b603e14ae",
+    "tests/test_pareto.py": "e9f4738ea893055a6a3277ccd0780db75ecf00eb38b96e62d0a1e1fdcba8baf2"
+  },
+  "scope": [
+    "All-maximize strict dominance/front calculation",
+    "Grouped-coordinate crowding and duplicate/zero-range semantics",
+    "Both selection stages use captures and production F; final pools all16 lives",
+    "Native supplied permutations, no hidden RNG",
+    "Common endpoint uses fixed AO scales, F, then ascending survivor IDs",
+    "Meaningful supplied-array tests including complete dominance lattice and mapping invariants"
+  ],
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0
+}

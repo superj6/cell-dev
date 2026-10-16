@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "passed": 11,
+  "failed": 0,
+  "attempts": 1,
+  "sources": {
+    "measure.py": "20e4238e74bfe697c31699cc65aaac62c1b0ff5fc69d8f12a7953e9516f8ca7a",
+    "analyze.py": "0ac39bb7b11a754f73acff2b77c0690ce4b525b688664da34cc6006b9da1373b",
+    "tests/test_readers.py": "30089570899910096d645b8587f8a246d5533b0aee043dad56cb3ddb9487b874"
+  },
+  "checks": [
+    "11 focused reader checks",
+    "Ruff",
+    "AST parse",
+    "120-column source style"
+  ],
+  "resource_caps": {
+    "cpu_seconds": 30,
+    "wall_seconds": 60,
+    "address_space_bytes": 1073741824,
+    "numerical_threads": 1
+  },
+  "resources": {
+    "cpu_seconds": 0.98,
+    "wall_seconds": 1.14,
+    "peak_rss_bytes": 73805824
+  },
+  "logs": {
+    "resources.txt": "e213314112a4eadc0b90c8b797f0aef03c769ed5a6854cf39916b458cc33971d",
+    "stdout.txt": "08faea39fd19189f6544839f505d91d76ecb1367e219f5db362cdf22916ef869",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "junit.xml": "3f2b989379f6855c1757a16209e0d59a8e8b8d3628f5b7c2076a1971696366d2"
+  },
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "fixture_scope": [
+    "Retained pilot ledgers are relabeled reader inputs, not new scientific rows.",
+    "Count2 transfer uses supplied algebraic arrays, not a physical trajectory.",
+    "Endpoint binder uses explicit interfaces/stubs with selected ranks7/11; selector math is separate."
+  ],
+  "post_test_change": "Only an analyze.py line wrap after the passing run; no executable or AST change."
+}

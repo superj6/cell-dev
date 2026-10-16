@@ -1,0 +1,55 @@
+--- tested/selection.py
++++ final/selection.py
+@@ -93,10 +93,10 @@
+     generation NPZ whose hash is in lineage.jsonl, so native checkpoint log pins cover it.
+     Every cache entry is consumed within its generation; resume needs no hidden cache state.
+     """
++    import pareto
+     import torch
+     from omegaconf import OmegaConf
+ 
+-    import pareto
+     from src.life import spec
+ 
+     if configured != selection_identity(configured['arm'], configured['worlds']):
+--- tested/search.py
++++ final/search.py
+@@ -46,9 +46,9 @@
+ def _endpoint_record(out, cfg, identity, *, write_genome=False):
+     """Derive from the already evaluated final32; no backend, evaluator or RNG invocation."""
+     import numpy as np
++    from selection import ENDPOINT_RULE, endpoint_from_arrays
+ 
+     from common import read, sha
+-    from selection import ENDPOINT_RULE, endpoint_from_arrays
+     from src import checkpoint
+     from src.genome import Layout
+ 
+--- tested/native_replay.py
++++ final/native_replay.py
+@@ -191,6 +191,7 @@
+     """
+     import pareto
+     from selection import endpoint_from_arrays
++
+     from src.life import spec
+ 
+     parents = {i: row.clone() for i, row in enumerate(initial)}
+--- tested/tests/test_selection_adapter.py
++++ final/tests/test_selection_adapter.py
+@@ -16,10 +16,11 @@
+ sys.path.insert(0, str(HERE.parents[1]))
+ sys.path.insert(0, str(HERE))
+ 
+-import selection
+-import src.evolve as native
+-from src.life import spec
+-from src.life.evaluate import LifeDraw
++import selection  # noqa: E402
++
++import src.evolve as native  # noqa: E402
++from src.life import spec  # noqa: E402
++from src.life.evaluate import LifeDraw  # noqa: E402
+ 
+ 
+ @dataclass

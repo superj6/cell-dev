@@ -1,0 +1,19 @@
+results/resource_patch_evolution_20261015/namespace/audit_namespace.py:22:LOW, HIGH = 52490000, 52500000
+results/resource_patch_evolution_20261015/namespace/audit_namespace.py:182:    pattern = r'(?<![0-9.])(?:5249[0-9]{4}|52500000|53234|' + '|'.join(str(x) for x in sorted(native)) + r')(?![0-9.])'
+results/resource_patch_evolution_20261015/namespace/classify_namespace.py:20:    assert data['whole_block_half_open'] == [52490000, 52500000]
+results/resource_patch_evolution_20261015/prepare.py:179:    reservation = dict(status='reserved', native_seed=53234, seed_blocks=[[52490000, 52500000]],
+results/resource_patch_evolution_20261015/reviews/check_actual_inputs.py:154:    assert reservation['seed_blocks'] == [[52490000, 52500000]]
+results/resource_patch_evolution_20261015/TABLES.md:120:| pool | mixed8_minus_mixed4 | 0.000000 ± 0.000000 | 0.000000 ± 0.000000 | -0.214577 ± 0.105250 | 0.079991 ± 0.006337 | 0.000000 ± 0.000000 | 0.000000 ± 0.000000 | -0.134585 ± 0.104142 |
+outputs/resource_patch_evolution_20261015/namespace/audit_namespace.py:22:LOW, HIGH = 52490000, 52500000
+outputs/resource_patch_evolution_20261015/namespace/audit_namespace.py:182:    pattern = r'(?<![0-9.])(?:5249[0-9]{4}|52500000|53234|' + '|'.join(str(x) for x in sorted(native)) + r')(?![0-9.])'
+outputs/resource_patch_evolution_20261015/namespace/classify_namespace.py:20:    assert data['whole_block_half_open'] == [52490000, 52500000]
+outputs/resource_patch_evolution_20261015/prepare.py:179:    reservation = dict(status='reserved', native_seed=53234, seed_blocks=[[52490000, 52500000]],
+outputs/resource_patch_evolution_20261015/reviews/check_actual_inputs.py:154:    assert reservation['seed_blocks'] == [[52490000, 52500000]]
+outputs/resource_patch_evolution_20261015/TABLES.md:120:| pool | mixed8_minus_mixed4 | 0.000000 ± 0.000000 | 0.000000 ± 0.000000 | -0.214577 ± 0.105250 | 0.079991 ± 0.006337 | 0.000000 ± 0.000000 | 0.000000 ± 0.000000 | -0.134585 ± 0.104142 |
+outputs/resource_patch_evolution_terminal_stage_20261015/namespace/audit_namespace.py:22:LOW, HIGH = 52490000, 52500000
+outputs/resource_patch_evolution_terminal_stage_20261015/namespace/audit_namespace.py:182:    pattern = r'(?<![0-9.])(?:5249[0-9]{4}|52500000|53234|' + '|'.join(str(x) for x in sorted(native)) + r')(?![0-9.])'
+outputs/resource_patch_evolution_terminal_stage_20261015/namespace/classify_namespace.py:20:    assert data['whole_block_half_open'] == [52490000, 52500000]
+outputs/resource_patch_evolution_terminal_stage_20261015/prepare.py:179:    reservation = dict(status='reserved', native_seed=53234, seed_blocks=[[52490000, 52500000]],
+outputs/resource_patch_evolution_terminal_stage_20261015/reviews/check_actual_inputs.py:154:    assert reservation['seed_blocks'] == [[52490000, 52500000]]
+outputs/resource_patch_evolution_terminal_stage_20261015/TABLES.md:120:| pool | mixed8_minus_mixed4 | 0.000000 ± 0.000000 | 0.000000 ± 0.000000 | -0.214577 ± 0.105250 | 0.079991 ± 0.006337 | 0.000000 ± 0.000000 | 0.000000 ± 0.000000 | -0.134585 ± 0.104142 |
+outputs/openhr/switching/summary.md:26:- Lives: block 150, 1024 core / 512 secondary (paired, common random numbers; tuning blocks 140-144 and sanity block 159 are disjoint).
