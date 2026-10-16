@@ -1,0 +1,115 @@
+{
+  "status": "passed",
+  "protocol_sha256": "2941610e25eb55f5e3b4ca2f0be91db46931573b24788bb85709c5b8464d9345",
+  "ready_sha256": "be5b6ed25c48be1bf26e7afb4432e3652d1fd7d27bfd9938331377ea5cf587d1",
+  "checker_sha256": "596a65201901446b887afced654c800720e27306237733d2ec4b1c05323dd84d",
+  "source_revision": "968bb81f2e146e2e729bca43004628d78a6e9b99",
+  "source_pins": {
+    "common.py": "af89a06f269d38366143c2870431253ddc2399281cd05d1f5f820413be9e55ef",
+    "monitor.py": "26d1c66ce4a6b6af0cd0e7e2809c577a645934eaabb478b4751d5c2eb0e651fe",
+    "prepare.py": "3864920be0e3ee55ea2eec4d8b70b8c83d586001748ad465974ed27699d4b60e",
+    "search.py": "01c2ec35e212ade41139dc42f6047081d1d7babd500a83af75a211c559fffe44",
+    "selection.py": "209e8b993822fe9a69a2844f8f6c6b3494505824c7c60ff1e944fc1cab643499",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "measure.py": "6a75c56aefda2ea7ec502cebbb431acc10211ae53bc813a867b13ec8382db68e",
+    "analyze.py": "19dcdbbc3f37291dbc4132648499fea29be9ae6d581969ea2a7387b4afba7014",
+    "native_replay.py": "c66e545c8cb3755ffa8383ac68ec84b20fe7875e1a6ceefb8c78d8d29b6831f1",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "config_sha256": "c477743644a23fce9c0e79eafcb0e88bd17d6a25dac468fc54e975ce1bbb3adb",
+  "input_files_verified": 19,
+  "original_input_files_verified": 15,
+  "production_files_verified": 33,
+  "population": {
+    "shape": [
+      32,
+      875
+    ],
+    "dtype": "torch.float32",
+    "checkpoint_generation": 24,
+    "raw_sha256": "d9e04d3a38a9f236e5a450ac869b514d67d143e31573360d8779bb9534cbdc87",
+    "all_32_rows_and_ids_preserved": true,
+    "row_zero_equals_AO_start": true,
+    "imported_scores_or_rng": false
+  },
+  "world_checks": {
+    "worlds": [
+      "match85",
+      "pool",
+      "persistent",
+      "blink80_20",
+      "match1024",
+      "short_blank",
+      "transfer"
+    ],
+    "all_abi": 5,
+    "world_fields": 77,
+    "ledger_columns": 70,
+    "exact_presets_and_inherited_controls": true,
+    "physical_prices_unchanged": true,
+    "matching_only_changes": [
+      "T1024",
+      "short blank2..4",
+      "transfer blank10..30/radius3..5"
+    ]
+  },
+  "numerical_identity": "Predeclared saved identity verified; no numerical_identity(), golden life, or build invoked.",
+  "seed_checks": {
+    "native_seed": 53233,
+    "distinct_native_ids": 500,
+    "confirmation_count": 512,
+    "confirmation_inclusive": [
+      52460000,
+      52460511
+    ],
+    "reserved_half_open": [
+      52460000,
+      52470000
+    ]
+  },
+  "budget": {
+    "cpu_seconds": 10680,
+    "wall_seconds": 7080,
+    "total_cpu_seconds": 10800,
+    "total_wall_seconds": 7200,
+    "preparation_cpu_allowance": 120,
+    "preparation_wall_allowance": 120,
+    "search_cpu_seconds": 8280,
+    "confirmation_cpu_seconds": 2400,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  },
+  "calls": {
+    "search_research": 61558,
+    "confirmation": 14336,
+    "startup": 8,
+    "total": 75902,
+    "confirmation_batch_rows": 28,
+    "declared_growth_T42_lives": 2
+  },
+  "evidence_pins": {
+    "reviews/namespace_review.json": "8df06bfad08e94d7c7eee574f2fde8deb4e009d2bccd26b359b69d58ead548ad",
+    "reviews/watchdog_source_review.json": "ce0e312bb3d80f6a6863bd24de9d3f6f3062c2659053148cb13cc84e10385ecd",
+    "reviews/source_checks.json": "c952baa7c235af0785d9713185bd15767ce9ccd63fedca8bc148528cf2ee8065",
+    "reviews/native_metadata_schema_amendment.json": "9470959ebc112171d985d0aa16aea81d196dd71d3dca503aafc68ce27249f16c",
+    "source_checks/stdout.log": "48f71b0cb5a89f4c8dddf4c3046e66fb7e0c77b238a528d749c98f0c55a241ba"
+  },
+  "interpretation": [
+    "Generation24 is primary; generation8 is a fixed passive observation, not a replacement.",
+    "The 53 source tests predate only the preserved metadata-schema amendment; that amendment is separately source-reviewed.",
+    "Monitor completion rehashes raw rows and binds the index. Frozen terminal reader verifies both raw and scored hashes before complete analysis.",
+    "T42 growth is the declared two-life integer-time diagnostic, not an exact T85 half-life or selection exposure.",
+    "No successful outcome, retention, broad generalization, or neural-memory claim follows from this prelaunch review."
+  ],
+  "material_blockers": [],
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "cpu_seconds": 1.952961,
+  "wall_seconds": 1.905279023994808,
+  "maximum_rss_kib": 246444
+}

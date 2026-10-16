@@ -1,0 +1,25 @@
+{
+  "status": "passed_source_only_amendment",
+  "reason": "Match exact terminal replay metadata to all registered search fields.",
+  "source": "native_replay.py",
+  "previous_source_sha256": "275a9b9b0f3b0a9584f08f2cf55d32d02f3e2d16c345919c4c7974a65a09c5af",
+  "source_sha256": "c66e545c8cb3755ffa8383ac68ec84b20fe7875e1a6ceefb8c78d8d29b6831f1",
+  "added_expected_search_fields": {
+    "midpoint": 8,
+    "growth_diagnostic_T": 42,
+    "growth_diagnostic_lives": 2
+  },
+  "checks": [
+    "Current source parses.",
+    "Expected search equals the actual prepare.py registered search dictionary.",
+    "Removing exactly the three added dictionary entries leaves an AST identical to the preserved prior source."
+  ],
+  "prior_53_test_receipt": "reviews/source_checks.json",
+  "prior_53_test_receipt_sha256": "c952baa7c235af0785d9713185bd15767ce9ccd63fedca8bc148528cf2ee8065",
+  "tests_rerun": false,
+  "simulator_calls": 0,
+  "builds": 0,
+  "scientific_random_draws": 0,
+  "scope": "Terminal metadata validation only; no experiment behavior or call count changes.",
+  "preparation_accounting": "Earlier short source tests were unmetered and are charged within the 120-second preparation allocation; no measured usage is claimed."
+}

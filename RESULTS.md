@@ -3985,3 +3985,32 @@ Next proceed into bounded ordinary delayed-matching evolution from an inherited 
 conditional choices, costs, earlier skills and fixed-genome transfer. Report the exact next budget before launch.
 Report: `results/delayed_match_information_20261015/REPORT.md`. Prospective commit 222092e;
 protocol da37b128…6ef78a; summary 54855e9c…1ed723.
+
+## 2026-10-15 — Delayed-matching evolution prepared: new context dependence with earlier skills retained in selection
+
+One 24-generation ordinary search starts from every ordered survivor of AO balanced24, chosen for its earlier
+retention evidence. Fixed selection uses four matching T85, two POOL and two persistent lives per eight, repeated
+for the eight-life recheck. Native physical F, extinction charge, prices, 32+224 search, mutation operators and
+local asynchronous cell rules are unchanged. No controller or prescribed matching algorithm enters the organism.
+This mixture is a deliberate cumulative-capability choice, not an established optimum or retention guarantee.
+
+Generation 24 rank 0 is primary; generation 8 is a passive fixed observation. Both, the starting genome and the AM
+reference receive 512 shared fresh lives in seven worlds: matching T85, POOL, persistent, longer-gap retention,
+development-known repeated matching T1024, short-blank diagnostics, and a reserved blank 10–30/radius 3–5 combination.
+Class-specific correct/wrong/unfinished choices, coverage, cue-dependent narrow-choice response, physical costs
+and native fitness are reported together. Ratio differences use paired life-cluster uncertainty; repeated trials
+are not independent lives. Older-task 90% retention is diagnostic, and the same fixed genomes face every world.
+This tests a narrow step toward reusable capability, not superiority to practical handwritten algorithms.
+
+The complete maximum is **75,902 calls**, with a **10,800 CPU /7,200 wall-second package allocation**, including
+120 CPU/120 wall seconds reserved for preparation. Monitored execution gets 10,680 CPU/7,080 wall seconds;
+8,280 CPU seconds for search and 2,400 for confirmation. One two-thread worker has 8 GiB address space, a 4 GiB
+combined owned RSS stop and a 4 GiB host-memory reserve. The exact budget was reported before launch. There is
+no automatic retry, cap extension or favorable-midpoint substitution.
+
+Simulation-free checks found that the native half-duration growth diagnostic requests fractional 42.5, which
+the ABI rejects. The study adapter maps only those two nonselection diagnostic lives to T42, retaining their
+native seeds. Selection and principal confirmation remain T85. All 53 adapter/replay tests and saved-row accounting
+checks pass. A later terminal-replay metadata expectation fix is separately source-reviewed with original files
+and test receipt preserved; it changes no scientific inputs. Native 53233/block 146 are collision-audited.
+No scientific life has run at prospective publication. Evidence: `results/delayed_match_evolution_20261015/`.

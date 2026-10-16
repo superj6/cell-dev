@@ -1,0 +1,41 @@
+{
+  "status": "allocated",
+  "package_cpu_cap": 10800,
+  "package_wall_cap": 7200,
+  "preparation_cpu_allowance": 120,
+  "preparation_wall_allowance": 120,
+  "scientific_cpu_cap": 10680,
+  "scientific_wall_cap": 7080,
+  "measured_components": [
+    {
+      "name": "namespace scan",
+      "cpu_seconds": 40.48,
+      "wall_seconds": 21.49,
+      "evidence": "namespace/resources.txt"
+    },
+    {
+      "name": "input materialization",
+      "cpu_seconds": 3.05,
+      "wall_seconds": 3.07,
+      "evidence": "preparation_resources.txt"
+    },
+    {
+      "name": "saved-row reader checks",
+      "cpu_seconds": 0.67,
+      "wall_seconds": 0.68,
+      "evidence": "source_checks/resources.txt"
+    },
+    {
+      "name": "actual-input review",
+      "cpu_seconds": 2.78,
+      "wall_seconds": 2.79,
+      "evidence": "reviews/actual_input_resources.txt"
+    }
+  ],
+  "measured_subtotal_cpu": 46.98,
+  "measured_subtotal_wall": 28.03,
+  "unmetered": "Short adapter/replay tests and source review were not metered; the remaining preparation allowance is conservative allocation, not a measured usage claim.",
+  "simulator_calls": 0,
+  "builds": 0,
+  "scientific_genetic_draws": 0
+}

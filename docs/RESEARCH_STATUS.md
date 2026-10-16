@@ -2,6 +2,30 @@
 
 The goal is increasingly sophisticated evolved algorithms, generalization and cumulative capability in the current local asynchronous organism. We have real local computations and repeated capture improvements, but neither larger bodies nor higher fitness establishes algorithmic progress. AO is complete and independently checked: later generations added acquisition in one branch, while task allocation traded older-task retention against further gains elsewhere.
 
+**Ultimate objective clarified (2026-10-15).** The user wants evolution to move beyond practical handwritten
+programs in generality, capability, or both. Handwritten controllers are measuring instruments and comparison
+baselines, not a target implementation or ceiling. Reward richer demands without prescribing the solution.
+Measure whether one unchanged evolved genome combines and retains abilities across varied environments and
+handles reserved new cases without per-case redesign, endpoint selection or extra evolution. Compare with
+strong fixed handwritten baselines under clearly stated sensory/action/resource conditions; the current
+external information instruments have free central computation, so their comparisons do not measure equal
+cellular implementation cost. A specialized delayed-matching success would be a stepping stone, not fulfillment
+of this objective. Use the current bounded run to assess reusable capability, then reconsider the most valuable
+next interaction rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
+
+**Delayed-matching evolution registered (2026-10-15).** One 24-generation ordinary continuation imports all
+32 AO balanced24 survivors, with fixed 50/25/25 matching T85/POOL/persistent selection and original physical
+prices. Generation 24 is primary; generation 8 is observational. Four fixed genomes receive 512 fresh shared lives
+in seven worlds, including old-task retention and a reserved delay/distance combination. Conditional choice,
+coverage and costs accompany fitness; matching slot captures are not correctness. Maximum 75,902 calls and
+10,800 CPU/7,200 wall seconds, including 120 CPU/120 wall preparation allowance; one two-thread worker, 4 GiB owned
+RSS stop, 8 GiB address space and 4 GiB host reserve. Source/input reviews and 53 simulation-free adapter/replay
+tests pass. A narrow adapter maps the two nonselection growth diagnostics from invalid T42.5 to T42. A separate
+terminal-replay metadata fix is archived without changing scientific inputs. Protocol 2941610e…64d9345,
+native 53233/block 146; no scientific life has run at prospective publication. Evidence:
+`results/delayed_match_evolution_20261015/`. Later work remains autonomous and should be reconsidered from
+the complete results, aiming for broader capability rather than a particular handwritten solution.
+
 The immediate priority is the authorized [ABI5 delayed shape-matching environment](ABI5_DELAYED_MATCH_PROPOSAL.md): a narrow/broad sample, blank interval and later conditional choice. Local asynchronous cell rules stay unchanged. The validated implementation is integrated; AO's original sources remain archived. Engineering agreement is not evidence of evolved matching. Retention, price tuning and circuit analysis support this work; perfect results on those fronts are not prerequisites. Choose a continuing population explicitly from development evidence, measure earlier skills, and reserve separate cases for generalization.
 
 The first delayed-matching baseline is complete. The six saved genomes can pursue and choose targets, but

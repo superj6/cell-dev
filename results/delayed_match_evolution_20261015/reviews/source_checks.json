@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "tests": 53,
+  "test_command": "PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 ATEN_CPU_CAPABILITY=avx2 .venv/bin/python -m pytest -q outputs/delayed_match_evolution_20261015/test_selection_search.py outputs/delayed_match_evolution_20261015/test_native_replay.py --basetemp=/tmp/delayed_match_source_tests_final",
+  "source_sha256": {
+    "search.py": "01c2ec35e212ade41139dc42f6047081d1d7babd500a83af75a211c559fffe44",
+    "selection.py": "209e8b993822fe9a69a2844f8f6c6b3494505824c7c60ff1e944fc1cab643499",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "native_replay.py": "275a9b9b0f3b0a9584f08f2cf55d32d02f3e2d16c345919c4c7974a65a09c5af",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+    "test_selection_search.py": "6e7fae346d855beb6e3d52b9aa407c72dc717444659c7f1abc939aab35a1e80e",
+    "test_native_replay.py": "605fa4d5c7e56563ebfe806227fde84030f3af9df1b4867395de95c0814bf574"
+  },
+  "checks": [
+    "24 generations of supplied native seed IDs/order and exact 8+8 4/2/2 worlds",
+    "unchanged other-purpose draws and restoration after errors",
+    "strict two-life T42 growth exception preserves seeds; wrong index/count/override/envelope rejected",
+    "all32 imported rows and duplicate rows retained without mutation draw",
+    "single identity call and passive generation8 checkpoint/save/restore",
+    "completion counts and guard retention; corrupted endpoint/prefix/startup rejected",
+    "synthetic recorded24-generation replay:5376 offspring and10752 additions;8-generation prefix and all32 rows",
+    "corrupt recorded IDs/parents/masks/operators/kept flags/survivor rows/origins rejected",
+    "log prefix binding allows suffix only",
+    "first cohort one-run receipt and unchanged reviewed AO replay primitive"
+  ],
+  "ast_files": 7,
+  "ruff": "passed for all seven files",
+  "simulator_calls": 0,
+  "builds": 0,
+  "scientific_random_draws": 0,
+  "initial_failure": "reviews/adapter_initial_failure.txt",
+  "limits": [
+    "Full terminal complete_replay metadata path is source-reviewed; recorded-genetics arithmetic and prefix/error helpers are tested with supplied fixtures. It will be exercised on the bound actual outputs after the run.",
+    "Replay verifies recorded operations and survivor order, not unrecorded parent scores or genetic RNG sampling."
+  ]
+}

@@ -1,0 +1,34 @@
+Initial simulation-free pytest run, before the T42 diagnostic amendment.
+Command: PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 ATEN_CPU_CAPABILITY=avx2 .venv/bin/python -m pytest -q outputs/delayed_match_evolution_20261015/test_selection_search.py --basetemp=/tmp/delayed_match_adapter_tests
+Source pins at this attempt:
+search.py fa4051fc36c9693c998e12c29e4ce7c0de9e828b5156af02a3dd073781fd110a
+selection.py 211010162e54214093fd506dd37595eed728e678f1de396cebfa4cb29a506867
+
+Preserved failure output excerpts from the tool result:
+.F..F..........................                                          [100%]
+=================================== FAILURES ===================================
+________________ test_changed_pattern_and_unknown_arm_rejected _________________
+        configured = adapter.selection_identity('mixed', worlds)
+        configured['pattern'][1] = 'pool'
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE ValueError
+
+______ test_diagnostics_unchanged_and_restore_after_failure[final-2-42.5] ______
+>       expected = ev.draw(purpose, 0, lives=lives, T=T)
+outputs/delayed_match_evolution_20261015/test_selection_search.py:114
+src/life/evaluate.py:199: in draw
+    base = self.world(T)
+src/life/evaluate.py:164: in world
+    self.abi.validate_world(w)
+        if w.T <= 0 or w.T != int(w.T) or w.t0 != int(w.t0):
+>           raise ValueError("T and t0 must be integers (guards are checked at integer times)")
+E           ValueError: T and t0 must be integers (guards are checked at integer times)
+src/life/spec.py:741: ValueError
+=========================== short test summary info ============================
+FAILED outputs/delayed_match_evolution_20261015/test_selection_search.py::test_changed_pattern_and_unknown_arm_rejected
+FAILED outputs/delayed_match_evolution_20261015/test_selection_search.py::test_diagnostics_unchanged_and_restore_after_failure[final-2-42.5]
+
+Interpretation and correction:
+The first was a test-fixture mistake: index1 already held pool, so the supposed change was a no-op. It now changes index0.
+The second exposed a real integration issue: src/run.py growth_at_half calls ev.draw("final",0,lives=2,T=ev.T/2), and T85/2 is noninteger. Root approved only this study-local final query mapping to T42; native selection/production are unchanged and the two calls remain in the fixed inventory. Receipt key is growth_t42, and the source identity labels the diagnostic accurately. New tests reject wrong indices, life counts, overrides and envelope arguments.
+No engine call, build or scientific RNG draw occurred in the failed run.
