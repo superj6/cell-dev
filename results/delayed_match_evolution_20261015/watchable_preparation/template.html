@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Growing lineage in delayed matching</title>
+<style>
+:root{color-scheme:dark;font:16px/1.5 system-ui,sans-serif;background:#0a111b;color:#e1e8f2}
+body{max-width:1050px;margin:32px auto;padding:0 20px}p{max-width:95ch;color:#c3d0df}
+button,select{font:inherit;margin:0 8px 8px 0;padding:7px 12px;border:1px solid #526477;
+border-radius:6px;color:inherit;background:#1a2b3e}button{cursor:pointer}button:disabled{opacity:.5}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin:20px 0}
+th,td{text-align:right;padding:6px;border-bottom:1px solid #314153}th:first-child,td:first-child{text-align:left}
+caption{text-align:left;padding-bottom:8px;color:#aebed1}#error{color:#ffc6ab}#genome{overflow-wrap:anywhere}
+@media(max-width:700px){table{font-size:11px}th,td{padding:3px}}
+</style>
+<h1>Growing lineage in delayed matching</h1>
+<p>These organisms grow from one cell using the fixed starting, generation-eight, and generation-24 genomes.
+The sample cue disappears before two choices appear. A correct choice matches the earlier cue's width.</p>
+<p>Each view uses one of the first four confirmation seeds in the T85 world. No case was chosen for success.
+These examples illustrate execution; the complete 512-case confirmation determines the measured performance.</p>
+<label>Genome <select id="role"></select></label>
+<label>Fixed seed <select id="seed"></select></label>
+<p id="genome"></p><p id="recorded"></p><p id="error" role="alert"></p>
+<main id="viewer"></main>
+<p>Phase, true sample class, and opportunity labels are implementation observations for the viewer.
+Cells receive their ordinary local receptor pings. A physical narrow or broad hit can be correct or wrong.
+Native F is the engine score; production F additionally pays the existing extinction surcharge.</p>
+<p>__VALIDATION_NOTE__</p>
+<script id="comparison-data" type="application/json">__DATA__</script>
+<script>__ENGINE__</script>
+<script>__DELAYED_VIEW__</script>
+<script>__VIEWER__</script>
+</html>

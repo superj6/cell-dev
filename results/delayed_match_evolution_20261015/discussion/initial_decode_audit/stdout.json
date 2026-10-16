@@ -1,0 +1,346 @@
+{
+  "status": "complete",
+  "summary": [
+    {
+      "knob": "w0",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -0.75,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        2.0
+      ]
+    },
+    {
+      "knob": "w1",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -2.0,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        -0.625,
+        -0.5,
+        -0.0,
+        0.125,
+        0.25,
+        0.375,
+        0.875
+      ]
+    },
+    {
+      "knob": "b",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -2.0,
+      "decoded_upper": 1.0,
+      "initial_values": [
+        -1.375,
+        -1.0,
+        -0.75
+      ]
+    },
+    {
+      "knob": "tau_m",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 1.0,
+      "decoded_upper": 16.0,
+      "initial_values": [
+        1.0,
+        2.0
+      ]
+    },
+    {
+      "knob": "t_ref",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 2.0,
+      "decoded_upper": 4.0,
+      "initial_values": [
+        4.0
+      ]
+    },
+    {
+      "knob": "emit0",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.0,
+      "decoded_upper": 1.0,
+      "initial_values": [
+        1.0
+      ]
+    },
+    {
+      "knob": "emit1",
+      "constant_genomes": 27,
+      "constant_values": [
+        {
+          "value": 0.0,
+          "genomes": 27
+        }
+      ],
+      "decoded_lower": 0.0,
+      "decoded_upper": 1.0,
+      "initial_values": [
+        0.0
+      ]
+    },
+    {
+      "knob": "delta",
+      "constant_genomes": 27,
+      "constant_values": [
+        {
+          "value": 0.0,
+          "genomes": 27
+        }
+      ],
+      "decoded_lower": 0.0,
+      "decoded_upper": 0.5,
+      "initial_values": [
+        0.0
+      ]
+    },
+    {
+      "knob": "kappa",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.0,
+      "decoded_upper": 1.0,
+      "initial_values": [
+        0.25,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "knob": "p_div",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.0,
+      "decoded_upper": 1.0,
+      "initial_values": [
+        1.0
+      ]
+    },
+    {
+      "knob": "asym",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.0036652762982640093,
+      "decoded_upper": 0.6521199051063675,
+      "initial_values": [
+        0.03560149741463821,
+        0.03576500572475052,
+        0.05218729815284157,
+        0.05322325618592212,
+        0.054607178711255505,
+        0.05485301034690284,
+        0.05645239088656083,
+        0.058331435762133094,
+        0.06630974778288665,
+        0.0687621113933461,
+        0.07325580840340346,
+        0.07464652650022581,
+        0.07511929306456228,
+        0.07522839561829417,
+        0.07545009689199043,
+        0.07760072973984501,
+        0.08104174313132237,
+        0.09079552590661802,
+        0.0933394064343522,
+        0.11110539136900353,
+        0.11645053780096513,
+        0.1343019910231979,
+        0.16350027337448958
+      ]
+    },
+    {
+      "knob": "p_die",
+      "constant_genomes": 2,
+      "constant_values": [
+        {
+          "value": 0.0,
+          "genomes": 2
+        }
+      ],
+      "decoded_lower": 0.0,
+      "decoded_upper": 0.015625,
+      "initial_values": [
+        0.0
+      ]
+    },
+    {
+      "knob": "phi",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.0,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "knob": "sec0",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.010568335191871454,
+      "decoded_upper": 0.3121224561008895,
+      "initial_values": [
+        0.033626510382546625,
+        0.033669698395741056,
+        0.08773924840407481,
+        0.09057952444060087,
+        0.0920017545359543,
+        0.09269313152356042,
+        0.0927970867238745,
+        0.12422522390226012
+      ]
+    },
+    {
+      "knob": "sec1",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.016265024570154028,
+      "decoded_upper": 0.47867033700323636,
+      "initial_values": [
+        0.1383452818322691,
+        0.13848147470102765,
+        0.1460540289672302,
+        0.14713774864430196,
+        0.147662393738163,
+        0.1481890234630868,
+        0.1487530319385394,
+        0.15142461961841028,
+        0.1552719952361822,
+        0.1875396788028161,
+        0.1879890866364428,
+        0.18936047731075212,
+        0.20848635568003032,
+        0.20971544751416651,
+        0.25362578143625014
+      ]
+    },
+    {
+      "knob": "pol0",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 0.625,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        2.0
+      ]
+    },
+    {
+      "knob": "pol1",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -1.375,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        1.625,
+        1.75,
+        1.875
+      ]
+    },
+    {
+      "knob": "tau_tr",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": 2.0,
+      "decoded_upper": 16.0,
+      "initial_values": [
+        4.0
+      ]
+    },
+    {
+      "knob": "a0",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -2.0,
+      "decoded_upper": 0.625,
+      "initial_values": [
+        -2.0,
+        -1.75,
+        -1.625,
+        -1.5,
+        -1.375,
+        -1.0
+      ]
+    },
+    {
+      "knob": "a1",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -0.625,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        0.875,
+        1.125,
+        1.25,
+        1.375,
+        1.5,
+        1.75,
+        1.875,
+        2.0
+      ]
+    },
+    {
+      "knob": "chi",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -2.0,
+      "decoded_upper": 1.875,
+      "initial_values": [
+        -1.0,
+        -0.875,
+        -0.75
+      ]
+    },
+    {
+      "knob": "zeta",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -2.0,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        0.5,
+        1.125,
+        1.25,
+        1.375,
+        1.5,
+        1.625,
+        1.875
+      ]
+    },
+    {
+      "knob": "g_r",
+      "constant_genomes": 0,
+      "constant_values": [],
+      "decoded_lower": -2.0,
+      "decoded_upper": 2.0,
+      "initial_values": [
+        0.125,
+        0.75,
+        0.875,
+        1.0,
+        1.625,
+        1.75
+      ]
+    }
+  ],
+  "resources": {
+    "cpu_seconds": 1.020237603,
+    "wall_seconds": 1.0213779530022293,
+    "peak_rss_bytes": 27213824,
+    "cpu_cap_seconds": 30,
+    "wall_cap_seconds": 60,
+    "rss_cap_bytes": 536870912,
+    "applied_address_space_cap_bytes": 536870912,
+    "authorized_address_space_ceiling_bytes": 2147483648,
+    "thread_count": 1,
+    "pid": 4,
+    "note": "Internal timing through output creation; external resources.txt covers whole process."
+  }
+}

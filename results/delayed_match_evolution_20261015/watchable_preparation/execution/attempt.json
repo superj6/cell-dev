@@ -1,0 +1,29 @@
+{
+  "monitor": {
+    "pid": 4,
+    "ppid": 3,
+    "pgid": 1,
+    "start_ticks": 12353425
+  },
+  "pid_namespace": "pid:[4026535604]",
+  "protocol_sha256": "a285769f7840d5dd98859e6e5f70a1ac8bd811b63300fb6daa3cda136f1b6758",
+  "release_sha256": "a285769f7840d5dd98859e6e5f70a1ac8bd811b63300fb6daa3cda136f1b6758",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-u",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_evolution_20261015/watchable_preparation/run.py",
+    "--child",
+    "--record",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_evolution_20261015/watchable_preparation/execution_record.json"
+  ],
+  "budget": {
+    "cpu_seconds": 60,
+    "wall_seconds": 179.99773930800438,
+    "workers": 1,
+    "threads": 1,
+    "address_space_bytes": 8589934592,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "cleanup_margin_seconds": 5
+  }
+}

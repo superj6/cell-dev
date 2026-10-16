@@ -13,10 +13,44 @@ handles reserved new cases without per-case redesign, endpoint selection or extr
 strong fixed handwritten baselines under clearly stated sensory/action/resource conditions; the current
 external information instruments have free central computation, so their comparisons do not measure equal
 cellular implementation cost. A specialized delayed-matching success would be a stepping stone, not fulfillment
-of this objective. Use the current bounded run to assess reusable capability, then reconsider the most valuable
-next interaction rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
+of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
+rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
-**Delayed-matching evolution registered (2026-10-15).** One 24-generation ordinary continuation imports all
+**Cumulative building blocks (user clarification, 2026-10-15).** Evolution should accumulate useful
+primitives and reuse them in new situations. Prefer environments in which inherited abilities already produce
+useful outcomes and nearby additions can pay before a sophisticated combination is complete. Information
+payoff alone does not establish an accessible evolutionary path. Assess each candidate by its profitable partial
+strategies and opportunities for reuse, without prescribing a circuit or rewarding a named intermediate behavior.
+Keep physical rules fixed within a study; choosing the next experiment from completed evidence does not authorize
+a world that adapts to the population. Demonstrate reuse through retained performance and new combinations in one
+unchanged genome, with causal probes where useful; shared ancestry is insufficient. Delayed matching may combine
+several new demands at once (shape discrimination, retained information and conditional choice). The completed
+continuation does not identify which demand limited progress; this remains a search hypothesis.
+
+**Delayed-matching evolution complete (2026-10-15).** The fixed 24-generation continuation gains
+**1.194293 ±0.101150 F** on trained T85 matching, with 0.941535 F (about 79%) supplied by lower costs.
+Uncertainties are paired SE over 512 shared lives per world, from one evolutionary continuation.
+Missed clicks fall 4.5625 per life and completion rises, but the final genome still chooses the broad target
+in 96.11% of completed choices. Its conditional narrow-choice response gains only 0.025503 ±0.023872,
+unresolved; repeated matching, shorter blanks and reserved delay/distance transfer also establish no new
+conditional response. Correct narrow choices are 12/248 narrow-cue opportunities, versus 7/248 at the start.
+No memory mechanism or new matching algorithm is demonstrated. POOL captures fall 3.287109 ±0.235408 (79.15% retained),
+persistent captures 0.750000 ±0.140817 (87.31%), and longer-gap captures 0.455078 ±0.112698 (88.75%).
+The POOL loss exceeds the 10% diagnostic tolerance; persistent/longer-gap 90% margins remain unresolved.
+
+All 75,902 scientific/startup calls complete in 4,676.217354 CPU/2,315.306468 wall seconds, peak 346.78 MiB;
+all 14,336 confirmation statuses are zero and owned workers clear. Recorded replay verifies 5,376 offspring,
+10,752 additions and all 32 midpoint/final rows. Independent accounting checks all 25,772 numerical summary
+values. The separate 12 C + 12 JS viewer validation also passes; browser rendering is untested.
+See `results/delayed_match_evolution_20261015/TERMINAL_REPORT.md` and `results/atlas/delayed_match_evolution.html`.
+The original registration below is historical. Next prioritize a persistent, depletable resource environment
+where inherited pursuit and nearby additions can each pay under fixed physical laws. Prepare its concrete
+contract and information-payoff measurement; do not automatically extend this exact matching search.
+The full AO balanced population is the leading next starting candidate because this endpoint loses older
+acquisition without demonstrating matching; the current study's final endpoint is not replaced. This is a
+future-study choice, not a new execution release. Safe local compute remains adequate; no paid resources.
+
+**Delayed-matching evolution registered (2026-10-15; historical).** One 24-generation ordinary continuation imports all
 32 AO balanced24 survivors, with fixed 50/25/25 matching T85/POOL/persistent selection and original physical
 prices. Generation 24 is primary; generation 8 is observational. Four fixed genomes receive 512 fresh shared lives
 in seven worlds, including old-task retention and a reserved delay/distance combination. Conditional choice,
@@ -37,9 +71,9 @@ All finite reflex controls make zero choices; admission is scoped to this declar
 This is useful information payoff, not evolved neural memory, local attainability or repeated T1024 admission.
 All 6,656 scientific plus 40 engineering calls complete: 573.692021 scientific CPU seconds, 624.622021 including prior
 allocation, peak 329.61 MiB, all owned processes clear. Independent all-row accounting and 512 E/P bitwise pairs pass.
-See `results/delayed_match_information_20261015/REPORT.md`. Next: bounded ordinary evolution from an inherited
-full population, measuring conditional choices, older-task retention and fixed-genome transfer separately.
-No delayed-matching evolution has run yet; local cell rules and physical prices remain unchanged.
+See `results/delayed_match_information_20261015/REPORT.md`. The subsequent ordinary evolution from the full
+AO balanced population is complete above, with conditional choice, older-task retention and fixed-genome
+transfer measured separately. Local cell rules and physical prices remain unchanged.
 
 **Delayed-matching baseline complete (2026-10-15).** All six fixed AO comparison genomes can reach choices,
 but97.2–99.8% of completed T1024 choices are broad regardless of sample. Correct narrow choices cover only
@@ -50,12 +84,12 @@ six full/fast byte matches, raw recount and public reanalysis passed, processes 
 Report: `results/delayed_match_baseline_20261015/TERMINAL_REPORT.md`. Block143 is development-only.
 The subsequent information measurement is complete above; keep T85 evidence distinct from repeated T1024 admission.
 
-**Latest direction clarification (2026-10-15):** AO is complete and reviewed. The user asks when we will move
+**Richer-interaction authorization (2026-10-15; before delayed-matching studies):** AO is complete and reviewed. The user asks when we will move
 to environments allowing more sophisticated interaction; prioritize a different interaction/decision structure
 now. Recent work has leaned too heavily on catching variants and incentive/retention
 tuning. Do not require perfect retention, optimal costs or a complete circuit account before richer exploration.
 The exposure audit found independently renewing reward/harm targets and equal food twins already explored.
-The next environment is delayed shape matching: an early narrow/broad cue, a blank interval, then a fresh
+The environment chosen then was delayed shape matching: an early narrow/broad cue, a blank interval, then a fresh
 choice whose reward depends on the earlier cue. `docs/ABI5_DELAYED_MATCH_PROPOSAL.md` specifies the limited
 world/ABI extension. The user replied "you don't need my permission for these things": environment/ABI work of
 this kind is covered by autonomy; do not ask again. The validated implementation is now integrated;
@@ -73,9 +107,9 @@ A subsequent defensive C/JS conservation fix passes85affected tests and fresh ei
 valid outputs remain identical. Full-width JS trial hashing, boundary tests, legacy compatibility and lint pass.
 The full suite predates that final defensive fix; no final-source full-suite rerun or real-browser test is claimed.
 Largest validation peak is593MiB. [Engineering preview](../results/abi5_delayed_match_20261015/validation/delayed_match_preview.html)
-shows a fixed existing reflex fixture, not evolved matching. Next: a small all-six-AO-genome development baseline
-and an information-payoff instrument; both require exact budgets before execution. Short T85 evidence cannot
-automatically admit the repeated T1024 task. No delayed-matching evolution has run.
+shows a fixed existing reflex fixture, not evolved matching. The subsequent all-six-AO-genome baseline,
+information-payoff instrument and delayed-matching evolution are complete above. Short T85 information
+evidence does not automatically admit the repeated T1024 task.
 
 **Local experimentation authorized (2026-10-15).** The user says to keep working on our judgment and permits
 experiments on the local computer provided memory use does not threaten it. Continue useful bounded studies
@@ -113,7 +147,7 @@ Two retained bookkeeping mistakes affected no science: wrong status label in a p
 any attempt/build/life; a separate accuracy helper needed three descriptive key names corrected. First owned
 research attempt completed. Protocolca277b17…08b26b, summary1ce6412d…c64512, prospectivecommit0a95793.
 
-**Latest completed study (AO, 2026-10-15).** Both fixed 24-generation branches from all 32 AN survivors
+**AO complete (2026-10-15).** Both fixed 24-generation branches from all 32 AN survivors
 completed, using matched fresh native RNG53232, 8+8 scoring and original prices. Unchanged 25/25/50 versus
 more-POOL 50/25/25 allocation was the only selection difference. Six fixed roles received 512 shared fresh
 lives in each of five development-known worlds. This is one matched evolutionary pair, not an exact AN resume
@@ -149,10 +183,10 @@ Working evidence: `outputs/autonomous_retained_depth_20261015/`; independent aud
 `outputs/audit_retained_depth_20261015/`. Protocol2cfc3ac9…e6d68d; summary73282b17…cf895.
 Prospective commit17a7348 and release8258006b…d97b5d remain historical records. Public reanalysis reproduces
 both canonical analysis files byte-for-byte.
-The next priority is the authorized ABI5 delayed-matching environment above, with unchanged local cells.
-Choose its continuing population explicitly from development evidence, measure old skills alongside new
-conditional choices, and reserve separate cases for generalization. Perfect retention and cost tuning are
-not prerequisites. AO provides no evidence that additional hardware is needed; spending remains unauthorized.
+The subsequent ABI5 delayed-matching studies are complete above. The current priority is a persistent,
+depletable resource environment with unchanged local cells. Choose its continuing population explicitly from
+completed evidence, measure old skills alongside new abilities, and reserve separate cases for generalization.
+Perfect retention and cost tuning are not prerequisites. Local compute remains adequate; spending is unauthorized.
 
 **Completed-data cost check during AO:** `results/an_cost_sensitivity_20261015/NOTE.md` reprices nine AN rows
 without new lives. Generation8-minus4 mixedF is +0.107797±0.048847, unresolved at three SE; maintenance

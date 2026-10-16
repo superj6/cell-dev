@@ -4014,3 +4014,46 @@ native seeds. Selection and principal confirmation remain T85. All 53 adapter/re
 checks pass. A later terminal-replay metadata expectation fix is separately source-reviewed with original files
 and test receipt preserved; it changes no scientific inputs. Native 53233/block 146 are collision-audited.
 No scientific life has run at prospective publication. Evidence: `results/delayed_match_evolution_20261015/`.
+
+## 2026-10-15 — Delayed-matching continuation improves economy, without demonstrated matching
+
+The fixed 24-generation continuation from all 32 AO balanced survivors gains **1.194293 ±0.101150 F**
+on trained T85 matching. Lower physical costs supply 0.941535 F, about 79% of that mean gain; fewer missed
+clicks supply 0.536765 F, maintenance 0.249689 and division 0.121358. Empty clicks fall by 4.5625 per life,
+and final cell count falls from 81.26 to 63.35. These are useful efficiency changes, not an isolated
+information-dependent circuit or memory mechanism.
+
+The endpoint completes 489 of 512 observed opportunities, versus 460 for the ancestor. It makes 257 correct
+and 232 wrong choices, with 23 unfinished; 470/489 completed choices favor the broad physical target.
+Correct narrow choices are only 12/248 narrow-cue opportunities, versus 7/248 initially. The conditional
+narrow-choice response improves **0.025503 ±0.023872**, unresolved. Repeated T1024, shorter-blank and
+reserved delay/distance-combination response gains are also unresolved. Repeated matching adds correct
+narrow hits, but also adds narrow hits after broad cues; physical slot captures do not establish matching.
+Reserved-transfer F improves 0.729445 while income falls 0.275735 F and savings add 1.005181 F.
+
+Older acquisition declines: final-minus-start POOL captures **−3.287109 ±0.235408** (79.15% point retention),
+persistent **−0.750000 ±0.140817** (87.31%), and longer-gap **−0.455078 ±0.112698** (88.75%). All absolute
+losses are resolved at the descriptive three-SE level. POOL loses more than the 10% diagnostic tolerance;
+persistent/longer-gap 90% margins remain unresolved. Later generations add completion/income as well as
+savings on matching, but from generation 8 to 24 POOL loses another 2.496094 ±0.219939 captures. The fixed
+final endpoint remains primary. One continuation does not establish a capacity ceiling or general search limit.
+
+All **75,894 research +8 startup =75,902 calls** complete in **4,676.217354 CPU /2,315.306468 wall seconds**,
+peak 346.78 MiB, with all 14,336 confirmation statuses zero and owned workers clear. No retry, cap extension,
+reduced matrix or scientific-source change occurred. Frozen recorded-genetics replay verifies 5,376 offspring,
+10,752 additions and all 32 midpoint/final rows. Independent all-row accounting agrees on all 25,772 numeric
+summary values. A separate fixed 12 C +12 JS illustration batch matches 840 full-C/retained-fast-C ledger
+values and 840 JS/full-C ledger values; JS also matches 60 full-C hashes and 4,067 spike pairs. Supplied-state
+UI checks pass; browser rendering is untested.
+
+The user's cumulative-building-block principle now guides the next environment: familiar pursuit should
+pay immediately, and nearby additions should be useful before a complicated combination is complete.
+Prioritize persistent, depletable food patches with observable local consequences and fixed physical laws.
+Only collected resources minus physical costs would pay; no named behavior or hand-built circuit is required.
+The full AO balanced population is the leading next starting candidate, preserving stronger older acquisition;
+that future choice does not replace this study's registered endpoint. Prepare the concrete world contract
+and information-payoff measurement before any new evolution run. No paid compute is needed.
+
+Report: `results/delayed_match_evolution_20261015/TERMINAL_REPORT.md`;
+viewer: `results/atlas/delayed_match_evolution.html`. Protocol 2941610e…64d9345;
+summary 80963876…3fe91a33; prospective commit 382761c.

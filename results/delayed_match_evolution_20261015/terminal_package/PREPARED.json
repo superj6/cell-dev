@@ -1,0 +1,36 @@
+{
+  "status": "prepared_not_executed",
+  "source_pins": {
+    "verify.py": "063e972d0cd407c53bee674800193f1676b32b12f36558a672ea5652f8d7f9df",
+    "replay.py": "40a66cfbd0e52a5846208bed5e7928dc2b5900215d97ec8ae73830b4236dca95",
+    "pack.py": "a2558038a0cb53f6891efe149b877aefba81d88e4546a8ca4835e5b2e8f50ef0",
+    "README.md": "1417ae33f03e8682e69f164243d13878a9e5f27d6c76fda3abb01d552a2d2cee"
+  },
+  "protocol_sha256": "2941610e25eb55f5e3b4ca2f0be91db46931573b24788bb85709c5b8464d9345",
+  "production_revision": "968bb81f2e146e2e729bca43004628d78a6e9b99",
+  "checks": [
+    "three Python helpers parse",
+    "ruff passed after two lint-only corrections",
+    "source-only entrypoint/dependency/marker/path review"
+  ],
+  "packaging_executed": false,
+  "replay_executed": false,
+  "outcome_files_opened": 0,
+  "public_files_changed": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "limits": {
+    "cpu_seconds": 60,
+    "wall_seconds": 120,
+    "address_space_bytes": 2147483648,
+    "rss_bytes": 536870912,
+    "host_available_floor_bytes": 4294967296
+  },
+  "resources": {
+    "cpu_seconds_before_shutdown": 0.057035,
+    "wall_seconds": 0.010207920990069397,
+    "peak_rss_kib": 17688
+  },
+  "awaiting": "Root source review, complete markers, frozen summary, native replay receipt, independent audit and terminal prose."
+}

@@ -1,0 +1,62 @@
+{
+  "status": "accepted_source_only",
+  "reviewer": "independent delayed_match_review agent",
+  "preparation_receipt_sha256": "9ed5ab973cd9c17167616f82c7390142dd6879cb9d62dfb700d68278592444ce",
+  "source_pins": {
+    "export.py": "5643737ceb3486289d690d8d98b5566279000a6d1bc666c70672d96fa0d3099a",
+    "replay.js": "6ad44e7dca9541008ae7bf02e408c75d6ca80b871a13c50fe4ce69b901a4c5ce",
+    "viewer.js": "06c47c04babf08c63d43aa6692292ec1538a4c7a101c1ff04e38711da3731adc",
+    "template.html": "b75d5c46db1c1ef0dc30c478719f072665b25687fc0f0f45a682286e526ef202",
+    "delayed_match_view.js": "3fae83ab0912978ec92ddbb3fab3166e479804bb4f3422f456439898e4772cca",
+    "assemble.py": "7b9f188d4360fc0e9edc9d59bc83a4c737be6c432b422b85ee9a3879fa42eccd",
+    "test_ui.js": "33421e62a98571976257f2a91441e41ceaac1e0e6c73267742ef414b54f49bfd",
+    "run.py": "4417e458080bb3bf374e4ec4e7d50f165ff8a5b75172ff30c56c3bcdd60482e5",
+    "monitor_core.py": "edaa7bb7229f5dc00e4d6460e35dcc1fa1ecd566176aa6d28229e7270b346c8d",
+    "PLAN.md": "1af2441389779c24226c95b4a39d2b245d30236b2d608d12152dd91e9d52613f",
+    "source_origins.json": "f171c458ee97f9711f0e16931dfd8a130085f4284e4b6d4df26f12fa7b853a06"
+  },
+  "interface_source_pins": {
+    "outputs/delayed_match_evolution_20261015/monitor.py": "26d1c66ce4a6b6af0cd0e7e2809c577a645934eaabb478b4751d5c2eb0e651fe",
+    "outputs/delayed_match_evolution_20261015/measure.py": "6a75c56aefda2ea7ec502cebbb431acc10211ae53bc813a867b13ec8382db68e",
+    "src/life/build.py": "718ab8540c01fe7109f06e009aeb5582907996a3ae69bf5171236f2ceba2202b",
+    "src/life/spec.py": "8a74b75aa7c06be2f25fd3a012f56fe78c112354bc8311e0075f4db41ee5fbb8",
+    "results/atlas/play/lifesim.js": "817c870eec0ad53e142e1fc83b6d5c95e0040e8e0dc1c68b94af16174f1dc841"
+  },
+  "verified": [
+    "All eleven execution source hashes match the final preparation receipt.",
+    "Local monitor is exactly the recorded transformation of the frozen prefix through run_worker; threads=1 and owned-tree accounting/cleanup retained.",
+    "One Python worker performs twelve full-C lives, then owns and reaps sequential Node replay and mock-UI descendants; cumulative monitor covers compilation if needed, imports, child CPU/RSS, output and cleanup under 60 CPU/180 wall.",
+    "Exact AO_start/mixed8/mixed24 role order and four fixed first confirmation seeds produce twelve cases; no replacements, search or extra golden lives.",
+    "Terminal budget and measurement markers must be complete, cleared and cross-linked to pinned protocol/endpoints/row_index before execution.",
+    "Exporter matches actual measure.py endpoint, raw NPZ and scored NPZ schemas; full-C default is compatible with retained fast-C rows and the exact ABI5 world/genotype tables.",
+    "Every full C output is saved before checking all 70 ledger bits against retained fast C; all five full hashes and untruncated spike arrays are retained. Fast hashes are not used as truth.",
+    "Stepped JS constructs exactly twelve lives and compares all 70 ledger bits, five full hash families, every spike time/UID and class conservation; maintained LifeSim API and hash order match.",
+    "Supplied-state UI smoke creates only mock states, never imports the engine, and is distinct from browser/rendering validation.",
+    "Runner receipt field names agree with assembly. Assembly binds export/replay/UI receipt hashes and rechecks bodies/truth/C_calls before embedding pinned engine/source."
+  ],
+  "resolved_findings": [
+    {
+      "issue": "Assembly could embed a modified bodies.json while retaining the earlier parity claim.",
+      "fix": "Assembly now checks validation_budget.export_receipt_sha256 and export record/status/count, then bodies/truth/C_calls hashes against that receipt."
+    },
+    {
+      "issue": "Terminal scientific files were individually pinned without all producer-to-consumer metadata cross-links.",
+      "fix": "checked_record now verifies budget and measurement protocol hashes plus measurement row-index/endpoints hashes against actual files."
+    }
+  ],
+  "remaining_material_blockers": [],
+  "limits": [
+    "Source review and literal pin/copy checks only; runner, C export, Node replays, UI mock and assembly were not executed by this review.",
+    "Actual terminal scientific files and outcomes were not read. Their cross-links will be checked by the bounded pipeline after scientific completion.",
+    "JS fate-table equality is not claimed: the five hashes include fate, and C fate logs remain archived.",
+    "Resource enforcement and numerical parity await actual bounded execution; source agreement is not a runtime pass.",
+    "Browser rendering/playback is not tested by the mock; assembly and publication remain separate actions."
+  ],
+  "simulator_calls": 0,
+  "builds": 0,
+  "genetic_random_draws": 0,
+  "scientific_random_draws": 0,
+  "active_outcomes_read": false,
+  "frozen_scientific_files_edited": false,
+  "runtime_artifacts_present": []
+}

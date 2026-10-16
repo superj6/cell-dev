@@ -1,0 +1,49 @@
+[
+  {
+    "script": "replay.js",
+    "command": [
+      "/usr/bin/node",
+      "--single-threaded",
+      "--single-threaded-gc",
+      "--max-old-space-size=512",
+      "/home/jgon/project/ml/cell-dev/outputs/delayed_match_evolution_20261015/watchable_preparation/replay.js",
+      "--replay-child",
+      "--record",
+      "/home/jgon/project/ml/cell-dev/outputs/delayed_match_evolution_20261015/watchable_preparation/execution_record.json"
+    ],
+    "identity": {
+      "pid": 6,
+      "ppid": 5,
+      "pgid": 5,
+      "start_ticks": 12353681
+    },
+    "status": "complete",
+    "exit_code": 0,
+    "cpu_seconds": 3.038248,
+    "wall_seconds": 3.060293187998468,
+    "stdout_sha256": "3090520055f943eca5cab65fac6b21f89c7c63b869610ebaed07c5e45db475fb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "script": "test_ui.js",
+    "command": [
+      "/usr/bin/node",
+      "--single-threaded",
+      "--single-threaded-gc",
+      "--max-old-space-size=512",
+      "/home/jgon/project/ml/cell-dev/outputs/delayed_match_evolution_20261015/watchable_preparation/test_ui.js"
+    ],
+    "identity": {
+      "pid": 13,
+      "ppid": 5,
+      "pgid": 5,
+      "start_ticks": 12353987
+    },
+    "status": "complete",
+    "exit_code": 0,
+    "cpu_seconds": 0.17233899999999994,
+    "wall_seconds": 0.17199167900253087,
+    "stdout_sha256": "327e842ab40b4522c30e96a0ab5850f54487ca3f17bf3dd1422e50276e0b4a2b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

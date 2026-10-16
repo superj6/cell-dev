@@ -1,0 +1,56 @@
+{
+  "status": "source_only_prepared",
+  "checks": [
+    "Python AST for four sources",
+    "ruff",
+    "Python <=120 columns",
+    "Node --check on four JavaScript sources",
+    "Exact monitor-copy transformation against pinned frozen source"
+  ],
+  "source_pins": {
+    "export.py": "5643737ceb3486289d690d8d98b5566279000a6d1bc666c70672d96fa0d3099a",
+    "replay.js": "6ad44e7dca9541008ae7bf02e408c75d6ca80b871a13c50fe4ce69b901a4c5ce",
+    "viewer.js": "06c47c04babf08c63d43aa6692292ec1538a4c7a101c1ff04e38711da3731adc",
+    "template.html": "b75d5c46db1c1ef0dc30c478719f072665b25687fc0f0f45a682286e526ef202",
+    "delayed_match_view.js": "3fae83ab0912978ec92ddbb3fab3166e479804bb4f3422f456439898e4772cca",
+    "assemble.py": "7b9f188d4360fc0e9edc9d59bc83a4c737be6c432b422b85ee9a3879fa42eccd",
+    "test_ui.js": "33421e62a98571976257f2a91441e41ceaac1e0e6c73267742ef414b54f49bfd",
+    "run.py": "4417e458080bb3bf374e4ec4e7d50f165ff8a5b75172ff30c56c3bcdd60482e5",
+    "monitor_core.py": "edaa7bb7229f5dc00e4d6460e35dcc1fa1ecd566176aa6d28229e7270b346c8d",
+    "PLAN.md": "1af2441389779c24226c95b4a39d2b245d30236b2d608d12152dd91e9d52613f",
+    "source_origins.json": "f171c458ee97f9711f0e16931dfd8a130085f4284e4b6d4df26f12fa7b853a06"
+  },
+  "execution_entry": "run.py --run --record <pinned-execution-record.json>",
+  "monitor_copy": "monitor_core.py",
+  "ownership": "one Python worker; sequential C export, descendant Node replay, descendant supplied-state UI smoke",
+  "caps": {
+    "cpu_seconds": 60,
+    "wall_seconds": 180,
+    "workers": 1,
+    "threads": 1,
+    "address_space_bytes": 8589934592,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296
+  },
+  "proposed_calls": {
+    "C_full_lives": 12,
+    "JS_replay_lives": 12,
+    "new_research_cases": 0
+  },
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "runner_executed": false,
+  "ui_smoke_executed": false,
+  "real_browser_tested": false,
+  "execution_record_created": false,
+  "export_performed": false,
+  "standalone_assembled": false,
+  "published": false,
+  "frozen_scientific_monitor_sha256": "26d1c66ce4a6b6af0cd0e7e2809c577a645934eaabb478b4751d5c2eb0e651fe",
+  "frozen_scientific_sources_edited": false,
+  "source_review_amendments": [
+    "Cross-link terminal budget/measurement protocol and measurement row-index/endpoints hashes.",
+    "Bind assembly export receipt to budget and record; recheck bodies/truth/C-call hashes before embedding."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "status": "prepared_source_only",
+  "helper_sha256": "8f3479015cbb2a5d8beed4c3067f58aceea472e8cb02aa578f4a37cd2368eee6",
+  "checks": [
+    "AST parses",
+    "ruff passes after unused import removal",
+    "70 unique ABI5 ledger fields",
+    "deterministic512-point mean/SE identity",
+    "known binomial-ratio influence SE",
+    "zero denominator retained as undefined",
+    "identical paired influence contrast zero"
+  ],
+  "outcome_files_opened": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "resources": {
+    "cpu_seconds_before_shutdown": 0.078015,
+    "wall_seconds": 0.033849873012513854,
+    "maximum_rss_kib": 20816
+  },
+  "limits": {
+    "cpu_seconds": 60,
+    "wall_seconds": 120,
+    "address_space_bytes": 2147483648,
+    "rss_bytes": 536870912,
+    "available_floor_bytes": 4294967296
+  },
+  "awaiting": "Root notice after budget, study_complete and measurement_complete all report complete and saved summary is ready."
+}

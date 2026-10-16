@@ -1,0 +1,53 @@
+{
+  "status": "source_only",
+  "source_pins": {
+    "results/atlas/play/delayed_match_view.js": "6f58aca0711b2e34b87e4c8d97cbf326867a31126366d347f38afbcef4061b62",
+    "results/atlas/play/lifesim.js": "817c870eec0ad53e142e1fc83b6d5c95e0040e8e0dc1c68b94af16174f1dc841",
+    "results/ao_watchable_20261015/export.py": "ab09f0341b8a41795addd73d6e8160968d8283c45ae5aab0b1bea9e6db13abea",
+    "results/ao_watchable_20261015/check_replay.js": "6c0e210d71ce60581c051f1aa589dfeefa73b3b226e5a5f32b2bd4db60d106dd",
+    "outputs/delayed_match_evolution_20261015/monitor.py": "26d1c66ce4a6b6af0cd0e7e2809c577a645934eaabb478b4751d5c2eb0e651fe"
+  },
+  "changes": [
+    "Renderer copy: fixed seed replay only; explicit opportunities/correct/wrong columns; native F label.",
+    "Exporter adapts completed endpoint provenance; full C repeats use the separate fixed validation budget."
+  ],
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "monitor_adaptation": {
+    "scope": "Prefix through run_worker; original scientific CLI omitted",
+    "exact_replacements": [
+      {
+        "before": "\"\"\"One-attempt owned-worker watchdog; importing or describing it runs no lives.\"\"\"",
+        "after": "\"\"\"Study-local one-thread copy of the reviewed ownership monitor; no default execution.\"\"\""
+      },
+      {
+        "before": "from common import ROOT, STUDY, checked_release, read, save, sha  # noqa: E402",
+        "after": "from export import STUDY, save, sha  # noqa: E402"
+      },
+      {
+        "before": "budget['threads'] != 2",
+        "after": "budget['threads'] != 1"
+      },
+      {
+        "before": "OMP_NUM_THREADS='2', OMP_THREAD_LIMIT='2'",
+        "after": "OMP_NUM_THREADS='1', OMP_THREAD_LIMIT='1'"
+      },
+      {
+        "before": "import argparse\n",
+        "after": ""
+      },
+      {
+        "before": "import json\n",
+        "after": ""
+      },
+      {
+        "before": "                'process_identities': [dict(monitor, name='monitor')] + ([] if worker is None else [dict(worker, name='worker')]),",
+        "after": "                'process_identities': [dict(monitor, name='monitor')]\n                    + ([] if worker is None else [dict(worker, name='worker')]),"
+      }
+    ],
+    "frozen_scientific_monitor_unchanged": true,
+    "local_helper_notes": "sha is unchanged in behavior; save provides fsync plus exclusive creation and atomic replacement. The local save also refuses an existing temporary file.",
+    "worker_sequence": "One owned Python child performs C export then launches/reaps Node replay and supplied-state UI smoke in its owned group."
+  }
+}
