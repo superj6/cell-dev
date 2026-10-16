@@ -125,8 +125,8 @@ def _world(org, preset: str, **world) -> spec.World:
 
 
 def _abi(abi):
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6):
-        raise ValueError("CATCH probes require spec.V3, spec.V4, spec.V5 or spec.V6")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6, 7):
+        raise ValueError("CATCH probes require spec.V3, spec.V4, spec.V5 spec.V6 or spec.V7")
     return abi
 
 
@@ -222,7 +222,8 @@ class _TAcct(_R._Accountant):
             else:
                 row.update(phase=int(words[3]), sample_class=int(words[4]))
             self.t_task.append(row)
-        elif k in (_R.W_PATCH_START, _R.W_PATCH_SOURCE, _R.W_PATCH_CLICK, _R.W_PATCH_END):
+        elif k in (_R.W_PATCH_START, _R.W_PATCH_SOURCE, _R.W_PATCH_CLICK, _R.W_PATCH_END,
+                   _R.W_CONTACT_START, _R.W_CONTACT_MATURE, _R.W_CONTACT_END):
             row = dict(kind=k, t=_f(words[1]))
             if k == _R.W_PATCH_START:
                 row.update(slot=int(words[2]), x=_f(words[3]), y=_f(words[4]),
@@ -233,8 +234,16 @@ class _TAcct(_R._Accountant):
             elif k == _R.W_PATCH_CLICK:
                 row.update(outcome=int(words[2]), slot=int(words[3]), stock_before=int(words[4]),
                            stock_after=int(words[5]), origin=int(words[6]))
-            else:
+            elif k == _R.W_PATCH_END:
                 row.update(slot=int(words[2]), stock=int(words[3]), initial_remaining=int(words[4]))
+            elif k == _R.W_CONTACT_START:
+                row.update(slot=int(words[2]), job_index=int(words[3]), due=_f(words[4]))
+            elif k == _R.W_CONTACT_MATURE:
+                row.update(slot=int(words[2]), job_index=int(words[3]), stock_before=int(words[4]),
+                           stock_after=int(words[5]), admitted=int(words[6]))
+            else:
+                row.update(slot=int(words[2]), pending=int(words[3]), due=_f(words[4]),
+                           contact_stock=int(words[5]), lifetime_starts=int(words[6]))
             self.t_patch.append(row)
         super()._fold_world(words)
 

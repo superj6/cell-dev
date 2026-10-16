@@ -57,8 +57,8 @@ def validate_ledger(ledger, *, abi=spec.V3) -> dict:
 
 Reject guards, failed accounting, capacity failures and truncated logs; retain ordinary wall/extinction flags.
 """
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6):
-        raise ValueError("ledger readouts require spec.V3, spec.V4, spec.V5 or spec.V6")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6, 7):
+        raise ValueError("ledger readouts require spec.V3, spec.V4, spec.V5 spec.V6 or spec.V7")
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
     if led.ndim != 2 or led.shape[1] != abi.LEDGER_SIZE or not len(led) or not np.isfinite(led).all():
         raise ValueError(f"need finite, complete ABI-{abi.version} ledger rows")
@@ -91,6 +91,26 @@ Reject guards, failed accounting, capacity failures and truncated logs; retain o
                 raise ValueError("resource-patch harvest origins do not reconcile")
             if np.any(at("initial_harvest") > at("stock_open")):
                 raise ValueError("initial resource harvest exceeds the stock present at window opening")
+    if abi.version >= 7:
+        contact = led[:, [abi.L[name] for name in spec.CONTACT_LEDGER]]
+        if np.any(contact < 0) or np.any(contact != np.floor(contact)):
+            raise ValueError("contact-resource counts must be nonnegative integers")
+        for i in range(spec.PATCH_SLOTS):
+            def cc(metric, slot=i):
+                return led[:, abi.L[f"patch_contact_{metric}_{slot}"]]
+
+            def pp(metric, slot=i):
+                return led[:, abi.L[f"patch_{metric}_{slot}"]]
+
+            if (not np.array_equal(cc("pending_open") + cc("starts"), cc("maturities") + cc("pending_end"))
+                    or not np.array_equal(cc("maturities"), cc("supply") + cc("spill"))
+                    or not np.array_equal(cc("stock_open") + cc("supply"), cc("harvest") + cc("stock_end"))):
+                raise ValueError("contact-resource accounting does not reconcile")
+            if (np.any(cc("pending_open") > 1) or np.any(cc("pending_end") > 1)
+                    or any(np.any(cc(a) > pp(b)) for a, b in (
+                        ("starts", "empty"), ("maturities", "source"), ("supply", "supply"), ("spill", "spill"),
+                        ("harvest", "refill_harvest"), ("stock_open", "stock_open"), ("stock_end", "stock_end")))):
+                raise ValueError("contact-resource subset or pending bound failed")
     statuses = led[:, abi.L["status"]].astype(np.int64)
     names = ("guard_cells", "guard_events", "raster_overflow", "fate_overflow", "ledger_mismatch", "capacity")
     invalid = sum(spec.STATUS[k] for k in names)
@@ -103,9 +123,9 @@ Reject guards, failed accounting, capacity failures and truncated logs; retain o
 
 def _validate_trace_ledger(tr):
     version = tr.meta.get("abi", 3)
-    if version not in (3, 4, 5, 6):
-        raise ValueError("trace metadata must name ABI 3, 4, 5 or 6")
-    abi = {3: spec.V3, 4: spec.V4, 5: spec.V5, 6: spec.V6}[version]
+    if version not in (3, 4, 5, 6, 7):
+        raise ValueError("trace metadata must name ABI 3, 4, 5, 6 or 7")
+    abi = {3: spec.V3, 4: spec.V4, 5: spec.V5, 6: spec.V6, 7: spec.V7}[version]
     validate_ledger([tr.ledger[k] for k in abi.LEDGER], abi=abi)
     return abi
 
@@ -116,7 +136,7 @@ def matching_summary(ledger, *, abi=spec.V5) -> dict:
 Totals aggregate complete lives before division. Physical slot hits and positive fitness alone do not establish
 matching. Use this only for delayed-match worlds; a neutral V5 world has no opportunities and undefined ratios.
 """
-    if abi.version not in (5, 6):
+    if abi.version not in (5, 6, 7):
         raise ValueError("delayed matching requires ABI 5 or later")
     statuses = validate_ledger(ledger, abi=abi)
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
@@ -141,8 +161,8 @@ matching. Use this only for delayed-match worlds; a neutral V5 world has no oppo
 
 def resource_summary(ledger, world: spec.World, *, abi=spec.V6) -> dict:
     """Conserved resources and click outcomes, without inferring a strategy from aggregate counts."""
-    if abi.version != 6 or not world.patch_count:
-        raise ValueError("resource_summary requires an enabled ABI-6 patch world")
+    if abi.version not in (6, 7) or not world.patch_count:
+        raise ValueError("resource_summary requires an enabled ABI-6 or later patch world")
     abi.validate_world(world)
     statuses = validate_ledger(ledger, abi=abi)
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
@@ -163,6 +183,17 @@ def resource_summary(ledger, world: spec.World, *, abi=spec.V6) -> dict:
             totals[name] += value
         harvested += columns["harvest"]
         empty += columns["empty"]
+    contact_totals = None
+    if abi.version >= 7:
+        contact_totals = dict.fromkeys(spec.CONTACT_METRICS, 0)
+        for i in range(spec.PATCH_SLOTS):
+            cc = {name: led[:, abi.L[f"patch_contact_{name}_{i}"]] for name in spec.CONTACT_METRICS}
+            if (i >= world.patch_count or not world.patch_contact_delay) and any(np.any(x) for x in cc.values()):
+                raise ValueError("disabled contact-resource slots must remain zero")
+            if i < world.patch_count:
+                per_patch[i]["contact"] = {name: int(value.sum()) for name, value in cc.items()}
+            for name, value in cc.items():
+                contact_totals[name] += int(value.sum())
     geometric = led[:, abi.L["patch_geometric_misses"]]
     if (not np.array_equal(harvested, led[:, abi.L["captures"]]) or
             not np.array_equal(empty + geometric, led[:, abi.L["misses"]]) or
@@ -173,6 +204,10 @@ def resource_summary(ledger, world: spec.World, *, abi=spec.V6) -> dict:
         raise ValueError("resource worlds cannot record legacy target or matching outcomes")
     offered = totals["stock_open"] + totals["source"]
     return dict(lives=len(led), patches=per_patch, totals=totals,
+                **({"contact_totals": contact_totals,
+                    "passive_harvest_per_life": (totals["refill_harvest"] - contact_totals["harvest"]) / len(led),
+                    "contact_harvest_per_life": contact_totals["harvest"] / len(led)}
+                   if contact_totals is not None else {}),
                 geometric_misses=int(geometric.sum()), status_counts=statuses,
                 harvest_per_life=totals["harvest"] / len(led),
                 initial_harvest_per_life=totals["initial_harvest"] / len(led),

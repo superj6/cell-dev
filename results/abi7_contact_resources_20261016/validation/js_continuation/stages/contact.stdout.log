@@ -1,0 +1,21 @@
+pass: ABI7 appends exact layout and rejects enabled old ABI, invalid delay and bounds
+pass: only empty clicks start, repeated taps do not reset, geometry miss does not start
+pass: pending jobs have no cue, same-group candidates retain left stock, observers are pure
+pass: exact maturity click uses prior stock and pending job, strictly later maturity admits
+pass: FIFO alternation and ring wrap preserve passive/contact provenance
+pass: world ties are slot then passive/contact; full maturity spills and clears without restart
+pass: prewindow jobs and contact stock retain provenance at opening
+pass: window and terminal ties exclude maturity; all21 records precede all24
+pass: start/maturity/end hashes retain full uint64 job indices
+pass: injected counter/ring corruption flags ledger mismatch
+pass: neutral ABI7 preserves ABI6 physics and hashes plus36 zero ledger folds
+pass: C/Python/JS truth: reflex_count1
+pass: C/Python/JS truth: reflex_count2
+pass: C/Python/JS truth: grn_count3_preset
+pass: C/Python/JS truth: grn_count4_shifted_window
+pass: C/Python/JS truth: reflex_negative_t0_window
+pass: C/Python/JS truth: reflex_equal_period_no_motor
+pass: C/Python/JS truth: reflex_extinct_world_continues
+pass: C/Python/JS truth: grn_guard_before_window
+{"checks":19,"construction_attempts":39,"complete_runs":18}
+JS call inventory: {"exit_code":0,"attempts":39,"constructed":31,"completed_via_advance":18,"direct_close_calls":12}

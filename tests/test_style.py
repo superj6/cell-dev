@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LIMIT = 120
-LEGACY = {"src/develop.py": 1, "src/evolve.py": 3, "src/genome.py": 1, "src/life/build.py": 1, "src/run.py": 3,
+LEGACY = {"src/develop.py": 1, "src/evolve.py": 3, "src/genome.py": 1, "src/run.py": 3,
           "scripts/census.py": 1, "scripts/life_census.py": 4, "scripts/life_gates.py": 2,
           "scripts/life_reference.py": 1, "scripts/replay.py": 1, "tests/test_lattice.py": 1,
           "tests/test_life_genome.py": 1, "tests/test_life_growth_death.py": 1,

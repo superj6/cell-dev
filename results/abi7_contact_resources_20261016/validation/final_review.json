@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "reviewer": "delayed_match_js",
+  "scope": "Final saved-evidence and prose review; author review of JS implementation. No independent simulator implementation.",
+  "source_pins": {
+    "results/atlas/play/lifesim.js": "b81ca41d3ff43271be03293fe4972c20689cb71b8f741fb5482d3acc37058a14",
+    "results/atlas/play/resource_patches_view.js": "67df4d4f687c24be3c59ae48b41bd23a832eb290c8f492664dc09ed358ecdba2"
+  },
+  "artifact_pins": {
+    "REPORT.md": "7d7ac39f541a22b6d9c70d0702c0c8e3a83eeb34ac823d0fe4f4da529076194f",
+    "README.md": "0a022d7697aabbd4e6d70d3f022077884be6c447b922e172c511b121e25720a8",
+    "CONTRACT.md": "79d56f5a2f0e0a6dc0b5f0572cdb5f7c694869a4e5f9e8c9922d82d4e340ade4",
+    "validation_summary.json": "0548755c80d31cf7658067669e2ead3dde5f56ac190bdd1b539ddc694df61719",
+    "truth_contact_coverage.json": "78e083d332c730510b8f61d7f9b0633a1924eaff88c7d6655a2e01a08f5bca5d",
+    "JS_PREPARATION.json": "c8d95f47e329a43d190367ebc5a9ae6137c723d5286c9e8663a5785a7a00b749",
+    "export_truth.py": "288487d0ecb090a6784dc8a2944c95f1cb4ef538aed9a0e73869f2b2c864f586",
+    "test_contact_resources.js": "dbec26329ae9842f0b08be3f4c2661f10f512e7295d97829fe9728c0430caa34",
+    "test_contact_resources_view.js": "276e8ffe456f33d510bf1bae0f6f5e055b2bcdb443f80f8d82ed80c411c92c47",
+    "validation/truth/truth.json": "14b908677d0366079e5c86d9168d3ef636dc9f05e6816c5b79755a309ecc2fe6",
+    "validation/js_continuation/stages/contact.stdout.log": "a2e05e21758ee88dd8245737c8565a8fbb42ea60dfba41f60db6c6d160fb01f5",
+    "validation/js_continuation/stages/contact_view.stdout.log": "0e2b4c26e486933a87dce5f8fab73e4c35821ea1dbc77b1a70dc6d13d64f75fe",
+    "validation/integration/stages/python.stdout.log": "a2edfef6c8343633656ceb30d2c053f46c521859b9cfde97aa51259940ce6252",
+    "validation/continuation/stages/python_fixture_fix.stdout.log": "b80e84c93b4bf1058df753fbd0c6a075e01f6bcb88d98614131daed15a119e27",
+    "validation/view_remaining/worker.stdout.log": "be87c4cb756736bcb2577dfcdd31c00c423a021607ef7124185befcd067d8696"
+  },
+  "findings": [
+    "No material source, reporting or evidence blocker found.",
+    "JS ABI7 uses the agreed83-world/143-ledger contract; empty clicks start once, harvests do not; group left limits and passive/contact tie ordering agree with C/Python.",
+    "FIFO initial/passive/contact provenance, complete uint64 job hashes22/23/24, terminal21-before24, window carry-in and neutral36-zero-fold projection are covered by the retained passing checks.",
+    "The successful contact log records19 checks and18 completed replays; the supplied-state viewer log records2 mounts, zero simulator calls and no real-browser claim.",
+    "All summary counter-artifact and budget hashes checked. Counter sums independently reproduce every backend inventory field and all instrumented JS counts, including7 partial constructions.",
+    "Five phase budgets independently sum to171.817438 CPU and157.16648195497692 wall seconds; peak ownedRSS891564032 bytes. Every receipt confirms cleared owned groups and no remaining descendants.",
+    "Initial Python log1167pass/3fail/127deselected plus corrected71-case fixture supports1170unique applicable passes. Three separate JS invocation errors failed before affected cases advanced and are retained.",
+    "Exported truth has8 fixed cases with143ledger entries and5hash families. Saved source pins match final production/export/test bytes.",
+    "Recount of saved truth ledger confirms first fixed reflex case starts/matures/admits/harvests1 contact packet; remaining7 accounting windows record0. This is engineering coverage, not acquisition or efficacy evidence.",
+    "Report clearly retains slow-test/browser limitations and makes no evolved behavior, planning, memory or scientific payoff claim."
+  ],
+  "new_backend_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "test_reruns": 0,
+  "independent_raw_parity_recalculation": false,
+  "limitations": [
+    "Parity execution is attested by pinned original successful test logs; this review did not rerun those tests.",
+    "New JS source was authored by this reviewer; C-owner source spot review and cross-port parity provide the separate checks."
+  ]
+}

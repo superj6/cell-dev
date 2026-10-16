@@ -1,0 +1,39 @@
+[
+  {
+    "name": "python_fixture_fix",
+    "command": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_abi6_boundaries.py",
+      "--basetemp=/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/continuation/pytest_tmp"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "truth",
+    "command": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/export_truth.py",
+      "--run",
+      "--out",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/truth"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "contact",
+    "command": [
+      "node",
+      "--single-threaded",
+      "--single-threaded-gc",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/test_contact_resources.js",
+      "--truth",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/truth/truth.json"
+    ],
+    "exit_code": 1
+  }
+]

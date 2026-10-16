@@ -1,0 +1,21 @@
+{
+  "command": [
+    "node",
+    "--single-threaded",
+    "--single-threaded-gc",
+    "results/atlas/play/test_delayed_match_view.js",
+    "results/abi5_delayed_match_20261015/validation/truth_conservation_fix/truth.json"
+  ],
+  "budget": {
+    "cpu_seconds": 30.0,
+    "wall_seconds": 30.0,
+    "cleanup_margin_seconds": 5,
+    "threads": 2,
+    "workers": 1,
+    "rss_bytes": 4294967296,
+    "address_space_bytes": 8589934592,
+    "minimum_available_bytes": 4294967296
+  },
+  "prior_cpu_seconds": 171.442134,
+  "prior_wall_seconds": 156.7405579519691
+}

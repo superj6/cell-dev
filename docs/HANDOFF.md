@@ -16,6 +16,21 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
+**Task diversity priority (2026-10-16).** The user expects substantially different objectives to support
+broader generalization and has challenged the narrow pursuit/patch family. Treat this as a central research
+hypothesis, not an established monotonic effect of task count. Prioritize qualitatively different demands
+under shared local physics: navigation around obstacles, avoidance/escape, delayed action consequences and
+context-dependent choices, alongside existing acquisition. Obstacle navigation is the next main research
+direction; complete the bounded ABI7 contact-resource engineering already in progress, but do not make its
+baseline/evolution, perfect retention, demonstrated memory or a handwritten winning body prerequisites.
+
+Use locally observable evidence to distinguish situations requiring different actions. Preserve useful
+intermediate abilities and measure one unchanged genome on reserved new layouts and combinations; a
+portfolio of specialists or repeated adaptation does not establish that form of generalization. Keep enough
+search/evaluation exposure for each demand, and test diversity against comparable-budget narrower training
+when feasible. No global organism channel/clock, prescribed route or population-responsive world law is
+introduced by this direction. The obstacle design is source-only; no navigation study has been launched.
+
 **Deeper continuation complete (2026-10-16).** The frozen descendant (row 24 / ID 1415) gains
 **0.812500 ±0.223576 POOL captures** and **0.849609 ±0.144374 persistent-pursuit captures** over the fixed
 Pareto4 comparator on 512 fresh shared lives. Ordinary F rises **0.330844 ±0.106961** and

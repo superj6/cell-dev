@@ -1,0 +1,11 @@
+{
+  "status": "corrected_provenance",
+  "base_revision": "84a0a20a60c0029cb061f5034ed6569563dcc773",
+  "original_kernel_path": "before_original/src/life/kernel.c",
+  "original_kernel_sha256": "ceaa928a22b53287478da62651527a98bf235373c38fcddffca9c812e82a9a21",
+  "early_snapshot_path": "before/src/life/kernel.c",
+  "early_snapshot_sha256": "bc7caba68b9cb4fbc00c7076d8e15a63958e30715d0627789f8b1f2cec15cbed",
+  "explanation": "Parallel C edits began before the early snapshot copied kernel.c. That snapshot is retained as intermediate source, not ABI6 baseline. Exact committed original is saved separately; all other listed source snapshots were compared and matched. Frozen ABI6 truth was independently copied from the published archive and unchanged.",
+  "new_lives": 0,
+  "builds": 0
+}

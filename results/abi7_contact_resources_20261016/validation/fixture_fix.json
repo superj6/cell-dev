@@ -1,0 +1,12 @@
+{
+  "status": "source_fix_ready",
+  "failure": "old raw native validator test passed82doubles to83field internalworld_ok",
+  "change": "two fixture vectors now use build.KERNEL.pack_world; production physics unchanged",
+  "before": "outputs/abi7_contact_resources_20261016/validation/integration/before_fix/tests/test_abi6_boundaries.py",
+  "before_sha256": "da1144018f1eb89cfb4bcfad81c61160074e164552722b8a8fafdd558b7bb8a8",
+  "after_sha256": "1a91f024184e7c944b5a7abb67c58b6b2fbaf6b3e1f9c574cfa484dbbd54f723",
+  "planned_recheck": "71direct ABI6boundary cases, zero advanced cell lives; then previously unrun exporter/JS stages",
+  "initial_passed": 1167,
+  "initial_failed": 3,
+  "slow_deselected": 127
+}

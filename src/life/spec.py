@@ -5,13 +5,14 @@ document; every function here that computes a model quantity (hash draws, knob d
 world's closed forms) uses the same IEEE-754 float64 operations in the same order, so results agree bitwise on the
 same libm.
 
-Five caller ABIs coexist; the C kernel implements ABI 6:
+Six caller ABIs coexist; the C kernel implements ABI 7:
 - ``V2`` is ABI 2 (BELL-1 on 2D lattices).
 - ``V3`` is ABI 3: BELL-1 plus BODY-1 v1 (the CATCH world, 3D prism lattices,
   receptors, plane cues).
 - ``V4`` adds flash and renewal target visibility and a low-light capture readout, with unchanged cell rules.
 - ``V5`` adds delayed cue matching, retaining the same genome, inputs and local cell rules.
 - ``V6`` adds persistent food patches, with the same cellular interface and physical prices.
+- ``V7`` adds delayed food production initiated by empty patch clicks, without changing cells.
 ``CURRENT`` remains the legacy caller default, ABI 2. Every module-level layout name (``GENOME_SIZE``,
 ``pack_world``, ``LEDGER``, ...) belongs to that default. Visibility and delayed matching require explicit ``V4``
 and ``V5`` respectively; existing callers retain their earlier shapes and behavior.
@@ -364,6 +365,8 @@ class World:
     patch_refill_fast: float = 0.0
     patch_refill_slow: float = 0.0
     patch_landmark: float = 0.0
+    # ---- ABI 7: an empty click may initiate one delayed packet; zero preserves passive-only patches.
+    patch_contact_delay: float = 0.0
 
 
 _META = ("name", "stage", "implemented", "lattice", "lives")
@@ -373,7 +376,8 @@ WORLD_KEYS_V2 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("world_kind")]
 WORLD_KEYS_V3 = WORLD_KEYS_V2 + WORLD_KEYS_V3_NEW
 WORLD_KEYS_V4 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("task_mode")]
 WORLD_KEYS_V5 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("patch_count")]
-WORLD_KEYS_V6 = ALL_WORLD_KEYS
+WORLD_KEYS_V6 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("patch_contact_delay")]
+WORLD_KEYS_V7 = ALL_WORLD_KEYS
 RESERVED_WORLD_KEYS = ("kill_rate", "wound_rate", "drift_tau")
 INT_WORLD_KEYS = ("n_max", "e_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max", "stuck_z",
                   "b2_mode", "visibility_mode", "task_mode", "patch_count", "patch_capacity")
@@ -435,6 +439,11 @@ PRESETS["catch_resource_patches_l4"] = replace(
     v_t=0.0, tau_turn=0.0, t_resp=0.0, R_min=2.0, R_max=4.0)
 
 
+PRESETS["catch_contact_resources_l4"] = replace(
+    PRESETS["catch_resource_patches_l4"], name="catch_contact_resources_l4", stage="contact-resources-v7",
+    patch_contact_delay=80.0)
+
+
 def world(name: str = "bell_v1", **overrides) -> World:
     return replace(PRESETS[name], **overrides)
 
@@ -474,6 +483,10 @@ PATCH_LEDGER = tuple(f"patch_{metric}_{i}" for metric in PATCH_METRICS for i in 
 PATCH_LEDGER += ("patch_geometric_misses",) + tuple(
     f"patch_{metric}_{i}" for metric in ("initial_harvest", "refill_harvest") for i in range(PATCH_SLOTS))
 LEDGER_V6 = LEDGER_V5 + PATCH_LEDGER
+CONTACT_METRICS = ("starts", "maturities", "supply", "spill", "harvest", "pending_open", "pending_end",
+                   "stock_open", "stock_end")
+CONTACT_LEDGER = tuple(f"patch_contact_{metric}_{i}" for metric in CONTACT_METRICS for i in range(PATCH_SLOTS))
+LEDGER_V7 = LEDGER_V6 + CONTACT_LEDGER
 
 HASHES_V2 = ("all", "spikes", "fate", "chem")
 HASHES_V3 = HASHES_V2 + ("world",)
@@ -491,7 +504,7 @@ LATTICE_CODES_V3 = dict(LATTICE_CODES_V2, hexprism=3, square4prism=4, square8pri
 
 # ========================================================================================================= the ABIs
 class Abi:
-    """Every constant, layout and packing function of one kernel ABI (2 through 6) of docs/LIFE_ABI.md.
+    """Every constant, layout and packing function of one kernel ABI (2 through 7) of docs/LIFE_ABI.md.
 
     ABI 3 is ABI 2 with appended entries everywhere: knobs (zeta, g_r), gene inputs (rho, is_S, is_M), world keys,
     ledger columns, a fifth hash family, a z column in the fate log and in initial bodies, and the prism lattices.
@@ -499,7 +512,7 @@ class Abi:
     ``pad_program``)."""
 
     def __init__(self, version: int):
-        if version not in (2, 3, 4, 5, 6):
+        if version not in (2, 3, 4, 5, 6, 7):
             raise ValueError(f"unknown ABI {version}")
         v3 = version >= 3
         self.version = version
@@ -524,11 +537,12 @@ class Abi:
         self.UNSUPPORTED_FLAGS = self.FLAGS["integer_twin"]  # reserved (rejected by every ABI so far)
         self.STREAMS = (STREAMS_V6 if version >= 6 else STREAMS_V5 if version >= 5 else
                         STREAMS_V4 if version >= 4 else STREAMS_V3 if v3 else STREAMS_V2)
-        self.WORLD_KEYS = (WORLD_KEYS_V6 if version >= 6 else WORLD_KEYS_V5 if version >= 5 else
+        self.WORLD_KEYS = (WORLD_KEYS_V7 if version >= 7 else WORLD_KEYS_V6 if version >= 6 else
+                           WORLD_KEYS_V5 if version >= 5 else
                            WORLD_KEYS_V4 if version >= 4 else WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2)
         self.WORLD_SIZE = len(self.WORLD_KEYS)
         self.WORLD_INDEX = {k: i for i, k in enumerate(self.WORLD_KEYS)}
-        self.LEDGER = (LEDGER_V6 if version >= 6 else LEDGER_V5 if version >= 5 else
+        self.LEDGER = (LEDGER_V7 if version >= 7 else LEDGER_V6 if version >= 6 else LEDGER_V5 if version >= 5 else
                        LEDGER_V4 if version >= 4 else LEDGER_V3 if v3 else LEDGER_V2)
         self.L = {name: i for i, name in enumerate(self.LEDGER)}
         self.LEDGER_SIZE = len(self.LEDGER)
@@ -811,6 +825,8 @@ class Abi:
             raise NotImplementedError(f"target visibility needs ABI v4; this is ABI v{v}")
         if v < 5 and w.task_mode != 0:
             raise NotImplementedError(f"delayed matching needs ABI v5; this is ABI v{v}")
+        if v < 7 and w.patch_contact_delay != 0:
+            raise NotImplementedError(f"contact resources need ABI v7; this is ABI v{v}")
         if v < 6 and w.patch_count != 0:
             raise NotImplementedError(f"resource patches need ABI v6; this is ABI v{v}")
 
@@ -866,7 +882,7 @@ class Abi:
 
 def _validate_patch_keys(w: World) -> None:
     """ABI 6 fixed resource physics; stock and source timers are never organism inputs."""
-    values = (w.patch_capacity, w.patch_refill_fast, w.patch_refill_slow, w.patch_landmark)
+    values = (w.patch_capacity, w.patch_refill_fast, w.patch_refill_slow, w.patch_landmark, w.patch_contact_delay)
     if not 0 <= w.patch_count <= PATCH_SLOTS:
         raise ValueError("patch_count must be an integer from 0 through 4")
     if not w.patch_count:
@@ -881,6 +897,12 @@ def _validate_patch_keys(w: World) -> None:
         raise ValueError("patch_capacity must be an integer from 1 through 2^20")
     if not STEP_MIN <= w.patch_refill_fast <= w.patch_refill_slow <= TIME_MAX:
         raise ValueError("patch refill periods must satisfy 2^-10 <= fast <= slow <= 2^30")
+    if w.patch_contact_delay != 0:
+        if not STEP_MIN <= w.patch_contact_delay <= TIME_MAX:
+            raise ValueError("patch contact delay must be zero or in [2^-10, 2^30]")
+        work = math.ceil(w.T / w.patch_refill_fast) + math.ceil(w.T / w.patch_contact_delay) + 2
+        if w.patch_count * work > 2 ** 20:
+            raise ValueError("combined resource source-event bound exceeds 2^20 per life")
     if not 0 <= w.patch_landmark < 1:
         raise ValueError("patch_landmark must lie in [0, 1)")
     if not w.rho_c > 0 or w.R_min < 2 * w.rho_c:
@@ -1159,6 +1181,7 @@ V3 = Abi(3)
 V4 = Abi(4)
 V5 = Abi(5)
 V6 = Abi(6)
+V7 = Abi(7)
 CURRENT = V2  # legacy caller default; explicit newer contracts remain available
 
 ABI_VERSION = CURRENT.version

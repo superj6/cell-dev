@@ -359,7 +359,7 @@ def test_initial_layout_streams_hashes_and_unused_slots(patch_c, state, count):
     {"lam_s": 342}, {"T": spec.TIME_MAX, "patch_refill_fast": 1},
 ])
 def test_native_validator_rejects_invalid_patch_combinations(patch_c, changes):
-    vector = spec.V6.pack_world(spec.world("catch_resource_patches_l4"))
+    vector = build.KERNEL.pack_world(spec.world("catch_resource_patches_l4"))
     assert patch_c.rp_world_ok(vector.ctypes.data_as(F64P)) == 1
     for key, value in changes.items():
         vector[spec.V6.WORLD_INDEX[key]] = value
@@ -373,5 +373,5 @@ def test_native_validator_rejects_invalid_patch_combinations(patch_c, changes):
     {"T": 1, "patch_refill_fast": spec.STEP_MIN, "patch_refill_slow": spec.STEP_MIN},
 ])
 def test_native_validator_accepts_declared_patch_boundaries(patch_c, changes):
-    vector = spec.V6.pack_world(spec.world("catch_resource_patches_l4", **changes))
+    vector = build.KERNEL.pack_world(spec.world("catch_resource_patches_l4", **changes))
     assert patch_c.rp_world_ok(vector.ctypes.data_as(F64P)) == 1

@@ -1,0 +1,120 @@
+{
+  "status": "running",
+  "purpose": "engineering parity, no behavioral gate",
+  "cases": [
+    {
+      "name": "reflex_count1",
+      "body": 6,
+      "seed": 42000000,
+      "world": {
+        "T": 96,
+        "patch_count": 1,
+        "patch_refill_fast": 8.0,
+        "patch_refill_slow": 16.0,
+        "patch_contact_delay": 8.0
+      }
+    },
+    {
+      "name": "reflex_count2",
+      "body": 6,
+      "seed": 42000001,
+      "world": {
+        "T": 96,
+        "patch_count": 2,
+        "patch_refill_fast": 8.0,
+        "patch_refill_slow": 16.0,
+        "patch_contact_delay": 8.0
+      }
+    },
+    {
+      "name": "grn_count3_preset",
+      "body": 0,
+      "seed": 42000002,
+      "world": {
+        "T": 128
+      }
+    },
+    {
+      "name": "grn_count4_shifted_window",
+      "body": 0,
+      "seed": 42000003,
+      "world": {
+        "T": 128,
+        "t0": 32,
+        "t_open": 32,
+        "patch_count": 4,
+        "patch_capacity": 3,
+        "patch_refill_fast": 8.0,
+        "patch_refill_slow": 16.0,
+        "patch_contact_delay": 8.0
+      }
+    },
+    {
+      "name": "reflex_negative_t0_window",
+      "body": 6,
+      "seed": 42000004,
+      "world": {
+        "T": 96,
+        "t0": -32,
+        "t_open": 12,
+        "patch_refill_fast": 8.0,
+        "patch_refill_slow": 16.0,
+        "patch_contact_delay": 8.0
+      }
+    },
+    {
+      "name": "reflex_equal_period_no_motor",
+      "body": 6,
+      "seed": 42000005,
+      "add_flags": [
+        "motor_off"
+      ],
+      "world": {
+        "T": 96,
+        "patch_refill_fast": 8,
+        "patch_refill_slow": 8,
+        "patch_contact_delay": 8
+      }
+    },
+    {
+      "name": "reflex_extinct_world_continues",
+      "body": 6,
+      "seed": 42000006,
+      "world": {
+        "T": 96,
+        "kill_t": 1,
+        "kill_frac": 1,
+        "patch_refill_fast": 8.0,
+        "patch_refill_slow": 16.0,
+        "patch_contact_delay": 8.0
+      }
+    },
+    {
+      "name": "grn_guard_before_window",
+      "body": 0,
+      "seed": 42000007,
+      "world": {
+        "T": 96,
+        "t_open": 16,
+        "n_max": 1,
+        "patch_refill_fast": 8.0,
+        "patch_refill_slow": 16.0,
+        "patch_contact_delay": 8.0
+      }
+    }
+  ],
+  "calls": {
+    "C_full": 8,
+    "C_fast": 8,
+    "Python": 8,
+    "JS_truth_full": 8,
+    "JS_truth_stepped": 8
+  },
+  "exporter_lives": 24,
+  "truth_lives_including_JS": 40,
+  "threads": 1,
+  "raster_cap": 65536,
+  "fate_cap": 8192,
+  "resource_enforcement": "parent-announced owned process monitor; no standalone release",
+  "extra_JS_suite": "test_contact_resources.js: 2 neutral lives plus direct boundaries; reports construction/run counts separately"
+}

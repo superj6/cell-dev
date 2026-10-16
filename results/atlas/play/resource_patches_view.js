@@ -1,4 +1,4 @@
-/* Automatic ABI-6 presentation. All patch identities, stocks and periods are implementation observer labels.
+/* Automatic ABI-6/7 presentation. Patch identities, stocks, periods and pending jobs are observer labels.
  * mount(element, bodyOrDoc, {seed, body, speed}) starts paused and exposes only playback of that fixed case.
  */
 (function (root, factory) {
@@ -10,21 +10,25 @@
 function summary(state, ledger) {
   if (!state.patches) throw new Error('resource patch observer state required');
   const rows = state.patches.map(p => {
-    const get = stem => ledger['patch_' + stem + '_' + p.slot];
+    const get = stem => ledger['patch_' + stem + '_' + p.slot] || 0;
     return { slot: p.slot, stock: p.stock, capacity: p.capacity, period: p.period,
       source: get('source'), supply: get('supply'), spill: get('spill'), harvest: get('harvest'),
-      initial: get('initial_harvest'), refill: get('refill_harvest'), empty: get('empty') };
+      initial: get('initial_harvest'), refill: get('refill_harvest'), empty: get('empty'),
+      contact: get('contact_harvest'), passive: get('refill_harvest') - get('contact_harvest'),
+      starts: get('contact_starts'), maturities: get('contact_maturities'), contactSpill: get('contact_spill'),
+      pending: !!p.contact_pending, due: p.contact_due };
   });
   const sum = key => rows.reduce((total, row) => total + row[key], 0);
   return { rows, harvest: sum('harvest'), initial: sum('initial'), refill: sum('refill'),
     empty: sum('empty'), geometric: ledger.patch_geometric_misses,
-    source: sum('source'), supply: sum('supply'), spill: sum('spill') };
+    source: sum('source'), supply: sum('supply'), spill: sum('spill'), contact: sum('contact'),
+    passive: sum('passive'), starts: sum('starts'), maturities: sum('maturities'), contactSpill: sum('contactSpill') };
 }
 function mount(element, bodyOrDoc, opts = {}) {
   if (!LifeSim) throw new Error('Load lifesim.js before the resource-patch viewer');
   if (!Number.isSafeInteger(opts.seed)) throw new Error('A fixed safe-integer seed is required');
   const seed = opts.seed, speed = opts.speed === undefined ? 8 : opts.speed;
-  let sim, playing = false, frame = null, previous = null, destroyed = false;
+  let sim, playing = false, frame = null, previous = null, destroyed = false, contactColumns = false;
   const recent = [], rows = [];
   const el = (tag, text) => {
     const node = element.ownerDocument.createElement(tag);
@@ -51,22 +55,43 @@ function mount(element, bodyOrDoc, opts = {}) {
   const ctx = canvas.getContext('2d');
   function draw() {
     const state = sim.state(), info = sim.info(), s = summary(state, sim.ledger());
+    const contact = info.patch_contact_delay > 0;
+    if (contact !== contactColumns) {
+      contactColumns = contact; header.replaceChildren(); tbody.replaceChildren(); rows.length = 0;
+      for (const text of ['Patch', 'Stock', 'Passive period', 'Harvests', 'Initial food', 'Passive food',
+        'Total source', 'Admitted', 'Spilled', 'Empty clicks', 'Contact food', 'Starts', 'Maturities',
+        'Contact spills', 'Pending (observer only)']) header.append(el('th', text));
+    }
+    if (contact) note.textContent = `An empty-site tap starts one packet due ${info.patch_contact_delay} time units later; ` +
+      'repeated taps cannot accelerate it. Harvests do not start growth. Passive refill continues. ' +
+      'Cells receive only local stock-dependent receptor pings. Pending jobs, deadlines, food origins and patch IDs ' +
+      'are observer information, never cell inputs.';
     status.textContent = `Seed ${seed} · t ${state.t.toFixed(2)} · ${state.ended ? 'life ended' : 'automatic world'}`;
     play.textContent = playing ? 'Pause' : 'Play'; play.disabled = state.ended;
-    score.textContent = `Food harvested ${s.harvest} (${s.initial} initial, ${s.refill} replenished) · ` +
+    const food = contact ? `${s.initial} initial, ${s.passive} passive, ${s.contact} contact-grown` :
+      `${s.initial} initial, ${s.refill} replenished`;
+    score.textContent = `Food harvested ${s.harvest} (${food}) · ` +
+      (contact ? `growth starts ${s.starts} · matured ${s.maturities} · contact spills ${s.contactSpill} · ` : '') +
       `empty clicks ${s.empty} · geometric misses ${s.geometric} · source ${s.source} · spilled ${s.spill} · ` +
       `income ${state.score.income.toFixed(1)} · energy costs ${state.score.cost.toFixed(1)} · ` +
       `native F ${state.score.F.toFixed(2)}`;
     while (rows.length < s.rows.length) {
-      const tr = el('tr'), cells = Array.from({ length: 10 }, () => el('td'));
+      const tr = el('tr'), cells = Array.from({ length: contact ? 15 : 10 }, () => el('td'));
       tr.append(...cells); tbody.append(tr); rows.push(cells);
     }
     s.rows.forEach((p, i) => [p.slot + 1, `${p.stock}/${p.capacity}`, p.period, p.harvest, p.initial,
-      p.refill, p.source, p.supply, p.spill, p.empty].forEach((value, j) => { rows[i][j].textContent = value; }));
+      contact ? p.passive : p.refill, p.source, p.supply, p.spill, p.empty,
+      ...(contact ? [p.contact, p.starts, p.maturities, p.contactSpill,
+        p.pending ? `due ${p.due.toFixed(2)}` : 'none'] : [])]
+      .forEach((value, j) => { rows[i][j].textContent = value; }));
     for (const event of state.events) if (event.kind === 'patch_click')
       recent.push(`${event.t.toFixed(2)}: ${event.outcome}` +
         (event.slot === null ? '' : ` at patch ${event.slot + 1}`) +
         (event.outcome === 'harvest' ? ` (${event.origin} food)` : ''));
+    else if (event.kind === 'patch_contact_start')
+      recent.push(`${event.t.toFixed(2)}: patch ${event.slot + 1} starts growth; due ${event.due.toFixed(2)} (observer)`);
+    else if (event.kind === 'patch_contact_mature')
+      recent.push(`${event.t.toFixed(2)}: patch ${event.slot + 1} contact packet ${event.admitted ? 'ready' : 'spilled'}`);
     if (recent.length > 6) recent.splice(0, recent.length - 6);
     feed.textContent = recent.join(' · ');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -99,8 +124,13 @@ function mount(element, bodyOrDoc, opts = {}) {
   }
   function reset() {
     playing = false; previous = null; recent.length = 0;
-    sim = LifeSim.create(bodyOrDoc, { ...opts, seed, abi: 6, mode: 'auto' });
-    if (!(sim.info().patch_count > 0)) throw new Error('The automatic viewer requires an ABI-6 patch body');
+    const which = opts.body === undefined ? 0 : opts.body;
+    const body = bodyOrDoc.bodies ? (typeof which === 'string' ?
+      bodyOrDoc.bodies.find(b => b.name === which) : bodyOrDoc.bodies[which]) : bodyOrDoc;
+    const abi = opts.abi === undefined ? (body && body.abi !== undefined ? body.abi :
+      bodyOrDoc.abi === undefined ? 6 : bodyOrDoc.abi) : opts.abi;
+    sim = LifeSim.create(bodyOrDoc, { ...opts, seed, abi, mode: 'auto' });
+    if (!(sim.info().patch_count > 0)) throw new Error('The automatic viewer requires an ABI-6/7 patch body');
     draw();
   }
   function tick(now) {

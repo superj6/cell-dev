@@ -1,0 +1,29 @@
+[
+  {
+    "name": "matching_trial64",
+    "command": [
+      "node",
+      "--single-threaded",
+      "--single-threaded-gc",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_delayed_match_trial64.js",
+      "/home/jgon/project/ml/cell-dev/results/abi5_delayed_match_20261015/validation/truth_conservation_fix/truth.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "matching_view",
+    "command": [
+      "node",
+      "--single-threaded",
+      "--single-threaded-gc",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_delayed_match_view.js"
+    ],
+    "exit_code": 1
+  }
+]

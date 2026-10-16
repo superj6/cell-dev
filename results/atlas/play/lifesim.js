@@ -1,4 +1,4 @@
-/* lifesim.js: one life of a CATCH body (cell-dev, docs/LIFE_ABI.md ABI 3/4/5), simulated step by step in the browser.
+/* lifesim.js: one life of a CATCH body (cell-dev, docs/LIFE_ABI.md ABI 3 through 7), simulated step by step in the browser.
  *
  * A JavaScript transcription of src/life/reference.py (the pure-Python reference, bitwise equal to the C kernel
  * src/life/kernel.c): the same events, batch order, ties, quantisation (q8, q10), phenotype decode, hash-keyed draws
@@ -44,6 +44,8 @@
  * visibility is rejected in user-target mode; its world state is never supplied to cells. ABI 5 adds automatic
  * delayed matching, with sample / blank / choice / gap phases. Its two physical slots have distinct widths;
  * correct/wrong outcomes are accounted separately from slot hits. Interactive target editing is rejected.
+ * ABI 6 adds persistent depletable food patches. ABI 7 optionally lets empty-site taps start one delayed packet.
+ * Pending jobs and food provenance are observer information; cells retain only their existing local inputs.
  */
 (function (root, factory) {
   const api = factory();
@@ -449,7 +451,11 @@ const PATCH_STEMS = ['stock_open', 'source', 'supply', 'spill', 'harvest', 'empt
 const LEDGER_V6 = LEDGER_V5.concat(PATCH_STEMS.flatMap(name =>
   Array.from({ length: 4 }, (_, i) => 'patch_' + name + '_' + i)), ['patch_geometric_misses'],
   ['initial_harvest', 'refill_harvest'].flatMap(name => Array.from({ length: 4 }, (_, i) => 'patch_' + name + '_' + i)));
-const LI = {}; LEDGER_V6.forEach((n, i) => { LI[n] = i; });
+const CONTACT_METRICS = ['starts', 'maturities', 'supply', 'spill', 'harvest', 'pending_open', 'pending_end',
+  'stock_open', 'stock_end'];
+const LEDGER_V7 = LEDGER_V6.concat(CONTACT_METRICS.flatMap(name =>
+  Array.from({ length: 4 }, (_, i) => 'patch_contact_' + name + '_' + i)));
+const LI = {}; LEDGER_V7.forEach((n, i) => { LI[n] = i; });
 const TASK_SAMPLE = 0, TASK_BLANK = 1, TASK_CHOICE = 2, TASK_GAP = 3;
 const TASK_PHASES = ['sample', 'blank', 'choice', 'gap'];
 const ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 8, ST_CHEM_CLAMP = 32,
@@ -554,8 +560,9 @@ class Life {
     const doc = body.__doc || {};
     const w = body.world;
     this.abi = opts.abi !== undefined ? opts.abi : (body.abi !== undefined ? body.abi : (doc.abi !== undefined ? doc.abi : 3));
-    if (![3, 4, 5, 6].includes(this.abi)) throw new Error('lifesim.js supports ABI 3, 4, 5 or 6');
-    this.ledgerNames = this.abi === 6 ? LEDGER_V6 : (this.abi === 5 ? LEDGER_V5 : (this.abi === 4 ? LEDGER_V4 : LEDGER));
+    if (![3, 4, 5, 6, 7].includes(this.abi)) throw new Error('lifesim.js supports ABI 3 through 7');
+    this.ledgerNames = this.abi === 7 ? LEDGER_V7 : this.abi === 6 ? LEDGER_V6 :
+      (this.abi === 5 ? LEDGER_V5 : (this.abi === 4 ? LEDGER_V4 : LEDGER));
     this.visibility_mode = w.visibility_mode === undefined ? 0 : w.visibility_mode;
     this.visibility_on = w.visibility_on === undefined ? 0 : w.visibility_on;
     this.visibility_off = w.visibility_off === undefined ? 0 : w.visibility_off;
@@ -594,14 +601,19 @@ class Life {
       if (opts.mode === 'user' || opts.targets !== undefined || opts.drift)
         throw new Error('delayed matching supports automatic mode only; interactive targets and drift are disabled');
     }
+    this.patch_contact_delay = w.patch_contact_delay === undefined ? 0 : w.patch_contact_delay;
+    if (!Number.isFinite(this.patch_contact_delay) || this.patch_contact_delay < 0 ||
+        (this.patch_contact_delay > 0 && (this.abi < 7 || this.patch_contact_delay < 2 ** -10 ||
+          this.patch_contact_delay > 2 ** 30))) throw new Error('invalid patch contact delay or ABI (requires ABI 7)');
     const patchFields = ['patch_count', 'patch_capacity', 'patch_refill_fast', 'patch_refill_slow', 'patch_landmark'];
     for (const name of patchFields) this[name] = w[name] === undefined ? 0 : w[name];
     if (patchFields.some(name => !Number.isFinite(this[name])) || !Number.isInteger(this.patch_count) ||
         this.patch_count < 0 || this.patch_count > 4) throw new Error('invalid resource patch fields or count');
     if (this.patch_count === 0) {
-      if (patchFields.slice(1).some(name => this[name] !== 0)) throw new Error('disabled patches require zero fields');
+      if (this.patch_contact_delay !== 0 || patchFields.slice(1).some(name => this[name] !== 0))
+        throw new Error('disabled patches require zero fields');
     } else {
-      if (this.abi !== 6) throw new Error('resource patches require ABI 6');
+      if (this.abi < 6) throw new Error('resource patches require ABI 6 or later');
       if (w.world_kind !== 1 || this.task_mode !== 0 || vm !== 0 || w.v_t !== 0 || w.tau_turn !== 0 ||
           w.t_resp !== 0 || w.b2_amp !== 0 || w.b2_value !== 0 || w.b2_mode !== 0 || w.b2_p !== 1)
         throw new Error('resource patches require stationary CATCH with neutral task, visibility and second blob');
@@ -617,6 +629,9 @@ class Life {
           !Number.isFinite(w.t_open) || w.t_open < 0 || w.t_open >= duration ||
           this.patch_count * (Math.ceil(duration / this.patch_refill_fast) + 1) > 2 ** 20)
         throw new Error('invalid resource patch capacity, period, geometry, time/window or candidate bound');
+      if (this.patch_contact_delay > 0 && this.patch_count * (Math.ceil(duration / this.patch_refill_fast) +
+          Math.ceil(duration / this.patch_contact_delay) + 2) > 2 ** 20)
+        throw new Error('invalid patch combined source bound');
       if (opts.mode === 'user' || opts.targets !== undefined || opts.drift)
         throw new Error('resource patches support automatic mode only; interactive targets and drift are disabled');
     }
@@ -1461,7 +1476,8 @@ P.patchInit = function () {
     if (first <= this.t0) first = nextup(this.t0);
     const p = { id: i, x, y, period, first, next: first, arrival_index: 0,
       stock: this.patch_capacity, initial_remaining: this.patch_capacity, left: this.patch_capacity,
-      initial_open: 0 };
+      initial_open: 0, contact_pending: false, contact_due: Infinity, contact_starts: 0, contact_stock: 0,
+      origins: this.patch_contact_delay > 0 ? new Uint8Array(this.patch_capacity) : null, origin_head: 0, origin_count: 0 };
     this.patches.push(p);
     if (this.hashes) {
       this.foldI(H_WORLD, 18); this.foldF(H_WORLD, this.t0); this.foldI(H_WORLD, i);
@@ -1477,18 +1493,78 @@ P.patchOpen = function () {
   for (const p of this.patches) {
     this.led[LI['patch_stock_open_' + p.id]] = p.stock;
     p.initial_open = p.initial_remaining;
+    if (this.patch_contact_delay > 0) {
+      this.led[LI['patch_contact_pending_open_' + p.id]] = p.contact_pending ? 1 : 0;
+      this.led[LI['patch_contact_stock_open_' + p.id]] = p.contact_stock;
+    }
   }
+};
+// Initial food is a virtual oldest prefix; only enabled contact worlds need the bounded origin ring.
+P.patchOriginPush = function (p, origin) {
+  if (!p.origins || !Number.isInteger(p.origin_head) || p.origin_head < 0 || p.origin_head >= this.patch_capacity ||
+      !Number.isInteger(p.origin_count) || p.origin_count < 0 || p.origin_count >= this.patch_capacity ||
+      (origin !== 2 && origin !== 3)) { this.status |= ST_MISMATCH; return; }
+  p.origins[(p.origin_head + p.origin_count) % this.patch_capacity] = origin;
+  p.origin_count += 1;
+  if (origin === 3) p.contact_stock += 1;
+};
+P.patchOriginPop = function (p) {
+  if (!p.origins || !Number.isInteger(p.origin_head) || p.origin_head < 0 || p.origin_head >= this.patch_capacity ||
+      !Number.isInteger(p.origin_count) || p.origin_count <= 0 || p.origin_count > this.patch_capacity) {
+    this.status |= ST_MISMATCH; return 0;
+  }
+  const origin = p.origins[p.origin_head];
+  p.origin_head = (p.origin_head + 1) % this.patch_capacity; p.origin_count -= 1;
+  if (origin === 3) p.contact_stock -= 1;
+  else if (origin !== 2) this.status |= ST_MISMATCH;
+  return origin;
+};
+P.patchContactStart = function (p, t) {
+  if (t >= this.t_open_abs) this.patchOpen();
+  p.contact_pending = true; p.contact_due = t + this.patch_contact_delay;
+  if (t >= this.t_open_abs) this.patchCount('contact_starts', p.id);
+  if (this.hashes) {
+    this.foldI(H_WORLD, 22); this.foldF(H_WORLD, t); this.foldI(H_WORLD, p.id);
+    this.fold(H_WORLD, Math.floor(p.contact_starts / 4294967296), p.contact_starts >>> 0);
+    this.foldF(H_WORLD, p.contact_due);
+  }
+  this.evlog.push({ t, kind: 'patch_contact_start', slot: p.id, job_index: p.contact_starts, due: p.contact_due });
+  p.contact_starts += 1;
+};
+P.patchContactMature = function (p) {
+  const t = p.contact_due, before = p.stock, admitted = before < this.patch_capacity ? 1 : 0;
+  if (t >= this.t_open_abs) this.patchOpen();
+  if (admitted) { p.stock += 1; this.patchOriginPush(p, 3); }
+  if (t >= this.t_open_abs) {
+    this.patchCount('source', p.id); this.patchCount(admitted ? 'supply' : 'spill', p.id);
+    this.patchCount('contact_maturities', p.id); this.patchCount(admitted ? 'contact_supply' : 'contact_spill', p.id);
+  }
+  const index = p.contact_starts - 1;
+  if (this.hashes) {
+    this.foldI(H_WORLD, 23); this.foldF(H_WORLD, t); this.foldI(H_WORLD, p.id);
+    this.fold(H_WORLD, Math.floor(index / 4294967296), index >>> 0);
+    this.foldI(H_WORLD, before); this.foldI(H_WORLD, p.stock); this.foldI(H_WORLD, admitted);
+  }
+  this.evlog.push({ t, kind: 'patch_contact_mature', slot: p.id, job_index: index,
+    admitted: !!admitted, stock_before: before, stock_after: p.stock });
+  p.contact_pending = false; p.contact_due = Infinity;
 };
 P.patchWorldTo = function (t) {
   for (;;) {
-    let p = null;
-    for (const candidate of this.patches)
-      if (candidate.next < t && (p === null || candidate.next < p.next)) p = candidate;
+    let p = null, at = t, contact = false;
+    // Strict comparison preserves slot order; passive precedes contact within each slot.
+    for (const candidate of this.patches) {
+      if (candidate.next < at) { p = candidate; at = candidate.next; contact = false; }
+      if (this.patch_contact_delay > 0 && candidate.contact_pending && candidate.contact_due < at) {
+        p = candidate; at = candidate.contact_due; contact = true;
+      }
+    }
     if (p === null) break;
-    const at = p.next;
+    if (contact) { this.patchContactMature(p); continue; }
     if (at >= this.t_open_abs) this.patchOpen();
     const before = p.stock, admitted = before < this.patch_capacity ? 1 : 0;
     p.stock += admitted;
+    if (admitted && this.patch_contact_delay > 0) this.patchOriginPush(p, 2);
     if (at >= this.t_open_abs) {
       this.patchCount('source', p.id);
       this.patchCount(admitted ? 'supply' : 'spill', p.id);
@@ -1541,12 +1617,17 @@ P.patchClick = function (t, counted) {
   if (p !== null) {
     if (p.stock > 0) {
       outcome = 1; p.stock -= 1;
-      if (p.initial_remaining > 0) { p.initial_remaining -= 1; origin = 1; } else origin = 2;
+      if (p.initial_remaining > 0) { p.initial_remaining -= 1; origin = 1; }
+      else origin = this.patch_contact_delay > 0 ? this.patchOriginPop(p) : 2;
       if (counted) {
         led[LI.captures] += 1.0; led[LI.income] = led[LI.income] + this.R_cap;
         this.patchCount('harvest', slot); this.patchCount(origin === 1 ? 'initial_harvest' : 'refill_harvest', slot);
+        if (origin === 3) this.patchCount('contact_harvest', slot);
       }
-    } else { outcome = 2; if (counted) this.patchCount('empty', slot); }
+    } else {
+      outcome = 2; if (counted) this.patchCount('empty', slot);
+      if (this.patch_contact_delay > 0 && !p.contact_pending) this.patchContactStart(p, t);
+    }
   } else if (counted) led[LI.patch_geometric_misses] += 1.0;
   if (outcome !== 1 && counted) { led[LI.misses] += 1.0; led[LI.cost] = led[LI.cost] + this.c_miss; }
   const after = p === null ? 0 : p.stock;
@@ -1558,7 +1639,8 @@ P.patchClick = function (t, counted) {
   }
   this.evlog.push({ t, kind: 'patch_click', outcome: ['geometric_miss', 'harvest', 'empty'][outcome],
     slot: p === null ? null : slot, stock_before: before, stock_after: after,
-    origin: ['none', 'initial', 'refill'][origin], income: outcome === 1 ? this.R_cap : 0,
+    origin: (this.patch_contact_delay > 0 ? ['none', 'initial', 'passive', 'contact'] : ['none', 'initial', 'refill'])[origin],
+    income: outcome === 1 ? this.R_cap : 0,
     cost: outcome === 1 ? 0 : this.c_miss, x: X, y: Y });
 };
 P.patchClose = function (t) {
@@ -1577,14 +1659,42 @@ P.patchClose = function (t) {
           p.initial_open !== get('initial_harvest') + p.initial_remaining ||
           get('stock_open') > this.patch_capacity || p.stock > this.patch_capacity ||
           p.initial_remaining < 0 || p.initial_remaining > p.stock) this.status |= ST_MISMATCH;
+      if (this.patch_contact_delay > 0) {
+        led[LI['patch_contact_pending_end_' + p.id]] = p.contact_pending ? 1 : 0;
+        led[LI['patch_contact_stock_end_' + p.id]] = p.contact_stock;
+        const cc = stem => get('contact_' + stem);
+        let contacts = 0;
+        if (!p.origins || !Number.isInteger(p.origin_head) || p.origin_head < 0 || p.origin_head >= this.patch_capacity ||
+            !Number.isInteger(p.origin_count) || p.origin_count < 0 || p.origin_count > this.patch_capacity) {
+          this.status |= ST_MISMATCH;
+        } else for (let j = 0; j < p.origin_count; j++) {
+            const origin = p.origins[(p.origin_head + j) % this.patch_capacity];
+            if (origin === 3) contacts++;
+            else if (origin !== 2) this.status |= ST_MISMATCH;
+        }
+        if (cc('pending_open') + cc('starts') !== cc('maturities') + cc('pending_end') ||
+            cc('maturities') !== cc('supply') + cc('spill') ||
+            cc('stock_open') + cc('supply') !== cc('harvest') + cc('stock_end') ||
+            cc('harvest') > get('refill_harvest') || cc('starts') > get('empty') ||
+            cc('supply') > supply || cc('spill') > spill || cc('maturities') > source ||
+            cc('stock_open') > get('stock_open') - p.initial_open ||
+            cc('stock_end') > p.stock - p.initial_remaining ||
+            cc('pending_open') > 1 || cc('pending_end') > 1 ||
+            p.initial_open < 0 || p.initial_open > get('stock_open') || p.contact_starts < cc('starts') + cc('pending_open') ||
+            (p.contact_pending && (!Number.isFinite(p.contact_due) || p.contact_due < t || !p.contact_starts)) ||
+            (!p.contact_pending && p.contact_due !== Infinity) ||
+            p.origin_count + p.initial_remaining !== p.stock || contacts !== p.contact_stock)
+          this.status |= ST_MISMATCH;
+      }
       harvest += meals; empty += get('empty');
     }
     if (led[LI.captures] !== harvest || led[LI.misses] !== empty + led[LI.patch_geometric_misses] ||
         led[LI.clicks] !== led[LI.captures] + led[LI.misses]) this.status |= ST_MISMATCH;
-    for (let i = 70; i < LEDGER_V6.length; i++)
+    for (let i = 70; i < this.ledgerNames.length; i++)
       if (!Number.isSafeInteger(led[i]) || led[i] < 0) this.status |= ST_MISMATCH;
     for (let i = this.patch_count; i < 4; i++)
-      for (const stem of [...PATCH_STEMS, 'initial_harvest', 'refill_harvest'])
+      for (const stem of [...PATCH_STEMS, 'initial_harvest', 'refill_harvest',
+        ...(this.abi >= 7 ? CONTACT_METRICS.map(name => 'contact_' + name) : [])])
         if (led[LI['patch_' + stem + '_' + i]] !== 0) this.status |= ST_MISMATCH;
   }
   for (const p of this.patches) {
@@ -1594,12 +1704,24 @@ P.patchClose = function (t) {
     }
     this.evlog.push({ t, kind: 'patch_end', slot: p.id, stock: p.stock, initial_remaining: p.initial_remaining });
   }
+  if (this.patch_contact_delay > 0) for (const p of this.patches) {
+    if (this.hashes) {
+      this.foldI(H_WORLD, 24); this.foldF(H_WORLD, t); this.foldI(H_WORLD, p.id);
+      this.foldI(H_WORLD, p.contact_pending ? 1 : 0); this.foldF(H_WORLD, p.contact_pending ? p.contact_due : 0);
+      this.foldI(H_WORLD, p.contact_stock);
+      this.fold(H_WORLD, Math.floor(p.contact_starts / 4294967296), p.contact_starts >>> 0);
+    }
+    this.evlog.push({ t, kind: 'patch_contact_end', slot: p.id, pending: p.contact_pending,
+      due: p.contact_pending ? p.contact_due : null, contact_stock: p.contact_stock, starts: p.contact_starts });
+  }
 };
 P.patchState = function () {
   return this.patches.map(p => ({ id: p.id, slot: p.id, x: p.x, y: p.y, stock: p.stock,
     initial_remaining: p.initial_remaining, period: p.period, next: p.next, capacity: this.patch_capacity,
     sigma: this.sigma, amplitude: this.patch_landmark + (1.0 - this.patch_landmark) * (p.stock / this.patch_capacity),
-    capture_radius: this.rho_c, capturable: p.stock > 0, drift: false }));
+    capture_radius: this.rho_c, capturable: p.stock > 0, drift: false,
+    ...(this.patch_contact_delay > 0 ? { contact_pending: p.contact_pending,
+      contact_due: p.contact_pending ? p.contact_due : null, contact_stock: p.contact_stock } : {}) }));
 };
 P.worldTo = function (t) { // strictly before t; equal-time timer, turn, then visibility
   if (this.patch_count) { this.patchWorldTo(t); return; }
@@ -2165,6 +2287,7 @@ P.info = function () { // static facts for a page: the body, the world's sizes a
     task_mode: this.task_mode, patch_count: this.patch_count,
     ...(this.patch_count ? { patch_capacity: this.patch_capacity, patch_refill_fast: this.patch_refill_fast,
       patch_refill_slow: this.patch_refill_slow, patch_landmark: this.patch_landmark,
+      patch_contact_delay: this.patch_contact_delay,
       distance_metric: 'nearest persistent patch, including empty patches; observer stock/source state only' } : {}),
     ...(this.task_mode ? { b2_sigma: this.b2_sigma, sample_min: this.sample_min, sample_max: this.sample_max,
       blank_min: this.blank_min, blank_max: this.blank_max, choice_T: this.choice_T, reset_T: this.reset_T,
@@ -2210,5 +2333,5 @@ function create(bodyOrDoc, opts) {
     raster: () => ({ t: life.raster_t, uid: life.raster_uid, n: life.raster_n || 0 }),
   };
 }
-return { create, prepare, Life, LEDGER, LEDGER_V4, LEDGER_V5, LEDGER_V6, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.3' };
+return { create, prepare, Life, LEDGER, LEDGER_V4, LEDGER_V5, LEDGER_V6, LEDGER_V7, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.4' };
 });

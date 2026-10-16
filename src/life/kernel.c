@@ -1,4 +1,4 @@
-// One-life event kernel, ABI v6. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
+// One-life event kernel, ABI v7. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
 //
 // One continuous, clockless life per genome (GRN mode) or phenotype program (program mode) on a sparse, unbounded
 // lattice fabric (or a dense disk): 2D lattices, or prisms of stacked planes z = 0 .. L_max - 1 (4.3). Sites process
@@ -16,15 +16,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ABI_VERSION 6
+#define ABI_VERSION 7
 #define NG 16          // gene slots
 #define NIN 25         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, rho/tau_tr, is_S, is_M
 #define NK 23          // phenotype knobs
 #define DMAX 10        // largest lattice degree (square8prism)
 #define GENOME_SIZE 875
 #define PROGRAM_SIZE 129
-#define WORLD_SIZE 82
-#define LEDGER_SIZE 107
+#define WORLD_SIZE 83
+#define LEDGER_SIZE 143
 #define HASH_SIZE 5
 #define MAX_INIT 1024
 #define FATE_I 7
@@ -61,7 +61,7 @@ enum { W_T, W_T0, W_TOPEN, W_TFORK, W_FLAGS, W_FORKFLAGS, W_DMIN, W_D0, W_DELAYS
        W_TAUTURN, W_RMIN, W_RMAX, W_TRESP, W_RCAP, W_CMISS, W_CREC, W_B2AMP, W_B2SIGMA, W_B2VALUE, W_B2RHO, W_B2P,
        W_B2MODE, W_VISMODE, W_VISON, W_VISOFF, W_VISLOW,
        W_TASKMODE, W_SAMPLEMIN, W_SAMPLEMAX, W_BLANKMIN, W_BLANKMAX, W_CHOICET, W_RESETT,
-       W_PATCHCOUNT, W_PATCHCAP, W_PATCHFAST, W_PATCHSLOW, W_PATCHLAND };
+       W_PATCHCOUNT, W_PATCHCAP, W_PATCHFAST, W_PATCHSLOW, W_PATCHLAND, W_PATCHCONTACT };
 // ledger columns (4.9)
 enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIRTHS, L_REJECTS, L_REJWALL, L_DEATHS,
        L_KILLS, L_COST, L_GUARD, L_NET, L_F, L_NEND, L_NPEAK, L_TEND, L_STATUS, L_EVENTS, L_BEATS, L_PINT,
@@ -73,7 +73,10 @@ enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIR
        L_CHOICEOPEN_N, L_CHOICEOPEN_B, L_CARRY_N, L_CARRY_B, L_CORRECT_N, L_CORRECT_B,
        L_WRONG_N, L_WRONG_B, L_TIMEOUT_N, L_TIMEOUT_B, L_UNFINISHED_N, L_UNFINISHED_B,
        L_PATCHOPEN = 70, L_PATCHSOURCE = 74, L_PATCHSUPPLY = 78, L_PATCHSPILL = 82, L_PATCHHARVEST = 86,
-       L_PATCHEMPTY = 90, L_PATCHEND = 94, L_PATCHGEOM = 98, L_PATCHINITIAL = 99, L_PATCHREFILL = 103 };
+       L_PATCHEMPTY = 90, L_PATCHEND = 94, L_PATCHGEOM = 98, L_PATCHINITIAL = 99, L_PATCHREFILL = 103,
+       L_CONTACTSTARTS = 107, L_CONTACTMATURITIES = 111, L_CONTACTSUPPLY = 115, L_CONTACTSPILL = 119,
+       L_CONTACTHARVEST = 123, L_CONTACTPENDINGOPEN = 127, L_CONTACTPENDINGEND = 131,
+       L_CONTACTSTOCKOPEN = 135, L_CONTACTSTOCKEND = 139 };
 // flags (12)
 enum { F_CONTACTS_OFF = 1 << 0, F_CHEM_OFF = 1 << 1, F_APOPTOSIS_OFF = 1 << 2, F_DIVISION_OFF = 1 << 3,
        F_FREEZE = 1 << 4, F_GENES_BLIND = 1 << 5, F_IDENTITY_CLAMP = 1 << 6, F_PHENO_FIXED = 1 << 7,
@@ -103,6 +106,8 @@ enum { PL_START, PL_CLICK, PL_TIMER, PL_WITH };
 enum { TASK_SAMPLE, TASK_BLANK, TASK_CHOICE, TASK_GAP };
 enum { TC_OPEN, TC_CARRY, TC_CORRECT, TC_WRONG, TC_TIMEOUT, TC_UNFINISHED, TC_COUNT };
 enum { PC_OPEN, PC_SOURCE, PC_SUPPLY, PC_SPILL, PC_HARVEST, PC_EMPTY, PC_END, PC_INITIAL, PC_REFILL, PC_COUNT };
+enum { CC_STARTS, CC_MATURITIES, CC_SUPPLY, CC_SPILL, CC_HARVEST, CC_PENDING_OPEN, CC_PENDING_END,
+       CC_STOCK_OPEN, CC_STOCK_END, CC_COUNT };
 // internal failures (the life is invalid: capacity bit)
 enum { FAIL_ALLOC = 1, FAIL_LIMIT = 2, FAIL_CAUSAL = 4 };
 
@@ -247,6 +252,12 @@ typedef struct {
   double x, y, period, first, next;
   uint64_t arrival_index;
   int64_t stock, initial_remaining;
+  // ABI 7: one pending physical job and observer-only FIFO provenance for post-initial packets.
+  double contact_due;
+  uint64_t contact_starts;
+  int contact_pending;
+  int64_t contact_stock, origin_head, origin_n;
+  uint8_t *origins;
 } Patch;
 
 typedef struct { double t_send, t_arr; uint64_t tsk, sender; double amt[2]; } Flight;
@@ -285,6 +296,8 @@ typedef struct {
   double patch_fast, patch_slow, patch_landmark;
   Patch patch[4];
   int64_t patch_left[4], patch_initial_open[4], patch_counts[PC_COUNT][4], patch_geometric_misses;
+  double patch_contact_delay;
+  int64_t contact_counts[CC_COUNT][4];
   int64_t cap_cells;
   // fabric
   Site *sites; int64_t n_sites, cap_sites;
@@ -1497,13 +1510,42 @@ static void task_close(Ctx *c, double t) {
   fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
 }
 
-// ABI 6 resource stock: all mutation is physical (source arrival or harvest); observations are pure.
+// ABI 6/7 resource stock: mutation is physical; observations and packet provenance are passive.
+static void patch_origin_push(Ctx *c, int i, uint8_t origin) {
+  Patch *p = &c->patch[i];
+  if (!p->origins || p->origin_head < 0 || p->origin_head >= c->patch_capacity ||
+      p->origin_n < 0 || p->origin_n >= c->patch_capacity || (origin != 2 && origin != 3)) {
+    c->status |= ST_MISMATCH; return;
+  }
+  p->origins[(p->origin_head + p->origin_n) % c->patch_capacity] = origin;
+  p->origin_n++;
+  if (origin == 3) p->contact_stock++;
+}
+
+static int patch_origin_pop(Ctx *c, int i) {
+  Patch *p = &c->patch[i];
+  if (!p->origins || p->origin_head < 0 || p->origin_head >= c->patch_capacity ||
+      p->origin_n <= 0 || p->origin_n > c->patch_capacity) {
+    c->status |= ST_MISMATCH; return 0;
+  }
+  const int origin = p->origins[p->origin_head];
+  if (origin != 2 && origin != 3) c->status |= ST_MISMATCH;
+  p->origin_head = (p->origin_head + 1) % c->patch_capacity;
+  p->origin_n--;
+  if (origin == 3) p->contact_stock--;
+  return origin;
+}
+
 static void patch_window_before(Ctx *c, double t) {
   if (c->patch_opened || t < c->t_open_abs) return;
   c->patch_opened = 1;
   for (int i = 0; i < c->patch_count; i++) {
     c->patch_counts[PC_OPEN][i] = c->patch[i].stock;
     c->patch_initial_open[i] = c->patch[i].initial_remaining;
+    if (c->patch_contact_delay > 0.0) {
+      c->contact_counts[CC_PENDING_OPEN][i] = c->patch[i].contact_pending;
+      c->contact_counts[CC_STOCK_OPEN][i] = c->patch[i].contact_stock;
+    }
   }
 }
 
@@ -1520,6 +1562,11 @@ static void patch_start(Ctx *c) {
     if (p->first <= c->t0) p->first = nextafter(c->t0, INFINITY);
     p->next = p->first; p->arrival_index = 0;
     p->stock = p->initial_remaining = c->patch_capacity;
+    if (c->patch_contact_delay > 0.0) {
+      p->contact_due = INFINITY;
+      p->origins = malloc((size_t)c->patch_capacity * sizeof(uint8_t));
+      if (!p->origins) { c->fail |= FAIL_ALLOC; return; }
+    }
     c->patch_left[i] = p->stock;
     const uint64_t w[8] = {18, dbits(c->t0), (uint64_t)i, dbits(p->x), dbits(p->y),
                            dbits(p->period), dbits(p->first), (uint64_t)c->patch_capacity};
@@ -1533,7 +1580,10 @@ static void patch_source(Ctx *c, int i) {
   patch_window_before(c, t);
   const int64_t before = p->stock;
   const int admitted = before < c->patch_capacity;
-  if (admitted) p->stock++;
+  if (admitted) {
+    p->stock++;
+    if (c->patch_contact_delay > 0.0) patch_origin_push(c, i, 2);
+  }
   if (t >= c->t_open_abs) {
     c->patch_counts[PC_SOURCE][i]++;
     c->patch_counts[admitted ? PC_SUPPLY : PC_SPILL][i]++;
@@ -1543,6 +1593,36 @@ static void patch_source(Ctx *c, int i) {
   fold(c, H_WORLD, w, 7); fold(c, H_ALL, w, 7);
   p->arrival_index++;
   p->next = p->first + (double)p->arrival_index * p->period;
+}
+
+static void patch_contact_start(Ctx *c, int i, double t) {
+  Patch *p = &c->patch[i];
+  patch_window_before(c, t);
+  p->contact_pending = 1;
+  p->contact_due = t + c->patch_contact_delay;
+  if (t >= c->t_open_abs) c->contact_counts[CC_STARTS][i]++;
+  const uint64_t w[5] = {22, dbits(t), (uint64_t)i, p->contact_starts, dbits(p->contact_due)};
+  fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
+  p->contact_starts++;
+}
+
+static void patch_contact_mature(Ctx *c, int i) {
+  Patch *p = &c->patch[i];
+  const double t = p->contact_due;
+  patch_window_before(c, t);
+  const int64_t before = p->stock;
+  const int admitted = before < c->patch_capacity;
+  if (admitted) { p->stock++; patch_origin_push(c, i, 3); }
+  if (t >= c->t_open_abs) {
+    c->patch_counts[PC_SOURCE][i]++;
+    c->patch_counts[admitted ? PC_SUPPLY : PC_SPILL][i]++;
+    c->contact_counts[CC_MATURITIES][i]++;
+    c->contact_counts[admitted ? CC_SUPPLY : CC_SPILL][i]++;
+  }
+  const uint64_t w[7] = {23, dbits(t), (uint64_t)i, p->contact_starts - 1,
+                         (uint64_t)before, (uint64_t)p->stock, (uint64_t)admitted};
+  fold(c, H_WORLD, w, 7); fold(c, H_ALL, w, 7);
+  p->contact_pending = 0; p->contact_due = INFINITY;
 }
 
 static void patch_nearest(const Ctx *c, double t, double *x, double *y) {
@@ -1585,14 +1665,17 @@ static void patch_click(Ctx *c, double t) {
       outcome = 1; p->stock--;
       origin = p->initial_remaining > 0 ? 1 : 2;
       if (origin == 1) p->initial_remaining--;
+      else if (c->patch_contact_delay > 0.0) origin = patch_origin_pop(c, slot);
       if (cnt) {
         c->captures++; c->income = c->income + c->R_cap;
         c->patch_counts[PC_HARVEST][slot]++;
         c->patch_counts[origin == 1 ? PC_INITIAL : PC_REFILL][slot]++;
+        if (origin == 3) c->contact_counts[CC_HARVEST][slot]++;
       }
     } else {
       outcome = 2;
       if (cnt) c->patch_counts[PC_EMPTY][slot]++;
+      if (c->patch_contact_delay > 0.0 && !p->contact_pending) patch_contact_start(c, slot, t);
     }
     after = p->stock;
   } else if (cnt) c->patch_geometric_misses++;
@@ -1607,6 +1690,7 @@ static void patch_click(Ctx *c, double t) {
 static void patch_close(Ctx *c, double t) {
   if (t <= c->t_open_abs) {
     memset(c->patch_counts, 0, sizeof(c->patch_counts)); c->patch_geometric_misses = 0;
+    memset(c->contact_counts, 0, sizeof(c->contact_counts));
   } else {
     patch_window_before(c, t);
     int64_t harvested = 0, empty = 0;
@@ -1621,6 +1705,37 @@ static void patch_close(Ctx *c, double t) {
           op < 0 || op > c->patch_capacity || end < 0 || end > c->patch_capacity ||
           c->patch[i].initial_remaining < 0 || c->patch[i].initial_remaining > end) c->status |= ST_MISMATCH;
       for (int k = 0; k < PC_COUNT; k++) if (c->patch_counts[k][i] < 0) c->status |= ST_MISMATCH;
+      if (c->patch_contact_delay > 0.0) {
+        Patch *p = &c->patch[i];
+        c->contact_counts[CC_PENDING_END][i] = p->contact_pending;
+        c->contact_counts[CC_STOCK_END][i] = p->contact_stock;
+        const int64_t starts = c->contact_counts[CC_STARTS][i], mat = c->contact_counts[CC_MATURITIES][i];
+        const int64_t cs = c->contact_counts[CC_SUPPLY][i], sp = c->contact_counts[CC_SPILL][i];
+        const int64_t ch = c->contact_counts[CC_HARVEST][i], po = c->contact_counts[CC_PENDING_OPEN][i];
+        const int64_t so = c->contact_counts[CC_STOCK_OPEN][i];
+        if (po + starts != mat + p->contact_pending || mat != cs + sp || so + cs != ch + p->contact_stock ||
+            po < 0 || po > 1 || p->contact_pending < 0 || p->contact_pending > 1 ||
+            starts > c->patch_counts[PC_EMPTY][i] ||
+            so > op - c->patch_initial_open[i] || p->contact_stock < 0 ||
+            p->contact_stock > end - p->initial_remaining || cs > supply || sp > spill || mat > source || ch > rh ||
+            c->patch_initial_open[i] < 0 || c->patch_initial_open[i] > op ||
+            (starts >= 0 && po >= 0 && p->contact_starts < (uint64_t)(starts + po)) ||
+            (p->contact_pending && (!isfinite(p->contact_due) || p->contact_due < t || !p->contact_starts)) ||
+            (!p->contact_pending && p->contact_due != INFINITY)) c->status |= ST_MISMATCH;
+        for (int k = 0; k < CC_COUNT; k++) if (c->contact_counts[k][i] < 0) c->status |= ST_MISMATCH;
+        if (!p->origins || p->origin_head < 0 || p->origin_head >= c->patch_capacity || p->origin_n < 0 ||
+            p->origin_n > c->patch_capacity || p->origin_n != end - p->initial_remaining) {
+          c->status |= ST_MISMATCH;
+        } else {
+          int64_t contacts = 0;
+          for (int64_t j = 0; j < p->origin_n; j++) {
+            const int origin = p->origins[(p->origin_head + j) % c->patch_capacity];
+            if (origin == 3) contacts++;
+            else if (origin != 2) c->status |= ST_MISMATCH;
+          }
+          if (contacts != p->contact_stock) c->status |= ST_MISMATCH;
+        }
+      }
       harvested += h; empty += c->patch_counts[PC_EMPTY][i];
     }
     if (c->patch_geometric_misses < 0 || c->captures != harvested ||
@@ -1632,17 +1747,30 @@ static void patch_close(Ctx *c, double t) {
                            (uint64_t)c->patch[i].initial_remaining};
     fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
   }
+  if (c->patch_contact_delay > 0.0) for (int i = 0; i < c->patch_count; i++) {
+    const Patch *p = &c->patch[i];
+    const uint64_t w[7] = {24, dbits(t), (uint64_t)i, (uint64_t)p->contact_pending,
+                           dbits(p->contact_pending ? p->contact_due : 0.0),
+                           (uint64_t)p->contact_stock, p->contact_starts};
+    fold(c, H_WORLD, w, 7); fold(c, H_ALL, w, 7);
+  }
 }
 
 static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then visibility; blob breaks earlier ties
   if (c->patch_count) {
     for (;;) {
       double best = INFINITY;
-      int slot = -1;
-      for (int i = 0; i < c->patch_count; i++)
-        if (c->patch[i].next < best) { best = c->patch[i].next; slot = i; }
+      int slot = -1, contact = 0;
+      for (int i = 0; i < c->patch_count; i++) {
+        if (c->patch[i].next < best) { best = c->patch[i].next; slot = i; contact = 0; }
+        // Strict '<' plus slot order preserves (time, slot, passive-before-contact) ties.
+        if (c->patch_contact_delay > 0.0 && c->patch[i].contact_pending && c->patch[i].contact_due < best) {
+          best = c->patch[i].contact_due; slot = i; contact = 1;
+        }
+      }
       if (!(best < t)) break;
-      patch_source(c, slot);
+      if (contact) patch_contact_mature(c, slot);
+      else patch_source(c, slot);
     }
     patch_window_before(c, t);
     return;
@@ -2280,6 +2408,7 @@ static void close_life(Ctx *c, double *L) {  // 9.5
     for (int k = 0; k < 7; k++) L[L_PATCHOPEN + 4 * k + i] = (double)c->patch_counts[k][i];
     L[L_PATCHINITIAL + i] = (double)c->patch_counts[PC_INITIAL][i];
     L[L_PATCHREFILL + i] = (double)c->patch_counts[PC_REFILL][i];
+    for (int k = 0; k < CC_COUNT; k++) L[L_CONTACTSTARTS + 4 * k + i] = (double)c->contact_counts[k][i];
   }
   L[L_PATCHGEOM] = (double)c->patch_geometric_misses;
   for (int i = 0; i < LEDGER_SIZE; i++) { uint64_t wv = dbits(L[i]); fold(c, H_ALL, &wv, 1); }
@@ -2467,7 +2596,7 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
           2.0 * w[W_RMIN] > w[W_RHOC] + w[W_B2RHO] && w[W_B2VALUE] < 0.0)) return 0;
   } else return 0;
   if (w[W_PATCHCOUNT] == 0.0) {
-    for (int i = W_PATCHCAP; i <= W_PATCHLAND; i++) if (w[i] != 0.0) return 0;
+    for (int i = W_PATCHCAP; i <= W_PATCHCONTACT; i++) if (w[i] != 0.0) return 0;
   } else {
     if (!(w[W_PATCHCOUNT] >= 1.0 && w[W_PATCHCOUNT] <= 4.0 &&
           w[W_PATCHCAP] >= 1.0 && w[W_PATCHCAP] <= 1048576.0)) return 0;
@@ -2479,6 +2608,11 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
     if (!(w[W_RHOC] > 0.0 && w[W_RMIN] >= 2.0 * w[W_RHOC])) return 0;
     if (!(w[W_LAMBG] + w[W_LAMS] * w[W_PATCHCOUNT] <= RATE_MAX)) return 0;
     if (!(w[W_PATCHCOUNT] * (ceil(w[W_T] / w[W_PATCHFAST]) + 1.0) <= 1048576.0)) return 0;
+    if (w[W_PATCHCONTACT] != 0.0) {
+      if (!(w[W_PATCHCONTACT] >= STEP_MIN && w[W_PATCHCONTACT] <= TIME_MAX)) return 0;
+      if (!(w[W_PATCHCOUNT] * (ceil(w[W_T] / w[W_PATCHFAST]) + ceil(w[W_T] / w[W_PATCHCONTACT]) + 2.0)
+            <= 1048576.0)) return 0;
+    }
   }
   return 1;
 }
@@ -2507,6 +2641,7 @@ static void ctx_free(Ctx *c) {
   free(c->cells); free(c->sites); free(c->map); free(c->ev); free(c->blobs); free(c->blob_next);
   free(c->heap.a); free(c->local.a); free(c->wbuf); free(c->bbuf); free(c->rec); free(c->gsnap); free(c->ridx);
   free(c->fl_q); free(c->dO); free(c->col); free(c->fill.lo); free(c->fill.hi); free(c->fill.par);
+  for (int i = 0; i < 4; i++) free(c->patch[i].origins);
   for (int g = 0; g < 6; g++) free(c->grp[g]);
 }
 
@@ -2544,6 +2679,7 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
   c->choice_T = w[W_CHOICET]; c->reset_T = w[W_RESETT]; c->task_next = INFINITY;
   c->patch_count = (int)w[W_PATCHCOUNT]; c->patch_capacity = (int)w[W_PATCHCAP];
   c->patch_fast = w[W_PATCHFAST]; c->patch_slow = w[W_PATCHSLOW]; c->patch_landmark = w[W_PATCHLAND];
+  c->patch_contact_delay = w[W_PATCHCONTACT];
   c->lam_max = c->patch_count ? c->lam_bg + c->lam_s * (double)c->patch_count :
                               c->lam_bg + c->lam_s * (1.0 + c->b2_amp);
   c->c_b2 = c->b2_value < 0.0 ? -c->b2_value : 0.0;
@@ -2585,6 +2721,7 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
 #endif
   if (map_rehash(c, 1024)) { ctx_free(c); free(c); return -3; }
   if (c->kind == WK_CATCH) catch_start(c);  // the world exists before the first time group (9.7.1)
+  if (c->fail & FAIL_ALLOC) { ctx_free(c); free(c); return -3; }
   start_life(c, init, n_init);
   if (!c->fail) {
     if (c->window) run_window(c);

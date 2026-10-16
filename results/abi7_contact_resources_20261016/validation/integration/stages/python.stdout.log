@@ -1,0 +1,107 @@
+........................................................................ [  6%]
+..............................................FFF....................... [ 12%]
+........................................................................ [ 18%]
+........................................................................ [ 24%]
+........................................................................ [ 30%]
+........................................................................ [ 36%]
+........................................................................ [ 43%]
+........................................................................ [ 49%]
+........................................................................ [ 55%]
+........................................................................ [ 61%]
+........................................................................ [ 67%]
+........................................................................ [ 73%]
+........................................................................ [ 80%]
+........................................................................ [ 86%]
+........................................................................ [ 92%]
+........................................................................ [ 98%]
+..................                                                       [100%]
+=================================== FAILURES ===================================
+______ test_native_validator_rejects_invalid_patch_combinations[changes0] ______
+
+patch_c = <CDLL '/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/build-cache/patch-fixture-s9kho2wo/patch_fixture.so', handle 41316880 at 0x73151cee6c00>
+changes = {'patch_count': -1}
+
+    @pytest.mark.parametrize("changes", [
+        {"patch_count": -1}, {"patch_count": .5}, {"patch_count": 5}, {"patch_count": 0},
+        {"patch_capacity": 0}, {"patch_capacity": .5}, {"patch_capacity": 2 ** 20 + 1},
+        {"patch_refill_fast": spec.STEP_MIN / 2}, {"patch_refill_fast": 161},
+        {"patch_refill_slow": spec.TIME_MAX * 2}, {"patch_refill_slow": math.inf},
+        {"patch_landmark": -1}, {"patch_landmark": 1}, {"patch_landmark": math.nan},
+        {"world_kind": 0}, {"task_mode": 1}, {"sample_min": 1},
+        {"visibility_mode": 1, "visibility_on": 1}, {"visibility_low": .5},
+        {"v_t": .1}, {"tau_turn": 1}, {"t_resp": 1}, {"b2_amp": .1}, {"b2_value": 1},
+        {"b2_mode": 1}, {"b2_p": .5}, {"rho_c": 0}, {"R_min": 1.9},
+        {"lam_s": 342}, {"T": spec.TIME_MAX, "patch_refill_fast": 1},
+    ])
+    def test_native_validator_rejects_invalid_patch_combinations(patch_c, changes):
+        vector = spec.V6.pack_world(spec.world("catch_resource_patches_l4"))
+>       assert patch_c.rp_world_ok(vector.ctypes.data_as(F64P)) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = <_FuncPtr object at 0x73151ced7e90>(<tests.test_abi5_kernel_boundaries.LP_c_double object at 0x73151d1c16d0>)
+E        +    where <_FuncPtr object at 0x73151ced7e90> = <CDLL '/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/build-cache/patch-fixture-s9kho2wo/patch_fixture.so', handle 41316880 at 0x73151cee6c00>.rp_world_ok
+E        +    and   <tests.test_abi5_kernel_boundaries.LP_c_double object at 0x73151d1c16d0> = data_as(F64P)
+E        +      where data_as = <numpy._core._internal._ctypes object at 0x73151d022de0>.data_as
+E        +        where <numpy._core._internal._ctypes object at 0x73151d022de0> = array([ 1.024e+03,  0.000e+00,  0.000e+00,  0.000e+00,  0.000e+00,\n        0.000e+00,  5.000e-01,  1.000e+00,  1.000e-...000e+00,  0.000e+00,\n        0.000e+00,  0.000e+00,  3.000e+00,  2.000e+00,  8.000e+01,\n        1.600e+02,  1.000e-01]).ctypes
+
+tests/test_abi6_boundaries.py:363: AssertionError
+______ test_native_validator_rejects_invalid_patch_combinations[changes1] ______
+
+patch_c = <CDLL '/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/build-cache/patch-fixture-s9kho2wo/patch_fixture.so', handle 41316880 at 0x73151cee6c00>
+changes = {'patch_count': 0.5}
+
+    @pytest.mark.parametrize("changes", [
+        {"patch_count": -1}, {"patch_count": .5}, {"patch_count": 5}, {"patch_count": 0},
+        {"patch_capacity": 0}, {"patch_capacity": .5}, {"patch_capacity": 2 ** 20 + 1},
+        {"patch_refill_fast": spec.STEP_MIN / 2}, {"patch_refill_fast": 161},
+        {"patch_refill_slow": spec.TIME_MAX * 2}, {"patch_refill_slow": math.inf},
+        {"patch_landmark": -1}, {"patch_landmark": 1}, {"patch_landmark": math.nan},
+        {"world_kind": 0}, {"task_mode": 1}, {"sample_min": 1},
+        {"visibility_mode": 1, "visibility_on": 1}, {"visibility_low": .5},
+        {"v_t": .1}, {"tau_turn": 1}, {"t_resp": 1}, {"b2_amp": .1}, {"b2_value": 1},
+        {"b2_mode": 1}, {"b2_p": .5}, {"rho_c": 0}, {"R_min": 1.9},
+        {"lam_s": 342}, {"T": spec.TIME_MAX, "patch_refill_fast": 1},
+    ])
+    def test_native_validator_rejects_invalid_patch_combinations(patch_c, changes):
+        vector = spec.V6.pack_world(spec.world("catch_resource_patches_l4"))
+>       assert patch_c.rp_world_ok(vector.ctypes.data_as(F64P)) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = <_FuncPtr object at 0x73151ced7e90>(<tests.test_abi5_kernel_boundaries.LP_c_double object at 0x73151d150f50>)
+E        +    where <_FuncPtr object at 0x73151ced7e90> = <CDLL '/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/build-cache/patch-fixture-s9kho2wo/patch_fixture.so', handle 41316880 at 0x73151cee6c00>.rp_world_ok
+E        +    and   <tests.test_abi5_kernel_boundaries.LP_c_double object at 0x73151d150f50> = data_as(F64P)
+E        +      where data_as = <numpy._core._internal._ctypes object at 0x73151d029820>.data_as
+E        +        where <numpy._core._internal._ctypes object at 0x73151d029820> = array([ 1.024e+03,  0.000e+00,  0.000e+00,  0.000e+00,  0.000e+00,\n        0.000e+00,  5.000e-01,  1.000e+00,  1.000e-...000e+00,  0.000e+00,\n        0.000e+00,  0.000e+00,  3.000e+00,  2.000e+00,  8.000e+01,\n        1.600e+02,  1.000e-01]).ctypes
+
+tests/test_abi6_boundaries.py:363: AssertionError
+______ test_native_validator_rejects_invalid_patch_combinations[changes2] ______
+
+patch_c = <CDLL '/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/build-cache/patch-fixture-s9kho2wo/patch_fixture.so', handle 41316880 at 0x73151cee6c00>
+changes = {'patch_count': 5}
+
+    @pytest.mark.parametrize("changes", [
+        {"patch_count": -1}, {"patch_count": .5}, {"patch_count": 5}, {"patch_count": 0},
+        {"patch_capacity": 0}, {"patch_capacity": .5}, {"patch_capacity": 2 ** 20 + 1},
+        {"patch_refill_fast": spec.STEP_MIN / 2}, {"patch_refill_fast": 161},
+        {"patch_refill_slow": spec.TIME_MAX * 2}, {"patch_refill_slow": math.inf},
+        {"patch_landmark": -1}, {"patch_landmark": 1}, {"patch_landmark": math.nan},
+        {"world_kind": 0}, {"task_mode": 1}, {"sample_min": 1},
+        {"visibility_mode": 1, "visibility_on": 1}, {"visibility_low": .5},
+        {"v_t": .1}, {"tau_turn": 1}, {"t_resp": 1}, {"b2_amp": .1}, {"b2_value": 1},
+        {"b2_mode": 1}, {"b2_p": .5}, {"rho_c": 0}, {"R_min": 1.9},
+        {"lam_s": 342}, {"T": spec.TIME_MAX, "patch_refill_fast": 1},
+    ])
+    def test_native_validator_rejects_invalid_patch_combinations(patch_c, changes):
+        vector = spec.V6.pack_world(spec.world("catch_resource_patches_l4"))
+>       assert patch_c.rp_world_ok(vector.ctypes.data_as(F64P)) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = <_FuncPtr object at 0x73151ced7e90>(<tests.test_abi5_kernel_boundaries.LP_c_double object at 0x73151d0ddf50>)
+E        +    where <_FuncPtr object at 0x73151ced7e90> = <CDLL '/home/jgon/project/ml/cell-dev/outputs/abi7_contact_resources_20261016/validation/build-cache/patch-fixture-s9kho2wo/patch_fixture.so', handle 41316880 at 0x73151cee6c00>.rp_world_ok
+E        +    and   <tests.test_abi5_kernel_boundaries.LP_c_double object at 0x73151d0ddf50> = data_as(F64P)
+E        +      where data_as = <numpy._core._internal._ctypes object at 0x73151d0aaa50>.data_as
+E        +        where <numpy._core._internal._ctypes object at 0x73151d0aaa50> = array([ 1.024e+03,  0.000e+00,  0.000e+00,  0.000e+00,  0.000e+00,\n        0.000e+00,  5.000e-01,  1.000e+00,  1.000e-...000e+00,  0.000e+00,\n        0.000e+00,  0.000e+00,  3.000e+00,  2.000e+00,  8.000e+01,\n        1.600e+02,  1.000e-01]).ctypes
+
+tests/test_abi6_boundaries.py:363: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_abi6_boundaries.py::test_native_validator_rejects_invalid_patch_combinations[changes0]
+FAILED tests/test_abi6_boundaries.py::test_native_validator_rejects_invalid_patch_combinations[changes1]
+FAILED tests/test_abi6_boundaries.py::test_native_validator_rejects_invalid_patch_combinations[changes2]
+3 failed, 1167 passed, 127 deselected in 116.71s (0:01:56)

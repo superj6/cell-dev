@@ -1,0 +1,23 @@
+{
+  "pid": 508,
+  "argv": [
+    "scripts/sweep.py",
+    "--config",
+    "configs/life_catch.yaml:10,configs/life_catch_l2.yaml:3,configs/life_catch_seeded.yaml:3:300,configs/life_speck.yaml:10,configs/life_speck_seeded.yaml:3:300",
+    "--seeds",
+    "0,1,2,3,4,5,6,7,8,9",
+    "--jobs",
+    "4",
+    "--threads",
+    "3",
+    "--name",
+    "catch_pilot",
+    "--out",
+    "outputs",
+    "--logs",
+    "logs",
+    "--plan",
+    "evolve.generations=500"
+  ],
+  "counts": {}
+}

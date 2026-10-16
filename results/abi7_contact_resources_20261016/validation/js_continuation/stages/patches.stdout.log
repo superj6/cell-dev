@@ -1,0 +1,22 @@
+pass: ABI6 appends exact columns and rejects incompatible or invalid worlds
+pass: independent streams and count1 through4 geometry obey the contract
+pass: manual editing is rejected and observer reads are pure
+pass: source deadline left limit, spill and exact source hashes
+pass: direct source serialization retains the high32 bits of the arrival index
+pass: same-group harvests reserve stock while receptors keep the left-limit field
+pass: opening-stock and FIFO provenance survive pre-window harvests and boundary supply
+pass: endpoint exclusion and close at/before opening retain physical terminal stock only
+pass: injected per-slot imbalance is flagged even when aggregate counts cancel
+pass: actual extinction and guard keep world/window conservation
+pass: neutral V6 preserves V5 full records and appends only37 zero close folds
+pass: source processing is invariant to capped stepping and observer polling
+pass: C/Python/JS truth: reflex_count1
+pass: C/Python/JS truth: reflex_count2
+pass: C/Python/JS truth: grn_count3_preset
+pass: C/Python/JS truth: grn_count4_shifted_window
+pass: C/Python/JS truth: reflex_negative_t0_window
+pass: C/Python/JS truth: reflex_equal_period_no_motor
+pass: C/Python/JS truth: reflex_extinct_world_continues
+pass: C/Python/JS truth: grn_guard_before_window
+{"checks":20,"construction_attempts":64,"complete_runs":22}
+JS call inventory: {"exit_code":0,"attempts":64,"constructed":34,"completed_via_advance":22,"direct_close_calls":5}

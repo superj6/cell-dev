@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "Empty-before-click start only; successful harvest never starts; one pending job with no reset or queue.",
+    "FIFO initial prefix then admitted passive/contact origins; spills do not enqueue; initial/refill and contact subsets reconcile.",
+    "Strict event exclusion and (time,slot,kind) ties; opening snapshots precede equal-time events; endpoint<=opening zeros appended counters.",
+    "START/MATURE/END fields and full-width job index; all ordinary END records precede contact END records.",
+    "Pending/stock conservation, ring invariants and lifetime starts >= window starts + pending opening.",
+    "Disabled delay, old caller shapes/default ABI2 and neutral adapter folds remain source-compatible; integration must establish exact numerical/hash compatibility.",
+    "Readouts expose provenance without claiming counterfactual contribution or memory; probe maps exact record fields."
+  ],
+  "material_findings": [],
+  "new_builds": 0,
+  "new_simulations": 0,
+  "reviewer": "circuit_options",
+  "scope": "Independent read-only Python ABI7 semantics and adapters against C and shared contract; no dynamic equivalence claim.",
+  "source_pins": {
+    "docs/ABI7_CONTACT_RESOURCES.md": "79d56f5a2f0e0a6dc0b5f0572cdb5f7c694869a4e5f9e8c9922d82d4e340ade4",
+    "src/life/analysis.py": "368704e29d4c927e1fb5fb09fc506228cf2091a565d72157ee80d49ef0ca3fff",
+    "src/life/build.py": "45d5b2a596977f39f23336bf8556e66f6e3f4ece6b00504a0428870d02cb00aa",
+    "src/life/evaluate.py": "ad164ff2b51e394e83e7fdc9bc874cd0ef4dc9a29b9f5f80895735e1d69a21af",
+    "src/life/kernel.c": "9d2022c372379c67c1f10c47e7d3fe89e75f0c8a4977896ce19b92399e1938fe",
+    "src/life/probe.py": "a63e35bc3586f290c4e7da9de9ac551b2718e37fd2b2b214c38ce083d9c68f88",
+    "src/life/readouts.py": "4a45d04713cd4436a0d9f19ddeb36753bdb73099ce3464bd3a49a2d7eaa31483",
+    "src/life/reference.py": "c79ae22474754a39508a93f22d64f02ea6d32ed2be9ceee74760d7055866715f",
+    "src/life/spec.py": "b23110f687e8023f18f7e658097ef231440c5cc4cee0a107d43b343114e36894",
+    "tests/test_abi7_contact.py": "8f8b8ed11530c4b210c40cc4cfcb4d77779275d1d5387a72a391993fc163828e"
+  },
+  "status": "passed_source_review",
+  "tests_executed": 0
+}

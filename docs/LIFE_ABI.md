@@ -2262,3 +2262,17 @@ and hand-designs no behaviour (hand-built organisms remain references and gates 
     The tuned knobs (handbuilt.SPECK_TUNED) were tuned at c_miss 2 and are not re-tuned. Lives are unchanged: no
     cell reads a price (the kernel only adds it to the ledger's cost tally), so events, fates and hashes are bitwise
     the same and F moves by −8 · misses / T. The gates were rerun at the new presets (docs/LIFE_GATES.md, SPECK).
+
+
+## ABI 7: contact-grown resources
+
+The exact append-only contract is [ABI7_CONTACT_RESOURCES.md](ABI7_CONTACT_RESOURCES.md). World index 82
+adds `patch_contact_delay`; the ABI has 83 world entries and 143 ledger columns. An existing hotspot click
+on an already-empty patch may start one delayed packet while remaining a charged miss. Stocked clicks
+only harvest. Repeated pending taps neither reset nor queue; passive sources remain independent. Ready
+food has the existing stock cue and ordinary value. No cell input, genome field or organism clock is added.
+
+The nine four-slot contact ledger blocks start at 107; records 22/23/24 describe start, maturity and terminal
+state. The contract fixes strict-before event ordering, FIFO initial/passive/contact provenance, window
+conservation and neutral projection to ABI 2–6. The default caller remains ABI 2. This extension establishes
+physical laws and accounting only; it does not establish planning, memory or evolutionary accessibility.

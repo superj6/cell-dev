@@ -32,7 +32,8 @@ def canonical_log(path):
     (True, "catch_speck_flash5_dim25_l4", 4), (True, "catch_speck_blink20_20_l4", 4),
     (True, "catch_delayed_match_l4", 5),
     (True, "catch_resource_patches_l4", 6),
-], ids=["bell", "catch", "flash", "renewal", "delayed_match", "resource_patches"])
+    (True, "catch_contact_resources_l4", 7),
+], ids=["bell", "catch", "flash", "renewal", "delayed_match", "resource_patches", "contact_resources"])
 def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, override_world, abi_version):
     config = "configs/life_speck.yaml" if catch else "configs/life_smoke.yaml"
     opts = ["threads=1", "seed=45000123", "evolve.generations=6", "evolve.mu=4", "evolve.lam=6",
@@ -52,9 +53,11 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, override_worl
         # Exercise SAMPLE/BLANK/CHOICE/timeout cycles within these short determinism fixtures.
         opts += ["world.sample_min=2", "world.sample_max=3", "world.blank_min=3", "world.blank_max=4",
                  "world.choice_T=4", "world.reset_T=1"]
-    if abi_version == 6:
+    if abi_version in (6, 7):
         # Short fixtures include independently phased resource arrivals as well as development.
         opts += ["world.patch_refill_fast=4", "world.patch_refill_slow=8"]
+    if abi_version == 7:
+        opts += ["world.patch_contact_delay=4"]
     full, split = tmp_path / "full" / "run", tmp_path / "split" / "run"
 
     def run(out, *flags):
@@ -80,7 +83,7 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, override_worl
         assert canonical_log(full / name) == canonical_log(split / name), name
     for name in ("population.json", "best_genome.json", "determinism.json"):
         assert (full / name).read_bytes() == (split / name).read_bytes(), name
-    if abi_version in (5, 6):
+    if abi_version in (5, 6, 7):
         assert json.loads((full / "results.jsonl").read_text())["abi"] == abi_version
     a, b = (checkpoint.load(p / "checkpoint.pt")["state"] for p in (full, split))
     assert a.keys() == b.keys()

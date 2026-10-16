@@ -1,18 +1,19 @@
-"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 6), written independently of the C kernel.
+"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 7), written independently of the C kernel.
 
 Every handler of the ABI (sections 6-12) is transcribed here with the same float64 operations in the same order, so on
 the same libm its ledger, hashes, raster and fate log agree bitwise with ``kernel.c``. It is meant for tiny bodies
 (about 20 cells, T up to about 200) in tests: whole lives are seconds, not milliseconds.
 
-The handlers implement ABI 6: sites ``(a, b, z)`` in a stack of ``L_max`` planes, the prism lattices, the receptor
+The handlers implement ABI 7: sites ``(a, b, z)`` in a stack of ``L_max`` planes, the prism lattices, the receptor
 events RCAND and RECEPTOR (7.10), the plane cues and the receptor trace, vertical placement, the forks lateral_off,
 hidden_off, receptor_off and motor_off, and both world kinds: the BELL-1 lumen (9.2) and the CATCH world (9.7).
 Every entry point takes ``abi`` (default ``spec.CURRENT``):
+- ``spec.V7``: ABI-7 arrays (world 83, ledger 143), adding contact-grown food.
 - ``spec.V6``: ABI-6 arrays (world 82, ledger 107), adding conserved food patches.
 - ``spec.V5``: ABI-5 arrays (world 77, ledger 70), adding delayed cue matching without changing cell rules.
 - ``spec.V4``: ABI-4 arrays in and out (world 70, ledger 58); flash/renewal visibility changes target cues only.
 - ``spec.V3``: ABI-3 arrays in and out (genome 875, program 129, world 66, ledger 57, 5 hashes, fate_i 7 columns).
-- ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 6 (``spec.V3.pad_genomes``,
+- ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 7 (``spec.V3.pad_genomes``,
   ``pad_program``, the CATCH and visibility keys at their defaults, z = 0), and outputs are cut back to ABI 2's
   sizes. The ``all`` hash folds only the caller's ledger columns. LIFE_ABI.md 15.33 says this is
   ABI 2 bitwise (gate GB1); the ABI-2 tests of this repository check it against the ABI-2 kernel.
@@ -49,7 +50,7 @@ import numpy as np
 from src import lattice as _lat
 from src.life import spec
 
-V2, V3, V4, V5, V6 = spec.V2, spec.V3, spec.V4, spec.V5, spec.V6
+V2, V3, V4, V5, V6, V7 = spec.V2, spec.V3, spec.V4, spec.V5, spec.V6, spec.V7
 EMPTY = spec.EMPTY
 _KIND_OF = {code: kind for kind, code in V3.LATTICE_CODES.items()}
 _INF = float("inf")
@@ -72,6 +73,7 @@ R_CHEM = 100
 W_CLICK, W_PLACE, W_TURN, W_VISIBILITY = 11, 12, 13, 14  # CATCH accountant world-event first hash words
 W_TASK_PHASE, W_TASK_RESOLVE, W_TASK_END = 15, 16, 17
 W_PATCH_START, W_PATCH_SOURCE, W_PATCH_CLICK, W_PATCH_END = 18, 19, 20, 21
+W_CONTACT_START, W_CONTACT_MATURE, W_CONTACT_END = 22, 23, 24
 TASK_SAMPLE, TASK_BLANK, TASK_CHOICE, TASK_GAP = range(4)
 H_ALL, H_SPIKES, H_FATE, H_CHEM, H_WORLD = 0, 1, 2, 3, 4
 _FAMILY = {R_SPIKE: H_SPIKES, R_BIRTH: H_FATE, R_DEATH: H_FATE, R_CLAIM: H_FATE, R_RESOLVE: H_FATE,
@@ -83,7 +85,7 @@ assert [V3.K[n] for n in V3.KNOBS] == list(range(V3.P)) and V3.KNOBS[KZETA] == "
 
 _F = V3.FLAGS
 _ST = spec.STATUS
-_LI = V6.L
+_LI = V7.L
 _NROW = len(spec.PROGRAM_ROWS)
 _PS = {name: i - _NROW * V3.P for name, i in V3.PROGRAM_SCALAR.items()}
 _ROW = V3.PROGRAM_ROW
@@ -94,13 +96,14 @@ _FLOAT_KEYS = ("T", "t0", "t_open", "t_fork", "d_min", "d0", "delay_sd", "jit", 
                "R_min", "R_max", "t_resp", "R_cap", "c_miss", "c_rec", "b2_amp", "b2_sigma", "b2_value", "b2_rho",
                "b2_p", "visibility_on", "visibility_off", "visibility_low",
                "sample_min", "sample_max", "blank_min", "blank_max", "choice_T", "reset_T",
-               "patch_refill_fast", "patch_refill_slow", "patch_landmark")
+               "patch_refill_fast", "patch_refill_slow", "patch_landmark", "patch_contact_delay")
 _INT_KEYS = ("flags", "fork_flags", "n_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max",
              "stuck_z", "b2_mode", "visibility_mode", "task_mode", "patch_count", "patch_capacity")
 _V3_DEFAULTS = [float(getattr(spec.World(), k)) for k in V3.WORLD_KEYS[V2.WORLD_SIZE:]]
 _V4_DEFAULTS = [float(getattr(spec.World(), k)) for k in V4.WORLD_KEYS[V3.WORLD_SIZE:]]
 _V5_DEFAULTS = [float(getattr(spec.World(), k)) for k in V5.WORLD_KEYS[V4.WORLD_SIZE:]]
 _V6_DEFAULTS = [float(getattr(spec.World(), k)) for k in V6.WORLD_KEYS[V5.WORLD_SIZE:]]
+_V7_DEFAULTS = [0.0]
 
 
 def bits(x: float) -> int:
@@ -155,6 +158,13 @@ class _Patch:
     arrival_index: int = 0
     stock: int = 0
     initial_remaining: int = 0
+    contact_due: float = _INF
+    contact_starts: int = 0
+    contact_pending: int = 0
+    contact_stock: int = 0
+    origins: bytearray | None = None
+    origin_head: int = 0
+    origin_n: int = 0
 
 
 @dataclass
@@ -190,7 +200,7 @@ class _Accountant:
         self.n = 0
         self.n_plane = [0, 0, 0]  # live cells in the planes S (z = 0), M (z = 1) and H (z >= 2)
         self.inflight = 0
-        self.led = [0.0] * V6.LEDGER_SIZE
+        self.led = [0.0] * V7.LEDGER_SIZE
         self.led[_LI["last_birth"]] = life.t0
         self.led[_LI["t_ext"]] = -1.0
         self.status = 0
@@ -312,6 +322,8 @@ class _Accountant:
             p.period, p.first = spec.patch_source(L.seed, i, L.patch_refill_fast, L.patch_refill_slow, L.t0)
             p.next = p.first
             p.stock = p.initial_remaining = L.patch_capacity
+            if L.patch_contact_delay:
+                p.origins = bytearray(L.patch_capacity)
             self.patch_left[i] = p.stock
             self._fold_world((W_PATCH_START, bits(L.t0), i, bits(p.x), bits(p.y),
                               bits(p.period), bits(p.first), L.patch_capacity))
@@ -323,6 +335,60 @@ class _Accountant:
         for i in range(self.life.patch_count):
             self.led[_LI[f"patch_stock_open_{i}"]] = float(self.patches[i].stock)
             self.patch_initial_open[i] = self.patches[i].initial_remaining
+            if self.life.patch_contact_delay:
+                self.led[_LI[f"patch_contact_pending_open_{i}"]] = float(self.patches[i].contact_pending)
+                self.led[_LI[f"patch_contact_stock_open_{i}"]] = float(self.patches[i].contact_stock)
+
+    def _patch_origin_push(self, p: _Patch, origin: int) -> None:
+        K = self.life.patch_capacity
+        if (p.origins is None or not 0 <= p.origin_head < K or not 0 <= p.origin_n < K
+                or origin not in (2, 3)):
+            self.status |= _ST["ledger_mismatch"]
+            return
+        p.origins[(p.origin_head + p.origin_n) % self.life.patch_capacity] = origin
+        p.origin_n += 1
+        p.contact_stock += int(origin == 3)
+
+    def _patch_origin_pop(self, p: _Patch) -> int:
+        K = self.life.patch_capacity
+        if p.origins is None or not 0 <= p.origin_head < K or not 0 < p.origin_n <= K:
+            self.status |= _ST["ledger_mismatch"]
+            return 0
+        origin = p.origins[p.origin_head]
+        if origin not in (2, 3):
+            self.status |= _ST["ledger_mismatch"]
+        p.origins[p.origin_head] = 0
+        p.origin_head = (p.origin_head + 1) % self.life.patch_capacity
+        p.origin_n -= 1
+        p.contact_stock -= int(origin == 3)
+        return origin
+
+    def _patch_contact_start(self, i: int, t: float) -> None:
+        p = self.patches[i]
+        p.contact_pending = 1
+        p.contact_due = t + self.life.patch_contact_delay
+        if t >= self.life.t_open_abs:
+            self.led[_LI[f"patch_contact_starts_{i}"]] += 1.0
+        self._fold_world((W_CONTACT_START, bits(t), i, p.contact_starts, bits(p.contact_due)))
+        p.contact_starts += 1
+
+    def _patch_contact_mature(self, i: int) -> None:
+        L, p = self.life, self.patches[i]
+        t = p.contact_due
+        self._patch_window_before(t)
+        before = p.stock
+        admitted = before < L.patch_capacity
+        if admitted:
+            p.stock += 1
+            self._patch_origin_push(p, 3)
+        if t >= L.t_open_abs:
+            for name in ("source", "supply" if admitted else "spill"):
+                self.led[_LI[f"patch_{name}_{i}"]] += 1.0
+            self.led[_LI[f"patch_contact_maturities_{i}"]] += 1.0
+            self.led[_LI[f"patch_contact_{'supply' if admitted else 'spill'}_{i}"]] += 1.0
+        self._fold_world((W_CONTACT_MATURE, bits(t), i, p.contact_starts - 1, before, p.stock, int(admitted)))
+        p.contact_pending = 0
+        p.contact_due = _INF
 
     def _patch_source(self, i: int) -> None:
         L, p = self.life, self.patches[i]
@@ -332,6 +398,8 @@ class _Accountant:
         admitted = before < L.patch_capacity
         if admitted:
             p.stock += 1
+            if L.patch_contact_delay:
+                self._patch_origin_push(p, 2)
         if t >= L.t_open_abs:
             self.led[_LI[f"patch_source_{i}"]] += 1.0
             self.led[_LI[f"patch_{'supply' if admitted else 'spill'}_{i}"]] += 1.0
@@ -382,15 +450,21 @@ class _Accountant:
                 origin = 1 if p.initial_remaining > 0 else 2
                 if origin == 1:
                     p.initial_remaining -= 1
+                elif L.patch_contact_delay:
+                    origin = self._patch_origin_pop(p)
                 if counted:
                     led[_LI["captures"]] += 1.0
                     led[_LI["income"]] = led[_LI["income"]] + L.R_cap
                     led[_LI[f"patch_harvest_{slot}"]] += 1.0
                     led[_LI[f"patch_{'initial' if origin == 1 else 'refill'}_harvest_{slot}"]] += 1.0
+                    if origin == 3:
+                        led[_LI[f"patch_contact_harvest_{slot}"]] += 1.0
             else:
                 outcome = 2
                 if counted:
                     led[_LI[f"patch_empty_{slot}"]] += 1.0
+                if L.patch_contact_delay and not p.contact_pending:
+                    self._patch_contact_start(slot, t)
             after = p.stock
         elif counted:
             led[_LI["patch_geometric_misses"]] += 1.0
@@ -403,7 +477,7 @@ class _Accountant:
     def _patch_finish(self, t_end: float) -> None:
         L, led = self.life, self.led
         if t_end <= L.t_open_abs:
-            for name in spec.PATCH_LEDGER:
+            for name in (*spec.PATCH_LEDGER, *spec.CONTACT_LEDGER):
                 led[_LI[name]] = 0.0
         else:
             self._patch_window_before(t_end)
@@ -423,6 +497,31 @@ class _Accountant:
                     self.status |= _ST["ledger_mismatch"]
                 harvested += h
                 empty += e
+                if L.patch_contact_delay:
+                    led[_LI[f"patch_contact_pending_end_{i}"]] = float(p.contact_pending)
+                    led[_LI[f"patch_contact_stock_end_{i}"]] = float(p.contact_stock)
+                    cc = {name: led[_LI[f"patch_contact_{name}_{i}"]] for name in spec.CONTACT_METRICS}
+                    valid_ring = (p.origins is not None and 0 <= p.origin_head < L.patch_capacity
+                                  and 0 <= p.origin_n <= L.patch_capacity)
+                    queued = ([p.origins[(p.origin_head + k) % L.patch_capacity] for k in range(p.origin_n)]
+                              if valid_ring else [])
+                    if (cc["pending_open"] + cc["starts"] != cc["maturities"] + cc["pending_end"]
+                            or cc["maturities"] != cc["supply"] + cc["spill"]
+                            or cc["stock_open"] + cc["supply"] != cc["harvest"] + cc["stock_end"]
+                            or cc["starts"] > e or cc["maturities"] > source or cc["supply"] > supply
+                            or cc["spill"] > spill or cc["harvest"] > rh or cc["stock_open"] > op
+                            or cc["stock_end"] > end or cc["pending_open"] not in (0, 1)
+                            or cc["pending_end"] not in (0, 1)
+                            or not 0 <= self.patch_initial_open[i] <= op
+                            or cc["stock_open"] > op - self.patch_initial_open[i]
+                            or any(v < 0 or v != math.floor(v) for v in cc.values())
+                            or p.origin_n + p.initial_remaining != p.stock
+                            or not valid_ring or p.contact_stock > p.stock - p.initial_remaining
+                            or p.contact_starts < cc["starts"] + cc["pending_open"]
+                            or (p.contact_pending and (not math.isfinite(p.contact_due) or p.contact_due < t_end))
+                            or (not p.contact_pending and p.contact_due != _INF)
+                            or any(x not in (2, 3) for x in queued) or queued.count(3) != p.contact_stock):
+                        self.status |= _ST["ledger_mismatch"]
             geom = led[_LI["patch_geometric_misses"]]
             if (geom < 0 or geom != math.floor(geom) or led[_LI["captures"]] != harvested
                     or led[_LI["misses"]] != empty + geom
@@ -431,6 +530,12 @@ class _Accountant:
         for i in range(L.patch_count):
             p = self.patches[i]
             self._fold_world((W_PATCH_END, bits(t_end), i, p.stock, p.initial_remaining))
+        if L.patch_contact_delay:
+            for i in range(L.patch_count):
+                p = self.patches[i]
+                self._fold_world((W_CONTACT_END, bits(t_end), i, p.contact_pending,
+                                  bits(p.contact_due if p.contact_pending else 0.0),
+                                  p.contact_stock, p.contact_starts))
 
     def _task_count(self, metric: str) -> None:
         cls = "narrow" if self.task_class == 0 else "broad"
@@ -602,10 +707,17 @@ class _Accountant:
         """Run world events strictly below t, with timers before turns before visibility at equal times."""
         if self.life.patch_count:
             while True:
-                i = min(range(self.life.patch_count), key=lambda j: (self.patches[j].next, j))
-                if not self.patches[i].next < t:
+                events = [(self.patches[i].next, i, 0) for i in range(self.life.patch_count)]
+                if self.life.patch_contact_delay:
+                    events += [(p.contact_due, i, 1) for i, p in enumerate(self.patches[:self.life.patch_count])
+                               if p.contact_pending]
+                at, i, kind = min(events)
+                if not at < t:
                     break
-                self._patch_source(i)
+                if kind == 0:
+                    self._patch_source(i)
+                else:
+                    self._patch_contact_mature(i)
             self._patch_window_before(t)
             return
         if self.life.task_mode:
@@ -1066,7 +1178,7 @@ class _Life:
 
     def __init__(self, wv, lat: dict, gt, prog, init, seeds, raster_cap: int, fate_cap: int, keep_records: bool,
                  out_abi: spec.Abi = V3):
-        wi = V6.WORLD_INDEX
+        wi = V7.WORLD_INDEX
         wv = [float(x) for x in wv]
         for key in _FLOAT_KEYS:
             setattr(self, key, wv[wi[key]])
@@ -1883,8 +1995,8 @@ def _i64(u: int) -> int:
 # ------------------------------------------------------------------------------------------------------- arguments
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3, 4, 5, 6):  # pragma: no cover
-        raise ValueError(f"the reference implements ABI 2, 3, 4, 5 and 6, not {abi.version}")
+    if abi.version not in (2, 3, 4, 5, 6, 7):  # pragma: no cover
+        raise ValueError(f"the reference implements ABI 2, 3, 4, 5, 6 and 7, not {abi.version}")
     return abi
 
 
@@ -1945,7 +2057,7 @@ def _check_world(wv, abi=None) -> None:
 
 
 def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) -> tuple:
-    """Check one life's arguments and convert them into ABI-6 inputs: (world, genome row, program, cells)."""
+    """Check one life's arguments and convert them into ABI-7 inputs: (world, genome row, program, cells)."""
     _check_world(world_vec, abi)
     wv = [float(x) for x in np.asarray(world_vec, dtype=np.float64)]
     flags = int(wv[abi.WORLD_INDEX["flags"]])
@@ -1989,6 +2101,8 @@ def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) 
         wv = wv + _V5_DEFAULTS
     if abi.version < 6:
         wv = wv + _V6_DEFAULTS
+    if abi.version < 7:
+        wv = wv + _V7_DEFAULTS
     return wv, (None if prog_mode else row), (row if prog_mode else None), cells
 
 

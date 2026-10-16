@@ -1,0 +1,43 @@
+{
+  "status": "source_ready_unexecuted",
+  "source_pins": {
+    "results/atlas/play/lifesim.js": "b81ca41d3ff43271be03293fe4972c20689cb71b8f741fb5482d3acc37058a14",
+    "results/atlas/play/resource_patches_view.js": "67df4d4f687c24be3c59ae48b41bd23a832eb290c8f492664dc09ed358ecdba2",
+    "outputs/abi7_contact_resources_20261016/export_truth.py": "288487d0ecb090a6784dc8a2944c95f1cb4ef538aed9a0e73869f2b2c864f586",
+    "outputs/abi7_contact_resources_20261016/test_contact_resources.js": "dbec26329ae9842f0b08be3f4c2661f10f512e7295d97829fe9728c0430caa34",
+    "outputs/abi7_contact_resources_20261016/test_contact_resources_view.js": "276e8ffe456f33d510bf1bae0f6f5e055b2bcdb443f80f8d82ed80c411c92c47"
+  },
+  "world_entries": 83,
+  "ledger_columns": 143,
+  "neutral_default_unchanged": true,
+  "static_checks": [
+    "node --check for both production JS and both focused JS tests",
+    "exporter AST parse and Ruff check"
+  ],
+  "backend_calls_executed": 0,
+  "builds_executed": 0,
+  "scientific_random_draws": 0,
+  "planned_fixed_truth_calls": {
+    "C_full": 8,
+    "C_fast": 8,
+    "Python": 8,
+    "JS_full": 8,
+    "JS_stepped": 8
+  },
+  "planned_boundary_tests": 11,
+  "planned_additional_JS_completed_runs": 2,
+  "planned_UI_supplied_state_mounts": 2,
+  "real_browser_tested": false,
+  "notes": [
+    "Runtime awaits the shared integration owner; no independent release.",
+    "Test fixtures use existing fixed42M engineering seeds; no outcome-based case choice.",
+    "One source-edit command used unavailable python; no file edited by that command. Retried using python3."
+  ],
+  "source_review_amendment": {
+    "prior_engine_sha256": "2e7bf1de41dd1e603b0d098c84b558e5837b028f3789a3efb27043e2b74d59d9",
+    "final_engine_sha256": "b81ca41d3ff43271be03293fe4972c20689cb71b8f741fb5482d3acc37058a14",
+    "reason": "Peer C review: match defensive ring head/count/origin checks and invalid-pop return0; direct start snapshots opening.",
+    "normal_trajectory_change": false,
+    "executed_lives": 0
+  }
+}
