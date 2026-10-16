@@ -1,0 +1,84 @@
+{
+  "status": "source_prepared",
+  "scientific_protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "source_pins": {
+    "prepare.py": "51aca58a183540ae89e083113ffef1104d10e8087a4e2c11ae58d274bdef2a37",
+    "run.py": "efa8df82fa22fbbca41cffdac7ff4fa4db55b0456bc334b2fc91805fb848c830",
+    "replay.js": "7297b296e17ea5bfcea9ca38cce3ab6f1eebfd17b0fdab04a39bf36615f45ce8",
+    "template.html": "80c08a1572a12490d08efb6444e3bfacbe992e0585e4b63f6f3e437c2d1ca734",
+    "page.js": "a7ae5d5ab2795cec5053319e5ee1bf99b22f94b96dd3187679a6d1742285d279",
+    "test_page.js": "619514b36ce863e8592eee72014038709c3c2e6215e59019970a33c56ac6d678",
+    "verify.py": "f1420c3a10b42d9bfb9f00a3e31bac2e1ca40a3cf2f51e3edd4e4acb3eeaa4f3",
+    "monitor_core.py": "d4a7fc6a1a883fed3973467e16539a5492a9e5ec7cb4611108b6a578bc9d75ba",
+    "common.py": "b287406df5575fa744ea711d3e10775a740a780a853037cc91bc18ea8b650a6a",
+    "source_origins.json": "da7ac564e0307d08b39916363e5453fa1c20810e3483a9c9acc454e3aee1cb16"
+  },
+  "dependency_pins": {
+    "results/atlas/play/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "results/atlas/play/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "results/atlas/play/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984",
+    "results/atlas/play/bodies.json": "6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/life/__init__.py": "7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf",
+    "src/life/spec.py": "91f286fa460bda49a0dfbc0365e337e5ace42e32ac2839f355b6bcf78c6e4958",
+    "src/lattice.py": "d2019da35fa78882c81b2c4e7e1913a3d314590b4fcffd4c3702a61b4622be5d"
+  },
+  "fixed_cases": {
+    "roles": [
+      "AO_start",
+      "patch8_start",
+      "mean4",
+      "pareto4"
+    ],
+    "world": "patch",
+    "T": 1024,
+    "seed": 52500000,
+    "saved_native_row": 0,
+    "JS_replays_planned": 4,
+    "new_native_lives": 0,
+    "ledger_values_per_case": 107,
+    "full_C_hash_proof": false
+  },
+  "checks": {
+    "AST": "passed",
+    "Ruff": "passed",
+    "node_syntax": 3,
+    "Node_startup_AS_bytes": 2147483648,
+    "Node_options": [
+      "--single-threaded",
+      "--max-old-space-size=256"
+    ],
+    "exact_monitor_copy_transformation": true,
+    "simulation_executions": 0,
+    "study_outcome_reads": 0,
+    "UI_runtime_tests": 0,
+    "real_browser": false
+  },
+  "resources": {
+    "measured_source_CPU_seconds": 0.49,
+    "measured_source_wall_seconds": 0.49,
+    "peak_RSS_kib": 47700,
+    "source_checks_charged_to_outside_CPU_reserve": 3,
+    "package_CPU_cap": 15,
+    "package_wall_cap": 60,
+    "runtime_CPU_cap": 12,
+    "runtime_wall_cap": 55
+  },
+  "history": {
+    "initial_static_failure": "Ruff requested one import-group blank line; initial stdout/stderr/resource logs retained. Node checks had not run.",
+    "functional_changes_after_checks": false
+  },
+  "logs": {
+    "initial_source_check_stdout.txt": "bf1b1a3c441c802f05442518e8f0be5bf8038943eb2da5e1538b1ba860dbb9bb",
+    "initial_source_check_stderr.txt": "f68923a7cf5e8423ea747aa167928998e91461c067e87c40996564c1bf4f7583",
+    "initial_source_check_resources.txt": "85097ebaa040760d680056f425477102dc9235c8f6fd8041f98bd9fedab0f806",
+    "source_check_stdout.txt": "4eb5e8c5a52e771509738759c1282e1ee262bba09f1c423a7059f53d73717da6",
+    "source_check_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_check_resources.txt": "2ba434798ca378992833e6bafb9a7178cba89140f952629eda83beaf23b3b5d7"
+  },
+  "limitations": [
+    "Source preparation only. No fixture inputs, execution record, actual replay receipt or HTML exists yet.",
+    "Node syntax startup fits the2GiB AS cap; full stepped replays remain untested.",
+    "Exactly four JS lives are planned; saved fast-C constant hashes cannot prove trajectory identity."
+  ]
+}

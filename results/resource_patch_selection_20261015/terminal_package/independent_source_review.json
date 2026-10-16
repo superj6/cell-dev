@@ -1,0 +1,42 @@
+{
+  "status": "source_review_passed",
+  "protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "scope": "Source-only independent review of terminal packaging against frozen producers and current independent audit receipt constructors.",
+  "reviewed_sources": {
+    "search.py": "ecbe2061252ee58032510f47bc9c7d56ef1a974a92be8c613dbf932ed23dab01",
+    "native_replay.py": "1e9056d59b3199ed216a709bf67cf042d1f20699b484b0a7b96eea673878427a",
+    "measure.py": "20e4238e74bfe697c31699cc65aaac62c1b0ff5fc69d8f12a7953e9516f8ca7a",
+    "analyze.py": "0ac39bb7b11a754f73acff2b77c0690ce4b525b688664da34cc6006b9da1373b",
+    "monitor.py": "404457571c0f2716e336e8860c2f401ec49a161a2ff7c0568f302d4a2bf8f998",
+    "release_and_run.py": "f01759b866101ba50a8b39b0cd829ce2f9772c1dfce04a2063a5fc9aeaac9924",
+    "publish.py": "07353b271f0f0f998675c550ca7933db342c22e80a97c4b79842d810e7edbe38",
+    "terminal_audit/audit_accounting.py": "dbc493e5752e9703c80063ebfb28b7119bc52cbf567af85dcc5c5bc20be02a75",
+    "terminal_selection_audit/audit_selection.py": "c8c5475d457b202eb3520ebed90d833ad4440db949c5618b5b7e7ae8b6624fe0"
+  },
+  "helpers_before": {
+    "pack.py": "802d6e0d03ace283525843c45bc5fd72db509be4f7a6b1adc677543d9aefabe0",
+    "verify.py": "1b7ffb81b30acb16d6c3270baba0e6fadcc875851b363a893e53cf398a1a900b"
+  },
+  "helpers_after": {
+    "pack.py": "802d6e0d03ace283525843c45bc5fd72db509be4f7a6b1adc677543d9aefabe0",
+    "verify.py": "927acc083649ec0386035d7406b0bb7c6471ccc1465ea7045163426bc682d2bd"
+  },
+  "preserved_originals": "terminal_package/preparation_history/pre_independent_review",
+  "delta_sha256": "32ea451c98e52ee4f8e85bbb1c7a2bd2c459e30454b27d26aa45b0d7b6810044",
+  "checks": [
+    "Both four-generation search branches, 20 raw plus 20 scored confirmation batches, four roles, five worlds and 30,808 calls match registered schemas.",
+    "Search checkpoints, full population exports, all eight selection records and common joint endpoints are retained; replay counters and release schema match source.",
+    "Prospective archive files are preserved byte-for-byte; runtime evidence is copied into a fresh separate outputs directory; symlinks and unsafe relative paths are rejected.",
+    "Verifier consumes selection receipt artifact_pins rather than absent artifacts, checks source/terminal/search pins, 16 rankings, 24 permutations, 20,480 scored selection lives, and both common endpoints.",
+    "Summary endpoint hash and primary contrast are bound; manifest inventory and prospective zero-call/planned-call fields are checked.",
+    "Corrected stale error text from 15 to 20 scored files; pack.py unchanged."
+  ],
+  "runtime_outcome_reads": 0,
+  "helper_executions": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "limitations": [
+    "No terminal data was read and no packaging or verifier execution was performed. Root will execute one terminal staging verification after all terminal audit receipts exist."
+  ]
+}

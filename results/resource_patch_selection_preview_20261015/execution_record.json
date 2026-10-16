@@ -1,0 +1,115 @@
+{
+  "status": "fixed_cases_ready",
+  "seed": 52500000,
+  "roles": [
+    "AO_start",
+    "patch8_start",
+    "mean4",
+    "pareto4"
+  ],
+  "world": "patch",
+  "T": 1024,
+  "JS_replays": 4,
+  "new_C_lives": 0,
+  "new_Python_lives": 0,
+  "builds": 0,
+  "genome_pins": {
+    "AO_start": {
+      "raw_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51",
+      "packed_sha256": "5f6fecc7c675cf748a35e1aa9b26662ea084d9e3886071755fd74e32aff48383",
+      "source_path": "inputs/AO_start.json",
+      "source_sha256": "64b081e2205d5ecb6d88331b83878a0c900e70448d9b7117627ec44ed21afa62"
+    },
+    "patch8_start": {
+      "raw_sha256": "134e5ba541c6fabe3f5738cd7e98550f1884071f760b6a9a783f533d324d76ff",
+      "packed_sha256": "a67b72d5698d2b03e35a1601aad119dd21625dd1da515c94b7d598e733d58091",
+      "source_path": "inputs/patch8_start.json",
+      "source_sha256": "08693eec90dc6dc0a01e9a8e87ce03da5080671cab30a7700282708ebade9aa3"
+    },
+    "mean4": {
+      "raw_sha256": "375b1fc105ce58623fbbdfb68729eda60febc96346493ca27c708eb396d5a564",
+      "packed_sha256": "6008b17ce9a4b42b56ee046cfcb697eaf32bc492054e94edd8204e13a49d07ec",
+      "source_path": "runs/mean/joint_genome.json",
+      "source_sha256": "bb72a8466912dd79261b19d750153ee56bc02ed0ed888760cc2287f2427f90fc"
+    },
+    "pareto4": {
+      "raw_sha256": "891e62bbfc3d6dcfdb88d59f82a9f5db5163336686f94f17bed3333655cecc75",
+      "packed_sha256": "1bf2142b0f4e6f30aa3d694bbcb7e7486031f4b0968864952d9c4bdaef060286",
+      "source_path": "runs/pareto/joint_genome.json",
+      "source_sha256": "3ba808a3b1726bc1ae3a46491b676f85920c49fca8db56b8897d846003a95b5f"
+    }
+  },
+  "scientific_protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "dependencies": {
+    "results/atlas/play/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "results/atlas/play/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "results/atlas/play/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/life/__init__.py": "7ed819f87938e978a7126a944a621d066336adb4eca375732e4eb1583834bfcf",
+    "src/life/spec.py": "91f286fa460bda49a0dfbc0365e337e5ace42e32ac2839f355b6bcf78c6e4958",
+    "src/lattice.py": "d2019da35fa78882c81b2c4e7e1913a3d314590b4fcffd4c3702a61b4622be5d"
+  },
+  "parent_pins": {
+    "outputs/resource_patch_selection_20261015/raw/patch/row_00.npz": "e8da7a558d7ee805cfd54dcf97ddb5e6bab6674ed6ad17b41ecec89230aee14d",
+    "outputs/resource_patch_selection_20261015/inputs/AO_start.json": "64b081e2205d5ecb6d88331b83878a0c900e70448d9b7117627ec44ed21afa62",
+    "outputs/resource_patch_selection_20261015/raw/patch/row_01.npz": "c72fd21c69c7a04d9e7df7be55d7582b1e886006fc1b7f8e3b14a39e75ff0f0b",
+    "outputs/resource_patch_selection_20261015/inputs/patch8_start.json": "08693eec90dc6dc0a01e9a8e87ce03da5080671cab30a7700282708ebade9aa3",
+    "outputs/resource_patch_selection_20261015/raw/patch/row_02.npz": "8d014b8a5690c91820f318b23d457d06852dc0d2da22c213c10c7c26421e98d2",
+    "outputs/resource_patch_selection_20261015/runs/mean/joint_genome.json": "bb72a8466912dd79261b19d750153ee56bc02ed0ed888760cc2287f2427f90fc",
+    "outputs/resource_patch_selection_20261015/raw/patch/row_03.npz": "a251fab0cd9caa3597814b68e8e3642f3294cf6f9ba95be61930f1e4b1d9797e",
+    "outputs/resource_patch_selection_20261015/runs/pareto/joint_genome.json": "3ba808a3b1726bc1ae3a46491b676f85920c49fca8db56b8897d846003a95b5f",
+    "outputs/resource_patch_selection_20261015/protocol.json": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+    "outputs/resource_patch_selection_20261015/row_index.json": "884e6d3c98b711753ad1d5a45093998b28c1276cbf211f8ef67471e8355d3383",
+    "outputs/resource_patch_selection_20261015/endpoints.json": "af6dc6d68abee47fc2c15e75dcaaa8c84c1e8b6f6c22891d0542b1db9efc9053",
+    "outputs/resource_patch_selection_20261015/study_complete.json": "1da342130a611ff9b231a9d0868d63c0c8353f5a29c420f01fec4b592f7b71dd",
+    "outputs/resource_patch_selection_20261015/measurement_complete.json": "d0ebefede49aca10364499002aeaf0d9087b19850d2fd04fa31b8eccb2909a1b",
+    "outputs/resource_patch_selection_20261015/budget.json": "ea3b93af53ca6e4dacddb63f2bbab14e41997985923941a24046034621daac31",
+    "results/atlas/play/bodies.json": "6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f"
+  },
+  "source_pins": {
+    "prepare.py": "51aca58a183540ae89e083113ffef1104d10e8087a4e2c11ae58d274bdef2a37",
+    "run.py": "efa8df82fa22fbbca41cffdac7ff4fa4db55b0456bc334b2fc91805fb848c830",
+    "replay.js": "7297b296e17ea5bfcea9ca38cce3ab6f1eebfd17b0fdab04a39bf36615f45ce8",
+    "template.html": "80c08a1572a12490d08efb6444e3bfacbe992e0585e4b63f6f3e437c2d1ca734",
+    "page.js": "a7ae5d5ab2795cec5053319e5ee1bf99b22f94b96dd3187679a6d1742285d279",
+    "test_page.js": "619514b36ce863e8592eee72014038709c3c2e6215e59019970a33c56ac6d678",
+    "verify.py": "f1420c3a10b42d9bfb9f00a3e31bac2e1ca40a3cf2f51e3edd4e4acb3eeaa4f3",
+    "monitor_core.py": "d4a7fc6a1a883fed3973467e16539a5492a9e5ec7cb4611108b6a578bc9d75ba",
+    "common.py": "b287406df5575fa744ea711d3e10775a740a780a853037cc91bc18ea8b650a6a",
+    "source_origins.json": "da7ac564e0307d08b39916363e5453fa1c20810e3483a9c9acc454e3aee1cb16",
+    "preparation_receipt.json": "93d5fd0fdd495d0f0829447b44764deb6a15395b03253316c2575306224fe8d6"
+  },
+  "input_pins": {
+    "inputs/AO_start_C_fast.npz": "e8da7a558d7ee805cfd54dcf97ddb5e6bab6674ed6ad17b41ecec89230aee14d",
+    "inputs/AO_start_genome.json": "64b081e2205d5ecb6d88331b83878a0c900e70448d9b7117627ec44ed21afa62",
+    "inputs/fixture.json": "8ff5cb17fd870fcb2e515bd09b11170099d3e9dbf99d7697c1c3de8755a6e15f",
+    "inputs/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "inputs/mean4_C_fast.npz": "8d014b8a5690c91820f318b23d457d06852dc0d2da22c213c10c7c26421e98d2",
+    "inputs/mean4_genome.json": "bb72a8466912dd79261b19d750153ee56bc02ed0ed888760cc2287f2427f90fc",
+    "inputs/pareto4_C_fast.npz": "a251fab0cd9caa3597814b68e8e3642f3294cf6f9ba95be61930f1e4b1d9797e",
+    "inputs/pareto4_genome.json": "3ba808a3b1726bc1ae3a46491b676f85920c49fca8db56b8897d846003a95b5f",
+    "inputs/patch8_start_C_fast.npz": "c72fd21c69c7a04d9e7df7be55d7582b1e886006fc1b7f8e3b14a39e75ff0f0b",
+    "inputs/patch8_start_genome.json": "08693eec90dc6dc0a01e9a8e87ce03da5080671cab30a7700282708ebade9aa3",
+    "inputs/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "inputs/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984"
+  },
+  "package_caps": {
+    "cpu_seconds": 15,
+    "wall_seconds": 60
+  },
+  "outside_runtime_reserve": {
+    "cpu_seconds": 3,
+    "wall_seconds": 5
+  },
+  "runtime_budget": {
+    "cpu_seconds": 12,
+    "wall_seconds": 55,
+    "workers": 1,
+    "threads": 1,
+    "cleanup_margin_seconds": 1,
+    "rss_bytes": 1073741824,
+    "address_space_bytes": 2147483648,
+    "minimum_available_bytes": 4294967296
+  },
+  "comparison": "107 native ledger values per role; fast-C hashes are constant and prove no trajectory."
+}

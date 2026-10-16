@@ -1,0 +1,39 @@
+{
+  "status": "prepared",
+  "source_sha256": "c8c5475d457b202eb3520ebed90d833ad4440db949c5618b5b7e7ae8b6624fe0",
+  "protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "terminal_receipt": "reviews/independent_selection.json",
+  "terminal_execution": false,
+  "scientific_outcome_reads": 0,
+  "self_test": {
+    "status": "passed",
+    "cases": 7,
+    "runs": 1,
+    "cpu_seconds": 0.11,
+    "wall_seconds": 0.12,
+    "max_rss_kib": 33196,
+    "source_sha256": "6768811b020a0cc88c82b2725e4adc50f74e2a7e177e1dcc1e6dac933dd2536e",
+    "source_file": "audit_selection.self_test_version.py",
+    "stdout_sha256": "75e089a55cedaa785dc2404253aef2269c61d953caf1349b00a63feac430f80b",
+    "resources_sha256": "182dcb8246f1128cd989153e109374e685ec6a42a451a5d87baa89a70121a94a"
+  },
+  "post_test_changes": [
+    "Split one semicolon-separated fixture line for Ruff; no math change.",
+    "Terminal-only check requires both arms share all four generations of recorded seed/tie schedules. No terminal audit executed."
+  ],
+  "static": {
+    "ast": "passed",
+    "ruff": "passed",
+    "max_python_line_length": 120,
+    "initial_ruff": "Two E702 semicolon errors in literal fixture setup, resolved by line breaks; tested source retained."
+  },
+  "calls": {
+    "simulator": 0,
+    "builds": 0,
+    "random_draws": 0
+  },
+  "limits": [
+    "Literal tests do not execute actual terminal data audit or checkpoint decoding.",
+    "Source review and brief receipt/hash/AST operations belong to package preparation reserve."
+  ]
+}

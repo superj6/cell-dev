@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['.venv/bin/ruff', 'check', 'outputs/resource_patch_selection_preview_20261015/prepare.py', 'outputs/resource_patch_selection_preview_20261015/run.py', 'outputs/resource_patch_selection_preview_20261015/verify.py']' returned non-zero exit status 1.

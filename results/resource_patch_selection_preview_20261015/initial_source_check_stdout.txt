@@ -1,0 +1,19 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> outputs/resource_patch_selection_preview_20261015/run.py:8:1
+   |
+ 7 |   sys.dont_write_bytecode = True
+ 8 | / import monitor_core  # noqa: E402
+ 9 | | from common import sha  # noqa: E402
+   | |______________________^
+10 |
+11 |   HERE = Path(__file__).resolve().parent
+   |
+help: Organize imports
+   |
+8  | import monitor_core  # noqa: E402
+9  +
+10 | from common import sha  # noqa: E402
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

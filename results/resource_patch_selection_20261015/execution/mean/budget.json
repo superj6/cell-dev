@@ -1,0 +1,61 @@
+{
+  "status": "complete",
+  "exit_code": 0,
+  "worker_exit_code": 0,
+  "cpu_seconds": 619.248333,
+  "wall_seconds": 309.3562965079909,
+  "cap_cpu_seconds": 4080.0,
+  "cap_wall_seconds": 3479.992489921002,
+  "peak_owned_rss_bytes": 363536384,
+  "available_memory_bytes": 22456918016,
+  "cap_rss_bytes": 4294967296,
+  "minimum_available_bytes": 4294967296,
+  "worker_address_space_bytes": 8589934592,
+  "protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "release_sha256": "ef3d54a18a3c06ae10deb5686e9220712d3b6b20307d28662a8f9af6982aeb22",
+  "attempt_sha256": "10311cea6b1264221f21842d47ceee0ad98a458718ca3e1dcce213ea6d43d1d7",
+  "pid_namespace": "pid:[4026534911]",
+  "process_identities": [
+    {
+      "pid": 2,
+      "ppid": 1,
+      "pgid": 1,
+      "start_ticks": 13351669,
+      "name": "monitor"
+    },
+    {
+      "pid": 26,
+      "ppid": 2,
+      "pgid": 26,
+      "start_ticks": 13351685,
+      "name": "worker"
+    }
+  ],
+  "owned_process_groups": [
+    26
+  ],
+  "running": {},
+  "queued": [],
+  "reason": null,
+  "error": null,
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026534911]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  },
+  "wait4_receipts": [
+    {
+      "pid": 26,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 611.353514,
+      "system_cpu_seconds": 0.7336849999999999
+    }
+  ]
+}

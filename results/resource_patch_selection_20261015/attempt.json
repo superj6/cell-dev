@@ -1,0 +1,49 @@
+{
+  "monitor": {
+    "pid": 2,
+    "ppid": 1,
+    "pgid": 1,
+    "start_ticks": 13351669
+  },
+  "pid_namespace": "pid:[4026534911]",
+  "protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "release_sha256": "ef3d54a18a3c06ae10deb5686e9220712d3b6b20307d28662a8f9af6982aeb22",
+  "commands": {
+    "mean": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patch_selection_20261015/search.py",
+      "--arm",
+      "mean"
+    ],
+    "pareto": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patch_selection_20261015/search.py",
+      "--arm",
+      "pareto"
+    ],
+    "confirmation": [
+      "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+      "-u",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patch_selection_20261015/measure.py",
+      "--run-child"
+    ]
+  },
+  "budget": {
+    "cpu_seconds": 5280,
+    "wall_seconds": 3480,
+    "total_cpu_seconds": 5400,
+    "total_wall_seconds": 3600,
+    "preparation_cpu_allowance": 120,
+    "preparation_wall_allowance": 120,
+    "search_cpu_seconds": 4080,
+    "confirmation_cpu_seconds": 1200,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

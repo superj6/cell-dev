@@ -1,0 +1,34 @@
+{
+  "monitor": {
+    "source": "results/resource_patch_preview_20261015/monitor_core.py",
+    "sha256": "6cff19da0c842a4ad3d5d1a0f9cb8c67a770e0412f10b2cb1d7e92abf15585e4",
+    "changes": {
+      "'package_cpu_seconds_allocated': cpu_peak + 2": "'package_cpu_seconds_allocated': cpu_peak + 3",
+      "'package_cpu_cap': 30, 'package_wall_cap': 60": "'package_cpu_cap': 15, 'package_wall_cap': 60"
+    }
+  },
+  "common": {
+    "source": "results/resource_patch_preview_20261015/common.py",
+    "sha256": "b287406df5575fa744ea711d3e10775a740a780a853037cc91bc18ea8b650a6a"
+  },
+  "package_caps": {
+    "cpu_seconds": 15,
+    "wall_seconds": 60
+  },
+  "outside_runtime_reserve": {
+    "cpu_seconds": 3,
+    "wall_seconds": 5
+  },
+  "runtime_budget": {
+    "cpu_seconds": 12,
+    "wall_seconds": 55
+  },
+  "adapted_sources": {
+    "results/resource_patch_preview_20261015/prepare.py": "7f9e4dd72424334166151d40485886987e0201c9dee11b34306653e7866ffa60",
+    "results/resource_patch_preview_20261015/run.py": "f1a32be5e4b1d7cc56086828d36b3362023c2089765fffae5ee5062d2b00533d",
+    "results/resource_patch_preview_20261015/replay.js": "711d5befec306cda1d15c062a2622ee4b66d4a1614a51d038a51dfa153ada8cd",
+    "results/resource_patch_preview_20261015/template.html": "bd75d7af1f14406fb98e32ff768bd6368ab7b57723ab4dee3a2d8496f463f41d",
+    "results/resource_patch_preview_20261015/verify.py": "2d9c1139fe34441fd31d026aab34c86905e7c26198092a3840c030c9a6873afa"
+  },
+  "adaptation_scope": "Four frozen reporting genomes; first confirmation seed; saved fast-C ledger-only comparison; paused fixed-role selector."
+}

@@ -1,0 +1,158 @@
+{
+  "status": "passed",
+  "protocol_sha256": "529d65718fce28b8b9a521ab5edabca81390d190514e71bde79903d57431d8dd",
+  "source_sha256": "c8c5475d457b202eb3520ebed90d833ad4440db949c5618b5b7e7ae8b6624fe0",
+  "runs": {
+    "mean": {
+      "stages": [
+        {
+          "generation": 0,
+          "selection_sha256": "2dca27bdf683cdaa08be636379bc2d7bd0875d0de311a61a2a41212c87f2cee0",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        },
+        {
+          "generation": 1,
+          "selection_sha256": "2ad25dfa870bba157ea49fee2216df906f95ed2feb91edfd2e8a35dddb4abf28",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        },
+        {
+          "generation": 2,
+          "selection_sha256": "1480035f93f6c92b61f42892186a37a7be6531a55cdb2bcc954c98ea0fd2f221",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        },
+        {
+          "generation": 3,
+          "selection_sha256": "33dab8919fbb44bb7a9c83380b589ea6c7933dbc73a5f8814e12d4cbbbb61a5b",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        }
+      ],
+      "endpoint_rank": 0,
+      "endpoint_id": 663,
+      "joint_raw_sha256": "375b1fc105ce58623fbbdfb68729eda60febc96346493ca27c708eb396d5a564"
+    },
+    "pareto": {
+      "stages": [
+        {
+          "generation": 0,
+          "selection_sha256": "2f89ca3b0615329441869376c742cf7d051bf83ba80e81a2e87a4ae14d0f4ea2",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        },
+        {
+          "generation": 1,
+          "selection_sha256": "fbf2d9ae099384691caf4f5c0db025a5ffee96ebf8e0cca96824baa29b597e89",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        },
+        {
+          "generation": 2,
+          "selection_sha256": "ac369ae086e572db05bc698df71ef4e36d2848ce5793ef3890b9b2719fd8de1d",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        },
+        {
+          "generation": 3,
+          "selection_sha256": "8aff43fe59e03357d9ca0fcfa71d39942524aea2746c708c8a9ac2899d91d1f0",
+          "rankings_checked": 2,
+          "tie_permutations_checked": 3,
+          "base_rows": 256,
+          "pooled_rows": 64
+        }
+      ],
+      "endpoint_rank": 11,
+      "endpoint_id": 883,
+      "joint_raw_sha256": "891e62bbfc3d6dcfdb88d59f82a9f5db5163336686f94f17bed3333655cecc75"
+    }
+  },
+  "artifact_pins": {
+    "study_complete.json": "1da342130a611ff9b231a9d0868d63c0c8353f5a29c420f01fec4b592f7b71dd",
+    "budget.json": "ea3b93af53ca6e4dacddb63f2bbab14e41997985923941a24046034621daac31",
+    "measurement_complete.json": "d0ebefede49aca10364499002aeaf0d9087b19850d2fd04fa31b8eccb2909a1b",
+    "runs/mean/search_complete.json": "243ef77c4a8f3b609d4ccaf2b713134c65b6c8f0bafc9d229dbd87a4d4f47c88",
+    "runs/mean/checkpoint.pt": "923231c2478b5228a1695867bff0684669f96d249223f9ed238e57b2b8ff7bf8",
+    "runs/mean/config.yaml": "61d8df4decf82393b5d9ffe445c3a187acde6254ada397d87ebc52e7c79adf9a",
+    "runs/mean/determinism.json": "b706a60ab7c656058bd83a6e830e5264531a4c5a1aa7919c44b8acd223675c54",
+    "runs/mean/curves.jsonl": "0d82810f0fa74e1a0abc1a0426017f27175f99f56bb0d5556bb8a288420115a4",
+    "runs/mean/lineage.jsonl": "8cc30ad83c51250d6c3315ce74588a931efda8d1509f5c028c21581619c0c5aa",
+    "runs/mean/population.json": "4d86dc0fe5e3f4ea5c79ad53de3d3f1f0f657016dd8e881b6ed2ac2237918d86",
+    "runs/mean/best_genome.json": "bb72a8466912dd79261b19d750153ee56bc02ed0ed888760cc2287f2427f90fc",
+    "runs/mean/results.jsonl": "153f90735532766a504f3031e0e2f8807ecd8fb9a0c9eebd2601a773ecff2adf",
+    "runs/mean/search_startup.json": "c0cb76fb0eb6f43f53936e2116a700c64b6be2bcc39929cf7142c9d4ee5fd31e",
+    "runs/mean/joint_genome.json": "bb72a8466912dd79261b19d750153ee56bc02ed0ed888760cc2287f2427f90fc",
+    "runs/mean/endpoint_selection.json": "762767b16816db6d2beae328d45b5b20010fe47854b4476b5da850c13f93b8db",
+    "runs/mean/selection/g000.npz": "2dca27bdf683cdaa08be636379bc2d7bd0875d0de311a61a2a41212c87f2cee0",
+    "runs/mean/selection/g001.npz": "2ad25dfa870bba157ea49fee2216df906f95ed2feb91edfd2e8a35dddb4abf28",
+    "runs/mean/selection/g002.npz": "1480035f93f6c92b61f42892186a37a7be6531a55cdb2bcc954c98ea0fd2f221",
+    "runs/mean/selection/g003.npz": "33dab8919fbb44bb7a9c83380b589ea6c7933dbc73a5f8814e12d4cbbbb61a5b",
+    "runs/pareto/search_complete.json": "f39f913c6563703ee40e54595d572a77ea8ba6819d72540e5c2a7e44b0e28e23",
+    "runs/pareto/checkpoint.pt": "65888be955be42a92ae5c8a03e11a804913be327ac2511fec98e777324cc27d7",
+    "runs/pareto/config.yaml": "ccb891457a59b8c174c5ffbf2b0a335e03f6bc9743c7a016ef5860d86f017586",
+    "runs/pareto/determinism.json": "94977adeac1b735d4e30deca8d4c8040449e0d76497bc60eb0e9deb89c8c3f88",
+    "runs/pareto/curves.jsonl": "9b77205731360548e6b3d5ad8c033b8f411bed342bbc8eb4f07122f91835c542",
+    "runs/pareto/lineage.jsonl": "ed7b10505a81cbea98b38d1dd3450681e9e8746c3d4b3ffb8c4f0b3842fbe9f0",
+    "runs/pareto/population.json": "df868d8517d7fde1bd6a0699c93036ef9fe99985f32f941185a9cb7a6937823a",
+    "runs/pareto/best_genome.json": "ed79d4c87b93faedefceb7b9e34ff416446ef57b4c1ac3b8f3aef9e0dfc412b4",
+    "runs/pareto/results.jsonl": "f0d6572d43cceb60e1b8f448248512512b29cdc0d446f7ee2f1d3ef5c6733d1b",
+    "runs/pareto/search_startup.json": "ba8b092abe1dfe0ca06f56552e010f87694c38f59ec331261a866a15d078d41a",
+    "runs/pareto/joint_genome.json": "3ba808a3b1726bc1ae3a46491b676f85920c49fca8db56b8897d846003a95b5f",
+    "runs/pareto/endpoint_selection.json": "9c6fb022eb2df5a9801abea7918579573f70990beac9b18da8c2a700f048013b",
+    "runs/pareto/selection/g000.npz": "2f89ca3b0615329441869376c742cf7d051bf83ba80e81a2e87a4ae14d0f4ea2",
+    "runs/pareto/selection/g001.npz": "fbf2d9ae099384691caf4f5c0db025a5ffee96ebf8e0cca96824baa29b597e89",
+    "runs/pareto/selection/g002.npz": "ac369ae086e572db05bc698df71ef4e36d2848ce5793ef3890b9b2719fd8de1d",
+    "runs/pareto/selection/g003.npz": "8aff43fe59e03357d9ca0fcfa71d39942524aea2746c708c8a9ac2899d91d1f0"
+  },
+  "source_pins_verified": {
+    "common.py": "603603144f9cf2866c072ce4a76af19f33b1c446f743527e873c0eab28ca071c",
+    "monitor.py": "404457571c0f2716e336e8860c2f401ec49a161a2ff7c0568f302d4a2bf8f998",
+    "prepare.py": "e778bbf8baab79df4891696c50ea1016379d530c41e6d3741a461abd422e2143",
+    "search.py": "ecbe2061252ee58032510f47bc9c7d56ef1a974a92be8c613dbf932ed23dab01",
+    "selection.py": "e133580cc5cba98683345b5f466f193dfa390d94de0ff4b21387beca7fbc43fd",
+    "pareto.py": "eb418c7218498519ec0085043792a973411a932599cad392dffe8a1b603e14ae",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "measure.py": "20e4238e74bfe697c31699cc65aaac62c1b0ff5fc69d8f12a7953e9516f8ca7a",
+    "analyze.py": "0ac39bb7b11a754f73acff2b77c0690ce4b525b688664da34cc6006b9da1373b",
+    "native_replay.py": "1e9056d59b3199ed216a709bf67cf042d1f20699b484b0a7b96eea673878427a",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+    "PROTOCOL.md": "2a63baf34b75f689499b59e89a3adedef3733120dc712fa8fb72526af1643122",
+    "release_and_run.py": "f01759b866101ba50a8b39b0cd829ce2f9772c1dfce04a2063a5fc9aeaac9924"
+  },
+  "rankings_checked": 16,
+  "tie_permutations_checked": 24,
+  "selection_lives_checked": 20480,
+  "first_candidate_rows_equal": 256,
+  "initial_candidate_raw_sha256": "da48fa43308815ed5825ba508877e008b6fe569e2df633da26315de5f42ed935",
+  "calls": {
+    "simulator": 0,
+    "builds": 0,
+    "random_draws": 0
+  },
+  "limits": [
+    "Saved selection mathematics and row identity only; no trajectory or genetic RNG replay.",
+    "NumPy float64 mean rounding is shared; scalar fsum independently bounds F arithmetic.",
+    "No selection.py, pareto.py, native_replay.py or repository module is imported.",
+    "Independent accounting and recorded genetic replay are separate receipts."
+  ],
+  "resources": {
+    "cpu_seconds": 1.0168401340000002,
+    "wall_seconds": 1.0188208659965312,
+    "peak_rss_bytes": 243400704
+  }
+}

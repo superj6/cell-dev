@@ -16,7 +16,33 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
-**Selection comparison registered (2026-10-15).** Two four-generation branches now inherit all 32 ordered
+**Acquisition-aware selection comparison complete (2026-10-15).** The fixed Pareto endpoint beats the
+ordinary-selection endpoint by **1.193359 ±0.334373 patch captures**, **0.755859 ±0.213004 POOL captures**
+and **1.474609 ±0.251871 captures in a reserved patch arrangement**. It loses **0.708984 ±0.141300 persistent**
+and **0.539063 ±0.113514 longer-gap captures**. All five capture differences exceed three paired SE in their
+stated direction over 512 fresh shared lives. Added trained-patch food supplies +0.582695 F, with extra costs
+subtracting 0.218366 F; the resulting +0.364329 ±0.162168 F is unresolved at three SE.
+
+This changes which acquisition strengths survive, but does not establish cumulative joint improvement.
+Versus its own G8 start, Pareto's patch gain is unresolved (+0.191406 ±0.302464), POOL recovers
+0.894531 ±0.208193, and persistent/longer-gap capture falls. All three Pareto 90% retention margins versus AO
+remain unresolved despite resolved absolute losses. One matched pair does not establish strategy reliability
+or novelty over every founding row. Both branches used the same endpoint rule; mean rank0/ID663 and Pareto
+rank11/ID883 remain fixed. A favorable population member cannot replace either after confirmation.
+
+All **30,808 calls** complete in **1854.964639 CPU /924.584002 wall seconds**, peak 346.70 MiB, with all
+10,240 confirmation statuses zero and owned workers cleared. Independent scalar accounting, recorded genetics
+and independent selection mathematics pass. Evidence: `results/resource_patch_selection_20261015/REPORT.md`.
+The [four-genome preview](../results/resource_patch_selection_preview_20261015/resource_patch_selection.html)
+passes 428 ledger comparisons in four JS replays; full-C trajectory hashes and browser rendering are untested.
+
+Next inspect all 32 survivors of G8 and both branches on one fixed small development panel, including the
+unchanged AO reference. This asks whether useful combinations remain in the populations or whether noisy
+endpoint selection obscures them; it cannot certify a new winner or prove combinations absent. The proposed
+97-genome × five-world × 32-life panel has 15,520 research +4 startup calls. No new evolution, endpoint replacement
+or extra resources follow automatically. Local resources remain adequate; freeze the diagnostic before launch.
+
+**Selection comparison registered (2026-10-15; historical).** Two four-generation branches now inherit all 32 ordered
 survivors of the completed resource continuation. One uses ordinary mean fitness; the other preserves
 nondominated tradeoffs among patch, POOL and persistent capture plus ordinary fitness. Worlds, physical
 prices, mutation, mating and life budgets are identical. This tests whether useful partial acquisition

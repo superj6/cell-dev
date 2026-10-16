@@ -1,0 +1,27 @@
+{
+  "monitor": {
+    "pid": 5,
+    "ppid": 4,
+    "pgid": 4,
+    "start_ticks": 13449806
+  },
+  "pid_namespace": "pid:[4026535424]",
+  "protocol_sha256": "dda7fc74f94f25bed5134bb56c24d5b8dcf9e3e5473d2846d23a2ea40b123bf2",
+  "release_sha256": "dda7fc74f94f25bed5134bb56c24d5b8dcf9e3e5473d2846d23a2ea40b123bf2",
+  "command": [
+    "node",
+    "--single-threaded",
+    "--max-old-space-size=256",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_selection_preview_20261015/replay.js"
+  ],
+  "budget": {
+    "cpu_seconds": 12,
+    "wall_seconds": 55,
+    "workers": 1,
+    "threads": 1,
+    "cleanup_margin_seconds": 1,
+    "rss_bytes": 1073741824,
+    "address_space_bytes": 2147483648,
+    "minimum_available_bytes": 4294967296
+  }
+}
