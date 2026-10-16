@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "audit_source_sha256": "047a3eb850248f513c97ff784e0b2588f3f31ecd3aa628d0cd68500aeca09a52",
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "completion_pins_at_start": {
+    "protocol.json": "da37b12819a8377832e97561eebc9e1a04e1e0847e45bdf157b2fa58ff6ef78a",
+    "budget.json": "6f1957fbe8f7f93e6e6a687d41c65c0d27ec20a1d8bca32f6c63e9886d310ae3",
+    "measurement_complete.json": "7c31f7d461b2e8bb303d49be2d8493980d6dd7dd79a5f9b6f8d28648079c587f",
+    "row_index.json": "38233e459254e80b75c86304c4e57862af1df3bbea4532ed2bc950c05d982f22",
+    "summary.json": "54855e9cd53c87f7357ee8e35800ff9b5b31bc1e05d83ababe4480cc6b1ed723"
+  },
+  "current_row": {
+    "index": 6655,
+    "path": "raw/confirmation_52450511_D3.npz"
+  },
+  "completed_rows": 6656,
+  "development_rows": 1024,
+  "confirmation_rows": 5632,
+  "confirmation_seed_clusters": 512,
+  "E_P_bitwise_pairs": 512,
+  "I_E_prefix_pairs": 512,
+  "backends": {
+    "tissue": 3840,
+    "instrument": 2816
+  },
+  "status_counts": {
+    "0": 6656
+  },
+  "accounting_max_absolute_error": {
+    "cost": 3.737454790098127e-12,
+    "guard_charge": 0.0,
+    "F": 8.881784197001252e-16,
+    "net": 5.684341886080802e-14
+  },
+  "selection": {
+    "reflex_index": 0,
+    "instrument_index": 3,
+    "reflex_tied_max_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "instrument_tied_max_indices": [
+      3
+    ]
+  },
+  "exact_pins": {
+    "protocol.json": "da37b12819a8377832e97561eebc9e1a04e1e0847e45bdf157b2fa58ff6ef78a",
+    "release.json": "1e6c78f82230f41a01864709727a944e2e5137f2e96d03e7abf0fa3691c14362",
+    "attempt.json": "b44a1b93b8b789541cb4f382a738228b61a2bee30446fc6b51a801c60662248f",
+    "budget.json": "6f1957fbe8f7f93e6e6a687d41c65c0d27ec20a1d8bca32f6c63e9886d310ae3",
+    "measurement_complete.json": "7c31f7d461b2e8bb303d49be2d8493980d6dd7dd79a5f9b6f8d28648079c587f",
+    "row_index.json": "38233e459254e80b75c86304c4e57862af1df3bbea4532ed2bc950c05d982f22",
+    "summary.json": "54855e9cd53c87f7357ee8e35800ff9b5b31bc1e05d83ababe4480cc6b1ed723",
+    "selection.json": "40835d830fa7063458597fc82463975743254378f522877032a4a73b102e67b7",
+    "selected_arms.json": "c5c06dcdb36c72bc489be56a1352787f5078941b35b7615cbd9f9871505c269f",
+    "inputs.json": "e7b067f589de741c12054c5bc92ab626cb2cbdbc479438dacfbebf76070f6444",
+    "seeds.json": "7f768d35fed136146350796e52953a29afb9c5bf35a4d595c85e946de5808dfc"
+  },
+  "raw_manifest_sha256": "fb766eceef7368b5c4a15427538d4ebba1e28fb5523cac5e378d623405909e45",
+  "reconstructed_sha256": "54c8f5049db6395a9b900c90ad6dc3660059bc16733c877817dcd7d1c70964a7",
+  "scientific_worker_cpu_seconds": 573.692021,
+  "prior_allocated_cpu_seconds": 50.93,
+  "section_0_4_thresholds_met": true,
+  "cpu_seconds": 8.768306,
+  "wall_seconds": 8.704175816994393,
+  "peak_rss_kib": 56064,
+  "cumulative_package_cpu_including_audit": 633.390327
+}

@@ -9,14 +9,26 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
+*2026-10-15 delayed-matching information payoff complete:* At the exact T85 task, retaining the sample
+statistic adds **2.945493 ±0.143336 F** over erasing it on 512 fresh paired lives. The external instrument makes
+479 correct choices, one wrong and 32 unfinished; erasure gives 246 correct, 236 wrong and 30 unfinished. Sample-blind
+fixed-width policies score about 3 F lower. All section 0.4 criteria pass, including quieter/smaller controls.
+All finite reflex controls make zero choices; admission is scoped to this declared comparison family and T85.
+This is useful information payoff, not evolved neural memory, local attainability or repeated T1024 admission.
+All 6,656 scientific plus 40 engineering calls complete: 573.692021 scientific CPU seconds, 624.622021 including prior
+allocation, peak 329.61 MiB, all owned processes clear. Independent all-row accounting and 512 E/P bitwise pairs pass.
+See `results/delayed_match_information_20261015/REPORT.md`. Next: bounded ordinary evolution from an inherited
+full population, measuring conditional choices, older-task retention and fixed-genome transfer separately.
+No delayed-matching evolution has run yet; local cell rules and physical prices remain unchanged.
+
 *2026-10-15 delayed-matching baseline complete:* all six fixed AO roles transfer target pursuit, but their
 T1024 choices are 97.2–99.8% broad regardless of the earlier sample. Correct narrow choices cover0.47–2.75% of
 narrow-cue opportunities; no conditional matching is demonstrated. All 390 calls complete in 29.254298 CPU seconds,
 with all statuses zero, exact full/fast repeats, independent raw accounting and cleared workers. Early sensory-plane
 occupancy is present in all six predetermined traces, without establishing actual information extraction.
 See `results/delayed_match_baseline_20261015/TERMINAL_REPORT.md`. No champion was selected; block 143 is
-development-only. Next measure retained-sample information payoff under 0.4, keeping shortT85 evidence distinct
-from repeated T1024 admission. This step does not depend on a hand-built winning tissue.
+development-only. The subsequent retained-sample information measurement is complete above; keep short T85
+evidence distinct from repeated T1024 admission. No hand-built winning tissue is required.
 
 *2026-10-15 latest interaction priority:* AO is complete and reviewed; prioritize an environment with a
 different decision structure now. Retention, price calibration and mechanism analysis support richer

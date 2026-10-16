@@ -1,35 +1,40 @@
-# Delayed matching: the payoff of remembering an earlier cue
+# Delayed matching: remembering the cue pays
 
-This prospective study compares an external information instrument with ordinary reflexes and quieter or
-smaller controls. All main comparisons use the same 56-cell footprint. The instrument receives receptor
-events and its own action history; its retained sample statistic is the only earlier-cue input to later decisions.
-Erasing that statistic preserves current sensing, movement and tapping. The measuring instrument is separate
-from the organism, whose local asynchronous rules are unchanged.
+The completed external measurement isolates a useful contribution from earlier-cue memory in the exact
+short T85 task. Remembering the sample adds **2.945493 ±0.143336 F** over erasing it (512 paired lives).
+The instrument makes 479 correct choices, one wrong choice and leaves 32 unfinished; its memory-erased version
+makes 246 correct and 236 wrong choices, leaving 30 unfinished. These are measuring instruments, not evolved cells.
 
-Forty engineering calls are complete. Scientific development and confirmation have not run at registration.
-There are 1,024 development calls and 5,632 fresh confirmation calls: at most 6,696 calls including engineering.
-The package is limited to 3,600 cumulative CPU seconds, 5,400 wall seconds, one worker/thread, 4 GiB RSS,
-8 GiB address space and 4 GiB available host memory. Prior measured work is deducted from the worker's allowance;
-development must preserve 2,400 CPU seconds for confirmation and cleanup. No automatic retry or top-up occurs.
+All registered section 0.4 information, memory and do-less criteria pass. The reference reflex family makes
+zero completed choices, so that comparison is limited to the declared finite family. Fixed narrow and broad
+preferences also score about 3 F below the remembering instrument. This admits this exact T85 selection world;
+it does not establish an evolutionary gradient, local neural memory, or repeated T1024 admission.
 
-The exact [protocol](prelaunch/PROTOCOL.md), [instrument specification](prelaunch/instrument_spec.md),
-[engineering evidence](ENGINEERING_EVIDENCE.md), [policy review](source_review.md), and
-[actual-input review](prelaunch/actual_input_review.md) define the evidence and its limits. The fixed finite
-candidate panels, original failed preparation, source amendments, seeds and resource records are retained.
-Large historical namespace inventories remain at their existing public paths in `namespace_references.json`.
+All 6,656 scientific calls plus 40 engineering calls complete. Scientific execution uses 573.692021 CPU seconds;
+including 50.93 seconds allocated to prior engineering/preparation gives 624.622021 seconds, below the 3,600 cap.
+Peak owned memory is 329.61 MiB, with all owned workers cleared. Independent raw arithmetic and paired replay
+checks pass. Later saved-data auditing and packaging are metered separately; they add no simulations.
 
-Positive reward cannot establish matching: a sample-blind completed choice has positive expected gross return.
-Report both cue classes, coverage, fixed-width controls and paired fitness differences. The exact T85 task
-requires an information gain and retained-sample contribution of at least 1 F and more than three paired SE,
-plus the existing do-less criterion. This does not establish local attainability, an evolved algorithm, or
-admission of repeated T1024 trials. No reflex first-trial or actual capture-time readout is claimed.
+Read the [report](REPORT.md), [independent recount](terminal_audit/REPORT.md),
+[protocol](prelaunch/PROTOCOL.md), [instrument specification](prelaunch/instrument_spec.md),
+[engineering evidence](ENGINEERING_EVIDENCE.md), and [policy review](source_review.md).
+The original prospective archive documents remain in `registration_history/`.
 
-Verify the archive without running a simulator:
+All scientific raw NPZ bytes are preserved in `raw.tar.gz`, with exact `prelaunch/raw/...` member paths.
+Engineering binaries and caches are omitted; sources, build receipts and engineering raw files are retained.
+Historical namespace inventories remain at the public paths in `namespace_references.json`.
+
+Verify without a simulator:
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python results/delayed_match_information_20261015/verify.py
 ```
 
-Engineering binaries and caches are omitted; sources, build receipts and raw evidence are preserved.
-Execution belongs to the separately released working copy under `outputs/delayed_match_information_20261015/`.
-Later local experiments remain covered by the user's standing autonomy instruction.
+Replay the frozen analysis into a new output directory without generating new lives:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python results/delayed_match_information_20261015/replay.py \
+  --out outputs/delayed_match_information_replay
+```
+
+Continuing local evolution remains covered by the user's standing autonomy instruction.

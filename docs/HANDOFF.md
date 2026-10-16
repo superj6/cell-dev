@@ -5,6 +5,18 @@ and the last few entries of `RESULTS.md`.
 
 For a short map of the strongest evidence, inherited lineages and competing directions, see `docs/RESEARCH_STATUS.md`.
 
+**Delayed-matching information payoff complete (2026-10-15).** At the exact T85 task, retaining the sample
+statistic adds **2.945493 ±0.143336 F** over erasing it on 512 fresh paired lives. The external instrument makes
+479 correct choices, one wrong and 32 unfinished; erasure gives 246 correct, 236 wrong and 30 unfinished. Sample-blind
+fixed-width policies score about 3 F lower. All section 0.4 criteria pass, including quieter/smaller controls.
+All finite reflex controls make zero choices; admission is scoped to this declared comparison family and T85.
+This is useful information payoff, not evolved neural memory, local attainability or repeated T1024 admission.
+All 6,656 scientific plus 40 engineering calls complete: 573.692021 scientific CPU seconds, 624.622021 including prior
+allocation, peak 329.61 MiB, all owned processes clear. Independent all-row accounting and 512 E/P bitwise pairs pass.
+See `results/delayed_match_information_20261015/REPORT.md`. Next: bounded ordinary evolution from an inherited
+full population, measuring conditional choices, older-task retention and fixed-genome transfer separately.
+No delayed-matching evolution has run yet; local cell rules and physical prices remain unchanged.
+
 **Delayed-matching baseline complete (2026-10-15).** All six fixed AO comparison genomes can reach choices,
 but97.2–99.8% of completed T1024 choices are broad regardless of sample. Correct narrow choices cover only
 0.47–2.75% of narrow-cue opportunities; positive fitness does not establish matching. Six first-seed traces
@@ -12,10 +24,7 @@ grow off-center sensory-plane cells by t4.588794 and 13–14 are present at t14;
 not functional cue decoding. All 390 calls complete in 29.254298 CPU seconds, peak 324.101562 MiB, all statuses zero,
 six full/fast byte matches, raw recount and public reanalysis passed, processes cleared. No genome was selected.
 Report: `results/delayed_match_baseline_20261015/TERMINAL_REPORT.md`. Block143 is development-only.
-Next: the bounded external information-payoff measurement at T85. Its 40 engineering calls are complete;
-memory-erased/never-stored behavior matches exactly, but no scientific information-payoff result exists yet.
-Source/input preparation and independent review precede the separately reported scientific budget. Keep
-T85 evidence distinct from repeated T1024 admission, and continue useful local work after milestones.
+The subsequent information measurement is complete above; keep T85 evidence distinct from repeated T1024 admission.
 
 **Latest direction clarification (2026-10-15):** AO is complete and reviewed. The user asks when we will move
 to environments allowing more sophisticated interaction; prioritize a different interaction/decision structure

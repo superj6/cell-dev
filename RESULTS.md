@@ -3951,3 +3951,37 @@ The user has been told this budget. No scientific life has run at prospective pu
 The original section 0.4 information, retained-statistic and do-less thresholds remain unchanged. A passing
 result would apply to this exact short T85 task and external instrument, without establishing an evolved
 algorithm, local attainability or repeated T1024 admission. Evidence: `results/delayed_match_information_20261015/`.
+
+## 2026-10-15 — Delayed matching rewards retained cue information
+
+On 512 fresh paired T85 lives, retaining the early sample statistic adds **2.945493 ±0.143336 F** over
+zeroing it while preserving current-choice sensing, movement and taps. The remembering instrument completes
+480 choices: 479 correct and one wrong, leaving 32 unfinished. Its memory-erased counterpart completes 482:
+246 correct and 236 wrong, leaving 30 unfinished. Correctness among completed choices falls from 99.79% to 51.04%.
+The narrower/broader cue class totals are 257/255; correct choices cover 94.16%/92.94% of those opportunities.
+The separately measured sample classifier is 511/512 correct, which is not the final-choice accuracy.
+
+Information gains over the unchanged and development-selected reflexes are **5.486980 ±0.065351** and
+**5.480072 ±0.065344 F**. Fixed narrow/broad preferences lose **2.913659 ±0.154851 /3.022762 ±0.145101 F**.
+All eight do-less criteria pass; the smallest mixture-minus-control margin is 0.882445 ±0.016333 F.
+All finite reflex/do-less arms make zero choices, so “best reflex” means the declared tested family.
+The full memory-erased and never-stored records match bitwise on all 512 pairs, as do retained/erased sealed
+sample statistics and pre-choice spike prefixes. This supports the isolated retained-information contribution.
+Maintenance is 95.2 energy per instrument life; other ordinary charges differ little across memory conditions.
+Extra correct-choice income supplies 227.539063 of the 250.366873 energy gain. Avoiding wrong choices
+saves another 22.949219; other ordinary charges increase by 0.121408.
+
+All section 0.4 thresholds pass for this exact short T85 world. This is an external instrument with free central
+computation, not evolved behavior, local attainability, repeated T1024 admission or an accessible mutation gradient.
+The earlier evolved baseline demonstrates pursuit with a broad-shape bias, not conditional matching.
+
+All **6,656 scientific +40 engineering =6,696 calls** complete, with every status 0 and all owned execution cleared.
+Scientific execution uses **573.692021 CPU /609.873344 wall seconds**, peak 329.61 MiB. Adding the 50.93 CPU-second
+prior allocation gives 624.622021 CPU seconds; saved-data audit and packaging are separately metered. Independent
+all-row accounting, selection ties, hashes and paired-statistic recount pass without new lives. The public raw
+archive preserves all 6,656 NPZ files; frozen reanalysis is available. No research retry or cap extension occurred.
+
+Next proceed into bounded ordinary delayed-matching evolution from an inherited full population, measuring
+conditional choices, costs, earlier skills and fixed-genome transfer. Report the exact next budget before launch.
+Report: `results/delayed_match_information_20261015/REPORT.md`. Prospective commit 222092e;
+protocol da37b128…6ef78a; summary 54855e9c…1ed723.

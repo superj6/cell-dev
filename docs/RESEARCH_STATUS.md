@@ -1,4 +1,4 @@
-# Project evidence map — completed evidence through AO
+# Project evidence map — completed delayed-matching information measurement
 
 The goal is increasingly sophisticated evolved algorithms, generalization and cumulative capability in the current local asynchronous organism. We have real local computations and repeated capture improvements, but neither larger bodies nor higher fitness establishes algorithmic progress. AO is complete and independently checked: later generations added acquisition in one branch, while task allocation traded older-task retention against further gains elsewhere.
 
@@ -9,9 +9,21 @@ The first delayed-matching baseline is complete. The six saved genomes can pursu
 Only 0.47–2.75% of narrow-cue opportunities receive the correct narrow choice. This establishes a useful inherited
 motor/sensing starting point, not conditional matching. Six fixed traces develop spatial sensory-plane cells
 before sample disappearance; occupancy does not prove cue decoding. All 390 calls complete with status zero,
-independent accounting and exact replay. The next measurement isolates the payoff of remembering the sample;
-no delayed-matching evolution or short/repeated-world admission has occurred.
+independent accounting and exact replay. The subsequent measurement isolates the payoff of remembering the sample, as described below;
+no delayed-matching evolution or repeated-world admission has occurred.
 [Baseline evidence](../results/delayed_match_baseline_20261015/TERMINAL_REPORT.md).
+
+**Delayed-matching information payoff complete (2026-10-15).** At the exact T85 task, retaining the sample
+statistic adds **2.945493 ±0.143336 F** over erasing it on 512 fresh paired lives. The external instrument makes
+479 correct choices, one wrong and 32 unfinished; erasure gives 246 correct, 236 wrong and 30 unfinished. Sample-blind
+fixed-width policies score about 3 F lower. All section 0.4 criteria pass, including quieter/smaller controls.
+All finite reflex controls make zero choices; admission is scoped to this declared comparison family and T85.
+This is useful information payoff, not evolved neural memory, local attainability or repeated T1024 admission.
+All 6,656 scientific plus 40 engineering calls complete: 573.692021 scientific CPU seconds, 624.622021 including prior
+allocation, peak 329.61 MiB, all owned processes clear. Independent all-row accounting and 512 E/P bitwise pairs pass.
+See `results/delayed_match_information_20261015/REPORT.md`. Next: bounded ordinary evolution from an inherited
+full population, measuring conditional choices, older-task retention and fixed-genome transfer separately.
+No delayed-matching evolution has run yet; local cell rules and physical prices remain unchanged.
 
 The most specific circuit accounts remain the exploratory BODY-1 pilot: s4 combines neighbour evidence, a sensory fringe and a short reset-dependent latch; s5 combines cooperative sensing with inhibitory feedback. Directional lesions and gain substitutes support parts of these accounts. They are more informative about computation than a score increase, but their original scratch traces were not all retained, as the [mechanism archive explicitly states](../results/catch_pilot/mechanisms.json). The stronger modern, reproducible intervention evidence is narrower: freezing tissue and blocking messages shows added lateral dependence, and D51090 has **+0.794 ±0.207 F** additional hidden-message dependence, almost entirely capture income. This establishes a useful communication contribution, not its algorithm or applicability to the current L92 lineage. [Frozen-tissue evidence](../results/frozen_20261013/summary.json), [hidden-message evidence](../results/hidden_20261014/summary.json).
 
