@@ -1,0 +1,28 @@
+{
+  "monitor": {
+    "pid": 2,
+    "ppid": 1,
+    "pgid": 1,
+    "start_ticks": 13075131
+  },
+  "pid_namespace": "pid:[4026535363]",
+  "protocol_sha256": "0b0fd4e0fd2392f3f03f7f6bf5822714d64ce312aa20887770d0338c9c452da1",
+  "release_sha256": "07621e7b51f2afcbfa4f5fb4558fd4bce95c14ffbe088870ec7b542411805f67",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-u",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_evolution_20261015/search.py",
+    "--arm",
+    "mixed"
+  ],
+  "budget": {
+    "cpu_seconds": 4080,
+    "wall_seconds": 3479.973886601001,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

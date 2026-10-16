@@ -4153,3 +4153,28 @@ Evidence: `results/resource_patch_evolution_20261015/`; protocol `0b0fd4e0…c45
 The separate [inherited AO preview](results/resource_patch_preview_20261015/resource_patch_AO.html) matches
 107 ledger values and five hashes in one JS replay against a previously saved C life. It illustrates the starting
 lineage and contains no resource-evolved endpoint; real-browser rendering remains untested.
+
+## 2026-10-15 — Resource evolution improves economy, without demonstrated cumulative acquisition
+
+Eight ordinary generations gain
+**0.595798 ±0.161773 F** on trained patches, with 0.436534 F (73.27%) from lower physical costs.
+Total acquisition gains 0.326172 ±0.328844 captures and replenished food 0.373047 ±0.302795, both unresolved.
+Empty-patch attempts rise 1.964844 ±0.297662 while geometric misses fall. Final tissue shrinks from 83.12 to
+68.98 cells on average. POOL loses **1.861328 ±0.216181 captures** (88.39% point retention); persistent and
+longer-gap point retention are 94.79%/94.67%. All three 90% retention margins remain unresolved, so a POOL
+loss exceeding 10% is not established. The reserved patch combination loses **1.382813 ±0.267868 captures**
+and 0.929688 ±0.216024 replenished packets. Generation 8 stays primary; generation 4 does not replace it.
+
+All **28,222 calls** complete in **1724.714517 CPU /857.732643 wall seconds**, peak 359.39 MiB, with all
+7,680 confirmation statuses zero and owned workers clear. Independent accounting checks 20,979 summary
+numbers and every native row; recorded replay reproduces 1,792 offspring, 3,584 additions and all midpoint/final
+population rows. A zero-call launcher preflight correction is preserved separately; scientific execution has
+no retry or source change. Evidence: `results/resource_patch_evolution_20261015/REPORT.md`.
+
+This establishes economy, not a new cumulative acquisition primitive. The next priority is one bounded
+selection comparison: ordinary mean-F against keeping candidates with useful task-specific acquisition
+advantages, using the same inherited final population, worlds, prices and ordinary mutation. One fixed genome
+per branch must face every evaluation world; a portfolio of specialists is insufficient. The leading design
+is four generations per branch, with a common endpoint rule and a new reserved combination. Source review,
+exact budget and prospective registration precede execution. See the completed archive's `NEXT_DECISION.md`;
+this result does not release a new run. Safe local resources remain adequate.

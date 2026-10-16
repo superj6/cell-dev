@@ -16,6 +16,29 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
+**Resource-patch continuation complete (2026-10-15).** Eight ordinary generations gain
+**0.595798 ±0.161773 F** on trained patches, with 0.436534 F (73.27%) from lower physical costs.
+Total acquisition gains 0.326172 ±0.328844 captures and replenished food 0.373047 ±0.302795, both unresolved.
+Empty-patch attempts rise 1.964844 ±0.297662 while geometric misses fall. Final tissue shrinks from 83.12 to
+68.98 cells on average. POOL loses **1.861328 ±0.216181 captures** (88.39% point retention); persistent and
+longer-gap point retention are 94.79%/94.67%. All three 90% retention margins remain unresolved, so a POOL
+loss exceeding 10% is not established. The reserved patch combination loses **1.382813 ±0.267868 captures**
+and 0.929688 ±0.216024 replenished packets. Generation 8 stays primary; generation 4 does not replace it.
+
+All **28,222 calls** complete in **1724.714517 CPU /857.732643 wall seconds**, peak 359.39 MiB, with all
+7,680 confirmation statuses zero and owned workers clear. Independent accounting checks 20,979 summary
+numbers and every native row; recorded replay reproduces 1,792 offspring, 3,584 additions and all midpoint/final
+population rows. A zero-call launcher preflight correction is preserved separately; scientific execution has
+no retry or source change. Evidence: `results/resource_patch_evolution_20261015/REPORT.md`.
+
+This establishes economy, not a new cumulative acquisition primitive. The next priority is one bounded
+selection comparison: ordinary mean-F against keeping candidates with useful task-specific acquisition
+advantages, using the same inherited final population, worlds, prices and ordinary mutation. One fixed genome
+per branch must face every evaluation world; a portfolio of specialists is insufficient. The leading design
+is four generations per branch, with a common endpoint rule and a new reserved combination. Source review,
+exact budget and prospective registration precede execution. See the completed archive's `NEXT_DECISION.md`;
+this result does not release a new run. Safe local resources remain adequate.
+
 **Depletion cues help inherited behavior (2026-10-15).** The fixed AO genome collects 21.4375 packets with
 native stock-dependent cues, versus 16.1875 at constant amplitude 0.55 and 13.15625 at constant 1. Native minus
 0.55 adds 5.2500 ±0.9103 captures, including 4.4063 ±0.8612 replenished packets, and 2.924125 ±0.455617 F;
@@ -26,7 +49,7 @@ All 148 new calls return and engineering parity passes. One metadata-name collis
 a reviewed one-key saved-data repair and independent accounting complete the measurement without new lives.
 Evidence: `results/resource_patch_modulation_20261015/REPORT.md`.
 
-**Exploratory cumulative pilots (revision, 2026-10-15).** Section 0.4 now explicitly separates bounded exploratory
+**Exploratory cumulative pilots (revision and historical registration, 2026-10-15).** Section 0.4 now explicitly separates bounded exploratory
 continuations from formal admission, following the user's cumulative-primitives direction. Useful inherited
 behavior and direct sensory-feedback value justify testing an accessible next step without first constructing
 another external controller. Formal numerical criteria and their missing comparisons remain explicit.

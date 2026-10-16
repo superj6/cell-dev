@@ -1,0 +1,86 @@
+{
+  "status": "complete",
+  "phase": "confirmation",
+  "exit_code": 0,
+  "worker_exit_code": 0,
+  "cpu_seconds": 1724.714517,
+  "wall_seconds": 857.7326429319946,
+  "cap_cpu_seconds": 5280,
+  "cap_wall_seconds": 3480,
+  "search_cpu_seconds": 1277.698322,
+  "confirmation_cpu_seconds": 447.0161949999999,
+  "search_cpu_cap": 4080,
+  "confirmation_cpu_cap": 1200,
+  "protocol_sha256": "0b0fd4e0fd2392f3f03f7f6bf5822714d64ce312aa20887770d0338c9c452da1",
+  "release_sha256": "07621e7b51f2afcbfa4f5fb4558fd4bce95c14ffbe088870ec7b542411805f67",
+  "attempt_sha256": "e709ff284703f94fc2a5c244f55e0cc1cc5f64610594eaa4d68afc2f09822dbe",
+  "pid_namespace": "pid:[4026535363]",
+  "process_identities": [
+    {
+      "pid": 2,
+      "ppid": 1,
+      "pgid": 1,
+      "start_ticks": 13075131,
+      "name": "monitor"
+    },
+    {
+      "pid": 26,
+      "ppid": 2,
+      "pgid": 26,
+      "start_ticks": 13075151,
+      "name": "mixed"
+    },
+    {
+      "pid": 61,
+      "ppid": 2,
+      "pgid": 61,
+      "start_ticks": 13138632,
+      "name": "confirmation"
+    }
+  ],
+  "owned_process_groups": [
+    26,
+    61
+  ],
+  "phase_records": {
+    "mixed": {
+      "path": "execution/mixed/budget.json",
+      "sha256": "93915df44dcdd3dd2e272c9eb3a6155b8545175147234146def24b578d18b543"
+    },
+    "confirmation": {
+      "path": "execution/confirmation/budget.json",
+      "sha256": "e6e93f59890af535646d8eb323cd85456b6461e790c37a60f4c555c014f2adf2"
+    }
+  },
+  "wait4_receipts": [
+    {
+      "pid": 26,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 1262.011464,
+      "system_cpu_seconds": 0.495453
+    },
+    {
+      "pid": 61,
+      "wait_status": 0,
+      "exit_code": 0,
+      "user_cpu_seconds": 441.422771,
+      "system_cpu_seconds": 0.252975
+    }
+  ],
+  "running": {},
+  "queued": [],
+  "reason": null,
+  "error": null,
+  "cleanup_error": null,
+  "terminal_cleanup": {
+    "pid_namespace": "pid:[4026535363]",
+    "checked_in_monitor": true,
+    "same_pid_namespace": true,
+    "remaining_group_members": [],
+    "remaining_worker_identities": [],
+    "remaining_descendants": [],
+    "all_owned_groups_exited": true,
+    "all_worker_identities_exited": true
+  }
+}

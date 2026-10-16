@@ -1,0 +1,24 @@
+{
+  "status": "source_prepared",
+  "protocol_sha256": "0b0fd4e0fd2392f3f03f7f6bf5822714d64ce312aa20887770d0338c9c452da1",
+  "sources": {
+    "pack.py": "0c7fe88c2301eab9b35f37017e34a80d85aa91355a4aeb3db0ed8ae8dccfdc68",
+    "verify.py": "6f693085685a278329fdd41eb6785f450526e40427922b0b304610299985bf85",
+    "README.md": "f486745d5e8bf22fdfbe6dc94f2ab8669c04ddab744ca17e390373aee251b39e"
+  },
+  "checks": [
+    "Ruff",
+    "AST parse",
+    "120-column check",
+    "source interface inspection"
+  ],
+  "helper_executions": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "notes": [
+    "No scientific outcomes inspected; no staging or publication performed.",
+    "Required independent receipt schema agreed with its author.",
+    "Zero-call launcher failure and corrected namespace binding retained."
+  ]
+}

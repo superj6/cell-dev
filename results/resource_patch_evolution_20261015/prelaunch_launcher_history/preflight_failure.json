@@ -1,0 +1,23 @@
+{
+  "status": "stopped_before_execution",
+  "command": ".venv/bin/python outputs/resource_patch_evolution_20261015/monitor.py --run",
+  "tool_exit_code": 1,
+  "tool_wall_seconds": 0.011339076,
+  "error": "KeyError: 'pid_namespace' at monitor.py line 312 before runtime artifact checks/attempt creation",
+  "evidence": "Tool response and absence of every runtime path independently checked before correction.",
+  "original_release_sha256": "d8bf1f25c6408c563b534e26b0c408c60307744e345889d5beb278cb519ea1dc",
+  "frozen_monitor_sha256": "59fe31ee91d30a15cb15a065768d7fc5fa9e82c682675bc3145173f053c49db8",
+  "protocol_sha256": "0b0fd4e0fd2392f3f03f7f6bf5822714d64ce312aa20887770d0338c9c452da1",
+  "runtime_paths_absent": [
+    "attempt.json",
+    "budget.json",
+    "execution",
+    "runs",
+    "raw",
+    "endpoints.json",
+    "build-cache"
+  ],
+  "started_builds": 0,
+  "started_lives": 0,
+  "correction": "Bind release pid_namespace in the same process that invokes the unchanged watchdog."
+}
