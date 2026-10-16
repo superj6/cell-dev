@@ -20,6 +20,10 @@ The [measurement](results/resource_patch_modulation_20261015/REPORT.md) and
 select one of 97 saved genomes to follow its food-acquisition strengths across five tasks. Linked plots and
 uncertainty bars show the same genome in every comparison; these development measurements do not certify a new winner.
 
+[Watch the deeper continuation](results/resource_patch_depth_preview_20261015/resource_patch_depth.html):
+four fixed genomes in the same patch world. The new descendant fares poorly in this particular example;
+its confirmed aggregate gains were in the older pursuit tasks, not patch harvesting.
+
 [Watch the persistent-target comparison](results/atlas/persistent_target.html): the new selected mutants beside
 their parents, with the measured capture gains and cost savings from 512 fresh paired lives.
 

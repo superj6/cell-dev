@@ -4338,3 +4338,20 @@ Retain the population and fixed reporting genome. Reconsider accessible richer i
 information/mechanism or representation hypothesis before another automatic selection tweak or unbounded
 continuation. This outcome establishes neither a capacity ceiling nor performance beyond strong handwritten
 baselines. No further scientific study was launched.
+
+## 2026-10-16 — Fixed depth-study replay and acquisition behavior
+
+The [four-genome viewer](results/resource_patch_depth_preview_20261015/resource_patch_depth.html)
+replays the predetermined first confirmation seed, 52530000, in the trained patch world. The new descendant
+collects 9 packets versus 17 for Pareto4 joint in this particular life; the example is retained unchanged.
+Across the full panel, patch improvement was unestablished. A favorable animation was not substituted.
+
+Saved pursuit measurements sharpen the observed change: POOL mean captures rise 15.4023 to 16.2148 while
+clicks fall 37.9199 to 33.3750; persistent captures rise 5.4844 to 6.3340 while clicks fall 33.7988 to 30.6582.
+Misses decrease in both tasks and bodies are slightly larger. These observations do not distinguish causal
+changes in development, sensory processing or action timing, and additional hidden cells do not prove a circuit.
+
+All four JS replays match all 428 saved native ledger values. They use no new C/Python lives or builds;
+fast-C hashes provide no full-trajectory comparison and no real browser was tested. Replay uses 3.642834 CPU /
+3.605601 wall seconds, within its separate 15 CPU / 60 wall package. Saved-input and public-archive verification pass.
+The original research archive remains unchanged. Evidence: `results/resource_patch_depth_preview_20261015/`.
