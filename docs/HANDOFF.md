@@ -30,11 +30,14 @@ Evidence: `results/resource_patch_modulation_20261015/REPORT.md`.
 continuations from formal admission, following the user's cumulative-primitives direction. Useful inherited
 behavior and direct sensory-feedback value justify testing an accessible next step without first constructing
 another external controller. Formal numerical criteria and their missing comparisons remain explicit.
-An eight-generation ordinary continuation of all 32 AO survivors is being prepared under
-`outputs/resource_patch_evolution_20261015/`: fixed 4/2/2 patch/POOL/persistent exposure, generation 4 observational,
-generation 8 primary, and fixed genomes evaluated in five worlds including a reserved patch combination.
-The reported package limit is 28,222 calls, 5,400 CPU/3,600 wall seconds, two threads, 4 GiB owned RSS,
-8 GiB address space and 4 GiB host reserve. No runtime release accompanies this note.
+An eight-generation ordinary continuation of all 32 AO survivors is registered under
+`results/resource_patch_evolution_20261015/` (work in the matching `outputs/` directory): fixed 4/2/2 patch/POOL/
+persistent exposure, generation 4 observational, generation 8 primary. AO start and both endpoints each face
+512 fresh shared lives in patch, POOL, persistent, longer cue gaps and a reserved count-4/radius-3–5/refill-100–200
+combination. Protocol `0b0fd4e0…c452da1`, native 53234/block 149. The package limit is 28,222 calls,
+5,400 CPU/3,600 wall seconds, two threads, 4 GiB owned RSS, 8 GiB address space and 4 GiB host reserve.
+The 47 adapter and 13 saved-reader checks pass without new lives. Root owns runtime release after prospective
+publication and exact-input review; this registration itself launches no simulation.
 
 **Inherited resource collection measured (2026-10-15; preceding diagnostic).** Without patch-world evolution, the fixed AO genome
 collects 21.4375 ±0.8636 packets per life, including 15.5000 ±0.8531 from replenishment; the fixed older AM reference

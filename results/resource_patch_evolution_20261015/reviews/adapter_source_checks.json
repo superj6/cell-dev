@@ -1,0 +1,88 @@
+{
+  "status": "passed_source_checks",
+  "author": "delayed_match_review",
+  "independent_review": false,
+  "scope": "Study-local ABI6 eight-generation selection/checkpoint/genetics replay adapters only; root owns independent review.",
+  "source_pins": {
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "1e21d8ab2c14b462457566fe3982d8375272a5166bd7c1e8558a362c69dc80d8",
+    "search.py": "9d7f7e2e30e7a25283fab0816930ddd98e626a9294d1b71ef6069055a1f38d3a",
+    "native_replay.py": "fdd1774d932a6a3497ef6fd8f7f0b62f3379b78849bd263cfae74154e16a086d",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "adapted_from": {
+    "outputs/delayed_match_evolution_20261015/population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "outputs/delayed_match_evolution_20261015/selection.py": "209e8b993822fe9a69a2844f8f6c6b3494505824c7c60ff1e944fc1cab643499",
+    "outputs/delayed_match_evolution_20261015/search.py": "01c2ec35e212ade41139dc42f6047081d1d7babd500a83af75a211c559fffe44",
+    "outputs/delayed_match_evolution_20261015/native_replay.py": "c66e545c8cb3755ffa8383ac68ec84b20fe7875e1a6ceefb8c78d8d29b6831f1",
+    "outputs/delayed_match_evolution_20261015/replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "unchanged_byte_for_byte": [
+    "population_loader.py",
+    "replay_ops.py"
+  ],
+  "test_source_pins": {
+    "test_selection_search.py": "b49222059537bde4a39b50bfc33b55ca303a9495fea4cf85233754bd22a10a75",
+    "test_native_replay.py": "0cc8864bfb16c49535aed78c1799a4cdc1febcaa15cc9084a2e00ae3cd108a9e"
+  },
+  "tests": {
+    "passed": 47,
+    "failed": 0,
+    "log": "reviews/adapter_tests.log",
+    "log_sha256": "325b7cf7b0d6ead544ebb7e833a08009fa10cf90ce29b8f9021e2ede461488f5",
+    "resources": "reviews/adapter_tests.resources.txt",
+    "resources_sha256": "de45702490894335fc25dd93ff39a5974110c30f71ff7b8a4141337a295887e9",
+    "cpu_seconds": 4.71,
+    "wall_seconds": 4.96,
+    "max_rss_KiB": 255388,
+    "threads": 1,
+    "ruff": "passed"
+  },
+  "coverage": [
+    "native generation seeds/order preserved, exact patch4/pool2/persistent2 initial and recheck worlds",
+    "all other draw purposes passed through unchanged including native T512 half-life",
+    "no T42.5 shim; native integer-world validation remains active",
+    "32 ordered raw founders and duplicate rows preserved, no fill mutation draws",
+    "context restoration on errors and identity/source configuration rejection",
+    "passive generation4 checkpoint bytes/log prefix, no added calls or RNG state changes",
+    "final eight-generation native count/health/output checks",
+    "supplied recorded operations reproduce all32 rows, counts and origins; corruption rejected"
+  ],
+  "call_inventory": {
+    "selection": 20480,
+    "valid": 48,
+    "final_including_growth": 6,
+    "growth_half_subset": 2,
+    "search_research": 20534,
+    "search_startup": 4,
+    "confirmation": 7680,
+    "confirmation_startup": 4,
+    "package_total": 28222,
+    "unique_native_seed_ids": 180,
+    "growth_reuses_final_index": 0
+  },
+  "checkpoint_counts": {
+    "generation4": {
+      "evals": 1024,
+      "rc_lives": 2048
+    },
+    "generation8": {
+      "evals": 2048,
+      "rc_lives": 4096
+    },
+    "final_counted_evals": 2560
+  },
+  "genetics": {
+    "final_offspring": 1792,
+    "final_point_additions": 3584,
+    "midpoint_offspring": 896,
+    "midpoint_point_additions": 1792
+  },
+  "new_lives": 0,
+  "new_builds": 0,
+  "new_genetic_draws": 0,
+  "notes": [
+    "Synthetic tests use supplied arithmetic records; they do not execute evolution or independently validate future fitness ranking.",
+    "Test resource figures are /usr/bin/time rounded to centiseconds; other short reads/edits/lint are within the preparation reserve, not included as measured test CPU."
+  ]
+}

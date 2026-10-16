@@ -1,0 +1,27 @@
+{
+  "monitor": {
+    "source": "results/resource_patch_baseline_20261015/monitor.py",
+    "sha256": "2325b336260307004cbe928aeaadf89661f48990566089fa6bc914f40ab574d3",
+    "changes": {
+      "'package_cpu_seconds_allocated': cpu_peak + 90": "'package_cpu_seconds_allocated': cpu_peak + 2",
+      "'package_wall_seconds_allocated': time.monotonic() - start + 120": "'package_wall_seconds_allocated': time.monotonic() - start + 5",
+      "'package_cpu_cap': 450, 'package_wall_cap': 900": "'package_cpu_cap': 30, 'package_wall_cap': 60"
+    }
+  },
+  "common": {
+    "source": "results/resource_patch_baseline_20261015/common.py",
+    "sha256": "b287406df5575fa744ea711d3e10775a740a780a853037cc91bc18ea8b650a6a"
+  },
+  "runtime_budget": {
+    "cpu_seconds": 28,
+    "wall_seconds": 55
+  },
+  "outside_runtime_reserve": {
+    "cpu_seconds": 2,
+    "wall_seconds": 5
+  },
+  "package_caps": {
+    "cpu_seconds": 30,
+    "wall_seconds": 60
+  }
+}

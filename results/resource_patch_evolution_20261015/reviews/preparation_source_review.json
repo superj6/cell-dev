@@ -1,0 +1,67 @@
+{
+  "status": "passed_source_review",
+  "reviewer": "delayed_match_review",
+  "independent_scope": [
+    "common.py",
+    "monitor.py",
+    "prepare.py",
+    "PROTOCOL.md",
+    "namespace audit and classification"
+  ],
+  "excluded_authored_sources": [
+    "search.py",
+    "selection.py",
+    "population_loader.py",
+    "native_replay.py",
+    "replay_ops.py"
+  ],
+  "source_pins": {
+    "common.py": "af89a06f269d38366143c2870431253ddc2399281cd05d1f5f820413be9e55ef",
+    "monitor.py": "59fe31ee91d30a15cb15a065768d7fc5fa9e82c682675bc3145173f053c49db8",
+    "prepare.py": "f7e83abe6586ad32191b5048399d9900d09c23bc0c0a0d51eea367001df16aba",
+    "PROTOCOL.md": "888e7142e373933bf3336fc31316c4ee6137193bd1c8336129f924c26e88d011",
+    "namespace/audit_namespace.py": "26e1003bd46b5b3da727515e3286733fc5dda41de663c667a3b7fad877f0e907",
+    "namespace/classify_namespace.py": "5740e287a416155b40860e1fcba33069c52d07a1c0e5d3fed8f7987b393c2aae",
+    "namespace/seed_audit.json": "b8c5f8057d3b4725cf99ea49cf23a1933ca00f00ec95d4af855986042466882e",
+    "namespace/candidate_seed_inventory.json": "31de108cfd392a5fdd1b703eec7d62f95decba9bc9c1a8120960e4fab1fe2e5b"
+  },
+  "material_blockers": [],
+  "findings": [
+    "Copies all32 ordered AO balanced24 rows, checks exact public/checkpoint bytes and rank0, imports no old fitness or RNG state.",
+    "One eight-generation mixed continuation, exact4patch/2POOL/2persistent per8 plus8 recheck; unchanged physical laws/prices/extinction scoring.",
+    "Generation4 passive, generation8 primary; native validation0/4/7; ordinary T512 growth; explicit zero final-fork diagnostics.",
+    "ABI6 world82/ledger107 on all five evaluation contexts; transfer changes exactly count4,R3..5,period100/200.",
+    "Exact20,534 search research+4startup and7,680 confirmation+4startup=28,222; no AM or extra ablations.",
+    "Cumulative5280CPU/3480wall runtime cap,4080 search ceiling and1200 confirmation reserve; one owned two-thread tree,4GiB RSS,8GiB AS,4GiB free floor and terminal ownership checks.",
+    "Namespace exact180 native IDs for53234 and reserved half-open block149; eight JSON references are prior exclusive endpoints,18 text references classified; existing inventory/source pins independently rechecked without rescan.",
+    "Exploratory exception and limited transfer/retention claims explicit; no formal section0.4 admission or memory claim."
+  ],
+  "namespace": {
+    "native_seed": 53234,
+    "native_unique_ids": 180,
+    "block_half_open": [
+      52490000,
+      52500000
+    ],
+    "confirmation_count": 512,
+    "npz_paths": 94628,
+    "unchanged_distinct_seed_payloads_reopened": 856,
+    "new_or_changed_npz_paths": 1376,
+    "json_references": 8,
+    "text_references": 18,
+    "historical_inventory_pins_verified": 26,
+    "new_scan": false
+  },
+  "pending": [
+    "measure.py/analyze.py peer sources and exact materialized inputs remain to be reviewed",
+    "Root independent review of this reviewer\u2019s authored search/replay adapters"
+  ],
+  "new_lives": 0,
+  "new_builds": 0,
+  "new_genetic_draws": 0,
+  "amendment": {
+    "prior_receipt_sha256": "bed1bca8e9bb47399474b75bed4dd6ec8626b79d6e128a21ac839abc7e8c516f",
+    "prior_receipt_path": "preparation_history/ratio_wording/preparation_source_review.json",
+    "change": "Protocol now promises paired retention-margin SE and descriptive capture-ratio point estimates, matching actual reader; no runtime source or analysis change."
+  }
+}

@@ -23,9 +23,17 @@ All 148 new calls return and engineering parity passes. One metadata-name collis
 a reviewed one-key saved-data repair and independent accounting complete the measurement without new lives.
 Evidence: `results/resource_patch_modulation_20261015/REPORT.md`.
 
-The next missing result is new resource adaptation with retained abilities. A small ordinary continuation from
-all 32 AO survivors is being prepared, using fixed patch/POOL/persistent exposure and one final genome across
-old tasks and a reserved resource combination. The plan now explicitly allows this bounded exploratory test
+[Watch the unchanged AO organism](../results/resource_patch_preview_20261015/resource_patch_AO.html) on its fixed
+baseline engineering seed. The paused standalone preview matches all 107 native ledger values and five full
+hashes in one stepped JS replay; no new C/Python life was needed. It illustrates inherited behavior, not a
+patch-evolved endpoint. Real-browser rendering has not been tested.
+
+The next missing result is new resource adaptation with retained abilities. An eight-generation ordinary
+continuation from all 32 AO survivors is registered, using fixed patch/POOL/persistent exposure and one final
+genome across old tasks and a reserved resource combination. AO start and generations 4/8 each face 512 fresh
+shared lives in five worlds; generation 8 stays primary. The maximum is 28,222 calls and 5,400 CPU seconds.
+See `results/resource_patch_evolution_20261015/`, protocol `0b0fd4e0…c452da1`. This registration launches no life.
+The plan now explicitly allows this bounded exploratory test
 separately from formal information-payoff admission; the latter's numerical criteria remain unchanged.
 This follows the user's cumulative-primitives direction without requiring another handwritten allocator first.
 

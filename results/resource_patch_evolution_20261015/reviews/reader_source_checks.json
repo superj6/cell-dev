@@ -1,0 +1,34 @@
+{
+  "checks": {
+    "ast": "passed",
+    "max_columns": 120,
+    "pytest_passed": 13,
+    "ruff": "passed"
+  },
+  "coverage": [
+    "six saved baseline reference/world batches (192 existing native rows)",
+    "supplied guard and extinction accounting",
+    "five malformed supplied-array rejection cases",
+    "complete supplied-array 15-batch/7680-label reducer and raw_path metadata exercise"
+  ],
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "new_simulator_calls": 0,
+  "notes": [
+    "Synthetic arrays are algebraic reader fixtures, not physical trajectories.",
+    "Public patch truth first body.world is authoritative; historical body.world_vec is ignored."
+  ],
+  "resource_log": "reviews/reader_test_resources.txt",
+  "resources": {
+    "cpu_seconds": 0.5,
+    "peak_rss_bytes": 62640128,
+    "wall_seconds": 0.61
+  },
+  "sources": {
+    "analyze.py": "2bd469c21a63d63b412175af747179877c8756413430c9eefc1fd826daba0c0f",
+    "measure.py": "ee698d4f1ed088a903be13c11ba94c73a7292e1a8640b1a35752ffdc6f94d9b5",
+    "test_readers.py": "e33a81ff608b0561717ffdba779f5ddd6b94a2d9ade2ba8e8be1bcc182609c94"
+  },
+  "status": "passed",
+  "test_log": "reviews/reader_tests.txt"
+}

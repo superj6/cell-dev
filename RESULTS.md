@@ -4129,3 +4129,27 @@ remain unchanged. No new evolution is released by this result entry.
 
 Report: `results/resource_patch_modulation_20261015/REPORT.md`; protocol 435d8439…568209c1;
 summary 48989b63…b38fc940; manifest 34a3d3a1…7b5239e1.
+
+## 2026-10-15 — Cumulative resource-patch pilot registered
+
+Eight ordinary generations import all 32 ordered AO balanced24 survivors. Fixed selection allocates four patch,
+two POOL and two persistent pursuit lives per eight, repeated for rechecking. Physical prices, local rules and
+ordinary mutation/mating stay fixed. This tests whether useful inherited behavior can improve cumulatively;
+it uses the explicit bounded-exploration exception and makes no formal world-admission claim.
+
+Generation 8 rank 0 is primary and generation 4 is a passive observation. AO start and both endpoints each
+receive 512 fresh paired lives in trained patches, POOL, persistent pursuit, earlier longer cue gaps and a
+reserved four-patch/radius 3–5/refill 100–200 combination. Replenished food, total capture, empty clicks and costs
+accompany F; direct older-task capture retention uses the existing 90% diagnostic. No favorable midpoint or
+different winner for each environment can replace the fixed final endpoint.
+
+The maximum is **28,222 calls**, including eight startup engineering lives, under **5,400 CPU /3,600 wall
+seconds**, two threads, 4 GiB owned RSS, 8 GiB address space and 4 GiB host reserve. Preparation and terminal
+work receive 120 CPU seconds; search receives at most 4,080 and confirmation/cleanup 1,200. Native 53234 and
+block 149 are collision-audited. All 47 adapter and 13 saved-reader checks pass without new lives or builds.
+Runtime release follows exact-input review and prospective publication; no simulation runs during registration.
+
+Evidence: `results/resource_patch_evolution_20261015/`; protocol `0b0fd4e0…c452da1`.
+The separate [inherited AO preview](results/resource_patch_preview_20261015/resource_patch_AO.html) matches
+107 ledger values and five hashes in one JS replay against a previously saved C life. It illustrates the starting
+lineage and contains no resource-evolved endpoint; real-browser rendering remains untested.

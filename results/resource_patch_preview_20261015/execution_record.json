@@ -1,0 +1,64 @@
+{
+  "status": "fixed_case_ready",
+  "seed": 42000000,
+  "role": "AO_rank0",
+  "world": "patch",
+  "T": 1024,
+  "JS_replays": 1,
+  "new_C_lives": 0,
+  "new_Python_lives": 0,
+  "builds": 0,
+  "genotype_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51",
+  "packed_genotype_sha256": "5f6fecc7c675cf748a35e1aa9b26662ea084d9e3886071755fd74e32aff48383",
+  "parent_pins": {
+    "results/resource_patch_baseline_20261015/protocol.json": "b1b4cbdb2c1d2d7f2e1eeac05d28a8944dc4ed8e0fc3fdd3efc5190d9ded55cc",
+    "results/resource_patch_baseline_20261015/row_index.json": "e51f63ab98200349bf70e01244702285726c65bce521f7a307c82d3ab629a1fa",
+    "results/resource_patch_baseline_20261015/measurement_complete.json": "309a4dc7fa1e1ade98ac3e41914058d3b7488ae9a4b102be91d36bb29123748d",
+    "results/resource_patch_baseline_20261015/budget.json": "5b071e7d3b5dbe02b75da6bcbd7c22914c6e16f9457d8b50831db08ee1aa64bf",
+    "results/resource_patch_baseline_20261015/inputs/ancestry.json": "fe0b589e208703d5006dcfce134b2005be8a2d649c490269e2137d0fb4cb3d81",
+    "results/resource_patch_baseline_20261015/inputs/raw_genomes.npy": "cfffd74c86c16d2dbf64b820cc068ea44adf96aaea76d8600291e6c268293107",
+    "results/resource_patch_baseline_20261015/inputs/packed_genomes.npy": "ba14ddc7112b9dff4f583a0556ec009ebf2acc508b13e6c1e25526dbe73c0fe8",
+    "results/resource_patch_baseline_20261015/raw/0000_engineering_patch_AO_rank0_42000000.npz": "67b422a819d3b7f67b9090db67e18a408c3806bc38ed4f3ce8b1d8ce2e93b24b",
+    "results/atlas/play/bodies.json": "6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f"
+  },
+  "dependencies": {
+    "results/atlas/play/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "results/atlas/play/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "results/atlas/play/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984"
+  },
+  "source_pins": {
+    "prepare.py": "7f9e4dd72424334166151d40485886987e0201c9dee11b34306653e7866ffa60",
+    "run.py": "f1a32be5e4b1d7cc56086828d36b3362023c2089765fffae5ee5062d2b00533d",
+    "replay.js": "711d5befec306cda1d15c062a2622ee4b66d4a1614a51d038a51dfa153ada8cd",
+    "template.html": "bd75d7af1f14406fb98e32ff768bd6368ab7b57723ab4dee3a2d8496f463f41d",
+    "monitor_core.py": "6cff19da0c842a4ad3d5d1a0f9cb8c67a770e0412f10b2cb1d7e92abf15585e4",
+    "common.py": "b287406df5575fa744ea711d3e10775a740a780a853037cc91bc18ea8b650a6a",
+    "source_origins.json": "8c21b6a4289214d0052ac1971fb204b4ecd878cde4d72a1c2c2f9653d0d5d4bc"
+  },
+  "input_pins": {
+    "inputs/fixture.json": "7409d1fdd2d58259392dcb45d76bd9daf5e743c33f6a3c7a9180c0b23154a867",
+    "inputs/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "inputs/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "inputs/saved_C_full.npz": "67b422a819d3b7f67b9090db67e18a408c3806bc38ed4f3ce8b1d8ce2e93b24b",
+    "inputs/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984"
+  },
+  "package_caps": {
+    "cpu_seconds": 30,
+    "wall_seconds": 60
+  },
+  "outside_runtime_reserve": {
+    "cpu_seconds": 2,
+    "wall_seconds": 5
+  },
+  "runtime_budget": {
+    "cpu_seconds": 28,
+    "wall_seconds": 55,
+    "workers": 1,
+    "threads": 1,
+    "cleanup_margin_seconds": 1,
+    "rss_bytes": 2147483648,
+    "address_space_bytes": 8589934592,
+    "minimum_available_bytes": 4294967296
+  },
+  "interpretation": "Unchanged evolved AO inherited behavior; no evolution on patches; fixed engineering seed."
+}

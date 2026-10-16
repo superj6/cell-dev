@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "reviewer": "root",
+  "independent_of_adapter_author": true,
+  "source_pins": {
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "selection.py": "1e21d8ab2c14b462457566fe3982d8375272a5166bd7c1e8558a362c69dc80d8",
+    "search.py": "9d7f7e2e30e7a25283fab0816930ddd98e626a9294d1b71ef6069055a1f38d3a",
+    "native_replay.py": "fdd1774d932a6a3497ef6fd8f7f0b62f3379b78849bd263cfae74154e16a086d",
+    "replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d"
+  },
+  "scope": "Read full selection adapter and affected search/replay functions; independently compared all three changed adapters against prior public matching study. Population loader and recorded operations remain byte-identical.",
+  "findings": [
+    "Only generation draw worlds change to fixed patch4/pool2/persistent2; native seed ordering and nonselection draws remain unchanged.",
+    "Native ABI6 T1024 removes obsolete fractional diagnostic shim; ordinary T512 final readout preserved.",
+    "G4 passive snapshot and G8 fixed final checks, count proofs, checkpoint prefixes and replay cardinalities agree.",
+    "20,534 search research plus7,680 confirmation plus8 startup =28,222.",
+    "Source-supplied 47 tests passed; not rerun during this independent read."
+  ],
+  "limitations": "Peer measurement/preparation/input review still required before runtime release.",
+  "new_simulations": 0,
+  "new_builds": 0,
+  "new_genetic_draws": 0
+}

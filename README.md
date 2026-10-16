@@ -9,6 +9,13 @@ cells.
 and has a live playground where you drop targets and an evolved body chases them. The playground's simulator is a
 JavaScript port validated bitwise against the C kernel on the retained parity cases.
 
+[Watch inherited pursuit collect replenished resources](results/resource_patch_preview_20261015/resource_patch_AO.html):
+one unchanged AO genome develops and acts among persistent food patches. It was evolved on earlier tasks.
+Across 32 development lives, it collects 21.4 packets with stock-dependent cues versus 16.2 or 13.2 when
+brightness is held constant. This is useful transfer and sensory feedback, without demonstrated resource memory.
+The [measurement](results/resource_patch_modulation_20261015/REPORT.md) and
+[current evidence map](docs/RESEARCH_STATUS.md) distinguish inherited behavior, new adaptation and open questions.
+
 [Watch the persistent-target comparison](results/atlas/persistent_target.html): the new selected mutants beside
 their parents, with the measured capture gains and cost savings from 512 fresh paired lives.
 

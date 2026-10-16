@@ -36,9 +36,12 @@ Profitable inherited behavior and direct evidence that sensory feedback helps ju
 accessibility without first building another external controller. Keep a fixed physical world, ordinary local
 rules, inherited populations, explicit budgets/endpoints, earlier-task checks and reserved combinations.
 This exception does not waive any numerical criterion for claiming formal admission, information headroom,
-memory or generality. A short eight-generation AO continuation is being prepared: fixed 4/2/2 patch/POOL/
-persistent exposure, generation 4 observational, generation 8 primary, and the same genomes tested in five
-worlds. Maximum 28,222 calls and 5,400 CPU/3,600 wall seconds; no run is released by this note.
+memory or generality. A short eight-generation AO continuation is registered: fixed 4/2/2 patch/POOL/
+persistent exposure, generation 4 observational, generation 8 primary. AO start and both endpoints each face
+512 fresh shared lives in five worlds, including a reserved count-4/radius-3–5/refill-100–200 resource combination.
+Maximum 28,222 calls and 5,400 CPU/3,600 wall seconds, two threads and 4 GiB owned RSS. Protocol
+`0b0fd4e0…c452da1`, native 53234/block 149; evidence `results/resource_patch_evolution_20261015/`.
+All 47 adapter and 13 saved-reader checks pass without new lives. No run is released by this registration note.
 
 **Inherited resource collection measured (2026-10-15; preceding diagnostic).** Without patch-world evolution, the fixed AO genome
 collects 21.4375 ±0.8636 packets per life, including 15.5000 ±0.8531 from replenishment; the fixed older AM reference
