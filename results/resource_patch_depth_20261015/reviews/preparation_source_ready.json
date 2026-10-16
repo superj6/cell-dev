@@ -1,0 +1,22 @@
+{
+  "status": "source_ready_unexecuted",
+  "source_revision": "1a7f38bd3222bacf27367fd99998d87776c34ec5",
+  "source_pins": {
+    "prepare_inputs.py": "f6d5c6302833881f04a8c449ffec87a45db26b70b40233fd2fd0c15fdbccb258",
+    "namespace/audit_namespace.py": "244ba408dd211e0ce9b8b1e955003e4b39b70f808c18da45598e29e997d404ec",
+    "namespace/classify_namespace.py": "2aceb673df279f23eaaff5bdde256b1971469943f9593c3b303c05215e732d11",
+    "PREPARATION_INTERFACE.md": "941b122366934dfb79e97867d2cc068c42d97c7470a2f4d52ff1368d0511f8c4"
+  },
+  "checks": [
+    "AST parse of three sources",
+    "Ruff format and lint passed for three sources",
+    "Native validation schedule source-inspected as generations 0,4,7",
+    "No module/function execution or data materialization"
+  ],
+  "namespace_scans": 0,
+  "materializations": 0,
+  "engine_builds": 0,
+  "simulation_calls": 0,
+  "genetic_draws": 0,
+  "timing": "Small source-edit and static-check costs charged to the preparation allowance; no separate timed scientific execution."
+}

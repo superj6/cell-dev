@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "source_pins": {
+    "search.py": "0ede2955df4489f7f7e5f0ca4c66a3b7aab7287effd31b3cc4c26da010e17dcc",
+    "selection.py": "5a67b1bb9a5b329502ba1fd63180039b1411b07bca63beee88e46387bc1d19e5",
+    "pareto.py": "aa10de7f9bfde3e764cec4ac5575319a7a985a340addf2beb77d34c7e36c1646",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "tests/test_selection_depth.py": "22b141395f7b6ac86b46317c5883bf0e02c41ca58cdc47e24f81eb20d4ebe520"
+  },
+  "source_preparation_sha256": "1e5a260db4bbb004d467eaa1cb918ba2c6931b1014fd5f269f209bdef525b4a7",
+  "tests": 7,
+  "attempts": 1,
+  "exit_code": 0,
+  "inputs": "Literal supplied arrays and fixed tie permutations; no native simulator or RNG invocation.",
+  "limits": {
+    "cpu_seconds": 10,
+    "wall_seconds": 30,
+    "address_space_bytes": 8589934592,
+    "threads": 1
+  },
+  "resources": {
+    "cpu_seconds": 2.13,
+    "user_cpu_seconds": 1.94,
+    "system_cpu_seconds": 0.19,
+    "wall_seconds": 2.14,
+    "peak_rss_bytes": 257703936
+  },
+  "logs": {
+    "stdout.txt": "83a1593c5b5783693fe3006d1f6597bcb4f3a5968f23b59481ee09a0477f910a",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resources.txt": "fd41efdd49d6c24e40a8efc92c99fb5598b47bd941a191bbcfc9d496fec43fa6"
+  },
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0
+}

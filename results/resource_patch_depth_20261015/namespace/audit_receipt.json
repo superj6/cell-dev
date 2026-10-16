@@ -1,0 +1,59 @@
+{
+  "status": "passed_unreserved",
+  "source_revision": "1a7f38bd3222bacf27367fd99998d87776c34ec5",
+  "scan_attempts": 1,
+  "classification_attempts": 1,
+  "native_seed": 53236,
+  "unique_native_ids": 564,
+  "endpoint_seeds": 32,
+  "confirmation_seeds": 512,
+  "whole_blocks": [
+    [
+      52520000,
+      52530000
+    ],
+    [
+      52530000,
+      52540000
+    ]
+  ],
+  "current_npz_paths": 95970,
+  "distinct_unchanged_payloads_reopened": 912,
+  "actual_seed_collisions": 0,
+  "JSON_references": 9,
+  "text_references": 32,
+  "unchanged_literal_fixture_errors": 177,
+  "source_amendment": "Added exact unrelated artifact-count and native-ID-count text classifications; scanner bytes and scan evidence unchanged. Original reviewed classifier retained.",
+  "artifact_pins": {
+    "audit_namespace.py": "244ba408dd211e0ce9b8b1e955003e4b39b70f808c18da45598e29e997d404ec",
+    "candidate_seed_inventory.json": "a3c28ba9224fdef98fbebb3a2753b00b322a1fc43b17a03d0d41ded099c6b94e",
+    "candidate_text_matches.txt": "3d2f4f4593dcde67164ecb3ac276485a5cd2bc37c9a2e75aa67317e5917714af",
+    "scan_stdout.txt": "7478ea73f4dfb80e0c9753f795872528933680ba9d1bf6886fa135f5382fe497",
+    "scan_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scan_resources.txt": "a2a2bbcaed573a850dc4ec836ad8210bce0363acb9995effa18d62fd0cd5be82",
+    "classify_namespace.py": "238cb5ccf09b97a17977ad0bb8da2ab7a89b5eba750694a65458d7e4ee07a8a9",
+    "classify_stdout.txt": "c0921fdacf8772d235f5bab9d5f656eadafe3eda1621d38555f1ef6de3b8bdf1",
+    "classify_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "classify_resources.txt": "1bcbe6459a6c77c4d8d539eca558f4b9399b997c51b7e2c18b743f504b2a141b",
+    "seed_audit.json": "5fba4572c08c0c4cb1ea5604fdb0eba3129d1d6f470e6537d6c777fe09e76d68",
+    "classifier_history/source_reviewed.py": "2aceb673df279f23eaaff5bdde256b1971469943f9593c3b303c05215e732d11",
+    "classifier_history/literal_counts.diff": "a8b4ccc4f7a79b93b270ad5d943dde8894535ca3a2b48d5f4905fdebf54fa2d7",
+    "classifier_history/PREPARATION_INTERFACE.source_only.md": "941b122366934dfb79e97867d2cc068c42d97c7470a2f4d52ff1368d0511f8c4"
+  },
+  "external_resources": {
+    "scan_cpu_seconds": 25.83,
+    "scan_wall_seconds": 25.87,
+    "scan_peak_rss_KiB": 248980,
+    "classification_cpu_seconds": 0.11,
+    "classification_wall_seconds": 0.11,
+    "classification_peak_rss_KiB": 47524,
+    "total_cpu_seconds": 25.94,
+    "total_wall_seconds": 25.98
+  },
+  "reservation": false,
+  "materializations": 0,
+  "simulations": 0,
+  "builds": 0,
+  "genetic_draws": 0,
+  "preparation_interface_sha256": "1ac487bb5c88008c6efdd3b85b22c20382551681ebdb9c68d26f737d67c29e28"
+}

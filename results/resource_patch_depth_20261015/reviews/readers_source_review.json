@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "scope": "Independent source review and one supplied-data reader test run.",
+  "source_pins": {
+    "measure.py": "0ba8c8bb159c710e10c3a9700c71bff9fa0e0d26e1e97db3bc5d357517c0239f",
+    "analyze.py": "53022387946892ec4fa245d6a05bf8c8f883cb3e4750b6a071a4fdc3b1f17fde",
+    "tests/test_readers.py": "c075cf4d2b705e8ab5127f96c7b34ff2f65b39612244d07566c310b5155c9a90",
+    "search.py": "0ede2955df4489f7f7e5f0ca4c66a3b7aab7287effd31b3cc4c26da010e17dcc",
+    "run.py": "07bcd0bcb90932f0ba9d4a8b38684d4e86549cf64c3a84f44e860efee55dc9cb",
+    "common.py": "342a2bb7ada588c9409dcf770aad2251138adae1ffb082cdfa2a1a21691c36d5"
+  },
+  "tests": {
+    "cases": 7,
+    "attempts": 1,
+    "exit_code": 0,
+    "fixtures": "Literal algebraic arrays only; no simulated observations.",
+    "limits": {
+      "cpu_seconds": 10,
+      "wall_seconds": 30,
+      "address_space_bytes": 8589934592,
+      "threads": 1
+    },
+    "resources": {
+      "cpu_seconds": 0.35,
+      "user_cpu_seconds": 0.3,
+      "system_cpu_seconds": 0.05,
+      "wall_seconds": 0.36,
+      "peak_rss_bytes": 47640576
+    },
+    "logs": {
+      "stdout.txt": "83a1593c5b5783693fe3006d1f6597bcb4f3a5968f23b59481ee09a0477f910a",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "resources.txt": "0333501acb599b4db30e218ceddd19f5019706c4dfdc620d27cc280251a561e8"
+    }
+  },
+  "static_checks": {
+    "AST": "passed",
+    "Ruff": "passed",
+    "maximum_python_line_length": 120
+  },
+  "matrix": {
+    "endpoint_batches": 3,
+    "endpoint_lives": 3072,
+    "endpoint_genomes": 32,
+    "endpoint_lives_per_world": 32,
+    "confirmation_batches": 6,
+    "confirmation_roles": 4,
+    "confirmation_lives_per_world": 512,
+    "confirmation_lives": 12288,
+    "measurement_research": 15360,
+    "measurement_startup": 4,
+    "measurement_total": 15364,
+    "search_research": 81974,
+    "search_startup": 4,
+    "overall_research": 97334,
+    "overall_startup": 8,
+    "overall_total": 97342
+  },
+  "checks": [
+    "The search marker is exactly rederived with complete_search before endpoint measurement, without a new identity or backend call.",
+    "All32 final ordered genotype bytes and native IDs bind checkpoint, public population, final selection record and a new pinned endpoint_population snapshot.",
+    "Three standalone references bind protocol/input pins, manifest order, float32 raw array and decoded genome bytes.",
+    "The worker uses existing LifeEvaluator.run Cartesian genotype-major batching; each returned raw ledger/hash array is saved before accounting/status checks.",
+    "Endpoint panel and confirmation use disjoint fixed32 and512 seed lists; each genotype sees the same per-world panel.",
+    "Endpoint rule maximizes min of three capture means divided by fixed AO scales, then the per-seed0.5patch+0.25POOL+0.25persistent ordinary-F mean, then native ID.",
+    "The equal32-per-world endpoint sampling does not substitute an equal-world fitness mean; the supplied-array weighting counterexample passes.",
+    "Joint genome and endpoint receipt are written exclusively, rederived from saved endpoint raw/scored data, and pinned in endpoints.json before any confirmation cohort.",
+    "Confirmation never selects a genome; all4roles and6worlds retain all512whole lives, ordinary extinction/guard costs and all107 native ledger columns.",
+    "Primary depth8_joint-minus-Pareto4_joint and secondary depth8_joint-minus-AO/G8_joint use paired same-seed per-life differences and SE.",
+    "Old-world90percent margins and capture ratios are diagnostic, not an admission gate; initial/refill energy remains distinct, including reserved capacity3.",
+    "Measurement emits the exact counts and hash bindings verified by analyze; the runner receiver accepts its9cohort schema and requires the completed protocol-bound summary.",
+    "Final release/protocol checks and phase-specific ownership paths match the reviewed common/monitor implementation."
+  ],
+  "earlier_runner_review_sha256": "138bf1275eb0836ea8e085b6d353d94a0d5adf973287ac8a9760a06a8ed72a21",
+  "runner_marker_integration_now_verified": true,
+  "limitations": [
+    "No end-to-end native measurement was run in this source review.",
+    "The accounting reducer is unchanged and SHA-pinned; its base physical tests were not repeated.",
+    "Life SE and the fresh endpoint ranking do not estimate reliability across evolutionary searches."
+  ],
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "source_changes": 0
+}

@@ -1,0 +1,45 @@
+{
+  "status": "passed_source_review",
+  "scope": "Independent source review of launcher, common ownership and reused monitor.",
+  "source_pins": {
+    "run.py": "07bcd0bcb90932f0ba9d4a8b38684d4e86549cf64c3a84f44e860efee55dc9cb",
+    "common.py": "342a2bb7ada588c9409dcf770aad2251138adae1ffb082cdfa2a1a21691c36d5",
+    "monitor_core.py": "6df0431f755128ae3d008007f393ead18575891d21ee909e48e47f915686ef92"
+  },
+  "core_monitor_functions_AST_identical_to_population": [
+    "pid_namespace",
+    "proc_table",
+    "identity",
+    "owned_live",
+    "consumed_cpu",
+    "memory_usage",
+    "child_limits",
+    "enable_subreaper",
+    "signal_owned",
+    "signal_descendant",
+    "reap",
+    "cleanup",
+    "cleanup_evidence",
+    "run_worker"
+  ],
+  "prior_monitor_sha256": "6df0431f755128ae3d008007f393ead18575891d21ee909e48e47f915686ef92",
+  "checks": [
+    "The same monitor owns both phase workers sequentially; run_worker consumed_cpu includes monitor, reaped children and active owned descendants cumulatively.",
+    "Search threshold is its phase CPU allowance; measurement threshold is min(overall runtime cap, completed search CPU plus measurement allowance). Thresholds are absolute cumulative totals, not summed phase receipts.",
+    "Each phase wall allowance is min(phase wall cap, overall wall cap minus elapsed launcher time); cleanup margin and final overall completion checks remain.",
+    "Overall completion rechecks both phase statuses, cumulative CPU/wall, phase CPU allocations and cleared process identities/groups/descendants in the same PID namespace.",
+    "Common parent_check accepts only the two phase attempts, verifies direct-parent/session/PID-start identity, exact attempt/protocol/release hashes, and rejects elastic thread overrides.",
+    "Worker launch retains subreaper, PDEATHSIG, process-group ownership, wait4 accounting, pidfd-protected descendant cleanup, RSS/AS/host reserve and fixed2-thread enforcement.",
+    "Search marker uses81974research+4startup; measurement expected15360research+4startup; overall97334research+8startup=97342.",
+    "Search completion pins native outputs; measurement completion checks3endpoint+6confirmation indexes and raw/scored pins plus completed summary.",
+    "First release refuses existing runtime artifacts and binds published reviewed protocol/launcher/manifest and exact HEAD/origin commit."
+  ],
+  "limitations": [
+    "Source-only review; unchanged monitor subprocess tests were not repeated.",
+    "Measurement producer source was not yet present; marker interface reviewed against agreed schema and receiver. Final source/input review must bind its emitted keys.",
+    "The second child RLIMIT_CPU is a cumulative-threshold backstop; the unchanged monitor enforces its remaining phase/overall allowance."
+  ],
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0
+}

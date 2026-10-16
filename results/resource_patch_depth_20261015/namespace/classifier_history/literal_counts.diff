@@ -1,0 +1,24 @@
+--- source_reviewed.py
++++ classify_namespace.py
+@@ -113,6 +113,21 @@
+             kind = "preceding block 151 has exclusive upper endpoint 52520000"
+         elif path.startswith(PREFIXES) and path.endswith("/namespace/audit_namespace.py") and "|52520000)" in source:
+             kind = "preceding audit search pattern, not an assignment"
++        elif (
++            path.endswith(("/ARCHIVE.md", "/archive_terminal.py"))
++            and "[prelaunch/manifest.json](prelaunch/manifest.json) preserves all 153 prepared artifacts;" in source
++        ):
++            require(
++                not numerical_hits(re.findall(r"\b[0-9]+\b", source), native),
++                "candidate integer in artifact-count text",
++            )
++            kind = "153 is the count of prepared artifacts, not a seed or block assignment"
++        elif (
++            path == "outputs/audit_population_depth_20261015/preregister_text.md"
++            and source
++            == "The native run seed is **53228**; confirmation uses **52,370,000–52,370,511** (block137). Its 152 native IDs"
++        ):
++            kind = "152 counts derived IDs for native seed 53228; block 137 is disjoint"
+         elif path.startswith("outputs/openhr/switching/") and re.search(r"\bblock 15[23]\b", source):
+             require(not re.search(r"525[23][0-9]{4}|53[_,]?236", source), "actual new namespace in old label text")
+             kind = "older 43-million-base block 152/153; actual IDs remain below 44,532,000"

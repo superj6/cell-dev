@@ -1,0 +1,60 @@
+{
+  "roles": [
+    "AO",
+    "G8_joint",
+    "Pareto4_joint"
+  ],
+  "dims": {
+    "genes_max": 16,
+    "genes_init": 8,
+    "morph": 2,
+    "channels": 2,
+    "stim": 1,
+    "pheno": 22,
+    "kind": "life",
+    "cues": 2
+  },
+  "shape": [
+    3,
+    875
+  ],
+  "dtype": "float32",
+  "raw_sha256": "e1c8ad0e93387ff855c3f91f6793358fd5d39f81b288b695984d1b3b6ca81acd",
+  "rows": [
+    {
+      "role": "AO",
+      "path": "inputs/AO.json",
+      "panel_index": 96,
+      "group": "AO",
+      "local_row": 0,
+      "native_id": 5336,
+      "raw_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51",
+      "selection": "Prospective comparator for this new study, chosen by prior development joint order; no historical endpoint replacement.",
+      "file_sha256": "0cc69bc11d03f7362e65a1f1f1ad85081de96b5fdc5f192b27cdb015dec16150"
+    },
+    {
+      "role": "G8_joint",
+      "path": "inputs/G8_joint.json",
+      "panel_index": 20,
+      "group": "G8",
+      "local_row": 20,
+      "native_id": 1795,
+      "raw_sha256": "99d2921bbaa9e4e5d22b13f8c034d4f09204cec75e89e2576aa6fad58af2d39c",
+      "selection": "Prospective comparator for this new study, chosen by prior development joint order; no historical endpoint replacement.",
+      "file_sha256": "1918aa22968eb75d6a773db42e9fe249d1d8e65218222a056aeb93e313d0719e"
+    },
+    {
+      "role": "Pareto4_joint",
+      "path": "inputs/Pareto4_joint.json",
+      "panel_index": 90,
+      "group": "pareto4",
+      "local_row": 26,
+      "native_id": 918,
+      "raw_sha256": "e279610e269909ed231daef0cc06596e78b730a5e29644bc68487ad8c96ebb0f",
+      "selection": "Prospective comparator for this new study, chosen by prior development joint order; no historical endpoint replacement.",
+      "file_sha256": "b4d1f96c5b0dccb0e39e9440d5f3340b47d7c855d75322098a3cd69d503d60d6"
+    }
+  ],
+  "prior_summary_source": "results/resource_patch_population_20261015/summary.json",
+  "prior_summary_sha256": "bc83c4bde878b319316f7d3f2af13db2d851be729f5ce6c5aa7cd00bbf76f607"
+}

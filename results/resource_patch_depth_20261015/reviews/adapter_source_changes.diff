@@ -1,0 +1,434 @@
+--- outputs/resource_patch_selection_20261015/search.py
++++ outputs/resource_patch_depth_20261015/search.py
+@@ -1,4 +1,4 @@
+-"""Four native generations with ordinary/Pareto selection and a cached common joint endpoint."""
++"""Eight native Pareto generations from all32 survivors; no reporting endpoint is selected here."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -43,89 +43,21 @@
+     return capture
+ 
+ 
+-def _endpoint_record(out, cfg, identity, *, write_genome=False):
+-    """Derive from the already evaluated final32; no backend, evaluator or RNG invocation."""
++def complete_search(cfg, arm, identity):
++    """Bind completed ordinary native outputs without a further numerical identity call."""
+     import numpy as np
+-    from selection import ENDPOINT_RULE, endpoint_from_arrays
++    import torch
++    from omegaconf import OmegaConf
+ 
+     from common import read, sha
+     from src import checkpoint
+     from src.genome import Layout
+ 
+-    out = Path(out)
+-    saved = checkpoint.load(out / 'checkpoint.pt')
+-    checkpoint.validate(saved, cfg, identity)
+-    state = saved['state']
+-    if (state['generation'] != 4 or state['evals'] != 1024 or state['rc_lives'] != 2048
+-            or tuple(state['population'].shape) != (32, 875)):
+-        raise ValueError('joint endpoint requires the exact completed generation4 checkpoint')
+-    pin = saved['logs']['lineage.jsonl']
+-    data = (out / 'lineage.jsonl').read_bytes()
+-    if len(data) != pin['bytes'] or hashlib.sha256(data).hexdigest() != pin['sha256']:
+-        raise ValueError('endpoint lineage does not match checkpoint')
+-    rows = [json.loads(line) for line in data.splitlines()]
+-    last = rows[-1]
+-    record = last['selection']
+-    if (last['gen'] != 3 or last['survivors'] != state['ids'].tolist()
+-            or record['path'] != 'selection/g003.npz' or sha(out / record['path']) != record['sha256']
+-            or record['arm'] != cfg.retention_selection.arm):
+-        raise ValueError('endpoint selection arrays do not match terminal lineage')
+-    with np.load(out / record['path'], allow_pickle=False) as file:
+-        arrays = {name: file[name] for name in file.files}
+-    indices = arrays['shortlist'][arrays['pick']]
+-    expected_population = arrays['base_genomes'][indices]
+-    if (expected_population.dtype != state['population'].numpy().dtype
+-            or expected_population.tobytes() != state['population'].numpy().tobytes()):
+-        raise ValueError('endpoint captured selection genomes differ from final checkpoint rows')
+-    selected = endpoint_from_arrays(arrays, state['ids'].numpy())
+-    rank = selected.selected
+-    layout, _ = Layout.load(out / 'best_genome.json')
+-    path = out / 'joint_genome.json'
+-    if write_genome:
+-        if path.exists():
+-            raise ValueError('joint endpoint output already exists')
+-        layout.save(state['population'][rank], path)
+-    _, genome = Layout.load(path)
+-    if raw_sha(genome) != raw_sha(state['population'][rank]):
+-        raise ValueError('joint genome is not the cached-rule selected final row')
+-    result = {'status': 'complete', 'arm': str(cfg.retention_selection.arm), 'generation': 4,
+-              'rank': rank, 'id': int(state['ids'][rank]), 'genome_file_sha256': sha(path),
+-              'genome_raw_sha256': raw_sha(genome), 'population_raw_sha256': raw_sha(state['population']),
+-              'checkpoint_sha256': sha(out / 'checkpoint.pt'), 'selection_path': record['path'],
+-              'selection_sha256': record['sha256'], 'rule': ENDPOINT_RULE, 'selection': selected.audit(),
+-              'protocol_sha256': sha(STUDY / 'protocol.json'), 'added_lives': 0, 'random_draws': 0}
+-    if not write_genome and read(out / 'endpoint_selection.json') != result:
+-        raise ValueError('joint endpoint receipt differs from exact cached selection')
+-    return result
+-
+-
+-def write_endpoint(out, cfg, identity):
+-    from common import save
+-
+-    receipt = _endpoint_record(out, cfg, identity, write_genome=True)
+-    save(Path(out) / 'endpoint_selection.json', receipt, exclusive=True)
+-    return receipt
+-
+-
+-def verify_endpoint(out, cfg, identity):
+-    """Return the exact rederived endpoint receipt, suitable for the confirmation reader."""
+-    return _endpoint_record(out, cfg, identity)
+-
+-
+-def complete_search(cfg, arm, identity):
+-    """Bind completed ordinary native outputs without a further numerical identity call."""
+-    import torch
+-    from omegaconf import OmegaConf
+-
+-    from common import read, sha
+-    from src import checkpoint
+-    from src.genome import Layout
+-
+     out = Path(cfg.logging.output_dir)
+     saved = checkpoint.load(out / 'checkpoint.pt')
+     checkpoint.validate(saved, cfg, identity)
+-    if (arm not in ('mean', 'pareto') or saved['state']['generation'] != 4 or saved['state']['evals'] != 1024
+-            or saved['state']['rc_lives'] != 2048):
++    if (arm != 'pareto' or saved['state']['generation'] != 8 or saved['state']['evals'] != 2048
++            or saved['state']['rc_lives'] != 16384):
+         raise ValueError('native search checkpoint counts differ')
+     if read(out / 'determinism.json') != identity:
+         raise ValueError('native recorded identity differs')
+@@ -138,9 +70,9 @@
+     curves = [json.loads(line) for line in (out / 'curves.jsonl').read_text().splitlines()]
+     lineage = [json.loads(line) for line in (out / 'lineage.jsonl').read_text().splitlines()]
+     generations = [row for row in lineage if 'gen' in row]
+-    if ([row['gen'] for row in curves] != list(range(4))
+-            or [row['gen'] for row in generations] != list(range(4))
+-            or [row['gen'] for row in curves if 'valid' in row] != [0, 3]):
++    if ([row['gen'] for row in curves] != list(range(8))
++            or [row['gen'] for row in generations] != list(range(8))
++            or [row['gen'] for row in curves if 'valid' in row] != [0, 4, 7]):
+         raise ValueError('native generation/validation schedule differs')
+     for g, row in enumerate(curves):
+         if (row['evals'] != 320 * (g + 1) or row['recheck_k'] != 64
+@@ -154,9 +86,12 @@
+     if len(founders) != 1 or founders[0]['ids'] != list(range(32)) or founders[0]['copies'] != []:
+         raise ValueError('native full-population import differs')
+     for row in generations:
+-        if (len(row['children']) != 224 or len(row['seeds']) != 8
+-                or len(row['recheck']['seeds']) != 8 or len(row['recheck']['ids']) != 64
++        if (len(row['children']) != 224 or len(row['seeds']) != 32
++                or len(row['recheck']['seeds']) != 32 or len(row['recheck']['ids']) != 64
+                 or row['selection']['arm'] != arm
++                or row['selection']['base_shape'] != [256, 32]
++                or row['selection']['recheck_shape'] != [64, 32]
++                or row['selection']['survivor_lives'] != 64
+                 or row['selection']['path'] != f'selection/g{row["gen"]:03d}.npz'
+                 or sha(out / row['selection']['path']) != row['selection']['sha256']):
+             raise ValueError('native lineage evaluation dimensions differ')
+@@ -164,7 +99,7 @@
+     if len(results) != 1:
+         raise ValueError('one native final result required')
+     final = results[0]
+-    if (final['generations'] != 4 or final['evals'] != 1280 or final['lives'] != 2
++    if (final['generations'] != 8 or final['evals'] != 2560 or final['lives'] != 2
+             or final['founders_sampled'] != 0 or final['top_best_rank'] != 0
+             or final['invalid_lives'] != 0 or final['mismatch_lives'] != 0
+             or not math.isfinite(float(final['F']))):
+@@ -177,7 +112,11 @@
+             or table.numpy().tobytes() != state['population'].numpy().tobytes()
+             or best.numpy().tobytes() != table[0].numpy().tobytes()):
+         raise ValueError('native endpoint/population differs from checkpoint rank order')
+-    endpoint = verify_endpoint(out, cfg, identity)
++    with np.load(out / 'selection/g007.npz', allow_pickle=False) as arrays:
++        selected = arrays['shortlist'][arrays['pick']]
++        if (arrays['base_genomes'][selected].tobytes() != table.numpy().tobytes()
++                or arrays['candidate_ids'][selected].tolist() != population['ids']):
++            raise ValueError('final selection rows differ from the retained full population')
+     startup = read(out / 'search_startup.json')
+     base_identity = {key: value for key, value in identity.items()
+                      if key not in ('population_start', 'retention_selection')}
+@@ -187,25 +126,24 @@
+         raise ValueError('four-call search startup proof differs')
+     names = ('checkpoint.pt', 'config.yaml', 'determinism.json', 'curves.jsonl', 'lineage.jsonl',
+              'population.json', 'best_genome.json', 'results.jsonl', 'search_startup.json',
+-             'joint_genome.json', 'endpoint_selection.json',
+-             *(f'selection/g{g:03d}.npz' for g in range(4)))
+-    return {'status': 'complete', 'arm': arm, 'research_lives': 10278, 'startup_lives': 4,
++             *(f'selection/g{g:03d}.npz' for g in range(8)))
++    return {'status': 'complete', 'arm': arm, 'research_lives': 81974, 'startup_lives': 4,
+             'protocol_sha256': sha(STUDY / 'protocol.json'), 'release_sha256': sha(STUDY / 'release.json'),
+-            'count_proof': {'selection': 10240, 'valid': 32, 'final': 6, 'growth_half': 2,
+-                            'native_evals': 1280, 'generations': 4, 'children_per_generation': 224},
+-            'endpoint': endpoint,
++            'count_proof': {'selection': 81920, 'valid': 48, 'final': 6, 'growth_half': 2,
++                            'native_evals': 2560, 'generations': 8, 'children_per_generation': 224},
++            'reporting_endpoint_selected': False, 'native_rank0_only': True,
+             'health': {'pop_invalid': [row['pop_invalid'] for row in curves],
+                        'pop_mismatch': [row['pop_mismatch'] for row in curves],
+                        'recheck_invalid': [row['recheck_invalid'] for row in curves],
+                        'pop_guard': [row['pop_guard'] for row in curves],
+                        'final_guard_rate': final['guard_rate'],
+-                       'guard_scope': 'First8/recheck8 statuses and F retained; guards keep ordinary penalties.'},
++                       'guard_scope': 'First32/recheck32 statuses and F retained; guards keep ordinary penalties.'},
+             'output_pins': {name: sha(out / name) for name in names}, 'checkpoint_log_pins': saved['logs']}
+ 
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+-    parser.add_argument('--arm', choices=('mean', 'pareto'))
++    parser.add_argument('--arm', choices=('pareto',))
+     args = parser.parse_args()
+     if args.arm is None:
+         print(json.dumps({'status': 'dry_run', 'scope': 'one named arm only after explicit release'}))
+@@ -255,12 +193,11 @@
+             run.main(cfg)
+     finally:
+         checkpoint.numerical_identity = original
+-    if (capture.calls != 1 or len(tracker['records']) != 4 or tracker['cache']
++    if (capture.calls != 1 or len(tracker['records']) != 8 or tracker['cache']
+             or tracker['pending'] is not None or tracker['pre'] is not None):
+-        raise ValueError('search numerical identity or four complete selection records differ')
++        raise ValueError('search numerical identity or eight complete selection records differ')
+     if checked_release() != protocol or sha(STUDY / 'release.json') != release_sha:
+         raise ValueError('source or release changed during search')
+-    write_endpoint(Path(cfg.logging.output_dir), cfg, identity)
+     receipt = complete_search(cfg, args.arm, identity)
+     save(Path(cfg.logging.output_dir) / 'search_complete.json', receipt, exclusive=True)
+ 
+--- outputs/resource_patch_selection_20261015/selection.py
++++ outputs/resource_patch_depth_20261015/selection.py
+@@ -1,4 +1,4 @@
+-"""Study-local ordinary/Pareto ordering of unchanged native mixed-world life results."""
++"""Study-local Pareto ordering of unchanged native mixed-world lives, using32+32 samples."""
+ from __future__ import annotations
+ 
+ import copy
+@@ -13,16 +13,13 @@
+ import numpy as np
+ 
+ STUDY = Path(__file__).resolve().parent
+-ARMS = ('mean', 'pareto')
+-PATTERN = ('patch', 'pool', 'patch', 'persistent') * 2
+-RULE = ('gen fixed patch4/pool2/persistent2 per8 repeated for recheck; '
+-        'base8 shortlist64 then pooled16 survivors32; ordinary production F unchanged; '
+-        'mean ranks F; pareto maximizes three within-domain capture means and aggregate F; '
++ARMS = ('pareto',)
++PATTERN = ('patch', 'pool', 'patch', 'persistent') * 8
++RULE = ('gen fixed patch16/pool8/persistent8 per32 repeated for recheck; '
++        'base32 shortlist64 then pooled64 survivors32; ordinary production F unchanged; '
++        'pareto maximizes three within-domain capture means and aggregate F; '
+         'native tie permutations256 diagnostic/256 shortlist/64 final; '
+-        'diagnostics=patchT1024 and ordinary growthT512')
+-ENDPOINT_RULE = ('among final32 maximize min(domain capture mean / fixed AO mean), '
+-                 'then pooled16 ordinary F, then native survivor ID ascending; no extra lives or RNG')
+-AO_REFERENCE = (19.046875, 16.029296875, 5.919921875)
++        'diagnostics=patchT1024 and ordinary growthT512; no cached reporting endpoint')
+ 
+ 
+ def sha(path):
+@@ -44,9 +41,8 @@
+ def selection_identity(arm, worlds):
+     if arm not in ARMS or worlds != expected_worlds():
+         raise ValueError('exact fixed ABI6 patch / AO POOL / AO persistent worlds required')
+-    return {'version': 2, 'arm': arm, 'worlds': copy.deepcopy(worlds), 'rule': RULE,
+-            'pattern': list(PATTERN), 'endpoint_rule': ENDPOINT_RULE,
+-            'endpoint_reference': list(AO_REFERENCE),
++    return {'version': 3, 'arm': arm, 'worlds': copy.deepcopy(worlds), 'rule': RULE,
++            'pattern': list(PATTERN),
+             'source_pins': {name: sha(STUDY / name) for name in ('selection.py', 'pareto.py')}}
+ 
+ 
+@@ -61,28 +57,6 @@
+ def _same(a, b):
+     a, b = np.asarray(a), np.asarray(b)
+     return a.shape == b.shape and a.dtype == b.dtype and a.tobytes() == b.tobytes()
+-
+-
+-def _mean_order(fitness, permutation):
+-    """The native stable descending F sort on its supplied tie permutation."""
+-    import pareto
+-
+-    return pareto.rank_mean(fitness, permutation)
+-
+-
+-def endpoint_from_arrays(arrays, ids):
+-    """Return the common endpoint from saved pooled16, in final native survivor order."""
+-    import pareto
+-
+-    short, pick = arrays['shortlist'], arrays['pick']
+-    cap = np.concatenate((arrays['base_captures'][short], arrays['recheck_captures']), axis=1)[pick]
+-    fit = np.concatenate((arrays['base_production_F'][short], arrays['recheck_production_F']), axis=1)[pick]
+-    ids = np.asarray(ids, dtype=np.int64)
+-    if (ids.shape != (32,) or len(np.unique(ids)) != 32
+-            or not _same(arrays['candidate_ids'][short[pick]], ids)):
+-        raise ValueError('endpoint IDs do not match retained selection rows')
+-    objectives = pareto.objective_vectors(cap, fit, pareto.PATTERN * 2)
+-    return pareto.select_endpoint(objectives, ids)
+ 
+ 
+ @contextmanager
+@@ -116,17 +90,17 @@
+         count = self.lives if lives is None else int(lives)
+         if purpose != 'gen':
+             return original_draw(self, purpose, index, lives=lives, T=T, overrides=overrides, envelope=envelope)
+-        if (self.abi.version != 6 or count not in (8, 16) or int(index) != index or index not in range(4)
++        if (self.abi.version != 6 or count not in (32, 64) or int(index) != index or index not in range(8)
+                 or (T is not None and T != 1024.) or overrides is not None or envelope not in (None, False)
+                 or self.T_choices or self.has_envelope or self.envelope.get('enabled', False)
+                 or not self.extinct_charge or asdict(self.world()) != configured['worlds']['patch']):
+-            raise ValueError('fixed four-generation 8+8 ABI6 selection and ordinary extinction charge required')
++            raise ValueError('fixed eight-generation 32+32 ABI6 selection and ordinary extinction charge required')
+         result = original_draw(self, purpose, index, lives=lives, T=T, overrides=overrides, envelope=envelope)
+         if result.n != count or len(result.worlds) != count:
+             raise ValueError('native draw length differs')
+-        result = replace(result, worlds=tuple(worlds[PATTERN[i % 8]] for i in range(count)))
+-        for offset in range(0, count, 8):
+-            key = tuple(int(s) for s in result.seeds[offset:offset + 8])
++        result = replace(result, worlds=tuple(worlds[PATTERN[i % 32]] for i in range(count)))
++        for offset in range(0, count, 32):
++            key = tuple(int(s) for s in result.seeds[offset:offset + 32])
+             value = (int(index), 'base' if offset == 0 else 'recheck')
+             if key in tracker['draws'] and tracker['draws'][key] != value:
+                 raise ValueError('selection seed identity collision')
+@@ -137,7 +111,7 @@
+         col = original_columns(self, result, B, draw)
+         active = tracker['active']
+         if active is not None:
+-            if tuple(draw.seeds) != active['seeds'] or draw.n != 8:
++            if tuple(draw.seeds) != active['seeds'] or draw.n != 32:
+                 raise ValueError('nested or mismatched selection result')
+             active['parts'].append({name: np.ascontiguousarray(col[key]).copy() for name, key in (
+                 ('captures', 'captures'), ('production_F', 'F'), ('native_F', 'F_kernel'),
+@@ -149,7 +123,7 @@
+         stage = tracker['draws'].get(tuple(int(s) for s in draw.seeds))
+         if stage is None:
+             return original_call(self, params, draw)
+-        if (tracker['active'] is not None or stage in tracker['cache'] or draw.n != 8
++        if (tracker['active'] is not None or stage in tracker['cache'] or draw.n != 32
+                 or [asdict(w) for w in draw.worlds] != [configured['worlds'][name] for name in PATTERN]
+                 or tuple(params.shape) != (256 if stage[1] == 'base' else 64, 875)):
+             raise ValueError('selection evaluation identity, dimensions or call order differs')
+@@ -186,7 +160,7 @@
+         return perm[fitness[perm].argsort(descending=True, stable=True)]
+ 
+     def recheck(ev, everyone, res, g, mu, k, lives, key, tie_gen=None):
+-        if ((mu, k, lives, key) != (32, 64, 8, 'all') or g not in range(4)
++        if ((mu, k, lives, key) != (32, 64, 32, 'all') or g not in range(8)
+                 or tracker['pending'] is not None or tracker['pre'] is None):
+             raise ValueError('unexpected registered native recheck')
+         base = tracker['cache'].pop((g, 'base'))
+@@ -194,10 +168,9 @@
+             raise ValueError('base capture rows differ from current native candidates')
+         perm0 = permutation(256, tie_gen).numpy()
+         stage0 = pareto.select_shortlist(base['captures'], base['production_F'], perm0)
+-        order0 = (_mean_order(res.fitness.numpy(), perm0) if configured['arm'] == 'mean'
+-                  else stage0.ranking.order)
++        order0 = stage0.ranking.order
+         short = torch.from_numpy(order0[:64].copy())
+-        redraw = native.recheck_draw(ev, g, 8, 8)
++        redraw = native.recheck_draw(ev, g, 32, 32)
+         t0 = time.perf_counter()
+         rres = ev(everyone[short], redraw)
+         elapsed = time.perf_counter() - t0
+@@ -209,9 +182,8 @@
+         stage1 = pareto.select_survivors(base['captures'], base['production_F'], short.numpy(),
+                                          new['captures'], new['production_F'], perm1)
+         if not _same(stage1.ranking.objectives[:, 3], both.fitness.numpy()):
+-            raise ValueError('pooled16 ordinary F aggregation differs')
+-        order1 = (_mean_order(both.fitness.numpy(), perm1) if configured['arm'] == 'mean'
+-                  else stage1.ranking.order)
++            raise ValueError('pooled64 ordinary F aggregation differs')
++        order1 = stage1.ranking.order
+         pick = torch.from_numpy(order1[:32].copy())
+         order = short[pick]
+         changed = mu - len(set(order.tolist()) & set(order0[:mu].tolist()))
+@@ -267,8 +239,8 @@
+                     os.fsync(stream.fileno())
+                 temporary.replace(target)
+             record = {'arm': configured['arm'], 'path': str(target.relative_to(pending['out'])),
+-                      'sha256': sha(target), 'base_shape': [256, 8], 'recheck_shape': [64, 8],
+-                      'survivor_lives': 16, 'candidate_raw_sha256': hashlib.sha256(
++                      'sha256': sha(target), 'base_shape': [256, 32], 'recheck_shape': [64, 32],
++                      'survivor_lives': 64, 'candidate_raw_sha256': hashlib.sha256(
+                           arrays['base_genomes'].tobytes()).hexdigest(),
+                       'stage0_pareto': pending['stage0'], 'stage1_pareto': pending['stage1'],
+                       'selection_order': short[pick].tolist(), 'extra_lives': 0, 'extra_rng_draws': 0}
+--- outputs/resource_patch_selection_20261015/pareto.py
++++ outputs/resource_patch_depth_20261015/pareto.py
+@@ -11,7 +11,7 @@
+ import numpy as np
+ 
+ DOMAINS = ("patch", "pool", "persistent")
+-PATTERN = (0, 1, 0, 2, 0, 1, 0, 2)
++PATTERN = (0, 1, 0, 2) * 8
+ AO_REFERENCE = (19.046875, 16.029296875, 5.919921875)
+ OBJECTIVES = (*DOMAINS, "production_F")
+ 
+@@ -157,38 +157,38 @@
+ 
+ 
+ def select_shortlist(captures, production_f, tie_order: Sequence[int] | None = None) -> StageSelection:
+-    """The 256 candidates' base eight lives select exactly 64 for recheck."""
+-    cap = _matrix(captures, "base captures", 8)
+-    fit = _matrix(production_f, "base production_f", 8)
+-    if cap.shape != (256, 8) or fit.shape != cap.shape:
+-        raise ValueError("shortlist requires exactly 256 candidates with eight lives each")
++    """The 256 candidates' base32 lives select exactly 64 for recheck."""
++    cap = _matrix(captures, "base captures", 32)
++    fit = _matrix(production_f, "base production_f", 32)
++    if cap.shape != (256, 32) or fit.shape != cap.shape:
++        raise ValueError("shortlist requires exactly 256 candidates with32 lives each")
+     ranking = rank_objectives(objective_vectors(cap, fit), tie_order)
+-    return StageSelection(ranking, np.arange(256), ranking.order[:64].copy(), 8)
++    return StageSelection(ranking, np.arange(256), ranking.order[:64].copy(), 32)
+ 
+ 
+ def select_survivors(base_captures, base_production_f, shortlist: Sequence[int], recheck_captures,
+                      recheck_production_f, tie_order: Sequence[int] | None = None) -> StageSelection:
+-    """Recheck rows must follow shortlist order; concatenate base8 + new8 before ranking.
++    """Recheck rows must follow shortlist order; concatenate base32 + new32 before ranking.
+ 
+     tie_order addresses the 64 local shortlist rows. The selected result contains their
+     original 256-row indices; ranking.order retains the full 64-row local ordering.
+     """
+-    base_cap = _matrix(base_captures, "base captures", 8)
+-    base_fit = _matrix(base_production_f, "base production_f", 8)
+-    new_cap = _matrix(recheck_captures, "recheck captures", 8)
+-    new_fit = _matrix(recheck_production_f, "recheck production_f", 8)
++    base_cap = _matrix(base_captures, "base captures", 32)
++    base_fit = _matrix(base_production_f, "base production_f", 32)
++    new_cap = _matrix(recheck_captures, "recheck captures", 32)
++    new_fit = _matrix(recheck_production_f, "recheck production_f", 32)
+     short = np.asarray(shortlist)
+-    if (base_cap.shape != (256, 8) or base_fit.shape != base_cap.shape
+-            or new_cap.shape != (64, 8) or new_fit.shape != new_cap.shape
++    if (base_cap.shape != (256, 32) or base_fit.shape != base_cap.shape
++            or new_cap.shape != (64, 32) or new_fit.shape != new_cap.shape
+             or short.shape != (64,) or short.dtype.kind not in "iu"
+             or len(np.unique(short)) != 64 or np.any(short < 0) or np.any(short >= 256)):
+-        raise ValueError("recheck requires 64 unique base indices and exact 256x8 / 64x8 arrays")
++        raise ValueError("recheck requires 64 unique base indices and exact 256x32 / 64x32 arrays")
+     # Validate the entire retained base batch, including rows outside this shortlist.
+     objective_vectors(base_cap, base_fit)
+     pooled_cap = np.concatenate((base_cap[short], new_cap), axis=1)
+     pooled_fit = np.concatenate((base_fit[short], new_fit), axis=1)
+     ranking = rank_objectives(objective_vectors(pooled_cap, pooled_fit, PATTERN * 2), tie_order)
+-    return StageSelection(ranking, short.copy(), short[ranking.order[:32]].copy(), 16)
++    return StageSelection(ranking, short.copy(), short[ranking.order[:32]].copy(), 64)
+ 
+ 
+ @dataclass(frozen=True)
+@@ -213,7 +213,7 @@
+ 
+ 
+ def select_endpoint(objectives, candidate_ids: Sequence[int]) -> EndpointSelection:
+-    """Common endpoint rule for BOTH arms, using all 32 survivors' pooled-life objectives.
++    """Common endpoint math for a separately supplied panel; never called by search.
+ 
+     Maximize weakest AO-normalized capture mean, then aggregate ordinary F, then
+     unique survivor ID ascending. No extra RNG draw, Pareto-front restriction or

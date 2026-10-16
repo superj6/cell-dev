@@ -1,0 +1,88 @@
+{
+  "status": "source_prepared_not_executed",
+  "files": {
+    "search.py": "0ede2955df4489f7f7e5f0ca4c66a3b7aab7287effd31b3cc4c26da010e17dcc",
+    "selection.py": "5a67b1bb9a5b329502ba1fd63180039b1411b07bca63beee88e46387bc1d19e5",
+    "pareto.py": "aa10de7f9bfde3e764cec4ac5575319a7a985a340addf2beb77d34c7e36c1646",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "tests/test_selection_depth.py": "22b141395f7b6ac86b46317c5883bf0e02c41ca58cdc47e24f81eb20d4ebe520"
+  },
+  "prior_sources": {
+    "search.py": "ecbe2061252ee58032510f47bc9c7d56ef1a974a92be8c613dbf932ed23dab01",
+    "selection.py": "e133580cc5cba98683345b5f466f193dfa390d94de0ff4b21387beca7fbc43fd",
+    "pareto.py": "eb418c7218498519ec0085043792a973411a932599cad392dffe8a1b603e14ae",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7"
+  },
+  "source_diff_sha256": "80c11845584a53f9280370131e5acc8cf1ce12051857ea444116f1cdbc54fba7",
+  "static_checks": {
+    "AST": "passed",
+    "Ruff": "passed",
+    "python_max_line_length": 116
+  },
+  "identical_pareto_AST": [
+    "_indices",
+    "_matrix",
+    "objective_vectors",
+    "_front_ranks",
+    "_crowding",
+    "Ranking",
+    "rank_objectives",
+    "rank_mean",
+    "StageSelection",
+    "EndpointSelection",
+    "select_endpoint (docstring only changed)"
+  ],
+  "population_loader_byte_identical": true,
+  "prepared_supplied_data_cases": 7,
+  "test_execution": false,
+  "new_simulator_calls": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "materialization": false,
+  "selection": {
+    "generations": 8,
+    "mu": 32,
+    "children": 224,
+    "base_lives": 32,
+    "recheck_candidates": 64,
+    "recheck_lives": 32,
+    "pooled_lives": 64,
+    "per_stage_world_counts": {
+      "patch": 16,
+      "pool": 8,
+      "persistent": 8
+    },
+    "native_tie_permutations_per_generation": [
+      256,
+      256,
+      64
+    ],
+    "genetic_operators": "unchanged native old two-add crossover"
+  },
+  "call_inventory": {
+    "selection": 81920,
+    "valid": 48,
+    "final": 6,
+    "growth_half_subset_final": 2,
+    "research": 81974,
+    "startup": 4,
+    "total": 81978
+  },
+  "validation_generation_indices": [
+    0,
+    4,
+    7
+  ],
+  "final_checkpoint": {
+    "generation": 8,
+    "evals": 2048,
+    "rc_lives": 16384
+  },
+  "native_result_evals": 2560,
+  "reporting_endpoint_selected_by_search": false,
+  "notes": [
+    "Native heldout_every4 is g%4==0 or final; hence0,4,7, confirmed with root.",
+    "The search keeps fullpopulation and native rank0 artifact. A later separate fresh panel selects the reporting endpoint.",
+    "Seven tests use literal arrays and supplied tie permutations only; no native simulator or RNG invocation."
+  ]
+}

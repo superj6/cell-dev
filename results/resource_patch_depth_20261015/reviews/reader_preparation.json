@@ -1,0 +1,41 @@
+{
+  "status": "source_prepared",
+  "owner": "delayed_match_review",
+  "files": {
+    "measure.py": "0ba8c8bb159c710e10c3a9700c71bff9fa0e0d26e1e97db3bc5d357517c0239f",
+    "analyze.py": "53022387946892ec4fa245d6a05bf8c8f883cb3e4750b6a071a4fdc3b1f17fde",
+    "tests/test_readers.py": "c075cf4d2b705e8ab5127f96c7b34ff2f65b39612244d07566c310b5155c9a90"
+  },
+  "accounting_source": "inputs/accounting.py",
+  "accounting_source_sha256": "0ac39bb7b11a754f73acff2b77c0690ce4b525b688664da34cc6006b9da1373b",
+  "inventory": {
+    "endpoint_lives": 3072,
+    "confirmation_lives": 12288,
+    "research_lives": 15360,
+    "startup_lives": 4,
+    "total_calls": 15364,
+    "endpoint_batches": 3,
+    "confirmation_batches": 6
+  },
+  "interfaces": [
+    "check_patch_truth is shared by search and measurement; its two returned C calls belong to the active phase.",
+    "Completed search is rederived from native artifacts without numerical identity or simulator calls.",
+    "All32 endpoint genomes/IDs bind to checkpoint and public population before the three new32-life cohorts.",
+    "Endpoint capture-minimum ranking retains weighted0.5/0.25/0.25 ordinaryF and native-ID ties; joint genome freezes before confirmation.",
+    "Raw native arrays are written before accounting checks, nativeF and production extinction charges are retained separately.",
+    "Nine cohorts are genotype-major, and all NPZ members are loaded once per saved-data batch.",
+    "Same owned worker computes compact terminal summary after exact measurement marker."
+  ],
+  "source_checks": {
+    "AST": "passed",
+    "ruff": "passed",
+    "maximum_line_length": 120,
+    "initial_format_issue": "reviews/reader_preparation/before_import_format/ruff.txt"
+  },
+  "supplied_array_test_cases": 7,
+  "tests_executed": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "limits": "Source preparation and supplied test definitions only; independent review and bounded test execution remain pending."
+}

@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "reviewer": "/root/delayed_match_review",
+  "scope": "Independent source review of root prepare.py and PROTOCOL.md against pinned inherited config, importer, search and measurement interfaces; no materialization or runtime validation.",
+  "source_revision": "1a7f38bd3222bacf27367fd99998d87776c34ec5",
+  "source_pins": {
+    "prepare.py": "337c5887b0dd551b358e559df359a298e25b8615e3f0f998a1755386a43b0b7d",
+    "PROTOCOL.md": "4277627a3093f8b7f19bebbcd3da6f956c6c4fcca0e0993f18f01dc570b61b51",
+    "prepare_inputs.py": "f6d5c6302833881f04a8c449ffec87a45db26b70b40233fd2fd0c15fdbccb258",
+    "common.py": "342a2bb7ada588c9409dcf770aad2251138adae1ffb082cdfa2a1a21691c36d5",
+    "run.py": "07bcd0bcb90932f0ba9d4a8b38684d4e86549cf64c3a84f44e860efee55dc9cb",
+    "search.py": "0ede2955df4489f7f7e5f0ca4c66a3b7aab7287effd31b3cc4c26da010e17dcc",
+    "selection.py": "5a67b1bb9a5b329502ba1fd63180039b1411b07bca63beee88e46387bc1d19e5",
+    "pareto.py": "aa10de7f9bfde3e764cec4ac5575319a7a985a340addf2beb77d34c7e36c1646",
+    "population_loader.py": "8467e9f014869c72d1020e4d7c996be778c17cd5d615278b4db35cb5c2bc81e7",
+    "measure.py": "0ba8c8bb159c710e10c3a9700c71bff9fa0e0d26e1e97db3bc5d357517c0239f",
+    "analyze.py": "53022387946892ec4fa245d6a05bf8c8f883cb3e4750b6a071a4fdc3b1f17fde",
+    "PREPARATION_INTERFACE.md": "1ac487bb5c88008c6efdd3b85b22c20382551681ebdb9c68d26f737d67c29e28",
+    "namespace/seed_audit.json": "5fba4572c08c0c4cb1ea5604fdb0eba3129d1d6f470e6537d6c777fe09e76d68"
+  },
+  "reference_pins": {
+    "results/resource_patch_selection_20261015/runs/pareto/config.yaml": "ccb891457a59b8c174c5ffbf2b0a335e03f6bc9743c7a016ef5860d86f017586",
+    "src/evolve.py": "26929ca024c0ff2a395cab2898cf4f3f24eaae632fabb778d27cb7fb38fd647f",
+    "src/run.py": "8595d69317d8533cfb2fcea91f25cc78631799ab3503044c615b55cae8a1ae2c"
+  },
+  "config_assignment_targets": [
+    "cfg.seed",
+    "cfg.evolve.generations",
+    "cfg.evolve.recheck_lives",
+    "cfg.life.lives",
+    "cfg.life.control",
+    "cfg.evolve.seed_genome",
+    "cfg.logging.output_dir",
+    "cfg.population_start",
+    "cfg.retention_selection"
+  ],
+  "findings": [
+    "No material blocker. Only the nine declared config fields/adapters are assigned; all other inherited config values, including operators, physical prices, heldout_every=4, final_fork_lives=0, heldout=[], clones.every=0, envelope disabled and empty size_curve, remain unchanged.",
+    "Native validation condition yields generations 0,4,7: 48 calls. Final top=1/lives=2 yields two final0, two final1 and two T512 growth calls reusing final0 seeds: 54 diagnostic calls total.",
+    "Selection pattern repeats patch/pool/patch/persistent eight times per stage; 32 base plus 32 recheck lives yields 32/16/16 pooled domain counts. Native operators, tie draw sizes and all-survivor inheritance stay unchanged.",
+    "Endpoint panel uses all32 final rows on three separate fresh32-life cohorts; fixed AO capture scales and weighted production F (.5/.25/.25), then ascending native ID, match measurement/analyzer. Confirmation occurs after endpoint freezing and does not choose a genome.",
+    "Reference roles, six ordered worlds, reserved_capacity3 changes, ABI6 world82/ledger107 and raw-before-validation batch/marker schemas agree across importer, producer and runner.",
+    "81920 selection +48 validation +6 final +3072 endpoint +12288 confirmation +8 startup =97342 calls; search81978 and measurement15364. Namespace declares564 unique native IDs; repeated growth calls add no IDs.",
+    "Runtime10620CPU/7020wall splits8700/5400 search plus1920/1620 measurement, with180/180 preparation-terminal reserve inside10800/7200 package. Runner adjusts the cumulative measurement CPU cap and checks complete owned cleanup.",
+    "Protocol freezes fourteen execution/prose/audit sources, all materialized inputs plus generated config, production bytes, seed audit and reservation; READY and subsequent actual-input review bind the exact protocol."
+  ],
+  "limitations": [
+    "Actual generated config/input bytes and protocol hash remain for the separate post-materialization review.",
+    "Measurement/analyzer were authored by this reviewer and independently reviewed by the JS agent; this receipt does not relabel that authorship as an independent reader audit."
+  ],
+  "material_blockers": [],
+  "source_changes": [],
+  "execution": {
+    "source_read_and_ast_only": true,
+    "materializations": 0,
+    "tests": 0,
+    "builds": 0,
+    "simulator_calls": 0,
+    "genetic_random_draws": 0
+  }
+}
