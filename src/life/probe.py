@@ -125,8 +125,8 @@ def _world(org, preset: str, **world) -> spec.World:
 
 
 def _abi(abi):
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4):
-        raise ValueError("CATCH probes require spec.V3 or spec.V4")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5):
+        raise ValueError("CATCH probes require spec.V3, spec.V4 or spec.V5")
     return abi
 
 
@@ -182,6 +182,7 @@ class _TAcct(_R._Accountant):
         self.t_place, self.t_click, self.t_turn, self.t_samp, self.t_stroke = [], [], [], [], []
         self.t_motion = []
         self.t_pos = {}
+        self.t_task = []
         super().__init__(life)
 
     def dot_adv(self, t: float) -> None:
@@ -197,17 +198,40 @@ class _TAcct(_R._Accountant):
             row = (_f(words[1]), int(words[2]), _f(words[3]), _f(words[4]))
             if self.life.out_abi.version >= 4:
                 row += (bool(self.life.visibility_mode and not self.bright),)
+            if self.life.task_mode:
+                slot = int(words[2]) - 1
+                row += (self.task_trial, self.task_phase, self.task_class,
+                        slot if slot >= 0 else None, slot == self.task_class if slot >= 0 else None)
             self.t_click.append(row)
         elif k == _R.W_PLACE:
             self.t_place.append((_f(words[1]), int(words[2]), int(words[3]), _f(words[4]), _f(words[5])))
         elif k == _R.W_TURN:
             self.t_turn.append((_f(words[1]), int(words[2]), _f(words[3]), _f(words[4])))
+        elif k in (_R.W_TASK_PHASE, _R.W_TASK_RESOLVE, _R.W_TASK_END):
+            row = dict(kind=k, t=_f(words[1]), trial=int(words[2]))
+            if k == _R.W_TASK_PHASE:
+                row.update(phase=int(words[3]), sample_class=int(words[4]),
+                           x0=_f(words[5]), y0=_f(words[6]), x1=_f(words[7]), y1=_f(words[8]))
+            elif k == _R.W_TASK_RESOLVE:
+                row.update(sample_class=int(words[3]), outcome=int(words[4]), slot=int(words[5]))
+            else:
+                row.update(phase=int(words[3]), sample_class=int(words[4]))
+            self.t_task.append(row)
         super()._fold_world(words)
+
+    def _observed_target(self, t: float):
+        if not self.life.task_mode:
+            return self.blob_at(0, t)
+        X, Y = self.dot_at(t)
+        active = [self.blob_at(i, t) for i, blob in enumerate(self.blobs) if blob.present]
+        return min(active, key=lambda p: (X - p[0]) ** 2 + (Y - p[1]) ** 2) if active else (math.nan, math.nan)
 
     def sample(self, c: float) -> None:
         super().sample(c)
+        if self.life.task_mode and self.task_phase != _R.TASK_CHOICE:
+            return
         X, Y = self.dot_at(c)
-        x0, y0 = self.blob_at(0, c)
+        x0, y0 = self._observed_target(c)
         self.t_samp.append((c, X, Y, x0, y0))
 
     def group(self, t: float, recs: list) -> None:
@@ -216,7 +240,7 @@ class _TAcct(_R._Accountant):
             for r in recs:
                 if r[3] == _R.R_SPIKE or r[3] == _R.R_RECEPT:
                     X, Y = self.dot_at(t)
-                    x0, y0 = self.blob_at(0, t)
+                    x0, y0 = self._observed_target(t)
                     self.t_pos[t] = (X, Y, x0, y0)
                     break
         super().group(t, recs)
@@ -227,13 +251,17 @@ class _TAcct(_R._Accountant):
             X, Y = self.dot_at(t)
             ox, oy = L.planar(site.a, site.b)
             x0, y0 = self.blob_at(0, t)
-            sig = L.lam_s * spec.halo(X + ox - x0, Y + oy - y0, L.sigma)
+            sig = (L.lam_s * spec.halo(X + ox - x0, Y + oy - y0, L.sigma)
+                   if not L.task_mode or self.blobs[0].present else 0.0)
             if L.visibility_mode:
                 sig = (1.0 if self.bright else L.visibility_low) * sig
             rate = L.lam_bg + sig
             if len(self.blobs) > 1 and self.blobs[1].present:
                 x1, y1 = self.blob_at(1, t)
-                rate = rate + L.lam_s * (L.b2_amp * spec.halo(X + ox - x1, Y + oy - y1, L.b2_sigma))
+                second = L.lam_s * (L.b2_amp * spec.halo(X + ox - x1, Y + oy - y1, L.b2_sigma))
+                rate = rate + second
+                if L.task_mode:
+                    sig = sig + second
             if spec.draw(L.seed, spec.S_RACC, uid, j) * L.lam_max < rate:
                 L.rec_sig[(uid, t + L.d_min)] = sig / rate
         super()._rcand(t, site, uid, j, counted)
@@ -247,7 +275,7 @@ class _TAcct(_R._Accountant):
                     nx = nx + L.ux[d]
                     ny = ny + L.uy[d]
             X, Y = self.dot_at(t)
-            x0, y0 = self.blob_at(0, t)
+            x0, y0 = self._observed_target(t)
             self.t_stroke.append((t, site.a, site.b, nx, ny, dz, zt, zn, X, Y, x0, y0))
         super()._stroke(t, site, dz, zt, zn, counted)
 
@@ -418,6 +446,7 @@ class Trace:
     ledger: dict
     meta: dict = field(default_factory=dict)
     motion: pd.DataFrame | None = None  # analytic dot-motion segments: start, end, speed, tau
+    task_events: pd.DataFrame | None = None  # observer-only phase, resolution and terminal records
 
     @property
     def F(self) -> float:
@@ -432,8 +461,11 @@ class Trace:
         c = self.cells
         alive = c[np.isinf(c.t_death)]
         led = self.ledger
+        task = self.meta.get("world") is not None and self.meta["world"].task_mode
+        performance = (f"correct choices {led['correct_choices_narrow'] + led['correct_choices_broad']:.0f}"
+                       if task else f"captures {led['captures']:.0f}")
         return (f"{self.meta.get('org')} seed {self.meta.get('seed')}: F {self.F:+.3f}, "
-                f"captures {led['captures']:.0f}, misses {led['misses']:.0f}, cells end {len(alive)} "
+                f"{performance}, misses {led['misses']:.0f}, cells end {len(alive)} "
                 f"(S {sum(alive.z == 0)}, M {sum(alive.z == 1)}, "
                 f"H {sum(alive.z >= 2)}), born {len(c)}, spikes {len(self.spikes)}, receptor events "
                 f"{int(self.receptors.n_rec.sum()) if len(self.receptors) else 0}, strokes {len(self.strokes)}, "
@@ -536,8 +568,11 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     cells["n_rec"] = np.bincount(rc.cid.to_numpy(), weights=rc.n_rec.to_numpy(), minlength=n)[:n] if len(rc) else 0
     # world
     pl = pd.DataFrame(A.t_place, columns=["t", "blob", "cause", "x", "y"])
-    p0 = pl[(pl.blob == 0)].iloc[0]
-    samp = [(w.t0, 0.0, 0.0, float(p0.x), float(p0.y))] + A.t_samp
+    if w.task_mode:
+        samp = A.t_samp  # choice-only nearest-choice samples; no artificial initial placement
+    else:
+        p0 = pl[(pl.blob == 0)].iloc[0]
+        samp = [(w.t0, 0.0, 0.0, float(p0.x), float(p0.y))] + A.t_samp
     tj = pd.DataFrame(samp, columns=["t", "X", "Y", "tx", "ty"])
     sk = pd.DataFrame(A.t_stroke, columns=["t", "a", "b", "nx", "ny", "dz", "zt", "zn", "X", "Y", "tx", "ty"])
     if len(sk):
@@ -546,9 +581,13 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     else:
         sk.insert(3, "cid", pd.Series(dtype=int))
     sk["pulled"] = (sk.dz > 0) & ((sk.nx != 0) | (sk.ny != 0))
-    ck = pd.DataFrame(A.t_click, columns=["t", "outcome", "X", "Y"] + (["low_light"] if abi.version >= 4 else []))
+    click_cols = ["t", "outcome", "X", "Y"] + (["low_light"] if abi.version >= 4 else [])
+    if w.task_mode:
+        click_cols += ["trial", "phase", "sample_class", "chosen_class", "correct"]
+    ck = pd.DataFrame(A.t_click, columns=click_cols)
     if len(ck):
-        tg = [life_blob_at(A, pl, t) for t in ck.t]
+        tg = ([A.t_pos.get(t, (math.nan,) * 4)[2:] for t in ck.t] if w.task_mode
+              else [life_blob_at(A, pl, t) for t in ck.t])
         ck["tx"], ck["ty"] = [p[0] for p in tg], [p[1] for p in tg]
     ck["outcome"] = ck.outcome.map(OUTCOMES)
     led = {name: float(res.ledger[i]) for i, name in enumerate(abi.LEDGER)}
@@ -563,7 +602,8 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
         if kF != led["F"]:
             raise AssertionError(f"trace F {led['F']!r} != kernel F {kF!r}: the observer changed the life")
     motion = pd.DataFrame(A.t_motion, columns=["start", "end", "speed", "tau"])
-    return Trace(cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta, motion)
+    task_events = pd.DataFrame(A.t_task) if w.task_mode else None
+    return Trace(cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta, motion, task_events)
 
 
 def life_blob_at(acct, placements: pd.DataFrame, t: float):
@@ -679,6 +719,8 @@ def tuning(tr: Trace, *, min_spikes: int = 10, dist_edges=DIST_EDGES, cell_edges
     Act cells add from their strokes: n_pull, face (mean exposed-face direction, degrees), align (force-weighted mean
     cos(face, target bearing) over pulling strokes: +1 = always pulls toward the target, 0 = chance), toward (fraction
     of pulls with cos > 0), pull_rate_b0..7 (pulling strokes per unit vs target bearing)."""
+    if tr.meta.get("world") is not None and tr.meta["world"].task_mode:
+        raise ValueError("single-target tuning is undefined for delayed matching; use phase-specific task events")
     c = tr.cells
     tj = tr.traj
     st = tj.t.to_numpy()
@@ -749,6 +791,8 @@ def tuning(tr: Trace, *, min_spikes: int = 10, dist_edges=DIST_EDGES, cell_edges
 def steering(tr: Trace) -> dict:
     """Body-level steering from the strokes: n strokes, pulls, force-weighted mean cos(face, target bearing) over all
     pulls (``align``), fraction toward, and the same split by target distance (near: target within 2 of the dot)."""
+    if tr.meta.get("world") is not None and tr.meta["world"].task_mode:
+        raise ValueError("single-target steering is undefined for delayed matching; use phase-specific task events")
     k = tr.strokes[tr.strokes.pulled] if len(tr.strokes) else tr.strokes
     if not len(k):
         return dict(strokes=len(tr.strokes), pulls=0)

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_abi5_delayed_match.py",
+    "tests/test_life_visibility_reference.py",
+    "tests/test_life_visibility_kernel.py",
+    "tests/test_life_abi4_legacy.py"
+  ],
+  "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+  "cpu_limit_s": 600,
+  "as_limit_bytes": 8589934592,
+  "rss_limit_bytes": 4294967296,
+  "minimum_host_available_bytes": 4294967296,
+  "host_available_start_bytes": 21781962752,
+  "threads": 1
+}

@@ -1,0 +1,19 @@
+Working directory: /home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree
+Host available memory before launch: 22,068,736,000 bytes (free -b).
+Environment: OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1;
+CELL_DEV_CACHE=/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/validation/cache;
+TMPDIR=/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/validation/tmp;
+PYTHONPATH=/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree.
+
+1. /usr/bin/time -v -o ../validation/truth_time.txt timeout 360s /home/jgon/project/ml/cell-dev/.venv/bin/python ../validation/export_truth.py --out ../validation/truth > ../validation/truth_stdout.log 2>&1
+   Exporter enforces 300 CPU seconds and 2 GiB address space. Planned calls: 8 C full, 8 C fast, 8 Python.
+2. node --max-old-space-size=512 results/atlas/play/test_delayed_match.js --truth ../validation/truth/truth.json
+   Planned truth calls: 8 complete and 8 stepped JS lives, plus default boundary suite.
+3. node --max-old-space-size=512 results/atlas/play/test_lifesim.js --quick
+4. node --max-old-space-size=512 results/atlas/play/test_visibility.js
+   Existing legacy/visibility suites and committed truth fixtures unchanged.
+5. node --check results/atlas/play/delayed_match_view.js
+   Automatic viewer DOM/canvas stub smoke to be recorded separately; no real browser claim.
+
+Total sequence budget: <=600 CPU seconds, <=8 GiB address space, <=4 GiB RSS,
+at least 4 GiB host available memory. One simulator process at a time; one C thread.

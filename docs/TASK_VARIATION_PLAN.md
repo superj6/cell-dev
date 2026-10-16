@@ -15,8 +15,8 @@ exploration; they are not prerequisites that must be perfected first. The exposu
 renewing reward/harm targets and equal food twins already explored. The leading candidate is now delayed
 shape matching, linking an earlier local cue to a later choice after a blank interval. See
 `docs/ABI5_DELAYED_MATCH_PROPOSAL.md` for the concrete world/ABI contract. The user replied "you don't need my
-permission for these things", authorizing autonomous environment/ABI work of this kind. Implementation uses
-an isolated checkout; AO's pinned sources are preserved in its completed archive. Keep local asynchronous cell
+permission for these things", authorizing autonomous environment/ABI work of this kind. The validated ABI5 port is integrated, with engineering evidence at
+`results/abi5_delayed_match_20261015/`; AO's pinned sources remain archived. Keep local asynchronous cell
 rules unchanged, retain prior skills as checks, and judge worlds by useful sensory information and conditional
 choices. Choose the continuing population explicitly from development evidence and reserve separate cases for
 generalization. This scoped authorization does not extend to global organism channels, prescribed behavior,

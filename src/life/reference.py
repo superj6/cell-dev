@@ -1,4 +1,4 @@
-"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 4), written independently of the C kernel.
+"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 5), written independently of the C kernel.
 
 Every handler of the ABI (sections 6-12) is transcribed here with the same float64 operations in the same order, so on
 the same libm its ledger, hashes, raster and fate log agree bitwise with ``kernel.c``. It is meant for tiny bodies
@@ -8,6 +8,7 @@ The handlers implement ABI 4: sites ``(a, b, z)`` in a stack of ``L_max`` planes
 events RCAND and RECEPTOR (7.10), the plane cues and the receptor trace, vertical placement, the forks lateral_off,
 hidden_off, receptor_off and motor_off, and both world kinds: the BELL-1 lumen (9.2) and the CATCH world (9.7).
 Every entry point takes ``abi`` (default ``spec.CURRENT``):
+- ``spec.V5``: ABI-5 arrays (world 77, ledger 70), adding delayed cue matching without changing cell rules.
 - ``spec.V4``: ABI-4 arrays in and out (world 70, ledger 58); flash/renewal visibility changes target cues only.
 - ``spec.V3``: ABI-3 arrays in and out (genome 875, program 129, world 66, ledger 57, 5 hashes, fate_i 7 columns).
 - ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 4 (``spec.V3.pad_genomes``,
@@ -47,7 +48,7 @@ import numpy as np
 from src import lattice as _lat
 from src.life import spec
 
-V2, V3, V4 = spec.V2, spec.V3, spec.V4
+V2, V3, V4, V5 = spec.V2, spec.V3, spec.V4, spec.V5
 EMPTY = spec.EMPTY
 _KIND_OF = {code: kind for kind, code in V3.LATTICE_CODES.items()}
 _INF = float("inf")
@@ -68,6 +69,8 @@ R_SPIKE, R_BIRTH, R_DEATH, R_CLAIM, R_RESOLVE, R_PACKET, R_LOST, R_TICK = 1, 2, 
 R_RCAND, R_RECEPT = 9, 10
 R_CHEM = 100
 W_CLICK, W_PLACE, W_TURN, W_VISIBILITY = 11, 12, 13, 14  # CATCH accountant world-event first hash words
+W_TASK_PHASE, W_TASK_RESOLVE, W_TASK_END = 15, 16, 17
+TASK_SAMPLE, TASK_BLANK, TASK_CHOICE, TASK_GAP = range(4)
 H_ALL, H_SPIKES, H_FATE, H_CHEM, H_WORLD = 0, 1, 2, 3, 4
 _FAMILY = {R_SPIKE: H_SPIKES, R_BIRTH: H_FATE, R_DEATH: H_FATE, R_CLAIM: H_FATE, R_RESOLVE: H_FATE,
            R_PACKET: H_CHEM, R_LOST: H_CHEM}  # R_RCAND and R_RECEPT fold into the world family (_fold_world)
@@ -78,7 +81,7 @@ assert [V3.K[n] for n in V3.KNOBS] == list(range(V3.P)) and V3.KNOBS[KZETA] == "
 
 _F = V3.FLAGS
 _ST = spec.STATUS
-_LI = V4.L
+_LI = V5.L
 _NROW = len(spec.PROGRAM_ROWS)
 _PS = {name: i - _NROW * V3.P for name, i in V3.PROGRAM_SCALAR.items()}
 _ROW = V3.PROGRAM_ROW
@@ -87,11 +90,13 @@ _FLOAT_KEYS = ("T", "t0", "t_open", "t_fork", "d_min", "d0", "delay_sd", "jit", 
                "c_div", "c_sec", "window_h", "drop_p", "noise_rate", "kill_t", "kill_frac", "stuck_t", "e_max",
                "sigma", "lam_s", "lam_bg", "g_n", "drag_exp", "th_click", "th_rel", "rho_c", "v_t", "tau_turn",
                "R_min", "R_max", "t_resp", "R_cap", "c_miss", "c_rec", "b2_amp", "b2_sigma", "b2_value", "b2_rho",
-               "b2_p", "visibility_on", "visibility_off", "visibility_low")
+               "b2_p", "visibility_on", "visibility_off", "visibility_low",
+               "sample_min", "sample_max", "blank_min", "blank_max", "choice_T", "reset_T")
 _INT_KEYS = ("flags", "fork_flags", "n_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max",
-             "stuck_z", "b2_mode", "visibility_mode")
+             "stuck_z", "b2_mode", "visibility_mode", "task_mode")
 _V3_DEFAULTS = [float(getattr(spec.World(), k)) for k in V3.WORLD_KEYS[V2.WORLD_SIZE:]]
 _V4_DEFAULTS = [float(getattr(spec.World(), k)) for k in V4.WORLD_KEYS[V3.WORLD_SIZE:]]
+_V5_DEFAULTS = [float(getattr(spec.World(), k)) for k in V5.WORLD_KEYS[V4.WORLD_SIZE:]]
 
 
 def bits(x: float) -> int:
@@ -168,7 +173,7 @@ class _Accountant:
         self.n = 0
         self.n_plane = [0, 0, 0]  # live cells in the planes S (z = 0), M (z = 1) and H (z >= 2)
         self.inflight = 0
-        self.led = [0.0] * V4.LEDGER_SIZE
+        self.led = [0.0] * V5.LEDGER_SIZE
         self.led[_LI["last_birth"]] = life.t0
         self.led[_LI["t_ext"]] = -1.0
         self.status = 0
@@ -263,8 +268,99 @@ class _Accountant:
             bl.m = 1
             bl.q = 0
             self.blobs.append(bl)
+        if L.task_mode:
+            self.task_trial = 0
+            self.task_class = 0
+            self.task_consumed = False
+            self.task_pending_gap = False
+            self.task_choice_start = _INF
+            self.task_carry_counted = False
+            self._task_enter(TASK_SAMPLE, L.t0)
+        else:
+            for bl in self.blobs:
+                self.place(bl.i, 0, L.t0)
+
+    def _task_count(self, metric: str) -> None:
+        cls = "narrow" if self.task_class == 0 else "broad"
+        self.led[_LI[f"{metric}_{cls}"]] += 1.0
+
+    def _task_enter(self, phase: int, t: float) -> None:
+        """Enter an externally scheduled task phase, preserving all cellular state and pending inputs."""
+        L = self.life
+        self.task_phase = phase
+        self.task_consumed = False
+        self.task_pending_gap = False
         for bl in self.blobs:
-            self.place(bl.i, 0, L.t0)
+            bl.present = False
+            bl.t, bl.x, bl.y, bl.vx, bl.vy = t, 0.0, 0.0, 0.0, 0.0
+        if phase == TASK_SAMPLE:
+            self.task_class = int(spec.draw(L.seed, spec.S_TASK_CLASS, self.task_trial, 0) >= 0.5)
+            self.task_carry_counted = False
+            bl = self.blobs[self.task_class]
+            bl.present = True
+            bl.x, bl.y = self.dot_at(t)
+            u = spec.draw(L.seed, spec.S_TASK_DURATION, self.task_trial, 0)
+            self.task_next = t + (L.sample_min + (L.sample_max - L.sample_min) * u)
+        elif phase == TASK_BLANK:
+            u = spec.draw(L.seed, spec.S_TASK_DURATION, self.task_trial, 1)
+            self.task_next = t + (L.blank_min + (L.blank_max - L.blank_min) * u)
+        elif phase == TASK_CHOICE:
+            X, Y = self.dot_at(t)
+            theta = spec.TWO_PI * spec.draw(L.seed, spec.S_TASK_GEOMETRY, self.task_trial, 0)
+            r = L.R_min + (L.R_max - L.R_min) * spec.draw(L.seed, spec.S_TASK_GEOMETRY, self.task_trial, 1)
+            dx, dy = r * math.cos(theta), r * math.sin(theta)
+            narrow_positive = spec.draw(L.seed, spec.S_TASK_SIDE, self.task_trial, 0) < 0.5
+            p, n = (0, 1) if narrow_positive else (1, 0)
+            self.blobs[p].x, self.blobs[p].y = X + dx, Y + dy
+            self.blobs[n].x, self.blobs[n].y = X - dx, Y - dy
+            self.blobs[0].present = self.blobs[1].present = True
+            self.task_choice_start = t
+            self.task_carry_counted = False
+            self.task_next = t + L.choice_T
+            if t >= L.t_open_abs:
+                self._task_count("choice_opportunities")
+        else:
+            self.task_next = t + L.reset_T
+        b0, b1 = self.blobs
+        self._fold_world((W_TASK_PHASE, bits(t), self.task_trial, phase, self.task_class,
+                          bits(b0.x), bits(b0.y), bits(b1.x), bits(b1.y)))
+
+    def _task_carry(self) -> None:
+        if self.task_choice_start < self.life.t_open_abs and not self.task_carry_counted:
+            self._task_count("choice_carry_in")
+            self.task_carry_counted = True
+
+    def _task_resolve(self, t: float, outcome: int, slot: int) -> None:
+        """Latch one outcome immediately. Removal follows at group end for clicks, immediately for timeout."""
+        self.task_consumed = True
+        self.task_next = _INF
+        if t >= self.life.t_open_abs:
+            self._task_carry()
+            self._task_count(("choice_timeouts", "correct_choices", "wrong_choices")[outcome])
+            if outcome == 1:
+                self.led[_LI["income"]] = self.led[_LI["income"]] + self.life.R_cap
+            elif outcome == 2:
+                self.led[_LI["cost"]] = self.led[_LI["cost"]] + (-self.life.b2_value)
+        self._fold_world((W_TASK_RESOLVE, bits(t), self.task_trial, self.task_class, outcome, slot))
+
+    def _task_advance(self) -> None:
+        t = self.task_next
+        if self.task_phase == TASK_SAMPLE:
+            self._task_enter(TASK_BLANK, t)
+        elif self.task_phase == TASK_BLANK:
+            self._task_enter(TASK_CHOICE, t)
+        elif self.task_phase == TASK_CHOICE:
+            self._task_resolve(t, 0, 2)
+            self._task_enter(TASK_GAP, t)
+        else:
+            self.task_trial += 1
+            self._task_enter(TASK_SAMPLE, t)
+
+    def _task_finish(self, t_end: float) -> None:
+        if self.task_phase == TASK_CHOICE and not self.task_consumed and t_end > self.life.t_open_abs:
+            self._task_carry()
+            self._task_count("unfinished_choices")
+        self._fold_world((W_TASK_END, bits(t_end), self.task_trial, self.task_phase, self.task_class))
 
     def _fold_world(self, words) -> None:
         if self.wlog is not None:
@@ -352,6 +448,10 @@ class _Accountant:
 
     def world_to(self, t: float) -> None:
         """Run world events strictly below t, with timers before turns before visibility at equal times."""
+        if self.life.task_mode:
+            while self.task_next < t:
+                self._task_advance()
+            return
         while True:
             best = None
             for bl in self.blobs:
@@ -375,18 +475,51 @@ class _Accountant:
         """9.7.6: the measurement-only sample at integer time c, at the left limit."""
         L, led = self.life, self.led
         self.world_to(c)
+        if L.task_mode and self.task_phase != TASK_CHOICE:
+            return
         X, Y = self.dot_at(c)
         x0, y0 = self.blob_at(0, c)
         ex = X - x0
         ey = Y - y0
         q = ex * ex + ey * ey
+        if L.task_mode:
+            x1, y1 = self.blob_at(1, c)
+            ex1, ey1 = X - x1, Y - y1
+            q = min(q, ex1 * ex1 + ey1 * ey1)
         if c >= L.t_open_abs:
             led[_LI["samples"]] += 1.0
             led[_LI["dist_sum"]] = led[_LI["dist_sum"]] + math.sqrt(q)
             if q <= L.rho_c * L.rho_c:
                 led[_LI["zone_samples"]] += 1.0
 
+    def _task_click(self, t: float, counted: bool) -> None:
+        L, led = self.life, self.led
+        X, Y = self.dot_at(t)
+        slot = 2
+        if counted:
+            led[_LI["clicks"]] += 1.0
+        if self.task_phase == TASK_CHOICE and not self.task_consumed:
+            for i, radius in ((0, L.rho_c), (1, L.b2_rho)):
+                x, y = self.blob_at(i, t)
+                dx, dy = X - x, Y - y
+                if dx * dx + dy * dy <= radius * radius:
+                    slot = i
+                    break
+        if slot < 2:
+            correct = slot == self.task_class
+            self._task_resolve(t, 1 if correct else 2, slot)
+            self.task_pending_gap = True
+            if counted:
+                led[_LI["captures" if slot == 0 else "b2_clicks"]] += 1.0
+        elif counted:
+            led[_LI["misses"]] += 1.0
+            led[_LI["cost"]] = led[_LI["cost"]] + L.c_miss
+        self._fold_world((W_CLICK, bits(t), slot + 1 if slot < 2 else 0, bits(X), bits(Y)))
+
     def _click(self, t: float, counted: bool) -> None:
+        if self.life.task_mode:
+            self._task_click(t, counted)
+            return
         L, led = self.life, self.led
         X, Y = self.dot_at(t)
         x0, y0 = self.blob_at(0, t)
@@ -465,7 +598,8 @@ class _Accountant:
         px = X + ox
         py = Y + oy
         x0, y0 = self.blob_at(0, t)
-        signal = L.lam_s * spec.halo(px - x0, py - y0, L.sigma)
+        signal = (L.lam_s * spec.halo(px - x0, py - y0, L.sigma)
+                  if not L.task_mode or self.blobs[0].present else 0.0)
         if L.visibility_mode:
             signal = (1.0 if self.bright else L.visibility_low) * signal
         rate = L.lam_bg + signal
@@ -489,6 +623,9 @@ class _Accountant:
             self.place(i, cause, t)
         self.defer_O = []
         self.defer_place = []
+        if self.life.task_mode and self.task_pending_gap:
+            self.task_pending_gap = False
+            self._task_enter(TASK_GAP, t)
 
     # ------------------------------------------------------------------------------------------- records (9.1)
     def _fold(self, kind: int, words) -> None:
@@ -691,6 +828,8 @@ class _Accountant:
         if L.catch:
             self.world_to(t_end)  # the samples before t_end were taken at the guard checks
             self.dot_adv(t_end)
+            if L.task_mode:
+                self._task_finish(t_end)
             led[_LI["path"]] = self.path
             led[_LI["X_end"]] = self.X
             led[_LI["Y_end"]] = self.Y
@@ -718,13 +857,22 @@ class _Accountant:
         col = col + L.c_sec * led[_LI["sec_int"]]
         col = col + L.c_miss * led[_LI["misses"]]
         col = col + L.c_rec * led[_LI["rec_gain"]]
-        col = col + c_b2 * led[_LI["b2_clicks"]]
+        wrong = (led[_LI["wrong_choices_narrow"]] + led[_LI["wrong_choices_broad"]]
+                 if L.task_mode else led[_LI["b2_clicks"]])
+        col = col + c_b2 * wrong
         net = led[_LI["income"]] - col - gc
         led[_LI["guard_charge"]] = gc
         led[_LI["net"]] = net
         led[_LI["F"]] = net / (L.T - L.t_open)
         if abs(led[_LI["cost"]] - col) > 1e-9 * _max(1.0, abs(col)):
             self.status |= _ST["ledger_mismatch"]
+        if L.task_mode:
+            for cls in ("narrow", "broad"):
+                opened = led[_LI[f"choice_opportunities_{cls}"]] + led[_LI[f"choice_carry_in_{cls}"]]
+                resolved = sum(led[_LI[f"{key}_{cls}"]] for key in (
+                    "correct_choices", "wrong_choices", "choice_timeouts", "unfinished_choices"))
+                if opened != resolved:
+                    self.status |= _ST["ledger_mismatch"]
         led[_LI["n_end"]] = float(self.n)
         led[_LI["n_peak"]] = float(self.n_peak)
         led[_LI["t_end"]] = t_end
@@ -748,7 +896,7 @@ class _Life:
 
     def __init__(self, wv, lat: dict, gt, prog, init, seeds, raster_cap: int, fate_cap: int, keep_records: bool,
                  out_abi: spec.Abi = V3):
-        wi = V4.WORLD_INDEX
+        wi = V5.WORLD_INDEX
         wv = [float(x) for x in wv]
         for key in _FLOAT_KEYS:
             setattr(self, key, wv[wi[key]])
@@ -1564,8 +1712,8 @@ def _i64(u: int) -> int:
 # ------------------------------------------------------------------------------------------------------- arguments
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3, 4):  # pragma: no cover
-        raise ValueError(f"the reference implements ABI 2, 3 and 4, not {abi.version}")
+    if abi.version not in (2, 3, 4, 5):  # pragma: no cover
+        raise ValueError(f"the reference implements ABI 2, 3, 4 and 5, not {abi.version}")
     return abi
 
 
@@ -1626,7 +1774,7 @@ def _check_world(wv, abi=None) -> None:
 
 
 def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) -> tuple:
-    """Check one life's arguments (4.2) and convert them into ABI-4 inputs: (world, genome row, program, cells)."""
+    """Check one life's arguments and convert them into ABI-5 inputs: (world, genome row, program, cells)."""
     _check_world(world_vec, abi)
     wv = [float(x) for x in np.asarray(world_vec, dtype=np.float64)]
     flags = int(wv[abi.WORLD_INDEX["flags"]])
@@ -1666,6 +1814,8 @@ def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) 
         row = V3.pad_program(row, V2) if prog_mode else V3.pad_genomes(row[None], V2)[0]
     if abi.version < 4:
         wv = wv + _V4_DEFAULTS
+    if abi.version < 5:
+        wv = wv + _V5_DEFAULTS
     return wv, (None if prog_mode else row), (row if prog_mode else None), cells
 
 

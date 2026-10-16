@@ -1,7 +1,7 @@
 """Smoke tests of the one-life C kernel (src/life/kernel.c through src/life/build.py): it builds, its test exports
 match spec.py bitwise, a lone cell pumps, and small bodies agree bitwise across schedulers (LIFE_ABI.md 11).
 
-The kernel implements ABI 4 (``build.KERNEL``); ``build.run`` preserves the caller's ABI, defaulting to ABI 2.
+The kernel implements ABI 5 (``build.KERNEL``); ``build.run`` preserves the caller's ABI, defaulting to ABI 2.
 Raw ``life_run`` calls use the kernel ABI's buffers; explicit ABI 2/3 tests retain their legacy contracts.
 The CATCH world (BODY-1 v1, LIFE_ABI.md 9.7) is tested at the end."""
 import subprocess
@@ -62,7 +62,7 @@ def _conservation_error(res: build.Lives) -> np.ndarray:
 
 def test_kernel_builds_and_its_exports_match_spec_bitwise():
     lib = build.load()
-    assert lib.life_abi_version() == build.KERNEL.version == 4 and build.library_path().exists()
+    assert lib.life_abi_version() == build.KERNEL.version == 5 and build.library_path().exists()
     assert build.hash64(1, 2, 3, 4) == spec.hash64(1, 2, 3, 4) == 0x89F838C6080F2B76
     assert build.hash64(spec.MASK64, 7, -1) == 0x6BEEACB0A480F707
     assert build.normal(42, spec.S_CLK, spec.sitekey(0, 0), 0) == 0.25705196441331246

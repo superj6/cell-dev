@@ -1,4 +1,4 @@
-/* lifesim.js: one life of a CATCH body (cell-dev, docs/LIFE_ABI.md ABI 3/4), simulated step by step in the browser.
+/* lifesim.js: one life of a CATCH body (cell-dev, docs/LIFE_ABI.md ABI 3/4/5), simulated step by step in the browser.
  *
  * A JavaScript transcription of src/life/reference.py (the pure-Python reference, bitwise equal to the C kernel
  * src/life/kernel.c): the same events, batch order, ties, quantisation (q8, q10), phenotype decode, hash-keyed draws
@@ -41,7 +41,9 @@
  * within rho_c (removed, R_cap of income) or misses (c_miss). Every change happens at the current time t, between
  * steps; cells only ever see the world through their receptor events. ABI 4 adds automatic single-target flash
  * and renewal visibility. Select it with opts.abi or exported body/doc.abi; ABI 3 remains the default. Enabled
- * visibility is rejected in user-target mode; its world state is never supplied to cells.
+ * visibility is rejected in user-target mode; its world state is never supplied to cells. ABI 5 adds automatic
+ * delayed matching, with sample / blank / choice / gap phases. Its two physical slots have distinct widths;
+ * correct/wrong outcomes are accounted separately from slot hits. Interactive target editing is rejected.
  */
 (function (root, factory) {
   const api = factory();
@@ -372,8 +374,8 @@ const S32 = 0.8660254037844386;
 const S_ZYG = 1, S_UID = 2, S_TAU = 3, S_CLK = 4, S_PHASE = 5, S_DC = 6, S_JIT = 7, S_DROP = 8, S_TICK = 9,
   S_DIE = 10, S_DIV = 11, S_PLACE = 12, S_NOISE = 13, S_NSIGN = 14, S_KILL = 15,
   S_RCAND = 18, S_RACC = 19, S_TURN = 20, S_HEAD = 21, S_RTIME = 22, S_PANG = 23, S_PDIST = 24, S_PPRES = 25,
-  S_VISIBILITY = 26;
-const N_STREAMS = 26;
+  S_VISIBILITY = 26, S_TASK_CLASS = 27, S_TASK_DURATION = 28, S_TASK_GEOMETRY = 29, S_TASK_SIDE = 30;
+const N_STREAMS = 30;
 
 function u01() { return (HH * 2097152 + ((HL >>> 11) | 1)) * TWO_M53; } // of (HH, HL)
 
@@ -438,7 +440,13 @@ const LEDGER = ['income', 'live_time', 'sec_int', 'spikes', 'kappa_sum', 'contac
   'rec_events', 'rec_gain', 'samples', 'dist_sum', 'zone_samples', 'path', 'X_end', 'Y_end', 'n_S_end', 'n_M_end',
   'n_H_end', 'live_S', 'live_M', 'live_H'];
 const LEDGER_V4 = LEDGER.concat(['low_light_captures']);
-const LI = {}; LEDGER_V4.forEach((n, i) => { LI[n] = i; });
+const LEDGER_V5 = LEDGER_V4.concat(['choice_opportunities_narrow', 'choice_opportunities_broad',
+  'choice_carry_in_narrow', 'choice_carry_in_broad', 'correct_choices_narrow', 'correct_choices_broad',
+  'wrong_choices_narrow', 'wrong_choices_broad', 'choice_timeouts_narrow', 'choice_timeouts_broad',
+  'unfinished_choices_narrow', 'unfinished_choices_broad']);
+const LI = {}; LEDGER_V5.forEach((n, i) => { LI[n] = i; });
+const TASK_SAMPLE = 0, TASK_BLANK = 1, TASK_CHOICE = 2, TASK_GAP = 3;
+const TASK_PHASES = ['sample', 'blank', 'choice', 'gap'];
 const ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 8, ST_CHEM_CLAMP = 32,
   ST_MISMATCH = 64, ST_WALL = 256;
 const H_ALL = 0, H_SPIKES = 1, H_FATE = 2, H_CHEM = 3, H_WORLD = 4;
@@ -541,8 +549,8 @@ class Life {
     const doc = body.__doc || {};
     const w = body.world;
     this.abi = opts.abi !== undefined ? opts.abi : (body.abi !== undefined ? body.abi : (doc.abi !== undefined ? doc.abi : 3));
-    if (this.abi !== 3 && this.abi !== 4) throw new Error('lifesim.js supports ABI 3 or 4');
-    this.ledgerNames = this.abi === 4 ? LEDGER_V4 : LEDGER;
+    if (this.abi !== 3 && this.abi !== 4 && this.abi !== 5) throw new Error('lifesim.js supports ABI 3, 4 or 5');
+    this.ledgerNames = this.abi === 5 ? LEDGER_V5 : (this.abi === 4 ? LEDGER_V4 : LEDGER);
     this.visibility_mode = w.visibility_mode === undefined ? 0 : w.visibility_mode;
     this.visibility_on = w.visibility_on === undefined ? 0 : w.visibility_on;
     this.visibility_off = w.visibility_off === undefined ? 0 : w.visibility_off;
@@ -553,11 +561,33 @@ class Life {
     if (vm === 0) {
       if (von !== 0 || voff !== 0 || vlo !== 1) throw new Error('steady visibility requires on=off=0 and low=1');
     } else {
-      if (this.abi !== 4) throw new Error('enabled visibility requires ABI 4');
+      if (this.abi < 4) throw new Error('enabled visibility requires ABI 4 or later');
       if (w.world_kind !== 1 || w.b2_amp !== 0) throw new Error('enabled visibility requires single-target CATCH');
       if (von < 2 ** -10 || von > 2 ** 30 || (vm === 1 ? voff !== 0 : voff < 2 ** -10 || voff > 2 ** 30))
         throw new Error('invalid visibility duration');
       if (opts.mode === 'user') throw new Error('enabled visibility is not supported in user-target mode');
+    }
+    this.task_mode = w.task_mode === undefined ? 0 : w.task_mode;
+    const taskDurations = ['sample_min', 'sample_max', 'blank_min', 'blank_max', 'choice_T', 'reset_T'];
+    for (const name of taskDurations) this[name] = w[name] === undefined ? 0 : w[name];
+    if (!Number.isInteger(this.task_mode) || this.task_mode < 0 || this.task_mode > 1)
+      throw new Error('invalid delayed-match task mode');
+    if (this.task_mode === 0) {
+      if (taskDurations.some(name => this[name] !== 0)) throw new Error('legacy task mode requires zero task durations');
+    } else {
+      if (this.abi !== 5) throw new Error('delayed matching requires ABI 5');
+      if (taskDurations.some(name => !Number.isFinite(this[name]) || this[name] < 2 ** -10 || this[name] > 2 ** 30) ||
+          this.sample_min > this.sample_max || this.blank_min > this.blank_max || !(this.blank_min > w.d_min))
+        throw new Error('invalid delayed-match duration or blank_min <= d_min');
+      if (w.world_kind !== 1 || vm !== 0 || w.v_t !== 0 || w.tau_turn !== 0 || w.t_resp !== 0 ||
+          w.b2_amp !== 1 || w.b2_p !== 1 || w.b2_mode !== 0 || !(w.sigma > 0 && w.b2_sigma > w.sigma) ||
+          !Number.isFinite(w.b2_sigma) || !(w.rho_c >= 0 && w.b2_rho === w.rho_c) ||
+          !Number.isFinite(w.rho_c) || !Number.isFinite(w.b2_value) || !(w.b2_value < 0) ||
+          !Number.isFinite(w.R_min) || !Number.isFinite(w.R_max) || w.R_max < w.R_min ||
+          !(2 * w.R_min > w.rho_c + w.b2_rho))
+        throw new Error('delayed matching requires stationary CATCH, neutral visibility, two ordered widths and disjoint equal-radius choices');
+      if (opts.mode === 'user' || opts.targets !== undefined || opts.drift)
+        throw new Error('delayed matching supports automatic mode only; interactive targets and drift are disabled');
     }
     this.body = body;
     this.name = body.name;
@@ -573,7 +603,7 @@ class Life {
     this.program = (this.flags & FLAGS.program_mode) !== 0;
     if (this.flags & FLAGS.lockstep) throw new Error('lockstep is not supported by lifesim.js');
     if (w.noise_rate > 0 || w.stuck_t >= 0 || w.drop_p > 0 || w.window_h > 0 || w.oracle_cap > 0 ||
-      w.fabric_R > 0 || w.b2_amp > 0) throw new Error('noise, stuck cells, message loss, dense fabrics, oracle caps, the window scheduler and the second blob are not supported');
+      w.fabric_R > 0 || (w.b2_amp > 0 && !this.task_mode)) throw new Error('noise, stuck cells, message loss, dense fabrics, oracle caps, the window scheduler and the legacy second blob are not supported');
     if (w.world_kind !== 1) throw new Error('lifesim.js runs CATCH worlds (world_kind 1) only');
     this.d_min = w.d_min; this.d0 = w.d0; this.delay_sd = w.delay_sd; this.jit = w.jit; this.tau_mis = w.tau_mis;
     this.P0 = w.P0; this.clock_sd = w.clock_sd; this.tick_jit = w.tick_jit; this.tau_z = w.tau_z;
@@ -587,6 +617,7 @@ class Life {
     this.th_click = w.th_click; this.th_rel = w.th_rel; this.rho_c = w.rho_c; this.v_t = w.v_t;
     this.tau_turn = w.tau_turn; this.R_min = w.R_min; this.R_max = w.R_max; this.t_resp = w.t_resp;
     this.R_cap = w.R_cap; this.c_miss = w.c_miss; this.c_rec = w.c_rec;
+    this.b2_amp = w.b2_amp; this.b2_sigma = w.b2_sigma; this.b2_rho = w.b2_rho; this.b2_value = w.b2_value;
     this.lam_max_std = this.lam_bg + this.lam_s * (1.0 + w.b2_amp);
     this.lam_max = this.lam_max_std;
     // lattice (4.3)
@@ -1198,6 +1229,13 @@ P.acct_init = function (opts) {
     this.visibility_k = 1;
   }
   this.blobs = [];
+  if (this.task_mode) {
+    this.blobs = [this.newBlob(0, 0), this.newBlob(1, 1)];
+    this.task_trial = 0; this.task_class = 0; this.task_consumed = false; this.task_defer_gap = false;
+    this.task_choice_start = Infinity; this.task_carry_counted = false;
+    this.taskEnter(TASK_SAMPLE, this.t0);
+    return;
+  }
   const bl = this.newBlob(0, 0);
   bl.vx = 0; bl.vy = 0; this.heading(bl);
   bl.tau = this.tau_turn > 0 ? this.poissonNext(S_TURN, 0, 0, this.t0, this.tau_turn) : Infinity; bl.k = 1;
@@ -1304,7 +1342,82 @@ P.visibilityTransition = function () {
   }
   this.evlog.push({ t, kind: 'visibility', bright: this.visibility_bright });
 };
+// ---- delayed matching (ABI 5): bookkeeping only; no phase or class is supplied to a cell
+P.taskDraw = function (stream, purpose) {
+  this.hash2(stream, Math.floor(this.task_trial / 4294967296), this.task_trial >>> 0, 0, purpose);
+  return u01();
+};
+P.foldTaskTrial = function () { this.fold(H_WORLD, Math.floor(this.task_trial / 4294967296), this.task_trial >>> 0); };
+P.taskCount = function (name) { this.led[LI[name + (this.task_class === 0 ? '_narrow' : '_broad')]] += 1.0; };
+P.taskCarry = function (t) {
+  if (this.task_choice_start < this.t_open_abs && t >= this.t_open_abs && !this.task_carry_counted) {
+    this.taskCount('choice_carry_in'); this.task_carry_counted = true;
+  }
+};
+P.taskEnter = function (phase, t) {
+  this.task_phase = phase; this.task_phase_start = t;
+  this.task_consumed = false; this.task_defer_gap = false;
+  for (const bl of this.blobs) { bl.present = false; bl.x = 0.0; bl.y = 0.0; bl.t = t; }
+  if (phase === TASK_SAMPLE) {
+    this.task_class = this.taskDraw(S_TASK_CLASS, 0) < 0.5 ? 0 : 1;
+    this.task_consumed = false;
+    const bl = this.blobs[this.task_class];
+    this.dotAt(t); bl.x = this.DX; bl.y = this.DY; bl.present = true;
+    this.task_next = t + (this.sample_min + (this.sample_max - this.sample_min) * this.taskDraw(S_TASK_DURATION, 0));
+  } else if (phase === TASK_BLANK) {
+    this.task_next = t + (this.blank_min + (this.blank_max - this.blank_min) * this.taskDraw(S_TASK_DURATION, 1));
+  } else if (phase === TASK_CHOICE) {
+    this.dotAt(t);
+    const theta = TWO_PI * this.taskDraw(S_TASK_GEOMETRY, 0);
+    const r = this.R_min + (this.R_max - this.R_min) * this.taskDraw(S_TASK_GEOMETRY, 1);
+    const dx = r * cos(theta), dy = r * sin(theta);
+    const positive = this.taskDraw(S_TASK_SIDE, 0) < 0.5;
+    const b0 = this.blobs[0], b1 = this.blobs[1];
+    b0.x = positive ? this.DX + dx : this.DX - dx; b0.y = positive ? this.DY + dy : this.DY - dy;
+    b1.x = positive ? this.DX - dx : this.DX + dx; b1.y = positive ? this.DY - dy : this.DY + dy;
+    b0.present = b1.present = true;
+    this.task_consumed = false; this.task_choice_start = t; this.task_carry_counted = false;
+    this.task_next = t + this.choice_T;
+    if (t >= this.t_open_abs) this.taskCount('choice_opportunities');
+  } else this.task_next = t + this.reset_T;
+  if (this.hashes) {
+    this.foldI(H_WORLD, 15); this.foldF(H_WORLD, t); this.foldTaskTrial();
+    this.foldI(H_WORLD, phase); this.foldI(H_WORLD, this.task_class);
+    for (const bl of this.blobs) { this.foldF(H_WORLD, bl.x); this.foldF(H_WORLD, bl.y); }
+  }
+  this.evlog.push({ t, kind: 'task_phase', trial: this.task_trial, phase: TASK_PHASES[phase],
+    sample_class: this.task_class === 0 ? 'narrow' : 'broad', deadline: this.task_next });
+};
+P.taskResolve = function (t, slot) {
+  const outcome = slot === 2 ? 0 : (slot === this.task_class ? 1 : 2);
+  this.task_consumed = true; this.task_next = Infinity;
+  if (t >= this.t_open_abs) {
+    this.taskCarry(t);
+    this.taskCount(outcome === 0 ? 'choice_timeouts' : (outcome === 1 ? 'correct_choices' : 'wrong_choices'));
+    if (outcome === 1) this.led[LI.income] = this.led[LI.income] + this.R_cap;
+    else if (outcome === 2) this.led[LI.cost] = this.led[LI.cost] + Math.max(0, -this.b2_value);
+  }
+  if (this.hashes) {
+    this.foldI(H_WORLD, 16); this.foldF(H_WORLD, t); this.foldTaskTrial();
+    this.foldI(H_WORLD, this.task_class); this.foldI(H_WORLD, outcome); this.foldI(H_WORLD, slot);
+  }
+  this.evlog.push({ t, kind: 'task_resolution', trial: this.task_trial,
+    sample_class: this.task_class === 0 ? 'narrow' : 'broad', slot: slot === 2 ? null : slot,
+    outcome: ['timeout', 'correct', 'wrong'][outcome] });
+  if (slot !== 2) this.task_defer_gap = true;
+};
+P.taskTransition = function () {
+  const t = this.task_next;
+  if (this.task_phase === TASK_SAMPLE) this.taskEnter(TASK_BLANK, t);
+  else if (this.task_phase === TASK_BLANK) this.taskEnter(TASK_CHOICE, t);
+  else if (this.task_phase === TASK_CHOICE) { this.taskResolve(t, 2); this.taskEnter(TASK_GAP, t); }
+  else { this.task_trial += 1; this.taskEnter(TASK_SAMPLE, t); }
+};
 P.worldTo = function (t) { // strictly before t; equal-time timer, turn, then visibility
+  if (this.task_mode) {
+    while (this.task_next < t) this.taskTransition();
+    return;
+  }
   for (;;) {
     let best = null, bt = Infinity, bk = 2, bid = Infinity;
     for (const bl of this.blobs) {
@@ -1320,9 +1433,11 @@ P.worldTo = function (t) { // strictly before t; equal-time timer, turn, then vi
 };
 P.sample = function (c) {
   this.worldTo(c);
+  if (this.task_mode && this.task_phase !== TASK_CHOICE) return;
   this.dotAt(c);
   let q = -1;
   for (const bl of this.blobs) {
+    if (!bl.present) continue;
     const ex = this.DX - this.blobX(bl, c), ey = this.DY - this.blobY(bl, c), d = ex * ex + ey * ey;
     if (q < 0 || d < q) q = d;
   }
@@ -1340,20 +1455,27 @@ P.click = function (t, counted) {
   if (counted) led[LI.clicks] += 1.0;
   let hit = null, hd = Infinity;
   for (const bl of this.blobs) {
+    if (!bl.present || (this.task_mode && (this.task_phase !== TASK_CHOICE || this.task_consumed))) continue;
     const ex = X - this.blobX(bl, t), ey = Y - this.blobY(bl, t), d0 = ex * ex + ey * ey;
     if (d0 <= this.rho_c * this.rho_c && d0 < hd) { hit = bl; hd = d0; }
   }
   if (hit !== null) {
-    if (counted) {
+    if (this.task_mode) {
+      if (counted) led[hit.id === 0 ? LI.captures : LI.b2_clicks] += 1.0;
+      this.taskResolve(t, hit.id);
+    } else if (counted) {
       led[LI.captures] += 1.0; led[LI.income] = led[LI.income] + this.R_cap;
       if (this.visibility_mode !== 0 && !this.visibility_bright) led[LI.low_light_captures] += 1.0;
     }
-    if (this.mode === 'auto') this.defer_place.push(hit); else this.defer_remove.push(hit);
+    if (!this.task_mode) { if (this.mode === 'auto') this.defer_place.push(hit); else this.defer_remove.push(hit); }
   } else if (counted) { led[LI.misses] += 1.0; led[LI.cost] = led[LI.cost] + this.c_miss; }
   if (this.hashes) {
-    this.foldI(H_WORLD, 11); this.foldF(H_WORLD, t); this.foldI(H_WORLD, hit !== null ? 1 : 0); this.foldF(H_WORLD, X); this.foldF(H_WORLD, Y);
+    this.foldI(H_WORLD, 11); this.foldF(H_WORLD, t); this.foldI(H_WORLD, hit !== null ? (this.task_mode ? hit.id + 1 : 1) : 0); this.foldF(H_WORLD, X); this.foldF(H_WORLD, Y);
   }
-  this.evlog.push(hit !== null ? { t, kind: 'capture', x: X, y: Y, target: hit.id, income: this.R_cap }
+  this.evlog.push(hit !== null ? { t, kind: this.task_mode ? 'slot_hit' : 'capture', x: X, y: Y, target: hit.id,
+    income: this.task_mode && hit.id !== this.task_class ? 0 : this.R_cap,
+    ...(this.task_mode ? { slot: hit.id, correct: hit.id === this.task_class,
+      cost: hit.id === this.task_class ? 0 : Math.max(0, -this.b2_value) } : {}) }
     : { t, kind: 'miss', x: X, y: Y, cost: this.c_miss });
 };
 P.stroke = function (t, site, dz, zt, zn, counted) {
@@ -1377,6 +1499,16 @@ P.stroke = function (t, site, dz, zt, zn, counted) {
   }
 };
 P.rate = function (px, py, t) { // receptor rate at screen point (px, py) at the left limit
+  if (this.task_mode) {
+    let rate = this.lam_bg;
+    for (const bl of this.blobs) if (bl.present) {
+      const dx = px - this.blobX(bl, t), dy = py - this.blobY(bl, t);
+      const sigma = bl.id === 0 ? this.sigma : this.b2_sigma;
+      const halo = exp(-(dx * dx + dy * dy) / (2.0 * sigma * sigma));
+      rate = rate + this.lam_s * (bl.id === 0 ? halo : this.b2_amp * halo);
+    }
+    return rate;
+  }
   if (this.mode === 'auto') {
     const bl = this.blobs[0], dx = px - this.blobX(bl, t), dy = py - this.blobY(bl, t);
     const signal = this.lam_s * exp(-(dx * dx + dy * dy) / (2.0 * this.sigma * this.sigma));
@@ -1534,6 +1666,7 @@ P.group = function (t, recs) { // one time group, records sorted by (sk, seq)
   const dO = this.defer_O;
   for (let i = 0; i < dO.length; i += 2) { if (dO[i]) this.O.add(dO[i + 1]); else this.O.delete(dO[i + 1]); }
   dO.length = 0;
+  if (this.task_defer_gap) { this.task_defer_gap = false; this.taskEnter(TASK_GAP, t); }
   if (this.defer_place.length) { for (const bl of this.defer_place) this.place(bl, 1, t); this.defer_place.length = 0; }
   if (this.defer_remove.length) {
     for (const bl of this.defer_remove) { const k = this.blobs.indexOf(bl); if (k >= 0) this.blobs.splice(k, 1); }
@@ -1577,6 +1710,21 @@ P.guardsUpto = function (x) { // integer-time guards and CATCH samples (10, 9.7.
 P.close = function (t_end, guard_bits) { // 9.5
   const led = this.led;
   this.worldTo(t_end);
+  if (this.task_mode) {
+    if (this.task_phase === TASK_CHOICE && !this.task_consumed && t_end > this.t_open_abs) {
+      this.taskCarry(t_end); this.taskCount('unfinished_choices');
+    }
+    for (const cls of ['narrow', 'broad']) {
+      const opened = led[LI['choice_opportunities_' + cls]] + led[LI['choice_carry_in_' + cls]];
+      const resolved = led[LI['correct_choices_' + cls]] + led[LI['wrong_choices_' + cls]] +
+        led[LI['choice_timeouts_' + cls]] + led[LI['unfinished_choices_' + cls]];
+      if (opened !== resolved) this.status |= ST_MISMATCH;
+    }
+    if (this.hashes) {
+      this.foldI(H_WORLD, 17); this.foldF(H_WORLD, t_end); this.foldTaskTrial();
+      this.foldI(H_WORLD, this.task_phase); this.foldI(H_WORLD, this.task_class);
+    }
+  }
   this.dotAdv(t_end);
   led[LI.path] = this.path; led[LI.X_end] = this.X; led[LI.Y_end] = this.Y;
   const live = [];
@@ -1601,7 +1749,8 @@ P.close = function (t_end, guard_bits) { // 9.5
   col = col + this.c_sec * led[LI.sec_int];
   col = col + this.c_miss * led[LI.misses];
   col = col + this.c_rec * led[LI.rec_gain];
-  col = col + 0.0 * led[LI.b2_clicks];
+  col = col + (this.task_mode ? Math.max(0, -this.b2_value) *
+    (led[LI.wrong_choices_narrow] + led[LI.wrong_choices_broad]) : 0.0 * led[LI.b2_clicks]);
   const net = led[LI.income] - col - gc;
   led[LI.guard_charge] = gc; led[LI.net] = net; led[LI.F] = net / (this.T - this.t_open);
   const ac = Math.abs(col);
@@ -1610,10 +1759,11 @@ P.close = function (t_end, guard_bits) { // 9.5
   led[LI.arrivals] = this.n_arr; led[LI.arrivals_dropped] = this.n_drop; led[LI.ticks] = this.n_ticks;
   led[LI.status] = this.status;
   led[LI.n_S_end] = this.n_plane[0]; led[LI.n_M_end] = this.n_plane[1]; led[LI.n_H_end] = this.n_plane[2];
-  // ABI 3 closes over its original 57 columns; ABI 4 additionally folds low_light_captures.
+  // Close hashes fold exactly the selected ABI's ledger, preserving older caller projections.
   if (this.hashes) for (let i = 0; i < this.ledgerNames.length; i++) this.foldF(-1, led[i]);
   this.ended = true; this.t_end = t_end; this.t = t_end;
-  this.evlog.push({ t: t_end, kind: 'end', F: led[LI.F] });
+  this.evlog.push({ t: t_end, kind: 'end', F: led[LI.F], ...(this.task_mode ? {
+    trial: this.task_trial, phase: TASK_PHASES[this.task_phase], sample_class: this.task_class === 0 ? 'narrow' : 'broad' } : {}) });
 };
 
 // ================================================================================= scheduler (11.1) and API
@@ -1652,6 +1802,8 @@ P.advance = function (dt, maxEvents) {
   }
   const trip = this.guardsUpto(target);
   if (trip) { this.close(trip[0], trip[1]); return this.t; }
+  // A display frame may end between cellular events and integer samples; show the world at that frame time.
+  if (this.task_mode) this.worldTo(target);
   this.t = target;
   return this.t;
 };
@@ -1682,6 +1834,7 @@ P.updateLamMax = function (t) {
 P.anchorBlobs = function (t) { for (const bl of this.blobs) { bl.x = this.blobX(bl, t); bl.y = this.blobY(bl, t); bl.t = t; } };
 P.setMode = function (m) {
   if (m !== 'auto' && m !== 'user') throw new Error('mode is "auto" or "user"');
+  if (this.task_mode && m !== 'auto') throw new Error('delayed matching supports automatic mode only');
   if (m === 'user' && this.visibility_mode !== 0) throw new Error('enabled visibility is not supported in user-target mode');
   if (m === this.mode) return;
   const t = this.t;
@@ -1713,6 +1866,7 @@ P.setBlobDrift = function (bl, on, t) {
   } else { bl.vx = 0.0; bl.vy = 0.0; bl.tau = Infinity; }
 };
 P.setDrift = function (on, id) { // all user targets (and new ones), or only target id
+  if (this.task_mode) throw new Error('delayed matching rejects interactive drift');
   this.worldTo(this.t);
   if (id !== undefined) {
     const bl = this.blobs.find(b => b.id === id);
@@ -1724,6 +1878,7 @@ P.setDrift = function (on, id) { // all user targets (and new ones), or only tar
   return true;
 };
 P.addTarget = function (x, y) {
+  if (this.task_mode) throw new Error('delayed matching rejects interactive targets');
   if (this.mode !== 'user') this.setMode('user');
   if (this.blobs.length >= MAX_TARGETS) return null;
   const t = this.t;
@@ -1737,12 +1892,14 @@ P.addTarget = function (x, y) {
   return bl.id;
 };
 P.moveTarget = function (id, x, y) {
+  if (this.task_mode) throw new Error('delayed matching rejects interactive targets');
   const bl = this.blobs.find(b => b.id === id); if (!bl) return false;
   this.worldTo(this.t);
   bl.x = x; bl.y = y; bl.t = this.t;
   return true;
 };
 P.removeTarget = function (id) {
+  if (this.task_mode) throw new Error('delayed matching rejects interactive targets');
   if (this.mode !== 'user') return false;
   const k = this.blobs.findIndex(b => b.id === id); if (k < 0) return false;
   this.worldTo(this.t);
@@ -1762,7 +1919,10 @@ P.state = function (opts) {
   const t = this.t;
   this.dotAt(t);
   const dot = { x: this.DX, y: this.DY };
-  const targets = this.blobs.map(bl => ({ id: bl.id, x: this.blobX(bl, t), y: this.blobY(bl, t), drift: this.mode === 'auto' ? true : bl.drift }));
+  const targets = this.blobs.filter(bl => bl.present).map(bl => ({ id: bl.id, x: this.blobX(bl, t), y: this.blobY(bl, t),
+    drift: this.task_mode ? false : (this.mode === 'auto' ? true : bl.drift),
+    ...(this.task_mode ? { slot: bl.id, shape: bl.id === 0 ? 'narrow' : 'broad', sigma: bl.id === 0 ? this.sigma : this.b2_sigma,
+      capture_radius: this.rho_c, capturable: this.task_phase === TASK_CHOICE && !this.task_consumed } : {}) }));
   const cells = [];
   for (const c of this.cells) {
     if (!c.alive && !opts.dead) continue;
@@ -1781,8 +1941,16 @@ P.state = function (opts) {
   const net = led[LI.income] - led[LI.cost];
   return {
     t, ended: this.ended, mode: this.mode, drift: this.drift, flags: this.flags, dot, targets, cells, recentSpikes, events,
+    ...(this.task_mode ? { task: { mode: this.task_mode, trial: this.task_trial, phase: TASK_PHASES[this.task_phase],
+      sample_class: this.task_class === 0 ? 'narrow' : 'broad', phase_start: this.task_phase_start,
+      deadline: this.task_next, remaining: Math.max(0, this.task_next - t), consumed: this.task_consumed } } : {}),
     score: { income: led[LI.income], cost: led[LI.cost], net, F: this.ended ? led[LI.F] : net / elapsed,
-      F_final: this.ended ? led[LI.F] : null, captures: led[LI.captures], misses: led[LI.misses], clicks: led[LI.clicks] },
+      F_final: this.ended ? led[LI.F] : null, captures: led[LI.captures], misses: led[LI.misses], clicks: led[LI.clicks],
+      ...(this.task_mode ? { slot_hits: { narrow: led[LI.captures], broad: led[LI.b2_clicks] },
+        correct_choices: led[LI.correct_choices_narrow] + led[LI.correct_choices_broad],
+        wrong_choices: led[LI.wrong_choices_narrow] + led[LI.wrong_choices_broad],
+        timeouts: led[LI.choice_timeouts_narrow] + led[LI.choice_timeouts_broad],
+        unfinished_choices: led[LI.unfinished_choices_narrow] + led[LI.unfinished_choices_broad] } : {}) },
     stats: { n: this.n, n_S: this.n_plane[0], n_M: this.n_plane[1], n_H: this.n_plane[2], spikes: led[LI.spikes],
       arrivals_lateral: this.n_arr_lat, arrivals_vertical: this.n_arr_vert, events: this.events, lam_max: this.lam_max,
       n_fill: this.n_fill },
@@ -1790,10 +1958,15 @@ P.state = function (opts) {
 };
 P.info = function () { // static facts for a page: the body, the world's sizes and prices
   return { name: this.name, abi: this.abi, mode: this.mode, program: this.program, T: this.T, t0: this.t0, sigma: this.sigma,
+    task_mode: this.task_mode,
+    ...(this.task_mode ? { b2_sigma: this.b2_sigma, sample_min: this.sample_min, sample_max: this.sample_max,
+      blank_min: this.blank_min, blank_max: this.blank_max, choice_T: this.choice_T, reset_T: this.reset_T,
+      distance_metric: 'nearest active choice; sampled only during choice' } : {}),
     rho_c: this.rho_c, lam_bg: this.lam_bg, lam_s: this.lam_s, v_t: this.v_t, tau_turn: this.tau_turn,
     R_min: this.R_min, R_max: this.R_max, t_resp: this.t_resp, d_min: this.d_min, L_max: this.L_max,
     prices: { R_cap: this.R_cap, c_miss: this.c_miss, c_rec: this.c_rec, c_live: this.c_live, c_spike: this.c_spike,
-      c_tw: this.c_tw, c_msg: this.c_msg, c_div: this.c_div, c_sec: this.c_sec },
+      c_tw: this.c_tw, c_msg: this.c_msg, c_div: this.c_div, c_sec: this.c_sec,
+      ...(this.task_mode ? { wrong_choice: Math.max(0, -this.b2_value) } : {}) },
     max_targets: MAX_TARGETS, flags: Object.keys(FLAGS).filter(n => this.flags & FLAGS[n]) };
 };
 P.ledger = function () { const o = {}; this.ledgerNames.forEach((n, i) => { o[n] = this.led[i]; }); return o; };
@@ -1830,5 +2003,5 @@ function create(bodyOrDoc, opts) {
     raster: () => ({ t: life.raster_t, uid: life.raster_uid, n: life.raster_n || 0 }),
   };
 }
-return { create, prepare, Life, LEDGER, LEDGER_V4, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.1' };
+return { create, prepare, Life, LEDGER, LEDGER_V4, LEDGER_V5, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.2' };
 });

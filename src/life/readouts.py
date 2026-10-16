@@ -57,8 +57,8 @@ def validate_ledger(ledger, *, abi=spec.V3) -> dict:
 
 Reject guards, failed accounting, capacity failures and truncated logs; retain ordinary wall/extinction flags.
 """
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4):
-        raise ValueError("ledger readouts require spec.V3 or spec.V4")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5):
+        raise ValueError("ledger readouts require spec.V3, spec.V4 or spec.V5")
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
     if led.ndim != 2 or led.shape[1] != abi.LEDGER_SIZE or not len(led) or not np.isfinite(led).all():
         raise ValueError(f"need finite, complete ABI-{abi.version} ledger rows")
@@ -66,6 +66,16 @@ Reject guards, failed accounting, capacity failures and truncated logs; retain o
         low, captures = led[:, abi.L["low_light_captures"]], led[:, abi.L["captures"]]
         if np.any(low < 0) or np.any(low > captures):
             raise ValueError("low_light_captures must lie between zero and captures")
+    if abi.version >= 5:
+        for label in ("narrow", "broad"):
+            names = ("choice_opportunities", "choice_carry_in", "correct_choices", "wrong_choices",
+                     "choice_timeouts", "unfinished_choices")
+            columns = [led[:, abi.L[f"{name}_{label}"]] for name in names]
+            if any(np.any(c < 0) or np.any(c != np.floor(c)) for c in columns):
+                raise ValueError("delayed-match counts must be nonnegative integers")
+            opened, carried, correct, wrong, timeout, unfinished = columns
+            if not np.array_equal(opened + carried, correct + wrong + timeout + unfinished):
+                raise ValueError("delayed-match opportunities do not reconcile")
     statuses = led[:, abi.L["status"]].astype(np.int64)
     names = ("guard_cells", "guard_events", "raster_overflow", "fate_overflow", "ledger_mismatch", "capacity")
     invalid = sum(spec.STATUS[k] for k in names)
@@ -78,11 +88,40 @@ Reject guards, failed accounting, capacity failures and truncated logs; retain o
 
 def _validate_trace_ledger(tr):
     version = tr.meta.get("abi", 3)
-    if version not in (3, 4):
-        raise ValueError("trace metadata must name ABI 3 or 4")
-    abi = spec.V4 if version == 4 else spec.V3
+    if version not in (3, 4, 5):
+        raise ValueError("trace metadata must name ABI 3, 4 or 5")
+    abi = {3: spec.V3, 4: spec.V4, 5: spec.V5}[version]
     validate_ledger([tr.ledger[k] for k in abi.LEDGER], abi=abi)
     return abi
+
+
+def matching_summary(ledger, *, abi=spec.V5) -> dict:
+    """Class-conditioned choices, retaining abstentions and unfinished opportunities in denominators.
+
+Totals aggregate complete lives before division. Physical slot hits and positive fitness alone do not establish
+matching. Use this only for delayed-match worlds; a neutral V5 world has no opportunities and undefined ratios.
+"""
+    if abi.version != 5:
+        raise ValueError("delayed matching requires ABI 5")
+    statuses = validate_ledger(ledger, abi=abi)
+    led = np.atleast_2d(np.asarray(ledger, dtype=float))
+    classes = {}
+    for label in ("narrow", "broad"):
+        counts = {name: int(led[:, abi.L[f"{name}_{label}"]].sum()) for name in
+                  ("choice_opportunities", "choice_carry_in", "correct_choices", "wrong_choices",
+                   "choice_timeouts", "unfinished_choices")}
+        opportunities = counts["choice_opportunities"] + counts["choice_carry_in"]
+        correct, wrong = counts["correct_choices"], counts["wrong_choices"]
+        completed = correct + wrong
+        classes[label] = dict(counts, total_opportunities=opportunities,
+                              narrow_choice=correct if label == "narrow" else wrong,
+                              broad_choice=correct if label == "broad" else wrong,
+                              no_completed_choice=counts["choice_timeouts"] + counts["unfinished_choices"],
+                              correct_per_opportunity=correct / opportunities if opportunities else None,
+                              choice_coverage=completed / opportunities if opportunities else None,
+                              accuracy_among_choices=correct / completed if completed else None)
+    return dict(lives=len(led), classes=classes, status_counts=statuses,
+                interpretation="Report both sample classes and coverage; positive reward is not evidence of matching.")
 
 
 @dataclass(frozen=True)
@@ -221,6 +260,8 @@ def search_signature(tr: probe.Trace, *, silence_window: float, start: float | N
 The observation-only motion log supports exact integration through gaps, even while force direction changes.
 """
     w = tr.meta["world"]
+    if w.task_mode:
+        raise ValueError("single-target search signature is undefined for delayed matching; use matching_summary")
     abi = _validate_trace_ledger(tr)
     start = w.t0 + w.t_open if start is None else float(start)
     end = float(tr.ledger["t_end"])

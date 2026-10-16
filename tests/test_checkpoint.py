@@ -27,11 +27,12 @@ def canonical_log(path):
     return "".join(json.dumps(clean(json.loads(line))) + "\n" for line in path.read_text().splitlines()).encode()
 
 
-@pytest.mark.parametrize("catch,visibility_world", [
-    (False, None), (True, None),
-    (True, "catch_speck_flash5_dim25_l4"), (True, "catch_speck_blink20_20_l4"),
-], ids=["bell", "catch", "flash", "renewal"])
-def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, visibility_world):
+@pytest.mark.parametrize("catch,override_world,abi_version", [
+    (False, None, None), (True, None, None),
+    (True, "catch_speck_flash5_dim25_l4", 4), (True, "catch_speck_blink20_20_l4", 4),
+    (True, "catch_delayed_match_l4", 5),
+], ids=["bell", "catch", "flash", "renewal", "delayed_match"])
+def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, override_world, abi_version):
     config = "configs/life_speck.yaml" if catch else "configs/life_smoke.yaml"
     opts = ["threads=1", "seed=45000123", "evolve.generations=6", "evolve.mu=4", "evolve.lam=6",
             "evolve.founders=2", "evolve.init_samples=8", "evolve.max_init_samples=16",
@@ -44,8 +45,12 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, visibility_wo
             "clones.conditions=[contacts_off]", "world.n_max=48"]
     if catch:
         opts += ["evolve.breeding=asex", "evolve.random_ties=false"]
-    if visibility_world is not None:
-        opts += ["life.abi=4", f"life.world={visibility_world}"]
+    if override_world is not None:
+        opts += [f"life.abi={abi_version}", f"life.world={override_world}"]
+    if abi_version == 5:
+        # Exercise SAMPLE/BLANK/CHOICE/timeout cycles within these short determinism fixtures.
+        opts += ["world.sample_min=2", "world.sample_max=3", "world.blank_min=3", "world.blank_max=4",
+                 "world.choice_T=4", "world.reset_T=1"]
     full, split = tmp_path / "full" / "run", tmp_path / "split" / "run"
 
     def run(out, *flags):
@@ -58,9 +63,9 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, visibility_wo
     run(split, "--stop-after", "3")
     mid = checkpoint.load(split / "checkpoint.pt")
     assert mid["state"]["generation"] == 3
-    if visibility_world is not None:
-        assert mid["config"]["life"]["abi"] == 4
-        assert mid["config"]["life"]["world"] == visibility_world
+    if override_world is not None:
+        assert mid["config"]["life"]["abi"] == abi_version
+        assert mid["config"]["life"]["world"] == override_world
     assert not (split / "results.jsonl").exists()
     # A crash can leave complete or partial records after the checkpoint. Resume discards only that tail.
     for name in checkpoint.LOGS:
@@ -71,6 +76,8 @@ def test_three_plus_resume_three_equals_six_bytes(tmp_path, catch, visibility_wo
         assert canonical_log(full / name) == canonical_log(split / name), name
     for name in ("population.json", "best_genome.json", "determinism.json"):
         assert (full / name).read_bytes() == (split / name).read_bytes(), name
+    if abi_version == 5:
+        assert json.loads((full / "results.jsonl").read_text())["abi"] == 5
     a, b = (checkpoint.load(p / "checkpoint.pt")["state"] for p in (full, split))
     assert a.keys() == b.keys()
     for key in a:

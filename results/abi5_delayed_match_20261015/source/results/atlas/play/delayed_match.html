@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delayed matching · automatic life viewer</title>
+<style>
+  :root { color-scheme: dark; font: 16px/1.5 system-ui,sans-serif; background:#0a111b; color:#e1e8f2 }
+  body { max-width:1050px; margin:32px auto; padding:0 20px }
+  h1,h2 { line-height:1.15; font-weight:600 }
+  p { max-width:90ch; color:#c3d0df }
+  button,input { font:inherit; margin:0 8px 8px 0 }
+  button { cursor:pointer; padding:7px 12px; border:1px solid #526477; border-radius:6px; color:inherit; background:#1a2b3e }
+  button:disabled { opacity:.5; cursor:default }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; margin:20px 0 }
+  th,td { text-align:right; padding:8px; border-bottom:1px solid #314153 }
+  th:first-child,td:first-child { text-align:left }
+  caption { text-align:left; padding-bottom:8px; color:#aebed1 }
+  #error { color:#ffc6ab }
+  @media (max-width:600px) { table { font-size:12px } th,td { padding:4px } }
+</style>
+<h1>Watch a delayed-match life</h1>
+<p>Load an exported ABI 5 body or a parity truth file. The first listed body and its recorded seed are used in file order.
+  This view shows execution of that body; it makes no claim that matching has evolved.</p>
+<label>Body or truth JSON <input id="body-file" type="file" accept="application/json,.json"></label>
+<p id="error" role="alert"></p>
+<main id="viewer"></main>
+<script src="lifesim.js"></script>
+<script src="delayed_match_view.js"></script>
+<script>
+'use strict';
+let mounted = null;
+const input = document.getElementById('body-file'), error = document.getElementById('error');
+input.addEventListener('change', async () => {
+  if (!input.files.length) return;
+  error.textContent = '';
+  try {
+    const data = JSON.parse(await input.files[0].text());
+    // The first fixture is fixed by exporter order; this page never searches outcomes or seeds.
+    const item = data.cases ? data.cases[0] : null;
+    const body = item ? item.body : data;
+    const seed = item ? item.seed : 55050000;
+    if (mounted) mounted.destroy();
+    mounted = DelayedMatchView.mount(document.getElementById('viewer'), body, { seed });
+  } catch (cause) { error.textContent = cause.message; }
+});
+</script>
+</html>

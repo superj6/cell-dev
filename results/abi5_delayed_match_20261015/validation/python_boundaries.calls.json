@@ -1,0 +1,53 @@
+{
+  "exitstatus": 0,
+  "collected": {
+    "tests/test_abi5_kernel_boundaries.py": 40,
+    "tests/test_abi5_readouts.py": 3,
+    "tests/test_probe.py": 3,
+    "tests/test_life_readouts.py": 13,
+    "tests/test_life_visibility_readouts.py": 15
+  },
+  "reports": {
+    "tests/test_abi5_kernel_boundaries.py": {
+      "passed": 40
+    },
+    "tests/test_abi5_readouts.py": {
+      "passed": 3
+    },
+    "tests/test_probe.py": {
+      "passed": 3
+    },
+    "tests/test_life_readouts.py": {
+      "passed": 13
+    },
+    "tests/test_life_visibility_readouts.py": {
+      "passed": 15
+    }
+  },
+  "backend_calls": {
+    "tests/test_abi5_kernel_boundaries.py": {
+      "reference_calls": 1,
+      "reference_lives": 1,
+      "c_calls": 1,
+      "c_lives": 1
+    },
+    "tests/test_probe.py": {
+      "reference_calls": 6,
+      "reference_lives": 6,
+      "c_calls": 5,
+      "c_lives": 6
+    },
+    "tests/test_life_readouts.py": {
+      "reference_calls": 2,
+      "reference_lives": 2,
+      "c_calls": 3,
+      "c_lives": 3
+    },
+    "tests/test_life_visibility_readouts.py": {
+      "reference_calls": 6,
+      "reference_lives": 6,
+      "c_calls": 9,
+      "c_lives": 9
+    }
+  }
+}

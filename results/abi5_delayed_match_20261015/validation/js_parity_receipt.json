@@ -1,0 +1,185 @@
+{
+  "status": "complete",
+  "scope": "ABI5 engineering parity and automatic viewer only",
+  "stages": [
+    {
+      "name": "truth",
+      "command": "\"timeout 360s /home/jgon/project/ml/cell-dev/.venv/bin/python ../validation/export_truth.py --out ../validation/truth\"",
+      "user_cpu_seconds": 6.17,
+      "system_cpu_seconds": 0.17,
+      "wall_time": "0:06.35",
+      "peak_rss_KiB": 234376,
+      "exit_status": 0,
+      "backend_lives": {
+        "C_full": 8,
+        "C_fast": 8,
+        "Python": 8
+      }
+    },
+    {
+      "name": "js_truth",
+      "command": "\"timeout 180s node --max-old-space-size=512 results/atlas/play/test_delayed_match.js --truth ../validation/truth/truth.json\"",
+      "user_cpu_seconds": 0.92,
+      "system_cpu_seconds": 0.09,
+      "wall_time": "0:00.45",
+      "peak_rss_KiB": 109068,
+      "exit_status": 1,
+      "JS": {
+        "attempts": 55,
+        "constructed": 25,
+        "completed_via_advance": 2,
+        "direct_close_calls": 8,
+        "accounting": "derived from identical default-suite constructor prefix through failed extinction fixture"
+      }
+    },
+    {
+      "name": "js_truth_retry",
+      "command": "\"timeout 180s node --max-old-space-size=512 results/atlas/play/test_delayed_match.js --truth ../validation/truth/truth.json\"",
+      "user_cpu_seconds": 6.64,
+      "system_cpu_seconds": 0.32,
+      "wall_time": "0:03.03",
+      "peak_rss_KiB": 127992,
+      "exit_status": 0,
+      "JS": {
+        "attempts": 76,
+        "constructed": 46,
+        "completed_via_advance": 22,
+        "direct_close_calls": 8,
+        "accounting": "suite-reported 76 attempts/22 complete; identical final suite except task-trial hash helper, 8 direct close probes"
+      }
+    },
+    {
+      "name": "js_legacy",
+      "command": "\"timeout 180s taskset -c 0 node --single-threaded --single-threaded-gc --max-old-space-size=512 --require ../validation/count_js_calls.cjs results/atlas/play/test_lifesim.js --quick\"",
+      "user_cpu_seconds": 11.09,
+      "system_cpu_seconds": 0.31,
+      "wall_time": "0:11.42",
+      "peak_rss_KiB": 143744,
+      "exit_status": 0,
+      "JS": {
+        "attempts": 97,
+        "constructed": 97,
+        "completed_via_advance": 91,
+        "direct_close_calls": 0
+      }
+    },
+    {
+      "name": "js_visibility",
+      "command": "\"timeout 120s taskset -c 0 node --single-threaded --single-threaded-gc --max-old-space-size=512 --require ../validation/count_js_calls.cjs results/atlas/play/test_visibility.js\"",
+      "user_cpu_seconds": 0.56,
+      "system_cpu_seconds": 0.05,
+      "wall_time": "0:00.62",
+      "peak_rss_KiB": 98412,
+      "exit_status": 0,
+      "JS": {
+        "attempts": 43,
+        "constructed": 22,
+        "completed_via_advance": 3,
+        "direct_close_calls": 0
+      }
+    },
+    {
+      "name": "js_viewer",
+      "command": "\"timeout 60s taskset -c 0 node --single-threaded --single-threaded-gc --max-old-space-size=512 --require ../validation/count_js_calls.cjs results/atlas/play/test_delayed_match_view.js ../validation/truth/truth.json\"",
+      "user_cpu_seconds": 0.3,
+      "system_cpu_seconds": 0.03,
+      "wall_time": "0:00.34",
+      "peak_rss_KiB": 66720,
+      "exit_status": 0,
+      "JS": {
+        "attempts": 3,
+        "constructed": 3,
+        "completed_via_advance": 0,
+        "direct_close_calls": 0
+      }
+    },
+    {
+      "name": "js_trial64_before",
+      "command": "\"taskset -c 0 node --single-threaded --single-threaded-gc --max-old-space-size=512 --require ../validation/count_js_calls.cjs results/atlas/play/test_delayed_match_trial64.js ../validation/truth/truth.json\"",
+      "user_cpu_seconds": 0.12,
+      "system_cpu_seconds": 0.02,
+      "wall_time": "0:00.14",
+      "peak_rss_KiB": 56628,
+      "exit_status": 1,
+      "JS": {
+        "attempts": 1,
+        "constructed": 1,
+        "completed_via_advance": 0,
+        "direct_close_calls": 0
+      }
+    },
+    {
+      "name": "js_trial64_after",
+      "command": "\"taskset -c 0 node --single-threaded --single-threaded-gc --max-old-space-size=512 --require ../validation/count_js_calls.cjs results/atlas/play/test_delayed_match_trial64.js ../validation/truth/truth.json\"",
+      "user_cpu_seconds": 0.11,
+      "system_cpu_seconds": 0.02,
+      "wall_time": "0:00.14",
+      "peak_rss_KiB": 56596,
+      "exit_status": 0,
+      "JS": {
+        "attempts": 1,
+        "constructed": 1,
+        "completed_via_advance": 0,
+        "direct_close_calls": 1
+      }
+    },
+    {
+      "name": "js_truth_final",
+      "command": "\"timeout 180s taskset -c 0 node --single-threaded --single-threaded-gc --max-old-space-size=512 --require ../validation/count_js_calls.cjs results/atlas/play/test_delayed_match.js --truth ../validation/truth/truth.json\"",
+      "user_cpu_seconds": 4.91,
+      "system_cpu_seconds": 0.22,
+      "wall_time": "0:05.14",
+      "peak_rss_KiB": 129852,
+      "exit_status": 0,
+      "JS": {
+        "attempts": 76,
+        "constructed": 46,
+        "completed_via_advance": 22,
+        "direct_close_calls": 8
+      }
+    }
+  ],
+  "completed_backend_lives": {
+    "C_full": 8,
+    "C_fast": 8,
+    "Python": 8,
+    "JS": 140
+  },
+  "JS_construction_attempts": 352,
+  "JS_successful_constructions": 241,
+  "JS_direct_world_close_probes": 25,
+  "total_measured_cpu_seconds": 32.05,
+  "maximum_peak_rss_KiB": 234376,
+  "available_memory_bytes_before": 22068736000,
+  "available_memory_bytes_after": 20540456960,
+  "constraints": {
+    "cpu_seconds_budget": 600,
+    "address_space_ceiling_bytes": 8589934592,
+    "RSS_ceiling_bytes": 4294967296,
+    "host_available_floor_bytes": 4294967296
+  },
+  "validation": {
+    "ABI5_focused_groups": 14,
+    "ABI5_truth_cases": 8,
+    "legacy_checks": 18,
+    "legacy_wound_fixtures": 33,
+    "visibility_checks": 12,
+    "viewer": "DOM/canvas stub and inline-script syntax; no real-browser claim",
+    "large_trial": "phase/resolution/terminal full-width trial hashes fail before fix and pass afterward"
+  },
+  "parity": "All 70 ledger values, five full log hashes and spike raster data are byte-identical across eight C/Python/JS cases. C/Python fate arrays also match; C fast ledgers match and fast hashes are constants only.",
+  "source_changes_after_export": [
+    {
+      "path": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/results/atlas/play/test_delayed_match.js",
+      "reason": "extinction fixture corrected disabled kill_t=0 to kill_t=1; no engine change"
+    },
+    {
+      "path": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/results/atlas/play/lifesim.js",
+      "reason": "new task-trial hash folding retains high 32 bits; demonstrated by trial=2**32+7 direct fixture. Final ABI5 boundary and 16 truth replays passed against unchanged C/Python truth."
+    }
+  ],
+  "final_engine_sha256": "6ee463d6f4ca1e9730f45a015a011a2944ef3c8d80532d50fe41024130d2143b",
+  "initial_engine_sha256": "2af2338eafa04c9a2df5627b0185e2c7dea62cfdb31dfc198673eb533d7dcdd9",
+  "source_evidence": "Original engine, original focused test and executed exporter snapshots retained under truth/",
+  "concurrency_note": "Initial Node ABI5 runs used V8 background optimizer/GC, with single-threaded simulator execution. Final affected-suite replay and subsequent checks used --single-threaded --single-threaded-gc and CPU0 affinity; no backend runs overlapped within this sequence."
+}

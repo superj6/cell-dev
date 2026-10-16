@@ -13,12 +13,24 @@ The exposure audit found independently renewing reward/harm targets and equal fo
 The next environment is delayed shape matching: an early narrow/broad cue, a blank interval, then a fresh
 choice whose reward depends on the earlier cue. `docs/ABI5_DELAYED_MATCH_PROPOSAL.md` specifies the limited
 world/ABI extension. The user replied "you don't need my permission for these things": environment/ABI work of
-this kind is covered by autonomy; do not ask again. Implementation is isolated under
-`outputs/abi5_delayed_match_20261015/worktree/`; AO's original sources are preserved in its completed archive. Older tasks remain retention
+this kind is covered by autonomy; do not ask again. The validated implementation is now integrated;
+`results/abi5_delayed_match_20261015/` preserves engineering evidence, and AO retains its original sources. Older tasks remain retention
 checks. Judge the new world by useful sensory information and conditional choices, not positive reward alone.
 This authorizes the scoped environment/ABI extension, with unchanged local asynchronous cell rules.
 Global channels/clocks, prescribed organism behavior, spending and population-responsive worlds remain separate.
 AO completed its fixed protocol, endpoints, prices, budgets and confirmation without extension.
+
+**ABI5 engineering milestone (2026-10-15).** Delayed matching now has C/Python/JS agreement, conditional
+scoring, class-specific opportunity conservation, trace/readout support and an automatic viewer. Genome size,
+cell inputs and local asynchronous rules are unchanged. Explicit `spec.V5` / `life.abi: 5` enables it; defaults
+remain legacy. The default suite passes945tests with127slow deselected, including deterministic ABI5 resume.
+A subsequent defensive C/JS conservation fix passes85affected tests and fresh eight-case cross-language truth;
+valid outputs remain identical. Full-width JS trial hashing, boundary tests, legacy compatibility and lint pass.
+The full suite predates that final defensive fix; no final-source full-suite rerun or real-browser test is claimed.
+Largest validation peak is593MiB. [Engineering preview](../results/abi5_delayed_match_20261015/validation/delayed_match_preview.html)
+shows a fixed existing reflex fixture, not evolved matching. Next: a small all-six-AO-genome development baseline
+and an information-payoff instrument; both require exact budgets before execution. Short T85 evidence cannot
+automatically admit the repeated T1024 task. No delayed-matching evolution has run.
 
 **Local experimentation authorized (2026-10-15).** The user says to keep working on our judgment and permits
 experiments on the local computer provided memory use does not threaten it. Continue useful bounded studies

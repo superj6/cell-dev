@@ -1,0 +1,33 @@
+{
+  "exitstatus": 0,
+  "collected": {
+    "tests/test_abi5_delayed_match.py": 41,
+    "tests/test_abi5_kernel_boundaries.py": 41,
+    "tests/test_abi5_readouts.py": 3
+  },
+  "reports": {
+    "tests/test_abi5_delayed_match.py": {
+      "passed": 41
+    },
+    "tests/test_abi5_kernel_boundaries.py": {
+      "passed": 41
+    },
+    "tests/test_abi5_readouts.py": {
+      "passed": 3
+    }
+  },
+  "backend_calls": {
+    "tests/test_abi5_delayed_match.py": {
+      "c_calls": 3,
+      "c_lives": 6,
+      "reference_calls": 2,
+      "reference_lives": 2
+    },
+    "tests/test_abi5_kernel_boundaries.py": {
+      "reference_calls": 1,
+      "reference_lives": 1,
+      "c_calls": 1,
+      "c_lives": 1
+    }
+  }
+}

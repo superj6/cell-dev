@@ -1,8 +1,177 @@
-# One-life kernel ABI and event semantics (ABI 4, with ABI 2/3 caller compatibility)
+# One-life kernel ABI and event semantics (ABI 5, with ABI 2/3/4 caller compatibility)
+
+## ABI 5 extension: delayed shape matching (authorized 2026-10-15)
+
+ABI 5 adds a world task mode, with unchanged genome/program layouts, receptor modality, regulatory inputs,
+communication and local asynchronous cell rules. `spec.V5` is explicit; `spec.CURRENT` remains `spec.V2`.
+The authorized scope is [ABI5_DELAYED_MATCH_PROPOSAL.md](ABI5_DELAYED_MATCH_PROPOSAL.md). The extension below
+overrides the historical single/dual-target CATCH rules only when `task_mode=1`. Task mode 0 preserves all
+ABI 2/3/4 behavior, including visibility, and emits no delayed-task world records.
+
+### Layout, preset and validation
+
+Append seven float64 world fields after index 69; `WORLD_SIZE=77`:
+
+| Index | Field | Neutral value | Delayed-match meaning |
+| --- | --- | ---: | --- |
+| 70 | `task_mode` | 0 | 0 legacy, 1 delayed matching |
+| 71 | `sample_min` | 0 | Minimum sample duration |
+| 72 | `sample_max` | 0 | Maximum sample duration |
+| 73 | `blank_min` | 0 | Minimum blank duration |
+| 74 | `blank_max` | 0 | Maximum blank duration |
+| 75 | `choice_T` | 0 | Choice deadline measured from choice onset |
+| 76 | `reset_T` | 0 | Background-only gap after a resolution |
+
+All values are finite. `task_mode` is an exact integer in {0,1}. Mode 0 requires all six durations zero.
+In mode 1 every duration lies in `[2^-10,2^30]`, minimums do not exceed their maximums, and `blank_min>d_min`.
+Mode 1 requires `world_kind=1`, neutral visibility `(0,0,0,1)`, `v_t=tau_turn=t_resp=0`, `b2_amp=b2_p=1`,
+`b2_mode=0`, `sigma<b2_sigma`, `rho_c=b2_rho`, `2*R_min>rho_c+b2_rho`, and `b2_value<0`. All prior world
+validation also applies. Raw invalid vectors return -2. Older caller ABIs reject enabled task mode rather than
+silently dropping its fields.
+
+`catch_delayed_match_l4` inherits SPECK's cell physics, conduction and prices, with `task_mode=1`, timing
+`(sample_min,sample_max,blank_min,blank_max,choice_T,reset_T)=(15,25,20,40,50,5)`, `sigma=0.6`, `b2_sigma=1.2`,
+`lam_s=2`, `lam_bg=0.05`, `R_min=2`, `R_max=4`, both capture radii 1, `R_cap=500`, `b2_value=-50`, `c_miss=10`,
+and the stationary/presence values required above. These are equal Gaussian component peaks; overlapping tails
+do not produce equal total intensity at the two centers, and the broad component has greater integrated signal.
+
+Append twelve float64 ledger values after index 57; `LEDGER_SIZE=70`:
+
+| Narrow index | Broad index | Field stem | Meaning |
+| ---: | ---: | --- | --- |
+| 58 | 59 | `choice_opportunities_` | Choices opened during the accounting window |
+| 60 | 61 | `choice_carry_in_` | Choices opened before the accounting window and carried into it |
+| 62 | 63 | `correct_choices_` | Matching choices resolved during the accounting window |
+| 64 | 65 | `wrong_choices_` | Nonmatching choices resolved during the accounting window |
+| 66 | 67 | `choice_timeouts_` | Choices timing out during the accounting window |
+| 68 | 69 | `unfinished_choices_` | Counted choices still open at the actual life endpoint |
+
+Each complete name appends `narrow` or `broad` to the field stem. These columns split by the **sample class**,
+not by chosen physical slot. They are zero in mode 0. All existing ledger, hash-family, genome/program,
+initial-body, lattice, raster, fate and flag indices remain unchanged.
+
+### Trial state, independent draws and geometry
+
+World-only state is `(trial,phase,class,next_deadline,choice_start,consumed,deferred_gap)` plus the existing two
+blob positions/presence bits. The physical slots are fixed: slot 0 is narrow (`sigma`), slot 1 broad
+(`b2_sigma`). Phases are SAMPLE=0, BLANK=1, CHOICE=2, GAP=3. Trial 0 starts in SAMPLE at `t0`, before the
+initial cell records. Trial index increments only when GAP ends and the next SAMPLE starts. No cell, receptor
+queue, motor state, hotspot key, message or trace is reset between trials or at an accounting/fork boundary.
+
+Append four counter-hash streams, using `draw(seed,stream,trial,purpose)`; old stream IDs and counters remain
+unchanged:
+
+| Stream | ID | Purpose | Draw interpretation |
+| --- | ---: | ---: | --- |
+| `S_TASK_CLASS` | 27 | 0 | Class 0 narrow if `u<0.5`, otherwise class 1 broad |
+| `S_TASK_DURATION` | 28 | 0 | Sample duration |
+| `S_TASK_DURATION` | 28 | 1 | Blank duration |
+| `S_TASK_GEOMETRY` | 29 | 0 | Axis angle |
+| `S_TASK_GEOMETRY` | 29 | 1 | Common choice radius |
+| `S_TASK_SIDE` | 30 | 0 | Narrow on positive axis if `u<0.5` |
+
+Uniform values use `low+(high-low)*u`, including equal bounds. The axis is `theta=TWO_PI*u`, with the same
+`TWO_PI` literal as the existing world. These independent keys never depend on correctness or cell counters.
+Absolute trial schedules remain response-dependent: an early successful or wrong hit starts GAP sooner.
+
+On every phase entry set both blob anchors to the entry time, zero both positions and velocities to `+0.0`,
+set their legacy turn/placement deadlines to infinity, and mark both absent before assigning active positions:
+
+- SAMPLE: draw the class; make only that slot present, centered at `dot_at(sample_start)`. Its center stays
+  fixed in world coordinates. Schedule BLANK after the sampled sample duration.
+- BLANK: neither slot is present. Schedule CHOICE after the sampled blank duration.
+- CHOICE: at its onset let `(X,Y)=dot_at(t)`, `r=R_min+(R_max-R_min)*u`, `dx=r*cos(theta)`, `dy=r*sin(theta)`.
+  Positive-axis coordinates are `(X+dx,Y+dy)` and negative-axis coordinates `(X-dx,Y-dy)`. Assign these to
+  the narrow/broad slots using the independent side bit, mark both present, and schedule timeout at
+  `t+choice_T`. Centers remain fixed afterward. The capture disks cannot overlap by validation.
+- GAP: neither slot is present. Schedule the next SAMPLE at `t+reset_T`.
+
+The choice geometry is independent of sample class conditional on the body's choice-onset state. Earlier
+information may legitimately persist through cellular state, chemicals, morphology or motion. Sample class,
+phase, trial number, deadlines, positions and correctness are not cell inputs.
+
+### Receptor field, actions and event order
+
+Use the existing constant candidate bound `lambda_max=lam_bg+lam_s*(1+b2_amp)` in every phase. Candidate
+and thinning streams retain their `(uid,j)` keys; phase boundaries do not restart them. Start `rate=lam_bg`;
+if narrow is present add `lam_s*halo0`, then if broad is present add `lam_s*(b2_amp*halo1)` in that order.
+The accepted event still arrives at `t+d_min`. Removal never cancels queued events. `blank_min>d_min` clears
+raw sample deliveries before CHOICE; persistent traces and other local state remain available.
+
+Retain `world_to(t)`'s strict-before rule: transitions exactly at `t` occur after that timestamp's samples and
+record group. Thus a click exactly at SAMPLE removal is still outside CHOICE and misses, one exactly at CHOICE
+onset still sees BLANK and misses, and a click exactly at timeout can resolve CHOICE before the timeout.
+Transitions use their scheduled time, even when the next cell record occurs much later. No shared cell tick
+or phase notification is introduced.
+
+Only the first click inside an active choice while `consumed=0` resolves it. The slot's width matching the
+sample class gives income `R_cap`; a mismatch incurs `-b2_value`. Set `consumed=1` immediately and cancel
+the timeout, but retain the physical field for the rest of the timestamp group. Further clicks in that group
+are misses. At group end, after deferred occupancy updates, enter GAP at the hit timestamp. A positive gap
+prevents a same-group new sample. If the CHOICE deadline instead passes unresolved, record a timeout and
+enter GAP at that deadline. A timeout gives neither reward nor penalty. Every click outside CHOICE, or
+outside both disks, costs `c_miss`; a wrong choice is not additionally a miss. Ordinary physical costs and
+hotspot hysteresis are unchanged.
+
+`captures` and `b2_clicks` count physical slot-0 and slot-1 hits respectively, regardless of correctness.
+`low_light_captures` is zero. Reconstructed cost retains the existing summation order, replacing only its last
+slot-1 harm term with `max(0,-b2_value)*(wrong_choices_narrow+wrong_choices_broad)` in task mode 1.
+Mode 0 retains the old term exactly. Runtime income/penalty additions occur in event order. The Python scorer,
+reference, C kernel, browser and downstream repricing use the same conditional rule.
+
+At integer measurement times, first advance world events strictly before the time. Count a distance/zone
+sample only during CHOICE. Compute both squared distances with the existing arithmetic, choose their minimum,
+add its square root to `dist_sum`, and count `zone_samples` if it is at most `rho_c*rho_c`. This measures the
+nearest active choice. Mode 0 retains its original slot-0 measurement rule.
+
+### Accounting windows, completion and hashes
+
+For each class enforce `opportunities+carry_in=correct+wrong+timeouts+unfinished`. Choice entry at or after
+`t0+t_open` counts an opportunity. A choice opened earlier contributes carry-in if it resolves at or after
+that boundary or remains open at an actual endpoint strictly after it; implementations may count carry-in
+lazily at that resolution/close. Outcomes use their resolution timestamp. A life ending before or exactly
+at the accounting opening contributes no carry-in/unfinished count. Sample/blank trials that never reach
+CHOICE are represented in the trace's terminal phase, not mislabeled as choice opportunities.
+
+The actual right endpoint is excluded: `world_to(t_end)` consumes only earlier transitions and events at
+`t_end` do not resolve choices. A guard ends at the original `t_end` with its existing charge. Extinction
+alone does not end the world; it still advances through T, including later opportunities and timeouts.
+No trial is reset at `t_open`, `t_fork`, or after extinction.
+
+The existing five hash families suffice. Append these world records, folded into `world` and `all`:
+
+| Record | Words, in order |
+| --- | --- |
+| Phase entry | `[15,dbits(t),trial,phase,class,dbits(x0),dbits(y0),dbits(x1),dbits(y1)]` |
+| Resolution | `[16,dbits(t),trial,class,outcome,slot]`, where outcome is timeout=0/correct=1/wrong=2, and slot is 0/1 or 2 for timeout |
+| Terminal trial | `[17,dbits(t_end),trial,phase,class]` |
+
+Include initial SAMPLE's phase-entry record. In a click resolution fold record 16 before the unchanged
+physical CLICK record 11 (outcome 0 miss, 1 slot 0, 2 slot 1); fold GAP's phase record at group end. Timeout
+resolution precedes its GAP entry. At close, process the remaining world timeline and unfinished accounting,
+then fold terminal record 17 before the close-ledger folds. Mode 0 emits none of records 15–17.
+
+### Compatibility and implementation scope
+
+The kernel allocates ABI 5 buffers. Callers with ABI 2/3/4 worlds receive neutral appended task fields and
+their original output shapes. In full mode reverse all extra close-ledger folds to reproduce each legacy
+`all` hash; all other legacy hashes/logs retain their meanings. Neutral raw V5 `all` deliberately includes
+the extra zero-column folds. Preserve the historical ABI-2 fast projection; fast hash constants do not prove
+replay. Strict checkpoint/source pins remain in force and historical viewer/source copies are untouched.
+
+Automatic browser mode supports this delayed task explicitly, including both choices. Interactive target
+dragging or switching to user-target mode is rejected while task mode 1 is active. This does not enable
+all historical second-blob modes or expand the browser's other unsupported world/scheduler combinations.
+Parity compares meaningful full-mode hashes and ledgers on the implementations' common supported subset;
+C/Python also cover the complete supported mode and C fast/full ledger equality.
+
+Engineering fixtures exercise event order, boundaries, cost reconstruction, invalid combinations and legacy
+projections without requiring an organism to win. Information-payoff admission and later evolution follow
+the separate research protocol, including plan 0.4's fresh paired measurement requirements.
 
 ## ABI 4 extension: target visibility (approved 2026-10-14)
 
-The current C kernel and Python reference implement ABI 4. `spec.V4` is the new explicit contract;
+The ABI 4 visibility contract remains available explicitly through `spec.V4`;
 `spec.CURRENT` remains `spec.V2`, and existing explicit `spec.V3` callers keep their previous outputs.
 The numbered sections below retain the ABI 3 contract. This extension changes only the following world
 fields, world events and ledger column; all genome, phenotype, cell-input, message and asynchronous cell
@@ -72,7 +241,7 @@ Use `build.run(..., abi=spec.V4)` or `reference.run(..., abi=spec.V4)` explicitl
 opt in with `life.abi: 4` and one of these `life.world` values; the existing ABI 3 genome layout is unchanged.
 Existing configurations retain their previous ABI. A requested ABI must match the configured genome layout.
 
-The kernel always allocates ABI 4 buffers. Its wrapper pads older worlds with the neutral tuple and returns
+In the ABI 4 port the kernel allocated ABI 4 buffers. Its wrapper padded older worlds with the neutral tuple and returned
 the caller's shapes. In full mode, it reverses the extra close-ledger folds to recover ABI 3 and ABI 2 `all`
 hashes exactly; other hashes and logs already agree. Raw neutral ABI 4 `all` includes the extra zero-column
 fold and therefore differs from ABI 3 `all`. Fast mode is not replay evidence: raw ABI 3/4 hashes remain

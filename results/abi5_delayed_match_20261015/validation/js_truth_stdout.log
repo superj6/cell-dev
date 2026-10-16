@@ -1,0 +1,36 @@
+pass: ABI 5 appends twelve columns; explicit older modes and default stay unchanged
+pass: invalid timing and incompatible second-blob worlds fail explicitly
+pass: interactive edits reject before mutating the delayed-match world
+pass: dedicated trial streams determine class, durations, geometry and side
+pass: every phase is left-continuous at its deadline and hashes exact phase records
+pass: sample and blank misses cannot resolve a choice; candidate bound never changes
+pass: both sample classes pay correctness independently of physical slot; same-group hits consume once
+pass: a deadline click wins the timeout tie and cancels the obsolete timeout
+pass: choice-only samples use the nearest active slot and both capture zones
+pass: carry-in includes outcomes at t_open and open opportunities at actual life end
+pass: life end excludes phase deadlines; terminal record commits the remaining phase
+node:assert:125
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+122 !== 0
+
+    at /home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/results/atlas/play/test_delayed_match.js:197:10
+    at test (/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/results/atlas/play/test_delayed_match.js:11:30)
+    at Object.<anonymous> (/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/results/atlas/play/test_delayed_match.js:192:1)
+    at Module._compile (node:internal/modules/cjs/loader:1356:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1414:10)
+    at Module.load (node:internal/modules/cjs/loader:1197:32)
+    at Module._load (node:internal/modules/cjs/loader:1013:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:128:12)
+    at node:internal/main/run_main_module:28:49 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 122,
+  expected: 0,
+  operator: 'strictEqual'
+}
+
+Node.js v18.19.1

@@ -200,7 +200,8 @@ def test_disabled_visibility_adds_no_world_events_or_draws(world_c, state):
     {"visibility_mode": 1, "visibility_low": math.nan}, {"visibility_mode": 1, "visibility_on": math.inf},
 ])
 def test_kernel_rejects_invalid_visibility_vectors_without_python_validation(world_c, changes):
-    world = V4.pack_world(spec.world("catch_speck_flash5_dim25_l4", T=32, t_open=0))
+    # This fixture calls the current C kernel directly, bypassing the caller-ABI padding in build.run.
+    world = build.KERNEL.pack_world(spec.world("catch_speck_flash5_dim25_l4", T=32, t_open=0))
     for key, value in changes.items():
         world[V4.WORLD_INDEX[key]] = value
     assert world_c.vis_world_ok(world.ctypes.data_as(F64P)) == 0

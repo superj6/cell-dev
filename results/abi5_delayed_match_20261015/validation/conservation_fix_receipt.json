@@ -1,0 +1,188 @@
+{
+  "status": "complete",
+  "change": "Enforce per-class task opportunity conservation in C task_close and JS close; Python already enforced it.",
+  "source_sha256": {
+    "src/life/kernel.c": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+    "src/life/spec.py": "8a74b75aa7c06be2f25fd3a012f56fe78c112354bc8311e0075f4db41ee5fbb8",
+    "src/life/reference.py": "aa11783a8956937c8b323b77394e0be9816a9c877f4395db70ab5a3b6f2e732c",
+    "src/life/build.py": "718ab8540c01fe7109f06e009aeb5582907996a3ae69bf5171236f2ceba2202b",
+    "src/life/evaluate.py": "732d3d099b05ed7afb48248bd2f1f404df98a313b053419531e134d21c3334d4",
+    "src/life/readouts.py": "fc4b672ecc20753a41f1807fa756f7ae8db4a5c6c86e6a26bda2d45dde4d31bd",
+    "results/atlas/play/lifesim.js": "817c870eec0ad53e142e1fc83b6d5c95e0040e8e0dc1c68b94af16174f1dc841",
+    "results/atlas/play/test_delayed_match.js": "b1df61b783d8b92f21ad4756e0fc1d997b716898364799cdf8f6cab847e1db14",
+    "results/atlas/play/test_delayed_match_trial64.js": "6b86a0c878294b21177b345d8be7c313f412d797062bca21788f66887a5cac10",
+    "tests/test_abi5_delayed_match.py": "41a06daba224b57b02d23243e422d59169cd7b9f486edc0b087b0265fb7445c0",
+    "tests/test_abi5_kernel_boundaries.py": "0e9019efa5e04da400eb1c7caadbf947a8d0edd20363045d5e6877d89bd48521"
+  },
+  "full_default_suite": "945 passed / 127 deselected BEFORE this defensive C/JS close fix; not rerun after fix.",
+  "post_fix_checks": {
+    "pytest": "85 passed",
+    "js_delayed_match": "23 passed including 8 truth cases",
+    "js_trial64": "passed, zero advanced lives",
+    "lint": "passed"
+  },
+  "unchanged_valid_truth": "All 8 existing fixed cases retain identical ledger, five hashes, raster totals, times and UIDs.",
+  "stages": [
+    {
+      "command": [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-ra",
+        "-p",
+        "backend_counter",
+        "tests/test_abi5_delayed_match.py",
+        "tests/test_abi5_kernel_boundaries.py",
+        "tests/test_abi5_readouts.py"
+      ],
+      "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+      "total_cpu_limit_s": 600,
+      "as_limit_bytes": 8589934592,
+      "tree_rss_limit_bytes": 4294967296,
+      "minimum_host_available_bytes": 4294967296,
+      "host_available_start_bytes": 22175850496,
+      "threads": 1,
+      "omp_thread_limit": 1,
+      "count_scope": "in-process build.run and reference._Life.run invocations; subprocess and raw C life_run calls are not instrumented",
+      "returncode": 0,
+      "elapsed_s": 6.286687380998046,
+      "cpu_s": 6.149576,
+      "cumulative_cpu_s": 6.149576,
+      "peak_tree_rss_bytes": 358780928,
+      "peak_observed_tree_cpu_s": 6.01,
+      "stop_reason": null
+    },
+    {
+      "command": [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+        "../validation/export_truth.py",
+        "--out",
+        "../validation/truth_conservation_fix"
+      ],
+      "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+      "total_cpu_limit_s": 600,
+      "as_limit_bytes": 8589934592,
+      "tree_rss_limit_bytes": 4294967296,
+      "minimum_host_available_bytes": 4294967296,
+      "host_available_start_bytes": 22060060672,
+      "threads": 1,
+      "omp_thread_limit": 1,
+      "count_scope": "in-process build.run and reference._Life.run invocations; subprocess and raw C life_run calls are not instrumented",
+      "returncode": 0,
+      "elapsed_s": 5.024952323001344,
+      "cpu_s": 4.924586,
+      "cumulative_cpu_s": 11.074162,
+      "peak_tree_rss_bytes": 239427584,
+      "peak_observed_tree_cpu_s": 4.76,
+      "stop_reason": null
+    },
+    {
+      "command": [
+        "/usr/bin/node",
+        "--single-threaded",
+        "--single-threaded-gc",
+        "--max-old-space-size=512",
+        "--require",
+        "../validation/count_js_calls.cjs",
+        "results/atlas/play/test_delayed_match.js",
+        "--truth",
+        "../validation/truth_conservation_fix/truth.json"
+      ],
+      "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+      "total_cpu_limit_s": 600,
+      "as_limit_bytes": 8589934592,
+      "tree_rss_limit_bytes": 4294967296,
+      "minimum_host_available_bytes": 4294967296,
+      "host_available_start_bytes": 22085402624,
+      "threads": 1,
+      "omp_thread_limit": 1,
+      "count_scope": "in-process build.run and reference._Life.run invocations; subprocess and raw C life_run calls are not instrumented",
+      "returncode": 0,
+      "elapsed_s": 3.519866793998517,
+      "cpu_s": 3.479951,
+      "cumulative_cpu_s": 14.554113,
+      "peak_tree_rss_bytes": 131637248,
+      "peak_observed_tree_cpu_s": 3.25,
+      "stop_reason": null
+    },
+    {
+      "command": [
+        "/usr/bin/node",
+        "--single-threaded",
+        "--single-threaded-gc",
+        "--max-old-space-size=512",
+        "--require",
+        "../validation/count_js_calls.cjs",
+        "results/atlas/play/test_delayed_match_trial64.js",
+        "../validation/truth_conservation_fix/truth.json"
+      ],
+      "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+      "total_cpu_limit_s": 600,
+      "as_limit_bytes": 8589934592,
+      "tree_rss_limit_bytes": 4294967296,
+      "minimum_host_available_bytes": 4294967296,
+      "host_available_start_bytes": 22112661504,
+      "threads": 1,
+      "omp_thread_limit": 1,
+      "count_scope": "in-process build.run and reference._Life.run invocations; subprocess and raw C life_run calls are not instrumented",
+      "returncode": 0,
+      "elapsed_s": 0.25596332299755886,
+      "cpu_s": 0.0951909999999998,
+      "cumulative_cpu_s": 14.649303999999999,
+      "peak_tree_rss_bytes": 745472,
+      "peak_observed_tree_cpu_s": 0,
+      "stop_reason": null
+    },
+    {
+      "command": [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/ruff",
+        "check",
+        "src",
+        "scripts",
+        "tests"
+      ],
+      "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+      "total_cpu_limit_s": 600,
+      "as_limit_bytes": 8589934592,
+      "tree_rss_limit_bytes": 4294967296,
+      "minimum_host_available_bytes": 4294967296,
+      "host_available_start_bytes": 22113234944,
+      "threads": 1,
+      "omp_thread_limit": 1,
+      "count_scope": "in-process build.run and reference._Life.run invocations; subprocess and raw C life_run calls are not instrumented",
+      "returncode": 0,
+      "elapsed_s": 0.2562172940088203,
+      "cpu_s": 0.0166030000000017,
+      "cumulative_cpu_s": 14.665907,
+      "peak_tree_rss_bytes": 704512,
+      "peak_observed_tree_cpu_s": 0,
+      "stop_reason": null
+    }
+  ],
+  "python_api_calls": {
+    "tests/test_abi5_delayed_match.py": {
+      "c_calls": 3,
+      "c_lives": 6,
+      "reference_calls": 2,
+      "reference_lives": 2
+    },
+    "tests/test_abi5_kernel_boundaries.py": {
+      "reference_calls": 1,
+      "reference_lives": 1,
+      "c_calls": 1,
+      "c_lives": 1
+    }
+  },
+  "exporter_completed_backend_calls": 24,
+  "js_accounting": {
+    "attempts": 77,
+    "constructed": 47,
+    "completed_via_advance": 22,
+    "direct_close_calls": 9
+  },
+  "js_partial_advanced": 1,
+  "total_cpu_seconds": 14.665907,
+  "peak_tree_rss_bytes": 358780928,
+  "prior_evidence": "Preserved without overwrite. Root rebuilt final preview from final JS and fresh truth; initial bytes retained separately. See preview_finalization.json.",
+  "scientific_claim": "Engineering validation only; no information-payoff or evolved matching claim."
+}

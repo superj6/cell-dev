@@ -1,0 +1,56 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> tests/test_abi5_delayed_match.py:2:1
+   |
+ 1 |   """ABI5 Python contract and short parity checks; fixtures are correctness checks, not performance gates."""
+ 2 | / import math
+ 3 | | from dataclasses import replace
+ 4 | |
+ 5 | | import numpy as np
+ 6 | | import pytest
+ 7 | |
+ 8 | | from src.life import analysis, build, reference as ref, spec
+ 9 | | from tests.life_helpers import mismatch
+   | |_______________________________________^
+10 |
+11 |   V5 = spec.V5
+   |
+help: Organize imports
+   |
+7  |
+   - from src.life import analysis, build, reference as ref, spec
+8  + from src.life import analysis, build, spec
+9  + from src.life import reference as ref
+10 | from tests.life_helpers import mismatch
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> tests/test_abi5_kernel_boundaries.py:6:1
+   |
+ 4 |   one C backend call and one observing-reference call, each a 24-unit life with the established seed11.
+ 5 |   """
+ 6 | / import ctypes
+ 7 | | import math
+ 8 | | import os
+ 9 | | import subprocess
+10 | | import tempfile
+11 | | from pathlib import Path
+12 | |
+13 | | import numpy as np
+14 | | import pytest
+15 | |
+16 | | from src.life import build, handbuilt as hb, probe, readouts, spec
+   | |__________________________________________________________________^
+17 |
+18 |   V5 = spec.V5
+   |
+help: Organize imports
+   |
+15 |
+   - from src.life import build, handbuilt as hb, probe, readouts, spec
+16 + from src.life import build, probe, readouts, spec
+17 + from src.life import handbuilt as hb
+18 |
+   |
+
+Found 2 errors.
+[*] 2 fixable with the `--fix` option.

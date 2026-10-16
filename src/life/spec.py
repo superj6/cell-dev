@@ -5,14 +5,15 @@ document; every function here that computes a model quantity (hash draws, knob d
 world's closed forms) uses the same IEEE-754 float64 operations in the same order, so results agree bitwise on the
 same libm.
 
-Three caller ABIs coexist; the C kernel implements ABI 4:
+Four caller ABIs coexist; the C kernel implements ABI 5:
 - ``V2`` is ABI 2 (BELL-1 on 2D lattices).
 - ``V3`` is ABI 3: BELL-1 plus BODY-1 v1 (the CATCH world, 3D prism lattices,
   receptors, plane cues).
 - ``V4`` adds flash and renewal target visibility and a low-light capture readout, with unchanged cell rules.
+- ``V5`` adds delayed cue matching, retaining the same genome, inputs and local cell rules.
 ``CURRENT`` remains the legacy caller default, ABI 2. Every module-level layout name (``GENOME_SIZE``,
-``pack_world``, ``LEDGER``, ...) belongs to that default. New worlds require explicit ``V4``; existing ``V3``
-callers retain their earlier shapes and behavior.
+``pack_world``, ``LEDGER``, ...) belongs to that default. Visibility and delayed matching require explicit ``V4``
+and ``V5`` respectively; existing callers retain their earlier shapes and behavior.
 """
 from __future__ import annotations
 
@@ -53,6 +54,9 @@ STREAMS_V3 = dict(STREAMS_V2, rcand=S_RCAND, racc=S_RACC, turn=S_TURN, head=S_HE
                   pdist=S_PDIST, ppres=S_PPRES)
 S_VISIBILITY = 26
 STREAMS_V4 = dict(STREAMS_V3, visibility=S_VISIBILITY)
+S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE = 27, 28, 29, 30
+STREAMS_V5 = dict(STREAMS_V4, task_class=S_TASK_CLASS, task_duration=S_TASK_DURATION,
+                  task_geometry=S_TASK_GEOMETRY, task_side=S_TASK_SIDE)
 HASH_INIT = 0x243F6A8885A308D3  # initial value of every log-hash family
 
 
@@ -342,6 +346,14 @@ class World:
     visibility_on: float = 0.0  # flash bright duration or mean renewal bright duration
     visibility_off: float = 0.0  # mean renewal low-light duration
     visibility_low: float = 1.0  # target-rate multiplier during low light; background stays unchanged
+    # ---- ABI 5: delayed matching; all state remains external to the cells.
+    task_mode: int = 0  # 0 legacy, 1 delayed matching by cue width
+    sample_min: float = 0.0
+    sample_max: float = 0.0
+    blank_min: float = 0.0
+    blank_max: float = 0.0
+    choice_T: float = 0.0
+    reset_T: float = 0.0
 
 
 _META = ("name", "stage", "implemented", "lattice", "lives")
@@ -349,10 +361,11 @@ ALL_WORLD_KEYS = tuple(f.name for f in fields(World) if f.name not in _META)
 WORLD_KEYS_V3_NEW = ALL_WORLD_KEYS[ALL_WORLD_KEYS.index("world_kind"):ALL_WORLD_KEYS.index("visibility_mode")]
 WORLD_KEYS_V2 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("world_kind")]
 WORLD_KEYS_V3 = WORLD_KEYS_V2 + WORLD_KEYS_V3_NEW
-WORLD_KEYS_V4 = ALL_WORLD_KEYS
+WORLD_KEYS_V4 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("task_mode")]
+WORLD_KEYS_V5 = ALL_WORLD_KEYS
 RESERVED_WORLD_KEYS = ("kill_rate", "wound_rate", "drift_tau")
 INT_WORLD_KEYS = ("n_max", "e_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max", "stuck_z",
-                  "b2_mode", "visibility_mode")
+                  "b2_mode", "visibility_mode", "task_mode")
 # world ranges (LIFE_ABI.md 4.7): time stays resolvable at 2^-21 or finer, and no delay or period is below STEP_MIN
 TIME_MAX = 2.0 ** 30  # bound on T and |t0|
 STEP_MIN = 2.0 ** -10  # smallest d_min and smallest possible tick period
@@ -399,6 +412,12 @@ for _name, _visibility in {
 }.items():
     PRESETS[_name] = replace(PRESETS["catch_speck_l4"], name=_name, stage="visibility-v4", **_visibility)
 
+PRESETS["catch_delayed_match_l4"] = replace(
+    PRESETS["catch_speck_l4"], name="catch_delayed_match_l4", stage="delayed-match-v5", task_mode=1,
+    sample_min=15.0, sample_max=25.0, blank_min=20.0, blank_max=40.0, choice_T=50.0, reset_T=5.0,
+    v_t=0.0, tau_turn=0.0, t_resp=0.0, b2_amp=1.0, b2_p=1.0, b2_mode=0,
+    b2_sigma=1.2, b2_value=-50.0, b2_rho=1.0, R_min=2.0, R_max=4.0)
+
 
 def world(name: str = "bell_v1", **overrides) -> World:
     return replace(PRESETS[name], **overrides)
@@ -430,6 +449,10 @@ LEDGER_V3 = LEDGER_V2 + ("captures", "misses", "clicks", "b2_clicks", "respawns"
 STATUS = dict(extinct=1 << 0, guard_cells=1 << 1, guard_events=1 << 2, raster_overflow=1 << 3,
               fate_overflow=1 << 4, chem_clamp=1 << 5, ledger_mismatch=1 << 6, capacity=1 << 7, wall=1 << 8)
 LEDGER_V4 = LEDGER_V3 + ("low_light_captures",)
+TASK_LEDGER = tuple(f"{metric}_{cls}" for metric in (
+    "choice_opportunities", "choice_carry_in", "correct_choices", "wrong_choices", "choice_timeouts",
+    "unfinished_choices") for cls in ("narrow", "broad"))
+LEDGER_V5 = LEDGER_V4 + TASK_LEDGER
 
 HASHES_V2 = ("all", "spikes", "fate", "chem")
 HASHES_V3 = HASHES_V2 + ("world",)
@@ -455,7 +478,7 @@ class Abi:
     ``pad_program``)."""
 
     def __init__(self, version: int):
-        if version not in (2, 3, 4):
+        if version not in (2, 3, 4, 5):
             raise ValueError(f"unknown ABI {version}")
         v3 = version >= 3
         self.version = version
@@ -478,11 +501,13 @@ class Abi:
         self.FLAGS = FLAGS_V3 if v3 else FLAGS_V2
         self.BASE_ONLY_FLAGS = self.FLAGS["lockstep"] | self.FLAGS["program_mode"] | self.FLAGS["integer_twin"]
         self.UNSUPPORTED_FLAGS = self.FLAGS["integer_twin"]  # reserved (rejected by every ABI so far)
-        self.STREAMS = STREAMS_V4 if version >= 4 else (STREAMS_V3 if v3 else STREAMS_V2)
-        self.WORLD_KEYS = WORLD_KEYS_V4 if version >= 4 else (WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2)
+        self.STREAMS = (STREAMS_V5 if version >= 5 else
+                        STREAMS_V4 if version >= 4 else STREAMS_V3 if v3 else STREAMS_V2)
+        self.WORLD_KEYS = (WORLD_KEYS_V5 if version >= 5 else
+                           WORLD_KEYS_V4 if version >= 4 else WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2)
         self.WORLD_SIZE = len(self.WORLD_KEYS)
         self.WORLD_INDEX = {k: i for i, k in enumerate(self.WORLD_KEYS)}
-        self.LEDGER = LEDGER_V4 if version >= 4 else (LEDGER_V3 if v3 else LEDGER_V2)
+        self.LEDGER = LEDGER_V5 if version >= 5 else LEDGER_V4 if version >= 4 else LEDGER_V3 if v3 else LEDGER_V2
         self.L = {name: i for i, name in enumerate(self.LEDGER)}
         self.LEDGER_SIZE = len(self.LEDGER)
         self.HASHES = HASHES_V3 if v3 else HASHES_V2
@@ -758,8 +783,11 @@ class Abi:
             raise ValueError("|stuck_a| and |stuck_b| must be at most 2^30")
         _validate_body_keys(w)
         _validate_visibility_keys(w)
+        _validate_task_keys(w)
         if v < 4 and w.visibility_mode != 0:
             raise NotImplementedError(f"target visibility needs ABI v4; this is ABI v{v}")
+        if v < 5 and w.task_mode != 0:
+            raise NotImplementedError(f"delayed matching needs ABI v5; this is ABI v{v}")
 
     def pack_world(self, w) -> np.ndarray:
         """World (or a list of worlds, one per life) -> float64 ``[WORLD_SIZE]`` / ``[B, WORLD_SIZE]``."""
@@ -786,7 +814,9 @@ class Abi:
         if self.version >= 3:
             c = c + w.c_miss * led[..., L["misses"]]
             c = c + w.c_rec * led[..., L["rec_gain"]]
-            c = c + b2_cost(w) * led[..., L["b2_clicks"]]
+            wrong = (led[..., L["wrong_choices_narrow"]] + led[..., L["wrong_choices_broad"]]
+                     if w.task_mode else led[..., L["b2_clicks"]])
+            c = c + b2_cost(w) * wrong
         return c
 
     def guard_charge(self, led, w: World | None = None) -> np.ndarray:
@@ -801,8 +831,34 @@ class Abi:
         """F from ledger columns under the costs of ``w`` (re-pricing a finished life with another cost table)."""
         w = w or PRESETS["bell_v1"]
         led = np.asarray(led, dtype=np.float64)
-        net = led[..., self.L["income"]] - self.column_cost(led, w) - self.guard_charge(led, w)
+        income = (w.R_cap * (led[..., self.L["correct_choices_narrow"]] +
+                            led[..., self.L["correct_choices_broad"]])
+                  if w.task_mode else led[..., self.L["income"]])
+        net = income - self.column_cost(led, w) - self.guard_charge(led, w)
         return net / (w.T - w.t_open)
+
+
+def _validate_task_keys(w: World) -> None:
+    """ABI 5 delayed matching; neutral fields preserve all older world semantics."""
+    durations = (w.sample_min, w.sample_max, w.blank_min, w.blank_max, w.choice_T, w.reset_T)
+    if w.task_mode not in (0, 1):
+        raise ValueError("task_mode must be 0 or 1")
+    if w.task_mode == 0:
+        if any(x != 0 for x in durations):
+            raise ValueError("legacy task_mode requires all task durations zero")
+        return
+    if not all(STEP_MIN <= x <= TIME_MAX for x in durations):
+        raise ValueError("task durations must lie in [2^-10, 2^30]")
+    if w.sample_min > w.sample_max or w.blank_min > w.blank_max or w.blank_min <= w.d_min:
+        raise ValueError("task duration ranges must be ordered and blank_min must exceed d_min")
+    if w.world_kind != 1 or w.visibility_mode != 0 or (w.v_t, w.tau_turn, w.t_resp) != (0, 0, 0):
+        raise ValueError("delayed matching requires stationary CATCH with neutral visibility and no renewal")
+    if (w.b2_amp, w.b2_p, w.b2_mode) != (1, 1, 0):
+        raise ValueError("delayed matching requires b2_amp=b2_p=1 and b2_mode=0")
+    if not w.sigma < w.b2_sigma or w.rho_c != w.b2_rho or 2 * w.R_min <= w.rho_c + w.b2_rho:
+        raise ValueError("delayed matching requires ordered distinct widths, equal radii and disjoint choices")
+    if w.b2_value >= 0:
+        raise ValueError("delayed matching requires negative b2_value for the wrong-choice charge")
 
 
 def _validate_visibility_keys(w: World) -> None:
@@ -874,10 +930,11 @@ def halo(dx: float, dy: float, sigma: float) -> float:
     return math.exp(-(dx * dx + dy * dy) / (2.0 * sigma * sigma))
 
 
-def receptor_rate(w: World, px: float, py: float, blob0: tuple, blob1: tuple | None = None) -> float:
-    """True receptor rate at world point (px, py): lam_bg + lam_s I0 (+ lam_s (b2_amp I1) if the second blob is
-    present; pass its centre as ``blob1``, else None)."""
-    rate = w.lam_bg + w.lam_s * halo(px - blob0[0], py - blob0[1], w.sigma)
+def receptor_rate(w: World, px: float, py: float, blob0: tuple | None, blob1: tuple | None = None) -> float:
+    """True receptor rate at world point (px, py), with ``None`` for either absent blob.
+    A delayed-match caller supplies the active scene for the current phase; this helper has no phase state."""
+    signal = w.lam_s * halo(px - blob0[0], py - blob0[1], w.sigma) if blob0 is not None else 0.0
+    rate = w.lam_bg + signal
     if blob1 is not None:
         rate = rate + w.lam_s * (w.b2_amp * halo(px - blob1[0], py - blob1[1], w.b2_sigma))
     return rate
@@ -1017,7 +1074,8 @@ def key_step(armed: bool, zt: float, zn: float, th_click: float, th_rel: float) 
 V2 = Abi(2)
 V3 = Abi(3)
 V4 = Abi(4)
-CURRENT = V2  # legacy caller default; explicit V3 and V4 contracts remain available
+V5 = Abi(5)
+CURRENT = V2  # legacy caller default; explicit newer contracts remain available
 
 ABI_VERSION = CURRENT.version
 S, P, NIN = CURRENT.S, CURRENT.P, CURRENT.NIN

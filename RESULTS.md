@@ -3859,3 +3859,26 @@ cases. Perfect retention, price tuning and a complete circuit account are not pr
 Report and evidence: `results/retained_depth_20261015/REPORT.md`; viewer: `results/atlas/retained_depth.html`.
 Working archive: `outputs/autonomous_retained_depth_20261015/`. Protocol2cfc3ac9…e6d68d;
 summary73282b17…cf895; native auditb4697b95…4a8e; independent raw auditd148ad5e…c4d6e.
+
+
+## 2026-10-15 — ABI5 integrated: delayed shape matching, with unchanged cell rules
+
+The authorized extension adds sample→blank→choice trials: narrow/broad cues disappear before fresh opposed
+choices appear, and the first hit pays according to the earlier sample. No cell-visible phase, class, reward,
+shared clock, genome field or message is added. Explicit ABI5 appends seven world fields and twelve
+class-specific choice counters; legacy caller defaults and shapes remain unchanged. Conditional scoring uses
+correctness independently of physical slot, and all ports enforce per-class opportunity conservation.
+
+The default regression suite passes **945 tests, 127 slow deselected**, including byte-identical three-plus-resume-
+three versus six-generation ABI5 evolution. That run used140.40CPU seconds and peaked at593MiB. An independent
+review then found missing defensive count reconciliation in C/JS; after fixing it,85affected tests, eight fresh-
+directory C-full/C-fast/Python truth cases and JS full/stepped parity all pass. Prior valid truth outputs remain
+identical. Legacy/visibility JS checks,64-bit trial hashing, viewer DOM smoke, lint and whitespace checks pass.
+The full suite predates the defensive fix; final targeted checks bind exact source hashes. Original fixture,
+lint and instrumentation failures are retained. No real-browser validation is claimed.
+
+This is engineering evidence, not a new evolved algorithm or world admission. The fixed preview uses an existing
+reflex fixture without choosing a favorable body or seed. Next prepare a bounded six-genome development baseline
+and sensory-information instrument, keeping short-episode evidence distinct from repeated-task admission,
+retaining old-task checks and reserving separate transfer cases. No delayed-matching selection has run.
+Evidence: `results/abi5_delayed_match_20261015/README.md`.

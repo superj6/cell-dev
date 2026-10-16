@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-ra",
+    "-p",
+    "backend_counter"
+  ],
+  "cwd": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+  "total_cpu_limit_s": 600,
+  "as_limit_bytes": 8589934592,
+  "tree_rss_limit_bytes": 4294967296,
+  "minimum_host_available_bytes": 4294967296,
+  "host_available_start_bytes": 20541272064,
+  "threads": 1,
+  "omp_thread_limit": 1,
+  "count_scope": "in-process build.run and reference._Life.run invocations; subprocess and raw C life_run calls are not instrumented"
+}

@@ -212,15 +212,16 @@ PROTOTYPE_PRICES = dict(c_rec=0.0, c_miss=1.0)  # the CATCH prototypes' price li
 
 
 def catch_F(ledger, w: spec.World | None = None, **costs) -> np.ndarray:
-    """F of CATCH lives (ABI-3 ledger rows), re-priced with ``costs`` overriding the world's cost table when given
-    (``spec.V3.fitness``); ``catch_F(led, w, **PROTOTYPE_PRICES)`` is the prototypes' price list (no receptor
+    """F of CATCH lives, re-priced with ``costs`` overriding the world's cost table when given.
+    ``catch_F(led, w, **PROTOTYPE_PRICES)`` is the prototypes' price list (no receptor
     charge, and the proposal's c_miss 1 before the c_miss-2 tweak, LIFE_ABI.md 15.60). Prices never change a life,
     only its bill, so a re-priced F is exact."""
     led = np.atleast_2d(np.asarray(ledger, dtype=np.float64))
     if not costs:
         return led[:, spec.V3.L["F"]].copy()
     w = w or spec.world("catch_v1")
-    return spec.V3.fitness(led, replace(w, **costs))
+    abi = spec.V5 if w.task_mode else spec.V3
+    return abi.fitness(led, replace(w, **costs))
 
 
 def catch_point(ledger, w: spec.World | None = None) -> dict:

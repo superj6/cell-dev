@@ -1,7 +1,8 @@
-Status: authorized, implementation in progress in an isolated checkout. On 2026-10-15, the user replied to
-this concrete proposal: "you don't need my permission for these things". Bounded environment/ABI extensions
-of this kind are covered by their autonomy instruction; do not request the same approval again. AO retains
-its unchanged protocol and pinned production sources until completion.
+Status: implemented and integrated after isolated C/Python/JavaScript validation. On 2026-10-15, the user
+replied to this concrete proposal: "you don't need my permission for these things". Bounded environment/ABI
+extensions of this kind are covered by their autonomy instruction. Engineering evidence is in
+`results/abi5_delayed_match_20261015/`; AO's original source pins and results are archived unchanged.
+Information-payoff measurement and evolution are separate next steps; no matching behavior is claimed.
 
 I recommend **delayed matching by cue shape** as the next environment. The organism sees a narrow or broad
 glow, the glow disappears, and later two choices appear. Choosing the shape seen earlier pays. The same current

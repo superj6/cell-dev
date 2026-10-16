@@ -1,0 +1,134 @@
+{
+  "purpose": "engineering parity only; no behavioral admission claim",
+  "worktree": "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree",
+  "cases": [
+    {
+      "name": "reflex_preset_0",
+      "body": 6,
+      "seed": 42000000,
+      "world": {
+        "T": 96.0
+      }
+    },
+    {
+      "name": "reflex_preset_1",
+      "body": 6,
+      "seed": 42000001,
+      "world": {
+        "T": 96.0
+      }
+    },
+    {
+      "name": "grn_fixed",
+      "body": 0,
+      "seed": 42000002,
+      "world": {
+        "T": 128.0,
+        "sample_min": 15.0,
+        "sample_max": 15.0,
+        "blank_min": 25.0,
+        "blank_max": 25.0,
+        "choice_T": 50.0,
+        "reset_T": 5.0
+      }
+    },
+    {
+      "name": "grn_shifted_carry",
+      "body": 0,
+      "seed": 42000003,
+      "world": {
+        "T": 128.0,
+        "t0": 32.0,
+        "t_open": 45.0,
+        "sample_min": 15.0,
+        "sample_max": 15.0,
+        "blank_min": 25.0,
+        "blank_max": 25.0,
+        "choice_T": 50.0,
+        "reset_T": 5.0
+      }
+    },
+    {
+      "name": "reflex_shifted_open",
+      "body": 6,
+      "seed": 42000004,
+      "world": {
+        "T": 96.0,
+        "t0": -32.0,
+        "t_open": 40.0,
+        "sample_min": 15.0,
+        "sample_max": 15.0,
+        "blank_min": 25.0,
+        "blank_max": 25.0,
+        "choice_T": 50.0,
+        "reset_T": 5.0
+      }
+    },
+    {
+      "name": "reflex_deadline_at_end",
+      "body": 6,
+      "seed": 42000005,
+      "add_flags": [
+        "motor_off"
+      ],
+      "world": {
+        "T": 96.0,
+        "sample_min": 15.0,
+        "sample_max": 15.0,
+        "blank_min": 25.0,
+        "blank_max": 25.0,
+        "choice_T": 56.0,
+        "reset_T": 5.0
+      }
+    },
+    {
+      "name": "reflex_extinct_world_continues",
+      "body": 6,
+      "seed": 42000006,
+      "world": {
+        "T": 96.0,
+        "kill_t": 1.0,
+        "kill_frac": 1.0,
+        "sample_min": 15.0,
+        "sample_max": 15.0,
+        "blank_min": 25.0,
+        "blank_max": 25.0,
+        "choice_T": 50.0,
+        "reset_T": 5.0
+      }
+    },
+    {
+      "name": "grn_guard_before_window",
+      "body": 0,
+      "seed": 42000007,
+      "world": {
+        "T": 96.0,
+        "t_open": 45.0,
+        "n_max": 1,
+        "sample_min": 15.0,
+        "sample_max": 15.0,
+        "blank_min": 25.0,
+        "blank_max": 25.0,
+        "choice_T": 50.0,
+        "reset_T": 5.0
+      }
+    }
+  ],
+  "threads": 1,
+  "raster_cap": 65536,
+  "fate_cap": 4096,
+  "cpu_seconds_limit": 300,
+  "address_space_bytes_limit": 2147483648,
+  "planned_calls": {
+    "C_full": 8,
+    "C_fast": 8,
+    "Python": 8,
+    "JS_truth_full": 8,
+    "JS_truth_stepped": 8
+  },
+  "exporter_lives": 24,
+  "planned_cross_backend_truth_lives": 40,
+  "js_boundary_suite": "Additional default suite in test_delayed_match.js reports its construction and run counts",
+  "fast_hash_policy": "Assert HASH_INIT constants; never use fast hashes as replay evidence",
+  "legacy_policy": "Existing ABI2/3/4 byte fixtures run separately without regeneration"
+}

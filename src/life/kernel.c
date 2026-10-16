@@ -1,4 +1,4 @@
-// One-life event kernel, ABI v4. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
+// One-life event kernel, ABI v5. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
 //
 // One continuous, clockless life per genome (GRN mode) or phenotype program (program mode) on a sparse, unbounded
 // lattice fabric (or a dense disk): 2D lattices, or prisms of stacked planes z = 0 .. L_max - 1 (4.3). Sites process
@@ -16,15 +16,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ABI_VERSION 4
+#define ABI_VERSION 5
 #define NG 16          // gene slots
 #define NIN 25         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, rho/tau_tr, is_S, is_M
 #define NK 23          // phenotype knobs
 #define DMAX 10        // largest lattice degree (square8prism)
 #define GENOME_SIZE 875
 #define PROGRAM_SIZE 129
-#define WORLD_SIZE 70
-#define LEDGER_SIZE 58
+#define WORLD_SIZE 77
+#define LEDGER_SIZE 70
 #define HASH_SIZE 5
 #define MAX_INIT 1024
 #define FATE_I 7
@@ -59,7 +59,8 @@ enum { W_T, W_T0, W_TOPEN, W_TFORK, W_FLAGS, W_FORKFLAGS, W_DMIN, W_D0, W_DELAYS
        W_STUCKB, W_KILLRATE, W_WOUNDRATE, W_DRIFTTAU,
        W_WORLDKIND, W_LMAX, W_STUCKZ, W_SIGMA, W_LAMS, W_LAMBG, W_GN, W_DRAGEXP, W_THCLICK, W_THREL, W_RHOC, W_VT,
        W_TAUTURN, W_RMIN, W_RMAX, W_TRESP, W_RCAP, W_CMISS, W_CREC, W_B2AMP, W_B2SIGMA, W_B2VALUE, W_B2RHO, W_B2P,
-       W_B2MODE, W_VISMODE, W_VISON, W_VISOFF, W_VISLOW };
+       W_B2MODE, W_VISMODE, W_VISON, W_VISOFF, W_VISLOW,
+       W_TASKMODE, W_SAMPLEMIN, W_SAMPLEMAX, W_BLANKMIN, W_BLANKMAX, W_CHOICET, W_RESETT };
 // ledger columns (4.9)
 enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIRTHS, L_REJECTS, L_REJWALL, L_DEATHS,
        L_KILLS, L_COST, L_GUARD, L_NET, L_F, L_NEND, L_NPEAK, L_TEND, L_STATUS, L_EVENTS, L_BEATS, L_PINT,
@@ -67,7 +68,9 @@ enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIR
        L_TICKS, L_TEXT,
        L_CAPTURES, L_MISSES, L_CLICKS, L_B2CLICKS, L_RESPAWNS, L_NUDGES, L_RECCAND, L_RECACCEPT, L_RECEVENTS,
        L_RECGAIN, L_SAMPLES, L_DISTSUM, L_ZONE, L_PATH, L_XEND, L_YEND, L_NSEND, L_NMEND, L_NHEND, L_LIVES, L_LIVEM,
-       L_LIVEH, L_LOWCAPTURES };
+       L_LIVEH, L_LOWCAPTURES,
+       L_CHOICEOPEN_N, L_CHOICEOPEN_B, L_CARRY_N, L_CARRY_B, L_CORRECT_N, L_CORRECT_B,
+       L_WRONG_N, L_WRONG_B, L_TIMEOUT_N, L_TIMEOUT_B, L_UNFINISHED_N, L_UNFINISHED_B };
 // flags (12)
 enum { F_CONTACTS_OFF = 1 << 0, F_CHEM_OFF = 1 << 1, F_APOPTOSIS_OFF = 1 << 2, F_DIVISION_OFF = 1 << 3,
        F_FREEZE = 1 << 4, F_GENES_BLIND = 1 << 5, F_IDENTITY_CLAMP = 1 << 6, F_PHENO_FIXED = 1 << 7,
@@ -80,7 +83,8 @@ enum { ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 
        ST_CHEM_CLAMP = 32, ST_MISMATCH = 64, ST_CAPACITY = 128, ST_WALL = 256 };
 // draw streams (3)
 enum { S_ZYG = 1, S_UID, S_TAU, S_CLK, S_PHASE, S_DC, S_JIT, S_DROP, S_TICK, S_DIE, S_DIV, S_PLACE, S_NOISE, S_NSIGN,
-       S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES, S_VISIBILITY };
+       S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES, S_VISIBILITY,
+       S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE };
 // event groups and kinds (6.1)
 enum { G_CLAIM, G_NOTICE, G_PACKET, G_MEMB, G_TICK, G_EXO };
 enum { N_BORN, N_PRESENT, N_ACK, N_REJECT, N_DIED };
@@ -93,6 +97,8 @@ enum { H_ALL, H_SPIKES, H_FATE, H_CHEM, H_WORLD };
 // world kinds (4.7) and the CATCH world's world events (9.7.3) and click outcomes (9.7.4)
 enum { WK_BELL, WK_CATCH };
 enum { PL_START, PL_CLICK, PL_TIMER, PL_WITH };
+enum { TASK_SAMPLE, TASK_BLANK, TASK_CHOICE, TASK_GAP };
+enum { TC_OPEN, TC_CARRY, TC_CORRECT, TC_WRONG, TC_TIMEOUT, TC_UNFINISHED, TC_COUNT };
 // internal failures (the life is invalid: capacity bit)
 enum { FAIL_ALLOC = 1, FAIL_LIMIT = 2, FAIL_CAUSAL = 4 };
 
@@ -259,6 +265,11 @@ typedef struct {
   double visibility_on, visibility_off, visibility_low, visibility_next;
   uint64_t visibility_k;
   int64_t low_light_captures;
+  // ABI 5 delayed matching is world state, never a new cell input or shared cell update.
+  int task_mode, task_phase, task_class, task_consumed, task_defer_gap;
+  uint64_t task_trial;
+  double sample_min, sample_max, blank_min, blank_max, choice_T, reset_T, task_next, task_choice_start;
+  int64_t task_counts[TC_COUNT][2];
   int64_t cap_cells;
   // fabric
   Site *sites; int64_t n_sites, cap_sites;
@@ -1378,7 +1389,104 @@ static void world_visibility(Ctx *c) {
   const uint64_t w[4] = {14, dbits(t), 0, (uint64_t)c->bright};
   fold(c, H_WORLD, w, 4); fold(c, H_ALL, w, 4);
 }
+
+static void task_enter(Ctx *c, double t, int phase) {
+  c->task_phase = phase; c->task_consumed = 0; c->task_defer_gap = 0;
+  for (int b = 0; b < 2; b++) {
+    Blob *B = &c->blob[b];
+    B->exists = 1; B->present = 0;
+    B->t = t; B->x = B->y = B->vx = B->vy = 0.0;
+    B->r = B->tau = INFINITY;
+  }
+  if (phase == TASK_SAMPLE) {
+    c->task_class = draw2(c->seed, S_TASK_CLASS, c->task_trial, 0) < 0.5 ? 0 : 1;
+    Blob *B = &c->blob[c->task_class];
+    dot_at(c, t, &B->x, &B->y); B->present = 1;
+    const double duration = c->sample_min + (c->sample_max - c->sample_min) *
+                            draw2(c->seed, S_TASK_DURATION, c->task_trial, 0);
+    c->task_next = t + duration;
+  } else if (phase == TASK_BLANK) {
+    const double duration = c->blank_min + (c->blank_max - c->blank_min) *
+                            draw2(c->seed, S_TASK_DURATION, c->task_trial, 1);
+    c->task_next = t + duration;
+  } else if (phase == TASK_CHOICE) {
+    double X, Y;
+    dot_at(c, t, &X, &Y);
+    const double theta = TWO_PI * draw2(c->seed, S_TASK_GEOMETRY, c->task_trial, 0);
+    const double radius = c->R_min + (c->R_max - c->R_min) *
+                          draw2(c->seed, S_TASK_GEOMETRY, c->task_trial, 1);
+    const double dx = radius * cos(theta), dy = radius * sin(theta);
+    const int positive = draw2(c->seed, S_TASK_SIDE, c->task_trial, 0) < 0.5;
+    Blob *P = &c->blob[positive ? 0 : 1], *N = &c->blob[positive ? 1 : 0];
+    P->x = X + dx; P->y = Y + dy; N->x = X - dx; N->y = Y - dy;
+    P->present = N->present = 1;
+    c->task_choice_start = t;
+    if (t >= c->t_open_abs) c->task_counts[TC_OPEN][c->task_class]++;
+    c->task_next = t + c->choice_T;
+  } else {
+    c->task_next = t + c->reset_T;
+  }
+  const uint64_t w[9] = {15, dbits(t), c->task_trial, (uint64_t)phase, (uint64_t)c->task_class,
+                         dbits(c->blob[0].x), dbits(c->blob[0].y), dbits(c->blob[1].x), dbits(c->blob[1].y)};
+  fold(c, H_WORLD, w, 9); fold(c, H_ALL, w, 9);
+}
+
+static void task_resolve(Ctx *c, double t, int outcome, int slot) {
+  // outcome: 0 timeout, 1 correct, 2 wrong. Slot 2 denotes timeout.
+  // Carry-in is counted lazily, once, when an eligible pre-window choice resolves or closes unfinished.
+  if (t >= c->t_open_abs) {
+    const int cls = c->task_class;
+    if (c->task_choice_start < c->t_open_abs) c->task_counts[TC_CARRY][cls]++;
+    if (outcome == 0) c->task_counts[TC_TIMEOUT][cls]++;
+    else if (outcome == 1) {
+      c->task_counts[TC_CORRECT][cls]++;
+      c->income = c->income + c->R_cap;
+    } else {
+      c->task_counts[TC_WRONG][cls]++;
+      c->cost = c->cost + c->c_b2;
+    }
+  }
+  c->task_consumed = 1;
+  c->task_next = INFINITY;  // cancel a timeout even when the click shares its exact deadline
+  const uint64_t w[6] = {16, dbits(t), c->task_trial, (uint64_t)c->task_class,
+                         (uint64_t)outcome, (uint64_t)slot};
+  fold(c, H_WORLD, w, 6); fold(c, H_ALL, w, 6);
+}
+
+static void task_transition(Ctx *c) {
+  const double t = c->task_next;
+  if (c->task_phase == TASK_SAMPLE) task_enter(c, t, TASK_BLANK);
+  else if (c->task_phase == TASK_BLANK) task_enter(c, t, TASK_CHOICE);
+  else if (c->task_phase == TASK_CHOICE) {
+    task_resolve(c, t, 0, 2);
+    task_enter(c, t, TASK_GAP);
+  } else {
+    c->task_trial++;
+    task_enter(c, t, TASK_SAMPLE);
+  }
+}
+
+static void task_close(Ctx *c, double t) {
+  if (t > c->t_open_abs && c->task_phase == TASK_CHOICE && !c->task_consumed) {
+    const int cls = c->task_class;
+    if (c->task_choice_start < c->t_open_abs) c->task_counts[TC_CARRY][cls]++;
+    c->task_counts[TC_UNFINISHED][cls]++;
+  }
+  for (int cls = 0; cls < 2; cls++) {
+    const int64_t opened = c->task_counts[TC_OPEN][cls] + c->task_counts[TC_CARRY][cls];
+    const int64_t resolved = c->task_counts[TC_CORRECT][cls] + c->task_counts[TC_WRONG][cls] +
+                             c->task_counts[TC_TIMEOUT][cls] + c->task_counts[TC_UNFINISHED][cls];
+    if (opened != resolved) c->status |= ST_MISMATCH;
+  }
+  const uint64_t w[5] = {17, dbits(t), c->task_trial, (uint64_t)c->task_phase, (uint64_t)c->task_class};
+  fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
+}
+
 static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then visibility; blob breaks earlier ties
+  if (c->task_mode) {
+    while (c->task_next < t) task_transition(c);
+    return;
+  }
   for (;;) {
     double best = INFINITY;
     int kind = -1, bb = -1;
@@ -1397,10 +1505,18 @@ static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then
 }
 static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the left limit; measurement only
   world_to(c, cs);
+  if (c->task_mode && c->task_phase != TASK_CHOICE) { c->next_sample = cs + 1.0; return; }
   double X, Y, x0, y0;
   dot_at(c, cs, &X, &Y);
   blob_at(&c->blob[0], cs, &x0, &y0);
-  const double ex = X - x0, ey = Y - y0, q = ex * ex + ey * ey;
+  const double ex = X - x0, ey = Y - y0;
+  double q = ex * ex + ey * ey;
+  if (c->task_mode) {
+    double x1, y1;
+    blob_at(&c->blob[1], cs, &x1, &y1);
+    const double fx = X - x1, fy = Y - y1, q1 = fx * fx + fy * fy;
+    if (q1 < q) q = q1;
+  }
   if (cs >= c->t_open_abs) {
     c->samples++;
     c->dist_sum = c->dist_sum + sqrt(q);
@@ -1411,6 +1527,12 @@ static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the
 static void catch_start(Ctx *c) {  // 9.7.1, before the first time group
   c->X = c->Y = c->Fx = c->Fy = 0.0; c->t_x = c->t0; c->n_foot = 0; c->n_fill = 0; c->n_col = 0; c->armed = 1; c->gam = 1.0;
   c->bright = 1; c->visibility_k = 0; c->visibility_next = INFINITY;
+  if (c->task_mode) {
+    c->task_trial = 0;
+    task_enter(c, c->t0, TASK_SAMPLE);
+    c->next_sample = c->t0 + 1.0;
+    return;
+  }
   c->blob[0].exists = 1; c->blob[0].present = 1;
   c->blob[1].exists = c->b2_amp > 0.0; c->blob[1].present = 0;
   for (int b = 0; b < 2; b++) {
@@ -1447,6 +1569,32 @@ static void catch_click(Ctx *c, double t) {  // 9.7.4: the screen registers a pr
   const int cnt = t >= c->t_open_abs;
   uint64_t outcome = 0;
   if (cnt) c->clicks++;
+  if (c->task_mode) {
+    int slot = -1;
+    if (c->task_phase == TASK_CHOICE && !c->task_consumed) {
+      if (d0 <= c->rho_c * c->rho_c) slot = 0;
+      else {
+        double x1, y1;
+        blob_at(&c->blob[1], t, &x1, &y1);
+        const double fx = X - x1, fy = Y - y1;
+        if (fx * fx + fy * fy <= c->b2_rho * c->b2_rho) slot = 1;
+      }
+    }
+    if (slot >= 0) {
+      outcome = (uint64_t)slot + 1;
+      if (cnt) {
+        if (slot == 0) c->captures++;
+        else c->b2_clicks++;
+      }
+      task_resolve(c, t, slot == c->task_class ? 1 : 2, slot);
+      c->task_defer_gap = 1;
+    } else if (cnt) {
+      c->misses++; c->cost = c->cost + c->c_miss;
+    }
+    const uint64_t w[5] = {11, dbits(t), outcome, dbits(X), dbits(Y)};
+    fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
+    return;
+  }
   if (d0 <= c->rho_c * c->rho_c) {  // capture: the target is re-placed after every record of the group
     outcome = 1;
     if (cnt) {
@@ -1634,7 +1782,8 @@ static void catch_candidate(Ctx *c, const Rec *r, int cnt) {  // 9.7.5: thinning
   planar(c, s->a, s->b, &ox, &oy);
   const double px = X + ox, py = Y + oy;
   blob_at(&c->blob[0], t, &x0, &y0);
-  double rate = c->lam_bg + c->lam_s * halo(px - x0, py - y0, c->sigma);
+  double rate = c->task_mode && !c->blob[0].present ? c->lam_bg :
+                c->lam_bg + c->lam_s * halo(px - x0, py - y0, c->sigma);
   if (c->visibility_mode != 0 && !c->bright)
     rate = c->lam_bg + c->visibility_low * (c->lam_s * halo(px - x0, py - y0, c->sigma));
   if (c->blob[1].exists && c->blob[1].present) {
@@ -1826,6 +1975,7 @@ static void group_end(Ctx *c, double t) {
     c->n_dO = 0;
     for (int i = 0; i < c->n_dP; i++) place(c, c->dP[2 * i], c->dP[2 * i + 1], t);
     c->n_dP = 0;
+    if (c->task_mode && c->task_defer_gap) task_enter(c, t, TASK_GAP);
   }
   if (c->n > c->n_peak) c->n_peak = c->n;
   if (!c->extinct && c->n == 0 && c->inflight == 0) { c->extinct = 1; c->t_ext = t; c->status |= ST_EXTINCT; }
@@ -1874,6 +2024,7 @@ static void close_life(Ctx *c, double *L) {  // 9.5
     while (c->next_sample < te) catch_sample(c, c->next_sample);
     world_to(c, te);
     dot_adv(c, te);
+    if (c->task_mode) task_close(c, te);
   } else {
     world_adv(c, te);
   }
@@ -1919,7 +2070,9 @@ static void close_life(Ctx *c, double *L) {  // 9.5
   col = col + c->c_sec * c->sec_int;
   col = col + c->c_miss * (double)c->misses;  // the CATCH charges: +0.0 each in a BELL life
   col = col + c->c_rec * c->rec_gain;
-  col = col + c->c_b2 * (double)c->b2_clicks;
+  if (c->task_mode)
+    col = col + c->c_b2 * (double)(c->task_counts[TC_WRONG][0] + c->task_counts[TC_WRONG][1]);
+  else col = col + c->c_b2 * (double)c->b2_clicks;
   const double net = c->income - col - guard;
   const double ac = fabs(col);
   if (fabs(c->cost - col) > 1e-9 * (ac < 1.0 ? 1.0 : ac)) c->status |= ST_MISMATCH;
@@ -1945,6 +2098,8 @@ static void close_life(Ctx *c, double *L) {  // 9.5
   L[L_NHEND] = (double)c->n_plane[2]; L[L_LIVES] = c->live_plane[0]; L[L_LIVEM] = c->live_plane[1];
   L[L_LIVEH] = c->live_plane[2];
   L[L_LOWCAPTURES] = (double)c->low_light_captures;
+  for (int k = 0; k < TC_COUNT; k++)
+    for (int cls = 0; cls < 2; cls++) L[L_CHOICEOPEN_N + 2 * k + cls] = (double)c->task_counts[k][cls];
   for (int i = 0; i < LEDGER_SIZE; i++) { uint64_t wv = dbits(L[i]); fold(c, H_ALL, &wv, 1); }
 }
 
@@ -2057,9 +2212,9 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
   if (w[W_KILLRATE] != 0.0 || w[W_WOUNDRATE] != 0.0 || w[W_DRIFTTAU] != 0.0) return 0;
   if (!(w[W_T] > 0.0) || !is_int(w[W_T]) || !is_int(w[W_T0])) return 0;
   if (w[W_T] > TIME_MAX || fabs(w[W_T0]) > TIME_MAX) return 0;
-  const int ints[11] = {W_NMAX, W_EMAX, W_FABRICR, W_ORACLE, W_STUCKA, W_STUCKB, W_WORLDKIND, W_LMAX, W_STUCKZ,
-                        W_B2MODE, W_VISMODE};
-  for (int i = 0; i < 11; i++) if (!is_int(w[ints[i]])) return 0;
+  const int ints[12] = {W_NMAX, W_EMAX, W_FABRICR, W_ORACLE, W_STUCKA, W_STUCKB, W_WORLDKIND, W_LMAX, W_STUCKZ,
+                        W_B2MODE, W_VISMODE, W_TASKMODE};
+  for (int i = 0; i < 12; i++) if (!is_int(w[ints[i]])) return 0;
   if (!(w[W_TOPEN] >= 0.0 && w[W_TOPEN] < w[W_T])) return 0;
   for (int i = W_FLAGS; i <= W_FORKFLAGS; i++) {
     if (!is_int(w[i]) || w[i] < 0.0 || w[i] > (double)F_ALL) return 0;
@@ -2115,6 +2270,20 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
       if (w[W_VISOFF] != 0.0) return 0;
     } else if (!(w[W_VISOFF] >= STEP_MIN && w[W_VISOFF] <= TIME_MAX)) return 0;
   }
+  // ABI 5: the first delayed-match mode has a small, explicit stationary-world contract.
+  if (w[W_TASKMODE] == 0.0) {
+    for (int i = W_SAMPLEMIN; i <= W_RESETT; i++) if (w[i] != 0.0) return 0;
+  } else if (w[W_TASKMODE] == 1.0) {
+    for (int i = W_SAMPLEMIN; i <= W_RESETT; i++)
+      if (!(w[i] >= STEP_MIN && w[i] <= TIME_MAX)) return 0;
+    if (!(w[W_SAMPLEMIN] <= w[W_SAMPLEMAX] && w[W_BLANKMIN] <= w[W_BLANKMAX] &&
+          w[W_BLANKMIN] > w[W_DMIN])) return 0;
+    if (w[W_WORLDKIND] != WK_CATCH || w[W_VISMODE] != 0.0 ||
+        w[W_VT] != 0.0 || w[W_TAUTURN] != 0.0 || w[W_TRESP] != 0.0) return 0;
+    if (w[W_B2AMP] != 1.0 || w[W_B2P] != 1.0 || w[W_B2MODE] != 0.0) return 0;
+    if (!(w[W_SIGMA] < w[W_B2SIGMA] && w[W_RHOC] == w[W_B2RHO] &&
+          2.0 * w[W_RMIN] > w[W_RHOC] + w[W_B2RHO] && w[W_B2VALUE] < 0.0)) return 0;
+  } else return 0;
   return 1;
 }
 
@@ -2174,6 +2343,9 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
   c->b2_mode = (int)w[W_B2MODE];
   c->visibility_mode = (int)w[W_VISMODE]; c->visibility_on = w[W_VISON];
   c->visibility_off = w[W_VISOFF]; c->visibility_low = w[W_VISLOW];
+  c->task_mode = (int)w[W_TASKMODE]; c->sample_min = w[W_SAMPLEMIN]; c->sample_max = w[W_SAMPLEMAX];
+  c->blank_min = w[W_BLANKMIN]; c->blank_max = w[W_BLANKMAX];
+  c->choice_T = w[W_CHOICET]; c->reset_T = w[W_RESETT]; c->task_next = INFINITY;
   c->lam_max = c->lam_bg + c->lam_s * (1.0 + c->b2_amp);
   c->c_b2 = c->b2_value < 0.0 ? -c->b2_value : 0.0;
   c->seed = seeds[0]; c->tie_seed = seeds[1]; c->order_seed = seeds[2]; c->salt = seeds[3];
