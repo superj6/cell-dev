@@ -1,0 +1,18 @@
+{
+  "pid": 3,
+  "argv": [
+    "/home/jgon/project/ml/cell-dev/.venv/lib/python3.12/site-packages/pytest/__main__.py",
+    "-q",
+    "tests/test_life_spec_abi6.py",
+    "tests/test_abi6_boundaries.py",
+    "tests/test_abi6_kernel_reference.py",
+    "tests/test_abi6_legacy.py"
+  ],
+  "counts": {
+    "C_full_calls": 24,
+    "C_full_lives": 24,
+    "Python_lives": 7,
+    "C_fast_calls": 19,
+    "C_fast_lives": 19
+  }
+}

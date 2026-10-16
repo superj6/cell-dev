@@ -114,16 +114,17 @@ class LifeEvaluator:
     """Runs genomes of a ``LifeLayout`` in the worlds built from the config (sections life, world, costs_life,
     envelope): BELL-1, or CATCH with an ABI-3 layout. Call it as ``ev(params, draw)``; ``draw(purpose, index)`` makes
     the lives. ``abi`` defaults to the layout's ABI; ``life.abi=4`` enables visibility and ``life.abi=5`` enables
-    delayed matching with the unchanged BODY-1 genome layout. ``catch`` says whether the world is CATCH."""
+    delayed matching. ``life.abi=6`` enables resource patches with the unchanged BODY-1 genome layout.
+    ``catch`` says whether the world is CATCH."""
 
     def __init__(self, cfg, layout):
         self.cfg, self.layout = cfg, layout
         self.abi = getattr(layout, "abi", None) or spec.CURRENT
         lc = cfg.life
         requested_abi = lc.get("abi", self.abi.version)
-        if requested_abi not in (2, 3, 4, 5):
-            raise ValueError("life.abi must be 2, 3, 4 or 5")
-        selected_abi = {2: spec.V2, 3: spec.V3, 4: spec.V4, 5: spec.V5}[int(requested_abi)]
+        if requested_abi not in (2, 3, 4, 5, 6):
+            raise ValueError("life.abi must be 2, 3, 4, 5 or 6")
+        selected_abi = {2: spec.V2, 3: spec.V3, 4: spec.V4, 5: spec.V5, 6: spec.V6}[int(requested_abi)]
         if selected_abi.GENOME_FIELDS != self.abi.GENOME_FIELDS:
             raise ValueError("life.abi must use the configured genome layout")
         self.abi = selected_abi

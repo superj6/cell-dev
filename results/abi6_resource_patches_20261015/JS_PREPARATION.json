@@ -1,0 +1,43 @@
+{
+  "status": "source_prepared_unexecuted",
+  "source_pins": {
+    "results/atlas/play/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "results/atlas/play/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "results/atlas/play/test_resource_patches.js": "08dd8b0979909745554a387f93e7961adda42a45ed443f3bcf94a5b41d7e3ea8",
+    "results/atlas/play/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984",
+    "outputs/resource_patches_20261015/export_truth.py": "d1f3396fef868d9b6b65df1a1b321534fac31433ef70b60142e40b9701fb3415"
+  },
+  "contract_sha256": "15c3f7d7006bd274c2e7c9c06d6a89bd264dd8128be8579286dda70c1d740d77",
+  "checks": [
+    "four Node --check sources",
+    "exporter AST/ruff/120columns"
+  ],
+  "new_lives": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "planned_truth_calls": {
+    "C_full": 8,
+    "C_fast": 8,
+    "Python": 8,
+    "JS_full": 8,
+    "JS_stepped": 8
+  },
+  "planned_JS_default": {
+    "construction_attempts": 48,
+    "invalid_rejections": 30,
+    "initialized_fixtures": 18,
+    "complete_scheduler_runs": 6,
+    "direct_world_fixtures": 12
+  },
+  "UI_smoke": {
+    "kind": "supplied state only",
+    "simulator_calls": 0,
+    "executed": false
+  },
+  "instruction": "Runtime checks held until the root announces the bounded engineering pass.",
+  "amendments": [
+    "Patch-only finite integer t0, bounded t0, and finite opening within effective duration guards.",
+    "Source record19 folds both uint64 words of arrival_index, with one synthetic high-word direct fixture.",
+    "Direct patch clicks open the accounting window before counting harvests."
+  ]
+}

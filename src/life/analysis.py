@@ -220,7 +220,7 @@ def catch_F(ledger, w: spec.World | None = None, **costs) -> np.ndarray:
     if not costs:
         return led[:, spec.V3.L["F"]].copy()
     w = w or spec.world("catch_v1")
-    abi = spec.V5 if w.task_mode else spec.V3
+    abi = spec.V6 if w.patch_count else spec.V5 if w.task_mode else spec.V3
     return abi.fitness(led, replace(w, **costs))
 
 

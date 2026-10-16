@@ -1,0 +1,38 @@
+lifesim.js vs the C kernel and the reference: standard CATCH world, fresh seeds 45050000 ...
+┌─────────┬───────────────────────────────┬───────┬───────┬──────────┬─────────┬────────────┬────────┬─────────┬──────────┬──────────────┬───────┬──────────┬──────────────┬───────────┬─────────────┬─────────────┬─────────┐
+│ (index) │             body              │ lives │ sameF │ ledger57 │ hashAll │ hashSpikes │ spikes │ capMiss │ cellsEnd │ rasterPrefix │ dots  │ meanF_js │ meanF_kernel │ meanCells │ steppedSame │ unitsPerSec │ badCols │
+├─────────┼───────────────────────────────┼───────┼───────┼──────────┼─────────┼────────────┼────────┼─────────┼──────────┼──────────────┼───────┼──────────┼──────────────┼───────────┼─────────────┼─────────────┼─────────┤
+│    0    │ 'speck_lmax4_hexprism_sex_s5' │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '-2.449' │   '-2.449'   │   '97'    │    'yes'    │   '1123'    │   ''    │
+│    1    │ 'speck_lmax4_hexprism_sex_s4' │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '51'     │ 'n/a' │ '-0.773' │   '-0.773'   │   '34'    │    'yes'    │   '4389'    │   ''    │
+│    2    │ 'speck_lmax4_hexprism_sex_s2' │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '-0.862' │   '-0.862'   │   '27'    │    'yes'    │   '9663'    │   ''    │
+│    3    │ 'speck_lmax4_hexprism_sex_s6' │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '1.842'  │   '1.842'    │   '162'   │    'yes'    │    '985'    │   ''    │
+│    4    │ 'speck_lmax4_hexprism_sex_s7' │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '-2.825' │   '-2.825'   │   '108'   │    'yes'    │   '1216'    │   ''    │
+│    5    │    'lmax4_hexprism_sex_s5'    │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '-1.897' │   '-1.897'   │   '79'    │    'yes'    │   '2609'    │   ''    │
+│    6    │       'reflex@hollow3'        │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '3.234'  │   '3.234'    │   '56'    │    'yes'    │   '4716'    │   ''    │
+│    7    │        'router@ring4'         │   1   │ '1/1' │  '1/1'   │  '1/1'  │   '1/1'    │ '1/1'  │  '1/1'  │  '1/1'   │     '64'     │ 'n/a' │ '12.633' │   '12.633'   │   '122'   │    'yes'    │   '2023'    │   ''    │
+└─────────┴───────────────────────────────┴───────┴───────┴──────────┴─────────┴────────────┴────────┴─────────┴──────────┴──────────────┴───────┴──────────┴──────────────┴───────────┴─────────────┴─────────────┴─────────┘
+standard world: 8 lives, F bitwise identical in 8, whole-life hash identical in 8
+
+interactive world smoke tests
+  [pass] switching to user mode keeps the auto target as a still user target: targets 1
+  [pass] addTarget adds targets and raises lambda_max to lam_bg + lam_s * n: n 3, lam_max 6.05 (standard 2.05)
+  [pass] moveTarget sets the position at the current time
+  [pass] removeTarget removes it and lowers lambda_max
+  [pass] at most 6 targets
+  [pass] the thinning never sees a rate above lambda_max: over 0
+  [pass] drift on: targets run and tumble: 1/1 moved
+  [pass] back to auto: one target, standard lambda_max
+  [pass] the life continues after the switches: t 190
+  [pass] a click near a target captures it: t 50.28 target 2
+  [pass] the captured target is removed: 1 left
+  [pass] a capture books R_cap of income: income 500
+  [pass] misses are reported as events (or none happened): misses seen
+  [pass] lateral_off: lateral arrivals stop (only those already in flight land): lateral 2615 -> 18, vertical 556 -> 521
+  [pass] clearing lateral_off restores them
+  [pass] an interactive session replays identically: 70b88a5cbb1067cf 177.6758401638238
+  [pass] create(one body JSON) lives the same life: speck_lmax4_hexprism_sex_s6
+  [pass] state() reports cells with phenotype hints, info() the prices
+wounds: 33 lives match C and Python bitwise, with whole and capped stepping
+
+18/18 checks passed; 0 failure(s) in total
+JS call inventory: {"exit_code":0,"attempts":97,"constructed":97,"completed_via_advance":91,"direct_close_calls":0}

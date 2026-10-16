@@ -374,8 +374,9 @@ const S32 = 0.8660254037844386;
 const S_ZYG = 1, S_UID = 2, S_TAU = 3, S_CLK = 4, S_PHASE = 5, S_DC = 6, S_JIT = 7, S_DROP = 8, S_TICK = 9,
   S_DIE = 10, S_DIV = 11, S_PLACE = 12, S_NOISE = 13, S_NSIGN = 14, S_KILL = 15,
   S_RCAND = 18, S_RACC = 19, S_TURN = 20, S_HEAD = 21, S_RTIME = 22, S_PANG = 23, S_PDIST = 24, S_PPRES = 25,
-  S_VISIBILITY = 26, S_TASK_CLASS = 27, S_TASK_DURATION = 28, S_TASK_GEOMETRY = 29, S_TASK_SIDE = 30;
-const N_STREAMS = 30;
+  S_VISIBILITY = 26, S_TASK_CLASS = 27, S_TASK_DURATION = 28, S_TASK_GEOMETRY = 29, S_TASK_SIDE = 30,
+  S_PATCH_LAYOUT = 31, S_PATCH_RATE = 32, S_PATCH_PHASE = 33;
+const N_STREAMS = 33;
 
 function u01() { return (HH * 2097152 + ((HL >>> 11) | 1)) * TWO_M53; } // of (HH, HL)
 
@@ -444,7 +445,11 @@ const LEDGER_V5 = LEDGER_V4.concat(['choice_opportunities_narrow', 'choice_oppor
   'choice_carry_in_narrow', 'choice_carry_in_broad', 'correct_choices_narrow', 'correct_choices_broad',
   'wrong_choices_narrow', 'wrong_choices_broad', 'choice_timeouts_narrow', 'choice_timeouts_broad',
   'unfinished_choices_narrow', 'unfinished_choices_broad']);
-const LI = {}; LEDGER_V5.forEach((n, i) => { LI[n] = i; });
+const PATCH_STEMS = ['stock_open', 'source', 'supply', 'spill', 'harvest', 'empty', 'stock_end'];
+const LEDGER_V6 = LEDGER_V5.concat(PATCH_STEMS.flatMap(name =>
+  Array.from({ length: 4 }, (_, i) => 'patch_' + name + '_' + i)), ['patch_geometric_misses'],
+  ['initial_harvest', 'refill_harvest'].flatMap(name => Array.from({ length: 4 }, (_, i) => 'patch_' + name + '_' + i)));
+const LI = {}; LEDGER_V6.forEach((n, i) => { LI[n] = i; });
 const TASK_SAMPLE = 0, TASK_BLANK = 1, TASK_CHOICE = 2, TASK_GAP = 3;
 const TASK_PHASES = ['sample', 'blank', 'choice', 'gap'];
 const ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 8, ST_CHEM_CLAMP = 32,
@@ -549,8 +554,8 @@ class Life {
     const doc = body.__doc || {};
     const w = body.world;
     this.abi = opts.abi !== undefined ? opts.abi : (body.abi !== undefined ? body.abi : (doc.abi !== undefined ? doc.abi : 3));
-    if (this.abi !== 3 && this.abi !== 4 && this.abi !== 5) throw new Error('lifesim.js supports ABI 3, 4 or 5');
-    this.ledgerNames = this.abi === 5 ? LEDGER_V5 : (this.abi === 4 ? LEDGER_V4 : LEDGER);
+    if (![3, 4, 5, 6].includes(this.abi)) throw new Error('lifesim.js supports ABI 3, 4, 5 or 6');
+    this.ledgerNames = this.abi === 6 ? LEDGER_V6 : (this.abi === 5 ? LEDGER_V5 : (this.abi === 4 ? LEDGER_V4 : LEDGER));
     this.visibility_mode = w.visibility_mode === undefined ? 0 : w.visibility_mode;
     this.visibility_on = w.visibility_on === undefined ? 0 : w.visibility_on;
     this.visibility_off = w.visibility_off === undefined ? 0 : w.visibility_off;
@@ -575,7 +580,7 @@ class Life {
     if (this.task_mode === 0) {
       if (taskDurations.some(name => this[name] !== 0)) throw new Error('legacy task mode requires zero task durations');
     } else {
-      if (this.abi !== 5) throw new Error('delayed matching requires ABI 5');
+      if (this.abi < 5) throw new Error('delayed matching requires ABI 5 or later');
       if (taskDurations.some(name => !Number.isFinite(this[name]) || this[name] < 2 ** -10 || this[name] > 2 ** 30) ||
           this.sample_min > this.sample_max || this.blank_min > this.blank_max || !(this.blank_min > w.d_min))
         throw new Error('invalid delayed-match duration or blank_min <= d_min');
@@ -588,6 +593,32 @@ class Life {
         throw new Error('delayed matching requires stationary CATCH, neutral visibility, two ordered widths and disjoint equal-radius choices');
       if (opts.mode === 'user' || opts.targets !== undefined || opts.drift)
         throw new Error('delayed matching supports automatic mode only; interactive targets and drift are disabled');
+    }
+    const patchFields = ['patch_count', 'patch_capacity', 'patch_refill_fast', 'patch_refill_slow', 'patch_landmark'];
+    for (const name of patchFields) this[name] = w[name] === undefined ? 0 : w[name];
+    if (patchFields.some(name => !Number.isFinite(this[name])) || !Number.isInteger(this.patch_count) ||
+        this.patch_count < 0 || this.patch_count > 4) throw new Error('invalid resource patch fields or count');
+    if (this.patch_count === 0) {
+      if (patchFields.slice(1).some(name => this[name] !== 0)) throw new Error('disabled patches require zero fields');
+    } else {
+      if (this.abi !== 6) throw new Error('resource patches require ABI 6');
+      if (w.world_kind !== 1 || this.task_mode !== 0 || vm !== 0 || w.v_t !== 0 || w.tau_turn !== 0 ||
+          w.t_resp !== 0 || w.b2_amp !== 0 || w.b2_value !== 0 || w.b2_mode !== 0 || w.b2_p !== 1)
+        throw new Error('resource patches require stationary CATCH with neutral task, visibility and second blob');
+      const duration = opts.T === undefined ? w.T : opts.T;
+      if (!Number.isInteger(this.patch_capacity) || this.patch_capacity < 1 || this.patch_capacity > 2 ** 20 ||
+          this.patch_refill_fast < 2 ** -10 || this.patch_refill_fast > this.patch_refill_slow ||
+          this.patch_refill_slow > 2 ** 30 || this.patch_landmark < 0 || this.patch_landmark >= 1 ||
+          ![w.rho_c, w.R_min, w.R_max, w.sigma, w.lam_s, w.lam_bg, duration].every(Number.isFinite) ||
+          w.rho_c <= 0 || w.R_min < 2 * w.rho_c || w.R_max < w.R_min || w.R_max > 2 ** 20 ||
+          w.sigma <= 0 || w.sigma > 2 ** 20 || w.lam_s < 0 || w.lam_bg < 0 ||
+          w.lam_bg + w.lam_s * this.patch_count > 1024 || !Number.isInteger(duration) ||
+          duration <= 0 || duration > 2 ** 30 || !Number.isInteger(w.t0) || Math.abs(w.t0) > 2 ** 30 ||
+          !Number.isFinite(w.t_open) || w.t_open < 0 || w.t_open >= duration ||
+          this.patch_count * (Math.ceil(duration / this.patch_refill_fast) + 1) > 2 ** 20)
+        throw new Error('invalid resource patch capacity, period, geometry, time/window or candidate bound');
+      if (opts.mode === 'user' || opts.targets !== undefined || opts.drift)
+        throw new Error('resource patches support automatic mode only; interactive targets and drift are disabled');
     }
     this.body = body;
     this.name = body.name;
@@ -618,7 +649,7 @@ class Life {
     this.tau_turn = w.tau_turn; this.R_min = w.R_min; this.R_max = w.R_max; this.t_resp = w.t_resp;
     this.R_cap = w.R_cap; this.c_miss = w.c_miss; this.c_rec = w.c_rec;
     this.b2_amp = w.b2_amp; this.b2_sigma = w.b2_sigma; this.b2_rho = w.b2_rho; this.b2_value = w.b2_value;
-    this.lam_max_std = this.lam_bg + this.lam_s * (1.0 + w.b2_amp);
+    this.lam_max_std = this.lam_bg + this.lam_s * (this.patch_count || (1.0 + w.b2_amp));
     this.lam_max = this.lam_max_std;
     // lattice (4.3)
     const lat = doc.lattice || body.lattice || HEXPRISM;
@@ -1229,6 +1260,8 @@ P.acct_init = function (opts) {
     this.visibility_k = 1;
   }
   this.blobs = [];
+  this.patches = []; this.patch_group = false; this.patch_opened = false;
+  if (this.patch_count) { this.patchInit(); return; }
   if (this.task_mode) {
     this.blobs = [this.newBlob(0, 0), this.newBlob(1, 1)];
     this.task_trial = 0; this.task_class = 0; this.task_consumed = false; this.task_defer_gap = false;
@@ -1413,7 +1446,163 @@ P.taskTransition = function () {
   else if (this.task_phase === TASK_CHOICE) { this.taskResolve(t, 2); this.taskEnter(TASK_GAP, t); }
   else { this.task_trial += 1; this.taskEnter(TASK_SAMPLE, t); }
 };
+// ---- persistent resource patches (ABI 6): integer physical stock; observer state is never a cell input
+P.patchDraw = function (stream, slot, purpose) { this.hash2(stream, 0, slot, 0, purpose); return u01(); };
+P.patchCount = function (stem, slot) { this.led[LI['patch_' + stem + '_' + slot]] += 1.0; };
+P.patchInit = function () {
+  const theta0 = TWO_PI * this.patchDraw(S_PATCH_LAYOUT, 0, 0);
+  for (let i = 0; i < this.patch_count; i++) {
+    const theta = theta0 + (TWO_PI * i) / this.patch_count;
+    const r = this.R_min + (this.R_max - this.R_min) * this.patchDraw(S_PATCH_LAYOUT, i, 1);
+    const x = r * cos(theta), y = r * sin(theta);
+    const period = this.patchDraw(S_PATCH_RATE, i, 0) < 0.5 ? this.patch_refill_fast : this.patch_refill_slow;
+    const phase = period * this.patchDraw(S_PATCH_PHASE, i, 0);
+    let first = this.t0 + phase;
+    if (first <= this.t0) first = nextup(this.t0);
+    const p = { id: i, x, y, period, first, next: first, arrival_index: 0,
+      stock: this.patch_capacity, initial_remaining: this.patch_capacity, left: this.patch_capacity,
+      initial_open: 0 };
+    this.patches.push(p);
+    if (this.hashes) {
+      this.foldI(H_WORLD, 18); this.foldF(H_WORLD, this.t0); this.foldI(H_WORLD, i);
+      this.foldF(H_WORLD, x); this.foldF(H_WORLD, y); this.foldF(H_WORLD, period);
+      this.foldF(H_WORLD, first); this.foldI(H_WORLD, this.patch_capacity);
+    }
+    this.evlog.push({ t: this.t0, kind: 'patch_init', slot: i, x, y, period, first, stock: p.stock });
+  }
+};
+P.patchOpen = function () {
+  if (this.patch_opened) return;
+  this.patch_opened = true;
+  for (const p of this.patches) {
+    this.led[LI['patch_stock_open_' + p.id]] = p.stock;
+    p.initial_open = p.initial_remaining;
+  }
+};
+P.patchWorldTo = function (t) {
+  for (;;) {
+    let p = null;
+    for (const candidate of this.patches)
+      if (candidate.next < t && (p === null || candidate.next < p.next)) p = candidate;
+    if (p === null) break;
+    const at = p.next;
+    if (at >= this.t_open_abs) this.patchOpen();
+    const before = p.stock, admitted = before < this.patch_capacity ? 1 : 0;
+    p.stock += admitted;
+    if (at >= this.t_open_abs) {
+      this.patchCount('source', p.id);
+      this.patchCount(admitted ? 'supply' : 'spill', p.id);
+    }
+    if (this.hashes) {
+      this.foldI(H_WORLD, 19); this.foldF(H_WORLD, at); this.foldI(H_WORLD, p.id);
+      this.fold(H_WORLD, Math.floor(p.arrival_index / 4294967296), p.arrival_index >>> 0);
+      this.foldI(H_WORLD, before); this.foldI(H_WORLD, p.stock);
+      this.foldI(H_WORLD, admitted);
+    }
+    this.evlog.push({ t: at, kind: 'patch_source', slot: p.id, arrival_index: p.arrival_index,
+      admitted: !!admitted, stock_before: before, stock_after: p.stock });
+    p.arrival_index += 1;
+    p.next = p.first + p.arrival_index * p.period;
+  }
+  if (t >= this.t_open_abs) this.patchOpen();
+};
+P.patchGroupBegin = function () {
+  for (const p of this.patches) p.left = p.stock;
+  this.patch_group = true;
+};
+P.patchNearest = function (px, py) {
+  let slot = -1, d2 = -1;
+  for (const p of this.patches) {
+    const dx = px - p.x, dy = py - p.y, q = dx * dx + dy * dy;
+    if (d2 < 0 || q < d2) { slot = p.id; d2 = q; }
+  }
+  return { slot, d2 };
+};
+P.patchRate = function (px, py) {
+  let rate = this.lam_bg;
+  for (const p of this.patches) {
+    const fraction = (this.patch_group ? p.left : p.stock) / this.patch_capacity;
+    const amplitude = this.patch_landmark + (1.0 - this.patch_landmark) * fraction;
+    const dx = px - p.x, dy = py - p.y;
+    const halo = exp(-(dx * dx + dy * dy) / (2.0 * this.sigma * this.sigma));
+    const component = this.lam_s * (amplitude * halo);
+    rate = rate + component;
+  }
+  return rate;
+};
+P.patchClick = function (t, counted) {
+  if (t >= this.t_open_abs) this.patchOpen();
+  this.dotAt(t);
+  const X = this.DX, Y = this.DY, led = this.led, nearest = this.patchNearest(X, Y);
+  const p = nearest.d2 >= 0 && nearest.d2 <= this.rho_c * this.rho_c ? this.patches[nearest.slot] : null;
+  const slot = p === null ? 4 : p.id, before = p === null ? 0 : p.stock;
+  let outcome = 0, origin = 0;
+  if (counted) led[LI.clicks] += 1.0;
+  if (p !== null) {
+    if (p.stock > 0) {
+      outcome = 1; p.stock -= 1;
+      if (p.initial_remaining > 0) { p.initial_remaining -= 1; origin = 1; } else origin = 2;
+      if (counted) {
+        led[LI.captures] += 1.0; led[LI.income] = led[LI.income] + this.R_cap;
+        this.patchCount('harvest', slot); this.patchCount(origin === 1 ? 'initial_harvest' : 'refill_harvest', slot);
+      }
+    } else { outcome = 2; if (counted) this.patchCount('empty', slot); }
+  } else if (counted) led[LI.patch_geometric_misses] += 1.0;
+  if (outcome !== 1 && counted) { led[LI.misses] += 1.0; led[LI.cost] = led[LI.cost] + this.c_miss; }
+  const after = p === null ? 0 : p.stock;
+  if (this.hashes) {
+    this.foldI(H_WORLD, 20); this.foldF(H_WORLD, t); this.foldI(H_WORLD, outcome); this.foldI(H_WORLD, slot);
+    this.foldI(H_WORLD, before); this.foldI(H_WORLD, after); this.foldI(H_WORLD, origin);
+    this.foldI(H_WORLD, 11); this.foldF(H_WORLD, t); this.foldI(H_WORLD, outcome === 1 ? 1 : 0);
+    this.foldF(H_WORLD, X); this.foldF(H_WORLD, Y);
+  }
+  this.evlog.push({ t, kind: 'patch_click', outcome: ['geometric_miss', 'harvest', 'empty'][outcome],
+    slot: p === null ? null : slot, stock_before: before, stock_after: after,
+    origin: ['none', 'initial', 'refill'][origin], income: outcome === 1 ? this.R_cap : 0,
+    cost: outcome === 1 ? 0 : this.c_miss, x: X, y: Y });
+};
+P.patchClose = function (t) {
+  const led = this.led;
+  if (t <= this.t_open_abs) led.fill(0, 70);
+  else {
+    this.patchOpen();
+    let harvest = 0, empty = 0;
+    for (const p of this.patches) {
+      led[LI['patch_stock_end_' + p.id]] = p.stock;
+      const get = stem => led[LI['patch_' + stem + '_' + p.id]];
+      const source = get('source'), supply = get('supply'), spill = get('spill'), meals = get('harvest');
+      if (source !== supply + spill || get('stock_open') + supply !== meals + p.stock ||
+          get('stock_open') + source !== meals + spill + p.stock ||
+          meals !== get('initial_harvest') + get('refill_harvest') ||
+          p.initial_open !== get('initial_harvest') + p.initial_remaining ||
+          get('stock_open') > this.patch_capacity || p.stock > this.patch_capacity ||
+          p.initial_remaining < 0 || p.initial_remaining > p.stock) this.status |= ST_MISMATCH;
+      harvest += meals; empty += get('empty');
+    }
+    if (led[LI.captures] !== harvest || led[LI.misses] !== empty + led[LI.patch_geometric_misses] ||
+        led[LI.clicks] !== led[LI.captures] + led[LI.misses]) this.status |= ST_MISMATCH;
+    for (let i = 70; i < LEDGER_V6.length; i++)
+      if (!Number.isSafeInteger(led[i]) || led[i] < 0) this.status |= ST_MISMATCH;
+    for (let i = this.patch_count; i < 4; i++)
+      for (const stem of [...PATCH_STEMS, 'initial_harvest', 'refill_harvest'])
+        if (led[LI['patch_' + stem + '_' + i]] !== 0) this.status |= ST_MISMATCH;
+  }
+  for (const p of this.patches) {
+    if (this.hashes) {
+      this.foldI(H_WORLD, 21); this.foldF(H_WORLD, t); this.foldI(H_WORLD, p.id);
+      this.foldI(H_WORLD, p.stock); this.foldI(H_WORLD, p.initial_remaining);
+    }
+    this.evlog.push({ t, kind: 'patch_end', slot: p.id, stock: p.stock, initial_remaining: p.initial_remaining });
+  }
+};
+P.patchState = function () {
+  return this.patches.map(p => ({ id: p.id, slot: p.id, x: p.x, y: p.y, stock: p.stock,
+    initial_remaining: p.initial_remaining, period: p.period, next: p.next, capacity: this.patch_capacity,
+    sigma: this.sigma, amplitude: this.patch_landmark + (1.0 - this.patch_landmark) * (p.stock / this.patch_capacity),
+    capture_radius: this.rho_c, capturable: p.stock > 0, drift: false }));
+};
 P.worldTo = function (t) { // strictly before t; equal-time timer, turn, then visibility
+  if (this.patch_count) { this.patchWorldTo(t); return; }
   if (this.task_mode) {
     while (this.task_next < t) this.taskTransition();
     return;
@@ -1435,7 +1624,7 @@ P.sample = function (c) {
   this.worldTo(c);
   if (this.task_mode && this.task_phase !== TASK_CHOICE) return;
   this.dotAt(c);
-  let q = -1;
+  let q = this.patch_count ? this.patchNearest(this.DX, this.DY).d2 : -1;
   for (const bl of this.blobs) {
     if (!bl.present) continue;
     const ex = this.DX - this.blobX(bl, c), ey = this.DY - this.blobY(bl, c), d = ex * ex + ey * ey;
@@ -1450,6 +1639,7 @@ P.sample = function (c) {
   }
 };
 P.click = function (t, counted) {
+  if (this.patch_count) { this.patchClick(t, counted); return; }
   this.dotAt(t);
   const X = this.DX, Y = this.DY, led = this.led;
   if (counted) led[LI.clicks] += 1.0;
@@ -1499,6 +1689,7 @@ P.stroke = function (t, site, dz, zt, zn, counted) {
   }
 };
 P.rate = function (px, py, t) { // receptor rate at screen point (px, py) at the left limit
+  if (this.patch_count) return this.patchRate(px, py);
   if (this.task_mode) {
     let rate = this.lam_bg;
     for (const bl of this.blobs) if (bl.present) {
@@ -1554,6 +1745,7 @@ P.tickCost = function (t, t_prev, sp, z) {
 P.group = function (t, recs) { // one time group, records sorted by (sk, seq)
   const led = this.led, counted = t >= this.t_open_abs, hs = this.hashes;
   this.worldTo(t);
+  if (this.patch_count) this.patchGroupBegin();
   for (let ri = 0; ri < recs.length; ri++) {
     const rec = recs[ri], site = rec.site, c = rec.cell;
     switch (rec.kind) {
@@ -1673,6 +1865,7 @@ P.group = function (t, recs) { // one time group, records sorted by (sk, seq)
     this.defer_remove.length = 0;
     this.updateLamMax(t);
   }
+  this.patch_group = false;
   if (this.n > this.n_peak) this.n_peak = this.n;
   if (this.n === 0 && this.inflight === 0 && !this.extinct) {
     this.extinct = true; this.status |= ST_EXTINCT; led[LI.t_ext] = t;
@@ -1725,6 +1918,7 @@ P.close = function (t_end, guard_bits) { // 9.5
       this.foldI(H_WORLD, this.task_phase); this.foldI(H_WORLD, this.task_class);
     }
   }
+  if (this.patch_count) this.patchClose(t_end);
   this.dotAdv(t_end);
   led[LI.path] = this.path; led[LI.X_end] = this.X; led[LI.Y_end] = this.Y;
   const live = [];
@@ -1803,7 +1997,7 @@ P.advance = function (dt, maxEvents) {
   const trip = this.guardsUpto(target);
   if (trip) { this.close(trip[0], trip[1]); return this.t; }
   // A display frame may end between cellular events and integer samples; show the world at that frame time.
-  if (this.task_mode) this.worldTo(target);
+  if (this.task_mode || this.patch_count) this.worldTo(target);
   this.t = target;
   return this.t;
 };
@@ -1834,6 +2028,7 @@ P.updateLamMax = function (t) {
 P.anchorBlobs = function (t) { for (const bl of this.blobs) { bl.x = this.blobX(bl, t); bl.y = this.blobY(bl, t); bl.t = t; } };
 P.setMode = function (m) {
   if (m !== 'auto' && m !== 'user') throw new Error('mode is "auto" or "user"');
+  if (this.patch_count && m !== 'auto') throw new Error('resource patches support automatic mode only');
   if (this.task_mode && m !== 'auto') throw new Error('delayed matching supports automatic mode only');
   if (m === 'user' && this.visibility_mode !== 0) throw new Error('enabled visibility is not supported in user-target mode');
   if (m === this.mode) return;
@@ -1866,6 +2061,7 @@ P.setBlobDrift = function (bl, on, t) {
   } else { bl.vx = 0.0; bl.vy = 0.0; bl.tau = Infinity; }
 };
 P.setDrift = function (on, id) { // all user targets (and new ones), or only target id
+  if (this.patch_count) throw new Error('resource patches reject interactive drift');
   if (this.task_mode) throw new Error('delayed matching rejects interactive drift');
   this.worldTo(this.t);
   if (id !== undefined) {
@@ -1878,6 +2074,7 @@ P.setDrift = function (on, id) { // all user targets (and new ones), or only tar
   return true;
 };
 P.addTarget = function (x, y) {
+  if (this.patch_count) throw new Error('resource patches reject interactive targets');
   if (this.task_mode) throw new Error('delayed matching rejects interactive targets');
   if (this.mode !== 'user') this.setMode('user');
   if (this.blobs.length >= MAX_TARGETS) return null;
@@ -1892,6 +2089,7 @@ P.addTarget = function (x, y) {
   return bl.id;
 };
 P.moveTarget = function (id, x, y) {
+  if (this.patch_count) throw new Error('resource patches reject interactive targets');
   if (this.task_mode) throw new Error('delayed matching rejects interactive targets');
   const bl = this.blobs.find(b => b.id === id); if (!bl) return false;
   this.worldTo(this.t);
@@ -1899,6 +2097,7 @@ P.moveTarget = function (id, x, y) {
   return true;
 };
 P.removeTarget = function (id) {
+  if (this.patch_count) throw new Error('resource patches reject interactive targets');
   if (this.task_mode) throw new Error('delayed matching rejects interactive targets');
   if (this.mode !== 'user') return false;
   const k = this.blobs.findIndex(b => b.id === id); if (k < 0) return false;
@@ -1919,7 +2118,7 @@ P.state = function (opts) {
   const t = this.t;
   this.dotAt(t);
   const dot = { x: this.DX, y: this.DY };
-  const targets = this.blobs.filter(bl => bl.present).map(bl => ({ id: bl.id, x: this.blobX(bl, t), y: this.blobY(bl, t),
+  const targets = this.patch_count ? this.patchState() : this.blobs.filter(bl => bl.present).map(bl => ({ id: bl.id, x: this.blobX(bl, t), y: this.blobY(bl, t),
     drift: this.task_mode ? false : (this.mode === 'auto' ? true : bl.drift),
     ...(this.task_mode ? { slot: bl.id, shape: bl.id === 0 ? 'narrow' : 'broad', sigma: bl.id === 0 ? this.sigma : this.b2_sigma,
       capture_radius: this.rho_c, capturable: this.task_phase === TASK_CHOICE && !this.task_consumed } : {}) }));
@@ -1941,11 +2140,16 @@ P.state = function (opts) {
   const net = led[LI.income] - led[LI.cost];
   return {
     t, ended: this.ended, mode: this.mode, drift: this.drift, flags: this.flags, dot, targets, cells, recentSpikes, events,
+    ...(this.patch_count ? { patches: targets } : {}),
     ...(this.task_mode ? { task: { mode: this.task_mode, trial: this.task_trial, phase: TASK_PHASES[this.task_phase],
       sample_class: this.task_class === 0 ? 'narrow' : 'broad', phase_start: this.task_phase_start,
       deadline: this.task_next, remaining: Math.max(0, this.task_next - t), consumed: this.task_consumed } } : {}),
     score: { income: led[LI.income], cost: led[LI.cost], net, F: this.ended ? led[LI.F] : net / elapsed,
       F_final: this.ended ? led[LI.F] : null, captures: led[LI.captures], misses: led[LI.misses], clicks: led[LI.clicks],
+      ...(this.patch_count ? { harvests: led[LI.captures], geometric_misses: led[LI.patch_geometric_misses],
+        empty_clicks: this.patches.reduce((n, p) => n + led[LI['patch_empty_' + p.id]], 0),
+        initial_harvests: this.patches.reduce((n, p) => n + led[LI['patch_initial_harvest_' + p.id]], 0),
+        refill_harvests: this.patches.reduce((n, p) => n + led[LI['patch_refill_harvest_' + p.id]], 0) } : {}),
       ...(this.task_mode ? { slot_hits: { narrow: led[LI.captures], broad: led[LI.b2_clicks] },
         correct_choices: led[LI.correct_choices_narrow] + led[LI.correct_choices_broad],
         wrong_choices: led[LI.wrong_choices_narrow] + led[LI.wrong_choices_broad],
@@ -1958,7 +2162,10 @@ P.state = function (opts) {
 };
 P.info = function () { // static facts for a page: the body, the world's sizes and prices
   return { name: this.name, abi: this.abi, mode: this.mode, program: this.program, T: this.T, t0: this.t0, sigma: this.sigma,
-    task_mode: this.task_mode,
+    task_mode: this.task_mode, patch_count: this.patch_count,
+    ...(this.patch_count ? { patch_capacity: this.patch_capacity, patch_refill_fast: this.patch_refill_fast,
+      patch_refill_slow: this.patch_refill_slow, patch_landmark: this.patch_landmark,
+      distance_metric: 'nearest persistent patch, including empty patches; observer stock/source state only' } : {}),
     ...(this.task_mode ? { b2_sigma: this.b2_sigma, sample_min: this.sample_min, sample_max: this.sample_max,
       blank_min: this.blank_min, blank_max: this.blank_max, choice_T: this.choice_T, reset_T: this.reset_T,
       distance_metric: 'nearest active choice; sampled only during choice' } : {}),
@@ -2003,5 +2210,5 @@ function create(bodyOrDoc, opts) {
     raster: () => ({ t: life.raster_t, uid: life.raster_uid, n: life.raster_n || 0 }),
   };
 }
-return { create, prepare, Life, LEDGER, LEDGER_V4, LEDGER_V5, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.2' };
+return { create, prepare, Life, LEDGER, LEDGER_V4, LEDGER_V5, LEDGER_V6, FLAGS, MAX_TARGETS, libm: { exp, log, sin, cos, tanh, expm1, fma }, version: '1.3' };
 });

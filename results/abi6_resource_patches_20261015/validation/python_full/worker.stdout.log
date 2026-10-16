@@ -1,0 +1,41 @@
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 19%]
+........................................................................ [ 26%]
+........................................................................ [ 33%]
+........................................................................ [ 39%]
+...........F............................................................ [ 46%]
+........................................................................ [ 52%]
+........................................................................ [ 59%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+........................................................................ [ 79%]
+........................................................................ [ 86%]
+.............................................F.......................... [ 92%]
+........................................................................ [ 99%]
+........                                                                 [100%]
+=================================== FAILURES ===================================
+____________ test_kernel_builds_and_its_exports_match_spec_bitwise _____________
+
+    def test_kernel_builds_and_its_exports_match_spec_bitwise():
+        lib = build.load()
+>       assert lib.life_abi_version() == build.KERNEL.version == 5 and build.library_path().exists()
+E       assert (6 == 5)
+E        +  where 6 = Abi(6).version
+E        +    where Abi(6) = build.KERNEL
+
+tests/test_life_kernel_smoke.py:65: AssertionError
+____________________ test_no_new_lines_over_120_characters _____________________
+
+    def test_no_new_lines_over_120_characters():
+        found = long_lines()
+        grown = {f: (n, LEGACY.get(f, 0)) for f, n in found.items() if n > LEGACY.get(f, 0)}
+>       assert not grown, f"files with more lines over {LIMIT} characters than allowed (found, allowed): {grown}"
+E       AssertionError: files with more lines over 120 characters than allowed (found, allowed): {'src/life/probe.py': (1, 0), 'tests/test_abi5_kernel_boundaries.py': (1, 0)}
+E       assert not {'src/life/probe.py': (1, 0), 'tests/test_abi5_kernel_boundaries.py': (1, 0)}
+
+tests/test_style.py:29: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_life_kernel_smoke.py::test_kernel_builds_and_its_exports_match_spec_bitwise
+FAILED tests/test_style.py::test_no_new_lines_over_120_characters - Assertion...
+2 failed, 1086 passed, 127 deselected in 106.04s (0:01:46)

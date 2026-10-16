@@ -5,12 +5,13 @@ document; every function here that computes a model quantity (hash draws, knob d
 world's closed forms) uses the same IEEE-754 float64 operations in the same order, so results agree bitwise on the
 same libm.
 
-Four caller ABIs coexist; the C kernel implements ABI 5:
+Five caller ABIs coexist; the C kernel implements ABI 6:
 - ``V2`` is ABI 2 (BELL-1 on 2D lattices).
 - ``V3`` is ABI 3: BELL-1 plus BODY-1 v1 (the CATCH world, 3D prism lattices,
   receptors, plane cues).
 - ``V4`` adds flash and renewal target visibility and a low-light capture readout, with unchanged cell rules.
 - ``V5`` adds delayed cue matching, retaining the same genome, inputs and local cell rules.
+- ``V6`` adds persistent food patches, with the same cellular interface and physical prices.
 ``CURRENT`` remains the legacy caller default, ABI 2. Every module-level layout name (``GENOME_SIZE``,
 ``pack_world``, ``LEDGER``, ...) belongs to that default. Visibility and delayed matching require explicit ``V4``
 and ``V5`` respectively; existing callers retain their earlier shapes and behavior.
@@ -57,6 +58,9 @@ STREAMS_V4 = dict(STREAMS_V3, visibility=S_VISIBILITY)
 S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE = 27, 28, 29, 30
 STREAMS_V5 = dict(STREAMS_V4, task_class=S_TASK_CLASS, task_duration=S_TASK_DURATION,
                   task_geometry=S_TASK_GEOMETRY, task_side=S_TASK_SIDE)
+S_PATCH_LAYOUT, S_PATCH_RATE, S_PATCH_PHASE = 31, 32, 33
+STREAMS_V6 = dict(STREAMS_V5, patch_layout=S_PATCH_LAYOUT, patch_rate=S_PATCH_RATE, patch_phase=S_PATCH_PHASE)
+PATCH_SLOTS = 4
 HASH_INIT = 0x243F6A8885A308D3  # initial value of every log-hash family
 
 
@@ -354,6 +358,12 @@ class World:
     blank_max: float = 0.0
     choice_T: float = 0.0
     reset_T: float = 0.0
+    # ---- ABI 6: persistent resource stocks; zero count preserves all older world modes.
+    patch_count: int = 0
+    patch_capacity: int = 0
+    patch_refill_fast: float = 0.0
+    patch_refill_slow: float = 0.0
+    patch_landmark: float = 0.0
 
 
 _META = ("name", "stage", "implemented", "lattice", "lives")
@@ -362,10 +372,11 @@ WORLD_KEYS_V3_NEW = ALL_WORLD_KEYS[ALL_WORLD_KEYS.index("world_kind"):ALL_WORLD_
 WORLD_KEYS_V2 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("world_kind")]
 WORLD_KEYS_V3 = WORLD_KEYS_V2 + WORLD_KEYS_V3_NEW
 WORLD_KEYS_V4 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("task_mode")]
-WORLD_KEYS_V5 = ALL_WORLD_KEYS
+WORLD_KEYS_V5 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("patch_count")]
+WORLD_KEYS_V6 = ALL_WORLD_KEYS
 RESERVED_WORLD_KEYS = ("kill_rate", "wound_rate", "drift_tau")
 INT_WORLD_KEYS = ("n_max", "e_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max", "stuck_z",
-                  "b2_mode", "visibility_mode", "task_mode")
+                  "b2_mode", "visibility_mode", "task_mode", "patch_count", "patch_capacity")
 # world ranges (LIFE_ABI.md 4.7): time stays resolvable at 2^-21 or finer, and no delay or period is below STEP_MIN
 TIME_MAX = 2.0 ** 30  # bound on T and |t0|
 STEP_MIN = 2.0 ** -10  # smallest d_min and smallest possible tick period
@@ -418,6 +429,11 @@ PRESETS["catch_delayed_match_l4"] = replace(
     v_t=0.0, tau_turn=0.0, t_resp=0.0, b2_amp=1.0, b2_p=1.0, b2_mode=0,
     b2_sigma=1.2, b2_value=-50.0, b2_rho=1.0, R_min=2.0, R_max=4.0)
 
+PRESETS["catch_resource_patches_l4"] = replace(
+    PRESETS["catch_speck_l4"], name="catch_resource_patches_l4", stage="resource-patches-v6",
+    patch_count=3, patch_capacity=2, patch_refill_fast=80.0, patch_refill_slow=160.0, patch_landmark=0.1,
+    v_t=0.0, tau_turn=0.0, t_resp=0.0, R_min=2.0, R_max=4.0)
+
 
 def world(name: str = "bell_v1", **overrides) -> World:
     return replace(PRESETS[name], **overrides)
@@ -453,6 +469,11 @@ TASK_LEDGER = tuple(f"{metric}_{cls}" for metric in (
     "choice_opportunities", "choice_carry_in", "correct_choices", "wrong_choices", "choice_timeouts",
     "unfinished_choices") for cls in ("narrow", "broad"))
 LEDGER_V5 = LEDGER_V4 + TASK_LEDGER
+PATCH_METRICS = ("stock_open", "source", "supply", "spill", "harvest", "empty", "stock_end")
+PATCH_LEDGER = tuple(f"patch_{metric}_{i}" for metric in PATCH_METRICS for i in range(PATCH_SLOTS))
+PATCH_LEDGER += ("patch_geometric_misses",) + tuple(
+    f"patch_{metric}_{i}" for metric in ("initial_harvest", "refill_harvest") for i in range(PATCH_SLOTS))
+LEDGER_V6 = LEDGER_V5 + PATCH_LEDGER
 
 HASHES_V2 = ("all", "spikes", "fate", "chem")
 HASHES_V3 = HASHES_V2 + ("world",)
@@ -470,7 +491,7 @@ LATTICE_CODES_V3 = dict(LATTICE_CODES_V2, hexprism=3, square4prism=4, square8pri
 
 # ========================================================================================================= the ABIs
 class Abi:
-    """Every constant, layout and packing function of one kernel ABI (2, 3 or 4) of docs/LIFE_ABI.md.
+    """Every constant, layout and packing function of one kernel ABI (2 through 6) of docs/LIFE_ABI.md.
 
     ABI 3 is ABI 2 with appended entries everywhere: knobs (zeta, g_r), gene inputs (rho, is_S, is_M), world keys,
     ledger columns, a fifth hash family, a z column in the fate log and in initial bodies, and the prism lattices.
@@ -478,7 +499,7 @@ class Abi:
     ``pad_program``)."""
 
     def __init__(self, version: int):
-        if version not in (2, 3, 4, 5):
+        if version not in (2, 3, 4, 5, 6):
             raise ValueError(f"unknown ABI {version}")
         v3 = version >= 3
         self.version = version
@@ -501,13 +522,14 @@ class Abi:
         self.FLAGS = FLAGS_V3 if v3 else FLAGS_V2
         self.BASE_ONLY_FLAGS = self.FLAGS["lockstep"] | self.FLAGS["program_mode"] | self.FLAGS["integer_twin"]
         self.UNSUPPORTED_FLAGS = self.FLAGS["integer_twin"]  # reserved (rejected by every ABI so far)
-        self.STREAMS = (STREAMS_V5 if version >= 5 else
+        self.STREAMS = (STREAMS_V6 if version >= 6 else STREAMS_V5 if version >= 5 else
                         STREAMS_V4 if version >= 4 else STREAMS_V3 if v3 else STREAMS_V2)
-        self.WORLD_KEYS = (WORLD_KEYS_V5 if version >= 5 else
+        self.WORLD_KEYS = (WORLD_KEYS_V6 if version >= 6 else WORLD_KEYS_V5 if version >= 5 else
                            WORLD_KEYS_V4 if version >= 4 else WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2)
         self.WORLD_SIZE = len(self.WORLD_KEYS)
         self.WORLD_INDEX = {k: i for i, k in enumerate(self.WORLD_KEYS)}
-        self.LEDGER = LEDGER_V5 if version >= 5 else LEDGER_V4 if version >= 4 else LEDGER_V3 if v3 else LEDGER_V2
+        self.LEDGER = (LEDGER_V6 if version >= 6 else LEDGER_V5 if version >= 5 else
+                       LEDGER_V4 if version >= 4 else LEDGER_V3 if v3 else LEDGER_V2)
         self.L = {name: i for i, name in enumerate(self.LEDGER)}
         self.LEDGER_SIZE = len(self.LEDGER)
         self.HASHES = HASHES_V3 if v3 else HASHES_V2
@@ -784,10 +806,13 @@ class Abi:
         _validate_body_keys(w)
         _validate_visibility_keys(w)
         _validate_task_keys(w)
+        _validate_patch_keys(w)
         if v < 4 and w.visibility_mode != 0:
             raise NotImplementedError(f"target visibility needs ABI v4; this is ABI v{v}")
         if v < 5 and w.task_mode != 0:
             raise NotImplementedError(f"delayed matching needs ABI v5; this is ABI v{v}")
+        if v < 6 and w.patch_count != 0:
+            raise NotImplementedError(f"resource patches need ABI v6; this is ABI v{v}")
 
     def pack_world(self, w) -> np.ndarray:
         """World (or a list of worlds, one per life) -> float64 ``[WORLD_SIZE]`` / ``[B, WORLD_SIZE]``."""
@@ -833,9 +858,35 @@ class Abi:
         led = np.asarray(led, dtype=np.float64)
         income = (w.R_cap * (led[..., self.L["correct_choices_narrow"]] +
                             led[..., self.L["correct_choices_broad"]])
-                  if w.task_mode else led[..., self.L["income"]])
+                  if w.task_mode else w.R_cap * led[..., self.L["captures"]]
+                  if w.patch_count else led[..., self.L["income"]])
         net = income - self.column_cost(led, w) - self.guard_charge(led, w)
         return net / (w.T - w.t_open)
+
+
+def _validate_patch_keys(w: World) -> None:
+    """ABI 6 fixed resource physics; stock and source timers are never organism inputs."""
+    values = (w.patch_capacity, w.patch_refill_fast, w.patch_refill_slow, w.patch_landmark)
+    if not 0 <= w.patch_count <= PATCH_SLOTS:
+        raise ValueError("patch_count must be an integer from 0 through 4")
+    if not w.patch_count:
+        if any(x != 0 for x in values):
+            raise ValueError("disabled resource patches require neutral patch fields")
+        return
+    if w.world_kind != 1 or w.task_mode or w.visibility_mode:
+        raise ValueError("resource patches require ordinary CATCH with neutral task and visibility fields")
+    if (w.v_t, w.tau_turn, w.t_resp, w.b2_amp, w.b2_value, w.b2_mode, w.b2_p) != (0, 0, 0, 0, 0, 0, 1):
+        raise ValueError("resource patches require stationary fields and no second blob")
+    if not 1 <= w.patch_capacity <= 2 ** 20:
+        raise ValueError("patch_capacity must be an integer from 1 through 2^20")
+    if not STEP_MIN <= w.patch_refill_fast <= w.patch_refill_slow <= TIME_MAX:
+        raise ValueError("patch refill periods must satisfy 2^-10 <= fast <= slow <= 2^30")
+    if not 0 <= w.patch_landmark < 1:
+        raise ValueError("patch_landmark must lie in [0, 1)")
+    if not w.rho_c > 0 or w.R_min < 2 * w.rho_c:
+        raise ValueError("resource patches require positive capture radius and R_min >= 2*rho_c")
+    if w.patch_count * (math.ceil(w.T / w.patch_refill_fast) + 1) > 2 ** 20:
+        raise ValueError("resource patch source-event bound exceeds 2^20 per life")
 
 
 def _validate_task_keys(w: World) -> None:
@@ -921,8 +972,27 @@ def b2_cost(w: World) -> float:
 
 
 def lambda_max(w: World) -> float:
-    """Candidate rate of every sense-plane receptor: lam_bg + lam_s (1 + b2_amp), an upper bound of the true rate."""
-    return w.lam_bg + w.lam_s * (1.0 + w.b2_amp)
+    """Constant lifetime receptor bound; patch mode uses one full-strength component per patch."""
+    return w.lam_bg + w.lam_s * (float(w.patch_count) if w.patch_count else 1.0 + w.b2_amp)
+
+
+def patch_layout(seed: int, slot: int, count: int, r_min: float, r_max: float) -> tuple[float, float]:
+    """Fixed resource center; the slot is an observer index, never a sensory label."""
+    theta0 = TWO_PI * draw(seed, S_PATCH_LAYOUT, 0, 0)
+    theta = theta0 + (TWO_PI * float(slot)) / float(count)
+    radius = r_min + (r_max - r_min) * draw(seed, S_PATCH_LAYOUT, slot, 1)
+    return radius * math.cos(theta), radius * math.sin(theta)
+
+
+def patch_source(seed: int, slot: int, fast: float, slow: float, t0: float) -> tuple[float, float]:
+    """Independent fixed source period and first arrival; harvesting never resets either."""
+    period = fast if draw(seed, S_PATCH_RATE, slot, 0) < 0.5 else slow
+    first = t0 + period * draw(seed, S_PATCH_PHASE, slot, 0)
+    return period, first if first > t0 else math.nextafter(t0, math.inf)
+
+
+def patch_amplitude(stock: int, capacity: int, landmark: float) -> float:
+    return landmark + (1.0 - landmark) * (float(stock) / float(capacity))
 
 
 def halo(dx: float, dy: float, sigma: float) -> float:
@@ -933,10 +1003,23 @@ def halo(dx: float, dy: float, sigma: float) -> float:
 def receptor_rate(w: World, px: float, py: float, blob0: tuple | None, blob1: tuple | None = None) -> float:
     """True receptor rate at world point (px, py), with ``None`` for either absent blob.
     A delayed-match caller supplies the active scene for the current phase; this helper has no phase state."""
+    if w.patch_count:
+        raise ValueError("resource fields require patch_receptor_rate with explicit stocks")
     signal = w.lam_s * halo(px - blob0[0], py - blob0[1], w.sigma) if blob0 is not None else 0.0
     rate = w.lam_bg + signal
     if blob1 is not None:
         rate = rate + w.lam_s * (w.b2_amp * halo(px - blob1[0], py - blob1[1], w.b2_sigma))
+    return rate
+
+
+def patch_receptor_rate(w: World, px: float, py: float, centers, stocks) -> float:
+    """Pure scalar field at a world location, in slot order; callers supply the left-limit stock."""
+    if not w.patch_count or len(centers) != w.patch_count or len(stocks) != w.patch_count:
+        raise ValueError("one position and stock are required for every enabled resource patch")
+    rate = w.lam_bg
+    for (x, y), stock in zip(centers, stocks):
+        amplitude = patch_amplitude(stock, w.patch_capacity, w.patch_landmark)
+        rate = rate + w.lam_s * (amplitude * halo(px - x, py - y, w.sigma))
     return rate
 
 
@@ -1075,6 +1158,7 @@ V2 = Abi(2)
 V3 = Abi(3)
 V4 = Abi(4)
 V5 = Abi(5)
+V6 = Abi(6)
 CURRENT = V2  # legacy caller default; explicit newer contracts remain available
 
 ABI_VERSION = CURRENT.version

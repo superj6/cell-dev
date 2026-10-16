@@ -1,0 +1,73 @@
+{
+  "status": "engineering_complete",
+  "source_pins": {
+    "src/life/spec.py": "91f286fa460bda49a0dfbc0365e337e5ace42e32ac2839f355b6bcf78c6e4958",
+    "src/life/build.py": "26520efd9f42454167b49d989857350cc6e928293069f3333a3207a83f10b484",
+    "src/life/kernel.c": "ceaa928a22b53287478da62651527a98bf235373c38fcddffca9c812e82a9a21",
+    "src/life/reference.py": "74b209e8e819faa27cd55f47fdc480c42b9b7d1045d6f157e59165fab661116f",
+    "src/life/readouts.py": "c4669e8a4d151366582ca2f028a8c1a95cb5e10c0797f32a7a455322aafbdf03",
+    "src/life/probe.py": "3925a7d06bc057f19cf7f69fa56f254bdf1d38b143c382890cdbe31518fff937",
+    "src/life/evaluate.py": "ecf0febef8b8a33b0a522c14d02d61b404ac7c820a1d148a1b86917e6b12c44e",
+    "src/life/analysis.py": "5f0c7e18825ec8848fe8bb78d69ac38b4428eb249e807452c096445a598b92e3",
+    "tests/test_life_spec_abi6.py": "3330db5b6041d7bb662fca6bcd5f177dbe2fd7d1b177f63925a3bef675187cdc",
+    "tests/test_abi6_boundaries.py": "da1144018f1eb89cfb4bcfad81c61160074e164552722b8a8fafdd558b7bb8a8",
+    "tests/test_abi6_kernel_reference.py": "7371fb825bfdf983ac463bd7c2669e9984175ac769d93ef07531374eb924a062",
+    "tests/test_abi6_legacy.py": "b92b61b8267f2fa0ac7504f9961c3970c0f1915a3d366ac55f8855a2e274cf1f",
+    "tests/test_checkpoint.py": "cea3e697868d250880020a8875205802442962e77121c2067f6b9dc2900529e3",
+    "tests/test_abi5_kernel_boundaries.py": "026cbdf1493ebdcacd7b92b3a0a59a804934940dc087f0dbe44aedf2e0c9c98d",
+    "tests/test_life_kernel_smoke.py": "ee4a975957f4a368c5743f935837dfeb7461ed924927e36500926a8d6df0a52d",
+    "results/atlas/play/lifesim.js": "6b4e9ee31bce67f92e037d9bfeb15f629bec52af2b1b3d71cf978c63a9dc8834",
+    "results/atlas/play/resource_patches_view.js": "30f2aef9815317f42761844eec55bc96066110a08caf5841d0bcb74d4ca77f7d",
+    "results/atlas/play/test_resource_patches.js": "08dd8b0979909745554a387f93e7961adda42a45ed443f3bcf94a5b41d7e3ea8",
+    "results/atlas/play/test_resource_patches_view.js": "66bdbd91ea1fb1668eda07608263c820e334f9aa96cbba6fe72e3e792ef7f984",
+    "results/atlas/play/bodies.json": "6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f"
+  },
+  "contract_sha256": "15c3f7d7006bd274c2e7c9c06d6a89bd264dd8128be8579286dda70c1d740d77",
+  "archive_truth_path": "validation/truth",
+  "archive_preview_paths": [
+    "resource_patches_preview.html"
+  ],
+  "source_validation": {
+    "default_pytest_passed": 1086,
+    "default_pytest_fixture_style_failures": 2,
+    "corrected_affected_checks_passed": 2,
+    "slow_tests_deselected": 127,
+    "C_boundary_cases": 71,
+    "truth_cases": 8,
+    "truth_C_full": 8,
+    "truth_C_fast": 8,
+    "truth_Python": 8,
+    "JS_patch_checks": 20,
+    "JS_patch_advanced_lives": 22,
+    "JS_patch_truth_lives": 16,
+    "new_UI_supplied_state_mounts": 2,
+    "new_UI_simulator_calls": 0,
+    "real_browser_tested": false,
+    "ABI6_checkpoint_resume": "passed"
+  },
+  "runtime": {
+    "cpu_seconds": 168.893127,
+    "wall_seconds": 144.45014111400815,
+    "peak_owned_rss_bytes": 654729216,
+    "all_owned_processes_clear": true,
+    "batches": [
+      "js_matching_view",
+      "js_regression",
+      "js_remaining",
+      "python_corrections",
+      "python_full",
+      "python_initial",
+      "truth_export"
+    ],
+    "allowance_cpu_seconds": 1800,
+    "allowance_wall_seconds": 3600,
+    "note": "Includes failed engineering commands; excludes static inspection/archive packaging."
+  },
+  "scientific_patch_lives": 0,
+  "evolved_patch_behavior_established": false,
+  "information_payoff_established": false,
+  "hygiene": {
+    "ruff": "passed",
+    "maintained_diff_check": "passed"
+  }
+}

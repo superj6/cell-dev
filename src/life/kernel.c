@@ -1,4 +1,4 @@
-// One-life event kernel, ABI v5. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
+// One-life event kernel, ABI v6. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
 //
 // One continuous, clockless life per genome (GRN mode) or phenotype program (program mode) on a sparse, unbounded
 // lattice fabric (or a dense disk): 2D lattices, or prisms of stacked planes z = 0 .. L_max - 1 (4.3). Sites process
@@ -16,15 +16,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ABI_VERSION 5
+#define ABI_VERSION 6
 #define NG 16          // gene slots
 #define NIN 25         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, rho/tau_tr, is_S, is_M
 #define NK 23          // phenotype knobs
 #define DMAX 10        // largest lattice degree (square8prism)
 #define GENOME_SIZE 875
 #define PROGRAM_SIZE 129
-#define WORLD_SIZE 77
-#define LEDGER_SIZE 70
+#define WORLD_SIZE 82
+#define LEDGER_SIZE 107
 #define HASH_SIZE 5
 #define MAX_INIT 1024
 #define FATE_I 7
@@ -60,7 +60,8 @@ enum { W_T, W_T0, W_TOPEN, W_TFORK, W_FLAGS, W_FORKFLAGS, W_DMIN, W_D0, W_DELAYS
        W_WORLDKIND, W_LMAX, W_STUCKZ, W_SIGMA, W_LAMS, W_LAMBG, W_GN, W_DRAGEXP, W_THCLICK, W_THREL, W_RHOC, W_VT,
        W_TAUTURN, W_RMIN, W_RMAX, W_TRESP, W_RCAP, W_CMISS, W_CREC, W_B2AMP, W_B2SIGMA, W_B2VALUE, W_B2RHO, W_B2P,
        W_B2MODE, W_VISMODE, W_VISON, W_VISOFF, W_VISLOW,
-       W_TASKMODE, W_SAMPLEMIN, W_SAMPLEMAX, W_BLANKMIN, W_BLANKMAX, W_CHOICET, W_RESETT };
+       W_TASKMODE, W_SAMPLEMIN, W_SAMPLEMAX, W_BLANKMIN, W_BLANKMAX, W_CHOICET, W_RESETT,
+       W_PATCHCOUNT, W_PATCHCAP, W_PATCHFAST, W_PATCHSLOW, W_PATCHLAND };
 // ledger columns (4.9)
 enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIRTHS, L_REJECTS, L_REJWALL, L_DEATHS,
        L_KILLS, L_COST, L_GUARD, L_NET, L_F, L_NEND, L_NPEAK, L_TEND, L_STATUS, L_EVENTS, L_BEATS, L_PINT,
@@ -70,7 +71,9 @@ enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIR
        L_RECGAIN, L_SAMPLES, L_DISTSUM, L_ZONE, L_PATH, L_XEND, L_YEND, L_NSEND, L_NMEND, L_NHEND, L_LIVES, L_LIVEM,
        L_LIVEH, L_LOWCAPTURES,
        L_CHOICEOPEN_N, L_CHOICEOPEN_B, L_CARRY_N, L_CARRY_B, L_CORRECT_N, L_CORRECT_B,
-       L_WRONG_N, L_WRONG_B, L_TIMEOUT_N, L_TIMEOUT_B, L_UNFINISHED_N, L_UNFINISHED_B };
+       L_WRONG_N, L_WRONG_B, L_TIMEOUT_N, L_TIMEOUT_B, L_UNFINISHED_N, L_UNFINISHED_B,
+       L_PATCHOPEN = 70, L_PATCHSOURCE = 74, L_PATCHSUPPLY = 78, L_PATCHSPILL = 82, L_PATCHHARVEST = 86,
+       L_PATCHEMPTY = 90, L_PATCHEND = 94, L_PATCHGEOM = 98, L_PATCHINITIAL = 99, L_PATCHREFILL = 103 };
 // flags (12)
 enum { F_CONTACTS_OFF = 1 << 0, F_CHEM_OFF = 1 << 1, F_APOPTOSIS_OFF = 1 << 2, F_DIVISION_OFF = 1 << 3,
        F_FREEZE = 1 << 4, F_GENES_BLIND = 1 << 5, F_IDENTITY_CLAMP = 1 << 6, F_PHENO_FIXED = 1 << 7,
@@ -84,7 +87,7 @@ enum { ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 
 // draw streams (3)
 enum { S_ZYG = 1, S_UID, S_TAU, S_CLK, S_PHASE, S_DC, S_JIT, S_DROP, S_TICK, S_DIE, S_DIV, S_PLACE, S_NOISE, S_NSIGN,
        S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES, S_VISIBILITY,
-       S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE };
+       S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE, S_PATCH_LAYOUT, S_PATCH_RATE, S_PATCH_PHASE };
 // event groups and kinds (6.1)
 enum { G_CLAIM, G_NOTICE, G_PACKET, G_MEMB, G_TICK, G_EXO };
 enum { N_BORN, N_PRESENT, N_ACK, N_REJECT, N_DIED };
@@ -99,6 +102,7 @@ enum { WK_BELL, WK_CATCH };
 enum { PL_START, PL_CLICK, PL_TIMER, PL_WITH };
 enum { TASK_SAMPLE, TASK_BLANK, TASK_CHOICE, TASK_GAP };
 enum { TC_OPEN, TC_CARRY, TC_CORRECT, TC_WRONG, TC_TIMEOUT, TC_UNFINISHED, TC_COUNT };
+enum { PC_OPEN, PC_SOURCE, PC_SUPPLY, PC_SPILL, PC_HARVEST, PC_EMPTY, PC_END, PC_INITIAL, PC_REFILL, PC_COUNT };
 // internal failures (the life is invalid: capacity bit)
 enum { FAIL_ALLOC = 1, FAIL_LIMIT = 2, FAIL_CAUSAL = 4 };
 
@@ -239,6 +243,12 @@ typedef struct {         // a CATCH blob (9.7.1); blob 0 is the target
   double tau, r;                     // next turn and next timer re-placement (+inf = none)
 } Blob;
 
+typedef struct {
+  double x, y, period, first, next;
+  uint64_t arrival_index;
+  int64_t stock, initial_remaining;
+} Patch;
+
 typedef struct { double t_send, t_arr; uint64_t tsk, sender; double amt[2]; } Flight;
 typedef struct { int32_t a, b; } Col;  // a column (a, b) of the projected footprint (9.7.2)
 typedef struct { int64_t *lo, *hi; int64_t *par; int64_t cap; } FillBuf;  // free runs and their union-find parents
@@ -270,6 +280,11 @@ typedef struct {
   uint64_t task_trial;
   double sample_min, sample_max, blank_min, blank_max, choice_T, reset_T, task_next, task_choice_start;
   int64_t task_counts[TC_COUNT][2];
+  // ABI 6: stationary food stocks and exogenous source schedules, never cell inputs.
+  int patch_count, patch_capacity, patch_opened;
+  double patch_fast, patch_slow, patch_landmark;
+  Patch patch[4];
+  int64_t patch_left[4], patch_initial_open[4], patch_counts[PC_COUNT][4], patch_geometric_misses;
   int64_t cap_cells;
   // fabric
   Site *sites; int64_t n_sites, cap_sites;
@@ -1482,7 +1497,156 @@ static void task_close(Ctx *c, double t) {
   fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
 }
 
+// ABI 6 resource stock: all mutation is physical (source arrival or harvest); observations are pure.
+static void patch_window_before(Ctx *c, double t) {
+  if (c->patch_opened || t < c->t_open_abs) return;
+  c->patch_opened = 1;
+  for (int i = 0; i < c->patch_count; i++) {
+    c->patch_counts[PC_OPEN][i] = c->patch[i].stock;
+    c->patch_initial_open[i] = c->patch[i].initial_remaining;
+  }
+}
+
+static void patch_start(Ctx *c) {
+  const double theta0 = TWO_PI * draw2(c->seed, S_PATCH_LAYOUT, 0, 0);
+  for (int i = 0; i < c->patch_count; i++) {
+    Patch *p = &c->patch[i];
+    const double theta = theta0 + (TWO_PI * (double)i) / (double)c->patch_count;
+    const double r = c->R_min + (c->R_max - c->R_min) * draw2(c->seed, S_PATCH_LAYOUT, (uint64_t)i, 1);
+    p->x = r * cos(theta); p->y = r * sin(theta);
+    p->period = draw2(c->seed, S_PATCH_RATE, (uint64_t)i, 0) < 0.5 ? c->patch_fast : c->patch_slow;
+    const double phase = p->period * draw2(c->seed, S_PATCH_PHASE, (uint64_t)i, 0);
+    p->first = c->t0 + phase;
+    if (p->first <= c->t0) p->first = nextafter(c->t0, INFINITY);
+    p->next = p->first; p->arrival_index = 0;
+    p->stock = p->initial_remaining = c->patch_capacity;
+    c->patch_left[i] = p->stock;
+    const uint64_t w[8] = {18, dbits(c->t0), (uint64_t)i, dbits(p->x), dbits(p->y),
+                           dbits(p->period), dbits(p->first), (uint64_t)c->patch_capacity};
+    fold(c, H_WORLD, w, 8); fold(c, H_ALL, w, 8);
+  }
+}
+
+static void patch_source(Ctx *c, int i) {
+  Patch *p = &c->patch[i];
+  const double t = p->next;
+  patch_window_before(c, t);
+  const int64_t before = p->stock;
+  const int admitted = before < c->patch_capacity;
+  if (admitted) p->stock++;
+  if (t >= c->t_open_abs) {
+    c->patch_counts[PC_SOURCE][i]++;
+    c->patch_counts[admitted ? PC_SUPPLY : PC_SPILL][i]++;
+  }
+  const uint64_t w[7] = {19, dbits(t), (uint64_t)i, p->arrival_index,
+                         (uint64_t)before, (uint64_t)p->stock, (uint64_t)admitted};
+  fold(c, H_WORLD, w, 7); fold(c, H_ALL, w, 7);
+  p->arrival_index++;
+  p->next = p->first + (double)p->arrival_index * p->period;
+}
+
+static void patch_nearest(const Ctx *c, double t, double *x, double *y) {
+  double X, Y, best = INFINITY;
+  dot_at(c, t, &X, &Y);
+  for (int i = 0; i < c->patch_count; i++) {
+    const double dx = X - c->patch[i].x, dy = Y - c->patch[i].y, q = dx * dx + dy * dy;
+    if (q < best) { best = q; *x = c->patch[i].x; *y = c->patch[i].y; }
+  }
+}
+
+static double patch_rate(const Ctx *c, double px, double py) {
+  double rate = c->lam_bg;
+  for (int i = 0; i < c->patch_count; i++) {
+    const double fraction = (double)c->patch_left[i] / (double)c->patch_capacity;
+    const double amplitude = c->patch_landmark + (1.0 - c->patch_landmark) * fraction;
+    const double component = c->lam_s * (amplitude * halo(px - c->patch[i].x, py - c->patch[i].y, c->sigma));
+    rate = rate + component;
+  }
+  return rate;
+}
+
+static void patch_click(Ctx *c, double t) {
+  patch_window_before(c, t);
+  double X, Y;
+  dot_at(c, t, &X, &Y);
+  const int cnt = t >= c->t_open_abs;
+  int slot = 4, outcome = 0, origin = 0;
+  int64_t before = 0, after = 0;
+  if (cnt) c->clicks++;
+  for (int i = 0; i < c->patch_count; i++) {
+    Patch *p = &c->patch[i];
+    const double dx = X - p->x, dy = Y - p->y;
+    if (dx * dx + dy * dy <= c->rho_c * c->rho_c) { slot = i; break; }
+  }
+  if (slot < 4) {
+    Patch *p = &c->patch[slot];
+    before = p->stock;
+    if (before > 0) {
+      outcome = 1; p->stock--;
+      origin = p->initial_remaining > 0 ? 1 : 2;
+      if (origin == 1) p->initial_remaining--;
+      if (cnt) {
+        c->captures++; c->income = c->income + c->R_cap;
+        c->patch_counts[PC_HARVEST][slot]++;
+        c->patch_counts[origin == 1 ? PC_INITIAL : PC_REFILL][slot]++;
+      }
+    } else {
+      outcome = 2;
+      if (cnt) c->patch_counts[PC_EMPTY][slot]++;
+    }
+    after = p->stock;
+  } else if (cnt) c->patch_geometric_misses++;
+  if (outcome != 1 && cnt) { c->misses++; c->cost = c->cost + c->c_miss; }
+  const uint64_t w[7] = {20, dbits(t), (uint64_t)outcome, (uint64_t)slot,
+                         (uint64_t)before, (uint64_t)after, (uint64_t)origin};
+  fold(c, H_WORLD, w, 7); fold(c, H_ALL, w, 7);
+  const uint64_t click[5] = {11, dbits(t), outcome == 1 ? 1 : 0, dbits(X), dbits(Y)};
+  fold(c, H_WORLD, click, 5); fold(c, H_ALL, click, 5);
+}
+
+static void patch_close(Ctx *c, double t) {
+  if (t <= c->t_open_abs) {
+    memset(c->patch_counts, 0, sizeof(c->patch_counts)); c->patch_geometric_misses = 0;
+  } else {
+    patch_window_before(c, t);
+    int64_t harvested = 0, empty = 0;
+    for (int i = 0; i < c->patch_count; i++) {
+      c->patch_counts[PC_END][i] = c->patch[i].stock;
+      const int64_t op = c->patch_counts[PC_OPEN][i], end = c->patch_counts[PC_END][i];
+      const int64_t source = c->patch_counts[PC_SOURCE][i], supply = c->patch_counts[PC_SUPPLY][i];
+      const int64_t spill = c->patch_counts[PC_SPILL][i], h = c->patch_counts[PC_HARVEST][i];
+      const int64_t ih = c->patch_counts[PC_INITIAL][i], rh = c->patch_counts[PC_REFILL][i];
+      if (source != supply + spill || op + supply != h + end || op + source != h + spill + end ||
+          h != ih + rh || c->patch_initial_open[i] != ih + c->patch[i].initial_remaining ||
+          op < 0 || op > c->patch_capacity || end < 0 || end > c->patch_capacity ||
+          c->patch[i].initial_remaining < 0 || c->patch[i].initial_remaining > end) c->status |= ST_MISMATCH;
+      for (int k = 0; k < PC_COUNT; k++) if (c->patch_counts[k][i] < 0) c->status |= ST_MISMATCH;
+      harvested += h; empty += c->patch_counts[PC_EMPTY][i];
+    }
+    if (c->patch_geometric_misses < 0 || c->captures != harvested ||
+        c->misses != empty + c->patch_geometric_misses || c->clicks != c->captures + c->misses)
+      c->status |= ST_MISMATCH;
+  }
+  for (int i = 0; i < c->patch_count; i++) {
+    const uint64_t w[5] = {21, dbits(t), (uint64_t)i, (uint64_t)c->patch[i].stock,
+                           (uint64_t)c->patch[i].initial_remaining};
+    fold(c, H_WORLD, w, 5); fold(c, H_ALL, w, 5);
+  }
+}
+
 static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then visibility; blob breaks earlier ties
+  if (c->patch_count) {
+    for (;;) {
+      double best = INFINITY;
+      int slot = -1;
+      for (int i = 0; i < c->patch_count; i++)
+        if (c->patch[i].next < best) { best = c->patch[i].next; slot = i; }
+      if (!(best < t)) break;
+      patch_source(c, slot);
+    }
+    patch_window_before(c, t);
+    return;
+  }
   if (c->task_mode) {
     while (c->task_next < t) task_transition(c);
     return;
@@ -1508,7 +1672,8 @@ static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the
   if (c->task_mode && c->task_phase != TASK_CHOICE) { c->next_sample = cs + 1.0; return; }
   double X, Y, x0, y0;
   dot_at(c, cs, &X, &Y);
-  blob_at(&c->blob[0], cs, &x0, &y0);
+  if (c->patch_count) patch_nearest(c, cs, &x0, &y0);
+  else blob_at(&c->blob[0], cs, &x0, &y0);
   const double ex = X - x0, ey = Y - y0;
   double q = ex * ex + ey * ey;
   if (c->task_mode) {
@@ -1527,6 +1692,7 @@ static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the
 static void catch_start(Ctx *c) {  // 9.7.1, before the first time group
   c->X = c->Y = c->Fx = c->Fy = 0.0; c->t_x = c->t0; c->n_foot = 0; c->n_fill = 0; c->n_col = 0; c->armed = 1; c->gam = 1.0;
   c->bright = 1; c->visibility_k = 0; c->visibility_next = INFINITY;
+  if (c->patch_count) { patch_start(c); c->next_sample = c->t0 + 1.0; return; }
   if (c->task_mode) {
     c->task_trial = 0;
     task_enter(c, c->t0, TASK_SAMPLE);
@@ -1562,6 +1728,7 @@ static void defer_occ(Ctx *c, int32_t si, int32_t add) {
   c->dO[c->n_dO++] = si; c->dO[c->n_dO++] = add;
 }
 static void catch_click(Ctx *c, double t) {  // 9.7.4: the screen registers a press at the hotspot, the dot itself
+  if (c->patch_count) { patch_click(c, t); return; }
   double X, Y, x0, y0;
   dot_at(c, t, &X, &Y);
   blob_at(&c->blob[0], t, &x0, &y0);
@@ -1781,15 +1948,19 @@ static void catch_candidate(Ctx *c, const Rec *r, int cnt) {  // 9.7.5: thinning
   dot_at(c, t, &X, &Y);
   planar(c, s->a, s->b, &ox, &oy);
   const double px = X + ox, py = Y + oy;
-  blob_at(&c->blob[0], t, &x0, &y0);
-  double rate = c->task_mode && !c->blob[0].present ? c->lam_bg :
-                c->lam_bg + c->lam_s * halo(px - x0, py - y0, c->sigma);
-  if (c->visibility_mode != 0 && !c->bright)
-    rate = c->lam_bg + c->visibility_low * (c->lam_s * halo(px - x0, py - y0, c->sigma));
-  if (c->blob[1].exists && c->blob[1].present) {
-    double x1, y1;
-    blob_at(&c->blob[1], t, &x1, &y1);
-    rate = rate + c->lam_s * (c->b2_amp * halo(px - x1, py - y1, c->b2_sigma));
+  double rate;
+  if (c->patch_count) rate = patch_rate(c, px, py);
+  else {
+    blob_at(&c->blob[0], t, &x0, &y0);
+    rate = c->task_mode && !c->blob[0].present ? c->lam_bg :
+                  c->lam_bg + c->lam_s * halo(px - x0, py - y0, c->sigma);
+    if (c->visibility_mode != 0 && !c->bright)
+      rate = c->lam_bg + c->visibility_low * (c->lam_s * halo(px - x0, py - y0, c->sigma));
+    if (c->blob[1].exists && c->blob[1].present) {
+      double x1, y1;
+      blob_at(&c->blob[1], t, &x1, &y1);
+      rate = rate + c->lam_s * (c->b2_amp * halo(px - x1, py - y1, c->b2_sigma));
+    }
   }
   const int acc = draw2(c->seed, S_RACC, r->u1, r->u2) * c->lam_max < rate;
   const uint64_t w[5] = {9, dbits(t), r->u1, r->u2, (uint64_t)acc};
@@ -1966,7 +2137,11 @@ static void idx_sort(const Ctx *c, int64_t *a, int64_t n, int64_t *tmp) {  // st
 }
 
 static void group_begin(Ctx *c, double t) {  // CATCH: every world event below t first (9.7.1)
-  if (c->kind == WK_CATCH) world_to(c, t);
+  if (c->kind == WK_CATCH) {
+    world_to(c, t);
+    if (c->patch_count)
+      for (int i = 0; i < c->patch_count; i++) c->patch_left[i] = c->patch[i].stock;
+  }
 }
 
 static void group_end(Ctx *c, double t) {
@@ -2025,6 +2200,7 @@ static void close_life(Ctx *c, double *L) {  // 9.5
     world_to(c, te);
     dot_adv(c, te);
     if (c->task_mode) task_close(c, te);
+    if (c->patch_count) patch_close(c, te);
   } else {
     world_adv(c, te);
   }
@@ -2100,6 +2276,12 @@ static void close_life(Ctx *c, double *L) {  // 9.5
   L[L_LOWCAPTURES] = (double)c->low_light_captures;
   for (int k = 0; k < TC_COUNT; k++)
     for (int cls = 0; cls < 2; cls++) L[L_CHOICEOPEN_N + 2 * k + cls] = (double)c->task_counts[k][cls];
+  for (int i = 0; i < 4; i++) {
+    for (int k = 0; k < 7; k++) L[L_PATCHOPEN + 4 * k + i] = (double)c->patch_counts[k][i];
+    L[L_PATCHINITIAL + i] = (double)c->patch_counts[PC_INITIAL][i];
+    L[L_PATCHREFILL + i] = (double)c->patch_counts[PC_REFILL][i];
+  }
+  L[L_PATCHGEOM] = (double)c->patch_geometric_misses;
   for (int i = 0; i < LEDGER_SIZE; i++) { uint64_t wv = dbits(L[i]); fold(c, H_ALL, &wv, 1); }
 }
 
@@ -2212,9 +2394,9 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
   if (w[W_KILLRATE] != 0.0 || w[W_WOUNDRATE] != 0.0 || w[W_DRIFTTAU] != 0.0) return 0;
   if (!(w[W_T] > 0.0) || !is_int(w[W_T]) || !is_int(w[W_T0])) return 0;
   if (w[W_T] > TIME_MAX || fabs(w[W_T0]) > TIME_MAX) return 0;
-  const int ints[12] = {W_NMAX, W_EMAX, W_FABRICR, W_ORACLE, W_STUCKA, W_STUCKB, W_WORLDKIND, W_LMAX, W_STUCKZ,
-                        W_B2MODE, W_VISMODE, W_TASKMODE};
-  for (int i = 0; i < 12; i++) if (!is_int(w[ints[i]])) return 0;
+  const int ints[14] = {W_NMAX, W_EMAX, W_FABRICR, W_ORACLE, W_STUCKA, W_STUCKB, W_WORLDKIND, W_LMAX, W_STUCKZ,
+                        W_B2MODE, W_VISMODE, W_TASKMODE, W_PATCHCOUNT, W_PATCHCAP};
+  for (int i = 0; i < 14; i++) if (!is_int(w[ints[i]])) return 0;
   if (!(w[W_TOPEN] >= 0.0 && w[W_TOPEN] < w[W_T])) return 0;
   for (int i = W_FLAGS; i <= W_FORKFLAGS; i++) {
     if (!is_int(w[i]) || w[i] < 0.0 || w[i] > (double)F_ALL) return 0;
@@ -2284,6 +2466,20 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
     if (!(w[W_SIGMA] < w[W_B2SIGMA] && w[W_RHOC] == w[W_B2RHO] &&
           2.0 * w[W_RMIN] > w[W_RHOC] + w[W_B2RHO] && w[W_B2VALUE] < 0.0)) return 0;
   } else return 0;
+  if (w[W_PATCHCOUNT] == 0.0) {
+    for (int i = W_PATCHCAP; i <= W_PATCHLAND; i++) if (w[i] != 0.0) return 0;
+  } else {
+    if (!(w[W_PATCHCOUNT] >= 1.0 && w[W_PATCHCOUNT] <= 4.0 &&
+          w[W_PATCHCAP] >= 1.0 && w[W_PATCHCAP] <= 1048576.0)) return 0;
+    if (w[W_WORLDKIND] != WK_CATCH || w[W_TASKMODE] != 0.0 || w[W_VISMODE] != 0.0 ||
+        w[W_VT] != 0.0 || w[W_TAUTURN] != 0.0 || w[W_TRESP] != 0.0 || w[W_B2AMP] != 0.0 ||
+        w[W_B2VALUE] != 0.0 || w[W_B2MODE] != 0.0 || w[W_B2P] != 1.0) return 0;
+    if (!(w[W_PATCHFAST] >= STEP_MIN && w[W_PATCHFAST] <= w[W_PATCHSLOW] &&
+          w[W_PATCHSLOW] <= TIME_MAX && w[W_PATCHLAND] >= 0.0 && w[W_PATCHLAND] < 1.0)) return 0;
+    if (!(w[W_RHOC] > 0.0 && w[W_RMIN] >= 2.0 * w[W_RHOC])) return 0;
+    if (!(w[W_LAMBG] + w[W_LAMS] * w[W_PATCHCOUNT] <= RATE_MAX)) return 0;
+    if (!(w[W_PATCHCOUNT] * (ceil(w[W_T] / w[W_PATCHFAST]) + 1.0) <= 1048576.0)) return 0;
+  }
   return 1;
 }
 
@@ -2346,7 +2542,10 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
   c->task_mode = (int)w[W_TASKMODE]; c->sample_min = w[W_SAMPLEMIN]; c->sample_max = w[W_SAMPLEMAX];
   c->blank_min = w[W_BLANKMIN]; c->blank_max = w[W_BLANKMAX];
   c->choice_T = w[W_CHOICET]; c->reset_T = w[W_RESETT]; c->task_next = INFINITY;
-  c->lam_max = c->lam_bg + c->lam_s * (1.0 + c->b2_amp);
+  c->patch_count = (int)w[W_PATCHCOUNT]; c->patch_capacity = (int)w[W_PATCHCAP];
+  c->patch_fast = w[W_PATCHFAST]; c->patch_slow = w[W_PATCHSLOW]; c->patch_landmark = w[W_PATCHLAND];
+  c->lam_max = c->patch_count ? c->lam_bg + c->lam_s * (double)c->patch_count :
+                              c->lam_bg + c->lam_s * (1.0 + c->b2_amp);
   c->c_b2 = c->b2_value < 0.0 ? -c->b2_value : 0.0;
   c->seed = seeds[0]; c->tie_seed = seeds[1]; c->order_seed = seeds[2]; c->salt = seeds[3];
   c->flags = (int64_t)w[W_FLAGS]; c->fork_flags = (int64_t)w[W_FORKFLAGS];

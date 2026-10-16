@@ -4,13 +4,14 @@ The library is built with ``gcc -O3 -fopenmp -ffp-contract=off -fPIC -shared -st
 under ``~/.cache/cell-dev/life`` (override with ``CELL_DEV_CACHE``) by the SHA-256 of the source plus the flags, and
 loaded with ctypes. ``run`` packs worlds, seeds, genomes or programs and initial bodies into the kernel arrays.
 
-The kernel implements ABI 5 (``KERNEL = spec.V5``). ``run`` speaks an explicit caller ABI, preserving the
+The kernel implements ABI 6 (``KERNEL = spec.V6``). ``run`` speaks an explicit caller ABI, preserving the
 legacy ``spec.CURRENT`` default (ABI 2). ABI 3 keeps its 66 world fields and 57 ledger columns; ABI 4 appends
 four target-visibility fields and one capture readout. Older worlds pad neutrally. ABI 2 genome/program/body
 inputs also retain their earlier neutral padding. Returned arrays use the caller's shapes, and undoing the
 extra close-ledger folds recovers older full-mode ``all`` hashes exactly. Fast mode preserves each older
 adapter's existing hash behavior; its hashes are not replay evidence. ABI 5 appends seven delayed-match world
 fields and twelve opportunity/outcome counters; legacy modes produce no additional world events.
+ABI 6 appends persistent resource fields and conservation counters without changing cellular inputs.
 """
 from __future__ import annotations
 
@@ -27,7 +28,7 @@ import numpy as np
 
 from src.life import spec
 
-KERNEL = spec.V5  # the contract kernel.c implements
+KERNEL = spec.V6  # the contract kernel.c implements
 SRC = Path(__file__).with_name("kernel.c")
 CFLAGS = ("-O3", "-fopenmp", "-ffp-contract=off", "-fPIC", "-shared", "-std=c11")
 FAST_FLAGS = ("-DLIFE_FAST",)  # the fast build: same lives and ledger, no hashes (see ``run``'s ``fast``)
@@ -131,8 +132,8 @@ def _ptr(a, t):
 
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3, 4, 5):
-        raise ValueError(f"build.run speaks ABI 2, 3, 4 and {KERNEL.version}, not ABI {abi.version}")
+    if abi.version not in (2, 3, 4, 5, 6):
+        raise ValueError(f"build.run speaks ABI 2 through {KERNEL.version}, not ABI {abi.version}")
     return abi
 
 
@@ -245,7 +246,7 @@ def unfold_close(h: np.ndarray, ledger: np.ndarray, start: int) -> np.ndarray:
 class Lives:
     """Kernel outputs for a batch of lives (LIFE_ABI.md 4.9-4.11), in the shapes of ``abi`` (``spec.CURRENT`` if
     None): ABI 2 has 35 ledger columns, 4 hashes and 6 fate-log columns; ABI 3 has 57/5/7, ABI 4 has 58/5/7,
-    and ABI 5 has 70/5/7."""
+    ABI 5 has 70/5/7, and ABI 6 has 107/5/7."""
     ledger: np.ndarray  # float64 [n, LEDGER_SIZE]
     hashes: np.ndarray  # uint64 [n, HASH_SIZE]: all, spikes, fate, chem (, world)
     raster_t: np.ndarray | None = None  # [n, cap]
@@ -351,7 +352,7 @@ def run(worlds, seeds, *, genomes=None, programs=None, genome_of=None, init=None
         fast: bool = False) -> Lives:
     """Run ``n`` lives. ``worlds``: a ``spec.World`` (or a list, one per life). ``seeds``: life seeds or rows of 4.
 
-    ``abi`` (``spec.CURRENT`` if None) is the ABI of the tables, bodies and outputs; the kernel itself is ABI 5.
+    ``abi`` (``spec.CURRENT`` if None) is the ABI of the tables, bodies and outputs; the kernel itself is ABI 6.
     ``genomes`` is a packed genome table ``[G, GENOME_SIZE]`` (``abi.pack_genomes``), ``programs`` a program table
     ``[P, PROGRAM_SIZE]`` or one row (``abi.pack_program``); the two may have different row counts. ``genome_of[i]``
     picks the row of life i in the table its mode uses (program mode: ``programs``, else ``genomes``). By default a

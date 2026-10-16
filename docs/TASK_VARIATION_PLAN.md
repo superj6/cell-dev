@@ -20,6 +20,24 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
+**Persistent resource patches implemented (2026-10-15).** ABI6 adds fixed, independently replenished food
+patches whose stock changes the existing local sensory field. Harvest depletes stock without relocating the
+patch; only collected food minus ordinary physical costs pays. Genome, cell inputs, asynchronous local rules
+and prices stay unchanged. This tests the cumulative direction: inherited pursuit can obtain food immediately,
+while nearby additions may improve use of continuing supply. No behavior sequence is prescribed.
+
+Engineering checks are complete: eight C-full/C-fast/Python truth triples, eight whole and eight stepped JS
+replays, 71 direct C boundary cases, older ABI compatibility, observer purity and deterministic ABI6 resume.
+The default suite has 1,086 passes with two fixture/style corrections passing separately; 127 slow cases were
+not run. Runtime validation, including failed commands, used 168.893127 CPU seconds and 624.40 MiB peak owned
+RSS; all workers are clear. The fixed paused preview is an engineering illustration, not evolved patch behavior.
+See `results/abi6_resource_patches_20261015/README.md` and `docs/ABI6_RESOURCE_PATCHES.md`.
+
+Next measure the full inherited AO balanced population and fixed AO/AM references on the new world and old
+pursuit tasks. Keep initial and replenished food separate, retain all rows, and do not select a new endpoint from
+this diagnostic. Information-payoff instruments and evolution are separate next investments. Neither world
+admission nor useful new circuitry is established yet; local resources remain adequate.
+
 **Cumulative building blocks (user clarification, 2026-10-15).** Evolution should accumulate useful
 primitives and reuse them in new situations. Prefer environments in which inherited abilities already produce
 useful outcomes and nearby additions can pay before a sophisticated combination is complete. Information

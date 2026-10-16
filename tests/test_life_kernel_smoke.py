@@ -62,7 +62,7 @@ def _conservation_error(res: build.Lives) -> np.ndarray:
 
 def test_kernel_builds_and_its_exports_match_spec_bitwise():
     lib = build.load()
-    assert lib.life_abi_version() == build.KERNEL.version == 5 and build.library_path().exists()
+    assert lib.life_abi_version() == build.KERNEL.version == 6 and build.library_path().exists()
     assert build.hash64(1, 2, 3, 4) == spec.hash64(1, 2, 3, 4) == 0x89F838C6080F2B76
     assert build.hash64(spec.MASK64, 7, -1) == 0x6BEEACB0A480F707
     assert build.normal(42, spec.S_CLK, spec.sitekey(0, 0), 0) == 0.25705196441331246

@@ -21,7 +21,8 @@ F64P = ctypes.POINTER(ctypes.c_double)
 U64P = ctypes.POINTER(ctypes.c_uint64)
 STATE_NAMES = ("phase", "next", "class", "trial", "consumed", "pending_gap", "present0", "present1",
                "x0", "y0", "x1", "y1", "choice_start", "clicks", "captures", "b2_clicks", "misses",
-               "income", "cost", "low_light_captures", "samples", "zone_samples", "dist_sum", "status") + spec.TASK_LEDGER
+               "income", "cost", "low_light_captures", "samples", "zone_samples", "dist_sum",
+               "status") + spec.TASK_LEDGER
 
 
 @pytest.fixture(scope="module")
@@ -259,7 +260,8 @@ def test_c_close_flags_class_imbalance_even_when_aggregate_counts_balance(world_
     {"rho_c": .5}, {"R_min": 1}, {"b2_value": 0},
 ])
 def test_c_validator_rejects_invalid_task_vectors_directly(world_c, changes):
-    w = V5.pack_world(spec.world("catch_delayed_match_l4"))
+    # This fixture calls the internal native validator directly, so newer tails must be padded.
+    w = build.KERNEL.pack_world(spec.world("catch_delayed_match_l4"))
     assert world_c.dm_world_ok(w.ctypes.data_as(F64P)) == 1
     for key, value in changes.items():
         w[V5.WORLD_INDEX[key]] = value

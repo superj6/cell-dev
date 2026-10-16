@@ -57,8 +57,8 @@ def validate_ledger(ledger, *, abi=spec.V3) -> dict:
 
 Reject guards, failed accounting, capacity failures and truncated logs; retain ordinary wall/extinction flags.
 """
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5):
-        raise ValueError("ledger readouts require spec.V3, spec.V4 or spec.V5")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6):
+        raise ValueError("ledger readouts require spec.V3, spec.V4, spec.V5 or spec.V6")
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
     if led.ndim != 2 or led.shape[1] != abi.LEDGER_SIZE or not len(led) or not np.isfinite(led).all():
         raise ValueError(f"need finite, complete ABI-{abi.version} ledger rows")
@@ -76,6 +76,21 @@ Reject guards, failed accounting, capacity failures and truncated logs; retain o
             opened, carried, correct, wrong, timeout, unfinished = columns
             if not np.array_equal(opened + carried, correct + wrong + timeout + unfinished):
                 raise ValueError("delayed-match opportunities do not reconcile")
+    if abi.version >= 6:
+        patch = led[:, [abi.L[name] for name in spec.PATCH_LEDGER]]
+        if np.any(patch < 0) or np.any(patch != np.floor(patch)):
+            raise ValueError("resource-patch counts must be nonnegative integers")
+        for i in range(spec.PATCH_SLOTS):
+            def at(metric, slot=i):
+                return led[:, abi.L[f"patch_{metric}_{slot}"]]
+            if not np.array_equal(at("source"), at("supply") + at("spill")):
+                raise ValueError("resource-patch sources do not reconcile")
+            if not np.array_equal(at("stock_open") + at("supply"), at("harvest") + at("stock_end")):
+                raise ValueError("resource-patch stocks do not reconcile")
+            if not np.array_equal(at("harvest"), at("initial_harvest") + at("refill_harvest")):
+                raise ValueError("resource-patch harvest origins do not reconcile")
+            if np.any(at("initial_harvest") > at("stock_open")):
+                raise ValueError("initial resource harvest exceeds the stock present at window opening")
     statuses = led[:, abi.L["status"]].astype(np.int64)
     names = ("guard_cells", "guard_events", "raster_overflow", "fate_overflow", "ledger_mismatch", "capacity")
     invalid = sum(spec.STATUS[k] for k in names)
@@ -88,9 +103,9 @@ Reject guards, failed accounting, capacity failures and truncated logs; retain o
 
 def _validate_trace_ledger(tr):
     version = tr.meta.get("abi", 3)
-    if version not in (3, 4, 5):
-        raise ValueError("trace metadata must name ABI 3, 4 or 5")
-    abi = {3: spec.V3, 4: spec.V4, 5: spec.V5}[version]
+    if version not in (3, 4, 5, 6):
+        raise ValueError("trace metadata must name ABI 3, 4, 5 or 6")
+    abi = {3: spec.V3, 4: spec.V4, 5: spec.V5, 6: spec.V6}[version]
     validate_ledger([tr.ledger[k] for k in abi.LEDGER], abi=abi)
     return abi
 
@@ -101,8 +116,8 @@ def matching_summary(ledger, *, abi=spec.V5) -> dict:
 Totals aggregate complete lives before division. Physical slot hits and positive fitness alone do not establish
 matching. Use this only for delayed-match worlds; a neutral V5 world has no opportunities and undefined ratios.
 """
-    if abi.version != 5:
-        raise ValueError("delayed matching requires ABI 5")
+    if abi.version not in (5, 6):
+        raise ValueError("delayed matching requires ABI 5 or later")
     statuses = validate_ledger(ledger, abi=abi)
     led = np.atleast_2d(np.asarray(ledger, dtype=float))
     classes = {}
@@ -122,6 +137,49 @@ matching. Use this only for delayed-match worlds; a neutral V5 world has no oppo
                               accuracy_among_choices=correct / completed if completed else None)
     return dict(lives=len(led), classes=classes, status_counts=statuses,
                 interpretation="Report both sample classes and coverage; positive reward is not evidence of matching.")
+
+
+def resource_summary(ledger, world: spec.World, *, abi=spec.V6) -> dict:
+    """Conserved resources and click outcomes, without inferring a strategy from aggregate counts."""
+    if abi.version != 6 or not world.patch_count:
+        raise ValueError("resource_summary requires an enabled ABI-6 patch world")
+    abi.validate_world(world)
+    statuses = validate_ledger(ledger, abi=abi)
+    led = np.atleast_2d(np.asarray(ledger, dtype=float))
+    metrics = (*spec.PATCH_METRICS, "initial_harvest", "refill_harvest")
+    per_patch, totals = [], dict.fromkeys(metrics, 0)
+    harvested = np.zeros(len(led))
+    empty = np.zeros(len(led))
+    for i in range(spec.PATCH_SLOTS):
+        columns = {name: led[:, abi.L[f"patch_{name}_{i}"]] for name in metrics}
+        if i >= world.patch_count and any(np.any(x) for x in columns.values()):
+            raise ValueError("inactive resource slots must remain zero")
+        if any(np.any(columns[name] > world.patch_capacity) for name in ("stock_open", "stock_end")):
+            raise ValueError("resource stock exceeds capacity")
+        counts = {name: int(value.sum()) for name, value in columns.items()}
+        if i < world.patch_count:
+            per_patch.append(dict(slot=i, **counts))
+        for name, value in counts.items():
+            totals[name] += value
+        harvested += columns["harvest"]
+        empty += columns["empty"]
+    geometric = led[:, abi.L["patch_geometric_misses"]]
+    if (not np.array_equal(harvested, led[:, abi.L["captures"]]) or
+            not np.array_equal(empty + geometric, led[:, abi.L["misses"]]) or
+            not np.array_equal(harvested + empty + geometric, led[:, abi.L["clicks"]])):
+        raise ValueError("resource click outcomes do not reconcile with the native ledger")
+    absent = ("b2_clicks", "respawns", "low_light_captures", *spec.TASK_LEDGER)
+    if any(np.any(led[:, abi.L[name]]) for name in absent):
+        raise ValueError("resource worlds cannot record legacy target or matching outcomes")
+    offered = totals["stock_open"] + totals["source"]
+    return dict(lives=len(led), patches=per_patch, totals=totals,
+                geometric_misses=int(geometric.sum()), status_counts=statuses,
+                harvest_per_life=totals["harvest"] / len(led),
+                initial_harvest_per_life=totals["initial_harvest"] / len(led),
+                refill_harvest_per_life=totals["refill_harvest"] / len(led),
+                offered_utilization=totals["harvest"] / offered if offered else None,
+                spill_share=totals["spill"] / totals["source"] if totals["source"] else None,
+                interpretation="Food provenance and conservation; these totals do not establish switching or memory.")
 
 
 @dataclass(frozen=True)
@@ -260,8 +318,8 @@ def search_signature(tr: probe.Trace, *, silence_window: float, start: float | N
 The observation-only motion log supports exact integration through gaps, even while force direction changes.
 """
     w = tr.meta["world"]
-    if w.task_mode:
-        raise ValueError("single-target search signature is undefined for delayed matching; use matching_summary")
+    if w.task_mode or w.patch_count:
+        raise ValueError("single-target search signature requires an ordinary CATCH world")
     abi = _validate_trace_ledger(tr)
     start = w.t0 + w.t_open if start is None else float(start)
     end = float(tr.ledger["t_end"])

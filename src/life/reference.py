@@ -1,17 +1,18 @@
-"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 5), written independently of the C kernel.
+"""Pure-Python specification of one life (docs/LIFE_ABI.md, ABI 6), written independently of the C kernel.
 
 Every handler of the ABI (sections 6-12) is transcribed here with the same float64 operations in the same order, so on
 the same libm its ledger, hashes, raster and fate log agree bitwise with ``kernel.c``. It is meant for tiny bodies
 (about 20 cells, T up to about 200) in tests: whole lives are seconds, not milliseconds.
 
-The handlers implement ABI 4: sites ``(a, b, z)`` in a stack of ``L_max`` planes, the prism lattices, the receptor
+The handlers implement ABI 6: sites ``(a, b, z)`` in a stack of ``L_max`` planes, the prism lattices, the receptor
 events RCAND and RECEPTOR (7.10), the plane cues and the receptor trace, vertical placement, the forks lateral_off,
 hidden_off, receptor_off and motor_off, and both world kinds: the BELL-1 lumen (9.2) and the CATCH world (9.7).
 Every entry point takes ``abi`` (default ``spec.CURRENT``):
+- ``spec.V6``: ABI-6 arrays (world 82, ledger 107), adding conserved food patches.
 - ``spec.V5``: ABI-5 arrays (world 77, ledger 70), adding delayed cue matching without changing cell rules.
 - ``spec.V4``: ABI-4 arrays in and out (world 70, ledger 58); flash/renewal visibility changes target cues only.
 - ``spec.V3``: ABI-3 arrays in and out (genome 875, program 129, world 66, ledger 57, 5 hashes, fate_i 7 columns).
-- ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 4 (``spec.V3.pad_genomes``,
+- ``spec.V2``: ABI-2 arrays in and out. The inputs are padded neutrally into ABI 6 (``spec.V3.pad_genomes``,
   ``pad_program``, the CATCH and visibility keys at their defaults, z = 0), and outputs are cut back to ABI 2's
   sizes. The ``all`` hash folds only the caller's ledger columns. LIFE_ABI.md 15.33 says this is
   ABI 2 bitwise (gate GB1); the ABI-2 tests of this repository check it against the ABI-2 kernel.
@@ -48,7 +49,7 @@ import numpy as np
 from src import lattice as _lat
 from src.life import spec
 
-V2, V3, V4, V5 = spec.V2, spec.V3, spec.V4, spec.V5
+V2, V3, V4, V5, V6 = spec.V2, spec.V3, spec.V4, spec.V5, spec.V6
 EMPTY = spec.EMPTY
 _KIND_OF = {code: kind for kind, code in V3.LATTICE_CODES.items()}
 _INF = float("inf")
@@ -70,6 +71,7 @@ R_RCAND, R_RECEPT = 9, 10
 R_CHEM = 100
 W_CLICK, W_PLACE, W_TURN, W_VISIBILITY = 11, 12, 13, 14  # CATCH accountant world-event first hash words
 W_TASK_PHASE, W_TASK_RESOLVE, W_TASK_END = 15, 16, 17
+W_PATCH_START, W_PATCH_SOURCE, W_PATCH_CLICK, W_PATCH_END = 18, 19, 20, 21
 TASK_SAMPLE, TASK_BLANK, TASK_CHOICE, TASK_GAP = range(4)
 H_ALL, H_SPIKES, H_FATE, H_CHEM, H_WORLD = 0, 1, 2, 3, 4
 _FAMILY = {R_SPIKE: H_SPIKES, R_BIRTH: H_FATE, R_DEATH: H_FATE, R_CLAIM: H_FATE, R_RESOLVE: H_FATE,
@@ -81,7 +83,7 @@ assert [V3.K[n] for n in V3.KNOBS] == list(range(V3.P)) and V3.KNOBS[KZETA] == "
 
 _F = V3.FLAGS
 _ST = spec.STATUS
-_LI = V5.L
+_LI = V6.L
 _NROW = len(spec.PROGRAM_ROWS)
 _PS = {name: i - _NROW * V3.P for name, i in V3.PROGRAM_SCALAR.items()}
 _ROW = V3.PROGRAM_ROW
@@ -91,12 +93,14 @@ _FLOAT_KEYS = ("T", "t0", "t_open", "t_fork", "d_min", "d0", "delay_sd", "jit", 
                "sigma", "lam_s", "lam_bg", "g_n", "drag_exp", "th_click", "th_rel", "rho_c", "v_t", "tau_turn",
                "R_min", "R_max", "t_resp", "R_cap", "c_miss", "c_rec", "b2_amp", "b2_sigma", "b2_value", "b2_rho",
                "b2_p", "visibility_on", "visibility_off", "visibility_low",
-               "sample_min", "sample_max", "blank_min", "blank_max", "choice_T", "reset_T")
+               "sample_min", "sample_max", "blank_min", "blank_max", "choice_T", "reset_T",
+               "patch_refill_fast", "patch_refill_slow", "patch_landmark")
 _INT_KEYS = ("flags", "fork_flags", "n_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max",
-             "stuck_z", "b2_mode", "visibility_mode", "task_mode")
+             "stuck_z", "b2_mode", "visibility_mode", "task_mode", "patch_count", "patch_capacity")
 _V3_DEFAULTS = [float(getattr(spec.World(), k)) for k in V3.WORLD_KEYS[V2.WORLD_SIZE:]]
 _V4_DEFAULTS = [float(getattr(spec.World(), k)) for k in V4.WORLD_KEYS[V3.WORLD_SIZE:]]
 _V5_DEFAULTS = [float(getattr(spec.World(), k)) for k in V5.WORLD_KEYS[V4.WORLD_SIZE:]]
+_V6_DEFAULTS = [float(getattr(spec.World(), k)) for k in V6.WORLD_KEYS[V5.WORLD_SIZE:]]
 
 
 def bits(x: float) -> int:
@@ -141,8 +145,21 @@ class _Blob:
 
 
 @dataclass
+class _Patch:
+    """ABI6 observer-visible world state; inactive slots have a canonical zero representation."""
+    x: float = 0.0
+    y: float = 0.0
+    period: float = 0.0
+    first: float = 0.0
+    next: float = 0.0
+    arrival_index: int = 0
+    stock: int = 0
+    initial_remaining: int = 0
+
+
+@dataclass
 class LifeResult:
-    """Outputs of one life in the caller's ABI 2, 3 or 4 layouts (LIFE_ABI.md 4.9-4.11)."""
+    """Outputs of one life in the caller's explicit ABI 2–6 layouts (LIFE_ABI.md 4.9-4.11)."""
     ledger: np.ndarray  # float64 [abi.LEDGER_SIZE], columns abi.LEDGER
     hashes: np.ndarray  # uint64 [abi.HASH_SIZE]: all, spikes, fate, chem (, world)
     raster_t: np.ndarray  # float64 [min(raster_n, cap)]
@@ -173,7 +190,7 @@ class _Accountant:
         self.n = 0
         self.n_plane = [0, 0, 0]  # live cells in the planes S (z = 0), M (z = 1) and H (z >= 2)
         self.inflight = 0
-        self.led = [0.0] * V5.LEDGER_SIZE
+        self.led = [0.0] * V6.LEDGER_SIZE
         self.led[_LI["last_birth"]] = life.t0
         self.led[_LI["t_ext"]] = -1.0
         self.status = 0
@@ -255,6 +272,9 @@ class _Accountant:
             self.visibility_next = spec.poisson_next(L.seed, spec.S_VISIBILITY, 0, 0, L.t0, L.visibility_on)
             self.visibility_k = 1
         self.blobs = []
+        if L.patch_count:
+            self._patch_start()
+            return
         for i in range(2 if L.b2_amp > 0 else 1):
             bl = _Blob()
             bl.i, bl.present = i, True
@@ -279,6 +299,138 @@ class _Accountant:
         else:
             for bl in self.blobs:
                 self.place(bl.i, 0, L.t0)
+
+    def _patch_start(self) -> None:
+        L = self.life
+        self.patches = [_Patch() for _ in range(4)]
+        self.patch_left = [0] * 4
+        self.patch_initial_open = [0] * 4
+        self.patch_opened = False
+        for i in range(L.patch_count):
+            p = self.patches[i]
+            p.x, p.y = spec.patch_layout(L.seed, i, L.patch_count, L.R_min, L.R_max)
+            p.period, p.first = spec.patch_source(L.seed, i, L.patch_refill_fast, L.patch_refill_slow, L.t0)
+            p.next = p.first
+            p.stock = p.initial_remaining = L.patch_capacity
+            self.patch_left[i] = p.stock
+            self._fold_world((W_PATCH_START, bits(L.t0), i, bits(p.x), bits(p.y),
+                              bits(p.period), bits(p.first), L.patch_capacity))
+
+    def _patch_window_before(self, t: float) -> None:
+        if self.patch_opened or t < self.life.t_open_abs:
+            return
+        self.patch_opened = True
+        for i in range(self.life.patch_count):
+            self.led[_LI[f"patch_stock_open_{i}"]] = float(self.patches[i].stock)
+            self.patch_initial_open[i] = self.patches[i].initial_remaining
+
+    def _patch_source(self, i: int) -> None:
+        L, p = self.life, self.patches[i]
+        t = p.next
+        self._patch_window_before(t)
+        before = p.stock
+        admitted = before < L.patch_capacity
+        if admitted:
+            p.stock += 1
+        if t >= L.t_open_abs:
+            self.led[_LI[f"patch_source_{i}"]] += 1.0
+            self.led[_LI[f"patch_{'supply' if admitted else 'spill'}_{i}"]] += 1.0
+        self._fold_world((W_PATCH_SOURCE, bits(t), i, p.arrival_index, before, p.stock, int(admitted)))
+        p.arrival_index += 1
+        p.next = p.first + float(p.arrival_index) * p.period
+
+    def _patch_nearest(self, t: float) -> tuple[float, float]:
+        X, Y = self.dot_at(t)
+        best, point = _INF, (0.0, 0.0)
+        for p in self.patches[:self.life.patch_count]:
+            dx, dy = X - p.x, Y - p.y
+            q = dx * dx + dy * dy
+            if q < best:
+                best, point = q, (p.x, p.y)
+        return point
+
+    def _patch_rate(self, px: float, py: float) -> tuple[float, float]:
+        L = self.life
+        rate, signal = L.lam_bg, 0.0
+        for i in range(L.patch_count):
+            p = self.patches[i]
+            amplitude = spec.patch_amplitude(self.patch_left[i], L.patch_capacity, L.patch_landmark)
+            component = L.lam_s * (amplitude * spec.halo(px - p.x, py - p.y, L.sigma))
+            rate = rate + component
+            signal = signal + component
+        return rate, signal
+
+    def _patch_click(self, t: float, counted: bool) -> None:
+        L, led = self.life, self.led
+        self._patch_window_before(t)
+        X, Y = self.dot_at(t)
+        slot, outcome, origin, before, after = 4, 0, 0, 0, 0
+        if counted:
+            led[_LI["clicks"]] += 1.0
+        for i in range(L.patch_count):
+            p = self.patches[i]
+            dx, dy = X - p.x, Y - p.y
+            if dx * dx + dy * dy <= L.rho_c * L.rho_c:
+                slot = i
+                break
+        if slot < 4:
+            p = self.patches[slot]
+            before = p.stock
+            if before > 0:
+                outcome = 1
+                p.stock -= 1
+                origin = 1 if p.initial_remaining > 0 else 2
+                if origin == 1:
+                    p.initial_remaining -= 1
+                if counted:
+                    led[_LI["captures"]] += 1.0
+                    led[_LI["income"]] = led[_LI["income"]] + L.R_cap
+                    led[_LI[f"patch_harvest_{slot}"]] += 1.0
+                    led[_LI[f"patch_{'initial' if origin == 1 else 'refill'}_harvest_{slot}"]] += 1.0
+            else:
+                outcome = 2
+                if counted:
+                    led[_LI[f"patch_empty_{slot}"]] += 1.0
+            after = p.stock
+        elif counted:
+            led[_LI["patch_geometric_misses"]] += 1.0
+        if outcome != 1 and counted:
+            led[_LI["misses"]] += 1.0
+            led[_LI["cost"]] = led[_LI["cost"]] + L.c_miss
+        self._fold_world((W_PATCH_CLICK, bits(t), outcome, slot, before, after, origin))
+        self._fold_world((W_CLICK, bits(t), int(outcome == 1), bits(X), bits(Y)))
+
+    def _patch_finish(self, t_end: float) -> None:
+        L, led = self.life, self.led
+        if t_end <= L.t_open_abs:
+            for name in spec.PATCH_LEDGER:
+                led[_LI[name]] = 0.0
+        else:
+            self._patch_window_before(t_end)
+            harvested, empty = 0.0, 0.0
+            for i in range(L.patch_count):
+                p = self.patches[i]
+                led[_LI[f"patch_stock_end_{i}"]] = float(p.stock)
+                names = ("stock_open", "source", "supply", "spill", "harvest", "empty", "stock_end",
+                         "initial_harvest", "refill_harvest")
+                values = [led[_LI[f"patch_{name}_{i}"]] for name in names]
+                op, source, supply, spill, h, e, end, ih, rh = values
+                if (source != supply + spill or op + supply != h + end or op + source != h + spill + end
+                        or h != ih + rh or self.patch_initial_open[i] != ih + p.initial_remaining
+                        or not 0 <= op <= L.patch_capacity or not 0 <= end <= L.patch_capacity
+                        or not 0 <= p.initial_remaining <= end
+                        or any(v < 0 or v != math.floor(v) for v in values)):
+                    self.status |= _ST["ledger_mismatch"]
+                harvested += h
+                empty += e
+            geom = led[_LI["patch_geometric_misses"]]
+            if (geom < 0 or geom != math.floor(geom) or led[_LI["captures"]] != harvested
+                    or led[_LI["misses"]] != empty + geom
+                    or led[_LI["clicks"]] != led[_LI["captures"]] + led[_LI["misses"]]):
+                self.status |= _ST["ledger_mismatch"]
+        for i in range(L.patch_count):
+            p = self.patches[i]
+            self._fold_world((W_PATCH_END, bits(t_end), i, p.stock, p.initial_remaining))
 
     def _task_count(self, metric: str) -> None:
         cls = "narrow" if self.task_class == 0 else "broad"
@@ -448,6 +600,14 @@ class _Accountant:
 
     def world_to(self, t: float) -> None:
         """Run world events strictly below t, with timers before turns before visibility at equal times."""
+        if self.life.patch_count:
+            while True:
+                i = min(range(self.life.patch_count), key=lambda j: (self.patches[j].next, j))
+                if not self.patches[i].next < t:
+                    break
+                self._patch_source(i)
+            self._patch_window_before(t)
+            return
         if self.life.task_mode:
             while self.task_next < t:
                 self._task_advance()
@@ -478,7 +638,7 @@ class _Accountant:
         if L.task_mode and self.task_phase != TASK_CHOICE:
             return
         X, Y = self.dot_at(c)
-        x0, y0 = self.blob_at(0, c)
+        x0, y0 = self._patch_nearest(c) if L.patch_count else self.blob_at(0, c)
         ex = X - x0
         ey = Y - y0
         q = ex * ex + ey * ey
@@ -517,6 +677,9 @@ class _Accountant:
         self._fold_world((W_CLICK, bits(t), slot + 1 if slot < 2 else 0, bits(X), bits(Y)))
 
     def _click(self, t: float, counted: bool) -> None:
+        if self.life.patch_count:
+            self._patch_click(t, counted)
+            return
         if self.life.task_mode:
             self._task_click(t, counted)
             return
@@ -597,15 +760,18 @@ class _Accountant:
         ox, oy = L.planar(site.a, site.b)
         px = X + ox
         py = Y + oy
-        x0, y0 = self.blob_at(0, t)
-        signal = (L.lam_s * spec.halo(px - x0, py - y0, L.sigma)
-                  if not L.task_mode or self.blobs[0].present else 0.0)
-        if L.visibility_mode:
-            signal = (1.0 if self.bright else L.visibility_low) * signal
-        rate = L.lam_bg + signal
-        if len(self.blobs) > 1 and self.blobs[1].present:
-            x1, y1 = self.blob_at(1, t)
-            rate = rate + L.lam_s * (L.b2_amp * spec.halo(px - x1, py - y1, L.b2_sigma))
+        if L.patch_count:
+            rate, _signal = self._patch_rate(px, py)
+        else:
+            x0, y0 = self.blob_at(0, t)
+            signal = (L.lam_s * spec.halo(px - x0, py - y0, L.sigma)
+                      if not L.task_mode or self.blobs[0].present else 0.0)
+            if L.visibility_mode:
+                signal = (1.0 if self.bright else L.visibility_low) * signal
+            rate = L.lam_bg + signal
+            if len(self.blobs) > 1 and self.blobs[1].present:
+                x1, y1 = self.blob_at(1, t)
+                rate = rate + L.lam_s * (L.b2_amp * spec.halo(px - x1, py - y1, L.b2_sigma))
         accepted = spec.draw(L.seed, spec.S_RACC, uid, j) * L.lam_max < rate
         self._fold_world((9, bits(t), uid, j, 1 if accepted else 0))
         if accepted:
@@ -667,6 +833,8 @@ class _Accountant:
         catch = L.catch
         if catch:
             self.world_to(t)
+            if L.patch_count:
+                self.patch_left[:] = [p.stock for p in self.patches]
         for rec in recs:
             if self.records is not None:
                 self.records.append(rec)
@@ -830,6 +998,8 @@ class _Accountant:
             self.dot_adv(t_end)
             if L.task_mode:
                 self._task_finish(t_end)
+            if L.patch_count:
+                self._patch_finish(t_end)
             led[_LI["path"]] = self.path
             led[_LI["X_end"]] = self.X
             led[_LI["Y_end"]] = self.Y
@@ -896,7 +1066,7 @@ class _Life:
 
     def __init__(self, wv, lat: dict, gt, prog, init, seeds, raster_cap: int, fate_cap: int, keep_records: bool,
                  out_abi: spec.Abi = V3):
-        wi = V5.WORLD_INDEX
+        wi = V6.WORLD_INDEX
         wv = [float(x) for x in wv]
         for key in _FLOAT_KEYS:
             setattr(self, key, wv[wi[key]])
@@ -912,7 +1082,8 @@ class _Life:
             self.tick_jit = 0.0
         self.program = bool(self.flags & _F["program_mode"])
         self.catch = self.world_kind == 1
-        self.lam_max = self.lam_bg + self.lam_s * (1.0 + self.b2_amp)
+        self.lam_max = (self.lam_bg + self.lam_s * float(self.patch_count) if self.patch_count else
+                        self.lam_bg + self.lam_s * (1.0 + self.b2_amp))
         self.seed, self.tie_seed, self.order_seed, self.salt = (int(s) & spec.MASK64 for s in seeds)
         self.raster_cap, self.fate_cap, self.keep_records = int(raster_cap), int(fate_cap), keep_records
 
@@ -1712,8 +1883,8 @@ def _i64(u: int) -> int:
 # ------------------------------------------------------------------------------------------------------- arguments
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3, 4, 5):  # pragma: no cover
-        raise ValueError(f"the reference implements ABI 2, 3, 4 and 5, not {abi.version}")
+    if abi.version not in (2, 3, 4, 5, 6):  # pragma: no cover
+        raise ValueError(f"the reference implements ABI 2, 3, 4, 5 and 6, not {abi.version}")
     return abi
 
 
@@ -1774,7 +1945,7 @@ def _check_world(wv, abi=None) -> None:
 
 
 def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) -> tuple:
-    """Check one life's arguments and convert them into ABI-5 inputs: (world, genome row, program, cells)."""
+    """Check one life's arguments and convert them into ABI-6 inputs: (world, genome row, program, cells)."""
     _check_world(world_vec, abi)
     wv = [float(x) for x in np.asarray(world_vec, dtype=np.float64)]
     flags = int(wv[abi.WORLD_INDEX["flags"]])
@@ -1816,6 +1987,8 @@ def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) 
         wv = wv + _V4_DEFAULTS
     if abi.version < 5:
         wv = wv + _V5_DEFAULTS
+    if abi.version < 6:
+        wv = wv + _V6_DEFAULTS
     return wv, (None if prog_mode else row), (row if prog_mode else None), cells
 
 

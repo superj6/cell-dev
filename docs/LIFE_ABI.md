@@ -1,4 +1,25 @@
-# One-life kernel ABI and event semantics (ABI 5, with ABI 2/3/4 caller compatibility)
+# One-life kernel ABI and event semantics (ABI 6, with ABI 2/3/4/5 caller compatibility)
+
+## ABI 6 extension: persistent resource patches
+
+The exact world, layout, event-order, provenance and conservation contract is
+[ABI6_RESOURCE_PATCHES.md](ABI6_RESOURCE_PATCHES.md). It overrides the legacy CATCH world only when
+`patch_count>0`. Five appended world fields give82 entries;37 appended ledger columns give107 entries.
+The genome, program, receptor modality, local cell rules, physical prices and five hash families are unchanged.
+Use explicit `spec.V6`; caller defaults remain legacy. Patch count zero requires all four other patch fields
+zero, emits no patch events and preserves the existing worlds and older caller output shapes/hashes.
+
+Sources replenish integer packet stocks on independently phased schedules fixed for the life. Harvesting
+changes local stock and its scalar sensory field; it never changes the source schedule. A stock snapshot
+preserves each timestamp group's sensory left limit while immediate depletion prevents spending the same
+packet twice. Window-specific source, stock, spill and harvest counters conserve resources exactly. Separate
+FIFO provenance counters distinguish food present at t0 from subsequently supplied food. These observer
+records never become cell inputs. Ordinary collected food minus physical costs remains the objective.
+
+[Engineering validation](../results/abi6_resource_patches_20261015/README.md) is complete, including eight
+C/Python/JavaScript parity cases, boundary conservation, older ABI compatibility and deterministic resume.
+Engineering parity does not establish information payoff or an evolved strategy; those require separate
+measurements under plan section 0.
 
 ## ABI 5 extension: delayed shape matching (authorized 2026-10-15)
 

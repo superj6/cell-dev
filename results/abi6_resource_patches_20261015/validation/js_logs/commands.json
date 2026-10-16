@@ -1,0 +1,74 @@
+[
+  {
+    "name": "patches",
+    "command": [
+      "node",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_resource_patches.js",
+      "--truth",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/truth/truth.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "patch_view",
+    "command": [
+      "node",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_resource_patches_view.js"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "legacy_wounds",
+    "command": [
+      "node",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_lifesim.js"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "visibility",
+    "command": [
+      "node",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_visibility.js",
+      "--truth",
+      "/home/jgon/project/ml/cell-dev/results/abi4_visibility_20261014/final_truth/truth.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "matching",
+    "command": [
+      "node",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_delayed_match.js",
+      "--truth",
+      "/home/jgon/project/ml/cell-dev/results/abi5_delayed_match_20261015/validation/truth_conservation_fix/truth.json"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "matching_trial64",
+    "command": [
+      "node",
+      "--max-old-space-size=2048",
+      "--require",
+      "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+      "/home/jgon/project/ml/cell-dev/results/atlas/play/test_delayed_match_trial64.js"
+    ],
+    "exit_code": 1
+  }
+]

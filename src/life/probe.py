@@ -125,8 +125,8 @@ def _world(org, preset: str, **world) -> spec.World:
 
 
 def _abi(abi):
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5):
-        raise ValueError("CATCH probes require spec.V3, spec.V4 or spec.V5")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6):
+        raise ValueError("CATCH probes require spec.V3, spec.V4, spec.V5 or spec.V6")
     return abi
 
 
@@ -183,6 +183,7 @@ class _TAcct(_R._Accountant):
         self.t_motion = []
         self.t_pos = {}
         self.t_task = []
+        self.t_patch = []
         super().__init__(life)
 
     def dot_adv(self, t: float) -> None:
@@ -202,6 +203,10 @@ class _TAcct(_R._Accountant):
                 slot = int(words[2]) - 1
                 row += (self.task_trial, self.task_phase, self.task_class,
                         slot if slot >= 0 else None, slot == self.task_class if slot >= 0 else None)
+            if self.life.patch_count:
+                event = self.t_patch[-1]
+                row += (event["slot"], event["outcome"], event["stock_before"],
+                        event["stock_after"], event["origin"])
             self.t_click.append(row)
         elif k == _R.W_PLACE:
             self.t_place.append((_f(words[1]), int(words[2]), int(words[3]), _f(words[4]), _f(words[5])))
@@ -217,9 +222,25 @@ class _TAcct(_R._Accountant):
             else:
                 row.update(phase=int(words[3]), sample_class=int(words[4]))
             self.t_task.append(row)
+        elif k in (_R.W_PATCH_START, _R.W_PATCH_SOURCE, _R.W_PATCH_CLICK, _R.W_PATCH_END):
+            row = dict(kind=k, t=_f(words[1]))
+            if k == _R.W_PATCH_START:
+                row.update(slot=int(words[2]), x=_f(words[3]), y=_f(words[4]),
+                           period=_f(words[5]), first=_f(words[6]), stock=int(words[7]))
+            elif k == _R.W_PATCH_SOURCE:
+                row.update(slot=int(words[2]), arrival_index=int(words[3]), stock_before=int(words[4]),
+                           stock_after=int(words[5]), admitted=int(words[6]))
+            elif k == _R.W_PATCH_CLICK:
+                row.update(outcome=int(words[2]), slot=int(words[3]), stock_before=int(words[4]),
+                           stock_after=int(words[5]), origin=int(words[6]))
+            else:
+                row.update(slot=int(words[2]), stock=int(words[3]), initial_remaining=int(words[4]))
+            self.t_patch.append(row)
         super()._fold_world(words)
 
     def _observed_target(self, t: float):
+        if self.life.patch_count:
+            return self._patch_nearest(t)
         if not self.life.task_mode:
             return self.blob_at(0, t)
         X, Y = self.dot_at(t)
@@ -250,18 +271,21 @@ class _TAcct(_R._Accountant):
         if L.log:
             X, Y = self.dot_at(t)
             ox, oy = L.planar(site.a, site.b)
-            x0, y0 = self.blob_at(0, t)
-            sig = (L.lam_s * spec.halo(X + ox - x0, Y + oy - y0, L.sigma)
-                   if not L.task_mode or self.blobs[0].present else 0.0)
-            if L.visibility_mode:
-                sig = (1.0 if self.bright else L.visibility_low) * sig
-            rate = L.lam_bg + sig
-            if len(self.blobs) > 1 and self.blobs[1].present:
-                x1, y1 = self.blob_at(1, t)
-                second = L.lam_s * (L.b2_amp * spec.halo(X + ox - x1, Y + oy - y1, L.b2_sigma))
-                rate = rate + second
-                if L.task_mode:
-                    sig = sig + second
+            if L.patch_count:
+                rate, sig = self._patch_rate(X + ox, Y + oy)
+            else:
+                x0, y0 = self.blob_at(0, t)
+                sig = (L.lam_s * spec.halo(X + ox - x0, Y + oy - y0, L.sigma)
+                       if not L.task_mode or self.blobs[0].present else 0.0)
+                if L.visibility_mode:
+                    sig = (1.0 if self.bright else L.visibility_low) * sig
+                rate = L.lam_bg + sig
+                if len(self.blobs) > 1 and self.blobs[1].present:
+                    x1, y1 = self.blob_at(1, t)
+                    second = L.lam_s * (L.b2_amp * spec.halo(X + ox - x1, Y + oy - y1, L.b2_sigma))
+                    rate = rate + second
+                    if L.task_mode:
+                        sig = sig + second
             if spec.draw(L.seed, spec.S_RACC, uid, j) * L.lam_max < rate:
                 L.rec_sig[(uid, t + L.d_min)] = sig / rate
         super()._rcand(t, site, uid, j, counted)
@@ -447,6 +471,7 @@ class Trace:
     meta: dict = field(default_factory=dict)
     motion: pd.DataFrame | None = None  # analytic dot-motion segments: start, end, speed, tau
     task_events: pd.DataFrame | None = None  # observer-only phase, resolution and terminal records
+    patch_events: pd.DataFrame | None = None  # observer-only source, stock and harvest provenance
 
     @property
     def F(self) -> float:
@@ -570,6 +595,9 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     pl = pd.DataFrame(A.t_place, columns=["t", "blob", "cause", "x", "y"])
     if w.task_mode:
         samp = A.t_samp  # choice-only nearest-choice samples; no artificial initial placement
+    elif w.patch_count:
+        x, y = min(((p.x, p.y) for p in A.patches[:w.patch_count]), key=lambda p: p[0] ** 2 + p[1] ** 2)
+        samp = [(w.t0, 0.0, 0.0, x, y)] + A.t_samp
     else:
         p0 = pl[(pl.blob == 0)].iloc[0]
         samp = [(w.t0, 0.0, 0.0, float(p0.x), float(p0.y))] + A.t_samp
@@ -584,9 +612,11 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     click_cols = ["t", "outcome", "X", "Y"] + (["low_light"] if abi.version >= 4 else [])
     if w.task_mode:
         click_cols += ["trial", "phase", "sample_class", "chosen_class", "correct"]
+    if w.patch_count:
+        click_cols += ["patch", "resource_outcome", "stock_before", "stock_after", "origin"]
     ck = pd.DataFrame(A.t_click, columns=click_cols)
     if len(ck):
-        tg = ([A.t_pos.get(t, (math.nan,) * 4)[2:] for t in ck.t] if w.task_mode
+        tg = ([A.t_pos.get(t, (math.nan,) * 4)[2:] for t in ck.t] if w.task_mode or w.patch_count
               else [life_blob_at(A, pl, t) for t in ck.t])
         ck["tx"], ck["ty"] = [p[0] for p in tg], [p[1] for p in tg]
     ck["outcome"] = ck.outcome.map(OUTCOMES)
@@ -603,7 +633,9 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
             raise AssertionError(f"trace F {led['F']!r} != kernel F {kF!r}: the observer changed the life")
     motion = pd.DataFrame(A.t_motion, columns=["start", "end", "speed", "tau"])
     task_events = pd.DataFrame(A.t_task) if w.task_mode else None
-    return Trace(cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta, motion, task_events)
+    patch_events = pd.DataFrame(A.t_patch) if w.patch_count else None
+    return Trace(
+        cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta, motion, task_events, patch_events)
 
 
 def life_blob_at(acct, placements: pd.DataFrame, t: float):
@@ -719,8 +751,8 @@ def tuning(tr: Trace, *, min_spikes: int = 10, dist_edges=DIST_EDGES, cell_edges
     Act cells add from their strokes: n_pull, face (mean exposed-face direction, degrees), align (force-weighted mean
     cos(face, target bearing) over pulling strokes: +1 = always pulls toward the target, 0 = chance), toward (fraction
     of pulls with cos > 0), pull_rate_b0..7 (pulling strokes per unit vs target bearing)."""
-    if tr.meta.get("world") is not None and tr.meta["world"].task_mode:
-        raise ValueError("single-target tuning is undefined for delayed matching; use phase-specific task events")
+    if tr.meta.get("world") is not None and (tr.meta["world"].task_mode or tr.meta["world"].patch_count):
+        raise ValueError("single-target tuning is undefined for matching or resource-patch worlds")
     c = tr.cells
     tj = tr.traj
     st = tj.t.to_numpy()
@@ -791,8 +823,8 @@ def tuning(tr: Trace, *, min_spikes: int = 10, dist_edges=DIST_EDGES, cell_edges
 def steering(tr: Trace) -> dict:
     """Body-level steering from the strokes: n strokes, pulls, force-weighted mean cos(face, target bearing) over all
     pulls (``align``), fraction toward, and the same split by target distance (near: target within 2 of the dot)."""
-    if tr.meta.get("world") is not None and tr.meta["world"].task_mode:
-        raise ValueError("single-target steering is undefined for delayed matching; use phase-specific task events")
+    if tr.meta.get("world") is not None and (tr.meta["world"].task_mode or tr.meta["world"].patch_count):
+        raise ValueError("single-target steering is undefined for matching or resource-patch worlds")
     k = tr.strokes[tr.strokes.pulled] if len(tr.strokes) else tr.strokes
     if not len(k):
         return dict(strokes=len(tr.strokes), pulls=0)

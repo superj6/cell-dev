@@ -1,0 +1,24 @@
+{
+  "command": [
+    "env",
+    "LIFE_JS_CALL_LOG=/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/js_matching_view/calls.json",
+    "node",
+    "--max-old-space-size=2048",
+    "--require",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patches_20261015/validation/count_js_calls.cjs",
+    "results/atlas/play/test_delayed_match_view.js",
+    "results/abi5_delayed_match_20261015/validation/truth_conservation_fix/truth.json"
+  ],
+  "budget": {
+    "cpu_seconds": 60.0,
+    "wall_seconds": 120.0,
+    "cleanup_margin_seconds": 5,
+    "threads": 2,
+    "workers": 1,
+    "rss_bytes": 4294967296,
+    "address_space_bytes": 8589934592,
+    "minimum_available_bytes": 4294967296
+  },
+  "prior_cpu_seconds": 168.40161999999998,
+  "prior_wall_seconds": 144.0194832440029
+}

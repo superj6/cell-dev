@@ -1,0 +1,257 @@
+........................................................................ [ 51%]
+............................................................FFFFF.F      [100%]
+=================================== FAILURES ===================================
+__ test_old_callers_replay_frozen_truth_under_abi6_kernel[body0_neutral_abi3] __
+
+document = {'status': 'complete', 'body_source_sha256': '6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f', 'sour...c/life/reference.py': '8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662', ...}, 'raster_cap': 256, ...}
+case = {'name': 'body0_neutral_abi3', 'source_body': 0, 'body': {'name': 'speck_lmax4_hexprism_sex_s5', 'preset': 'catch_spec....0, 't_open': 0.0, 't_fork': 0.0, ...}, 'world_vec': [96.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...], ...}, 'seed': 55040000, ...}
+
+    @pytest.mark.parametrize("document,case", CASES, ids=[case["name"] for _, case in CASES])
+    def test_old_callers_replay_frozen_truth_under_abi6_kernel(document, case):
+        abi = getattr(spec, f"V{case['body']['abi']}")
+        world, arguments = _inputs(case, abi)
+        _bits_equal(abi.pack_world(world), case["body"]["world_vec"])
+        full = build.run(world, [case["seed"]], **arguments,
+                         raster_cap=document["raster_cap"], fate_cap=document["fate_cap"])
+        fast = build.run(world, [case["seed"]], **arguments, fast=True)
+        assert full.ledger.shape == fast.ledger.shape == (1, abi.LEDGER_SIZE)
+        assert full.hashes.shape == fast.hashes.shape == (1, abi.HASH_SIZE)
+        _bits_equal(full.ledger[0], case["ledger"])
+        _bits_equal(full.hashes[0], [int(value, 16) for value in case["hashes"]])
+>       _bits_equal(fast.ledger, full.ledger)
+
+tests/test_abi6_legacy.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+actual = array([[ 5.00000000e+02,  7.37551415e+03,  4.55844460e+03,
+         5.39000000e+02,  5.39000000e+02,  5.98800000e+03,
+...         4.80000000e+01,  3.70000000e+01,  1.50000000e+01,
+         3.49563400e+03,  2.66945564e+03,  1.21042451e+03]])
+expected = array([[ 5.00000000e+02,  7.37551415e+03,  4.55844460e+03,
+         5.39000000e+02,  5.39000000e+02,  5.98800000e+03,
+...         4.80000000e+01,  3.70000000e+01,  1.50000000e+01,
+         3.49563400e+03,  2.66945564e+03,  1.21042451e+03]])
+
+    def _bits_equal(actual, expected):
+        expected = np.asarray(expected, dtype=actual.dtype).reshape(actual.shape)
+>       assert actual.tobytes() == expected.tobytes()
+E       assert b"\x00\x00\x0...\xb2\xe9\x92@" == b"\x00\x00\x0...\xb2\xe9\x92@"
+E         
+E         At index 158 diff: b'\x00' != b' '
+E         Use -v to get more diff
+
+tests/test_abi6_legacy.py:57: AssertionError
+_ test_old_callers_replay_frozen_truth_under_abi6_kernel[body0_flash_55040000] _
+
+document = {'status': 'complete', 'body_source_sha256': '6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f', 'sour...c/life/reference.py': '8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662', ...}, 'raster_cap': 256, ...}
+case = {'name': 'body0_flash_55040000', 'source_body': 0, 'body': {'name': 'speck_lmax4_hexprism_sex_s5', 'preset': 'catch_sp....0, 't_open': 0.0, 't_fork': 0.0, ...}, 'world_vec': [96.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...], ...}, 'seed': 55040000, ...}
+
+    @pytest.mark.parametrize("document,case", CASES, ids=[case["name"] for _, case in CASES])
+    def test_old_callers_replay_frozen_truth_under_abi6_kernel(document, case):
+        abi = getattr(spec, f"V{case['body']['abi']}")
+        world, arguments = _inputs(case, abi)
+        _bits_equal(abi.pack_world(world), case["body"]["world_vec"])
+        full = build.run(world, [case["seed"]], **arguments,
+                         raster_cap=document["raster_cap"], fate_cap=document["fate_cap"])
+        fast = build.run(world, [case["seed"]], **arguments, fast=True)
+        assert full.ledger.shape == fast.ledger.shape == (1, abi.LEDGER_SIZE)
+        assert full.hashes.shape == fast.hashes.shape == (1, abi.HASH_SIZE)
+        _bits_equal(full.ledger[0], case["ledger"])
+        _bits_equal(full.hashes[0], [int(value, 16) for value in case["hashes"]])
+>       _bits_equal(fast.ledger, full.ledger)
+
+tests/test_abi6_legacy.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+actual = array([[ 5.00000000e+02,  7.36282420e+03,  4.54694248e+03,
+         3.42000000e+02,  3.42000000e+02,  3.77600000e+03,
+... 3.80000000e+01,  1.50000000e+01,
+         3.46710660e+03,  2.68529310e+03,  1.21042451e+03,
+         1.00000000e+00]])
+expected = array([[ 5.00000000e+02,  7.36282420e+03,  4.54694248e+03,
+         3.42000000e+02,  3.42000000e+02,  3.77600000e+03,
+... 3.80000000e+01,  1.50000000e+01,
+         3.46710660e+03,  2.68529310e+03,  1.21042451e+03,
+         1.00000000e+00]])
+
+    def _bits_equal(actual, expected):
+        expected = np.asarray(expected, dtype=actual.dtype).reshape(actual.shape)
+>       assert actual.tobytes() == expected.tobytes()
+E       assert b"\x00\x00\x0...\x00\x00\xf0?" == b"\x00\x00\x0...\x00\x00\xf0?"
+E         
+E         At index 158 diff: b'\x00' != b' '
+E         Use -v to get more diff
+
+tests/test_abi6_legacy.py:57: AssertionError
+_ test_old_callers_replay_frozen_truth_under_abi6_kernel[body7_renewal_55040000] _
+
+document = {'status': 'complete', 'body_source_sha256': '6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f', 'sour...c/life/reference.py': '8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662', ...}, 'raster_cap': 256, ...}
+case = {'name': 'body7_renewal_55040000', 'source_body': 7, 'body': {'name': 'router@ring4', 'preset': 'catch_speck_l4', 'wor..., 't_open': 0.0, 't_fork': 0.0, ...}, 'world_vec': [96.0, 0.0, 0.0, 0.0, 512.0, 0.0, ...], ...}, 'seed': 55040000, ...}
+
+    @pytest.mark.parametrize("document,case", CASES, ids=[case["name"] for _, case in CASES])
+    def test_old_callers_replay_frozen_truth_under_abi6_kernel(document, case):
+        abi = getattr(spec, f"V{case['body']['abi']}")
+        world, arguments = _inputs(case, abi)
+        _bits_equal(abi.pack_world(world), case["body"]["world_vec"])
+        full = build.run(world, [case["seed"]], **arguments,
+                         raster_cap=document["raster_cap"], fate_cap=document["fate_cap"])
+        fast = build.run(world, [case["seed"]], **arguments, fast=True)
+        assert full.ledger.shape == fast.ledger.shape == (1, abi.LEDGER_SIZE)
+        assert full.hashes.shape == fast.hashes.shape == (1, abi.HASH_SIZE)
+        _bits_equal(full.ledger[0], case["ledger"])
+        _bits_equal(full.hashes[0], [int(value, 16) for value in case["hashes"]])
+>       _bits_equal(fast.ledger, full.ledger)
+
+tests/test_abi6_legacy.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+actual = array([[ 5.00000000e+02,  1.17120000e+04,  0.00000000e+00,
+         3.10000000e+02,  1.24000000e+02,  1.01800000e+03,
+... 6.10000000e+01,  0.00000000e+00,
+         5.85600000e+03,  5.85600000e+03,  0.00000000e+00,
+         0.00000000e+00]])
+expected = array([[ 5.00000000e+02,  1.17120000e+04,  0.00000000e+00,
+         3.10000000e+02,  1.24000000e+02,  1.01800000e+03,
+... 6.10000000e+01,  0.00000000e+00,
+         5.85600000e+03,  5.85600000e+03,  0.00000000e+00,
+         0.00000000e+00]])
+
+    def _bits_equal(actual, expected):
+        expected = np.asarray(expected, dtype=actual.dtype).reshape(actual.shape)
+>       assert actual.tobytes() == expected.tobytes()
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 158 diff: b'\x00' != b' '
+E         Use -v to get more diff
+
+tests/test_abi6_legacy.py:57: AssertionError
+_ test_old_callers_replay_frozen_truth_under_abi6_kernel[shifted_renewal_open] _
+
+document = {'status': 'complete', 'body_source_sha256': '6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f', 'sour...c/life/reference.py': '8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662', ...}, 'raster_cap': 256, ...}
+case = {'name': 'shifted_renewal_open', 'source_body': 7, 'body': {'name': 'router@ring4', 'preset': 'catch_speck_l4', 'world..._open': 20.0, 't_fork': 0.0, ...}, 'world_vec': [96.0, -32.0, 20.0, 0.0, 512.0, 0.0, ...], ...}, 'seed': 55040002, ...}
+
+    @pytest.mark.parametrize("document,case", CASES, ids=[case["name"] for _, case in CASES])
+    def test_old_callers_replay_frozen_truth_under_abi6_kernel(document, case):
+        abi = getattr(spec, f"V{case['body']['abi']}")
+        world, arguments = _inputs(case, abi)
+        _bits_equal(abi.pack_world(world), case["body"]["world_vec"])
+        full = build.run(world, [case["seed"]], **arguments,
+                         raster_cap=document["raster_cap"], fate_cap=document["fate_cap"])
+        fast = build.run(world, [case["seed"]], **arguments, fast=True)
+        assert full.ledger.shape == fast.ledger.shape == (1, abi.LEDGER_SIZE)
+        assert full.hashes.shape == fast.hashes.shape == (1, abi.HASH_SIZE)
+        _bits_equal(full.ledger[0], case["ledger"])
+        _bits_equal(full.hashes[0], [int(value, 16) for value in case["hashes"]])
+>       _bits_equal(fast.ledger, full.ledger)
+
+tests/test_abi6_legacy.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+actual = array([[ 1.50000000e+03,  9.27200000e+03,  0.00000000e+00,
+         2.79000000e+02,  1.12000000e+02,  9.39000000e+02,
+... 6.10000000e+01,  0.00000000e+00,
+         4.63600000e+03,  4.63600000e+03,  0.00000000e+00,
+         0.00000000e+00]])
+expected = array([[ 1.50000000e+03,  9.27200000e+03,  0.00000000e+00,
+         2.79000000e+02,  1.12000000e+02,  9.39000000e+02,
+... 6.10000000e+01,  0.00000000e+00,
+         4.63600000e+03,  4.63600000e+03,  0.00000000e+00,
+         0.00000000e+00]])
+
+    def _bits_equal(actual, expected):
+        expected = np.asarray(expected, dtype=actual.dtype).reshape(actual.shape)
+>       assert actual.tobytes() == expected.tobytes()
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 158 diff: b'\x00' != b' '
+E         Use -v to get more diff
+
+tests/test_abi6_legacy.py:57: AssertionError
+_____ test_old_callers_replay_frozen_truth_under_abi6_kernel[flash_at_end] _____
+
+document = {'status': 'complete', 'body_source_sha256': '6c05195b4d33353469bf4c5966fd0a198318701fce215de288429ccd34b0651f', 'sour...c/life/reference.py': '8622382fa3de3f568980c131674a48823f06ffb2bdd587f920d6badcbe457662', ...}, 'raster_cap': 256, ...}
+case = {'name': 'flash_at_end', 'source_body': 7, 'body': {'name': 'router@ring4', 'preset': 'catch_speck_l4', 'world': {'T':..., 't_open': 0.0, 't_fork': 0.0, ...}, 'world_vec': [96.0, 0.0, 0.0, 0.0, 512.0, 0.0, ...], ...}, 'seed': 55040002, ...}
+
+    @pytest.mark.parametrize("document,case", CASES, ids=[case["name"] for _, case in CASES])
+    def test_old_callers_replay_frozen_truth_under_abi6_kernel(document, case):
+        abi = getattr(spec, f"V{case['body']['abi']}")
+        world, arguments = _inputs(case, abi)
+        _bits_equal(abi.pack_world(world), case["body"]["world_vec"])
+        full = build.run(world, [case["seed"]], **arguments,
+                         raster_cap=document["raster_cap"], fate_cap=document["fate_cap"])
+        fast = build.run(world, [case["seed"]], **arguments, fast=True)
+        assert full.ledger.shape == fast.ledger.shape == (1, abi.LEDGER_SIZE)
+        assert full.hashes.shape == fast.hashes.shape == (1, abi.HASH_SIZE)
+        _bits_equal(full.ledger[0], case["ledger"])
+        _bits_equal(full.hashes[0], [int(value, 16) for value in case["hashes"]])
+>       _bits_equal(fast.ledger, full.ledger)
+
+tests/test_abi6_legacy.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+actual = array([[ 2.00000000e+03,  1.17120000e+04,  0.00000000e+00,
+         4.48000000e+02,  1.64000000e+02,  1.65100000e+03,
+... 6.10000000e+01,  0.00000000e+00,
+         5.85600000e+03,  5.85600000e+03,  0.00000000e+00,
+         0.00000000e+00]])
+expected = array([[ 2.00000000e+03,  1.17120000e+04,  0.00000000e+00,
+         4.48000000e+02,  1.64000000e+02,  1.65100000e+03,
+... 6.10000000e+01,  0.00000000e+00,
+         5.85600000e+03,  5.85600000e+03,  0.00000000e+00,
+         0.00000000e+00]])
+
+    def _bits_equal(actual, expected):
+        expected = np.asarray(expected, dtype=actual.dtype).reshape(actual.shape)
+>       assert actual.tobytes() == expected.tobytes()
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 158 diff: b'\x00' != b' '
+E         Use -v to get more diff
+
+tests/test_abi6_legacy.py:57: AssertionError
+_________ test_abi6_layout_keeps_legacy_default_and_cellular_interface _________
+
+    def test_abi6_layout_keeps_legacy_default_and_cellular_interface():
+        assert spec.CURRENT is spec.V2
+        assert (spec.V6.WORLD_SIZE, spec.V6.LEDGER_SIZE, spec.V6.HASH_SIZE) == (82, 107, 5)
+        assert spec.V6.WORLD_KEYS[:77] == spec.V5.WORLD_KEYS
+        assert spec.V6.LEDGER[:70] == spec.V5.LEDGER
+        for field in ("GENOME_FIELDS", "GENOME_SIZE", "GENOME_SLICES", "PROGRAM_SIZE", "INPUTS", "NIN", "KNOBS"):
+            assert getattr(spec.V6, field) == getattr(spec.V5, field)
+        assert [abi.WORLD_SIZE for abi in (spec.V2, spec.V3, spec.V4, spec.V5)] == [41, 66, 70, 77]
+        assert [abi.LEDGER_SIZE for abi in (spec.V2, spec.V3, spec.V4, spec.V5)] == [35, 57, 58, 70]
+        patch_world = spec.world("catch_resource_patches_l4")
+        for abi in (spec.V2, spec.V3, spec.V4, spec.V5):
+            with pytest.raises(ValueError):
+>               abi.pack_world(patch_world)
+
+tests/test_abi6_legacy.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/life/spec.py:823: in pack_world
+    self.validate_world(x)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Abi(2)
+w = World(name='catch_resource_patches_l4', stage='resource-patches-v6', implemented=True, lattice='hexprism', lives=3, T=...0.0, reset_T=0.0, patch_count=3, patch_capacity=2, patch_refill_fast=80.0, patch_refill_slow=160.0, patch_landmark=0.1)
+
+    def validate_world(self, w: World) -> None:
+        """The world rules of LIFE_ABI.md 4.7 (the kernel returns -2 for a vector that breaks any of them). Under
+        ABI 2 a world that needs ABI 3 (CATCH, a prism lattice, L_max > 1) is refused as not implemented."""
+        v = self.version
+        if not w.implemented or any(getattr(w, k) != 0 for k in RESERVED_WORLD_KEYS):
+            raise NotImplementedError(f"world {w.name!r} (stage {w.stage}) is not implemented by ABI v{v}")
+        if w.lattice not in LATTICE_CODES_V3:
+            raise ValueError(f"unknown lattice {w.lattice!r}")
+        if v < 3 and (w.lattice not in self.LATTICE_CODES or w.world_kind != 0 or w.L_max != 1 or w.stuck_z != 0):
+>           raise NotImplementedError(f"world {w.name!r} (world kind {w.world_kind}, lattice {w.lattice}, L_max "
+                                      f"{w.L_max}) needs ABI v3; this is ABI v{v}")
+E           NotImplementedError: world 'catch_resource_patches_l4' (world kind 1, lattice hexprism, L_max 4) needs ABI v3; this is ABI v2
+
+src/life/spec.py:757: NotImplementedError
+=========================== short test summary info ============================
+FAILED tests/test_abi6_legacy.py::test_old_callers_replay_frozen_truth_under_abi6_kernel[body0_neutral_abi3]
+FAILED tests/test_abi6_legacy.py::test_old_callers_replay_frozen_truth_under_abi6_kernel[body0_flash_55040000]
+FAILED tests/test_abi6_legacy.py::test_old_callers_replay_frozen_truth_under_abi6_kernel[body7_renewal_55040000]
+FAILED tests/test_abi6_legacy.py::test_old_callers_replay_frozen_truth_under_abi6_kernel[shifted_renewal_open]
+FAILED tests/test_abi6_legacy.py::test_old_callers_replay_frozen_truth_under_abi6_kernel[flash_at_end]
+FAILED tests/test_abi6_legacy.py::test_abi6_layout_keeps_legacy_default_and_cellular_interface

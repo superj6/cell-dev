@@ -1,0 +1,25 @@
+{
+  "monitor": {
+    "pid": 2,
+    "ppid": 1,
+    "pgid": 1,
+    "start_ticks": 12696664
+  },
+  "pid_namespace": "pid:[4026535368]",
+  "protocol_sha256": "15c3f7d7006bd274c2e7c9c06d6a89bd264dd8128be8579286dda70c1d740d77",
+  "release_sha256": "6f224108c326cffe0acf04be661e12bf2016dfdea39b67af7cf4b843ee0d1c92",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "outputs/resource_patches_20261015/validation/js_batch.py"
+  ],
+  "budget": {
+    "cpu_seconds": 180.0,
+    "wall_seconds": 300.0,
+    "cleanup_margin_seconds": 5,
+    "threads": 2,
+    "workers": 1,
+    "rss_bytes": 4294967296,
+    "address_space_bytes": 8589934592,
+    "minimum_available_bytes": 4294967296
+  }
+}

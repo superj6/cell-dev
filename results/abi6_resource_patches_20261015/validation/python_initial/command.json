@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_life_spec_abi6.py",
+    "tests/test_abi6_boundaries.py",
+    "tests/test_abi6_kernel_reference.py",
+    "tests/test_abi6_legacy.py"
+  ],
+  "budget": {
+    "cpu_seconds": 600,
+    "wall_seconds": 900,
+    "cleanup_margin_seconds": 5,
+    "threads": 2,
+    "workers": 1,
+    "rss_bytes": 4294967296,
+    "address_space_bytes": 8589934592,
+    "minimum_available_bytes": 4294967296
+  },
+  "prior_cpu_seconds": 0,
+  "prior_wall_seconds": 0
+}
