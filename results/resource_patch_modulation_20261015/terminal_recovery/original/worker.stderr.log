@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/worker.py", line 101, in <module>
+    run()
+  File "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/worker.py", line 84, in run
+    summary = analyze()
+              ^^^^^^^^^
+  File "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/analyze.py", line 57, in analyze
+    records.append(record(item, ledger, 'new'))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/analyze.py", line 48, in record
+    return dict(group=item['group'], role=item['role'], mode=item['mode'], world=item['world'], seed=item['seed'],
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'path'

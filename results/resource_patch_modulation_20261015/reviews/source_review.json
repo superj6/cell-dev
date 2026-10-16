@@ -1,0 +1,62 @@
+{
+  "status": "passed_source_review_ready_to_materialize",
+  "source_pins": {
+    "PROTOCOL.md": "b9d8547eac219416f5aa5b8e79e179fe57688c2d62e04ecff4ea496434cbae58",
+    "prepare.py": "8a25eef68241b316e30103368d7827a724d1445fc2ec841c564ae79166bc5bcd",
+    "renderer.py": "307d0935bf2e90645c7c63927c410637a2b9d9ae5d407ca3a7a91ed514b3a14b",
+    "worker.py": "63278df4bda5be9a60f6c0069cd46845c27f5eeeb53af473097ebbd0920bff18",
+    "analyze.py": "4e3da30e2ea04d33b297cc13c9da898ce2ac6f21c78ca21648e3db50fd25944d",
+    "common.py": "8cc2edaaf6e0382c46cf977d1b153e706737b80cebe45390e1960baef1b2cb28",
+    "monitor.py": "17d06a3a362ab75c2c5598d38a5956a3d81c461e61b3da4964f145298b1e880e",
+    "baseline_accounting.py": "5fce215df17d9ff4e31568d56062a17adaf5433186f84ae282806a4af63b4e1b"
+  },
+  "baseline_protocol_sha256": "b1b4cbdb2c1d2d7f2e1eeac05d28a8944dc4ed8e0fc3fdd3efc5190d9ded55cc",
+  "production_source_revision": "71591f3ae133c3c2c193d3b394e7a5f2e9f61833",
+  "production_pins_verified": 32,
+  "native_kernel_sha256": "ceaa928a22b53287478da62651527a98bf235373c38fcddffca9c812e82a9a21",
+  "expected_isolated_source_sha256": "55eedcdd9ff157418b537f5c0971723996a52d0d585498e835f1d322385d2ad1",
+  "accounting_byte_identical_to_baseline": true,
+  "new_call_inventory": {
+    "native_hook_equivalence": 8,
+    "constant_C_full_fast_Python": 12,
+    "scientific_C_fast": 128,
+    "total": 148,
+    "C_full": 8,
+    "C_fast": 136,
+    "Python": 4
+  },
+  "explicit_reuse": {
+    "scientific_native_rows": 64,
+    "native_engineering_rows": 8,
+    "scientific_seeds_half_open": [
+      52480000,
+      52480032
+    ]
+  },
+  "checks": [
+    "Only the two amplitude lines within patch_rate are edited; reversing the exact replacement restores all native bytes.",
+    "Native preprocessor branch retains both original operations; constants1/.55 read no current/group stock.",
+    "Independent Python rate uses scalar background plus each fixed-amplitude Gaussian component in slot order; finally restores original method.",
+    "Candidate envelope/streams, delayed delivery, physical patch source/depletion/harvest/FIFO and all cell/action laws remain native.",
+    "Actual sensing, development, actions, resulting stock/spill histories and physical charges may differ; none is clamped.",
+    "All20 engineering calls precede science:8 saved native ledger+hash comparisons and4constant cases across3backends.",
+    "Raw returns saved before validation; zero logging caps and fast constant hashes; full C/Python hash comparison in parity.",
+    "All64 reused science rows bind baseline protocol/raw hashes; two fixed genotype rows and32 reused development seeds.",
+    "Accepted baseline accountant unchanged; native F retained separately from production extinction charge and reconstructed cost.",
+    "One owned one-thread attempt:510CPU/1080wall runtime plus90CPU/120wall preparation; compiler failures preserve diagnostics."
+  ],
+  "interpretation": [
+    "Whole-life current-stock sensory-modulation removal, not complete stock blindness or a mature-circuit/memory lesion.",
+    "Different realized body footprints and receptor doses are part of intervention consequences; both constants and component costs are reported.",
+    "No512-fresh-case admission, strongest-reflex/do-less test, genome selection, evolution or generalization claim."
+  ],
+  "pending": "Actual materialized genotype/raw reuse/world/source/schedule checks before root release.",
+  "simulations": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "resources": {
+    "cpu_seconds": 0.010870214999999996,
+    "wall_seconds": 0.010894052000367083,
+    "max_rss_kib": 18840
+  }
+}

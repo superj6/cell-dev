@@ -1,0 +1,11 @@
+--- analyze.py
++++ analyze_terminal.py
+@@ -46,7 +46,7 @@
+         world = spec.World(**protocol['worlds'][item['world']]['world'])
+         computed = validate_life(ledger, world)
+         return dict(group=item['group'], role=item['role'], mode=item['mode'], world=item['world'], seed=item['seed'],
+-            backend=item['backend'], path=item['path'], origin=origin,
++            backend=item['backend'], raw_path=item['path'], origin=origin,
+             **{name: float(ledger[0, i]) for name, i in spec.V6.L.items()}, **computed)
+ 
+     for item in protocol['schedule']:

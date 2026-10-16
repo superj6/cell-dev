@@ -20,7 +20,27 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
-**Inherited resource collection measured (2026-10-15).** Without patch-world evolution, the fixed AO genome
+**Depletion cues help inherited behavior (2026-10-15).** The fixed AO genome collects 21.4375 packets with
+native stock-dependent cues, versus 16.1875 at constant amplitude 0.55 and 13.15625 at constant 1. Native minus
+0.55 adds 5.2500 ±0.9103 captures, including 4.4063 ±0.8612 replenished packets, and 2.924125 ±0.455617 F;
+87.67% of the mean F advantage comes from food. Empty-patch clicks fall 19.1563 ±2.2869. The older AM genome
+also benefits from native cues. These are 32 reused development lives, whole-life interventions with potentially
+different tissues and sensory doses, not memory, matched-footprint superiority or formal admission.
+All 148 new calls return and engineering parity passes. One metadata-name collision prevents initial analysis;
+a reviewed one-key saved-data repair and independent accounting complete the measurement without new lives.
+Evidence: `results/resource_patch_modulation_20261015/REPORT.md`.
+
+**Exploratory cumulative pilots (revision, 2026-10-15).** To implement the user's instruction to build on useful
+primitives, section 0.4 now distinguishes a bounded exploratory continuation from formal world admission.
+Profitable inherited behavior and direct evidence that sensory feedback helps justify testing evolutionary
+accessibility without first building another external controller. Keep a fixed physical world, ordinary local
+rules, inherited populations, explicit budgets/endpoints, earlier-task checks and reserved combinations.
+This exception does not waive any numerical criterion for claiming formal admission, information headroom,
+memory or generality. A short eight-generation AO continuation is being prepared: fixed 4/2/2 patch/POOL/
+persistent exposure, generation 4 observational, generation 8 primary, and the same genomes tested in five
+worlds. Maximum 28,222 calls and 5,400 CPU/3,600 wall seconds; no run is released by this note.
+
+**Inherited resource collection measured (2026-10-15; preceding diagnostic).** Without patch-world evolution, the fixed AO genome
 collects 21.4375 ±0.8636 packets per life, including 15.5000 ±0.8531 from replenishment; the fixed older AM reference
 collects 16.3438 ±1.1462 total, including 10.9063 ±1.0154 replenished. Paired AO−AM gains are 5.0938 ±1.4102 captures
 and 2.8504 ±0.7032 F over 32 shared development lives. AO harvests from all three patches in 31/32 lives, a descriptive
@@ -51,10 +71,10 @@ not run. Runtime validation, including failed commands, used 168.893127 CPU seco
 RSS; all workers are clear. The fixed paused preview is an engineering illustration, not evolved patch behavior.
 See `results/abi6_resource_patches_20261015/README.md` and `docs/ABI6_RESOURCE_PATCHES.md`.
 
-Next measure the full inherited AO balanced population and fixed AO/AM references on the new world and old
-pursuit tasks. Keep initial and replenished food separate, retain all rows, and do not select a new endpoint from
-this diagnostic. Information-payoff instruments and evolution are separate next investments. Neither world
-admission nor useful new circuitry is established yet; local resources remain adequate.
+The full inherited AO population/reference baseline and stock-modulation diagnostic are now complete above.
+Initial and replenished food remain separate, with every population row retained and no replacement endpoint
+selected. New adaptation, formal information-payoff admission and memory remain unestablished; local resources
+remain adequate for the bounded exploratory continuation being prepared.
 
 **Cumulative building blocks (user clarification, 2026-10-15).** Evolution should accumulate useful
 primitives and reuse them in new situations. Prefer environments in which inherited abilities already produce
@@ -126,8 +146,8 @@ evidence distinct from repeated T1024 admission. No hand-built winning tissue is
 
 *2026-10-15 latest interaction priority:* the delayed-matching continuation is complete. Prioritize a
 persistent, depletable resource environment where inherited pursuit pays and nearby improvements can help
-before a demanding combination is complete. The concrete contract and information-payoff measurement remain
-to be prepared; this direction does not release a new world or run. Retention, price calibration and mechanism
+before a demanding combination is complete. The contract, inherited baseline and stock-modulation measurement
+are now complete above; this historical priority note does not release a new run. Retention, price calibration and mechanism
 analysis support exploration without requiring perfect results first. The exposure audit found independently
 renewing reward/harm targets and equal food twins already explored; persistent resource state must add a
 meaningful consequence of action, not merely another target label.
@@ -725,8 +745,15 @@ effect from 0.2.
 
 ### 0.4 The admission rule (replaces every "positive control must pass" gate)
 
-A world, or a within-life change, enters selection when all of the following hold on at least 512 fresh paired lives,
-with tuning and scoring lives disjoint:
+**Scope revision, 2026-10-15.** The criteria below govern formal admission. A separately registered, bounded
+exploratory continuation may test whether profitable inherited behavior can improve cumulatively in a world
+with directly demonstrated sensory-feedback value. It must retain fixed physics, ordinary local asynchronous
+rules, explicit endpoints and budgets, earlier-task evaluation and reserved combinations. Label it exploratory
+and report which admission comparisons remain missing. This permits testing evolutionary accessibility without
+requiring a new handwritten instrument first; it neither admits the world nor relaxes a formal payoff claim.
+
+A world, or a within-life change, receives formal admission when all of the following hold on at least 512 fresh
+paired lives, with tuning and scoring lives disjoint:
 1. **Information gap.** The best information-matched controller beats the best reflex by more than 3 SE *and* by at
    least 1 F at the reflex's own footprint, so the gain is not just "be bigger".
 2. **Specific part.** For a world added for a capability, the part that disappears when only the controller's

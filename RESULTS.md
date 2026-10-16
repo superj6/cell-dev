@@ -4097,3 +4097,35 @@ world admission. Next test the whole-life contribution of stock-dependent sensor
 genomes, using exact constant-amplitude controls and explicit reuse of development rows. Food laws, ordinary
 cell rules and prices stay fixed; actual actions and development may diverge. This small causal probe precedes
 investment in an external allocator or new evolution. Memory, broad generality and plan 0.4 admission remain open.
+
+## 2026-10-15 — Inherited pursuit benefits from local depletion cues
+
+The unchanged AO genome collects **21.4375 packets per life** with stock-dependent patch brightness, versus
+**16.1875** at constant amplitude 0.55 and **13.15625** at constant 1. Native minus 0.55 adds **5.2500 ±0.9103
+captures**, including **4.4063 ±0.8612 replenished packets**, and **2.924125 ±0.455617 F**. Extra food supplies
+87.67% of the mean F gain; costs supply the rest. Empty-patch clicks fall **19.1563 ±2.2869**, geometric misses
+18.0000 ±2.8131, and travel 89.3627 ±8.6863. Native minus constant 1 gains 8.2813 ±0.9527 captures and
+4.630532 ±0.471862 F. The fixed older AM genome also benefits: native minus 0.55 gains 4.0000 ±1.3236
+captures and 2.196039 ±0.638725 F.
+
+This demonstrates useful inherited sensory behavior in a new resource setting before any patch-world evolution.
+The 32 life seeds and 64 native scientific rows are explicitly reused development data. Whole-life changes can
+alter development, sensory dose and actions. Neither constant control establishes matched realized footprints,
+memory, a stock estimator, visit order or formal world admission. Ordinary local cell rules and prices remain
+unchanged; only an isolated measurement renderer replaces the stock-dependent amplitude with exact constants.
+
+All **148 new calls** return: 128 scientific plus 20 engineering. Eight native-hook comparisons reproduce saved
+ledgers/hashes; four C-full/C-fast/Python triples pass. All 212 combined CSV rows have status 0. Monitored execution
+uses **31.042736 CPU /30.724609 wall seconds**, peak **334.42 MiB**, with all owned workers cleared. Initial
+analysis then fails because file metadata `path` collides with the native distance column. All original evidence
+remains intact. A separately reviewed one-key metadata repair completes saved-data analysis in 0.933887 CPU
+seconds, with no repeated life or build. Independent accounting verifies all raw rows, 28,408 CSV numbers and
+2,166 summary values, plus the preserved failure/recovery chain.
+
+Next test cumulative adaptation through a bounded ordinary continuation of the full AO population, retaining
+earlier tasks and reserving a new resource combination. Section 0.4 now explicitly permits this exploratory
+accessibility test separately from formal admission; its numerical criteria and outstanding comparator gaps
+remain unchanged. No new evolution is released by this result entry.
+
+Report: `results/resource_patch_modulation_20261015/REPORT.md`; protocol 435d8439…568209c1;
+summary 48989b63…b38fc940; manifest 34a3d3a1…7b5239e1.

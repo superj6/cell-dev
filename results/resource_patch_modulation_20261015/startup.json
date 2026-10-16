@@ -1,0 +1,124 @@
+{
+  "protocol_sha256": "435d8439a33cc160ecdc4150e22fd845fb2ff8e31fdc532b570c4c2a568209c1",
+  "startup_lives": 0,
+  "libraries": {
+    "native_False": {
+      "path": "build-cache/native_full.so",
+      "sha256": "0745618bc7d45bf1f686dab8d92c014842c0650f228f858eb5404ede0eff50f7",
+      "command": [
+        "gcc",
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-o",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/native_full.so",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+        "-lm"
+      ]
+    },
+    "native_True": {
+      "path": "build-cache/native_fast.so",
+      "sha256": "1217995142f73b34e11c6e82b7e5d544cc8fd1f55927988540f619f9bdc0a5d2",
+      "command": [
+        "gcc",
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-DLIFE_FAST",
+        "-o",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/native_fast.so",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+        "-lm"
+      ]
+    },
+    "constant1_False": {
+      "path": "build-cache/constant1_full.so",
+      "sha256": "bcda7187a77476c449d7912ad3bfcd9453f903f9e06845ce3d93a4700e57b310",
+      "command": [
+        "gcc",
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-DRESOURCE_OBSERVATION_AMPLITUDE=1.0",
+        "-o",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/constant1_full.so",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+        "-lm"
+      ]
+    },
+    "constant1_True": {
+      "path": "build-cache/constant1_fast.so",
+      "sha256": "2073582d4a56e1fe00c409dd5d6a76d0c5d066cce14b2fdcd888b02d87f7f396",
+      "command": [
+        "gcc",
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-DLIFE_FAST",
+        "-DRESOURCE_OBSERVATION_AMPLITUDE=1.0",
+        "-o",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/constant1_fast.so",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+        "-lm"
+      ]
+    },
+    "constant055_False": {
+      "path": "build-cache/constant055_full.so",
+      "sha256": "544a6015d5e8a62a91cb4fdeeca59e470329cfb2956a44dc0b9de20f5d12f75f",
+      "command": [
+        "gcc",
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-DRESOURCE_OBSERVATION_AMPLITUDE=0.55",
+        "-o",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/constant055_full.so",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+        "-lm"
+      ]
+    },
+    "constant055_True": {
+      "path": "build-cache/constant055_fast.so",
+      "sha256": "333a9635767697c0e4580803ed8502a620613cb05c5b57882d46948f4a44f9a2",
+      "command": [
+        "gcc",
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-DLIFE_FAST",
+        "-DRESOURCE_OBSERVATION_AMPLITUDE=0.55",
+        "-o",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/constant055_fast.so",
+        "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+        "-lm"
+      ]
+    }
+  },
+  "python": "3.12.3",
+  "numpy": "2.5.3",
+  "libc": [
+    "glibc",
+    "2.39"
+  ],
+  "affinity": [
+    0
+  ]
+}

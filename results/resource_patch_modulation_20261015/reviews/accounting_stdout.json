@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "protocol_sha256": "435d8439a33cc160ecdc4150e22fd845fb2ff8e31fdc532b570c4c2a568209c1",
+  "baseline_protocol_sha256": "b1b4cbdb2c1d2d7f2e1eeac05d28a8944dc4ed8e0fc3fdd3efc5190d9ded55cc",
+  "new_rows": 148,
+  "reused_scientific_rows": 64,
+  "reused_engineering_rows": 8,
+  "unique_raw_rows_audited": 220,
+  "csv_rows": 212,
+  "scientific_rows": 192,
+  "new_native_ledger_values": 15836,
+  "combined_csv_native_ledger_values": 22684,
+  "raw_native_hash_words": 1100,
+  "native_hook_identical_checks": 8,
+  "full_fast_Python_triples": 4,
+  "terminal_recovery_verified": true,
+  "original_failed_markers_preserved": true,
+  "csv_numeric_values_checked": 28408,
+  "summary_numeric_values_checked": 2166,
+  "groups": 6,
+  "paired_groups": 4,
+  "metrics_per_group": 43,
+  "source_stock_FIFO_cost_extinction_accounting": true,
+  "csv_native_float_bits_exact": true,
+  "reducer": "Independent math.fsum scalar mean and centered second moment; paired whole-life SE.",
+  "reconciliation": {
+    "native_relative_tolerance": 1e-09,
+    "derived_summary_relative_tolerance": 2e-12
+  },
+  "limitations": [
+    "Full hashes are compared/integrity-checked, not regenerated without simulation.",
+    "Explicit baseline seed reuse is development evidence, not fresh confirmation.",
+    "Whole-life modulation changes can affect development and signal strength."
+  ],
+  "artifacts": {
+    "protocol.json": "435d8439a33cc160ecdc4150e22fd845fb2ff8e31fdc532b570c4c2a568209c1",
+    "inputs/reuse.json": "f93ab8977189164f5598f5b643d0f75cc47673dd6173fb1c6e2b9dedc129f44e",
+    "row_index.json": "8766af19e12249f96d2de1ec85418a3cace1fcc1a58d7d04c9bfb08e7f2b0428",
+    "summary.json": "48989b6366aaa9b147adf97b81a624886cec10f45f66b3d6ea206d77b38fc940",
+    "per_life.csv": "78aa81e411069abde52d4256d94bd52482a77e26af17e60715db742452b0af50",
+    "measurement_complete.json": "c872abe9d529db2e10717f143558d43705873d69e51dc5d2452a517aea6ba58e",
+    "budget.json": "7b1c3a548d1891163f6c7f51f60dcb7ebf912988e3347c864200e1142a0b16f0",
+    "terminal_recovery.json": "16079e693d7c305e108c09248f95c3b20cfe7ce210cb9e5c5c5bb3bfc47006f8",
+    "terminal_recovery/amendment.json": "e1adcbd2fefa42ff75fa5f7379cdca0a7eb850268cfa664b7eb138c9dee7b829",
+    "terminal_recovery/source_review.json": "77f59b7e3fd3338a3e08c86ad66a935b8ce7d37bce5a266afa335c36f37bc9b3"
+  },
+  "audit_source_sha256": "c8b0c78fd1a8108e3a803eed1e64ef540b284b99b8e589a5987fd47419523837",
+  "simulations": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "resources": {
+    "cpu_seconds": 0.144513492,
+    "wall_seconds": 0.14522292898618616,
+    "max_rss_kib": 39324
+  }
+}

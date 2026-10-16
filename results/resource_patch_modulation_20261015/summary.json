@@ -1,0 +1,3120 @@
+{
+  "status": "complete",
+  "valid": true,
+  "protocol_sha256": "435d8439a33cc160ecdc4150e22fd845fb2ff8e31fdc532b570c4c2a568209c1",
+  "row_index_sha256": "8766af19e12249f96d2de1ec85418a3cace1fcc1a58d7d04c9bfb08e7f2b0428",
+  "new_backend_calls": 148,
+  "new_scientific_lives": 128,
+  "new_engineering_lives": 20,
+  "reused_scientific_lives": 64,
+  "combined_scientific_rows": 192,
+  "new_native_ledger_values": 15836,
+  "new_native_hash_values": 740,
+  "status_counts": {
+    "0": 212
+  },
+  "engineering_checks_passed": true,
+  "native_equivalence": [
+    {
+      "index": 0,
+      "identical": true
+    },
+    {
+      "index": 1,
+      "identical": true
+    },
+    {
+      "index": 2,
+      "identical": true
+    },
+    {
+      "index": 3,
+      "identical": true
+    },
+    {
+      "index": 4,
+      "identical": true
+    },
+    {
+      "index": 5,
+      "identical": true
+    },
+    {
+      "index": 6,
+      "identical": true
+    },
+    {
+      "index": 7,
+      "identical": true
+    }
+  ],
+  "constant_parity": [
+    {
+      "pair": "constant1_AO_rank0",
+      "identical": true
+    },
+    {
+      "pair": "constant1_AM_reference",
+      "identical": true
+    },
+    {
+      "pair": "constant055_AO_rank0",
+      "identical": true
+    },
+    {
+      "pair": "constant055_AM_reference",
+      "identical": true
+    }
+  ],
+  "groups": {
+    "AO_rank0": {
+      "native": {
+        "production_F": {
+          "n": 32,
+          "mean": 8.171171222270393,
+          "se": 0.4287886187460285,
+          "minimum": 1.931915730879306,
+          "maximum": 12.611858098217729
+        },
+        "F": {
+          "n": 32,
+          "mean": 8.171171222270393,
+          "se": 0.4287886187460285,
+          "minimum": 1.931915730879306,
+          "maximum": 12.611858098217729
+        },
+        "captures": {
+          "n": 32,
+          "mean": 21.4375,
+          "se": 0.8636212907698418,
+          "minimum": 10.0,
+          "maximum": 30.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 48.75,
+          "se": 3.4864368537926897,
+          "minimum": 16.0,
+          "maximum": 94.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": 70.1875,
+          "se": 3.612098147087582,
+          "minimum": 28.0,
+          "maximum": 115.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 10718.75,
+          "se": 431.8106453849209,
+          "minimum": 5000.0,
+          "maximum": 15000.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2351.4706683951163,
+          "se": 56.10012185877855,
+          "minimum": 1938.1161770783006,
+          "maximum": 3190.694575319787
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 2968.75,
+          "se": 31.25,
+          "minimum": 2000.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 7750.0,
+          "se": 426.56259231359036,
+          "minimum": 2000.0,
+          "maximum": 12000.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 5.9375,
+          "se": 0.0625,
+          "minimum": 4.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 15.5,
+          "se": 0.8531251846271807,
+          "minimum": 4.0,
+          "maximum": 24.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 30.21875,
+          "se": 1.0660962620323526,
+          "minimum": 18.0,
+          "maximum": 39.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 18.84375,
+          "se": 0.7817337212165641,
+          "minimum": 8.0,
+          "maximum": 27.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": 11.375,
+          "se": 0.9554069391389403,
+          "minimum": 2.0,
+          "maximum": 25.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": 7.65625,
+          "se": 0.7862341015880702,
+          "minimum": 0.0,
+          "maximum": 20.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": 41.09375,
+          "se": 3.9381199908712783,
+          "minimum": 11.0,
+          "maximum": 93.0
+        },
+        "path": {
+          "n": 32,
+          "mean": 215.63627884791865,
+          "se": 10.184549764256198,
+          "minimum": 85.57114021318198,
+          "maximum": 323.551415630378
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 82105.83874835247,
+          "se": 1061.9038649255262,
+          "minimum": 68260.84152764567,
+          "maximum": 101304.0369945321
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 81.78125,
+          "se": 1.0660962620323526,
+          "minimum": 68.0,
+          "maximum": 101.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 43.5625,
+          "se": 0.682348736634792,
+          "minimum": 37.0,
+          "maximum": 54.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 35.09375,
+          "se": 0.5281575075889584,
+          "minimum": 30.0,
+          "maximum": 42.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 3.125,
+          "se": 0.4277425740763004,
+          "minimum": 0.0,
+          "maximum": 8.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 1642.1167749670494,
+          "se": 21.23807729851053,
+          "minimum": 1365.2168305529133,
+          "maximum": 2026.080739890642
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": 15.47275,
+          "se": 1.4474439923144167,
+          "minimum": 4.624,
+          "maximum": 35.828
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": 15.464,
+          "se": 1.4469143057087093,
+          "minimum": 4.622,
+          "maximum": 35.806
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": 22.799875,
+          "se": 2.0890639050770963,
+          "minimum": 7.099,
+          "maximum": 51.817
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 44.84375,
+          "se": 0.5971359313962911,
+          "minimum": 37.0,
+          "maximum": 54.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 116.65351061556717,
+          "se": 1.5010872233953498,
+          "minimum": 96.94584652538737,
+          "maximum": 143.69758542914482
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": 487.5,
+          "se": 34.8643685379269,
+          "minimum": 160.0,
+          "maximum": 940.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 6.6200078125,
+          "se": 0.5668963004347618,
+          "minimum": 3.35325,
+          "maximum": 15.0945
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 264844.28125,
+          "se": 4115.385571203028,
+          "minimum": 224736.0,
+          "maximum": 328303.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 5821.875,
+          "se": 468.6462890646124,
+          "minimum": 3155.0,
+          "maximum": 12795.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 5818.65625,
+          "se": 468.3619697374249,
+          "minimum": 3152.0,
+          "maximum": 12794.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 6620.0078125,
+          "se": 566.8963004347619,
+          "minimum": 3353.25,
+          "maximum": 15094.5
+        },
+        "births": {
+          "n": 32,
+          "mean": 80.78125,
+          "se": 1.0660962620323526,
+          "minimum": 67.0,
+          "maximum": 100.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 81.78125,
+          "se": 1.0660962620323526,
+          "minimum": 68.0,
+          "maximum": 101.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 6.0,
+          "se": 0.0,
+          "minimum": 6.0,
+          "maximum": 6.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": 3.40625,
+          "se": 0.2573883057160034,
+          "minimum": 0.0,
+          "maximum": 6.0
+        }
+      },
+      "constant1": {
+        "production_F": {
+          "n": 32,
+          "mean": 3.5406388643939284,
+          "se": 0.3460091618567625,
+          "minimum": 0.8265513854253657,
+          "maximum": 7.502580154161567
+        },
+        "F": {
+          "n": 32,
+          "mean": 3.5406388643939284,
+          "se": 0.3460091618567625,
+          "minimum": 0.8265513854253657,
+          "maximum": 7.502580154161567
+        },
+        "captures": {
+          "n": 32,
+          "mean": 13.15625,
+          "se": 0.6826026080850527,
+          "minimum": 8.0,
+          "maximum": 21.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 104.34375,
+          "se": 1.8456626219634245,
+          "minimum": 82.0,
+          "maximum": 124.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": 117.5,
+          "se": 1.684847078348464,
+          "minimum": 92.0,
+          "maximum": 132.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 6578.125,
+          "se": 341.30130404252634,
+          "minimum": 4000.0,
+          "maximum": 10500.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2952.510802860617,
+          "se": 29.014679083283994,
+          "minimum": 2644.771356111067,
+          "maximum": 3538.451414816149
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 2296.875,
+          "se": 122.67880096269754,
+          "minimum": 1000.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 4281.25,
+          "se": 270.2835093068495,
+          "minimum": 1500.0,
+          "maximum": 7500.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 4.59375,
+          "se": 0.2453576019253951,
+          "minimum": 2.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 8.5625,
+          "se": 0.540567018613699,
+          "minimum": 3.0,
+          "maximum": 15.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 30.21875,
+          "se": 1.0660962620323526,
+          "minimum": 18.0,
+          "maximum": 39.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 11.46875,
+          "se": 0.6644552325389478,
+          "minimum": 6.0,
+          "maximum": 20.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": 18.75,
+          "se": 0.9245748805139685,
+          "minimum": 6.0,
+          "maximum": 30.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": 27.25,
+          "se": 3.728702965704242,
+          "minimum": 0.0,
+          "maximum": 65.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": 77.09375,
+          "se": 3.1607979848781347,
+          "minimum": 51.0,
+          "maximum": 122.0
+        },
+        "path": {
+          "n": 32,
+          "mean": 318.80679388782653,
+          "se": 4.618137853983858,
+          "minimum": 254.6449879312199,
+          "maximum": 375.99677233736037
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 81819.01043224001,
+          "se": 1048.4216856786115,
+          "minimum": 68309.46962697442,
+          "maximum": 101304.0369945321
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 81.46875,
+          "se": 1.0510980961172416,
+          "minimum": 68.0,
+          "maximum": 101.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 43.46875,
+          "se": 0.6491066674482757,
+          "minimum": 37.0,
+          "maximum": 54.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 34.875,
+          "se": 0.536472198119193,
+          "minimum": 30.0,
+          "maximum": 42.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 3.125,
+          "se": 0.4277425740763004,
+          "minimum": 0.0,
+          "maximum": 8.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 1636.3802086448004,
+          "se": 20.96843371357223,
+          "minimum": 1366.1893925394884,
+          "maximum": 2026.080739890642
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": 28.785625000000003,
+          "se": 1.040663805824932,
+          "minimum": 21.324,
+          "maximum": 42.292
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": 28.7766875,
+          "se": 1.0399725438736778,
+          "minimum": 21.32,
+          "maximum": 42.276
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": 42.293687500000004,
+          "se": 1.4332128683074459,
+          "minimum": 31.677,
+          "maximum": 61.22
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 44.703125,
+          "se": 0.5883870169828972,
+          "minimum": 37.0,
+          "maximum": 54.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 115.94243015331634,
+          "se": 1.4980500389050255,
+          "minimum": 96.46333857157826,
+          "maximum": 143.3996749255067
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": 1043.4375,
+          "se": 18.456626219634245,
+          "minimum": 820.0,
+          "maximum": 1240.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 12.191539062500002,
+          "se": 0.5243109971368818,
+          "minimum": 8.295375,
+          "maximum": 19.183
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 264293.15625,
+          "se": 3925.4487752248224,
+          "minimum": 225283.0,
+          "maximum": 328303.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 10438.375,
+          "se": 426.3307102426093,
+          "minimum": 7290.0,
+          "maximum": 16245.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 10432.75,
+          "se": 426.1148423500028,
+          "minimum": 7286.0,
+          "maximum": 16238.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 12191.5390625,
+          "se": 524.3109971368817,
+          "minimum": 8295.375,
+          "maximum": 19183.0
+        },
+        "births": {
+          "n": 32,
+          "mean": 80.46875,
+          "se": 1.0510980961172416,
+          "minimum": 67.0,
+          "maximum": 100.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 81.46875,
+          "se": 1.0510980961172416,
+          "minimum": 68.0,
+          "maximum": 101.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 6.0,
+          "se": 0.0,
+          "minimum": 6.0,
+          "maximum": 6.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": 4.3125,
+          "se": 0.1645956678377889,
+          "minimum": 3.0,
+          "maximum": 6.0
+        }
+      },
+      "constant055": {
+        "production_F": {
+          "n": 32,
+          "mean": 5.2470460728867,
+          "se": 0.3204467904141771,
+          "minimum": 1.0269988277726996,
+          "maximum": 8.724164381589917
+        },
+        "F": {
+          "n": 32,
+          "mean": 5.2470460728867,
+          "se": 0.3204467904141771,
+          "minimum": 1.0269988277726996,
+          "maximum": 8.724164381589917
+        },
+        "captures": {
+          "n": 32,
+          "mean": 16.1875,
+          "se": 0.6435747882449374,
+          "minimum": 8.0,
+          "maximum": 23.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 85.90625,
+          "se": 1.7599712326965333,
+          "minimum": 67.0,
+          "maximum": 112.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": 102.09375,
+          "se": 1.7656896755211362,
+          "minimum": 83.0,
+          "maximum": 120.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 8093.75,
+          "se": 321.7873941224687,
+          "minimum": 4000.0,
+          "maximum": 11500.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2720.774821364018,
+          "se": 25.991116362064545,
+          "minimum": 2435.028723911831,
+          "maximum": 3135.548798315917
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 2546.875,
+          "se": 108.5075044788415,
+          "minimum": 1000.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 5546.875,
+          "se": 321.7262026878876,
+          "minimum": 2500.0,
+          "maximum": 9500.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 5.09375,
+          "se": 0.21701500895768297,
+          "minimum": 2.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 11.09375,
+          "se": 0.6434524053757752,
+          "minimum": 5.0,
+          "maximum": 19.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 30.21875,
+          "se": 1.0660962620323526,
+          "minimum": 18.0,
+          "maximum": 39.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 13.9375,
+          "se": 0.6349014083990495,
+          "minimum": 6.0,
+          "maximum": 21.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": 16.28125,
+          "se": 0.740850610458093,
+          "minimum": 9.0,
+          "maximum": 24.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": 26.8125,
+          "se": 2.630634314221817,
+          "minimum": 2.0,
+          "maximum": 68.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": 59.09375,
+          "se": 2.2185796163565783,
+          "minimum": 29.0,
+          "maximum": 87.0
+        },
+        "path": {
+          "n": 32,
+          "mean": 304.9989505534294,
+          "se": 5.056432265674937,
+          "minimum": 222.9841673482072,
+          "maximum": 352.8232075933941
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 80961.84455036468,
+          "se": 1125.9543741441892,
+          "minimum": 63259.213629139726,
+          "maximum": 94438.96170993839
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 80.59375,
+          "se": 1.1277827367049371,
+          "minimum": 63.0,
+          "maximum": 94.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 42.84375,
+          "se": 0.6508514507067621,
+          "minimum": 33.0,
+          "maximum": 52.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 34.65625,
+          "se": 0.5510425877078303,
+          "minimum": 29.0,
+          "maximum": 41.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 3.09375,
+          "se": 0.4361658806041869,
+          "minimum": 0.0,
+          "maximum": 8.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 1619.2368910072933,
+          "se": 22.519087482883783,
+          "minimum": 1265.1842725827946,
+          "maximum": 1888.7792341987679
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": 21.8245,
+          "se": 0.7805037196910806,
+          "minimum": 13.788,
+          "maximum": 31.864
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": 21.81575,
+          "se": 0.7799191994439489,
+          "minimum": 13.784,
+          "maximum": 31.846
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": 32.3081875,
+          "se": 1.098452015115403,
+          "minimum": 20.72,
+          "maximum": 47.160000000000004
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 44.265625,
+          "se": 0.6176929203502387,
+          "minimum": 34.5,
+          "maximum": 51.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 114.97981316922484,
+          "se": 1.6138739959438848,
+          "minimum": 90.26457632903664,
+          "maximum": 134.33143911714922
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": 859.0625,
+          "se": 17.59971232696533,
+          "minimum": 670.0,
+          "maximum": 1120.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 7.2815546875,
+          "se": 0.248089417972688,
+          "minimum": 5.17525,
+          "maximum": 10.568125
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 260553.9375,
+          "se": 3907.0755039832034,
+          "minimum": 201378.0,
+          "maximum": 314734.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 6400.0,
+          "se": 207.57720095145012,
+          "minimum": 4658.0,
+          "maximum": 9172.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 6396.5,
+          "se": 207.47893402588159,
+          "minimum": 4651.0,
+          "maximum": 9165.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 7281.5546875,
+          "se": 248.089417972688,
+          "minimum": 5175.25,
+          "maximum": 10568.125
+        },
+        "births": {
+          "n": 32,
+          "mean": 79.59375,
+          "se": 1.1277827367049371,
+          "minimum": 62.0,
+          "maximum": 93.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 80.59375,
+          "se": 1.1277827367049371,
+          "minimum": 63.0,
+          "maximum": 94.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 6.0,
+          "se": 0.0,
+          "minimum": 6.0,
+          "maximum": 6.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": 3.75,
+          "se": 0.15554275420956376,
+          "minimum": 2.0,
+          "maximum": 6.0
+        }
+      }
+    },
+    "AM_reference": {
+      "native": {
+        "production_F": {
+          "n": 32,
+          "mean": 5.320796699976992,
+          "se": 0.5573712235513009,
+          "minimum": -1.343834396209733,
+          "maximum": 12.1277030419463
+        },
+        "F": {
+          "n": 32,
+          "mean": 5.320796699976992,
+          "se": 0.5573712235513009,
+          "minimum": -1.343834396209733,
+          "maximum": 12.1277030419463
+        },
+        "captures": {
+          "n": 32,
+          "mean": 16.34375,
+          "se": 1.146179993992668,
+          "minimum": 1.0,
+          "maximum": 30.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 71.125,
+          "se": 5.763789566013867,
+          "minimum": 6.0,
+          "maximum": 137.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": 87.46875,
+          "se": 5.761206536485945,
+          "minimum": 7.0,
+          "maximum": 148.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 8171.875,
+          "se": 573.0899969963339,
+          "minimum": 500.0,
+          "maximum": 15000.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2723.3791792235616,
+          "se": 73.38441197653496,
+          "minimum": 1876.0864217187664,
+          "maximum": 3618.223699779295
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 2718.75,
+          "se": 109.8420328354285,
+          "minimum": 500.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 5453.125,
+          "se": 507.68259814938466,
+          "minimum": 0.0,
+          "maximum": 12000.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 5.4375,
+          "se": 0.219684065670857,
+          "minimum": 1.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 10.90625,
+          "se": 1.0153651962987693,
+          "minimum": 0.0,
+          "maximum": 24.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 30.21875,
+          "se": 1.0660962620323526,
+          "minimum": 18.0,
+          "maximum": 39.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 14.3125,
+          "se": 0.9780220947105108,
+          "minimum": 1.0,
+          "maximum": 27.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": 15.90625,
+          "se": 1.462818324193669,
+          "minimum": 3.0,
+          "maximum": 32.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": 4.6875,
+          "se": 0.6860321573860382,
+          "minimum": 0.0,
+          "maximum": 16.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": 66.4375,
+          "se": 6.134569137931736,
+          "minimum": 6.0,
+          "maximum": 137.0
+        },
+        "path": {
+          "n": 32,
+          "mean": 244.54760437059807,
+          "se": 12.721342814984986,
+          "minimum": 37.34789098541904,
+          "maximum": 330.2346513553285
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 87453.7127485745,
+          "se": 1478.9871411767083,
+          "minimum": 72349.53243542703,
+          "maximum": 105398.91853103672
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 87.125,
+          "se": 1.4856504494882083,
+          "minimum": 72.0,
+          "maximum": 105.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 48.21875,
+          "se": 0.8528112606966254,
+          "minimum": 40.0,
+          "maximum": 58.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 38.0,
+          "se": 0.7170166687224269,
+          "minimum": 30.0,
+          "maximum": 47.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.90625,
+          "se": 0.2474033494896738,
+          "minimum": 0.0,
+          "maximum": 5.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 1749.07425497149,
+          "se": 29.579742823534165,
+          "minimum": 1446.9906487085407,
+          "maximum": 2107.9783706207345
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": 23.450874999999996,
+          "se": 1.956204242868967,
+          "minimum": 1.428,
+          "maximum": 42.352000000000004
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": 23.450812499999998,
+          "se": 1.9561984258055192,
+          "minimum": 1.428,
+          "maximum": 42.352000000000004
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": 34.37515625,
+          "se": 2.83501611444664,
+          "minimum": 2.08,
+          "maximum": 63.206
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 48.15625,
+          "se": 0.8419559780366268,
+          "minimum": 38.0,
+          "maximum": 58.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 124.63694768957156,
+          "se": 2.134505788210047,
+          "minimum": 102.32939490016642,
+          "maximum": 150.5968291585608
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": 711.25,
+          "se": 57.63789566013867,
+          "minimum": 60.0,
+          "maximum": 1370.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 8.9848828125,
+          "se": 0.6913946599160135,
+          "minimum": 2.480625,
+          "maximum": 16.097125000000002
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 293098.34375,
+          "se": 5143.71407987485,
+          "minimum": 243643.0,
+          "maximum": 352683.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 7925.5625,
+          "se": 573.65086981413,
+          "minimum": 2417.0,
+          "maximum": 13618.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 7921.25,
+          "se": 573.4285591946044,
+          "minimum": 2417.0,
+          "maximum": 13612.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 8984.8828125,
+          "se": 691.3946599160133,
+          "minimum": 2480.625,
+          "maximum": 16097.125
+        },
+        "births": {
+          "n": 32,
+          "mean": 86.125,
+          "se": 1.4856504494882083,
+          "minimum": 71.0,
+          "maximum": 104.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 87.125,
+          "se": 1.4856504494882083,
+          "minimum": 72.0,
+          "maximum": 105.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 6.0,
+          "se": 0.0,
+          "minimum": 6.0,
+          "maximum": 6.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": 3.96875,
+          "se": 0.30613477094879465,
+          "minimum": 1.0,
+          "maximum": 6.0
+        }
+      },
+      "constant1": {
+        "production_F": {
+          "n": 32,
+          "mean": 2.224129576519872,
+          "se": 0.3137556384738452,
+          "minimum": -0.9074867167672309,
+          "maximum": 5.9800450789959845
+        },
+        "F": {
+          "n": 32,
+          "mean": 2.224129576519872,
+          "se": 0.3137556384738452,
+          "minimum": -0.9074867167672309,
+          "maximum": 5.9800450789959845
+        },
+        "captures": {
+          "n": 32,
+          "mean": 11.03125,
+          "se": 0.6229553247974917,
+          "minimum": 5.0,
+          "maximum": 18.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 118.8125,
+          "se": 2.0037452332263745,
+          "minimum": 94.0,
+          "maximum": 147.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": 129.84375,
+          "se": 1.844296665813897,
+          "minimum": 112.0,
+          "maximum": 156.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 5515.625,
+          "se": 311.4776623987458,
+          "minimum": 2500.0,
+          "maximum": 9000.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 3238.116313643651,
+          "se": 41.897617496212085,
+          "minimum": 2832.3107032272505,
+          "maximum": 3935.6758244311623
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 2031.25,
+          "se": 124.87392835924946,
+          "minimum": 1000.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 3484.375,
+          "se": 267.98641993608794,
+          "minimum": 500.0,
+          "maximum": 6000.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 4.0625,
+          "se": 0.2497478567184989,
+          "minimum": 2.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 6.96875,
+          "se": 0.5359728398721759,
+          "minimum": 1.0,
+          "maximum": 12.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 30.21875,
+          "se": 1.0660962620323526,
+          "minimum": 18.0,
+          "maximum": 39.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 9.625,
+          "se": 0.593564274857489,
+          "minimum": 4.0,
+          "maximum": 18.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": 20.59375,
+          "se": 1.045207356144564,
+          "minimum": 12.0,
+          "maximum": 34.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": 17.3125,
+          "se": 3.4297199347242864,
+          "minimum": 0.0,
+          "maximum": 66.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": 101.5,
+          "se": 4.095877156045986,
+          "minimum": 60.0,
+          "maximum": 147.0
+        },
+        "path": {
+          "n": 32,
+          "mean": 324.23930191119325,
+          "se": 5.091126018963218,
+          "minimum": 257.7204945208668,
+          "maximum": 395.0678304123202
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 87074.80524195789,
+          "se": 1460.2597815503577,
+          "minimum": 69497.88803959129,
+          "maximum": 105398.91853103672
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 86.75,
+          "se": 1.4687607240514464,
+          "minimum": 69.0,
+          "maximum": 105.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 48.0,
+          "se": 0.8660254037844385,
+          "minimum": 37.0,
+          "maximum": 58.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 37.84375,
+          "se": 0.702973774059978,
+          "minimum": 30.0,
+          "maximum": 47.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.90625,
+          "se": 0.2474033494896738,
+          "minimum": 0.0,
+          "maximum": 5.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 1741.4961048391579,
+          "se": 29.205195631007154,
+          "minimum": 1389.9577607918256,
+          "maximum": 2107.9783706207345
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": 35.48125,
+          "se": 1.2147311455825882,
+          "minimum": 22.992,
+          "maximum": 51.68
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": 35.481187500000004,
+          "se": 1.2147335326389652,
+          "minimum": 22.992,
+          "maximum": 51.68
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": 51.967468749999995,
+          "se": 1.733911034561736,
+          "minimum": 35.32,
+          "maximum": 76.789
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 47.96875,
+          "se": 0.8436006438896118,
+          "minimum": 36.5,
+          "maximum": 57.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 123.93994708574334,
+          "se": 2.0985968473821077,
+          "minimum": 98.39468307234841,
+          "maximum": 150.3127038104279
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": 1188.125,
+          "se": 20.037452332263747,
+          "minimum": 940.0,
+          "maximum": 1470.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 13.656605468750001,
+          "se": 0.542879191068027,
+          "minimum": 8.365125,
+          "maximum": 20.23575
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 291715.1875,
+          "se": 5200.79123951453,
+          "minimum": 225786.0,
+          "maximum": 352683.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 11826.375,
+          "se": 443.6370068544851,
+          "minimum": 7466.0,
+          "maximum": 17362.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 11820.15625,
+          "se": 443.33559275244215,
+          "minimum": 7461.0,
+          "maximum": 17356.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 13656.60546875,
+          "se": 542.879191068027,
+          "minimum": 8365.125,
+          "maximum": 20235.75
+        },
+        "births": {
+          "n": 32,
+          "mean": 85.75,
+          "se": 1.4687607240514464,
+          "minimum": 68.0,
+          "maximum": 104.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 86.75,
+          "se": 1.4687607240514464,
+          "minimum": 69.0,
+          "maximum": 105.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 6.0,
+          "se": 0.0,
+          "minimum": 6.0,
+          "maximum": 6.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": 4.59375,
+          "se": 0.16715946968823395,
+          "minimum": 3.0,
+          "maximum": 6.0
+        }
+      },
+      "constant055": {
+        "production_F": {
+          "n": 32,
+          "mean": 3.124757969290095,
+          "se": 0.37638892273242486,
+          "minimum": -1.9606140782041703,
+          "maximum": 6.678742160760903
+        },
+        "F": {
+          "n": 32,
+          "mean": 3.124757969290095,
+          "se": 0.37638892273242486,
+          "minimum": -1.9606140782041703,
+          "maximum": 6.678742160760903
+        },
+        "captures": {
+          "n": 32,
+          "mean": 12.34375,
+          "se": 0.8371531238803213,
+          "minimum": 0.0,
+          "maximum": 19.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 91.0625,
+          "se": 4.752956953138445,
+          "minimum": 5.0,
+          "maximum": 122.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": 103.40625,
+          "se": 5.354538957706515,
+          "minimum": 5.0,
+          "maximum": 136.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 6171.875,
+          "se": 418.5765619401607,
+          "minimum": 0.0,
+          "maximum": 9500.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2972.1228394469426,
+          "se": 69.60304733413554,
+          "minimum": 1692.3998400688356,
+          "maximum": 3695.1091252681094
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 2187.5,
+          "se": 156.75322191471906,
+          "minimum": 0.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 3984.375,
+          "se": 319.46620596556414,
+          "minimum": 0.0,
+          "maximum": 7000.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 4.375,
+          "se": 0.3135064438294381,
+          "minimum": 0.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 7.96875,
+          "se": 0.6389324119311284,
+          "minimum": 0.0,
+          "maximum": 14.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 30.21875,
+          "se": 1.0660962620323526,
+          "minimum": 18.0,
+          "maximum": 39.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 10.875,
+          "se": 0.7563574637056381,
+          "minimum": 0.0,
+          "maximum": 17.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": 19.34375,
+          "se": 0.9274155198027298,
+          "minimum": 8.0,
+          "maximum": 30.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": 16.34375,
+          "se": 2.791335013801495,
+          "minimum": 0.0,
+          "maximum": 56.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": 74.71875,
+          "se": 4.520837591668377,
+          "minimum": 5.0,
+          "maximum": 114.0
+        },
+        "path": {
+          "n": 32,
+          "mean": 284.9295289996456,
+          "se": 13.305366777320884,
+          "minimum": 21.788462434776573,
+          "maximum": 353.6372312711791
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 89396.53974335203,
+          "se": 1422.8863707039313,
+          "minimum": 74400.46530611771,
+          "maximum": 107366.48349308358
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 89.0625,
+          "se": 1.4283544982183678,
+          "minimum": 74.0,
+          "maximum": 107.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 49.25,
+          "se": 0.9310937030562325,
+          "minimum": 39.0,
+          "maximum": 61.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 38.90625,
+          "se": 0.5791389865358801,
+          "minimum": 34.0,
+          "maximum": 46.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.90625,
+          "se": 0.2474033494896738,
+          "minimum": 0.0,
+          "maximum": 5.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 1787.9307948670407,
+          "se": 28.45772741407862,
+          "minimum": 1488.0093061223542,
+          "maximum": 2147.3296698616714
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": 25.586625,
+          "se": 1.5239237197209792,
+          "minimum": 0.716,
+          "maximum": 38.796
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": 25.5865,
+          "se": 1.5239077077083452,
+          "minimum": 0.716,
+          "maximum": 38.796
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": 37.874156250000006,
+          "se": 2.2614583737108593,
+          "minimum": 1.053,
+          "maximum": 58.242000000000004
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 49.203125,
+          "se": 0.8066193436962691,
+          "minimum": 41.0,
+          "maximum": 59.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 127.53568129865204,
+          "se": 1.995781610913233,
+          "minimum": 107.3995339464813,
+          "maximum": 152.79108040643806
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": 910.625,
+          "se": 47.52956953138446,
+          "minimum": 50.0,
+          "maximum": 1220.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 7.78095703125,
+          "se": 0.38669203229673244,
+          "minimum": 2.0060000000000002,
+          "maximum": 11.650375
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 299263.90625,
+          "se": 5604.802267734515,
+          "minimum": 237262.0,
+          "maximum": 369749.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 7002.5,
+          "se": 333.0776936391868,
+          "minimum": 1987.0,
+          "maximum": 10385.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 6998.875,
+          "se": 332.9390012122728,
+          "minimum": 1987.0,
+          "maximum": 10382.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 7780.95703125,
+          "se": 386.6920322967324,
+          "minimum": 2006.0,
+          "maximum": 11650.375
+        },
+        "births": {
+          "n": 32,
+          "mean": 88.0625,
+          "se": 1.4283544982183678,
+          "minimum": 73.0,
+          "maximum": 106.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 89.0625,
+          "se": 1.4283544982183678,
+          "minimum": 74.0,
+          "maximum": 107.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 6.0,
+          "se": 0.0,
+          "minimum": 6.0,
+          "maximum": 6.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": 4.53125,
+          "se": 0.16179671011249208,
+          "minimum": 3.0,
+          "maximum": 6.0
+        }
+      }
+    }
+  },
+  "paired_native_minus_constant": {
+    "AO_rank0": {
+      "native_minus_constant1": {
+        "production_F": {
+          "n": 32,
+          "mean": 4.630532357876465,
+          "se": 0.4718618555200901,
+          "minimum": -3.1305749523290354,
+          "maximum": 10.061583337550086
+        },
+        "F": {
+          "n": 32,
+          "mean": 4.630532357876465,
+          "se": 0.4718618555200901,
+          "minimum": -3.1305749523290354,
+          "maximum": 10.061583337550086
+        },
+        "captures": {
+          "n": 32,
+          "mean": 8.28125,
+          "se": 0.9527489673350816,
+          "minimum": -8.0,
+          "maximum": 19.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": -55.59375,
+          "se": 3.867737568813282,
+          "minimum": -90.0,
+          "maximum": 2.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": -47.3125,
+          "se": 3.8501250241534883,
+          "minimum": -80.0,
+          "maximum": 4.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 4140.625,
+          "se": 476.3744836675408,
+          "minimum": -4000.0,
+          "maximum": 9500.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": -601.0401344655002,
+          "se": 40.94865897054083,
+          "minimum": -944.9603264805928,
+          "maximum": 8.836061622933812
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 671.875,
+          "se": 132.0766498342974,
+          "minimum": -1000.0,
+          "maximum": 2000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 3468.75,
+          "se": 422.36940862083,
+          "minimum": -4000.0,
+          "maximum": 8500.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 1.34375,
+          "se": 0.2641532996685948,
+          "minimum": -2.0,
+          "maximum": 4.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 6.9375,
+          "se": 0.84473881724166,
+          "minimum": -8.0,
+          "maximum": 17.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 7.375,
+          "se": 0.8726928107504289,
+          "minimum": -6.0,
+          "maximum": 17.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": -7.375,
+          "se": 0.8726928107504289,
+          "minimum": -17.0,
+          "maximum": 6.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": -19.59375,
+          "se": 3.2768307413812647,
+          "minimum": -58.0,
+          "maximum": 4.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": -36.0,
+          "se": 2.8757888118432096,
+          "minimum": -68.0,
+          "maximum": 5.0
+        },
+        "path": {
+          "n": 32,
+          "mean": -103.17051503990785,
+          "se": 11.25974363022988,
+          "minimum": -276.294554393235,
+          "maximum": 15.992847440275852
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 286.82831611245183,
+          "se": 128.77026155289832,
+          "minimum": -983.1731194823951,
+          "maximum": 2724.0123157189664
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 0.3125,
+          "se": 0.137939181315301,
+          "minimum": -1.0,
+          "maximum": 3.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 0.09375,
+          "se": 0.08229783391889445,
+          "minimum": -1.0,
+          "maximum": 1.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 0.21875,
+          "se": 0.09769908334829336,
+          "minimum": -1.0,
+          "maximum": 2.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 5.73656632224904,
+          "se": 2.5754052310579714,
+          "minimum": -19.663462389647975,
+          "maximum": 54.48024631437943
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": -13.312875,
+          "se": 0.8902876616373551,
+          "minimum": -25.28,
+          "maximum": -1.3599999999999994
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": -13.3126875,
+          "se": 0.8903469358652485,
+          "minimum": -25.28,
+          "maximum": -1.3560000000000016
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": -19.4938125,
+          "se": 1.285583360772439,
+          "minimum": -37.391999999999996,
+          "maximum": -1.8930000000000007
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 0.140625,
+          "se": 0.06038508397721645,
+          "minimum": -0.5,
+          "maximum": 1.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 0.7110804622508398,
+          "se": 0.18999109772987494,
+          "minimum": -1.3852783774311632,
+          "maximum": 4.169880010065754
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": -555.9375,
+          "se": 38.67737568813282,
+          "minimum": -900.0,
+          "maximum": 20.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": -5.5715312500000005,
+          "se": 0.3495748107688721,
+          "minimum": -9.969125,
+          "maximum": -1.3478750000000002
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 551.125,
+          "se": 475.10351111116967,
+          "minimum": -5683.0,
+          "maximum": 5948.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": -4616.5,
+          "se": 282.7562818388918,
+          "minimum": -8086.0,
+          "maximum": -1011.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": -4614.09375,
+          "se": 282.7881465075782,
+          "minimum": -8087.0,
+          "maximum": -1013.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": -5571.53125,
+          "se": 349.57481076887206,
+          "minimum": -9969.125,
+          "maximum": -1347.875
+        },
+        "births": {
+          "n": 32,
+          "mean": 0.3125,
+          "se": 0.137939181315301,
+          "minimum": -1.0,
+          "maximum": 3.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 0.3125,
+          "se": 0.137939181315301,
+          "minimum": -1.0,
+          "maximum": 3.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": -0.90625,
+          "se": 0.25144491717067524,
+          "minimum": -3.0,
+          "maximum": 2.0
+        }
+      },
+      "native_minus_constant055": {
+        "production_F": {
+          "n": 32,
+          "mean": 2.9241251493836926,
+          "se": 0.4556168276328233,
+          "minimum": -4.823898951175857,
+          "maximum": 6.64016967950345
+        },
+        "F": {
+          "n": 32,
+          "mean": 2.9241251493836926,
+          "se": 0.4556168276328233,
+          "minimum": -4.823898951175857,
+          "maximum": 6.64016967950345
+        },
+        "captures": {
+          "n": 32,
+          "mean": 5.25,
+          "se": 0.9102906306548828,
+          "minimum": -11.0,
+          "maximum": 13.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": -37.15625,
+          "se": 3.8948139047742165,
+          "minimum": -81.0,
+          "maximum": 14.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": -31.90625,
+          "se": 3.8259405798528174,
+          "minimum": -76.0,
+          "maximum": 11.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 2625.0,
+          "se": 455.14531532744144,
+          "minimum": -5500.0,
+          "maximum": 6500.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": -369.30415296890146,
+          "se": 45.000772992679735,
+          "minimum": -824.6820725235661,
+          "maximum": 117.88200808738202
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 421.875,
+          "se": 116.89311141366605,
+          "minimum": -1000.0,
+          "maximum": 2000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 2203.125,
+          "se": 430.59608849994396,
+          "minimum": -5500.0,
+          "maximum": 5500.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 0.84375,
+          "se": 0.23378622282733205,
+          "minimum": -2.0,
+          "maximum": 4.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 4.40625,
+          "se": 0.8611921769998879,
+          "minimum": -11.0,
+          "maximum": 11.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 4.90625,
+          "se": 0.78334396798432,
+          "minimum": -8.0,
+          "maximum": 10.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": -4.90625,
+          "se": 0.78334396798432,
+          "minimum": -10.0,
+          "maximum": 8.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": -19.15625,
+          "se": 2.2869322735468844,
+          "minimum": -57.0,
+          "maximum": 1.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": -18.0,
+          "se": 2.813059980095146,
+          "minimum": -45.0,
+          "maximum": 18.0
+        },
+        "path": {
+          "n": 32,
+          "mean": -89.36267170551075,
+          "se": 8.686348452378224,
+          "minimum": -246.41724473293124,
+          "maximum": -6.865577610735102
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 1143.9941979878074,
+          "se": 581.6934570699582,
+          "minimum": -5910.681213011718,
+          "maximum": 6955.979885436143
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 1.1875,
+          "se": 0.5913310232283251,
+          "minimum": -6.0,
+          "maximum": 7.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 0.71875,
+          "se": 0.3946067228593634,
+          "minimum": -5.0,
+          "maximum": 6.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 0.4375,
+          "se": 0.269173990379409,
+          "minimum": -2.0,
+          "maximum": 4.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.03125,
+          "se": 0.11433869289767302,
+          "minimum": -2.0,
+          "maximum": 3.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 22.87988395975617,
+          "se": 11.633869141399162,
+          "minimum": -118.21362426023438,
+          "maximum": 139.11959770872295
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": -6.351750000000001,
+          "se": 0.9873028580267261,
+          "minimum": -18.652,
+          "maximum": 7.080000000000002
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": -6.351750000000001,
+          "se": 0.9876833996700921,
+          "minimum": -18.650000000000002,
+          "maximum": 7.069999999999997
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": -9.5083125,
+          "se": 1.419543536383618,
+          "minimum": -27.468999999999998,
+          "maximum": 9.519999999999996
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 0.578125,
+          "se": 0.31198293917244485,
+          "minimum": -3.0,
+          "maximum": 4.5
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 1.6736974463423349,
+          "se": 0.8095330709412564,
+          "minimum": -7.772171085654577,
+          "maximum": 9.463030151239522
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": -371.5625,
+          "se": 38.94813904774217,
+          "minimum": -810.0,
+          "maximum": 140.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": -0.6615468750000001,
+          "se": 0.4035732429470765,
+          "minimum": -3.7906250000000004,
+          "maximum": 5.1396250000000006
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 4290.34375,
+          "se": 2361.218200066515,
+          "minimum": -29647.0,
+          "maximum": 36005.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": -578.125,
+          "se": 329.92502432126463,
+          "minimum": -3134.0,
+          "maximum": 4120.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": -577.84375,
+          "se": 329.725221957174,
+          "minimum": -3133.0,
+          "maximum": 4113.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": -661.546875,
+          "se": 403.57324294707655,
+          "minimum": -3790.625,
+          "maximum": 5139.625
+        },
+        "births": {
+          "n": 32,
+          "mean": 1.1875,
+          "se": 0.5913310232283251,
+          "minimum": -6.0,
+          "maximum": 7.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 1.1875,
+          "se": 0.5913310232283251,
+          "minimum": -6.0,
+          "maximum": 7.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": -0.34375,
+          "se": 0.29651665554590523,
+          "minimum": -4.0,
+          "maximum": 3.0
+        }
+      }
+    },
+    "AM_reference": {
+      "native_minus_constant1": {
+        "production_F": {
+          "n": 32,
+          "mean": 3.096667123457119,
+          "se": 0.5977791857488871,
+          "minimum": -5.2223382079674545,
+          "maximum": 9.494018331825723
+        },
+        "F": {
+          "n": 32,
+          "mean": 3.096667123457119,
+          "se": 0.5977791857488871,
+          "minimum": -5.2223382079674545,
+          "maximum": 9.494018331825723
+        },
+        "captures": {
+          "n": 32,
+          "mean": 5.3125,
+          "se": 1.2168487030559847,
+          "minimum": -13.0,
+          "maximum": 18.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": -47.6875,
+          "se": 5.006736892879046,
+          "minimum": -107.0,
+          "maximum": 5.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": -42.375,
+          "se": 5.150115485707969,
+          "minimum": -120.0,
+          "maximum": -1.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 2656.25,
+          "se": 608.4243515279924,
+          "minimum": -6500.0,
+          "maximum": 9000.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": -514.7371344200897,
+          "se": 52.893282299516144,
+          "minimum": -1152.325675041327,
+          "maximum": 51.47638415881602
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 687.5,
+          "se": 137.939181315301,
+          "minimum": -1000.0,
+          "maximum": 2000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 1968.75,
+          "se": 548.5214271552088,
+          "minimum": -6000.0,
+          "maximum": 7500.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 1.375,
+          "se": 0.275878362630602,
+          "minimum": -2.0,
+          "maximum": 4.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 3.9375,
+          "se": 1.0970428543104178,
+          "minimum": -12.0,
+          "maximum": 15.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 4.6875,
+          "se": 1.0882783643843594,
+          "minimum": -11.0,
+          "maximum": 16.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": -4.6875,
+          "se": 1.0882783643843594,
+          "minimum": -16.0,
+          "maximum": 11.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": -12.625,
+          "se": 3.113365438691499,
+          "minimum": -59.0,
+          "maximum": 4.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": -35.0625,
+          "se": 3.6236614603232815,
+          "minimum": -74.0,
+          "maximum": 10.0
+        },
+        "path": {
+          "n": 32,
+          "mean": -79.69169754059511,
+          "se": 14.00992886671365,
+          "minimum": -325.6964313114759,
+          "maximum": 20.938014242368467
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 378.90750661660695,
+          "se": 230.39176909808563,
+          "minimum": -1909.273444176244,
+          "maximum": 4856.258873224389
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 0.375,
+          "se": 0.24075653610529318,
+          "minimum": -2.0,
+          "maximum": 5.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": 0.21875,
+          "se": 0.14009195568763788,
+          "minimum": -1.0,
+          "maximum": 3.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": 0.15625,
+          "se": 0.1427648571444803,
+          "minimum": -1.0,
+          "maximum": 3.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": 7.5781501323321265,
+          "se": 4.607835381961709,
+          "minimum": -38.18546888352489,
+          "maximum": 97.1251774644877
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": -12.030375,
+          "se": 1.161408667195963,
+          "minimum": -23.28,
+          "maximum": 0.5640000000000001
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": -12.030375,
+          "se": 1.161408667195963,
+          "minimum": -23.28,
+          "maximum": 0.5640000000000001
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": -17.5923125,
+          "se": 1.7043393824942157,
+          "minimum": -33.656,
+          "maximum": 0.4719999999999942
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": 0.1875,
+          "se": 0.12037826805264659,
+          "minimum": -1.0,
+          "maximum": 2.5
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": 0.6970006038282146,
+          "se": 0.3405538135726386,
+          "minimum": -2.6205268103850727,
+          "maximum": 7.472103390055793
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": -476.875,
+          "se": 50.067368928790465,
+          "minimum": -1070.0,
+          "maximum": 50.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": -4.671722656250001,
+          "se": 0.3899146058795759,
+          "minimum": -9.066749999999999,
+          "maximum": -0.15350000000000108
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": 1383.15625,
+          "se": 807.9457574582019,
+          "minimum": -5834.0,
+          "maximum": 17891.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": -3900.8125,
+          "se": 326.1280560555509,
+          "minimum": -7507.0,
+          "maximum": -161.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": -3898.90625,
+          "se": 326.1593940411966,
+          "minimum": -7511.0,
+          "maximum": -154.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": -4671.72265625,
+          "se": 389.91460587957596,
+          "minimum": -9066.75,
+          "maximum": -153.5
+        },
+        "births": {
+          "n": 32,
+          "mean": 0.375,
+          "se": 0.24075653610529318,
+          "minimum": -2.0,
+          "maximum": 5.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 0.375,
+          "se": 0.24075653610529318,
+          "minimum": -2.0,
+          "maximum": 5.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": -0.625,
+          "se": 0.24898989485907952,
+          "minimum": -3.0,
+          "maximum": 2.0
+        }
+      },
+      "native_minus_constant055": {
+        "production_F": {
+          "n": 32,
+          "mean": 2.1960387306868956,
+          "se": 0.6387247156966621,
+          "minimum": -6.193582362774146,
+          "maximum": 11.656699331985955
+        },
+        "F": {
+          "n": 32,
+          "mean": 2.1960387306868956,
+          "se": 0.6387247156966621,
+          "minimum": -6.193582362774146,
+          "maximum": 11.656699331985955
+        },
+        "captures": {
+          "n": 32,
+          "mean": 4.0,
+          "se": 1.3236374613285382,
+          "minimum": -15.0,
+          "maximum": 25.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": -19.9375,
+          "se": 7.510333942470157,
+          "minimum": -87.0,
+          "maximum": 114.0
+        },
+        "clicks": {
+          "n": 32,
+          "mean": -15.9375,
+          "se": 7.776740742276332,
+          "minimum": -102.0,
+          "maximum": 122.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 2000.0,
+          "se": 661.8187306642692,
+          "minimum": -7500.0,
+          "maximum": 12500.0
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": -248.74366022338114,
+          "se": 88.27331627279149,
+          "minimum": -1157.771660519274,
+          "maximum": 1429.2274153662825
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinction_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "initial_income": {
+          "n": 32,
+          "mean": 531.25,
+          "se": 193.0463288452934,
+          "minimum": -2500.0,
+          "maximum": 3000.0
+        },
+        "refill_income": {
+          "n": 32,
+          "mean": 1468.75,
+          "se": 552.6409742056479,
+          "minimum": -5000.0,
+          "maximum": 9500.0
+        },
+        "total_patch_initial_harvest": {
+          "n": 32,
+          "mean": 1.0625,
+          "se": 0.38609265769058676,
+          "minimum": -5.0,
+          "maximum": 6.0
+        },
+        "total_patch_refill_harvest": {
+          "n": 32,
+          "mean": 2.9375,
+          "se": 1.105281948411296,
+          "minimum": -10.0,
+          "maximum": 19.0
+        },
+        "total_patch_source": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_supply": {
+          "n": 32,
+          "mean": 3.4375,
+          "se": 1.1179776348100545,
+          "minimum": -13.0,
+          "maximum": 22.0
+        },
+        "total_patch_spill": {
+          "n": 32,
+          "mean": -3.4375,
+          "se": 1.1179776348100545,
+          "minimum": -22.0,
+          "maximum": 13.0
+        },
+        "total_patch_empty": {
+          "n": 32,
+          "mean": -11.65625,
+          "se": 2.4885258360510436,
+          "minimum": -40.0,
+          "maximum": 6.0
+        },
+        "patch_geometric_misses": {
+          "n": 32,
+          "mean": -8.28125,
+          "se": 6.1637981808388975,
+          "minimum": -52.0,
+          "maximum": 114.0
+        },
+        "path": {
+          "n": 32,
+          "mean": -40.38192462904749,
+          "se": 18.101481128540048,
+          "minimum": -245.84629236569936,
+          "maximum": 308.4461889205519
+        },
+        "live_time": {
+          "n": 32,
+          "mean": -1942.8269947775325,
+          "se": 886.2632474023787,
+          "minimum": -15816.049504990078,
+          "maximum": 6921.271913622986
+        },
+        "n_end": {
+          "n": 32,
+          "mean": -1.9375,
+          "se": 0.9001987907696974,
+          "minimum": -16.0,
+          "maximum": 7.0
+        },
+        "n_S_end": {
+          "n": 32,
+          "mean": -1.03125,
+          "se": 0.5109375770691468,
+          "minimum": -9.0,
+          "maximum": 6.0
+        },
+        "n_M_end": {
+          "n": 32,
+          "mean": -0.90625,
+          "se": 0.4738300000544635,
+          "minimum": -7.0,
+          "maximum": 4.0
+        },
+        "n_H_end": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "cost_maintenance": {
+          "n": 32,
+          "mean": -38.856539895550654,
+          "se": 17.72526494804757,
+          "minimum": -316.3209900998015,
+          "maximum": 138.4254382724596
+        },
+        "cost_spikes": {
+          "n": 32,
+          "mean": -2.13575,
+          "se": 1.962922894131721,
+          "minimum": -19.652,
+          "maximum": 36.632
+        },
+        "cost_motor": {
+          "n": 32,
+          "mean": -2.1356874999999995,
+          "se": 1.962922475810837,
+          "minimum": -19.652,
+          "maximum": 36.632
+        },
+        "cost_messages": {
+          "n": 32,
+          "mean": -3.498999999999999,
+          "se": 2.8426270249939236,
+          "minimum": -29.823999999999998,
+          "maximum": 52.533
+        },
+        "cost_division_claims": {
+          "n": 32,
+          "mean": -1.046875,
+          "se": 0.4705861216430681,
+          "minimum": -8.0,
+          "maximum": 4.0
+        },
+        "cost_secretion": {
+          "n": 32,
+          "mean": -2.8987336090804976,
+          "se": 1.278286840813115,
+          "minimum": -22.846627862753095,
+          "maximum": 9.148688329683921
+        },
+        "cost_misses": {
+          "n": 32,
+          "mean": -199.375,
+          "se": 75.10333942470157,
+          "minimum": -870.0,
+          "maximum": 1140.0
+        },
+        "cost_receptors": {
+          "n": 32,
+          "mean": 1.2039257812500002,
+          "se": 0.6285704728972654,
+          "minimum": -4.0512500000000005,
+          "maximum": 12.5415
+        },
+        "guard": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "extinct": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "rec_cand": {
+          "n": 32,
+          "mean": -6165.5625,
+          "se": 3065.5716087184205,
+          "minimum": -54438.0,
+          "maximum": 35837.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 923.0625,
+          "se": 523.5528209508615,
+          "minimum": -3544.0,
+          "maximum": 10469.0
+        },
+        "rec_events": {
+          "n": 32,
+          "mean": 922.375,
+          "se": 523.2856817627472,
+          "minimum": -3537.0,
+          "maximum": 10465.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 1203.92578125,
+          "se": 628.5704728972653,
+          "minimum": -4051.25,
+          "maximum": 12541.5
+        },
+        "births": {
+          "n": 32,
+          "mean": -1.9375,
+          "se": 0.9001987907696974,
+          "minimum": -16.0,
+          "maximum": 7.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": -1.9375,
+          "se": 0.9001987907696974,
+          "minimum": -16.0,
+          "maximum": 7.0
+        },
+        "total_patch_stock_open": {
+          "n": 32,
+          "mean": 0.0,
+          "se": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_patch_stock_end": {
+          "n": 32,
+          "mean": -0.5625,
+          "se": 0.3358231941690976,
+          "minimum": -5.0,
+          "maximum": 2.0
+        }
+      }
+    }
+  },
+  "interpretation": [
+    "Development reuse: no512-case admission, external controller, evolution, mutation or endpoint selection.",
+    "Only patch-rate amplitude changes; source/capture laws, candidate envelope, action rules and prices remain fixed.",
+    "Actions, tissue development, receptor events and stock/admission/spill trajectories may diverge causally.",
+    "Two constant brightnesses do not isolate information from every signal-strength/confidence effect.",
+    "Current-stock modulation removal is not complete stock blindness or a memory-specific lesion.",
+    "FIFO initial/refill income is observed-trajectory provenance; aggregates do not establish revisits or rate learning.",
+    "Report every planned row, status and component cost; valid guards/extinction remain, corruption invalidates completeness."
+  ]
+}

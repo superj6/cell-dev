@@ -1,0 +1,15 @@
+{
+  "command": [
+    "gcc",
+    "-O3",
+    "-fopenmp",
+    "-ffp-contract=off",
+    "-fPIC",
+    "-shared",
+    "-std=c11",
+    "-o",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/native_full.so",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+    "-lm"
+  ]
+}

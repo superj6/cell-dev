@@ -1,0 +1,16 @@
+{
+  "command": [
+    "gcc",
+    "-O3",
+    "-fopenmp",
+    "-ffp-contract=off",
+    "-fPIC",
+    "-shared",
+    "-std=c11",
+    "-DRESOURCE_OBSERVATION_AMPLITUDE=1.0",
+    "-o",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/constant1_full.so",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+    "-lm"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "gcc",
+    "-O3",
+    "-fopenmp",
+    "-ffp-contract=off",
+    "-fPIC",
+    "-shared",
+    "-std=c11",
+    "-DLIFE_FAST",
+    "-DRESOURCE_OBSERVATION_AMPLITUDE=0.55",
+    "-o",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/build-cache/constant055_fast.so",
+    "/home/jgon/project/ml/cell-dev/outputs/resource_patch_modulation_20261015/inputs/renderer.c",
+    "-lm"
+  ]
+}

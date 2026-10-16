@@ -16,7 +16,27 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
-**Inherited resource collection measured (2026-10-15).** Without patch-world evolution, the fixed AO genome
+**Depletion cues help inherited behavior (2026-10-15).** The fixed AO genome collects 21.4375 packets with
+native stock-dependent cues, versus 16.1875 at constant amplitude 0.55 and 13.15625 at constant 1. Native minus
+0.55 adds 5.2500 ±0.9103 captures, including 4.4063 ±0.8612 replenished packets, and 2.924125 ±0.455617 F;
+87.67% of the mean F advantage comes from food. Empty-patch clicks fall 19.1563 ±2.2869. The older AM genome
+also benefits from native cues. These are 32 reused development lives, whole-life interventions with potentially
+different tissues and sensory doses, not memory, matched-footprint superiority or formal admission.
+All 148 new calls return and engineering parity passes. One metadata-name collision prevents initial analysis;
+a reviewed one-key saved-data repair and independent accounting complete the measurement without new lives.
+Evidence: `results/resource_patch_modulation_20261015/REPORT.md`.
+
+**Exploratory cumulative pilots (revision, 2026-10-15).** Section 0.4 now explicitly separates bounded exploratory
+continuations from formal admission, following the user's cumulative-primitives direction. Useful inherited
+behavior and direct sensory-feedback value justify testing an accessible next step without first constructing
+another external controller. Formal numerical criteria and their missing comparisons remain explicit.
+An eight-generation ordinary continuation of all 32 AO survivors is being prepared under
+`outputs/resource_patch_evolution_20261015/`: fixed 4/2/2 patch/POOL/persistent exposure, generation 4 observational,
+generation 8 primary, and fixed genomes evaluated in five worlds including a reserved patch combination.
+The reported package limit is 28,222 calls, 5,400 CPU/3,600 wall seconds, two threads, 4 GiB owned RSS,
+8 GiB address space and 4 GiB host reserve. No runtime release accompanies this note.
+
+**Inherited resource collection measured (2026-10-15; preceding diagnostic).** Without patch-world evolution, the fixed AO genome
 collects 21.4375 ±0.8636 packets per life, including 15.5000 ±0.8531 from replenishment; the fixed older AM reference
 collects 16.3438 ±1.1462 total, including 10.9063 ±1.0154 replenished. Paired AO−AM gains are 5.0938 ±1.4102 captures
 and 2.8504 ±0.7032 F over 32 shared development lives. AO harvests from all three patches in 31/32 lives, a descriptive
@@ -47,10 +67,10 @@ not run. Runtime validation, including failed commands, used 168.893127 CPU seco
 RSS; all workers are clear. The fixed paused preview is an engineering illustration, not evolved patch behavior.
 See `results/abi6_resource_patches_20261015/README.md` and `docs/ABI6_RESOURCE_PATCHES.md`.
 
-Next measure the full inherited AO balanced population and fixed AO/AM references on the new world and old
-pursuit tasks. Keep initial and replenished food separate, retain all rows, and do not select a new endpoint from
-this diagnostic. Information-payoff instruments and evolution are separate next investments. Neither world
-admission nor useful new circuitry is established yet; local resources remain adequate.
+The full inherited AO population/reference baseline and stock-modulation diagnostic are now complete above.
+Initial and replenished food remain separate, with every population row retained and no replacement endpoint
+selected. New adaptation, formal information-payoff admission and memory remain unestablished; local resources
+remain adequate for the bounded exploratory continuation being prepared.
 
 **Cumulative building blocks (user clarification, 2026-10-15).** Evolution should accumulate useful
 primitives and reuse them in new situations. Prefer environments in which inherited abilities already produce
