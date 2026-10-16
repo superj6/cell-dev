@@ -1,0 +1,302 @@
+--- outputs/audit_occlusion_acquisition_20261015/new_genetics_prep/audit_native.py
++++ outputs/audit_retained_depth_20261015/new_genetics_prep/audit_native.py
+@@ -1,4 +1,4 @@
+-"""Offline AN complete recorded-genetics and logged ordinary-selection audit; no lives or RNG draws."""
++"""Offline AO complete recorded-genetics and logged ordinary-selection audit; no lives or RNG draws."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -36,16 +36,16 @@
+ 
+ def audit_midpoint(study, folder, protocol, cfg, identity, layout, initial,
+                    lines, curves, selected, operations, replay, spec):
+-    """Replay the prescribed generation4 population against the uninterrupted final log prefix."""
+-    middle = folder / 'generation4'
++    """Replay the prescribed generation8 population against the uninterrupted final log prefix."""
++    middle = folder / 'generation8'
+     saved = torch.load(middle / 'checkpoint.pt', map_location='cpu', weights_only=True)
+     selected.equal(saved['format'], 1, 'midpoint checkpoint format')
+-    selected.equal(saved['config'], cfg, 'midpoint eight-generation target configuration')
++    selected.equal(saved['config'], cfg, 'midpoint twenty-four-generation target configuration')
+     selected.equal(saved['identity'], identity, 'midpoint extended identity')
+     state = saved['state']
+-    for key, value in {'generation': 4, 'evals': 1024, 'rc_lives': 2048}.items():
++    for key, value in {'generation': 8, 'evals': 2048, 'rc_lives': 4096}.items():
+         selected.equal(state[key], value, 'midpoint checkpoint ' + key)
+-    selected.equal(state['curves'], curves[:4], 'midpoint curve prefix')
++    selected.equal(state['curves'], curves[:8], 'midpoint curve prefix')
+     selected.equal(set(saved['logs']), {'curves.jsonl', 'lineage.jsonl', 'clones.jsonl'},
+                    'midpoint log coverage')
+     prefixes = {}
+@@ -58,22 +58,22 @@
+         selected.equal(len(data), size, 'midpoint log prefix length')
+         selected.equal(hashlib.sha256(data).hexdigest(), metadata['sha256'], 'midpoint log prefix hash')
+         prefixes[name] = [json.loads(line) for line in data.splitlines() if line.strip()]
+-    selected.equal(prefixes['curves.jsonl'], curves[:4], 'exact midpoint curve records')
+-    selected.equal(prefixes['lineage.jsonl'], lines[:5], 'exact midpoint lineage records')
++    selected.equal(prefixes['curves.jsonl'], curves[:8], 'exact midpoint curve records')
++    selected.equal(prefixes['lineage.jsonl'], lines[:9], 'exact midpoint lineage records')
+     selected.equal(prefixes['clones.jsonl'], [], 'disabled midpoint clone lives')
+-    view_lines, view_curves = copy.deepcopy(lines[:5]), copy.deepcopy(curves[:4])
++    view_lines, view_curves = copy.deepcopy(lines[:9]), copy.deepcopy(curves[:8])
+     for row in [*view_lines[1:], *view_curves]:
+         if 'T' in row:
+             selected.equal(row['T'], 1024, 'midpoint optional duration')
+         row['T'] = 1024
+     selection = selected.audit_lineage(view_lines, view_curves, state, protocol['native_seed'], spec)
+-    genetics = operations.replay_genetics(lines[:5], state, layout, initial[0], False,
++    genetics = operations.replay_genetics(lines[:9], state, layout, initial[0], False,
+                                          initial_population=initial)
+     _, best = type(layout).load(middle / 'best_genome.json')
+     if not operations.same(best.numpy(), state['population'][0].numpy()):
+         raise ValueError('midpoint endpoint is not reconstructed rank zero')
+     snapshot = read(middle / 'snapshot.json')
+-    expected = {'status': 'complete', 'generation': 4, 'rank': 0,
++    expected = {'status': 'complete', 'generation': 8, 'rank': 0,
+         'rank_zero_id': int(state['ids'][0]), 'checkpoint_sha256': sha(middle / 'checkpoint.pt'),
+         'genome_file_sha256': sha(middle / 'best_genome.json'),
+         'genome_raw_sha256': replay.raw_sha(best.numpy()),
+@@ -84,7 +84,7 @@
+     selected.equal(snapshot, expected, 'complete passive midpoint snapshot')
+     selected.equal(read(folder / 'search_complete.json')['midpoint'], snapshot,
+                    'completed search midpoint binding')
+-    return {'status': 'passed', 'generation': 4, 'checkpoint_sha256': sha(middle / 'checkpoint.pt'),
++    return {'status': 'passed', 'generation': 8, 'checkpoint_sha256': sha(middle / 'checkpoint.pt'),
+         'snapshot_sha256': sha(middle / 'snapshot.json'), 'selection': selection,
+         'genetic_replay': genetics, 'all_32_midpoint_rows_bound': True,
+         'rank_zero_id': int(state['ids'][0]), 'rank_zero_raw_sha256': replay.raw_sha(best.numpy()),
+@@ -97,27 +97,27 @@
+     for name, digest in protocol['source_pins'].items():
+         if sha(study / name) != digest:
+             raise ValueError('pinned study source changed: ' + name)
+-    replay = load('AN_full_recorded_replay', study / 'native_replay.py')
+-    selected = load('AN_ordinary_selection', HERE / 'selection_replay.py')
++    replay = load('AO_full_recorded_replay', study / 'native_replay.py')
++    selected = load('AO_ordinary_selection', HERE / 'selection_replay.py')
+     operations = replay.operations()
+     layout, initial = replay.initial_population(study, protocol)
+     from src.life import spec
+ 
+-    selected.equal(protocol['search'], {'arms': ['acquisition'], 'generations': 8,
+-        'research_lives_per_arm': 20534, 'startup_lives_per_arm': 4,
++    selected.equal(protocol['search'], {'arms': ['unchanged', 'balanced'], 'generations': 24,
++        'research_lives_per_arm': 61558, 'startup_lives_per_arm': 4,
+         'initial_lives': 8, 'recheck_lives': 8, 'parents': 32, 'offspring': 224},
+-        'registered acquisition scope')
++        'registered retained-depth scope')
+     first = replay.first_cohort(study, protocol)
+     if (study / 'first_cohort_replay.json').exists() and read(study / 'first_cohort_replay.json') != first:
+         raise ValueError('saved first-cohort proof differs')
+     results, artifacts = {}, {}
+-    for arm in ('acquisition',):
++    for arm in ('unchanged', 'balanced'):
+         folder = study / 'runs' / arm
+         cfg_path = study / protocol['configs'][arm]['path']
+         selected.equal(sha(cfg_path), protocol['configs'][arm]['sha256'], 'registered configuration')
+         cfg = selected.config_identity(cfg_path)
+         selected.equal(cfg['seed'], protocol['native_seed'], 'native seed')
+-        for key, value in {'generations': 8, 'mu': 32, 'lam': 224, 'breeding': 'sex', 'n_mut': 2,
++        for key, value in {'generations': 24, 'mu': 32, 'lam': 224, 'breeding': 'sex', 'n_mut': 2,
+                            'dup_rate': 0., 'del_rate': 0., 'dup_split': False, 'recheck_k': 64,
+                            'recheck_lives': 8, 'recheck_key': 'all', 'heldout_every': 4}.items():
+             selected.equal(cfg['evolve'][key], value, 'ordinary search ' + key)
+@@ -129,8 +129,9 @@
+         expected_population = {'version': 1, **protocol['population_start'], 'source_pins': {
+             name: sha(study / name) for name in ('population_loader.py', 'search.py')}}
+         expected_selection = {'version': 1, 'arm': arm, 'worlds': protocol['selection_worlds'],
+-            'rule': 'gen fixed 2pool/2persistent/4blink80_20 per8 repeated for recheck; diagnostics=persistent neutral; R_cap500',
+-            'pattern': ['pool', 'persistent', 'blink80_20', 'blink80_20'] * 2,
++            'rule': 'gen fixed per-arm allocation per8 repeated for recheck; unchanged2/2/4 balanced4/2/2; diagnostics=persistent neutral; R_cap500',
++            'pattern': (['pool', 'persistent', 'blink80_20', 'blink80_20'] if arm == 'unchanged'
++                        else ['pool', 'persistent', 'pool', 'blink80_20']) * 2,
+             'source_pins': {'selection.py': sha(study / 'selection.py')}}
+         selected.equal(cfg['population_start'], expected_population, 'loader configuration')
+         selected.equal(cfg['retention_selection'], expected_selection, 'world-allocation configuration')
+@@ -143,7 +144,7 @@
+         selected.equal(saved['identity'], expected_identity, 'extended numerical identity')
+         selected.equal(read(folder / 'determinism.json'), expected_identity, 'native identity file')
+         state = saved['state']
+-        for key, value in {'generation': 8, 'evals': 2048, 'rc_lives': 4096}.items():
++        for key, value in {'generation': 24, 'evals': 6144, 'rc_lives': 12288}.items():
+             selected.equal(state[key], value, 'native checkpoint ' + key)
+         logs = {}
+         for name, metadata in saved['logs'].items():
+@@ -155,8 +156,8 @@
+         selected.equal(logs['clones.jsonl'], [], 'disabled clone lives')
+         curves, lines = logs['curves.jsonl'], logs['lineage.jsonl']
+         selected.equal(curves, state['curves'], 'checkpoint curve history')
+-        selected.equal([row['gen'] for row in curves], list(range(8)), 'eight generations')
+-        selected.equal([row['gen'] for row in curves if 'valid' in row], [0, 4, 7], 'validation schedule')
++        selected.equal([row['gen'] for row in curves], list(range(24)), 'twenty-four generations')
++        selected.equal([row['gen'] for row in curves if 'valid' in row], [0, 4, 8, 12, 16, 20, 23], 'validation schedule')
+         view_lines, view_curves = copy.deepcopy(lines), copy.deepcopy(curves)
+         for row in [*view_lines[1:], *view_curves]:
+             if 'T' in row:
+@@ -182,17 +183,17 @@
+         if any(not np.isfinite(x) or abs(x - round(x)) > 1e-8 for x in guard_counts):
+             raise ValueError('invalid guard count aggregate')
+         marker = read(folder / 'search_complete.json')
+-        for key, value in {'status': 'complete', 'arm': arm, 'research_lives': 20534,
++        for key, value in {'status': 'complete', 'arm': arm, 'research_lives': 61558,
+                            'startup_lives': 4, 'protocol_sha256': sha(study / 'protocol.json'),
+                            'release_sha256': sha(study / 'release.json')}.items():
+-            selected.equal(marker[key], value, 'completed acquisition ' + key)
++            selected.equal(marker[key], value, 'completed retained-depth ' + key)
+         for name, digest in marker['output_pins'].items():
+             selected.equal(sha(folder / name), digest, 'completed native output ' + name)
+             artifacts[str((folder / name).relative_to(study))] = digest
+         results[arm] = {'status': 'passed', 'checkpoint_sha256': sha(folder / 'checkpoint.pt'),
+             'selection': selection, 'genetic_replay': genetics, 'all_32_final_rows_bound': True,
+             'final_rank_zero_id': int(state['ids'][0]), 'final_rank_zero_raw_sha256': replay.raw_sha(final[0].numpy()),
+-            'initial_evaluation_lives': 16384, 'recheck_lives': 4096,
++            'initial_evaluation_lives': 49152, 'recheck_lives': 12288,
+             'midpoint': midpoint,
+             'initial_guard_counts_by_generation': [round(x) for x in guard_counts]}
+     forbidden = [name for name in sys.modules if name in ('src.life.build', 'src.life.evaluate',
+--- outputs/audit_occlusion_acquisition_20261015/new_genetics_prep/execute_full_audit.py
++++ outputs/audit_retained_depth_20261015/new_genetics_prep/execute_full_audit.py
+@@ -1,4 +1,4 @@
+-"""Execute the prepared offline AN audit once, preserving exact sources and logs."""
++"""Execute the prepared offline AO audit once, preserving exact sources and logs."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -14,7 +14,7 @@
+ 
+ ROOT = Path(__file__).resolve().parents[3]
+ SOURCE = Path(__file__).resolve().parent
+-STUDY = ROOT / 'outputs/autonomous_occlusion_acquisition_20261015'
++STUDY = ROOT / 'outputs/autonomous_retained_depth_20261015'
+ DEST = STUDY / 'terminal_review/native'
+ 
+ 
+@@ -32,7 +32,7 @@
+     for name, digest in prepared['producer_helpers'].items():
+         if sha(STUDY / name) != digest:
+             raise ValueError('producer helper changed: ' + name)
+-    for arm in ('acquisition',):
++    for arm in ('unchanged', 'balanced'):
+         marker = STUDY / 'runs' / arm / 'search_complete.json'
+         if json.loads(marker.read_text())['status'] != 'complete':
+             raise ValueError('search is incomplete: ' + arm)
+--- outputs/audit_occlusion_acquisition_20261015/new_genetics_prep/test_replay.py
++++ outputs/audit_retained_depth_20261015/new_genetics_prep/test_replay.py
+@@ -10,7 +10,7 @@
+ 
+ HERE=Path(__file__).resolve().parent
+ ROOT=HERE.parents[2]
+-STUDY=ROOT/'outputs/autonomous_occlusion_acquisition_20261015'
++STUDY=ROOT/'outputs/autonomous_retained_depth_20261015'
+ 
+ def load(name,path):
+     spec=importlib.util.spec_from_file_location(name,path)
+@@ -18,9 +18,9 @@
+     spec.loader.exec_module(module)
+     return module
+ 
+-G=load('AN_test_ops',STUDY/'replay_ops.py')
+-L=load('AN_test_selection',HERE/'selection_replay.py')
+-R=load('AN_test_first',STUDY/'native_replay.py')
++G=load('AO_test_ops',STUDY/'replay_ops.py')
++L=load('AO_test_selection',HERE/'selection_replay.py')
++R=load('AO_test_first',STUDY/'native_replay.py')
+ 
+ class Layout:
+     size = 4
+@@ -49,7 +49,7 @@
+     def hash64(seed, kind, g, j):
+         return seed + kind * 10000 + g * 100 + j
+ 
+-def fixture(duplicate=False, generations=8):
++def fixture(duplicate=False, generations=24):
+     initial = np.arange(128, dtype=np.float32).reshape(32, 4)
+     if duplicate:
+         initial[1] = initial[0]
+@@ -116,13 +116,13 @@
+     }
+     return torch.from_numpy(initial), lines, curves, state
+ 
+-def test_eight_generation_recorded_genetics_and_pooled_selection():
++def test_twenty_four_generation_recorded_genetics_and_pooled_selection():
+     initial, lines, curves, state=fixture(duplicate=True)
+     out=L.audit_lineage(lines,curves,state,7,Spec)
+-    assert out['sexual_offspring']==1792
++    assert out['sexual_offspring']==5376
+     replay=G.replay_genetics(lines,state,Layout(),initial[0],False,initial_population=initial)
+     assert replay['raw_population_replay_bitwise']
+-    assert replay['point_mutations_including_initial_copies']==3584
++    assert replay['point_mutations_including_initial_copies']==10752
+     assert replay['duplication_events']==replay['deletion_events']==0
+ 
+ 
+@@ -191,7 +191,7 @@
+         row['fitness'] = (base[:32] + 1).tolist()
+         curve['fitness'] = row['fitness'][0]
+     state['fitness'] = torch.tensor(lines[-1]['fitness'], dtype=torch.float64)
+-    assert L.audit_lineage(lines, curves, state, 7, Spec)['sexual_offspring'] == 1792
++    assert L.audit_lineage(lines, curves, state, 7, Spec)['sexual_offspring'] == 5376
+     lines[1]['fitness'] = lines[1]['recheck']['F_recheck'][:32]
+     with pytest.raises(ValueError, match='pooled scores'):
+         L.audit_lineage(lines, curves, state, 7, Spec)
+@@ -202,30 +202,30 @@
+     """One small synthetic on-disk prefix fixture, shared by all midpoint checks."""
+     import hashlib
+     import json
+-    initial, lines, curves, _ = fixture(generations=8)
+-    _, _, _, middle = fixture(generations=4)
++    initial, lines, curves, _ = fixture(generations=24)
++    _, _, _, middle = fixture(generations=8)
+     base = tmp_path_factory.mktemp('midpoint')
+-    folder = base / 'runs/acquisition'
+-    (folder / 'generation4').mkdir(parents=True)
++    folder = base / 'runs/unchanged'
++    (folder / 'generation8').mkdir(parents=True)
+     pins = {}
+     for name, all_rows, prefix_rows in (
+-            ('curves.jsonl', curves, curves[:4]), ('lineage.jsonl', lines, lines[:5]),
++            ('curves.jsonl', curves, curves[:8]), ('lineage.jsonl', lines, lines[:9]),
+             ('clones.jsonl', [], [])):
+         encode = lambda rows: ''.join(json.dumps(row) + '\n' for row in rows).encode()
+         (folder / name).write_bytes(encode(all_rows))
+         prefix = encode(prefix_rows)
+         pins[name] = {'bytes': len(prefix), 'sha256': hashlib.sha256(prefix).hexdigest()}
+-    middle.update(generation=4, evals=1024, rc_lives=2048, curves=curves[:4])
+-    cfg, identity = {'evolve': {'generations': 8}}, {'synthetic': True}
++    middle.update(generation=8, evals=2048, rc_lives=4096, curves=curves[:8])
++    cfg, identity = {'evolve': {'generations': 24}}, {'synthetic': True}
+     saved = {'format': 1, 'config': cfg, 'identity': identity, 'state': middle, 'logs': pins}
+-    for path in (base/'protocol.json', base/'release.json', folder/'generation4/checkpoint.pt',
+-                 folder/'generation4/best_genome.json', folder/'generation4/snapshot.json'):
++    for path in (base/'protocol.json', base/'release.json', folder/'generation8/checkpoint.pt',
++                 folder/'generation8/best_genome.json', folder/'generation8/snapshot.json'):
+         path.write_text('synthetic metadata\n')
+-    A = load('AN_test_audit', HERE/'audit_native.py')
+-    snapshot = {'status': 'complete', 'generation': 4, 'rank': 0,
++    A = load('AO_test_audit', HERE/'audit_native.py')
++    snapshot = {'status': 'complete', 'generation': 8, 'rank': 0,
+         'rank_zero_id': int(middle['ids'][0]),
+-        'checkpoint_sha256': A.sha(folder/'generation4/checkpoint.pt'),
+-        'genome_file_sha256': A.sha(folder/'generation4/best_genome.json'),
++        'checkpoint_sha256': A.sha(folder/'generation8/checkpoint.pt'),
++        'genome_file_sha256': A.sha(folder/'generation8/best_genome.json'),
+         'genome_raw_sha256': R.raw_sha(middle['population'][0].numpy()),
+         'population_raw_sha256': R.raw_sha(middle['population'].numpy()),
+         'identity': identity, 'log_prefix_pins': pins,
+@@ -239,7 +239,7 @@
+     A, base, folder, cfg, identity, initial, lines, curves, saved, snapshot = midpoint_bundle
+     saved, snapshot = copy.deepcopy(saved), copy.deepcopy(snapshot)
+     endpoint = saved['state']['population'][0].clone()
+-    if corruption == 'generation': saved['state']['generation'] = 5
++    if corruption == 'generation': saved['state']['generation'] = 9
+     elif corruption == 'raw': saved['state']['population'][1, 0] += 1
+     elif corruption == 'origins': saved['state']['origins'][1, 0] += 1
+     elif corruption == 'prefix': saved['logs']['lineage.jsonl']['bytes'] += 1
+@@ -254,6 +254,6 @@
+     else:
+         result = A.audit_midpoint(*args)
+         assert result['all_32_midpoint_rows_bound'] and result['uninterrupted_final_log_prefix_bound']
+-        assert result['selection']['sexual_offspring'] == 896
+-        assert result['genetic_replay']['point_mutations_including_initial_copies'] == 1792
++        assert result['selection']['sexual_offspring'] == 1792
++        assert result['genetic_replay']['point_mutations_including_initial_copies'] == 3584
+         assert result['added_lives'] == result['random_draws'] == 0

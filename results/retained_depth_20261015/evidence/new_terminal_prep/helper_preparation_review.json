@@ -1,0 +1,79 @@
+{
+  "status": "passed_source_only_terminal_execution_deferred",
+  "protocol_sha256": "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+  "files": {
+    "adapt_terminal_helper.py": "0d37870fc2498cd1369bf0fd3fba9b1f8922f31d218036927bd27269fb598d6b",
+    "verify_terminal_raw.py": "bb0841898b003488f703ac0150e7fc049b02a42a90ec5b920bbd0a5ecdcf695c",
+    "test_terminal_source.py": "e54ce64497a0ac05ca84625667c7d67741bfcae26b4aee2c87ad74678c2d4493",
+    "tests.xml": "443822e8c1e6e42d09e0b7a7afdda589714151fd6eb9e3c7dc1eb0a2af2b3883",
+    "tests.log": "700bc0322b00f8e8db3ce495047983b54ab27ab59ed1fedac05f3aeba47dae24",
+    "lint.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "prior_helper": {
+    "path": "outputs/audit_occlusion_acquisition_20261015/new_terminal_prep/verify_terminal_raw.py",
+    "sha256": "8f90a044e21843d57cd3951bb882a8fe09c5a5df722ed63962c9fda0a0eed374"
+  },
+  "canonical_analyzer": {
+    "path": "outputs/autonomous_retained_depth_20261015/analyze.py",
+    "sha256": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91"
+  },
+  "scope": {
+    "raw_rows": 30,
+    "raw_confirmation_lives": 15360,
+    "native_research_lives": 123116,
+    "research_lives": 138476,
+    "startup_lives": 12,
+    "total_calls": 138488,
+    "paired_vectors": 11967,
+    "retention_entries": 21,
+    "retention_vectors": 42,
+    "aggregate_accuracy_rows": 30
+  },
+  "unchanged_function_AST": [
+    "read",
+    "sha",
+    "stat",
+    "literal_row",
+    "recount"
+  ],
+  "changes": [
+    "AO paths/protocol/analyzer identity and fixed six roles/two arms/counts",
+    "All 15 role pairs, 24 environment groups, 60 interaction groups and 21 retention entries",
+    "Aggregate capture/click summaries verified in the same terminal helper, including null with zero clicks",
+    "Separate unchanged reader process from / must reproduce canonical summary and NPZ bytes"
+  ],
+  "validation": {
+    "synthetic_checks": 6,
+    "failures": 0,
+    "skips": 0,
+    "ruff": "passed",
+    "test_command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q outputs/audit_retained_depth_20261015/new_terminal_prep/test_terminal_source.py --junitxml=outputs/audit_retained_depth_20261015/new_terminal_prep/tests.xml",
+    "test_coverage": [
+      "11967 exact vector names/values versus frozen reader including all42 retention vectors and paired covariance",
+      "30 exact aggregate accuracy schemas, mixed clicks, no clicks and corrupt count rejection",
+      "Unchanged literal math/recount AST and frozen analyzer identity",
+      "Terminal refusal before scientific reads"
+    ]
+  },
+  "execution_gate": "Wait for explicit root terminal authorization, exact completed budget and same-namespace clearance hashes, then complete canonical summary; no outcome inspection performed during preparation.",
+  "terminal_command_template": [
+    ".venv/bin/python",
+    "outputs/audit_retained_depth_20261015/new_terminal_prep/verify_terminal_raw.py",
+    "--protocol-sha256",
+    "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+    "--budget-sha256",
+    "ROOT_TERMINAL_BUDGET_SHA",
+    "--clearance-sha256",
+    "ROOT_TERMINAL_CLEARANCE_SHA"
+  ],
+  "runtime_outcomes_read": false,
+  "simulation_calls": 0,
+  "compiled_libraries": 0,
+  "genetic_draws": 0,
+  "limitations": [
+    "Confirmation raw status coverage is complete; native search health has saved aggregate coverage only and full genetic replay is separate.",
+    "One matched evolutionary pair; checkpoints and confirmation seeds do not provide independent evolutionary replicates.",
+    "The conventional 90% blink margin permits a loss; actual capture difference remains reported.",
+    "Aggregate accuracy is descriptive and click-weighted, with no binomial standard error."
+  ]
+}

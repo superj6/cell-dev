@@ -9,13 +9,18 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
-*2026-10-15 latest interaction priority:* after the current AO result is evaluated, prioritize an environment
-with a different decision structure. Retention, price calibration and mechanism analysis support richer
+*2026-10-15 latest interaction priority:* AO is complete and reviewed; prioritize an environment with a
+different decision structure now. Retention, price calibration and mechanism analysis support richer
 exploration; they are not prerequisites that must be perfected first. The exposure audit found independently
 renewing reward/harm targets and equal food twins already explored. The leading candidate is now delayed
 shape matching, linking an earlier local cue to a later choice after a blank interval. See
-`docs/ABI5_DELAYED_MATCH_PROPOSAL.md` for the concrete, unapproved world/ABI proposal. Keep prior skills as checks,
-judge worlds by useful sensory information, and preserve the ongoing AO contract and existing approval boundaries.
+`docs/ABI5_DELAYED_MATCH_PROPOSAL.md` for the concrete world/ABI contract. The user replied "you don't need my
+permission for these things", authorizing autonomous environment/ABI work of this kind. Implementation uses
+an isolated checkout; AO's pinned sources are preserved in its completed archive. Keep local asynchronous cell
+rules unchanged, retain prior skills as checks, and judge worlds by useful sensory information and conditional
+choices. Choose the continuing population explicitly from development evidence and reserve separate cases for
+generalization. This scoped authorization does not extend to global organism channels, prescribed behavior,
+population-responsive worlds or spending.
 
 *2026-10-14 objective clarification:* the user's ultimate goal is to advance the sophistication of generated
 algorithms we can make emerge, especially in more interesting environments. Organize future research around
@@ -113,14 +118,35 @@ or requiring a hand-built winner. See AM's `discussion/ROOT_DECISION.md`; reasse
 is only+0.035156±0.120157, while POOL loses1.125000±0.234506. Generation4 passes both90%retention checks;
 finalPOOLretention is unresolved and absolute loss is resolved. Dark gains remain unresolved; later F gains are
 chiefly economy. All28222calls complete in3679.510CPU seconds; independent raw/genetic checks pass and all
-processes are clear. `results/occlusion_acquisition_20261015/REPORT.md`. Prepare AO: two24generation same-context
+processes are clear. `results/occlusion_acquisition_20261015/REPORT.md`. The subsequent AO registration specified two24generation same-context
 continuations from all32ANsurvivors, unchanged25/25/50 versus50/25/25 POOL/persistent/longer-gap allocation,
 8+8scoring and originalprices. Both get more time, with fixed8/24endpoints andAMreference anchoring retention.
 The observed late tradeoff has estimated mixedF+0.107797±0.048847 (unresolved at three SE), so precision alone
-may reinforce it. The uncertainty comes from the subsequent paired cost reanalysis. This is source-only/unreleased;
-no harder world, new ABI or paid compute. Native53232/block142 are now audited andregistered,500unique native IDs deliberatelyshared acrossarms.
+may reinforce it. The uncertainty comes from the subsequent paired cost reanalysis. That registration added
+no harder world, new ABI or paid compute. Native53232/block142 were audited andregistered,500unique native IDs deliberatelyshared acrossarms.
 AOprotocol2cfc3ac9…e6d68d,138488calls;63focusedchecks andbothactualinputreviews pass. Prior64identities/46groups
-clear. Evidence `results/retained_depth_20261015/`. Runtime release follows prospectivepublication; no life has run.
+clear. Evidence `results/retained_depth_20261015/`. These are historical preparation details; the terminal result follows.
+
+*2026-10-15 AO complete:* both 24-generation branches finish their original scope. Unchanged allocation adds
+**+0.808594 ±0.138866 persistent, +0.693359 ±0.136585 brief-gap and +0.445312 ±0.114106 longer-gap captures**
+from generation 8→24; this late step is chiefly acquisition, not economy. Final longer-gap gain over AN start
+is +0.539062 ±0.121137, with POOL loss 2.283203 ±0.217140. More-POOL allocation preserves the older task
+better: balanced24−unchanged24 is **+3.033203 ±0.215803 POOL**, but **−0.503906 ±0.119337 longer-gap captures**.
+The explicit 90% longer-gap margin is −0.035742 ±0.112710, so the joint primary fails; this does not establish
+a loss greater than 10%. More-POOL passes its five own-start/AM-reference 90% diagnostics, yet loses
+1.500000 ±0.246892 POOL captures from 8→24 while later longer-gap F gains chiefly reflect economy.
+Keep the registered final endpoints primary. Neither branch adds resolved dark captures over AN start;
+no new memory, prediction or circuit mechanism is established. One matched pair on five development-known
+worlds does not establish general depth/allocation superiority or broad held-out generalization. Allocation
+changes both weighting and per-context sample counts.
+
+All 138,488 calls complete in 24,128.826457 CPU seconds; all 15,360 confirmation statuses are zero and owned
+processes are clear. Native replay and literal accounting pass; all 11,967 paired vectors match exactly.
+A separately reviewed reader repairs only the recorded monitor reparenting checks after a server restart;
+scientific functions remain identical, original reader/failure are preserved, and replay output is byte-identical.
+See `results/retained_depth_20261015/REPORT.md`. Proceed with the authorized ABI5 delayed shape-matching
+extension and information-payoff evaluation under section 0.4. Earlier tasks remain capability checks;
+perfect retention, optimal prices and a complete mechanism account are not gates to richer exploration.
 
 *2026-10-14 U completed:* two short decoy continuations gain +0.959 ± 0.096 and +0.319 ± 0.100 F over
 their fixed I founders, mostly through lower costs. The second has fewer harmful clicks and a resolved

@@ -1,0 +1,49 @@
+{
+  "kind": "AO_terminal_monitor_reparenting_only",
+  "status": "prepared_for_root_review_not_executed",
+  "original_analyzer_sha256": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91",
+  "corrected_reader_name": "analyze_terminal_reparent.py",
+  "corrected_reader_sha256": "f8660ce56e3914b119094b1461a6126e40f0dc7484b56dcbe5de199578116d50",
+  "stable_monitor_identity": {
+    "pid": 2885667,
+    "pgid": 2885666,
+    "start_ticks": 10138155
+  },
+  "original_monitor_ppid": 2885666,
+  "phase_monitor_ppids": {
+    "unchanged": 2885666,
+    "balanced": 5729,
+    "confirmation": 5729
+  },
+  "pid_namespace": "pid:[4026531836]",
+  "input_pins": {
+    "protocol.json": "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+    "release.json": "8258006bdf0d085d71963f0c85fee20ee98e78cec5a4a5415e2ce2c889d97b5d",
+    "attempt.json": "1bd6f3e5d4d44cf16f39b6ba106f221e3aa574a606c48a678ca20645537f8a4f",
+    "budget.json": "4d45d119c72f926bdd20e16d2456df15817042cb018446698bfe392f06fbbe0a",
+    "analyze.py": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91",
+    "monitor.py": "46790d206b70c47ac7536db2e1d9828a65929c9b961d2f122b604b9a70cd57d8",
+    "terminal_review/host_clearance.json": "5030748d241995002766e9d01bb6cd3ea672905a300aecc6654243898c6ae769",
+    "execution/unchanged/attempt.json": "3d18a9d5d110704c71b4f209b64b86c758e8ae4308de17b02b6d497779cf514f",
+    "execution/unchanged/budget.json": "fb0dd7754f8f2d894a52e882040005dd0f1dfc8b0aa50acd7feb014fc2625aa4",
+    "execution/balanced/attempt.json": "f7b1eaa7e123e731310cfca392305fa52bfca918cc2e87a4becdcf0ec088b170",
+    "execution/balanced/budget.json": "5959ebd4d335831ed6e9b6881178a2bd144103570d59704c8aa9e855437c9cfa",
+    "execution/confirmation/attempt.json": "9ffda416574a7706ecf75d4959f4655e29dc74fa171c9ee26ba476bc5ce34f64",
+    "execution/confirmation/budget.json": "9c94f2e3f8e1f58a57cfa8933123110e92b4e2309018149bb0501a3e3f1d2557"
+  },
+  "evidence_pins": {
+    "metadata_diagnosis.json": "9b5b1aaa4857d072bf781ffe7feb5faf7eb5a7b3ff12a8d39f48ceca48a9b086",
+    "independent_host_clearance.json": "b732b8bb3c080c16aa30f4f85964d154bef93be21c9291365eb82f5746622c74",
+    "frozen_reader_failure.json": "bae5600931e13433712116d64cb4eea276d7ca4c53e5bec3c7ef812833743fa1"
+  },
+  "historical_failed_output": {
+    "path": "analysis_result/summary.json",
+    "sha256": "bae5600931e13433712116d64cb4eea276d7ca4c53e5bec3c7ef812833743fa1",
+    "archived_path": "terminal_review/reader_repair/frozen_reader_failure.json"
+  },
+  "scope": "Only allow the observed monitor PPID change while stable identity and phase-local full monitor identity agree. All worker, namespace, source, budget, ledger, genetic and statistical checks remain unchanged.",
+  "outcomes_read_before_repair": false,
+  "simulation_calls": 0,
+  "study_path_at_review": "/home/jgon/project/ml/cell-dev/outputs/autonomous_retained_depth_20261015",
+  "relocation": "Study identity is enforced by protocol, release, attempt, terminal and source content pins; its directory may relocate intact."
+}

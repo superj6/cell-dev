@@ -3794,8 +3794,68 @@ not an optimal price, a confidently better generation-4 phenotype, or prediction
 The pinned kernel confirms both prices affect accounting without feeding back into cell dynamics.
 Maintenance also scales guard and extinction charges; all nine retained rows have status zero.
 Independent source/math review passes, and the published analyzer reproduces the summary byte-for-byte.
-No production defaults, AO inputs, scientific source or run limits change. AO continues its fixed longer
-evolution comparison; reassess maintenance, depth, evaluation precision and richer demands after its result.
+No production defaults, AO inputs, scientific source or run limits changed. At this cost-analysis milestone,
+AO was continuing its fixed longer evolution comparison; its completed result and next priority follow below.
 
 Note and figure: `results/an_cost_sensitivity_20261015/NOTE.md` and `price_sensitivity.png`.
 Summary SHA `9fc29a1828ca452c21d9e2c141e9c6c2cb22dc1c823dfc0a801f01af4d036274`.
+
+## 2026-10-15 — AO complete: late acquisition and a retention-allocation tradeoff
+
+Both fixed 24-generation branches from all 32 ordered AN survivors complete with unchanged local cells,
+original prices and 8+8 evaluation lives. The matched fresh searches differ only in fixed POOL/persistent/
+longer-gap allocation: 25/25/50 versus 50/25/25. Six fixed genomes receive 512 shared fresh lives in each of
+five development-known worlds. All estimates below are paired means ± SE; three-SE bounds are descriptive,
+not simultaneous guarantees across the 11,967 vectors. This is one evolutionary pair, not 512 search replicates.
+
+The unchanged branch adds acquisition after generation 8: generation 24 gains **+0.808594 ±0.138866 persistent**,
+**+0.693359 ±0.136585 brief-gap** and **+0.445312 ±0.114106 longer-gap captures** over generation 8.
+Longer-gap F rises 0.254071 ±0.055074, with only 0.036633 from ordinary cost savings. POOL change is unresolved
+(+0.013672 ±0.197245). Final versus AN start gains **+0.902344 ±0.150742 persistent**, **+0.861328 ±0.141995
+brief-gap**, **+0.539062 ±0.121137 longer-gap** and **+0.437500 ±0.126005 turns-plus-gap captures**, but loses
+**2.283203 ±0.217140 POOL captures**. Its POOL retention is about 84.7% of AN and 76.0% of AM; both 90% margins
+remain below zero at their upper three-SE bounds. More time was useful along this trajectory, without proving
+a generally superior 24-generation policy or solving retention.
+
+More-POOL generation 24 versus unchanged24 gains **+3.033203 ±0.215803 POOL captures**, but loses
+**0.503906 ±0.119337 longer-gap captures**. Both absolute effects exceed three SE. Its explicit 90% longer-gap
+margin is **−0.035742 ±0.112710**, spanning zero; the registered joint primary does not pass. This failure
+does not establish a loss greater than 10%. More-POOL gains **+0.750000 ±0.216118 POOL captures** over AN start
+and passes all five specified own-start/AM-reference retention diagnostics. Passing allows actual loss:
+versus AM it loses **0.949219 ±0.219510 POOL captures**, despite 94.29% point retention.
+
+From generation 8→24, more-POOL loses **1.500000 ±0.246892 POOL captures**, while longer-gap capture change
+is unresolved (+0.017578 ±0.113541). Its longer-gap F gain 0.302484 ±0.056551 is chiefly ordinary savings
+(0.293901); mean terminal cells fall 100.91→88.01. The fixed generation-24 endpoints remain primary.
+Allocation changes both objective weighting and per-context sample counts; it does not isolate weighting
+from precision or establish an optimal mixture. Body or hidden-cell counts do not identify a circuit mechanism.
+
+Neither branch adds resolved dark captures over AN start: longer-gap differences are **−0.005859 ±0.021145**
+(unchanged) and **−0.013672 ±0.021674** (more POOL). Most added captures occur in bright periods. No new memory,
+prediction, broad held-out generalization, capacity ceiling or need for rented compute is established.
+
+All **138,476 research +12 startup =138,488 calls** finish within the original limits in **24,128.826457 CPU /
+9,719.899554 wall seconds**, peak owned memory 314.410156 MiB. All 15,360 confirmation statuses are zero;
+native guarded evaluations retain their penalties. Four process identities and three worker groups are clear.
+Native replay checks all 10,752 offspring and 21,504 mutations, both final 32-row populations and independent
+midpoint reconstruction. Missing unsuccessful-parent base scores and exact tie permutations limit initial-ranking
+proof. Independent literal accounting matches all 30 raw rows, 11,967 vectors and 30 accuracy rows exactly.
+Separate corrected-reader replay reproduces summary and compressed arrays byte-for-byte. Native and raw audits
+add 8.882293 and 5.016802 CPU seconds respectively, with no simulations, builds or scientific random draws.
+
+The original frozen analyzer stopped before outcomes because a server restart reparented the surviving monitor.
+Its PID/group/start time and worker ownership stayed exact. A separately reviewed reader permits only the recorded
+parent change; all scientific functions and other checks remain unchanged. The original reader, failed output,
+metadata diagnosis, host clearances and patch/equivalence evidence are retained. No scientific input rewrite,
+research retry, scope reduction or cap extension occurred.
+
+The user prioritized richer interaction before outcome inspection and authorized autonomous environment/ABI work
+of this kind. Proceed with [ABI5 delayed shape matching](docs/ABI5_DELAYED_MATCH_PROPOSAL.md): sample, blank,
+then a choice whose value depends on the earlier cue, with unchanged local asynchronous cells. Implementation
+remains isolated; AO's original sources are preserved in its completed archive. Select the continuing population explicitly from
+development evidence; measure earlier skills and fresh conditional choices, reserving separate generalization
+cases. Perfect retention, price tuning and a complete circuit account are not prerequisites to this exploration.
+
+Report and evidence: `results/retained_depth_20261015/REPORT.md`; viewer: `results/atlas/retained_depth.html`.
+Working archive: `outputs/autonomous_retained_depth_20261015/`. Protocol2cfc3ac9…e6d68d;
+summary73282b17…cf895; native auditb4697b95…4a8e; independent raw auditd148ad5e…c4d6e.

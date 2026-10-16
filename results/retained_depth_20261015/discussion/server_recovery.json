@@ -1,0 +1,24 @@
+{
+  "event": "assistant server restarted during existing AO attempt",
+  "checked_utc": "2026-10-15T21:57:44.777903+00:00",
+  "scientific_attempt_restarted": false,
+  "original_host_identities_verified": [
+    {
+      "name": "monitor",
+      "pid": 2885667,
+      "start_ticks": 10138155
+    },
+    {
+      "name": "worker",
+      "pid": 2885670,
+      "start_ticks": 10138196
+    }
+  ],
+  "pid_namespace": "pid:[4026531836]",
+  "observed_generations_completed": 20,
+  "observed_phase": "unchanged",
+  "exec_session_handle_94765": "lost on server restart; OS monitor and worker still running",
+  "monitoring_plan": "read retained budget receipts and verify original host processes; await original attempt completion",
+  "scientific_source_input_or_protocol_change": false,
+  "budget_observed_sha256": "05b3f6d7502369ef46c4c7b79520a7f5b5dae8749268a993628c6173b87690ce"
+}

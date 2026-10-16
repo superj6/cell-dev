@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "public_reader": "results/retained_depth_20261015/terminal_review/reader_repair/analyze_terminal_reparent.py",
+  "public_reader_sha256": "f8660ce56e3914b119094b1461a6126e40f0dc7484b56dcbe5de199578116d50",
+  "replay_output": "outputs/ao_public_reanalysis_20261015",
+  "artifacts": {
+    "summary.json": {
+      "sha256": "73282b171e043a88667747da8ed04fdf78dff47d7266039f765fd2cd9c3cf895",
+      "bytes": 4414491,
+      "byte_identical": true
+    },
+    "paired_arrays.npz": {
+      "sha256": "43187cf324b8d261da468bad3aa800da72008cb88085327d3a7c1d4d8a7540fe",
+      "bytes": 21017395,
+      "byte_identical": true
+    }
+  },
+  "new_simulations": 0,
+  "original_frozen_reader_passed": false,
+  "explanation": "The separately reviewed metadata-only reader repair reproduces canonical outcomes. The original frozen reader remains unchanged and rejects historical monitor reparenting."
+}

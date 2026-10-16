@@ -1,0 +1,14 @@
+{
+  "status": "adapted_for_authorized_independent_replay",
+  "original_helper_sha256": "bb0841898b003488f703ac0150e7fc049b02a42a90ec5b920bbd0a5ecdcf695c",
+  "adapted_helper_sha256": "45370f896cdb08ccc0d778af7fb0fa2a7df4b2589cb1bb8db60a2415487c0019",
+  "modified_functions": [
+    "main"
+  ],
+  "literal_accounting_and_vector_functions_ast_identical": true,
+  "reader_sha256": "f8660ce56e3914b119094b1461a6126e40f0dc7484b56dcbe5de199578116d50",
+  "root_bound_summary_sha256": "73282b171e043a88667747da8ed04fdf78dff47d7266039f765fd2cd9c3cf895",
+  "scope": "Exact reviewed replay-reader and summary bindings only; literal accounting, row recount, vectors, accuracy and statistics unchanged.",
+  "simulation_calls": 0,
+  "reader_patch": "raw_helper.patch"
+}

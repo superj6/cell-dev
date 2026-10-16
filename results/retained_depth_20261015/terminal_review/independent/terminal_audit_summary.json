@@ -1,0 +1,143 @@
+{
+  "status": "passed",
+  "scope": "Independent literal confirmation recount and exact corrected-reader byte replay; existing native audit receipt/source/input pins independently checked.",
+  "raw_rows": 30,
+  "raw_confirmation_lives": 15360,
+  "unique_fresh_confirmation_seeds": 512,
+  "paired_vectors": 11967,
+  "retention_vectors": 42,
+  "retention_comparisons": 21,
+  "max_literal_absolute_error": 0.0,
+  "canonical_summary_and_npz_byte_identical": true,
+  "capture_accuracy_rows_exact": 30,
+  "confirmation_status_counts": {
+    "0": 15360
+  },
+  "confirmation_aggregate_counts": {
+    "total_captures": 105108,
+    "total_misses": 281052,
+    "total_clicks": 386160,
+    "clickless_lives": 2
+  },
+  "native_search_research_lives": 123116,
+  "research_lives": 138476,
+  "startup_lives": 12,
+  "total_calls": 138488,
+  "native_audit_input_pins_verified": 24,
+  "native": {
+    "unchanged": {
+      "generations": 24,
+      "midpoint_generation": 8,
+      "initial_rows": 32,
+      "offspring": 5376,
+      "point_mutations": 10752,
+      "duplication_events": 0,
+      "deletion_events": 0,
+      "final_active_genes": 8,
+      "raw_final_population_bitwise": true,
+      "midpoint_and_final_all32_bound": true,
+      "count_proof": {
+        "selection": 61440,
+        "valid": 112,
+        "final": 6,
+        "half_duration": 2,
+        "native_evals": 7680,
+        "generations": 24,
+        "children_per_generation": 224,
+        "midpoint_added_lives": 0
+      }
+    },
+    "balanced": {
+      "generations": 24,
+      "midpoint_generation": 8,
+      "initial_rows": 32,
+      "offspring": 5376,
+      "point_mutations": 10752,
+      "duplication_events": 0,
+      "deletion_events": 0,
+      "final_active_genes": 8,
+      "raw_final_population_bitwise": true,
+      "midpoint_and_final_all32_bound": true,
+      "count_proof": {
+        "selection": 61440,
+        "valid": 112,
+        "final": 6,
+        "half_duration": 2,
+        "native_evals": 7680,
+        "generations": 24,
+        "children_per_generation": 224,
+        "midpoint_added_lives": 0
+      }
+    }
+  },
+  "first_cohort_256_candidates_bitwise_equal": true,
+  "first_cohort_recorded_operation_signatures_equal": true,
+  "primary_results": {
+    "primary_balanced24_minus_unchanged24_pool_captures": {
+      "mean": 3.033203125,
+      "se": 0.21580290020472728,
+      "n": 512,
+      "positive_above_3se": true,
+      "negative_below_minus_3se": false,
+      "lower_3se": 2.3857944243858182,
+      "upper_3se": 3.6806118256141818,
+      "bounds_are_descriptive": true
+    },
+    "primary_blink80_20_actual_capture_difference": {
+      "mean": -0.50390625,
+      "se": 0.11933711635916798,
+      "n": 512,
+      "positive_above_3se": false,
+      "negative_below_minus_3se": true,
+      "lower_3se": -0.8619175990775039,
+      "upper_3se": -0.14589490092249607,
+      "bounds_are_descriptive": true
+    },
+    "primary_blink80_20_ninety_percent_noninferiority": {
+      "mean": -0.03574218750000005,
+      "se": 0.11271037756969653,
+      "n": 512,
+      "positive_above_3se": false,
+      "negative_below_minus_3se": false,
+      "lower_3se": -0.3738733202090896,
+      "upper_3se": 0.30238894520908954,
+      "bounds_are_descriptive": true
+    },
+    "joint_primary_passes": false
+  },
+  "runtime": {
+    "study_cpu_seconds": 24128.826457,
+    "study_wall_seconds": 9719.899554260002,
+    "search_cpu_seconds": 21240.558543,
+    "confirmation_cpu_seconds": 2888.267914,
+    "raw_row_cpu_seconds": 2304.90331039,
+    "independent_raw_audit_cpu_seconds": 5.016802,
+    "independent_raw_audit_wall_seconds": 5.020953486004146
+  },
+  "pins": {
+    "protocol.json": "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+    "budget.json": "4d45d119c72f926bdd20e16d2456df15817042cb018446698bfe392f06fbbe0a",
+    "terminal_review/host_clearance.json": "5030748d241995002766e9d01bb6cd3ea672905a300aecc6654243898c6ae769",
+    "analyze.py": "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91",
+    "terminal_review/reader_repair/analyze_terminal_reparent.py": "f8660ce56e3914b119094b1461a6126e40f0dc7484b56dcbe5de199578116d50",
+    "terminal_review/reader_repair/reader_repair_receipt.json": "0a689a8b7c42e660d771c9a9f607478f15492304b41d6b541d041e4528807960",
+    "terminal_review/reader_repair/verify_terminal_raw_reparent.py": "45370f896cdb08ccc0d778af7fb0fa2a7df4b2589cb1bb8db60a2415487c0019",
+    "analysis_result/summary.json": "73282b171e043a88667747da8ed04fdf78dff47d7266039f765fd2cd9c3cf895",
+    "analysis_result/paired_arrays.npz": "43187cf324b8d261da468bad3aa800da72008cb88085327d3a7c1d4d8a7540fe",
+    "terminal_review/independent/independent_raw_review.json": "d148ad5e9832a2de6148bfcbb4c8134cbb7753c6e23a9f7e3ab5e6a7417c4d6e",
+    "terminal_review/native/complete_native_audit.json": "b4697b9549f4c9a9ff1b78277ba0a99941dd8d538c6ac63aa3b111aa6b3a4a8e"
+  },
+  "caveats": [
+    "One matched pair of 24-generation evolutionary trajectories. Shared confirmation seeds and generation8/24 checkpoints are not independent evolutionary replications.",
+    "Joint primary did not pass: POOL capture advantage is resolved, but 90% blink80_20 noninferiority is not established. The actual blink capture loss is resolved; failure of noninferiority alone does not prove loss greater than the 10% margin.",
+    "Balanced24 exceeds its own AN start by 0.75\u00b10.2161176181 POOL captures, but loses 1.5\u00b10.2468923781 relative to balanced8. Do not replace the preregistered final endpoint with the stronger midpoint.",
+    "All confirmation statuses are0. Search guards were retained with penalties and are available only as saved aggregate status summaries, not a complete per-life search ledger.",
+    "Capture accuracy is aggregate captures/clicks, not binomial independent click evidence; two confirmation lives are clickless.",
+    "Native selection audit verifies logged ordered shortlist/pooled top32 scores; unrecorded parent base scores and exact tie permutations cannot be independently recovered.",
+    "Genetic replay reconstructs recorded operations, not RNG draws. Gene count and ancestry do not establish functional circuitry or memory.",
+    "Frozen reader failed only on monitor PPID reparenting. Original sources, raw data and failed-output bytes were preserved; repaired reader was separately reviewed before outcomes."
+  ],
+  "new_simulations": 0,
+  "compiled_libraries": 0,
+  "random_draws": 0
+}

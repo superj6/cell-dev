@@ -1,0 +1,67 @@
+--- frozen/analyze.py
++++ terminal_review/reader_repair/analyze_terminal_reparent.py
+@@ -489,6 +489,24 @@
+     return result
+ 
+ 
++def verify_reader_repair(base):
++    """Bind this separate reader to the reviewed original attempt and explicit PPID repair receipt."""
++    receipt_path = Path(__file__).with_name("reader_repair_receipt.json")
++    repair = read(receipt_path)
++    if (repair.get("kind") != "AO_terminal_monitor_reparenting_only"
++            or repair.get("corrected_reader_name") != Path(__file__).name
++            or repair.get("corrected_reader_sha256") != sha(Path(__file__))
++            or repair.get("original_analyzer_sha256") != sha(base / "analyze.py")):
++        raise ValueError("separate terminal-reader repair provenance differs")
++    for name, digest in repair["input_pins"].items():
++        if sha(local(base, name)) != digest:
++            raise ValueError("terminal-reader repair input changed: " + name)
++    for name, digest in repair["evidence_pins"].items():
++        if sha(local(receipt_path.parent, name)) != digest:
++            raise ValueError("terminal-reader repair evidence changed: " + name)
++    return repair
++
++
+ def verify_protocol(base):
+     protocol = read(base / "protocol.json")
+     if (protocol["roles"] != list(ROLES) or list(protocol["worlds"]) != list(WORLDS)
+@@ -529,8 +547,9 @@
+             path = external(base, name) if key == "production_pins" else local(base, name)
+             if sha(path) != digest:
+                 raise ValueError("changed pinned file: " + name)
+-    if protocol["source_pins"].get("analyze.py") != sha(Path(__file__)):
+-        raise ValueError("executing analyzer differs from reviewed source")
++    repair = verify_reader_repair(base)
++    if protocol["source_pins"].get("analyze.py") != repair["original_analyzer_sha256"]:
++        raise ValueError("frozen analyzer differs from originally reviewed source")
+     expected = read(base / "inputs/startup_identity.json")["identity"]
+     if (protocol["expected_numerical_identity"] != expected
+             or any(protocol["production_pins"].get(name) != digest for name, digest in expected["sources"].items())):
+@@ -819,6 +838,7 @@
+ 
+ 
+ def verify_terminal(base, protocol):
++    repair = verify_reader_repair(base)
+     release, attempt, budget = (read(base / name) for name in ("release.json", "attempt.json", "budget.json"))
+     digest, release_digest = sha(base / "protocol.json"), sha(base / "release.json")
+     if (release.get("status") != "released" or release.get("protocol_sha256") != digest
+@@ -897,12 +917,17 @@
+         record, phase_attempt = read(base / expected_path), read(phase_base / "attempt.json")
+         terminal(record)
+         actual_workers = record["process_identities"]
+-        if (len(actual_workers) != 2 or actual_workers[0] != monitor
++        phase_monitor = phase_attempt["monitor"]
++        stable_fields = ("pid", "pgid", "start_ticks")
++        if (len(actual_workers) != 2
++                or actual_workers[0] != {**phase_monitor, "name": "monitor"}
+                 or actual_workers[1] != {**worker, "name": "worker"}
+                 or worker["ppid"] != monitor["pid"] or worker["pgid"] != worker["pid"]
+                 or record["owned_process_groups"] != [worker["pid"]]
+                 or record["attempt_sha256"] != sha(phase_base / "attempt.json")
+-                or phase_attempt["monitor"] != attempt["monitor"]
++                or set(phase_monitor) != set(fields)
++                or any(phase_monitor[key] != attempt["monitor"][key] for key in stable_fields)
++                or phase_monitor["ppid"] != repair["phase_monitor_ppids"][phase]
+                 or phase_attempt["pid_namespace"] != namespace
+                 or phase_attempt["protocol_sha256"] != digest or phase_attempt["release_sha256"] != release_digest
+                 or phase_attempt["command"] != attempt["commands"][phase]):

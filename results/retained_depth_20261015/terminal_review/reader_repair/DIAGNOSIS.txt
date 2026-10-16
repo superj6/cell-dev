@@ -1,0 +1,23 @@
+AO terminal-reader repair diagnosis — metadata only
+
+The frozen analyzer stopped before scientific outcomes with “phase worker/attempt ownership differs”. Its original bytes and incomplete analysis_result/summary.json remain unchanged. A byte-identical failure copy is frozen here as frozen_reader_failure.json.
+
+The global attempt and unchanged phase recorded monitor PID 2885667, PGID 2885666, start_ticks 10138155, PPID 2885666. Balanced and confirmation recorded the same PID, PGID and start ticks in the same PID namespace pid:[4026531836], with PPID 5729. The monitor source takes its global identity once at launch, then takes a fresh local monitor identity inside run_worker for each phase. Thus its global and phase-local records legitimately differ in PPID after reparenting. This is consistent with the reported server/session restart; the metadata directly proves the changed parent field, not the identity or cause of death of the former parent.
+
+The three workers are PID/PGID 2885670 (start 10138196), 3032393 (start 10719155), and 3208112 (start 11204163). Every worker PPID is the original monitor PID 2885667. Exact per-phase attempt hashes, protocol/release hashes, commands, worker identities, process groups, wait4 success receipts, cumulative CPU, fixed caps and clean terminal teardown agree. All ten frozen source hashes match the original protocol. No evidence of a second monitor incarnation, worker retry, phase rerun or scope change appears in these receipts; losing toolsession94765 does not itself indicate a new process.
+
+The metadata-only diagnostic reproduced the original ownership predicates individually. Only global_monitor_full_dict_equal and global_phase_attempt_monitor_full_dict_equal fail, for balanced and confirmation. All other predicates pass. It also independently checked resource/reaping metadata. A separate escalated read-only /proc check in the original host namespace verified all four persisted process identities and all three worker groups are gone. Sandbox PID absence was explicitly not treated as host evidence.
+
+Smallest correction: compare monitor PID/PGID/start_ticks across phases; require each phase budget’s full monitor record (including its positive PPID) to agree with that phase’s attempt; bind exactly the observed PPIDs in the new repair receipt. All existing worker, namespace, caps, source, genetic, raw-ledger, accounting and statistical checks remain. There is no blanket allowance for arbitrary process identity changes.
+
+The separate executing reader must differ from the original source pin, so verify_protocol now validates both the original frozen analyze.py hash and the corrected reader’s own hash through reader_repair_receipt.json. The receipt pins protocol/release/attempt/budget/phase metadata and independent evidence. Study identity is content-based and portable; it does not require the original absolute path. Future analysis_result is deliberately not a required repair input.
+
+Source comparison: the only modified original function ASTs are verify_protocol and verify_terminal. The sole added function is verify_reader_repair. All other original functions, including raw reconstruction, contrasts, verdicts, summaries and output serialization, are AST-identical. No corrected reader import or execution occurred while preparing this repair; ast.parse was used only for static syntax/equivalence analysis. No AO scientific outcomes were loaded, and no simulation or kernel build was launched.
+
+Canonical reader: terminal_review/reader_repair/analyze_terminal_reparent.py
+Reader SHA-256: f8660ce56e3914b119094b1461a6126e40f0dc7484b56dcbe5de199578116d50
+Receipt SHA-256: 0a689a8b7c42e660d771c9a9f607478f15492304b41d6b541d041e4528807960
+Frozen analyzer SHA-256: a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91
+Terminal budget SHA-256: 4d45d119c72f926bdd20e16d2456df15817042cb018446698bfe392f06fbbe0a
+
+Await root review before execution. Once reviewed, preserve the existing failed output (already copied here), supply an explicit --study path, and choose a fresh output directory or let root replace only the archived failed analysis directory. The original reader and all original run inputs remain immutable. Before publishing portable replay, materialize and verify the 33 production_pins under production/; the unchanged external() resolver already prefers archived dependencies over the live checkout.

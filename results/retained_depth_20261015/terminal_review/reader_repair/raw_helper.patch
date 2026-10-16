@@ -1,0 +1,43 @@
+--- outputs/audit_retained_depth_20261015/new_terminal_prep/verify_terminal_raw.py
++++ outputs/autonomous_retained_depth_20261015/terminal_review/reader_repair/verify_terminal_raw_reparent.py
+@@ -17,6 +17,9 @@
+ STUDY = ROOT / "outputs/autonomous_retained_depth_20261015"
+ DEST = ROOT / "outputs/autonomous_retained_depth_20261015/terminal_review/independent"
+ ANALYZER_SHA = "a701f500e8c87867c9d3e866ecc4abcba44529c6c72e0f5935b5f3d8566e0a91"
++REPLAY_READER_SHA = "f8660ce56e3914b119094b1461a6126e40f0dc7484b56dcbe5de199578116d50"
++REPAIR_RECEIPT_SHA = "0a689a8b7c42e660d771c9a9f607478f15492304b41d6b541d041e4528807960"
++CANONICAL_SUMMARY_SHA = "73282b171e043a88667747da8ed04fdf78dff47d7266039f765fd2cd9c3cf895"
+ NAMES = (
+     "income live_time sec_int spikes kappa_sum contact_events claims births rejects rejects_wall deaths kills "
+     "cost guard_charge net F n_end n_peak t_end status events beats P_int arrivals arrivals_dropped packets "
+@@ -219,7 +222,13 @@
+         raise ValueError("released protocol differs")
+     if sha(study / "analyze.py") != ANALYZER_SHA:
+         raise ValueError("frozen canonical analyzer changed")
++    replay_reader = study / "terminal_review/reader_repair/analyze_terminal_reparent.py"
++    repair_receipt = replay_reader.with_name("reader_repair_receipt.json")
++    if sha(replay_reader) != REPLAY_READER_SHA or sha(repair_receipt) != REPAIR_RECEIPT_SHA:
++        raise ValueError("exact root-reviewed terminal reader repair required")
+     canonical = study / "analysis_result"
++    if sha(canonical / "summary.json") != CANONICAL_SUMMARY_SHA:
++        raise ValueError("exact root-bound complete summary required")
+     canonical_summary = read(canonical / "summary.json")
+     if canonical_summary["status"] != "complete":
+         raise ValueError("root's complete canonical analysis required")
+@@ -261,7 +270,7 @@
+                 raise ValueError("literal paired reconstruction differs: " + name)
+     if cpu > budget["confirmation_cpu_seconds"] + 1e-6:
+         raise ValueError("raw row CPU exceeds monitor total")
+-    command = [str(ROOT / ".venv/bin/python"), str(study / "analyze.py"), "--study", str(study),
++    command = [str(ROOT / ".venv/bin/python"), str(replay_reader), "--study", str(study),
+                "--out", str(args.out.resolve() / "reanalysis")]
+     result = subprocess.run(command, cwd="/", env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1"),
+                             text=True, capture_output=True, check=False)
+@@ -279,6 +288,7 @@
+         "status": "passed", "protocol_sha256": sha(study / "protocol.json"),
+         "budget_sha256": args.budget_sha256, "clearance_sha256": args.clearance_sha256,
+         "script_sha256": sha(Path(__file__)), "analyzer_sha256": ANALYZER_SHA,
++        "replay_reader_sha256": REPLAY_READER_SHA, "reader_repair_receipt_sha256": REPAIR_RECEIPT_SHA,
+         "canonical_summary_sha256": sha(canonical / "summary.json"),
+         "canonical_arrays_sha256": sha(canonical / "paired_arrays.npz"),
+         "raw_rows": 30, "raw_confirmation_lives": 15360, "native_search_research_lives": 123116,

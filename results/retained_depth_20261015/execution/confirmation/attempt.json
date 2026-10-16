@@ -1,0 +1,27 @@
+{
+  "monitor": {
+    "pid": 2885667,
+    "ppid": 5729,
+    "pgid": 2885666,
+    "start_ticks": 10138155
+  },
+  "pid_namespace": "pid:[4026531836]",
+  "protocol_sha256": "2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d",
+  "release_sha256": "8258006bdf0d085d71963f0c85fee20ee98e78cec5a4a5415e2ce2c889d97b5d",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-u",
+    "/home/jgon/project/ml/cell-dev/outputs/autonomous_retained_depth_20261015/measure.py",
+    "--run-child"
+  ],
+  "budget": {
+    "cpu_seconds": 26040.558543,
+    "wall_seconds": 5842.660023937002,
+    "threads": 2,
+    "workers": 1,
+    "cleanup_margin_seconds": 10,
+    "rss_bytes": 4294967296,
+    "minimum_available_bytes": 4294967296,
+    "address_space_bytes": 8589934592
+  }
+}

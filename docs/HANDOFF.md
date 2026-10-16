@@ -5,17 +5,20 @@ and the last few entries of `RESULTS.md`.
 
 For a short map of the strongest evidence, inherited lineages and competing directions, see `docs/RESEARCH_STATUS.md`.
 
-**Latest direction clarification (2026-10-15):** the user asks when we will move to environments allowing
-more sophisticated interaction. Prioritize a different interaction/decision structure immediately after the
-current AO result is evaluated. Recent work has leaned too heavily on catching variants and incentive/retention
+**Latest direction clarification (2026-10-15):** AO is complete and reviewed. The user asks when we will move
+to environments allowing more sophisticated interaction; prioritize a different interaction/decision structure
+now. Recent work has leaned too heavily on catching variants and incentive/retention
 tuning. Do not require perfect retention, optimal costs or a complete circuit account before richer exploration.
 The exposure audit found independently renewing reward/harm targets and equal food twins already explored.
-The leading proposal is now delayed shape matching: an early narrow/broad cue, a blank interval, then a fresh
+The next environment is delayed shape matching: an early narrow/broad cue, a blank interval, then a fresh
 choice whose reward depends on the earlier cue. `docs/ABI5_DELAYED_MATCH_PROPOSAL.md` specifies the limited
-world/ABI extension for a user decision; it is not yet approved or implemented. Older tasks remain retention
+world/ABI extension. The user replied "you don't need my permission for these things": environment/ABI work of
+this kind is covered by autonomy; do not ask again. Implementation is isolated under
+`outputs/abi5_delayed_match_20261015/worktree/`; AO's original sources are preserved in its completed archive. Older tasks remain retention
 checks. Judge the new world by useful sensory information and conditional choices, not positive reward alone.
-No new ABI, global channel/clock, prescribed behavior or population-responsive world is approved by this note.
-AO's fixed protocol, endpoints, prices, budgets and confirmation remain unchanged.
+This authorizes the scoped environment/ABI extension, with unchanged local asynchronous cell rules.
+Global channels/clocks, prescribed organism behavior, spending and population-responsive worlds remain separate.
+AO completed its fixed protocol, endpoints, prices, budgets and confirmation without extension.
 
 **Local experimentation authorized (2026-10-15).** The user says to keep working on our judgment and permits
 experiments on the local computer provided memory use does not threaten it. Continue useful bounded studies
@@ -35,7 +38,7 @@ not require novelty. Judge the observed trajectory, uncertainty, retained skills
 to continue longer, increase evaluation precision, or change the strategy. Safe bounded local compute remains
 authorized; this does not extend an already registered run midstream or authorize paid resources.
 
-**Current work (2026-10-15).** AN is complete. Longer-gap captures improve **+0.460938 ±0.110891** over
+**Previous completed study (AN, 2026-10-15).** Longer-gap captures improve **+0.460938 ±0.110891** over
 AM start (3.527344→3.988281 per life), and narrow untrained turns-plus-longer-gap transfer improves
 **+0.630859 ±0.120726**. Dark-capture and occlusion-specific interaction gains remain unresolved; no memory
 or richer algorithm is established. Generation4 already has **+0.425781 ±0.122610** target captures and passes
@@ -53,31 +56,46 @@ Two retained bookkeeping mistakes affected no science: wrong status label in a p
 any attempt/build/life; a separate accuracy helper needed three descriptive key names corrected. First owned
 research attempt completed. Protocolca277b17…08b26b, summary1ce6412d…c64512, prospectivecommit0a95793.
 
-**Next direction after the complete result:** AO is running its first owned attempt under `outputs/autonomous_retained_depth_20261015/`
-with audit sister directory. Give the promising lineage substantially more time while testing old-task allocation:
-two matched24generation branches from ALL32ANfinal survivors, freshmatchednative53232,8+8scoring, prices500.
-Unchanged25/25/50 versus balanced50/25/25 POOL/persistent/blink80_20. Six fixed roles (AMreference, ANstart,
-both generation8 and24 endpoints) on five known worlds×512freshblock142lives. Proposed138488calls,28800CPU
-(24000search/4800confirmation),14400wall,one2threadworker and unchanged memory safeguards. This is a fresh
-full-population continuation, not an RNG-exact resume. No new world, organism rule or ABI. Both24generationbranches thenconfirmation run sequentially.
-Protocol2cfc3ac9a6d41e2d3c49e630a7bc611ff9737962175def3d1eb89e6d8de6d68d;63focusedchecks pass,
-both actual-input reviews pass; all32rows imported without builds/lives/geneticdraws. Prior64identities/46groups
-clear with18.9GBavailable. Publicprospective `results/retained_depth_20261015/`; ANmilestone4eff70d is pushed.
-MeasuredANphase scaling×1.5 fits the fixedcaps; the older pessimistic timing model does not and remains an
-explicit completion risk. Prospective17a7348 is pushed; release8258006b…d97b5d binds the exactprotocol.
-The assistant server restarted during this attempt: session94765's tool handle was lost, but the original host
-monitor PID2885667/start10138155 and its worker survived and were verified. Do not relaunch or resume it.
-The unchanged branch completed all24generations/61558research+4startupcalls in9201.426695CPU/3707.129097wall.
-Both branches have now completed all24generations; the fixed30-row confirmation is running.
-No AO outcomes have been inspected.
-Use `outputs/audit_retained_depth_20261015/watch_progress.py` for health/counts; main budget updates at phase
-boundaries, active execution budget reports cumulative CPU. No other research worker is active.
+**Latest completed study (AO, 2026-10-15).** Both fixed 24-generation branches from all 32 AN survivors
+completed, using matched fresh native RNG53232, 8+8 scoring and original prices. Unchanged 25/25/50 versus
+more-POOL 50/25/25 allocation was the only selection difference. Six fixed roles received 512 shared fresh
+lives in each of five development-known worlds. This is one matched evolutionary pair, not an exact AN resume
+or 512 independent searches. Generation-8 observations do not replace the registered generation-24 endpoints.
 
-Why this next: AN's later tradeoff has estimated mixedF+0.107797±0.048847 (unresolvedat3SE), so more evaluation precision alone
-may reinforce forgetting. A matched allocation contrast gives both policies longer evolution without assuming
-more time will solve retention. Preserve AM as an older anchor so AN's POOL loss is not normalized away. More
-precision, circuit probes, prices and operators were considered. Reassess after the complete result; no automatic
-ladder or price sweep. Local compute is sufficient at present; no spending or additional hardware is needed.
+More time added acquisition in the unchanged branch: generation 8→24 gains **+0.808594 ±0.138866 persistent**,
+**+0.693359 ±0.136585 brief-gap** and **+0.445312 ±0.114106 longer-gap captures** (paired mean ± SE).
+Its longer-gap F gain is 0.254071, with only 0.036633 from ordinary savings. Final versus AN-start longer-gap
+captures improve **+0.539062 ±0.121137**, but POOL falls **2.283203 ±0.217140**. This observed trajectory
+supports giving promising strategies time; it does not establish a generally superior depth policy.
+
+More-POOL generation 24 gains **+3.033203 ±0.215803 POOL captures** over unchanged24 but loses
+**0.503906 ±0.119337 longer-gap captures**. The 90% longer-gap margin is **−0.035742 ±0.112710**:
+noninferiority and the joint primary are not established, without proving a loss exceeding 10%.
+More-POOL passes all five specified own-start/AM-reference retention diagnostics, although a 90% diagnostic
+allows real loss. From generation 8→24 it loses **1.500000 ±0.246892 POOL captures**; its later longer-gap
+F gain is chiefly economy (0.293901 ordinary savings of 0.302484 F). Allocation changes both objective weights
+and per-context sample counts. Neither branch adds resolved dark captures over AN start; no new memory,
+prediction, circuit mechanism or broad held-out generalization is demonstrated.
+
+All **138,476 research +12 startup =138,488 calls** finish in **24,128.826457 CPU /9,719.899554 wall seconds**,
+within the original caps, peak owned memory 314.410156 MiB. All 15,360 confirmation statuses are zero;
+four process identities and three worker groups are clear. Native replay verifies all 10,752 offspring,
+21,504 mutations and both 32-row midpoint/final populations. Independent literal accounting matches all
+11,967 vectors and 30 accuracy rows; separate corrected-reader output is byte-identical.
+The server restart reparented the surviving monitor without changing its PID/group/start time. The frozen
+reader rejected that metadata change before outcomes; a separately reviewed repair preserves its scientific
+functions and all other checks. Original reader, failed output and repair evidence remain archived.
+No research retry, cap extension or scientific input change occurred.
+
+Report: `results/retained_depth_20261015/REPORT.md`; viewer: `results/atlas/retained_depth.html`.
+Working evidence: `outputs/autonomous_retained_depth_20261015/`; independent audit sister directory:
+`outputs/audit_retained_depth_20261015/`. Protocol2cfc3ac9…e6d68d; summary73282b17…cf895.
+Prospective commit17a7348 and release8258006b…d97b5d remain historical records. Public reanalysis reproduces
+both canonical analysis files byte-for-byte.
+The next priority is the authorized ABI5 delayed-matching environment above, with unchanged local cells.
+Choose its continuing population explicitly from development evidence, measure old skills alongside new
+conditional choices, and reserve separate cases for generalization. Perfect retention and cost tuning are
+not prerequisites. AO provides no evidence that additional hardware is needed; spending remains unauthorized.
 
 **Completed-data cost check during AO:** `results/an_cost_sensitivity_20261015/NOTE.md` reprices nine AN rows
 without new lives. Generation8-minus4 mixedF is +0.107797±0.048847, unresolved at three SE; maintenance
@@ -85,7 +103,7 @@ savings supply +0.204059F. Halving maintenance nearly removes the mean advantage
 sign, still unresolved. Moderate missed-click repricing has less effect. This motivates a possible selective
 maintenance comparison, not an optimal price or a prediction of evolution. Independent source review and
 byte-identical public reanalysis pass. Earlier "true mixedF" wording is corrected with original report preserved.
-AO remains unchanged and its outcomes have not been inspected.
+This cost check preceded AO outcome inspection and changed no AO inputs or limits; AO's terminal result is above.
 This cost/evidence-map milestone is committed and pushed as `a74facc`.
 
 AM remains the earlier cumulative capture milestone: original-price continuation improves all four known worlds,
@@ -635,7 +653,7 @@ want without removing the central goals - local, async, self discovered behavior
   - hand-designed behaviour;
   - changing a stated goal;
   - spending money;
-  - an ABI change;
+  - an ABI change beyond the bounded environment extensions now covered by the user's 2026-10-15 autonomy clarification;
   - a world that responds to the population.
 
 **The newest principle** (user, 2026-10-10): "ideally the system should evolve to find capabilities beyond what hand
