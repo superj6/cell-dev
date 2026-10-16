@@ -4355,3 +4355,20 @@ All four JS replays match all 428 saved native ledger values. They use no new C/
 fast-C hashes provide no full-trajectory comparison and no real browser was tested. Replay uses 3.642834 CPU /
 3.605601 wall seconds, within its separate 15 CPU / 60 wall package. Saved-input and public-archive verification pass.
 The original research archive remains unchanged. Evidence: `results/resource_patch_depth_preview_20261015/`.
+
+## 2026-10-16 — Contact-resource engineering complete; no evolutionary result
+
+ABI7 adds an optional delayed consequence: tapping an already-empty resource site starts one future food
+packet. Repeated taps do not accelerate or stack it, successful harvests do not start it, and passive arrivals
+remain independent. Cells receive no new input or clock; ready food changes the existing local field.
+
+All 1,170 applicable Python cases are covered, with 127 slow cases excluded. Eight fixed cases match across
+C full, C fast and Python; new JS replays and selected legacy/viewer checks pass. Integration uses
+171.817438 CPU /157.166482 wall seconds and peaks at 891,564,032 bytes RSS. Obsolete native test-buffer padding
+and three runner invocation errors were corrected with original failures preserved; production physics
+needed no fix after the initial pass. No real browser rendering is claimed.
+
+The [engineering archive](results/abi7_contact_resources_20261016/REPORT.md) records exact test inventories,
+source snapshots and compatibility evidence. No contact baseline or evolutionary study was launched.
+Obstacle navigation remains the next substantive direction, with diverse breeding trade-offs across broader
+training tasks preserved as a research priority. These engineering checks establish no new evolved behavior.

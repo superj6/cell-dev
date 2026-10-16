@@ -21,8 +21,8 @@ broader generalization and has challenged the narrow pursuit/patch family. Treat
 hypothesis, not an established monotonic effect of task count. Prioritize qualitatively different demands
 under shared local physics: navigation around obstacles, avoidance/escape, delayed action consequences and
 context-dependent choices, alongside existing acquisition. Obstacle navigation is the next main research
-direction; complete the bounded ABI7 contact-resource engineering already in progress, but do not make its
-baseline/evolution, perfect retention, demonstrated memory or a handwritten winning body prerequisites.
+direction. ABI7 contact-resource engineering is complete; do not make its baseline/evolution, perfect
+retention, demonstrated memory or a handwritten winning body prerequisites.
 
 Use locally observable evidence to distinguish situations requiring different actions. Preserve useful
 intermediate abilities and measure one unchanged genome on reserved new layouts and combinations; a
@@ -30,6 +30,32 @@ portfolio of specialists or repeated adaptation does not establish that form of 
 search/evaluation exposure for each demand, and test diversity against comparable-budget narrower training
 when feasible. No global organism channel/clock, prescribed route or population-responsive world law is
 introduced by this direction. The obstacle design is source-only; no navigation study has been launched.
+
+**Contact-resource engineering complete (2026-10-16).** ABI7 adds delayed food after an empty-site tap,
+with unchanged cell inputs and local asynchronous rules. All 1,170 applicable Python cases are covered;
+C/Python/JS parity and selected legacy checks pass. Integration used 171.817438 CPU /157.166482 wall seconds,
+peak 891,564,032 bytes. Original fixture/runner failures and fixes are retained in
+`results/abi7_contact_resources_20261016/REPORT.md`. No contact scientific study has been launched, and
+implementation agreement establishes no evolved use, memory or planning.
+
+**Preserve breeding trade-offs (2026-10-16).** The user wants more useful variety along the task Pareto
+frontier to reach the next generation. Carry this principle into broader training: preserve distinct task
+strengths and balanced performers as actual breeding parents, with physical costs still represented.
+The completed study already used three task capture means plus ordinary aggregate fitness for both its
+64-candidate recheck shortlist and 32-survivor selection; native mating samples retained parents uniformly.
+This is a limited, study-local implementation, not coverage of every task or a persistent breeding archive.
+
+As genuinely different task families enter training, track whether their useful specialists and intermediate
+combinations survive and contribute offspring. Favor coverage of distinct trade-offs over many near-duplicate
+scores; assess parent capacity rather than assuming 32 is sufficient. Recheck apparent strengths on fresh
+training lives, since small cached panels have already given unstable ranks. Aggregate randomized instances
+within task families; reserved generalization tasks remain outside selection. A bounded archive eligible to
+breed is a candidate extension if current survival loses useful abilities, not an implemented feature.
+
+Population breadth is material for further evolution; it does not establish that one genome generalizes or
+that crossover can combine its parents' capabilities. Continue measuring unchanged individual genomes on
+reserved layouts/combinations. Apply this direction alongside obstacle navigation, without making another
+selection-method comparison a prerequisite. No new selection algorithm or scientific run is launched here.
 
 **Deeper continuation complete (2026-10-16).** The frozen descendant (row 24 / ID 1415) gains
 **0.812500 ±0.223576 POOL captures** and **0.849609 ±0.144374 persistent-pursuit captures** over the fixed
