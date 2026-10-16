@@ -4310,3 +4310,31 @@ The ongoing depth study's frozen files, budget and scientific inputs remain unch
 
 Evidence: `results/resource_patch_population_explorer_20261016/`; manifest
 `9022e94b4f15eaee9ca225ac05f9e98fb69cd77b9f0c4b360be6b92f851db65e`.
+
+## 2026-10-16 — Deeper continuation recovers older acquisition without a joint patch gain
+
+**Deeper continuation complete (2026-10-16).** The frozen descendant (row 24 / ID 1415) gains
+**0.812500 ±0.223576 POOL captures** and **0.849609 ±0.144374 persistent-pursuit captures** over the fixed
+Pareto4 comparator on 512 fresh shared lives. Ordinary F rises **0.330844 ±0.106961** and
+**0.386901 ±0.071118** respectively despite added physical costs. All four gains exceed three paired SE.
+Trained patches (−0.529297 ±0.365804 captures), longer gaps (+0.246094 ±0.122139), the revealed patch
+layout and the new reserved capacity-three layout remain unresolved in the primary comparison.
+
+All nine older-world 90% retention margins against AO/G8/Pareto4 clear three SE. This permits up to 10% loss
+and does not establish lossless retention. The revealed two-patch layout loses **0.982422 ±0.233320 captures**
+against the fixed G8 comparator. Thus this is partial recovery of older acquisition, without demonstrated joint
+superiority or a new patch strategy. Refilled food does not improve demonstrably; reserved-layout totals include
+more initial food. One combined depth/denser-evaluation pilot cannot identify which change caused the gains.
+Historical reporting endpoints are unchanged; new-study G8/Pareto4 comparators remain distinct from them.
+
+All **97,342 calls** finish on the first scientific attempt in **7291.161815 CPU /3611.875809 wall seconds**,
+peak **343.80 MiB**, with both owned phases cleared. The full 180-second outside-runtime reserve fits the
+10,800 CPU /7200 wall package cap. Independent recorded-genetics/selection and scalar-accounting checks pass:
+81,920 selection lives, 1,792 offspring, all 32 final rows, 3,072 endpoint and 12,288 confirmation ledgers,
+weighted endpoint selection and eight startup calls. All confirmation statuses are zero. Report and six-world
+plots: `results/resource_patch_depth_20261015/REPORT.md`; follow-up judgment: `NEXT_DECISION.md` in that archive.
+
+Retain the population and fixed reporting genome. Reconsider accessible richer interactions and a concrete
+information/mechanism or representation hypothesis before another automatic selection tweak or unbounded
+continuation. This outcome establishes neither a capacity ceiling nor performance beyond strong handwritten
+baselines. No further scientific study was launched.

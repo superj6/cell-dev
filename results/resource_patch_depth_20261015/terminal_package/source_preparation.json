@@ -1,0 +1,54 @@
+{
+  "status": "source_ready_unexecuted",
+  "author": "/root/delayed_match_review",
+  "protocol_sha256": "86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "source_pins": {
+    "USAGE.md": "2a095dfd07538dd6ddb696c3bc41d4a4c8a5ae2a11dd7208d2c6c9b000582eca",
+    "pack.py": "41b29e3bbbfb7580ba6f6c264305ba898eda2f5992f029b0c2ee854d1d6c9374",
+    "verify.py": "3c414fbf440f0cf0344a50e064b36ef6497c661149b6f8dba55c7add0a20b4ed"
+  },
+  "adapted_from": {
+    "outputs/resource_patch_population_20261015/terminal_package/pack.py": "2d0d0885348b27849e56bcd81ee345ec124161b5bd851f5388cd3555330ccac1",
+    "outputs/resource_patch_population_20261015/terminal_package/verify.py": "0e6235026f18987a0b0f91763ed3310b70f344d2af20fb982e5ce9fb7cca02c7",
+    "outputs/resource_patch_selection_20261015/terminal_package/pack.py": "802d6e0d03ace283525843c45bc5fd72db509be4f7a6b1adc677543d9aefabe0"
+  },
+  "interfaces": {
+    "measure.py": "0ba8c8bb159c710e10c3a9700c71bff9fa0e0d26e1e97db3bc5d357517c0239f",
+    "analyze.py": "53022387946892ec4fa245d6a05bf8c8f883cb3e4750b6a071a4fdc3b1f17fde",
+    "run.py": "07bcd0bcb90932f0ba9d4a8b38684d4e86549cf64c3a84f44e860efee55dc9cb",
+    "terminal_accounting/check.py": "9105c0831e1ae5ef0f0febfe2132526a441cc4469012aec025b570994bdb4109",
+    "terminal_genetics/native_replay.py": "4fd57ec000679812c2807dd0590135e0e37e0b1f6ed526642a8dc77b89bdc28d",
+    "terminal_tables/report_tables.py": "8bf685703154d60fc2ab18fd3f32896a5d1c1372128609180d662ffd85f6090b"
+  },
+  "accounting_receipt": "reviews/independent_accounting.json",
+  "genetics_receipt": "terminal_genetics/receipt.json",
+  "stage": "outputs/resource_patch_depth_terminal_stage_20261015",
+  "checks": [
+    "AST parse passed",
+    "Ruff passed",
+    "120-column source check passed",
+    "Source-only producer/audit/ownership schemas inspected; no runtime artifacts read"
+  ],
+  "archive_scope": [
+    "Exact prospective prefix preserved; four publication files moved into registration",
+    "All native outputs and eight selection arrays; all nine raw/scored cohorts and frozen endpoints",
+    "Startup full/fast raw and phase process/budget receipts",
+    "Accounting/genetics helpers and receipts; retained borrowed helper bytes",
+    "Pinned production source snapshots and the two identity-matched compiled kernels only",
+    "Tables, plots, REPORT, terminal README and NEXT_DECISION plus root reviews"
+  ],
+  "limits": {
+    "cpu_seconds": 15,
+    "wall_seconds": 30,
+    "address_space_bytes": 2147483648,
+    "threads": 1,
+    "minimum_available_bytes": 4294967296
+  },
+  "packaging_executions": 0,
+  "verifier_executions": 0,
+  "outcome_reads": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "limitation": "Author preparation, not independent review. No synthetic framework or terminal invocation. Frozen scientific files unchanged."
+}

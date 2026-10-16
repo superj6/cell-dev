@@ -1,0 +1,42 @@
+{
+  "status": "source_ready_not_executed",
+  "source": "terminal_accounting/check.py",
+  "source_sha256": "9105c0831e1ae5ef0f0febfe2132526a441cc4469012aec025b570994bdb4109",
+  "protocol_sha256": "86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "static_checks": {
+    "AST": "passed",
+    "Ruff": "passed",
+    "python_max_line_length": 120
+  },
+  "scope": {
+    "endpoint_ledgers": 3072,
+    "confirmation_ledgers": 12288,
+    "raw_batches": 9,
+    "scored_batches": 9,
+    "startup_calls": 8,
+    "original_search_research": 81974,
+    "original_total_calls": 97342
+  },
+  "invocation": "--write --protocol-sha256 86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "output": "reviews/independent_accounting.json",
+  "estimated_cpu_seconds": "2-5, target below10",
+  "approach": [
+    "Each NPZ array loaded once; no repeated decompression in the per-life loop.",
+    "SHA-pinned prior independent scalar ledger accounting and fixed-existing-seed schedule recount.",
+    "All107physicalledger columns, per-slot source/stock/FIFO accounting, status, eightcostparts and native/production F.",
+    "Every absolute/paired confirmation metric, retention90 margin and freshendpoint statistic via scalar fsum moments.",
+    "All32 fresh endpoint ranks rederived with fixedAO capture scales, weightedF and nativeID tiebreak.",
+    "Frozen endpoint/confirmation genotype identities, source pins, phase budgets/ownership and8startup calls bound.",
+    "No production analyzer or engine/Torch import; checkpoint internals and genetic replay remain separately reviewed."
+  ],
+  "reused_sources": {
+    "results/resource_patch_selection_20261015/terminal_audit/audit_accounting.py": "dbc493e5752e9703c80063ebfb28b7119bc52cbf567af85dcc5c5bc20be02a75",
+    "results/resource_patch_population_20261015/terminal_review/independent_review.py": "ea97a0abbd384cf3015423df04b4f1bb0233f057aa92029ecfa60c1d1da52d35"
+  },
+  "audit_execution": false,
+  "selftests_executed": false,
+  "new_lives": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "note": "No broad selftests or synthetic tree added; root reviews source before the single bounded completed-data execution."
+}

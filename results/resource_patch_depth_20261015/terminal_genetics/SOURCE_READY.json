@@ -1,0 +1,41 @@
+{
+  "status": "source_ready_unexecuted",
+  "protocol_sha256": "86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "source_pins": {
+    "native_replay.py": "4fd57ec000679812c2807dd0590135e0e37e0b1f6ed526642a8dc77b89bdc28d",
+    "replay_ops.py": "3bae8cdb333baf7be8571bd192e6b50ca6a60df437a79a1847d0e1f3e11daded",
+    "audit_selection.py": "12a62685539f96f0fecfde836628acb15f88acca203235fcf51ea7212200c2fa",
+    "run_checks.py": "59b876d68c9bab988f660493ca81ea541b34233ec4ab295085c5faca5c17d5e5"
+  },
+  "prior_sources": {
+    "outputs/resource_patch_selection_20261015/native_replay.py": "1e9056d59b3199ed216a709bf67cf042d1f20699b484b0a7b96eea673878427a",
+    "outputs/resource_patch_selection_20261015/replay_ops.py": "884dfe81c57d06ef771115edfa6397df04c4a7c2d0f2256fd7b99fe0a903a04d",
+    "outputs/resource_patch_selection_20261015/terminal_selection_audit/audit_selection.py": "c8c5475d457b202eb3520ebed90d833ad4440db949c5618b5b7e7ae8b6624fe0"
+  },
+  "static_checks": [
+    "AST parse all four helpers",
+    "Ruff format/lint pass",
+    "Recorded genetic operations AST unchanged after removing optional observer argument and callback",
+    "Independent ranking/mean_order/packed_genome/permutation/same/raw_sha AST byte-equivalent to previous reviewed source"
+  ],
+  "unchanged_independent_functions": [
+    "ranking",
+    "mean_order",
+    "packed_genome",
+    "permutation",
+    "same",
+    "raw_sha"
+  ],
+  "limits": {
+    "cpu_seconds": 10,
+    "wall_seconds": 30,
+    "address_space_bytes": 2147483648,
+    "threads": 1,
+    "minimum_available_bytes": 4294967296
+  },
+  "terminal_audit_executions": 0,
+  "supplied_array_test_executions": 0,
+  "simulator_calls": 0,
+  "builds": 0,
+  "random_draws": 0
+}

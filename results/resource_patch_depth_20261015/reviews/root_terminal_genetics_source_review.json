@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "scope": "Root source review of independent saved-data genetics/selection checks; execution awaits complete monitored study.",
+  "protocol_sha256": "86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "source_ready_sha256": "24dae631344f1c20b2e0b7f8bb14dc9b82fdff023b99a158ef4892c6115e952a",
+  "source_pins": {
+    "audit_selection.py": "12a62685539f96f0fecfde836628acb15f88acca203235fcf51ea7212200c2fa",
+    "native_replay.py": "4fd57ec000679812c2807dd0590135e0e37e0b1f6ed526642a8dc77b89bdc28d",
+    "replay_ops.py": "3bae8cdb333baf7be8571bd192e6b50ca6a60df437a79a1847d0e1f3e11daded",
+    "run_checks.py": "59b876d68c9bab988f660493ca81ea541b34233ec4ab295085c5faca5c17d5e5"
+  },
+  "findings": [
+    "All32 founder bytes and native ID remapping retained.",
+    "Independent stage math binds all8 generations and24 recorded tie permutations without RNG resampling.",
+    "Recorded operations reconstruct1792 offspring and all2048 scored candidate rows.",
+    "Fresh endpoint selection remains the independent measurement audit; no historical endpoint substitution."
+  ],
+  "new_lives": 0,
+  "builds": 0
+}

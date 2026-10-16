@@ -1,0 +1,96 @@
+{
+  "status": "complete",
+  "arm": "pareto",
+  "research_lives": 81974,
+  "startup_lives": 4,
+  "protocol_sha256": "86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "release_sha256": "91a16510e136feb273c8b88f176e311d08b72f808f4ce26380b7e59c5ba37659",
+  "count_proof": {
+    "selection": 81920,
+    "valid": 48,
+    "final": 6,
+    "growth_half": 2,
+    "native_evals": 2560,
+    "generations": 8,
+    "children_per_generation": 224
+  },
+  "reporting_endpoint_selected": false,
+  "native_rank0_only": true,
+  "health": {
+    "pop_invalid": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pop_mismatch": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "recheck_invalid": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pop_guard": [
+      0.0,
+      0.00390625,
+      0.0,
+      0.0,
+      0.00390625,
+      0.0,
+      0.00390625,
+      0.0
+    ],
+    "final_guard_rate": 0.0,
+    "guard_scope": "First32/recheck32 statuses and F retained; guards keep ordinary penalties."
+  },
+  "output_pins": {
+    "checkpoint.pt": "1aa6fc9ba3265595e2ac4f4ade4dc32b2c3001b6e95e153e9dce36dc20fdabaa",
+    "config.yaml": "127ea8c5c12e0b8780a8eac41d830e1c2fcb373a218c383237ed98ebb83d8e7a",
+    "determinism.json": "393cea77b7129f5b07453b1fb4a1d628ae19de53fc0aefb6ab20652b3c2a124e",
+    "curves.jsonl": "1e5f740fe1f92d564895b9c5814aa375e9dafc0a8cc3d5590c9ecc5c3ee11f8a",
+    "lineage.jsonl": "dd4346260b03f362e16c9ab22cac67dc9bb71c4ca0b1c4d8939a363c0aa1d913",
+    "population.json": "7a1ccac2a45ec1fa538bda9aad5d11cf82f1a5d8af12c144f1c6734c9d6f79b8",
+    "best_genome.json": "d2c24196608d3879aa34ace1cb621fd9fd3cbcdbe2809211a418ace7ad065bfc",
+    "results.jsonl": "1bbdf51c323107fe1abcc39a8029044fcb6334e308aa9f17ab2da70b772a2874",
+    "search_startup.json": "2ef8996cf0a982af23884a3a0caeecab87e4e012dc51b52b987a8eee4df0b675",
+    "selection/g000.npz": "17a0d28cf976f593ff4c572121830379f8c35b3c0ac1123921cdb15898b5a1e5",
+    "selection/g001.npz": "ac31112e3c607552879dd4a843de292e3cc707749a3e37813060b8b8d758737b",
+    "selection/g002.npz": "42744c795df255ccd2b7921a543f54bb1bcc7da2a78ccfac74a97bed846f3149",
+    "selection/g003.npz": "dd11e62be573134d250e8ae5a554b7c8d8cac959d733074254d7c282a28e34ea",
+    "selection/g004.npz": "920a2637a86da885af9f33e8be06302657eb01cde7af916b221e5d310178361f",
+    "selection/g005.npz": "7e2a591e856d5a9dd970d9baf4cbcb8b9f584f08dea45cf2320ac7bdbc665387",
+    "selection/g006.npz": "b5c5795f3f5ab83ddd34534ec3d490254df018838b21d15b1c49e709b137a57f",
+    "selection/g007.npz": "70baa47b96ec8cb32de80bc6253c87b515e02ec27a756f5991376ff7397b524b"
+  },
+  "checkpoint_log_pins": {
+    "curves.jsonl": {
+      "bytes": 8231,
+      "sha256": "1e5f740fe1f92d564895b9c5814aa375e9dafc0a8cc3d5590c9ecc5c3ee11f8a"
+    },
+    "lineage.jsonl": {
+      "bytes": 590265,
+      "sha256": "dd4346260b03f362e16c9ab22cac67dc9bb71c4ca0b1c4d8939a363c0aa1d913"
+    },
+    "clones.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

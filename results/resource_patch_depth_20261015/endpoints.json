@@ -1,0 +1,43 @@
+{
+  "protocol_sha256": "86593f759c5c17823d4eaff19800728229f757eb2ffc82b2f54660e9b32653bb",
+  "roles": [
+    "AO",
+    "G8_joint",
+    "Pareto4_joint",
+    "depth8_joint"
+  ],
+  "genomes": [
+    {
+      "role": "AO",
+      "path": "inputs/AO.json",
+      "file_sha256": "0cc69bc11d03f7362e65a1f1f1ad85081de96b5fdc5f192b27cdb015dec16150",
+      "raw_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51",
+      "native_id": 5336
+    },
+    {
+      "role": "G8_joint",
+      "path": "inputs/G8_joint.json",
+      "file_sha256": "1918aa22968eb75d6a773db42e9fe249d1d8e65218222a056aeb93e313d0719e",
+      "raw_sha256": "99d2921bbaa9e4e5d22b13f8c034d4f09204cec75e89e2576aa6fad58af2d39c",
+      "native_id": 1795
+    },
+    {
+      "role": "Pareto4_joint",
+      "path": "inputs/Pareto4_joint.json",
+      "file_sha256": "b4d1f96c5b0dccb0e39e9440d5f3340b47d7c855d75322098a3cd69d503d60d6",
+      "raw_sha256": "e279610e269909ed231daef0cc06596e78b730a5e29644bc68487ad8c96ebb0f",
+      "native_id": 918
+    },
+    {
+      "role": "depth8_joint",
+      "path": "joint_genome.json",
+      "file_sha256": "7470bf46a984391d2c86d6ac6bd2a994d046f6115eb6eeb730122dce9c672526",
+      "raw_sha256": "8108955684b86d91460c8b62828400cbe25a3ed815f49b8fd81f62cc0f535778",
+      "native_id": 1415,
+      "native_row": 24
+    }
+  ],
+  "references_manifest_sha256": "2208d5443e520ac6661ba61b260807fad043f8a9c3ef86fe208398e780f61456",
+  "endpoint_selection_sha256": "e69d859846dad8b44f41708f15c65f04ed7ce067c8bd7009388b10a832f4f93c",
+  "selection_scope": "Fresh training-only endpoint panel; confirmation never selects or replaces a genome."
+}
