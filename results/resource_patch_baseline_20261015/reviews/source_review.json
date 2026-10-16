@@ -1,0 +1,67 @@
+{
+  "status": "passed_source_review_ready_to_materialize",
+  "source_revision": "71591f3ae133c3c2c193d3b394e7a5f2e9f61833",
+  "source_pins": {
+    "PROTOCOL.md": "e17abcde538a2355215e6ea9ec95238e68eeee241a0cec14f8cbbbfc754d3a29",
+    "prepare.py": "a6e6f4dac44cd2757041455396a950fb33d9fd905c9aa8ef6d3863937f509195",
+    "common.py": "b287406df5575fa744ea711d3e10775a740a780a853037cc91bc18ea8b650a6a",
+    "monitor.py": "2325b336260307004cbe928aeaadf89661f48990566089fa6bc914f40ab574d3",
+    "worker.py": "144fb5d329b483e78bfee57d82b2c0faef4baa0e5f818f876253a26f2474fae0",
+    "analyze.py": "5fce215df17d9ff4e31568d56062a17adaf5433186f84ae282806a4af63b4e1b",
+    "source_checks.py": "33f49b324df33bbbae89e23812d9211d75bd0b7417b96281252e330a52b3fbd4",
+    "source_checks.json": "be9b2ec2a4ce5b1efad09ffc966e57f8f5cc0634274e2448134a7b78c15b7921",
+    "namespace/audit_namespace.py": "bb395f5e8a7a5cabacbf1fe1800ffbbc3f0aedae918192e057b24fb1896576a4",
+    "namespace/classify.py": "88f943202e36ff47b80000d039d1d366dc931a7d30aca5948d91a6a942527fbd",
+    "namespace/candidate_seed_inventory.json": "7050f679cf88d4d844382f98aa1c17006053380f9a00c03ecbfee8e53e26034f",
+    "namespace/seed_audit.json": "beca8c0e2f53057a633b7da74c5985bf2bd6eeda2173228ad4f32dd9cb54598b",
+    "namespace/reservation.json": "5b5ce80b0644746cb385087a8e8ce5389ba6070618294f6b83a2faebe3f5591e",
+    "namespace/resources.txt": "fee7ff67d5bcd9ff128a71ed4bf62a570f7bd54c4407f94ae5c18c729138ba2d"
+  },
+  "scope": {
+    "scientific_calls": 448,
+    "engineering_calls": 8,
+    "total_calls": 456,
+    "new_calls_in_review": 0,
+    "builds": 0,
+    "random_draws": 0,
+    "namespace_rescans": 0
+  },
+  "checks": [
+    "All32 ordered AO balanced24 raw genomes preserved; fixed rank0 and AM; no outcome-based replacement.",
+    "Four zero-log-cap full/fast pairs precede256 population plus192 fixed-reference lives; no startup life.",
+    "Native ledger/hash/seed/protocol arrays saved before validation; exact row/index/crosswalk checked in analyzer.",
+    "Per-slot physical and origin conservation, native income/cost/guard/net/F and production extinction charge checked; legitimate guards/extinction retained.",
+    "Paired AO-minus-AM summaries use the same32 seeds per world; row distribution explicitly descriptive.",
+    "One owned worker, one thread, declared360CPU/780wall runtime plus90CPU/120wall preparation reserve; descendants and cleanup bound.",
+    "Namespace inventory/audit/reservation/source/resource links and prior inventory digests verified without rescanning;24 prior-block excluded endpoints and68 classified text references."
+  ],
+  "namespace": {
+    "blocks_half_open": [
+      [
+        52470000,
+        52480000
+      ],
+      [
+        52480000,
+        52490000
+      ]
+    ],
+    "current_npz_paths": 93252,
+    "changed_npz_records": 7346,
+    "distinct_unchanged_payloads_reopened": 855,
+    "prior_inventory_pins_checked": 25,
+    "numeric_classifications": 24,
+    "text_classifications": 68,
+    "ignored_negative_sentinel_values": 2748
+  },
+  "limitations": [
+    "This is source and receipt review, not execution of the scanner, producer tests or scientific lives.",
+    "Actual materialized arrays, world vectors and schedule remain to be checked before release.",
+    "Baseline development seeds and aggregate ledgers establish neither information payoff nor revisits/memory/learning."
+  ],
+  "review_check_resources": {
+    "cpu_seconds": 0.077646253,
+    "wall_seconds": 0.07789820799371228,
+    "max_rss_kib": 58008
+  }
+}

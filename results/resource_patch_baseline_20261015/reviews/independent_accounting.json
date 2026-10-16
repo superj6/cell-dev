@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "protocol_sha256": "b1b4cbdb2c1d2d7f2e1eeac05d28a8944dc4ed8e0fc3fdd3efc5190d9ded55cc",
+  "audited_rows": 456,
+  "scientific_rows": 448,
+  "engineering_rows": 8,
+  "full_fast_pairs": 4,
+  "native_ledger_values": 48792,
+  "native_hash_values": 2280,
+  "csv_numeric_values_checked": 62024,
+  "summary_numeric_values_checked": 7210,
+  "population_rows": 32,
+  "metrics_per_group": 34,
+  "reference_groups": 6,
+  "paired_groups": 3,
+  "source_stock_FIFO_cost_extinction_accounting": true,
+  "csv_native_float_bits_exact": true,
+  "reducer": "Independent math.fsum scalar mean and centered second moment; SE clusters by whole life.",
+  "reconciliation": {
+    "native_relative_tolerance": 1e-09,
+    "derived_summary_relative_tolerance": 2e-12
+  },
+  "limitations": [
+    "Full native hashes are integrity-checked, not regenerated without simulation.",
+    "FIFO origin accounting cannot establish switching, revisits or memory."
+  ],
+  "artifacts": {
+    "protocol.json": "b1b4cbdb2c1d2d7f2e1eeac05d28a8944dc4ed8e0fc3fdd3efc5190d9ded55cc",
+    "row_index.json": "e51f63ab98200349bf70e01244702285726c65bce521f7a307c82d3ab629a1fa",
+    "summary.json": "83c53f00834a4ed3263a6e0a4f3f2111d9e8a516e1eae7fd63f8767be4ad7701",
+    "per_life.csv": "f5e8ff5be33f39304aa58f84c7a756758d6ac05e206e813148237f62b65ef98d",
+    "measurement_complete.json": "309a4dc7fa1e1ade98ac3e41914058d3b7488ae9a4b102be91d36bb29123748d",
+    "budget.json": "5b071e7d3b5dbe02b75da6bcbd7c22914c6e16f9457d8b50831db08ee1aa64bf"
+  },
+  "audit_source_sha256": "63b3aebd31568638e659ebfc30c10abdd090390bc623c4c9201a1df844d427e4",
+  "simulations": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "resources": {
+    "cpu_seconds": 0.24522979899999997,
+    "wall_seconds": 0.2452678130066488,
+    "max_rss_kib": 44592
+  }
+}

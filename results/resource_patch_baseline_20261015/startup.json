@@ -1,0 +1,40 @@
+{
+  "protocol_sha256": "b1b4cbdb2c1d2d7f2e1eeac05d28a8944dc4ed8e0fc3fdd3efc5190d9ded55cc",
+  "startup_lives": 0,
+  "libraries": {
+    "False": {
+      "path": "build-cache/life/life_87104f28c498d897.so",
+      "sha256": "35f12f3d7c422fbb881518271d233238d818ec92ba847fdd91bd508c827e5d6f",
+      "flags": [
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11"
+      ]
+    },
+    "True": {
+      "path": "build-cache/life/life_29335ac60f03fe08.so",
+      "sha256": "ecf6f97aa0f2fbc594dc60b8e4eff031dc2049ff845859e8ecba9aea5b849d00",
+      "flags": [
+        "-O3",
+        "-fopenmp",
+        "-ffp-contract=off",
+        "-fPIC",
+        "-shared",
+        "-std=c11",
+        "-DLIFE_FAST"
+      ]
+    }
+  },
+  "python": "3.12.3",
+  "numpy": "2.5.3",
+  "libc": [
+    "glibc",
+    "2.39"
+  ],
+  "affinity": [
+    0
+  ]
+}

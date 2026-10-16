@@ -13,6 +13,24 @@ cellular implementation cost. A specialized delayed-matching success would be a 
 of this objective. Use completed bounded studies to assess reusable capability and choose the next interaction,
 rather than indefinitely optimizing one named task or reproducing a handwritten algorithm.
 
+**Inherited resource collection measured (2026-10-15).** Without patch-world evolution, the fixed AO genome
+collects 21.4375 ±0.8636 packets per life, including 15.5000 ±0.8531 from replenishment; the fixed older AM reference
+collects 16.3438 ±1.1462 total, including 10.9063 ±1.0154 replenished. Paired AO−AM gains are 5.0938 ±1.4102 captures
+and 2.8504 ±0.7032 F over 32 shared development lives. AO harvests from all three patches in 31/32 lives, a descriptive
+coverage count rather than evidence of revisit order or memory. Every one of the 32 inherited rows has positive
+mean F on eight separate shared development lives; none is selected as a replacement endpoint.
+
+The same unchanged references still acquire food in POOL and persistent pursuit; their differences there are
+unresolved in this small panel. All 448 scientific +8 engineering calls complete with status 0 and exact full/fast
+pairs in 37.901941 CPU seconds, peak 333.96 MiB, with owned workers clear. Independent accounting reconciles all
+456 rows and 7,210 summary numbers. Evidence: `results/resource_patch_baseline_20261015/REPORT.md`.
+
+This establishes an inherited foothold for cumulative improvement, not newly evolved patch circuitry or formal
+world admission. Next test the whole-life contribution of stock-dependent sensory modulation on these same fixed
+genomes, using exact constant-amplitude controls and explicit reuse of development rows. Food laws, ordinary
+cell rules and prices stay fixed; actual actions and development may diverge. This small causal probe precedes
+investment in an external allocator or new evolution. Memory, broad generality and plan 0.4 admission remain open.
+
 **Persistent resource patches implemented (2026-10-15).** ABI6 adds fixed, independently replenished food
 patches whose stock changes the existing local sensory field. Harvest depletes stock without relocating the
 patch; only collected food minus ordinary physical costs pays. Genome, cell inputs, asynchronous local rules

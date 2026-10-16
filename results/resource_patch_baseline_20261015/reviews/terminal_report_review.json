@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "scope": "Source and saved-data review only; no lives/builds/random draws.",
+  "checks": [
+    "Report reference/population numbers match independently audited summaries.",
+    "All64 patch reference raw NPZ slot86..88 harvest counters reproduce coverage histograms.",
+    "AO31/32 all3 patches and1/32 two; AM27/32 all3,3/32 two,2/32 one.",
+    "AO mean path and final tissue smaller in patch reference; no algorithm inference.",
+    "32development paired SE and8seed population limits explicit; older-world differences unresolved.",
+    "No new evolution, winner selection, memory or formal admission claim.",
+    "CPU/wall package allocation includes full90CPU/120wall reserve; all owned groups exited."
+  ],
+  "source_pins": {
+    "REPORT.md": "ff4cbe6f1d703729c422078dc57f8b358ef19f9b1028b55270646d21c9740677",
+    "README.md": "313f9d097ce6cd4396fd365a89d3a13e28bc8f350774f89bea608bb17cde5d7d",
+    "report_coverage.py": "a816da1ba4b2ba1413841eba5be0a7d57e360f47dc42b70f39be171a29f56cdd",
+    "patch_coverage.json": "a1c8a2bfb57052508acbf31e382545353f97bb547605bb1603af3b0eceef59ee"
+  },
+  "simulations": 0,
+  "builds": 0,
+  "random_draws": 0,
+  "resources": {
+    "cpu_seconds": 0.012408436000000009,
+    "wall_seconds": 0.012456644995836541,
+    "max_rss_kib": 32444
+  },
+  "wording_amendment": {
+    "prior_REPORT_sha256": "d3b7c8df9955b6a1c4d0d7cea9feec80c3ee4bf314f4103bcd702d74a86f3647",
+    "current_REPORT_sha256": "ff4cbe6f1d703729c422078dc57f8b358ef19f9b1028b55270646d21c9740677",
+    "change": "Only actions -> action rules in the next-study description; numerical content unchanged.",
+    "verification": "Reversing the exact wording substitution reproduces the previously reviewed REPORT hash.",
+    "numeric_recheck_or_simulation": false
+  }
+}
