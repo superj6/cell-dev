@@ -3882,3 +3882,18 @@ reflex fixture without choosing a favorable body or seed. Next prepare a bounded
 and sensory-information instrument, keeping short-episode evidence distinct from repeated-task admission,
 retaining old-task checks and reserving separate transfer cases. No delayed-matching selection has run.
 Evidence: `results/abi5_delayed_match_20261015/README.md`.
+
+## 2026-10-15 — Delayed-matching baseline prepared: all six continuing-lineage endpoints
+
+Evaluate the six fixed AO comparison genomes on the new delayed-matching preset at T85 and T1024,
+using 32 shared development seeds at each duration. Six predetermined full-log repeats inspect early
+sensory-plane growth and verify C-full/C-fast agreement. The total is **390 calls**, with no evolution,
+endpoint selection or replacement. Block143 is reserved for development; these cases cannot become
+later confirmation or generalization data.
+
+The one-thread, one-worker attempt is capped at **600 CPU seconds, 900 wall seconds and 2 GiB RSS**,
+with 8 GiB address space and 4 GiB host-memory headroom. Every outcome is retained. Report both sample
+classes, narrow/broad/no-choice counts, physical costs, guards and unfinished trials. Positive reward is
+insufficient evidence of matching; sensory-plane occupancy alone does not show functional cue decoding.
+This is a development diagnostic, not the 512-seed sensory-information admission test. No lives have
+run at this prospective registration. Evidence: `results/delayed_match_baseline_20261015/`.

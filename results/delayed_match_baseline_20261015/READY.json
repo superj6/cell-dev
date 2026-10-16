@@ -1,0 +1,20 @@
+{
+  "status": "prepared_not_launched",
+  "protocol_sha256": "35a4af4a9ab1f78bf15732ff4a0af73763b41ed7cad97c61921252343eac4bf7",
+  "source_revision": "968bb81f2e146e2e729bca43004628d78a6e9b99",
+  "builds": 0,
+  "simulation_calls": 0,
+  "backend_calls_planned": 390,
+  "source_checks_sha256": "e9a52aae12376b30dc2da4288a3e5bdb9dc0eff8820594823fdeb8c6bf38fde6",
+  "preparation_amendment": {
+    "previous_protocol_sha256": "b3362bd74e2c7518ad7fe3655ed60eaa5367655cde3c71f7a56d544ddf601be4",
+    "reason": "Final source-only review: input-directory creation, namespace pin checks, explicit invalid-completion marker. Schedule/input/world bytes unchanged."
+  },
+  "fidelity_amendment": {
+    "previous_protocol_sha256": "7fdab30877cddbb21be091fa3f3f779626b944a3cca25b0870cd8e37d86a5380",
+    "retained_previous_bytes": "preparation_history/native_csv_fidelity",
+    "change": "CSV preserves native_F/native_guard_charge alongside checked reconstructed aliases; no inputs/world/schedule changes.",
+    "syntax": "passed",
+    "actual_backend_calls": 0
+  }
+}
