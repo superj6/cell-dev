@@ -1,0 +1,7 @@
+/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/test_matching.c: In function ‘main’:
+/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/test_matching.c:80:3: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   80 |   for(int h=0;h<MH;h++)s->logw[h]=-1000.;s->logw[0]=0.;
+      |   ^~~
+/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/test_matching.c:80:42: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   80 |   for(int h=0;h<MH;h++)s->logw[h]=-1000.;s->logw[0]=0.;
+      |                                          ^

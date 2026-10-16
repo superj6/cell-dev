@@ -1,0 +1,203 @@
+{
+  "status": "engineering only",
+  "pairs": [
+    {
+      "group": "passthrough",
+      "seed": 42000000,
+      "body": 6,
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "passthrough",
+      "seed": 42000002,
+      "body": 0,
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "passthrough",
+      "seed": 42000004,
+      "body": 6,
+      "world": {
+        "T": 85.0,
+        "t0": 10.0,
+        "t_open": 50.0
+      }
+    },
+    {
+      "group": "passthrough",
+      "seed": 42000007,
+      "body": 0,
+      "world": {
+        "T": 85.0,
+        "t_open": 45.0,
+        "n_max": 1
+      }
+    },
+    {
+      "group": "null",
+      "seed": 42000000,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "null",
+      "seed": 42000001,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "null",
+      "seed": 42000004,
+      "shape": "hollow2",
+      "world": {
+        "T": 85.0,
+        "t0": -8.0
+      }
+    },
+    {
+      "group": "null",
+      "seed": 42000006,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0,
+        "kill_t": 1.0,
+        "kill_frac": 1.0
+      }
+    },
+    {
+      "group": "script_replay",
+      "seed": 42000000,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "script_replay",
+      "seed": 42000001,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "script_replay",
+      "seed": 42000004,
+      "shape": "hollow2",
+      "world": {
+        "T": 85.0,
+        "t0": -8.0
+      }
+    },
+    {
+      "group": "script_replay",
+      "seed": 42000006,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0,
+        "kill_t": 1.0,
+        "kill_frac": 1.0
+      }
+    },
+    {
+      "group": "full_fast",
+      "seed": 42000000,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "full_fast",
+      "seed": 42000001,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "python_bridge",
+      "seed": 42000000,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    },
+    {
+      "group": "python_bridge",
+      "seed": 42000001,
+      "shape": "hollow3",
+      "world": {
+        "T": 85.0
+      }
+    }
+  ],
+  "script": [
+    [
+      6.0,
+      "rim",
+      0.1
+    ],
+    [
+      8.0,
+      "hot",
+      0.6
+    ],
+    [
+      11.0,
+      "rim",
+      0.3
+    ],
+    [
+      11.25,
+      "rim",
+      0.5
+    ],
+    [
+      82.0,
+      "rim",
+      1.0
+    ],
+    [
+      84.8,
+      "hot",
+      1.0
+    ],
+    [
+      85.0,
+      "hot",
+      1.0
+    ]
+  ],
+  "calls": 32,
+  "permitted_total": 40,
+  "policy_checks_pending": 8,
+  "cpu_cap": 120,
+  "threads": 1,
+  "address_space_bytes": 8589934592,
+  "rss_stop_bytes": 4294967296,
+  "host_available_floor": 4294967296,
+  "source_sha256": {
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/check_engineering.py": "21e75844a307f9c9edc97ca3a0b5c2bddf92ea8185c431d13eb2e4614e1b6db6",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/ctl_api.h": "a747dbeb0c3b50b8ba936a7c035ef941ff314d0ad55bdd49c755486811e2c2af",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/ctl_core.c": "314e4d5e0fab4473053a35ea234870adeef95bc7acf23b7117a92986d42164a9",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/engineering.c": "28b3670aacf1b12e937e60a2f00580950376ee4d21acdb8e22c7c54cf92efa5b",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/harness.py": "bf100f1d59bc1e3b3b83c91df53bb887139f389967f404c3c1740c936de4118c",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/kernel.abi5.c": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/make_ckernel.py": "0d4813c5b1bc7c3ef766f55e7a888a68ceefea9617026721e07e7e85cc39f9f6",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/prepare_sources.py": "8e7cca9b2372f20c7589597f5790108539bf5f1d87d4919a39ec32ac730fff9c",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/kernel.c": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/spec.py": "8a74b75aa7c06be2f25fd3a012f56fe78c112354bc8311e0075f4db41ee5fbb8",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/reference.py": "aa11783a8956937c8b323b77394e0be9816a9c877f4395db70ab5a3b6f2e732c",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/build.py": "718ab8540c01fe7109f06e009aeb5582907996a3ae69bf5171236f2ceba2202b",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/handbuilt.py": "d19ba200142f0c5ec41d5da4deff4788ed77ef22f01ba69c552968b5fddfa71c"
+  }
+}

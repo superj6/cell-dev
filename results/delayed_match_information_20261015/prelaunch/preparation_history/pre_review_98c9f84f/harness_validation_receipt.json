@@ -1,0 +1,49 @@
+{
+  "status": "all 40 authorized engineering lives passed; scientific run unreleased",
+  "initial_failure": {
+    "simulator_calls": 0,
+    "reason": "default production cache read-only",
+    "cpu_seconds": 6.89
+  },
+  "successful_attempt": {
+    "simulator_calls": 32,
+    "production_C_full": 8,
+    "scratch_C_full": 20,
+    "scratch_C_fast": 2,
+    "Python": 2,
+    "cpu_seconds_gnu_time": 10.19,
+    "checks": 16
+  },
+  "total_cpu_seconds_gnu_time": 22.32,
+  "maximum_rss_kib": 227200,
+  "host_available_end": 22436417536,
+  "remaining_engineering_call_allowance": 0,
+  "remaining_cpu_seconds": 97.68,
+  "source_pins": "engineering_retry/plan.json",
+  "kernel_sha256": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+  "library_sha256": {
+    "outputs/delayed_match_information_20261015/engineering_retry/scratch.so": "d98247953c61de093dfe0495ee30988ecc33d552c9de1eaca7856c68c5aab346",
+    "outputs/delayed_match_information_20261015/engineering_retry/scratch_fast.so": "0e4c750f5f3a11a2f5e8b2b23592ea3d3e384d6db265cf98a827203364261c17",
+    "outputs/delayed_match_information_20261015/engineering_retry/cache/life/life_d4431d16dd8e6f69.so": "4cf01939adda567704aa19b60fc26b553a9d7745e5bbd88ffd8be28be6437e43"
+  },
+  "unmeasured": [
+    "scientific information payoff",
+    "evolved attainability",
+    "repeated task generalization"
+  ],
+  "policy_attempt": {
+    "simulator_calls": 8,
+    "scratch_C_full": 8,
+    "external_cpu_seconds": 5.24,
+    "internal_worker_cpu_seconds": 4.510566,
+    "internal_worker_wall_seconds": 4.514014858999872,
+    "external_wall_seconds": 5.25
+  },
+  "total_backend_calls": {
+    "production_C_full": 8,
+    "scratch_C_full": 28,
+    "scratch_C_fast": 2,
+    "Python": 2
+  },
+  "policy_evidence": "policy_engineering/receipt.json"
+}

@@ -1,0 +1,5 @@
+Initial engineering attempt, zero simulator calls. Both scratch full and fast libraries compiled successfully.
+Production-library build then attempted its default read-only ~/.cache location and failed with OSError 30.
+No fixture was dispatched. Corrected the harness driver to set an output-local CELL_DEV_CACHE.
+GNU time: user 6.51 s, system 0.38 s, elapsed 6.91 s, maximum RSS 223764 KiB.
+This failed preparation remains part of the cumulative 120 CPU-second engineering allowance.

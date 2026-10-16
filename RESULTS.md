@@ -3924,3 +3924,30 @@ The external instrument's memory-erased and never-stored arms already match in e
 scientific development and confirmation remain pending. Earlier tasks remain retention checks, and this
 entire baseline block 143 is development-only. Report: `results/delayed_match_baseline_20261015/TERMINAL_REPORT.md`.
 Prospective commit 04613c9; protocol 35a4af4a…c4bf7; summary 90323020…1805e.
+
+## 2026-10-15 — Delayed-matching information measurement prepared
+
+The new T85 study measures what remembering the early shape pays at a fixed 56-cell footprint. An external
+instrument uses only delivered receptor events, its own clock and its own commanded actions. It stores one
+sample statistic; the ablation erases only that statistic, preserving current-choice sensing, steering and taps.
+No controller is installed in the organism. All 40 engineering calls pass within 22.32 CPU seconds, including
+the initial zero-life cache failure; three memory-erased/never-stored pairs match all ledgers, hashes and logs.
+Source review documents the limits of the supplied-input tests and the fixed engineering parameter setting.
+
+Scientific execution is **1,024 development +5,632 confirmation calls**: 12 reflex and 4 instrument settings
+on 64 development seeds, then 11 fixed roles on 512 fresh paired lives. Roles include fixed narrow/broad preferences,
+unchanged and development-selected reflexes, and four quieter/smaller controls. Every outcome is retained.
+Blocks 144/145 are independently audited and disjoint from the completed baseline. Native physical costs,
+both sample classes, coverage, wrong choices and unfinished trials accompany paired fitness contrasts.
+The current harness supplies whole-life reflex counters; reflex first-trial outcomes and actual capture times
+are explicitly unmeasured. Instrument first-opportunity and sample-calibration readouts remain available.
+
+Including engineering, the maximum is **6,696 calls**, **3,600 cumulative CPU /5,400 wall seconds**,
+one worker/thread, 4 GiB RSS, 8 GiB address space and 4 GiB host-memory reserve. Measured engineering, seed audit
+and preparation use are deducted before the scientific worker starts; development must preserve 2,400 CPU
+seconds for confirmation/cleanup. No automatic retry, reduced confirmation panel or additional tuning occurs.
+The user has been told this budget. No scientific life has run at prospective publication.
+
+The original section 0.4 information, retained-statistic and do-less thresholds remain unchanged. A passing
+result would apply to this exact short T85 task and external instrument, without establishing an evolved
+algorithm, local attainability or repeated T1024 admission. Evidence: `results/delayed_match_information_20261015/`.

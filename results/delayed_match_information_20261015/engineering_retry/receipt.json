@@ -1,0 +1,236 @@
+{
+  "status": "passed",
+  "calls": [
+    {
+      "index": 0,
+      "backend": "C production",
+      "case": "00_passthrough_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 1,
+      "backend": "C scratch passthrough",
+      "case": "00_passthrough_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 2,
+      "backend": "C production",
+      "case": "01_passthrough_42000002",
+      "status": "complete"
+    },
+    {
+      "index": 3,
+      "backend": "C scratch passthrough",
+      "case": "01_passthrough_42000002",
+      "status": "complete"
+    },
+    {
+      "index": 4,
+      "backend": "C production",
+      "case": "02_passthrough_42000004",
+      "status": "complete"
+    },
+    {
+      "index": 5,
+      "backend": "C scratch passthrough",
+      "case": "02_passthrough_42000004",
+      "status": "complete"
+    },
+    {
+      "index": 6,
+      "backend": "C production",
+      "case": "03_passthrough_42000007",
+      "status": "complete"
+    },
+    {
+      "index": 7,
+      "backend": "C scratch passthrough",
+      "case": "03_passthrough_42000007",
+      "status": "complete"
+    },
+    {
+      "index": 8,
+      "backend": "C inert tissue",
+      "case": "04_null_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 9,
+      "backend": "C null controller",
+      "case": "04_null_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 10,
+      "backend": "C inert tissue",
+      "case": "05_null_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 11,
+      "backend": "C null controller",
+      "case": "05_null_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 12,
+      "backend": "C inert tissue",
+      "case": "06_null_42000004",
+      "status": "complete"
+    },
+    {
+      "index": 13,
+      "backend": "C null controller",
+      "case": "06_null_42000004",
+      "status": "complete"
+    },
+    {
+      "index": 14,
+      "backend": "C inert tissue",
+      "case": "07_null_42000006",
+      "status": "complete"
+    },
+    {
+      "index": 15,
+      "backend": "C null controller",
+      "case": "07_null_42000006",
+      "status": "complete"
+    },
+    {
+      "index": 16,
+      "backend": "C callback script",
+      "case": "08_script_replay_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 17,
+      "backend": "C prequeued replay",
+      "case": "08_script_replay_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 18,
+      "backend": "C callback script",
+      "case": "09_script_replay_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 19,
+      "backend": "C prequeued replay",
+      "case": "09_script_replay_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 20,
+      "backend": "C callback script",
+      "case": "10_script_replay_42000004",
+      "status": "complete"
+    },
+    {
+      "index": 21,
+      "backend": "C prequeued replay",
+      "case": "10_script_replay_42000004",
+      "status": "complete"
+    },
+    {
+      "index": 22,
+      "backend": "C callback script",
+      "case": "11_script_replay_42000006",
+      "status": "complete"
+    },
+    {
+      "index": 23,
+      "backend": "C prequeued replay",
+      "case": "11_script_replay_42000006",
+      "status": "complete"
+    },
+    {
+      "index": 24,
+      "backend": "C controller full",
+      "case": "12_full_fast_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 25,
+      "backend": "C controller fast",
+      "case": "12_full_fast_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 26,
+      "backend": "C controller full",
+      "case": "13_full_fast_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 27,
+      "backend": "C controller fast",
+      "case": "13_full_fast_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 28,
+      "backend": "C null bridge",
+      "case": "14_python_bridge_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 29,
+      "backend": "Python inert bridge",
+      "case": "14_python_bridge_42000000",
+      "status": "complete"
+    },
+    {
+      "index": 30,
+      "backend": "C null bridge",
+      "case": "15_python_bridge_42000001",
+      "status": "complete"
+    },
+    {
+      "index": 31,
+      "backend": "Python inert bridge",
+      "case": "15_python_bridge_42000001",
+      "status": "complete"
+    }
+  ],
+  "checks": [
+    "00_passthrough_42000000",
+    "01_passthrough_42000002",
+    "02_passthrough_42000004",
+    "03_passthrough_42000007",
+    "04_null_42000000",
+    "05_null_42000001",
+    "06_null_42000004",
+    "07_null_42000006",
+    "08_script_replay_42000000",
+    "09_script_replay_42000001",
+    "10_script_replay_42000004",
+    "11_script_replay_42000006",
+    "12_full_fast_42000000",
+    "13_full_fast_42000001",
+    "14_python_bridge_42000000",
+    "15_python_bridge_42000001"
+  ],
+  "cpu_seconds": 9.405097,
+  "wall_seconds": 9.423432121999213,
+  "max_rss_kib": 227200,
+  "child_max_rss_kib": 223564,
+  "host_available_end": 22436417536,
+  "source_sha256": {
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/check_engineering.py": "21e75844a307f9c9edc97ca3a0b5c2bddf92ea8185c431d13eb2e4614e1b6db6",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/ctl_api.h": "a747dbeb0c3b50b8ba936a7c035ef941ff314d0ad55bdd49c755486811e2c2af",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/ctl_core.c": "314e4d5e0fab4473053a35ea234870adeef95bc7acf23b7117a92986d42164a9",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/engineering.c": "28b3670aacf1b12e937e60a2f00580950376ee4d21acdb8e22c7c54cf92efa5b",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/harness.py": "bf100f1d59bc1e3b3b83c91df53bb887139f389967f404c3c1740c936de4118c",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/kernel.abi5.c": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/make_ckernel.py": "0d4813c5b1bc7c3ef766f55e7a888a68ceefea9617026721e07e7e85cc39f9f6",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/prepare_sources.py": "8e7cca9b2372f20c7589597f5790108539bf5f1d87d4919a39ec32ac730fff9c",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/kernel.c": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/spec.py": "8a74b75aa7c06be2f25fd3a012f56fe78c112354bc8311e0075f4db41ee5fbb8",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/reference.py": "aa11783a8956937c8b323b77394e0be9816a9c877f4395db70ab5a3b6f2e732c",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/build.py": "718ab8540c01fe7109f06e009aeb5582907996a3ae69bf5171236f2ceba2202b",
+    "/home/jgon/project/ml/cell-dev/outputs/abi5_delayed_match_20261015/worktree/src/life/handbuilt.py": "d19ba200142f0c5ec41d5da4deff4788ed77ef22f01ba69c552968b5fddfa71c"
+  },
+  "pending": "full-policy hidden-state and L-only erase audits"
+}

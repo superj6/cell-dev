@@ -1,0 +1,22 @@
+{
+  "policy_engineering_sources": {
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/ctl_core.c": "0126208bede9356e2deadf383e8df93d7da058cf22a64153072828de36facee8",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/ctl_api.h": "fb92279a84526f5628d703d0249f0059dd88ed8d6310231fe5da17d22a5e06eb",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/kernel.abi5.c": "20f7d3ee288e62bd3b65bc8c8c151866f60cfe86b46facc317a6695433d7861d",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/engineering.c": "28b3670aacf1b12e937e60a2f00580950376ee4d21acdb8e22c7c54cf92efa5b",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/matching.c": "71d6df574ba3ff42d933820b848edc7c9063507b4d68eecec14829119c53f748",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/make_ckernel.py": "0d4813c5b1bc7c3ef766f55e7a888a68ceefea9617026721e07e7e85cc39f9f6",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/prepare_sources.py": "aa02b3b3a933a6f624e5aac1211c22003731926b9e33971192b0a245002d7780",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/check_policy.py": "6020e5dae78df9184fc8749b50ced312760a8bf1381c9527f73485cfb36f9885",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/check_engineering.py": "21e75844a307f9c9edc97ca3a0b5c2bddf92ea8185c431d13eb2e4614e1b6db6",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/test_matching.c": "9614a51e39febf91ed43791aa06dc9e1e4f4a1267f7e28c598fb32c21949bc13",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_information_20261015/harness/harness.py": "bf100f1d59bc1e3b3b83c91df53bb887139f389967f404c3c1740c936de4118c"
+  },
+  "historical_source_origins_sha256": "ca969b7116cbb1737de4a6a7d349583182616b263ae3511c4012116fad63cd77",
+  "historical_note": "source_origins records initial mechanical adaptation; prepare_sources.py subsequently gained own-history API. Current transformation chain is explicitly pinned here and in policy engineering receipt; historical pins are not asserted to equal current files.",
+  "current_adaptation_sha256": "aa02b3b3a933a6f624e5aac1211c22003731926b9e33971192b0a245002d7780",
+  "production_raw_adapter": "harness.py copy changes only repository import root; integrated production files must equal isolated engineering source bytes",
+  "monitor_origin": "outputs/delayed_match_baseline_20261015/monitor.py",
+  "monitor_origin_sha256": "190c8ab5457e725dab9869d575c623ca7e40389b61a305b94840529df6a41a87",
+  "monitor_adaptation": "identical generic run_worker source; removed unrelated baseline CLI only"
+}
