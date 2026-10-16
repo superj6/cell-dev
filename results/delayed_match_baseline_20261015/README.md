@@ -1,7 +1,13 @@
-# Delayed-match developmental baseline — prospective archive
+# Delayed-match developmental baseline — complete
 
-**Prepared, reviewed, and not executed. This archive records 0 lives, 0 builds,
-and 0 random draws.** Root will add run outputs and the report after completion.
+All 390 calls completed in 29.25 CPU seconds, with all statuses zero and independent raw accounting passed.
+The old genomes almost always choose the broad target regardless of the earlier cue; no conditional matching
+is demonstrated. See [the interpretation and class-choice tables](TERMINAL_REPORT.md).
+
+The original prospective archive was published in commit 04613c9 before execution. Its README and manifest
+are preserved under `registration_history/`; the protocol, readiness and release files remain historical
+pre-execution records. The current manifest includes both preparation and completed evidence.
+
 
 The six frozen AO endpoints are evaluated without evolution or replacement in
 the exact ABI5 `catch_delayed_match_l4` preset at T85 and T1024. They share 32
@@ -47,4 +53,4 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python results/delayed_match_baseline_202610
 The verifier imports no simulator and runs no builds or lives. Runtime sources
 are exact copies of the frozen preparation under
 `outputs/delayed_match_baseline_20261015`; launch remains root-owned. The root
-release binds the accepted protocol and review; no execution has been attempted.
+release binds the accepted protocol and review; the completed attempt is recorded in budget.json.

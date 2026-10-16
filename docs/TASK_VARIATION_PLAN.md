@@ -9,6 +9,15 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
+*2026-10-15 delayed-matching baseline complete:* all six fixed AO roles transfer target pursuit, but their
+T1024 choices are 97.2–99.8% broad regardless of the earlier sample. Correct narrow choices cover0.47–2.75% of
+narrow-cue opportunities; no conditional matching is demonstrated. All 390 calls complete in 29.254298 CPU seconds,
+with all statuses zero, exact full/fast repeats, independent raw accounting and cleared workers. Early sensory-plane
+occupancy is present in all six predetermined traces, without establishing actual information extraction.
+See `results/delayed_match_baseline_20261015/TERMINAL_REPORT.md`. No champion was selected; block 143 is
+development-only. Next measure retained-sample information payoff under 0.4, keeping shortT85 evidence distinct
+from repeated T1024 admission. This step does not depend on a hand-built winning tissue.
+
 *2026-10-15 latest interaction priority:* AO is complete and reviewed; prioritize an environment with a
 different decision structure now. Retention, price calibration and mechanism analysis support richer
 exploration; they are not prerequisites that must be perfected first. The exposure audit found independently

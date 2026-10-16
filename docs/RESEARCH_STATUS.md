@@ -4,6 +4,15 @@ The goal is increasingly sophisticated evolved algorithms, generalization and cu
 
 The immediate priority is the authorized [ABI5 delayed shape-matching environment](ABI5_DELAYED_MATCH_PROPOSAL.md): a narrow/broad sample, blank interval and later conditional choice. Local asynchronous cell rules stay unchanged. The validated implementation is integrated; AO's original sources remain archived. Engineering agreement is not evidence of evolved matching. Retention, price tuning and circuit analysis support this work; perfect results on those fronts are not prerequisites. Choose a continuing population explicitly from development evidence, measure earlier skills, and reserve separate cases for generalization.
 
+The first delayed-matching baseline is complete. The six saved genomes can pursue and choose targets, but
+97.2–99.8% of their completed choices in repeated lives favor the broad shape regardless of the earlier cue.
+Only 0.47–2.75% of narrow-cue opportunities receive the correct narrow choice. This establishes a useful inherited
+motor/sensing starting point, not conditional matching. Six fixed traces develop spatial sensory-plane cells
+before sample disappearance; occupancy does not prove cue decoding. All 390 calls complete with status zero,
+independent accounting and exact replay. The next measurement isolates the payoff of remembering the sample;
+no delayed-matching evolution or short/repeated-world admission has occurred.
+[Baseline evidence](../results/delayed_match_baseline_20261015/TERMINAL_REPORT.md).
+
 The most specific circuit accounts remain the exploratory BODY-1 pilot: s4 combines neighbour evidence, a sensory fringe and a short reset-dependent latch; s5 combines cooperative sensing with inhibitory feedback. Directional lesions and gain substitutes support parts of these accounts. They are more informative about computation than a score increase, but their original scratch traces were not all retained, as the [mechanism archive explicitly states](../results/catch_pilot/mechanisms.json). The stronger modern, reproducible intervention evidence is narrower: freezing tissue and blocking messages shows added lateral dependence, and D51090 has **+0.794 ±0.207 F** additional hidden-message dependence, almost entirely capture income. This establishes a useful communication contribution, not its algorithm or applicability to the current L92 lineage. [Frozen-tissue evidence](../results/frozen_20261013/summary.json), [hidden-message evidence](../results/hidden_20261014/summary.json).
 
 The active lineage inherits prior genomes. Comparison of the saved float32 genomes shows: L92 equals Y panel row 0; AE selected row 31 of that same panel; AI imports that exact AE genotype; subsequent reference files match their declared parent endpoints. AL onward imports every ordered survivor rather than restarting from rank 0 alone.

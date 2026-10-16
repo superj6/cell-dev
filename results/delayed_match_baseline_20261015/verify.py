@@ -1,4 +1,4 @@
-"""Verify the prospective archive without importing the simulator or running a life."""
+"""Verify preparation and completed evidence without importing the simulator or running a life."""
 from __future__ import annotations
 
 import hashlib
@@ -28,13 +28,18 @@ def checked_path(name):
 def verify():
     manifest = read('manifest.json')
     actual = {str(p.relative_to(HERE)) for p in HERE.rglob('*') if p.is_file()
-              and p.name != 'manifest.json' and '__pycache__' not in p.parts}
+              and p != HERE / 'manifest.json' and '__pycache__' not in p.parts}
     if actual != set(manifest['files']):
         raise ValueError('archive file inventory differs')
     for name, pin in manifest['files'].items():
         path = checked_path(name)
         if path.stat().st_size != pin['bytes'] or digest(path) != pin['sha256']:
             raise ValueError('archive bytes differ: ' + name)
+    historical = read('registration_history/manifest.json')
+    for name, pin in historical['files'].items():
+        path = HERE / ('registration_history/' + name if name in ('README.md', 'verify.py') else name)
+        if digest(path) != pin['sha256']:
+            raise ValueError('prospective evidence changed: ' + name)
     protocol, ready = read('protocol.json'), read('READY.json')
     if (digest(HERE / 'protocol.json') != ready['protocol_sha256']
             or ready['simulation_calls'] != 0 or ready['builds'] != 0
@@ -94,9 +99,27 @@ def verify():
     for item in references['included_prior_inventory_references']:
         if digest(checked_path(item['archive_path'])) != item['sha256']:
             raise ValueError('included seed metadata differs: ' + item['archive_path'])
+    marker, budget = read('measurement_complete.json'), read('budget.json')
+    if marker['status'] != 'complete' or marker['backend_calls'] != 390 or budget['status'] != 'complete':
+        raise ValueError('incomplete runtime evidence')
+    for key, name in (('row_index_sha256', 'row_index.json'), ('summary_sha256', 'summary.json')):
+        if marker[key] != digest(HERE / name):
+            raise ValueError('completion binding differs: ' + name)
+    if marker['protocol_sha256'] != ready['protocol_sha256']:
+        raise ValueError('execution protocol differs')
+    rows = read('row_index.json')
+    if set(rows) != {r['path'] for r in schedule}:
+        raise ValueError('completed row coverage differs')
+    for name, row in rows.items():
+        if digest(checked_path(name)) != row['sha256']:
+            raise ValueError('completed raw row differs: ' + name)
+    cleanup = budget['terminal_cleanup']
+    if (not cleanup['all_owned_groups_exited'] or not cleanup['all_worker_identities_exited']
+            or cleanup['remaining_descendants']):
+        raise ValueError('execution cleanup incomplete')
     return dict(status='passed', archive_files=len(manifest['files']), source_revision=revision,
                 prospective_protocol_sha256=digest(HERE / 'protocol.json'), planned_calls=390,
-                executed_calls_at_preparation=0, verifier_lives=0, verifier_builds=0,
+                executed_calls_at_preparation=0, completed_calls=390, verifier_lives=0, verifier_builds=0,
                 public_history_references=len(references['public_prior_inventory_references']))
 
 

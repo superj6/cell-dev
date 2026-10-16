@@ -1,0 +1,4792 @@
+{
+  "status": "complete",
+  "development_only": true,
+  "fast_lives": 384,
+  "full_repeat_lives": 6,
+  "protocol_sha256": "35a4af4a9ab1f78bf15732ff4a0af73763b41ed7cad97c61921252343eac4bf7",
+  "row_index_sha256": "f480930092641c3bb01a0d258f2cead2181006f35da5a6a8934459ae1aa57b90",
+  "full_fast_comparisons": [
+    {
+      "role": "AM_reference",
+      "T": 85,
+      "seed": 52430000,
+      "identical": true
+    },
+    {
+      "role": "AN_start",
+      "T": 85,
+      "seed": 52430000,
+      "identical": true
+    },
+    {
+      "role": "unchanged8",
+      "T": 85,
+      "seed": 52430000,
+      "identical": true
+    },
+    {
+      "role": "unchanged24",
+      "T": 85,
+      "seed": 52430000,
+      "identical": true
+    },
+    {
+      "role": "balanced8",
+      "T": 85,
+      "seed": 52430000,
+      "identical": true
+    },
+    {
+      "role": "balanced24",
+      "T": 85,
+      "seed": 52430000,
+      "identical": true
+    }
+  ],
+  "full_fast_ledgers_identical": true,
+  "groups": [
+    {
+      "role": "AM_reference",
+      "T": 85,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 17,
+          "choice_carry_in": 0,
+          "correct_choices": 0,
+          "wrong_choices": 10,
+          "choice_timeouts": 0,
+          "unfinished_choices": 7,
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 10,
+          "no_completed_choice": 7,
+          "conservation": true,
+          "choice_coverage": 0.5882352941176471,
+          "correct_per_opportunity": 0.0,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "choice_opportunities": 15,
+          "choice_carry_in": 0,
+          "correct_choices": 11,
+          "wrong_choices": 0,
+          "choice_timeouts": 0,
+          "unfinished_choices": 4,
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 11,
+          "no_completed_choice": 4,
+          "conservation": true,
+          "choice_coverage": 0.7333333333333333,
+          "correct_per_opportunity": 0.7333333333333333,
+          "accuracy_among_choices": 1.0
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": -1.586176896567525,
+          "sd": 2.920868797708887,
+          "min": -4.22300940833568,
+          "max": 2.687546607083765
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 306.7000362082396,
+          "sd": 26.995015192886246,
+          "min": 246.25715617590387,
+          "max": 358.9557997085328
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 171.875,
+          "sd": 241.27935221740714,
+          "min": 0.0,
+          "max": 500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 0.65625,
+          "sd": 0.48255870443481425,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 10.90625,
+          "sd": 1.7294297960179934,
+          "min": 7.0,
+          "max": 13.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 88.6875,
+          "sd": 8.121804582567803,
+          "min": 73.0,
+          "max": 111.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 88.6875,
+          "sd": 8.121804582567803,
+          "min": 73.0,
+          "max": 111.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 5742.142131589552,
+          "sd": 462.1056167782679,
+          "min": 4934.063999085265,
+          "max": 6945.3933750945525
+        },
+        "births": {
+          "n": 32,
+          "mean": 87.6875,
+          "sd": 8.121804582567803,
+          "min": 72.0,
+          "max": 110.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 825.53125,
+          "sd": 175.91291547423447,
+          "min": 468.0,
+          "max": 1177.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 971.21875,
+          "sd": 216.83473062041008,
+          "min": 555.625,
+          "max": 1411.125
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 114.84284263179104,
+          "sd": 9.242112335565357,
+          "min": 98.6812799817053,
+          "max": 138.90786750189105
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 2.337625,
+          "sd": 0.36042535355309147,
+          "min": 1.464,
+          "max": 2.948
+        },
+        "motor": {
+          "n": 32,
+          "mean": 2.3370625,
+          "sd": 0.36051468025230177,
+          "min": 1.464,
+          "max": 2.948
+        },
+        "messages": {
+          "n": 32,
+          "mean": 3.47134375,
+          "sd": 0.5320466029415214,
+          "min": 2.134,
+          "max": 4.394
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 48.765625,
+          "sd": 4.162010166858349,
+          "min": 40.5,
+          "max": 61.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 9.286818576448564,
+          "sd": 0.7578184588737313,
+          "min": 7.994205951197535,
+          "max": 11.289255056823887
+        },
+        "misses": {
+          "n": 32,
+          "mean": 109.0625,
+          "sd": 17.294297960179936,
+          "min": 70.0,
+          "max": 130.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 0.97121875,
+          "sd": 0.2168347306204101,
+          "min": 0.555625,
+          "max": 1.411125
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 15.625,
+          "sd": 23.546453742994245,
+          "min": 0.0,
+          "max": 50.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "AN_start",
+      "T": 85,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 17,
+          "choice_carry_in": 0,
+          "correct_choices": 0,
+          "wrong_choices": 15,
+          "choice_timeouts": 0,
+          "unfinished_choices": 2,
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 15,
+          "no_completed_choice": 2,
+          "conservation": true,
+          "choice_coverage": 0.8823529411764706,
+          "correct_per_opportunity": 0.0,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "choice_opportunities": 15,
+          "choice_carry_in": 0,
+          "correct_choices": 13,
+          "wrong_choices": 1,
+          "choice_timeouts": 0,
+          "unfinished_choices": 1,
+          "total_opportunities": 15,
+          "narrow_choice": 1,
+          "broad_choice": 13,
+          "no_completed_choice": 1,
+          "conservation": true,
+          "choice_coverage": 0.9333333333333333,
+          "correct_per_opportunity": 0.8666666666666667,
+          "accuracy_among_choices": 0.9285714285714286
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": -0.7988162174644972,
+          "sd": 3.038169629502008,
+          "min": -3.7493973798770805,
+          "max": 3.206693904636311
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 271.0243784844822,
+          "sd": 29.34625025581384,
+          "min": 196.854701865763,
+          "max": 318.69877728955186
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 203.125,
+          "sd": 249.49545861792302,
+          "min": 0.0,
+          "max": 500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.03125,
+          "sd": 0.1767766952966369,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 0.875,
+          "sd": 0.3360107525161235,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 9.46875,
+          "sd": 2.3277342576405813,
+          "min": 4.0,
+          "max": 14.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 73.21875,
+          "sd": 6.922307908074702,
+          "min": 59.0,
+          "max": 87.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 73.21875,
+          "sd": 6.922307908074702,
+          "min": 59.0,
+          "max": 87.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 4832.933784439814,
+          "sd": 420.73751007748524,
+          "min": 4092.375928440552,
+          "max": 5846.134173401512
+        },
+        "births": {
+          "n": 32,
+          "mean": 72.21875,
+          "sd": 6.922307908074702,
+          "min": 58.0,
+          "max": 86.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 742.625,
+          "sd": 133.16876268419222,
+          "min": 493.0,
+          "max": 975.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 876.3203125,
+          "sd": 169.0590298746484,
+          "min": 565.5,
+          "max": 1167.0
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 96.65867568879628,
+          "sd": 8.414750201549705,
+          "min": 81.84751856881104,
+          "max": 116.92268346803024
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 1.7633750000000001,
+          "sd": 0.31543045345645043,
+          "min": 1.248,
+          "max": 2.332
+        },
+        "motor": {
+          "n": 32,
+          "mean": 1.7410625,
+          "sd": 0.3133094870530086,
+          "min": 1.23,
+          "max": 2.31
+        },
+        "messages": {
+          "n": 32,
+          "mean": 2.574375,
+          "sd": 0.47454125555720283,
+          "min": 1.736,
+          "max": 3.41
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 39.90625,
+          "sd": 3.6795807527664115,
+          "min": 33.0,
+          "max": 48.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 7.816819983185969,
+          "sd": 0.6909193478238543,
+          "min": 6.629971856623918,
+          "max": 9.473968670590752
+        },
+        "misses": {
+          "n": 32,
+          "mean": 94.6875,
+          "sd": 23.277342576405815,
+          "min": 40.0,
+          "max": 140.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 0.8763203125,
+          "sd": 0.16905902987464838,
+          "min": 0.5655,
+          "max": 1.167
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 25.0,
+          "sd": 25.4000254000381,
+          "min": 0.0,
+          "max": 50.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "unchanged8",
+      "T": 85,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 17,
+          "choice_carry_in": 0,
+          "correct_choices": 2,
+          "wrong_choices": 12,
+          "choice_timeouts": 0,
+          "unfinished_choices": 3,
+          "total_opportunities": 17,
+          "narrow_choice": 2,
+          "broad_choice": 12,
+          "no_completed_choice": 3,
+          "conservation": true,
+          "choice_coverage": 0.8235294117647058,
+          "correct_per_opportunity": 0.11764705882352941,
+          "accuracy_among_choices": 0.14285714285714285
+        },
+        "broad": {
+          "choice_opportunities": 15,
+          "choice_carry_in": 0,
+          "correct_choices": 14,
+          "wrong_choices": 0,
+          "choice_timeouts": 0,
+          "unfinished_choices": 1,
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 14,
+          "no_completed_choice": 1,
+          "conservation": true,
+          "choice_coverage": 0.9333333333333333,
+          "correct_per_opportunity": 0.9333333333333333,
+          "accuracy_among_choices": 1.0
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": 0.2006743881347383,
+          "sd": 3.1261350384594175,
+          "min": -3.2434616970984353,
+          "max": 3.658639221013537
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 232.94267700854724,
+          "sd": 25.209351153842807,
+          "min": 184.71685407215156,
+          "max": 275.694244253367
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 250.0,
+          "sd": 254.000254000381,
+          "min": 0.0,
+          "max": 500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.0625,
+          "sd": 0.24593468841898236,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 0.8125,
+          "sd": 0.39655776945626603,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 8.25,
+          "sd": 1.8837162994395398,
+          "min": 5.0,
+          "max": 12.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 64.15625,
+          "sd": 7.882644778859277,
+          "min": 49.0,
+          "max": 81.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 64.15625,
+          "sd": 7.882644778859277,
+          "min": 49.0,
+          "max": 81.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 4267.597931079572,
+          "sd": 483.89239834943993,
+          "min": 3425.10541507286,
+          "max": 5333.825733503019
+        },
+        "births": {
+          "n": 32,
+          "mean": 63.15625,
+          "sd": 7.882644778859277,
+          "min": 48.0,
+          "max": 80.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 674.9375,
+          "sd": 168.07927037273888,
+          "min": 350.0,
+          "max": 1043.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 815.62109375,
+          "sd": 220.23931834057234,
+          "min": 406.875,
+          "max": 1313.75
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 85.35195862159145,
+          "sd": 9.677847966988796,
+          "min": 68.5021083014572,
+          "max": 106.67651467006039
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 1.3325,
+          "sd": 0.3386237801988056,
+          "min": 0.648,
+          "max": 1.9160000000000001
+        },
+        "motor": {
+          "n": 32,
+          "mean": 1.3324375000000002,
+          "sd": 0.3386179631974654,
+          "min": 0.648,
+          "max": 1.9160000000000001
+        },
+        "messages": {
+          "n": 32,
+          "mean": 1.90578125,
+          "sd": 0.4809783533708043,
+          "min": 0.9440000000000001,
+          "max": 2.681
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 34.078125,
+          "sd": 4.191214649947612,
+          "min": 26.0,
+          "max": 42.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 6.87625354320579,
+          "sd": 0.7895178881805667,
+          "min": 5.507655318774252,
+          "max": 8.641731797448175
+        },
+        "misses": {
+          "n": 32,
+          "mean": 82.5,
+          "sd": 18.837162994395396,
+          "min": 50.0,
+          "max": 120.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 0.81562109375,
+          "sd": 0.22023931834057234,
+          "min": 0.406875,
+          "max": 1.31375
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 18.75,
+          "sd": 24.593468841898236,
+          "min": 0.0,
+          "max": 50.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "unchanged24",
+      "T": 85,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 17,
+          "choice_carry_in": 0,
+          "correct_choices": 0,
+          "wrong_choices": 15,
+          "choice_timeouts": 0,
+          "unfinished_choices": 2,
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 15,
+          "no_completed_choice": 2,
+          "conservation": true,
+          "choice_coverage": 0.8823529411764706,
+          "correct_per_opportunity": 0.0,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "choice_opportunities": 15,
+          "choice_carry_in": 0,
+          "correct_choices": 15,
+          "wrong_choices": 0,
+          "choice_timeouts": 0,
+          "unfinished_choices": 0,
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 15,
+          "no_completed_choice": 0,
+          "conservation": true,
+          "choice_coverage": 1.0,
+          "correct_per_opportunity": 1.0,
+          "accuracy_among_choices": 1.0
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": -0.061030697668636974,
+          "sd": 3.148374720902889,
+          "min": -3.520703158560724,
+          "max": 3.8149162988899623
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 239.56260930183413,
+          "sd": 29.127321709986912,
+          "min": 175.73211459435322,
+          "max": 299.2597684776615
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 234.375,
+          "sd": 253.50367433870815,
+          "min": 0.0,
+          "max": 500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 0.9375,
+          "sd": 0.24593468841898236,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 8.28125,
+          "sd": 2.098146263237023,
+          "min": 4.0,
+          "max": 12.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 65.6875,
+          "sd": 7.859399550240628,
+          "min": 47.0,
+          "max": 80.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 65.6875,
+          "sd": 7.859399550240628,
+          "min": 47.0,
+          "max": 80.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 4363.369754906558,
+          "sd": 458.02767389697203,
+          "min": 3293.8740548093624,
+          "max": 5170.9089330237675
+        },
+        "births": {
+          "n": 32,
+          "mean": 64.6875,
+          "sd": 7.859399550240628,
+          "min": 46.0,
+          "max": 79.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 674.5625,
+          "sd": 177.58722300377792,
+          "min": 387.0,
+          "max": 1083.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 730.28515625,
+          "sd": 219.98417793722516,
+          "min": 384.5,
+          "max": 1287.75
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 87.26739509813117,
+          "sd": 9.160553477939441,
+          "min": 65.87748109618725,
+          "max": 103.41817866047535
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 1.3747500000000001,
+          "sd": 0.4283820272727634,
+          "min": 0.732,
+          "max": 2.592
+        },
+        "motor": {
+          "n": 32,
+          "mean": 1.373625,
+          "sd": 0.4281288432839031,
+          "min": 0.73,
+          "max": 2.59
+        },
+        "messages": {
+          "n": 32,
+          "mean": 2.0163125,
+          "sd": 0.6255051345809216,
+          "min": 1.085,
+          "max": 3.801
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 34.671875,
+          "sd": 3.9789960133422535,
+          "min": 24.0,
+          "max": 42.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 5.878366547452953,
+          "sd": 0.6291396424427015,
+          "min": 4.4281403985089725,
+          "max": 6.990564795034058
+        },
+        "misses": {
+          "n": 32,
+          "mean": 82.8125,
+          "sd": 20.98146263237023,
+          "min": 40.0,
+          "max": 120.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 0.7302851562499999,
+          "sd": 0.21998417793722516,
+          "min": 0.3845,
+          "max": 1.28775
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 23.4375,
+          "sd": 25.350367433870815,
+          "min": 0.0,
+          "max": 50.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "balanced8",
+      "T": 85,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 17,
+          "choice_carry_in": 0,
+          "correct_choices": 0,
+          "wrong_choices": 10,
+          "choice_timeouts": 0,
+          "unfinished_choices": 7,
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 10,
+          "no_completed_choice": 7,
+          "conservation": true,
+          "choice_coverage": 0.5882352941176471,
+          "correct_per_opportunity": 0.0,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "choice_opportunities": 15,
+          "choice_carry_in": 0,
+          "correct_choices": 14,
+          "wrong_choices": 0,
+          "choice_timeouts": 0,
+          "unfinished_choices": 1,
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 14,
+          "no_completed_choice": 1,
+          "conservation": true,
+          "choice_coverage": 0.9333333333333333,
+          "correct_per_opportunity": 0.9333333333333333,
+          "accuracy_among_choices": 1.0
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": -0.6969855426360518,
+          "sd": 3.007090226129738,
+          "min": -3.9286812535868636,
+          "max": 3.2091008934916117
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 277.99377112406444,
+          "sd": 29.464746384172685,
+          "min": 227.226424053213,
+          "max": 333.9379065548834
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 218.75,
+          "sd": 252.00806438709265,
+          "min": 0.0,
+          "max": 500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 0.75,
+          "sd": 0.43994134506405985,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 6.8125,
+          "sd": 2.0230526279570364,
+          "min": 3.0,
+          "max": 11.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 95.75,
+          "sd": 10.163184667250968,
+          "min": 78.0,
+          "max": 114.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 95.75,
+          "sd": 10.163184667250968,
+          "min": 78.0,
+          "max": 114.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 6239.7519266245945,
+          "sd": 654.1661126330655,
+          "min": 5128.8755743083475,
+          "max": 7467.732877086659
+        },
+        "births": {
+          "n": 32,
+          "mean": 94.75,
+          "sd": 10.163184667250968,
+          "min": 77.0,
+          "max": 113.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 839.78125,
+          "sd": 201.15148109515425,
+          "min": 471.0,
+          "max": 1312.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 852.4921875,
+          "sd": 224.11919202822205,
+          "min": 441.75,
+          "max": 1409.375
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 124.7950385324919,
+          "sd": 13.08332225266131,
+          "min": 102.57751148616696,
+          "max": 149.3546575417332
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 1.812375,
+          "sd": 0.4954641844417375,
+          "min": 1.228,
+          "max": 3.052
+        },
+        "motor": {
+          "n": 32,
+          "mean": 1.7830000000000001,
+          "sd": 0.49314003769131703,
+          "min": 1.196,
+          "max": 3.0460000000000003
+        },
+        "messages": {
+          "n": 32,
+          "mean": 2.75265625,
+          "sd": 0.773213220577485,
+          "min": 1.825,
+          "max": 4.773
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 52.265625,
+          "sd": 5.486029728083813,
+          "min": 43.0,
+          "max": 61.5
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 9.982584154072494,
+          "sd": 1.0760120571975003,
+          "min": 8.18703685394314,
+          "max": 11.97654134186066
+        },
+        "misses": {
+          "n": 32,
+          "mean": 68.125,
+          "sd": 20.230526279570363,
+          "min": 30.0,
+          "max": 110.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 0.8524921875,
+          "sd": 0.22411919202822203,
+          "min": 0.44175000000000003,
+          "max": 1.409375
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 15.625,
+          "sd": 23.546453742994245,
+          "min": 0.0,
+          "max": 50.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "balanced24",
+      "T": 85,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 17,
+          "choice_carry_in": 0,
+          "correct_choices": 1,
+          "wrong_choices": 13,
+          "choice_timeouts": 0,
+          "unfinished_choices": 3,
+          "total_opportunities": 17,
+          "narrow_choice": 1,
+          "broad_choice": 13,
+          "no_completed_choice": 3,
+          "conservation": true,
+          "choice_coverage": 0.8235294117647058,
+          "correct_per_opportunity": 0.058823529411764705,
+          "accuracy_among_choices": 0.07142857142857142
+        },
+        "broad": {
+          "choice_opportunities": 15,
+          "choice_carry_in": 0,
+          "correct_choices": 13,
+          "wrong_choices": 0,
+          "choice_timeouts": 0,
+          "unfinished_choices": 2,
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 13,
+          "no_completed_choice": 2,
+          "conservation": true,
+          "choice_coverage": 0.8666666666666667,
+          "correct_per_opportunity": 0.8666666666666667,
+          "accuracy_among_choices": 1.0
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": -0.5871366894185193,
+          "sd": 3.1791394221874816,
+          "min": -4.022391348581389,
+          "max": 3.4020382750995584
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 268.6566186005742,
+          "sd": 30.519982352565012,
+          "min": 210.82674661653755,
+          "max": 341.90326462941806
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 218.75,
+          "sd": 252.00806438709265,
+          "min": 0.0,
+          "max": 500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.03125,
+          "sd": 0.1767766952966369,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 0.8125,
+          "sd": 0.39655776945626603,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 8.6875,
+          "sd": 2.007044046963497,
+          "min": 5.0,
+          "max": 12.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 78.625,
+          "sd": 7.351760816074894,
+          "min": 57.0,
+          "max": 94.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 78.625,
+          "sd": 7.351760816074894,
+          "min": 57.0,
+          "max": 94.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 5194.906655607052,
+          "sd": 454.72802810368495,
+          "min": 3976.390182854961,
+          "max": 6259.734923345437
+        },
+        "births": {
+          "n": 32,
+          "mean": 77.625,
+          "sd": 7.351760816074894,
+          "min": 56.0,
+          "max": 93.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 758.28125,
+          "sd": 169.2932623271075,
+          "min": 378.0,
+          "max": 1108.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 901.234375,
+          "sd": 213.21743159291793,
+          "min": 436.375,
+          "max": 1331.25
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 103.89813311214105,
+          "sd": 9.0945605620737,
+          "min": 79.52780365709923,
+          "max": 125.19469846690875
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 1.732875,
+          "sd": 0.3717977034061191,
+          "min": 0.98,
+          "max": 2.528
+        },
+        "motor": {
+          "n": 32,
+          "mean": 1.708125,
+          "sd": 0.3672070480383407,
+          "min": 0.9560000000000001,
+          "max": 2.492
+        },
+        "messages": {
+          "n": 32,
+          "mean": 2.54021875,
+          "sd": 0.5520901477566865,
+          "min": 1.436,
+          "max": 3.731
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 43.046875,
+          "sd": 3.6397433776076453,
+          "min": 33.5,
+          "max": 50.5
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 7.641657363433103,
+          "sd": 0.6785809295845435,
+          "min": 5.8346796643649546,
+          "max": 9.281066162509292
+        },
+        "misses": {
+          "n": 32,
+          "mean": 86.875,
+          "sd": 20.07044046963497,
+          "min": 50.0,
+          "max": 120.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 0.901234375,
+          "sd": 0.21321743159291795,
+          "min": 0.436375,
+          "max": 1.33125
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 20.3125,
+          "sd": 24.949545861792302,
+          "min": 0.0,
+          "max": 50.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "AM_reference",
+      "T": 1024,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 211,
+          "choice_carry_in": 0,
+          "correct_choices": 1,
+          "wrong_choices": 198,
+          "choice_timeouts": 4,
+          "unfinished_choices": 8,
+          "total_opportunities": 211,
+          "narrow_choice": 1,
+          "broad_choice": 198,
+          "no_completed_choice": 12,
+          "conservation": true,
+          "choice_coverage": 0.943127962085308,
+          "correct_per_opportunity": 0.004739336492890996,
+          "accuracy_among_choices": 0.005025125628140704
+        },
+        "broad": {
+          "choice_opportunities": 218,
+          "choice_carry_in": 0,
+          "correct_choices": 202,
+          "wrong_choices": 0,
+          "choice_timeouts": 6,
+          "unfinished_choices": 10,
+          "total_opportunities": 218,
+          "narrow_choice": 0,
+          "broad_choice": 202,
+          "no_completed_choice": 16,
+          "conservation": true,
+          "choice_coverage": 0.926605504587156,
+          "correct_per_opportunity": 0.926605504587156,
+          "accuracy_among_choices": 1.0
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": 0.002062481385684975,
+          "sd": 0.5779360871956706,
+          "min": -1.800276768903275,
+          "max": 1.1384838843608152
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 3169.763019061059,
+          "sd": 200.8871797715809,
+          "min": 2834.1925024145253,
+          "max": 3843.4834113569536
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 3171.875,
+          "sd": 501.7610117408743,
+          "min": 2000.0,
+          "max": 4000.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.03125,
+          "sd": 0.1767766952966369,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 12.5,
+          "sd": 1.0472698761772856,
+          "min": 9.0,
+          "max": 15.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 78.96875,
+          "sd": 5.567673835228126,
+          "min": 68.0,
+          "max": 89.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 88.90625,
+          "sd": 8.172966354528695,
+          "min": 73.0,
+          "max": 111.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 88.90625,
+          "sd": 8.172966354528695,
+          "min": 73.0,
+          "max": 111.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 89222.53760513316,
+          "sd": 8127.628558756031,
+          "min": 73481.06399908566,
+          "max": 111174.39337509485
+        },
+        "births": {
+          "n": 32,
+          "mean": 87.90625,
+          "sd": 8.172966354528695,
+          "min": 72.0,
+          "max": 110.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 11079.25,
+          "sd": 1000.9595718689786,
+          "min": 9102.0,
+          "max": 13749.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 12760.92578125,
+          "sd": 1174.624918195996,
+          "min": 10430.625,
+          "max": 15877.5
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 1784.450752102663,
+          "sd": 162.55257117512062,
+          "min": 1469.621279981713,
+          "max": 2223.487867501897
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 27.92575,
+          "sd": 2.442540176973356,
+          "min": 23.276,
+          "max": 33.844
+        },
+        "motor": {
+          "n": 32,
+          "mean": 27.9251875,
+          "sd": 2.44258223274257,
+          "min": 23.276,
+          "max": 33.844
+        },
+        "messages": {
+          "n": 32,
+          "mean": 41.89571875,
+          "sd": 3.8762080176076896,
+          "min": 34.184,
+          "max": 50.457
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 48.875,
+          "sd": 4.192927993811762,
+          "min": 40.5,
+          "max": 61.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 126.86718492714553,
+          "sd": 11.611693393263254,
+          "min": 105.09651457223845,
+          "max": 158.83604385505637
+        },
+        "misses": {
+          "n": 32,
+          "mean": 789.6875,
+          "sd": 55.67673835228126,
+          "min": 680.0,
+          "max": 890.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 12.760925781249998,
+          "sd": 1.174624918195996,
+          "min": 10.430625000000001,
+          "max": 15.8775
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 309.375,
+          "sd": 77.7065405973841,
+          "min": 100.0,
+          "max": 450.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "AN_start",
+      "T": 1024,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 213,
+          "choice_carry_in": 0,
+          "correct_choices": 4,
+          "wrong_choices": 207,
+          "choice_timeouts": 2,
+          "unfinished_choices": 0,
+          "total_opportunities": 213,
+          "narrow_choice": 4,
+          "broad_choice": 207,
+          "no_completed_choice": 2,
+          "conservation": true,
+          "choice_coverage": 0.9906103286384976,
+          "correct_per_opportunity": 0.018779342723004695,
+          "accuracy_among_choices": 0.018957345971563982
+        },
+        "broad": {
+          "choice_opportunities": 221,
+          "choice_carry_in": 0,
+          "correct_choices": 207,
+          "wrong_choices": 2,
+          "choice_timeouts": 4,
+          "unfinished_choices": 8,
+          "total_opportunities": 221,
+          "narrow_choice": 2,
+          "broad_choice": 207,
+          "no_completed_choice": 12,
+          "conservation": true,
+          "choice_coverage": 0.9457013574660633,
+          "correct_per_opportunity": 0.9366515837104072,
+          "accuracy_among_choices": 0.9904306220095693
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": 0.4714622182208398,
+          "sd": 0.7325778807513006,
+          "min": -1.7034342527675044,
+          "max": 1.9979626383409896
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2814.09768854186,
+          "sd": 169.28578105560055,
+          "min": 2454.0862583388266,
+          "max": 3244.3166748339245
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 3296.875,
+          "sd": 670.3318268324399,
+          "min": 1500.0,
+          "max": 4500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.1875,
+          "sd": 0.39655776945626603,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 12.9375,
+          "sd": 0.9136068187983487,
+          "min": 11.0,
+          "max": 15.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 76.8125,
+          "sd": 5.561605129178377,
+          "min": 67.0,
+          "max": 91.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 73.59375,
+          "sd": 6.955431273008769,
+          "min": 59.0,
+          "max": 87.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 73.59375,
+          "sd": 6.955431273008769,
+          "min": 59.0,
+          "max": 87.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 73913.92784260657,
+          "sd": 6952.235876103433,
+          "min": 59493.37592844093,
+          "max": 87539.13417340048
+        },
+        "births": {
+          "n": 32,
+          "mean": 72.59375,
+          "sd": 6.955431273008769,
+          "min": 58.0,
+          "max": 86.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 9817.3125,
+          "sd": 902.5001273344562,
+          "min": 8094.0,
+          "max": 12646.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 11550.015625,
+          "sd": 1067.6355573020812,
+          "min": 9629.375,
+          "max": 14917.75
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 1478.2785568521315,
+          "sd": 139.04471752206868,
+          "min": 1189.8675185688187,
+          "max": 1750.7826834680097
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 24.164,
+          "sd": 2.5684807107101904,
+          "min": 19.456,
+          "max": 31.576
+        },
+        "motor": {
+          "n": 32,
+          "mean": 24.1416875,
+          "sd": 2.5678963957281353,
+          "min": 19.42,
+          "max": 31.552
+        },
+        "messages": {
+          "n": 32,
+          "mean": 35.642906249999996,
+          "sd": 4.199020817957098,
+          "min": 28.359,
+          "max": 48.416000000000004
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 40.09375,
+          "sd": 3.7014328088876174,
+          "min": 33.0,
+          "max": 48.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 105.53927231472858,
+          "sd": 9.899190064469211,
+          "min": 85.46284695818639,
+          "max": 125.13716534898187
+        },
+        "misses": {
+          "n": 32,
+          "mean": 768.125,
+          "sd": 55.61605129178376,
+          "min": 670.0,
+          "max": 910.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 11.550015625,
+          "sd": 1.0676355573020815,
+          "min": 9.629375,
+          "max": 14.91775
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 326.5625,
+          "sd": 70.69285564121509,
+          "min": 150.0,
+          "max": 450.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "unchanged8",
+      "T": 1024,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 222,
+          "choice_carry_in": 0,
+          "correct_choices": 6,
+          "wrong_choices": 207,
+          "choice_timeouts": 4,
+          "unfinished_choices": 5,
+          "total_opportunities": 222,
+          "narrow_choice": 6,
+          "broad_choice": 207,
+          "no_completed_choice": 9,
+          "conservation": true,
+          "choice_coverage": 0.9594594594594594,
+          "correct_per_opportunity": 0.02702702702702703,
+          "accuracy_among_choices": 0.028169014084507043
+        },
+        "broad": {
+          "choice_opportunities": 226,
+          "choice_carry_in": 0,
+          "correct_choices": 210,
+          "wrong_choices": 6,
+          "choice_timeouts": 5,
+          "unfinished_choices": 5,
+          "total_opportunities": 226,
+          "narrow_choice": 6,
+          "broad_choice": 210,
+          "no_completed_choice": 10,
+          "conservation": true,
+          "choice_coverage": 0.9557522123893806,
+          "correct_per_opportunity": 0.9292035398230089,
+          "accuracy_among_choices": 0.9722222222222222
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": 0.8111240111464036,
+          "sd": 0.7807504494501292,
+          "min": -0.8049108123358599,
+          "max": 2.3376116400872684
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2544.409012586083,
+          "sd": 202.238361664461,
+          "min": 2106.285680550637,
+          "max": 2962.244342616853
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 3375.0,
+          "sd": 659.9120175960898,
+          "min": 2000.0,
+          "max": 4500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.375,
+          "sd": 0.6599120175960898,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 13.03125,
+          "sd": 1.0920349456774014,
+          "min": 11.0,
+          "max": 15.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 71.25,
+          "sd": 5.730506930230462,
+          "min": 62.0,
+          "max": 83.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 64.25,
+          "sd": 7.849388716696763,
+          "min": 49.0,
+          "max": 81.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 64.25,
+          "sd": 7.849388716696763,
+          "min": 49.0,
+          "max": 81.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 64597.163745844264,
+          "sd": 7849.160188542724,
+          "min": 49436.105415072976,
+          "max": 81392.8257335022
+        },
+        "births": {
+          "n": 32,
+          "mean": 63.25,
+          "sd": 7.849388716696763,
+          "min": 48.0,
+          "max": 80.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 8915.0625,
+          "sd": 842.8499249378515,
+          "min": 7392.0,
+          "max": 10728.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 10765.3125,
+          "sd": 1030.47361586014,
+          "min": 8956.125,
+          "max": 13051.375
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 1291.9432749168852,
+          "sd": 156.98320377085452,
+          "min": 988.7221083014596,
+          "max": 1627.8565146700441
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 20.4015,
+          "sd": 1.7709678053939708,
+          "min": 17.508,
+          "max": 23.984
+        },
+        "motor": {
+          "n": 32,
+          "mean": 20.4014375,
+          "sd": 1.7709633780206535,
+          "min": 17.508,
+          "max": 23.984
+        },
+        "messages": {
+          "n": 32,
+          "mean": 29.57175,
+          "sd": 2.91207392010042,
+          "min": 24.616,
+          "max": 35.931
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 34.125,
+          "sd": 4.175581860168442,
+          "min": 26.0,
+          "max": 42.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 91.88823766919751,
+          "sd": 11.036445490100023,
+          "min": 70.32294724917745,
+          "max": 115.97770294680916
+        },
+        "misses": {
+          "n": 32,
+          "mean": 712.5,
+          "sd": 57.305069302304624,
+          "min": 620.0,
+          "max": 830.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 10.7653125,
+          "sd": 1.0304736158601397,
+          "min": 8.956125,
+          "max": 13.051375
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 332.8125,
+          "sd": 69.1064804859956,
+          "min": 150.0,
+          "max": 450.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "unchanged24",
+      "T": 1024,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 222,
+          "choice_carry_in": 0,
+          "correct_choices": 6,
+          "wrong_choices": 208,
+          "choice_timeouts": 1,
+          "unfinished_choices": 7,
+          "total_opportunities": 222,
+          "narrow_choice": 6,
+          "broad_choice": 208,
+          "no_completed_choice": 8,
+          "conservation": true,
+          "choice_coverage": 0.963963963963964,
+          "correct_per_opportunity": 0.02702702702702703,
+          "accuracy_among_choices": 0.028037383177570093
+        },
+        "broad": {
+          "choice_opportunities": 225,
+          "choice_carry_in": 0,
+          "correct_choices": 214,
+          "wrong_choices": 6,
+          "choice_timeouts": 0,
+          "unfinished_choices": 5,
+          "total_opportunities": 225,
+          "narrow_choice": 6,
+          "broad_choice": 214,
+          "no_completed_choice": 5,
+          "conservation": true,
+          "choice_coverage": 0.9777777777777777,
+          "correct_per_opportunity": 0.9511111111111111,
+          "accuracy_among_choices": 0.9727272727272728
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": 0.721620383742168,
+          "sd": 0.7825103401836107,
+          "min": -1.012406506628598,
+          "max": 2.2164795489310745
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2698.56072704802,
+          "sd": 203.00013566386528,
+          "min": 2230.3249418945798,
+          "max": 3036.7042627876845
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 3437.5,
+          "sd": 669.0146823211658,
+          "min": 2000.0,
+          "max": 4500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.375,
+          "sd": 0.7931155389125321,
+          "min": 0.0,
+          "max": 3.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 13.1875,
+          "sd": 0.8206016675429032,
+          "min": 11.0,
+          "max": 14.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 83.4375,
+          "sd": 5.034958435936974,
+          "min": 73.0,
+          "max": 93.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 65.96875,
+          "sd": 7.814314305459957,
+          "min": 47.0,
+          "max": 80.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 65.96875,
+          "sd": 7.814314305459957,
+          "min": 47.0,
+          "max": 80.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 66304.53461871472,
+          "sd": 7791.352888162778,
+          "min": 47426.87405480954,
+          "max": 80290.9089330242
+        },
+        "births": {
+          "n": 32,
+          "mean": 64.96875,
+          "sd": 7.814314305459957,
+          "min": 46.0,
+          "max": 79.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 9014.9375,
+          "sd": 819.8620630443604,
+          "min": 7462.0,
+          "max": 10779.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 11239.51171875,
+          "sd": 1074.7707413823787,
+          "min": 9136.25,
+          "max": 13601.625
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 1326.0906923742946,
+          "sd": 155.82705776325557,
+          "min": 948.5374810961907,
+          "max": 1605.818178660484
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 22.942750000000004,
+          "sd": 2.4521831089867656,
+          "min": 17.536,
+          "max": 29.284
+        },
+        "motor": {
+          "n": 32,
+          "mean": 22.941625000000002,
+          "sd": 2.451766311944737,
+          "min": 17.536,
+          "max": 29.284
+        },
+        "messages": {
+          "n": 32,
+          "mean": 33.66240625,
+          "sd": 3.895384861183022,
+          "min": 25.239,
+          "max": 42.965
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 34.8125,
+          "sd": 3.979281017891905,
+          "min": 24.0,
+          "max": 42.0
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 78.12124170497556,
+          "sd": 9.38016889655195,
+          "min": 55.42685883003944,
+          "max": 94.50457923149685
+        },
+        "misses": {
+          "n": 32,
+          "mean": 834.375,
+          "sd": 50.34958435936974,
+          "min": 730.0,
+          "max": 930.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 11.23951171875,
+          "sd": 1.0747707413823788,
+          "min": 9.13625,
+          "max": 13.601625
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 334.375,
+          "sd": 67.72513232461858,
+          "min": 200.0,
+          "max": 500.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "balanced8",
+      "T": 1024,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 212,
+          "choice_carry_in": 0,
+          "correct_choices": 1,
+          "wrong_choices": 199,
+          "choice_timeouts": 8,
+          "unfinished_choices": 4,
+          "total_opportunities": 212,
+          "narrow_choice": 1,
+          "broad_choice": 199,
+          "no_completed_choice": 12,
+          "conservation": true,
+          "choice_coverage": 0.9433962264150944,
+          "correct_per_opportunity": 0.0047169811320754715,
+          "accuracy_among_choices": 0.005
+        },
+        "broad": {
+          "choice_opportunities": 218,
+          "choice_carry_in": 0,
+          "correct_choices": 208,
+          "wrong_choices": 2,
+          "choice_timeouts": 4,
+          "unfinished_choices": 4,
+          "total_opportunities": 218,
+          "narrow_choice": 2,
+          "broad_choice": 208,
+          "no_completed_choice": 8,
+          "conservation": true,
+          "choice_coverage": 0.963302752293578,
+          "correct_per_opportunity": 0.9541284403669725,
+          "accuracy_among_choices": 0.9904761904761905
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": -0.036320573026836375,
+          "sd": 0.7068252774766186,
+          "min": -2.0176634504013955,
+          "max": 1.5073137662185343
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 3302.8172667794806,
+          "sd": 231.51195656496444,
+          "min": 2831.3778156863655,
+          "max": 3651.0684001410486
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 3265.625,
+          "sd": 647.3815123871279,
+          "min": 1500.0,
+          "max": 4500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.09375,
+          "sd": 0.3901509219974802,
+          "min": 0.0,
+          "max": 2.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 12.71875,
+          "sd": 1.1425600852415145,
+          "min": 10.0,
+          "max": 14.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 75.375,
+          "sd": 6.369027879435939,
+          "min": 65.0,
+          "max": 92.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 96.25,
+          "sd": 10.019336144385692,
+          "min": 78.0,
+          "max": 114.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 96.25,
+          "sd": 10.019336144385692,
+          "min": 78.0,
+          "max": 114.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 96599.93614189015,
+          "sd": 10058.754890002714,
+          "min": 78370.87557430801,
+          "max": 114513.73287708647
+        },
+        "births": {
+          "n": 32,
+          "mean": 95.25,
+          "sd": 10.019336144385692,
+          "min": 77.0,
+          "max": 113.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 11057.9375,
+          "sd": 825.6210931875039,
+          "min": 9599.0,
+          "max": 12824.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 12644.64453125,
+          "sd": 945.120957392329,
+          "min": 11048.75,
+          "max": 14635.125
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 1931.9987228378031,
+          "sd": 201.1750978000543,
+          "min": 1567.4175114861603,
+          "max": 2290.2746575417295
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 28.020125,
+          "sd": 2.6169049405245763,
+          "min": 23.252,
+          "max": 33.692
+        },
+        "motor": {
+          "n": 32,
+          "mean": 27.99075,
+          "sd": 2.6159951538871944,
+          "min": 23.226,
+          "max": 33.65
+        },
+        "messages": {
+          "n": 32,
+          "mean": 42.629625000000004,
+          "sd": 4.435444093487328,
+          "min": 34.387,
+          "max": 52.307
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 52.515625,
+          "sd": 5.406812272643919,
+          "min": 43.5,
+          "max": 61.5
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 139.20527441042748,
+          "sd": 14.998167683006734,
+          "min": 112.2346250174113,
+          "max": 166.08056779076324
+        },
+        "misses": {
+          "n": 32,
+          "mean": 753.75,
+          "sd": 63.69027879435939,
+          "min": 650.0,
+          "max": 920.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 12.64464453125,
+          "sd": 0.9451209573923288,
+          "min": 11.04875,
+          "max": 14.635125
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 314.0625,
+          "sd": 66.27700301788138,
+          "min": 200.0,
+          "max": 450.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    },
+    {
+      "role": "balanced24",
+      "T": 1024,
+      "n": 32,
+      "class_choice": {
+        "narrow": {
+          "choice_opportunities": 218,
+          "choice_carry_in": 0,
+          "correct_choices": 6,
+          "wrong_choices": 199,
+          "choice_timeouts": 6,
+          "unfinished_choices": 7,
+          "total_opportunities": 218,
+          "narrow_choice": 6,
+          "broad_choice": 199,
+          "no_completed_choice": 13,
+          "conservation": true,
+          "choice_coverage": 0.9403669724770642,
+          "correct_per_opportunity": 0.027522935779816515,
+          "accuracy_among_choices": 0.02926829268292683
+        },
+        "broad": {
+          "choice_opportunities": 220,
+          "choice_carry_in": 0,
+          "correct_choices": 212,
+          "wrong_choices": 1,
+          "choice_timeouts": 3,
+          "unfinished_choices": 4,
+          "total_opportunities": 220,
+          "narrow_choice": 1,
+          "broad_choice": 212,
+          "no_completed_choice": 7,
+          "conservation": true,
+          "choice_coverage": 0.9681818181818181,
+          "correct_per_opportunity": 0.9636363636363636,
+          "accuracy_among_choices": 0.9953051643192489
+        }
+      },
+      "metrics": {
+        "F": {
+          "n": 32,
+          "mean": 0.5123796140805776,
+          "sd": 0.8008991049189295,
+          "min": -1.359314933896877,
+          "max": 1.7514604211814992
+        },
+        "physical_cost": {
+          "n": 32,
+          "mean": 2881.5732751814885,
+          "sd": 184.85561514496072,
+          "min": 2320.2066481281017,
+          "max": 3391.938492310402
+        },
+        "guard_charge": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "income": {
+          "n": 32,
+          "mean": 3406.25,
+          "sd": 734.3803620257232,
+          "min": 2000.0,
+          "max": 4500.0
+        },
+        "captures": {
+          "n": 32,
+          "mean": 0.21875,
+          "sd": 0.6082431071696208,
+          "min": 0.0,
+          "max": 3.0
+        },
+        "b2_clicks": {
+          "n": 32,
+          "mean": 12.84375,
+          "sd": 1.2210353882483664,
+          "min": 10.0,
+          "max": 15.0
+        },
+        "misses": {
+          "n": 32,
+          "mean": 72.625,
+          "sd": 5.9554799920311945,
+          "min": 63.0,
+          "max": 85.0
+        },
+        "n_end": {
+          "n": 32,
+          "mean": 79.25,
+          "sd": 7.3703853796908945,
+          "min": 57.0,
+          "max": 94.0
+        },
+        "n_peak": {
+          "n": 32,
+          "mean": 79.25,
+          "sd": 7.3703853796908945,
+          "min": 57.0,
+          "max": 94.0
+        },
+        "live_time": {
+          "n": 32,
+          "mean": 79557.77953927271,
+          "sd": 7359.25963158651,
+          "min": 57499.39018285515,
+          "max": 94525.73492334542
+        },
+        "births": {
+          "n": 32,
+          "mean": 78.25,
+          "sd": 7.3703853796908945,
+          "min": 56.0,
+          "max": 93.0
+        },
+        "deaths": {
+          "n": 32,
+          "mean": 0.0,
+          "sd": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "rec_accept": {
+          "n": 32,
+          "mean": 10158.1875,
+          "sd": 834.2970553783007,
+          "min": 7344.0,
+          "max": 11612.0
+        },
+        "rec_gain": {
+          "n": 32,
+          "mean": 11857.71875,
+          "sd": 957.0555109334382,
+          "min": 8661.875,
+          "max": 13572.5
+        }
+      },
+      "costs": {
+        "maintenance": {
+          "n": 32,
+          "mean": 1591.1555907854545,
+          "sd": 147.18519263173022,
+          "min": 1149.987803657103,
+          "max": 1890.5146984669084
+        },
+        "spikes": {
+          "n": 32,
+          "mean": 23.974125,
+          "sd": 1.6841766773842826,
+          "min": 19.12,
+          "max": 27.024
+        },
+        "motor": {
+          "n": 32,
+          "mean": 23.949375,
+          "sd": 1.6822575797172463,
+          "min": 19.1,
+          "max": 26.994
+        },
+        "messages": {
+          "n": 32,
+          "mean": 35.7565625,
+          "sd": 2.765119293203308,
+          "min": 27.485,
+          "max": 40.163000000000004
+        },
+        "division_claims": {
+          "n": 32,
+          "mean": 43.34375,
+          "sd": 3.6905229544631415,
+          "min": 33.5,
+          "max": 50.5
+        },
+        "secretion": {
+          "n": 32,
+          "mean": 112.78615314603397,
+          "sd": 10.39352611507999,
+          "min": 82.35196947099922,
+          "max": 134.5122921807612
+        },
+        "misses": {
+          "n": 32,
+          "mean": 726.25,
+          "sd": 59.55479992031194,
+          "min": 630.0,
+          "max": 850.0
+        },
+        "receptors": {
+          "n": 32,
+          "mean": 11.85771875,
+          "sd": 0.9570555109334383,
+          "min": 8.661875,
+          "max": 13.5725
+        },
+        "wrong_choices": {
+          "n": 32,
+          "mean": 312.5,
+          "sd": 68.39166144230384,
+          "min": 200.0,
+          "max": 450.0
+        }
+      },
+      "status_counts": {
+        "extinct": 0,
+        "guard_cells": 0,
+        "guard_events": 0,
+        "raster_overflow": 0,
+        "fate_overflow": 0,
+        "chem_clamp": 0,
+        "ledger_mismatch": 0,
+        "capacity": 0,
+        "wall": 0
+      }
+    }
+  ],
+  "early_development": [
+    {
+      "role": "AM_reference",
+      "T": 85,
+      "seed": 52430000,
+      "log_total": 101,
+      "log_saved": 101,
+      "log_complete": true,
+      "snapshots": {
+        "14": {
+          "live_cells": 26,
+          "sense_plane_cells": 14,
+          "off_center_sense_cells": 13,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 13,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "15": {
+          "live_cells": 29,
+          "sense_plane_cells": 15,
+          "off_center_sense_cells": 14,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 14,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "25": {
+          "live_cells": 75,
+          "sense_plane_cells": 40,
+          "off_center_sense_cells": 39,
+          "off_center_sense_positions": [
+            [
+              -4,
+              2,
+              0
+            ],
+            [
+              -3,
+              0,
+              0
+            ],
+            [
+              -3,
+              1,
+              0
+            ],
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -3,
+              3,
+              0
+            ],
+            [
+              -2,
+              -2,
+              0
+            ],
+            [
+              -2,
+              -1,
+              0
+            ],
+            [
+              -2,
+              0,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -2,
+              3,
+              0
+            ],
+            [
+              -2,
+              4,
+              0
+            ],
+            [
+              -1,
+              -2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              -1,
+              3,
+              0
+            ],
+            [
+              0,
+              -2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              3,
+              0
+            ],
+            [
+              1,
+              -3,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              -3,
+              0
+            ],
+            [
+              2,
+              -2,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              2,
+              2,
+              0
+            ],
+            [
+              3,
+              -3,
+              0
+            ],
+            [
+              3,
+              -2,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 39,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 3.4641016151377544
+        }
+      }
+    },
+    {
+      "role": "AN_start",
+      "T": 85,
+      "seed": 52430000,
+      "log_total": 86,
+      "log_saved": 86,
+      "log_complete": true,
+      "snapshots": {
+        "14": {
+          "live_cells": 28,
+          "sense_plane_cells": 14,
+          "off_center_sense_cells": 13,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 13,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "15": {
+          "live_cells": 31,
+          "sense_plane_cells": 15,
+          "off_center_sense_cells": 14,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 14,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "25": {
+          "live_cells": 70,
+          "sense_plane_cells": 36,
+          "off_center_sense_cells": 35,
+          "off_center_sense_positions": [
+            [
+              -3,
+              0,
+              0
+            ],
+            [
+              -3,
+              1,
+              0
+            ],
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -3,
+              3,
+              0
+            ],
+            [
+              -2,
+              -1,
+              0
+            ],
+            [
+              -2,
+              0,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -2,
+              3,
+              0
+            ],
+            [
+              -1,
+              -2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              -1,
+              3,
+              0
+            ],
+            [
+              0,
+              -2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              3,
+              0
+            ],
+            [
+              1,
+              -3,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              -3,
+              0
+            ],
+            [
+              2,
+              -2,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              3,
+              -3,
+              0
+            ],
+            [
+              3,
+              -2,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 35,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 3.0
+        }
+      }
+    },
+    {
+      "role": "unchanged8",
+      "T": 85,
+      "seed": 52430000,
+      "log_total": 85,
+      "log_saved": 85,
+      "log_complete": true,
+      "snapshots": {
+        "14": {
+          "live_cells": 29,
+          "sense_plane_cells": 14,
+          "off_center_sense_cells": 13,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 13,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "15": {
+          "live_cells": 35,
+          "sense_plane_cells": 16,
+          "off_center_sense_cells": 15,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 15,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 3.0
+        },
+        "25": {
+          "live_cells": 67,
+          "sense_plane_cells": 34,
+          "off_center_sense_cells": 33,
+          "off_center_sense_positions": [
+            [
+              -3,
+              0,
+              0
+            ],
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -2,
+              -1,
+              0
+            ],
+            [
+              -2,
+              0,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -2,
+              3,
+              0
+            ],
+            [
+              -1,
+              -2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              -1,
+              3,
+              0
+            ],
+            [
+              0,
+              -2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -3,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              -3,
+              0
+            ],
+            [
+              2,
+              -2,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              3,
+              -2,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ],
+            [
+              3,
+              1,
+              0
+            ],
+            [
+              4,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 33,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 3.605551275463989
+        }
+      }
+    },
+    {
+      "role": "unchanged24",
+      "T": 85,
+      "seed": 52430000,
+      "log_total": 82,
+      "log_saved": 82,
+      "log_complete": true,
+      "snapshots": {
+        "14": {
+          "live_cells": 26,
+          "sense_plane_cells": 14,
+          "off_center_sense_cells": 13,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 13,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "15": {
+          "live_cells": 31,
+          "sense_plane_cells": 15,
+          "off_center_sense_cells": 14,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 14,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 3.0
+        },
+        "25": {
+          "live_cells": 58,
+          "sense_plane_cells": 32,
+          "off_center_sense_cells": 31,
+          "off_center_sense_positions": [
+            [
+              -3,
+              3,
+              0
+            ],
+            [
+              -2,
+              0,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -2,
+              3,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -3,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              -3,
+              0
+            ],
+            [
+              2,
+              -2,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              3,
+              -3,
+              0
+            ],
+            [
+              3,
+              -2,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ],
+            [
+              3,
+              1,
+              0
+            ],
+            [
+              4,
+              -1,
+              0
+            ],
+            [
+              4,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 31,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 4.0
+        }
+      }
+    },
+    {
+      "role": "balanced8",
+      "T": 85,
+      "seed": 52430000,
+      "log_total": 124,
+      "log_saved": 124,
+      "log_complete": true,
+      "snapshots": {
+        "14": {
+          "live_cells": 33,
+          "sense_plane_cells": 15,
+          "off_center_sense_cells": 14,
+          "off_center_sense_positions": [
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 14,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.6457513110645907
+        },
+        "15": {
+          "live_cells": 41,
+          "sense_plane_cells": 17,
+          "off_center_sense_cells": 16,
+          "off_center_sense_positions": [
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 16,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.6457513110645907
+        },
+        "25": {
+          "live_cells": 89,
+          "sense_plane_cells": 44,
+          "off_center_sense_cells": 43,
+          "off_center_sense_positions": [
+            [
+              -4,
+              2,
+              0
+            ],
+            [
+              -4,
+              3,
+              0
+            ],
+            [
+              -4,
+              4,
+              0
+            ],
+            [
+              -3,
+              1,
+              0
+            ],
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -3,
+              3,
+              0
+            ],
+            [
+              -3,
+              4,
+              0
+            ],
+            [
+              -2,
+              -2,
+              0
+            ],
+            [
+              -2,
+              -1,
+              0
+            ],
+            [
+              -2,
+              0,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -2,
+              3,
+              0
+            ],
+            [
+              -2,
+              4,
+              0
+            ],
+            [
+              -1,
+              -2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              -1,
+              3,
+              0
+            ],
+            [
+              0,
+              -3,
+              0
+            ],
+            [
+              0,
+              -2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -4,
+              0
+            ],
+            [
+              1,
+              -3,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              -3,
+              0
+            ],
+            [
+              2,
+              -2,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              3,
+              -4,
+              0
+            ],
+            [
+              3,
+              -3,
+              0
+            ],
+            [
+              3,
+              -2,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ],
+            [
+              4,
+              -2,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 43,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 4.0
+        }
+      }
+    },
+    {
+      "role": "balanced24",
+      "T": 85,
+      "seed": 52430000,
+      "log_total": 95,
+      "log_saved": 95,
+      "log_complete": true,
+      "snapshots": {
+        "14": {
+          "live_cells": 29,
+          "sense_plane_cells": 14,
+          "off_center_sense_cells": 13,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 13,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "15": {
+          "live_cells": 33,
+          "sense_plane_cells": 15,
+          "off_center_sense_cells": 14,
+          "off_center_sense_positions": [
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 14,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 2.0
+        },
+        "25": {
+          "live_cells": 71,
+          "sense_plane_cells": 36,
+          "off_center_sense_cells": 35,
+          "off_center_sense_positions": [
+            [
+              -3,
+              0,
+              0
+            ],
+            [
+              -3,
+              1,
+              0
+            ],
+            [
+              -3,
+              2,
+              0
+            ],
+            [
+              -3,
+              3,
+              0
+            ],
+            [
+              -2,
+              -1,
+              0
+            ],
+            [
+              -2,
+              0,
+              0
+            ],
+            [
+              -2,
+              1,
+              0
+            ],
+            [
+              -2,
+              2,
+              0
+            ],
+            [
+              -2,
+              3,
+              0
+            ],
+            [
+              -1,
+              -2,
+              0
+            ],
+            [
+              -1,
+              -1,
+              0
+            ],
+            [
+              -1,
+              0,
+              0
+            ],
+            [
+              -1,
+              1,
+              0
+            ],
+            [
+              -1,
+              2,
+              0
+            ],
+            [
+              -1,
+              3,
+              0
+            ],
+            [
+              0,
+              -2,
+              0
+            ],
+            [
+              0,
+              -1,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              3,
+              0
+            ],
+            [
+              1,
+              -3,
+              0
+            ],
+            [
+              1,
+              -2,
+              0
+            ],
+            [
+              1,
+              -1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              2,
+              -3,
+              0
+            ],
+            [
+              2,
+              -2,
+              0
+            ],
+            [
+              2,
+              -1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              3,
+              -3,
+              0
+            ],
+            [
+              3,
+              -2,
+              0
+            ],
+            [
+              3,
+              -1,
+              0
+            ],
+            [
+              3,
+              0,
+              0
+            ]
+          ],
+          "cumulative_off_center_sense_births": 35,
+          "first_off_center_sense_birth": 4.588794022805373,
+          "max_body_relative_sense_radius": 3.0
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Developmental/accessibility diagnostic only: 32 shared fresh seeds are not the plan0.4 512-seed admission or an information-payoff test.",
+    "Every scheduled endpoint and outcome is retained. Guards, numerical status, truncated fates, or full/fast disagreement limit interpretation; no replacement or outcome-based exclusion is permitted.",
+    "F is ABI5 physical net reward per task duration, including the default guard charge. No extra selection extinction surcharge, repricing, or behavioral intervention is added.",
+    "Positive F or capture counts cannot establish conditional matching: sample-blind random resolved choices earn +225 gross on average before physical costs. Inspect both sample classes, choice coverage, timeouts, and unfinished trials.",
+    "T14/15/25 development comes from the single predeclared first seed per endpoint at T85. Off-center means z=0 and (a,b)!=(0,0) relative to the body lattice; this describes potential spatial sensing, not current receptor gain, body displacement, or effective cue discrimination.",
+    "Snapshots include births and deaths at the stated cutoff and count rejected placements separately in raw logs. Sample duration is 15\u201325; t14 is before its earliest end, t15 the earliest boundary, and t25 the latest boundary. Actual scalar cue exposure also depends on motion.",
+    "Durations share seeds, but T85 need not be a strict observable prefix of T1024 because terminal scheduling/accounting can differ. No neural-memory or prediction claim follows from this baseline; retained body state is legitimate embodied memory.",
+    "A stopped attempt retains its available rows and counts; missing planned rows remain missing. No automatic retry, top-up, selection, evolution, or extra startup life is allowed."
+  ],
+  "valid": true
+}

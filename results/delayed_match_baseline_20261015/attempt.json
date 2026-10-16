@@ -1,0 +1,27 @@
+{
+  "monitor": {
+    "pid": 2,
+    "ppid": 1,
+    "pgid": 1,
+    "start_ticks": 11766446
+  },
+  "pid_namespace": "pid:[4026535321]",
+  "protocol_sha256": "35a4af4a9ab1f78bf15732ff4a0af73763b41ed7cad97c61921252343eac4bf7",
+  "release_sha256": "664c8f3575b84cc18c888b298de9ba551e9354c4dedac35568e9d3393491b111",
+  "command": [
+    "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+    "-u",
+    "/home/jgon/project/ml/cell-dev/outputs/delayed_match_baseline_20261015/worker.py",
+    "--run-child"
+  ],
+  "budget": {
+    "cpu_seconds": 600,
+    "wall_seconds": 900,
+    "workers": 1,
+    "threads": 1,
+    "cleanup_margin_seconds": 5,
+    "rss_bytes": 2147483648,
+    "address_space_bytes": 8589934592,
+    "minimum_available_bytes": 4294967296
+  }
+}

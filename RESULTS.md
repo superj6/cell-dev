@@ -3897,3 +3897,30 @@ classes, narrow/broad/no-choice counts, physical costs, guards and unfinished tr
 insufficient evidence of matching; sensory-plane occupancy alone does not show functional cue decoding.
 This is a development diagnostic, not the 512-seed sensory-information admission test. No lives have
 run at this prospective registration. Evidence: `results/delayed_match_baseline_20261015/`.
+
+## 2026-10-15 — Delayed-matching baseline complete: pursuit transfers, conditional matching not demonstrated
+
+All six fixed genomes reach targets in the richer environment, but their observed choices strongly favor
+the broad shape regardless of the earlier sample. Across 32 shared T1024 development lives per genome,
+**97.2–99.8% of completed choices are broad**. Correct narrow choices cover only **0.47–2.75%** of narrow-cue
+opportunities, while correct broad choices cover **92.66–96.36%** of broad-cue opportunities. Near-half
+overall correctness and some positive fitness therefore do not demonstrate conditional matching or memory.
+Repeated trials belong to 32 life clusters, not hundreds of independent lives.
+
+At T85, each life opens one opportunity: 17 narrow and 15 broad samples. Only 0–2 narrow choices are correct
+per genome. All six predetermined full traces develop an off-center sensory-plane cell at t4.588794 and
+have 13–14 such cells at t14, before the earliest sample disappearance. This establishes early physical
+sensor positions in those traces, not functional receptor gain, cue decoding or stable exposure during motion.
+The diagnostic selects no new champion and establishes neither world admission nor an evolutionary gradient.
+
+All **390 calls** finish in **29.254298 CPU /29.605673 wall seconds**, peak owned memory 324.101562 MiB.
+All statuses are zero; six full/fast ledger repeats match bitwise and all worker descendants are cleared.
+Independent arithmetic reconciles all 390 rows, costs and class counts. Public reanalysis reproduces the
+summary, CSV and generated report byte-for-byte. Preparation's native-CSV fidelity amendment preceded all
+lives; original files remain archived. There is no retry, replacement, evolution or additional startup life.
+
+Next measure the payoff of retained sample information while preserving current sensing and movement.
+The external instrument's memory-erased and never-stored arms already match in engineering checks;
+scientific development and confirmation remain pending. Earlier tasks remain retention checks, and this
+entire baseline block 143 is development-only. Report: `results/delayed_match_baseline_20261015/TERMINAL_REPORT.md`.
+Prospective commit 04613c9; protocol 35a4af4a…c4bf7; summary 90323020…1805e.

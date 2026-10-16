@@ -1,0 +1,304 @@
+{
+  "status": "passed",
+  "simulation_calls": 0,
+  "rows_checked": 390,
+  "fast_full_pairs_checked": 6,
+  "source_sha256": "71eba3db0db1436c3623ffa62708a8cfd8947642ed40128d8989e148e617ca94",
+  "protocol_sha256": "35a4af4a9ab1f78bf15732ff4a0af73763b41ed7cad97c61921252343eac4bf7",
+  "summary_sha256": "90323020862e102549f07c9a475b868aa4c8bb81fb8085e4fa0274cafa31805e",
+  "row_index_sha256": "f480930092641c3bb01a0d258f2cead2181006f35da5a6a8934459ae1aa57b90",
+  "max_native_cost_roundoff": 1.7180354916490614e-09,
+  "findings": [
+    {
+      "role": "AM_reference",
+      "T": 85,
+      "F_mean": -1.586176896567525,
+      "F_se": 0.516341533454038,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 10,
+          "no_completed_choice": 7,
+          "choice_coverage": 0.5882352941176471,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 11,
+          "no_completed_choice": 4,
+          "choice_coverage": 0.7333333333333333,
+          "accuracy_among_choices": 1.0
+        }
+      }
+    },
+    {
+      "role": "AN_start",
+      "T": 85,
+      "F_mean": -0.7988162174644972,
+      "F_se": 0.5370775868539727,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 15,
+          "no_completed_choice": 2,
+          "choice_coverage": 0.8823529411764706,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "total_opportunities": 15,
+          "narrow_choice": 1,
+          "broad_choice": 13,
+          "no_completed_choice": 1,
+          "choice_coverage": 0.9333333333333333,
+          "accuracy_among_choices": 0.9285714285714286
+        }
+      }
+    },
+    {
+      "role": "unchanged8",
+      "T": 85,
+      "F_mean": 0.2006743881347383,
+      "F_se": 0.5526278211498806,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 17,
+          "narrow_choice": 2,
+          "broad_choice": 12,
+          "no_completed_choice": 3,
+          "choice_coverage": 0.8235294117647058,
+          "accuracy_among_choices": 0.14285714285714285
+        },
+        "broad": {
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 14,
+          "no_completed_choice": 1,
+          "choice_coverage": 0.9333333333333333,
+          "accuracy_among_choices": 1.0
+        }
+      }
+    },
+    {
+      "role": "unchanged24",
+      "T": 85,
+      "F_mean": -0.061030697668636974,
+      "F_se": 0.5565592787166841,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 15,
+          "no_completed_choice": 2,
+          "choice_coverage": 0.8823529411764706,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 15,
+          "no_completed_choice": 0,
+          "choice_coverage": 1.0,
+          "accuracy_among_choices": 1.0
+        }
+      }
+    },
+    {
+      "role": "balanced8",
+      "T": 85,
+      "F_mean": -0.6969855426360518,
+      "F_se": 0.5315834726340315,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 17,
+          "narrow_choice": 0,
+          "broad_choice": 10,
+          "no_completed_choice": 7,
+          "choice_coverage": 0.5882352941176471,
+          "accuracy_among_choices": 0.0
+        },
+        "broad": {
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 14,
+          "no_completed_choice": 1,
+          "choice_coverage": 0.9333333333333333,
+          "accuracy_among_choices": 1.0
+        }
+      }
+    },
+    {
+      "role": "balanced24",
+      "T": 85,
+      "F_mean": -0.5871366894185193,
+      "F_se": 0.5619977609415626,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 17,
+          "narrow_choice": 1,
+          "broad_choice": 13,
+          "no_completed_choice": 3,
+          "choice_coverage": 0.8235294117647058,
+          "accuracy_among_choices": 0.07142857142857142
+        },
+        "broad": {
+          "total_opportunities": 15,
+          "narrow_choice": 0,
+          "broad_choice": 13,
+          "no_completed_choice": 2,
+          "choice_coverage": 0.8666666666666667,
+          "accuracy_among_choices": 1.0
+        }
+      }
+    },
+    {
+      "role": "AM_reference",
+      "T": 1024,
+      "F_mean": 0.002062481385684975,
+      "F_se": 0.10216563158711961,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 211,
+          "narrow_choice": 1,
+          "broad_choice": 198,
+          "no_completed_choice": 12,
+          "choice_coverage": 0.943127962085308,
+          "accuracy_among_choices": 0.005025125628140704
+        },
+        "broad": {
+          "total_opportunities": 218,
+          "narrow_choice": 0,
+          "broad_choice": 202,
+          "no_completed_choice": 16,
+          "choice_coverage": 0.926605504587156,
+          "accuracy_among_choices": 1.0
+        }
+      }
+    },
+    {
+      "role": "AN_start",
+      "T": 1024,
+      "F_mean": 0.4714622182208398,
+      "F_se": 0.12950269680662865,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 213,
+          "narrow_choice": 4,
+          "broad_choice": 207,
+          "no_completed_choice": 2,
+          "choice_coverage": 0.9906103286384976,
+          "accuracy_among_choices": 0.018957345971563982
+        },
+        "broad": {
+          "total_opportunities": 221,
+          "narrow_choice": 2,
+          "broad_choice": 207,
+          "no_completed_choice": 12,
+          "choice_coverage": 0.9457013574660633,
+          "accuracy_among_choices": 0.9904306220095693
+        }
+      }
+    },
+    {
+      "role": "unchanged8",
+      "T": 1024,
+      "F_mean": 0.8111240111464036,
+      "F_se": 0.13801848430515776,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 222,
+          "narrow_choice": 6,
+          "broad_choice": 207,
+          "no_completed_choice": 9,
+          "choice_coverage": 0.9594594594594594,
+          "accuracy_among_choices": 0.028169014084507043
+        },
+        "broad": {
+          "total_opportunities": 226,
+          "narrow_choice": 6,
+          "broad_choice": 210,
+          "no_completed_choice": 10,
+          "choice_coverage": 0.9557522123893806,
+          "accuracy_among_choices": 0.9722222222222222
+        }
+      }
+    },
+    {
+      "role": "unchanged24",
+      "T": 1024,
+      "F_mean": 0.721620383742168,
+      "F_se": 0.1383295919731058,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 222,
+          "narrow_choice": 6,
+          "broad_choice": 208,
+          "no_completed_choice": 8,
+          "choice_coverage": 0.963963963963964,
+          "accuracy_among_choices": 0.028037383177570093
+        },
+        "broad": {
+          "total_opportunities": 225,
+          "narrow_choice": 6,
+          "broad_choice": 214,
+          "no_completed_choice": 5,
+          "choice_coverage": 0.9777777777777777,
+          "accuracy_among_choices": 0.9727272727272728
+        }
+      }
+    },
+    {
+      "role": "balanced8",
+      "T": 1024,
+      "F_mean": -0.036320573026836375,
+      "F_se": 0.12495023670444501,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 212,
+          "narrow_choice": 1,
+          "broad_choice": 199,
+          "no_completed_choice": 12,
+          "choice_coverage": 0.9433962264150944,
+          "accuracy_among_choices": 0.005
+        },
+        "broad": {
+          "total_opportunities": 218,
+          "narrow_choice": 2,
+          "broad_choice": 208,
+          "no_completed_choice": 8,
+          "choice_coverage": 0.963302752293578,
+          "accuracy_among_choices": 0.9904761904761905
+        }
+      }
+    },
+    {
+      "role": "balanced24",
+      "T": 1024,
+      "F_mean": 0.5123796140805776,
+      "F_se": 0.1415802970336028,
+      "classes": {
+        "narrow": {
+          "total_opportunities": 218,
+          "narrow_choice": 6,
+          "broad_choice": 199,
+          "no_completed_choice": 13,
+          "choice_coverage": 0.9403669724770642,
+          "accuracy_among_choices": 0.02926829268292683
+        },
+        "broad": {
+          "total_opportunities": 220,
+          "narrow_choice": 1,
+          "broad_choice": 212,
+          "no_completed_choice": 7,
+          "choice_coverage": 0.9681818181818181,
+          "accuracy_among_choices": 0.9953051643192489
+        }
+      }
+    }
+  ],
+  "cpu_seconds": 0.119594105,
+  "max_rss_kib": 224152,
+  "limitation": "Arithmetic and class-count recount only; not independent genetic replay or memory inference."
+}
