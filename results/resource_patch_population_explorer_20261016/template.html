@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Food acquisition · population explorer</title>
+<style>
+:root{font:16px/1.5 system-ui,sans-serif;color:#18283c;background:#f4f6f8;color-scheme:light}
+*{box-sizing:border-box}body{max-width:1320px;margin:32px auto;padding:0 22px}h1{font-size:2rem;line-height:1.15;margin-bottom:10px}
+h2{font-size:1.1rem;margin:0 0 8px}p{max-width:100ch;color:#42536a}.eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#456377}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0 12px}select,button{font:inherit;padding:8px 12px;border:1px solid #9aabba;border-radius:7px;background:white;color:inherit}select{max-width:100%}button{cursor:pointer}
+.legend{display:flex;gap:9px 20px;flex-wrap:wrap;font-size:.87rem;margin:16px 0}.key{display:inline-flex;gap:7px;align-items:center}.dot{width:11px;height:11px;border-radius:50%;display:inline-block}.ring{width:17px;height:17px;border:2px solid #42536a;border-radius:50%;display:inline-block}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}.plots{display:grid;grid-template-columns:1fr 1fr;gap:14px}.plot,.details{background:#fff;border:1px solid #d9e1e8;border-radius:12px;padding:14px}.plot p{font-size:.8rem;margin:0}.details{position:sticky;top:16px}.details p{font-size:.87rem}.empty{padding:14px 0;color:#54677b}.meta{font-size:.86rem;color:#43566a}.badge{display:inline-block;font-size:.76rem;padding:3px 7px;background:#eaf0f6;border-radius:5px;margin:6px 0}
+svg{width:100%;height:auto;display:block;overflow:visible}.axis{stroke:#718297;stroke-width:1}.grid{stroke:#e7edf2;stroke-width:1}.tick{fill:#607286;font-size:10px}.axis-label{fill:#34485f;font-size:11px}.reference{stroke:#7c8792;stroke-dasharray:3 4;stroke-width:1;opacity:.75}.point{cursor:pointer;outline:none}.point:focus .marker{stroke:#101c2e;stroke-width:2.5}.marker{transition:opacity .1s}.halo{fill:none;stroke:#172c48;stroke-width:2.2;pointer-events:none}.uncertainty{stroke:#172c48;stroke-width:1.5;pointer-events:none}.fixed{fill:none;stroke-width:1.8;pointer-events:none}
+table{width:100%;border-collapse:collapse;font-size:.79rem;font-variant-numeric:tabular-nums}th,td{padding:7px 4px;border-bottom:1px solid #e4e9ee;text-align:right}th:first-child,td:first-child{text-align:left}caption{text-align:left;font-size:.82rem;color:#53667c;margin:8px 0}.table-wrap{overflow:auto}details{margin-top:12px;font-size:.83rem}summary{cursor:pointer}.muted{color:#607286}footer{margin-top:20px;font-size:.82rem;color:#56687b}code{font-size:.8em;word-break:break-all}a{color:#285f88}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.details{position:static}}@media(max-width:680px){body{padding:0 12px;margin:22px auto}.plots{grid-template-columns:1fr}h1{font-size:1.65rem}}
+</style>
+<div class="eyebrow">Completed development panel · 97 fixed genomes</div>
+<h1>Which abilities travel together?</h1>
+<p>Explore food acquisition across five tasks. Every point is one genome, measured on the same 32 fresh life
+seeds in each task. Hover, focus or select a point to follow that <strong>same genome across all four plots</strong>.
+Click to keep it selected; use the menu to reach overlapping points.</p>
+<div class="legend" id="legend"></div>
+<div class="controls"><label for="row">Explore a genome</label><select id="row"><option value="">No selection</option></select><button id="clear" type="button">Clear selection</button></div>
+<p class="muted" style="font-size:.86rem">Outlined circles are historical reporting genomes; the star is the unchanged AO reference.
+Dotted lines mark AO's means. Selection adds ±1 standard-error bars, not confidence bounds.</p>
+<div class="layout"><main class="plots" id="plots"></main><aside class="details" id="details" aria-live="polite"></aside></div>
+<footer><strong>Development evidence, not a certified replacement.</strong> These are 32-life means, with standard errors across
+life seeds. Genomes share seeds and are not independent replicates. Overlap and rank differences are exploratory;
+examining many survivors creates selection optimism. All rows, including any duplicate genotypes, are retained.
+No historical endpoint is replaced, no new evolution was run, and this view makes no memory or generalization claim.
+<details><summary>Source and display notes</summary><p>Exact coordinates reproduce the saved population-acquisition plot:
+patch captures on x, task captures on y. Each selected table includes all five tasks. Fitness is the ordinary production
+score; energy cost is the physical life total. Refilled-food counts apply to patch worlds only. Fresh ranks use the
+original minimum capture fraction across the three training tasks, then weighted fitness, within each population.
+Those fractions use fixed historical AO reference means, rather than the AO estimates displayed in this panel.
+These ranks describe this panel; they do not choose new reporting genomes.</p><div id="provenance"></div></details></footer>
+<script type="application/json" id="data">__DATA__</script>
+<script>__CLIENT__</script>
+</html>

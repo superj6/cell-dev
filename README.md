@@ -16,6 +16,10 @@ brightness is held constant. This is useful transfer and sensory feedback, witho
 The [measurement](results/resource_patch_modulation_20261015/REPORT.md) and
 [current evidence map](docs/RESEARCH_STATUS.md) distinguish inherited behavior, new adaptation and open questions.
 
+[Explore the surviving populations](results/resource_patch_population_explorer_20261016/population_explorer.html):
+select one of 97 saved genomes to follow its food-acquisition strengths across five tasks. Linked plots and
+uncertainty bars show the same genome in every comparison; these development measurements do not certify a new winner.
+
 [Watch the persistent-target comparison](results/atlas/persistent_target.html): the new selected mutants beside
 their parents, with the measured capture gains and cost savings from 512 fresh paired lives.
 

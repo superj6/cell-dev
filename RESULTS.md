@@ -4292,3 +4292,21 @@ Source checks, 14 supplied-data tests and exact-input review precede publication
 Protocol `86593f75…2653bb`; evidence: `results/resource_patch_depth_20261015/`. This registration records no new organism outcome.
 Reassess cumulative acquisition and retention after this bounded continuation, then reconsider a richer
 accessible interaction rather than automatically making another selection tweak.
+
+## 2026-10-16 — Linked population explorer from completed measurements
+
+The standalone [population explorer](results/resource_patch_population_explorer_20261016/population_explorer.html)
+links all 97 fixed genomes across four plots: trained-patch captures against POOL, persistent pursuit,
+longer-gap pursuit and the revealed two-patch arrangement. Hover, keyboard focus or selection highlights the
+same genome throughout. Selected rows show all five task means, standard errors, historical endpoint status
+and descriptive cached/fresh ranks. Historical AO scales used for ranking are distinguished from the displayed
+32-life AO estimates. No endpoint is replaced.
+
+All 485 CSV rows and 3,880 embedded numeric values reconcile exactly with the completed population archive.
+Root and independent reviews confirm identities, markers, axes and uncertainty labels; syntax checks pass.
+No real browser was tested. Rendering and two wording corrections use saved data only: zero simulations,
+builds or scientific random draws. Original receipts and final mapping checks are retained.
+The ongoing depth study's frozen files, budget and scientific inputs remain unchanged.
+
+Evidence: `results/resource_patch_population_explorer_20261016/`; manifest
+`9022e94b4f15eaee9ca225ac05f9e98fb69cd77b9f0c4b360be6b92f851db65e`.

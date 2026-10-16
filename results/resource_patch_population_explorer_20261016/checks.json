@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "verification_sha256": "9c3028020326db49ef469c7faaca954f53c1ec93683a50ade387c303c8009a80",
+  "html_sha256": "781e4810c5c5de91a573194d6748e208025bbed762c277fcd14d226a19566223",
+  "checks": {
+    "Ruff": "passed",
+    "AST": "passed",
+    "node_syntax": "passed",
+    "real_browser_tested": false,
+    "root_source_review": "passed",
+    "independent_data_review": "passed before two wording-only amendments"
+  },
+  "resources": {
+    "initial_checks": {
+      "cpu_seconds": 0.34,
+      "wall_seconds": 0.34,
+      "peak_rss_kib": 62840
+    },
+    "final_render_resource_log": "render_resources.txt"
+  },
+  "logs": {
+    "render_resources.txt": "6f2fda74b4efa04975de921f783548c893468799b3d277354feff0a8b769dce6",
+    "render_stdout.json": "9c3028020326db49ef469c7faaca954f53c1ec93683a50ade387c303c8009a80",
+    "render_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "new_simulations": 0,
+  "new_builds": 0,
+  "new_random_draws": 0,
+  "presentation_amendments": [
+    "Space in cached-rank label",
+    "Clarify fixed historical AO reference scales for joint fractions"
+  ],
+  "initial_checks_sha256": "0a244b6e7da331d784dad5d14cd1b4e2f3b7af43299dc0940d86ca3ad3f80698"
+}
