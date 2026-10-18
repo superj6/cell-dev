@@ -1,0 +1,93 @@
+# Eight conditions covering several demands; all contribute to selection every generation.
+extends: life_speck.yaml
+seed: 61018001
+threads: 2
+
+evolve:
+  selection: epsilon_lexicase
+  epsilon_multiplier: 1.0
+  mu: 32
+  lam: 224
+  archive_size: 64
+  seed_genome: null
+  seed_population: null       # whole original 32-row population, supplied per lineage
+  seed_archive: null          # all 64 final flash current/archive rows, supplied per lineage
+  generations: 250
+  recheck_k: 128              # recheck filters 128 candidates down to 96 breeding genomes
+  recheck_lives: 16
+  recheck_key: all
+  dup_rate: 0.0
+  del_rate: 0.0
+
+life:
+  abi: 7
+  control: multitask
+  world: catch_speck_l4
+  T: 1024
+  T_choices: null
+  lives: 16
+  founder_lives: 16
+  heldout: []
+  training_tasks:
+    - name: pool
+      world: catch_speck_l4
+      overrides: {d_min: 0.25, d0: 0.5, sigma: 0.4, lam_s: 4.0}
+    - {name: persistent, world: catch_speck_l4, overrides: {v_t: 0.3, tau_turn: 200.0}}
+    - {name: flash10, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.1}}
+    - {name: flash00, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.0}}
+    - name: matching
+      world: catch_delayed_match_l4
+      overrides: {blank_min: 5.0, blank_max: 10.0}
+    - {name: patches, world: catch_resource_patches_l4}
+    - {name: contact_food, world: catch_contact_resources_l4}
+    - name: harmful_decoy
+      world: catch_speck_l4
+      overrides: {b2_amp: 1.0, b2_sigma: 1.5, b2_value: -100.0, b2_p: 1.0}
+  capability_panel:
+    every: 25
+    at: [125, 250]
+    top: 16
+    lives: 16
+    seed: 61018800
+    tasks: ${life.training_tasks}
+
+confirmation:
+  stages: [0, 125, 250]
+  seed: 61018900
+  development_lives: 32
+  lives: 512
+  reserved_tasks:
+    - name: pool_transfer
+      world: catch_speck_l4
+      overrides: {d_min: 0.25, d0: 0.5, sigma: 0.5, lam_s: 4.0, v_t: 0.15, tau_turn: 35.0}
+    - {name: persistent_transfer, world: catch_speck_l4, overrides: {v_t: 0.4, tau_turn: 100.0}}
+    - name: flash_dim_transfer
+      world: catch_speck_flash5_dim25_l4
+      overrides: {visibility_on: 3.0, visibility_low: 0.03}
+    - name: flash_dark_transfer
+      world: catch_speck_flash5_dim25_l4
+      overrides: {visibility_on: 2.5, visibility_low: 0.0}
+    - name: matching_transfer
+      world: catch_delayed_match_l4
+      overrides: {blank_min: 20.0, blank_max: 40.0, b2_sigma: 1.4, R_min: 2.5, R_max: 4.5}
+    - name: patches_transfer
+      world: catch_resource_patches_l4
+      overrides: {patch_count: 4, patch_capacity: 3, patch_refill_fast: 100.0, patch_refill_slow: 220.0,
+                  R_min: 2.5, R_max: 4.5}
+    - name: contact_food_transfer
+      world: catch_contact_resources_l4
+      overrides: {patch_count: 4, patch_capacity: 3, patch_contact_delay: 120.0,
+                  patch_refill_fast: 100.0, patch_refill_slow: 220.0, R_min: 2.5, R_max: 4.5}
+    - name: harmful_decoy_transfer
+      world: catch_speck_l4
+      overrides: {b2_amp: 0.8, b2_sigma: 1.3, b2_value: -100.0, b2_p: 1.0, v_t: 0.15, tau_turn: 35.0}
+
+world: {d_min: 0.5, d0: 1.0}
+costs_life: {}
+envelope: {enabled: false}
+clones: {every: 0}
+logging:
+  output_dir: outputs/multitask_20261018/default
+  checkpoint_every: 5
+  lineage: all
+  gif: false

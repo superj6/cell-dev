@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/audit_saved.py", line 126, in <module>
+    main()
+  File "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/audit_saved.py", line 100, in main
+    observations[f"g{stage}_{condition}"] = recount(
+                                            ^^^^^^^^
+  File "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/audit_saved.py", line 60, in recount
+    np.testing.assert_allclose(c["net"], c["income"] - c["cost"], rtol=1e-12, atol=1e-12)
+  File "/home/jgon/project/ml/cell-dev/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1780, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/home/jgon/project/ml/cell-dev/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 988, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-12, atol=1e-12
+
+Mismatched elements: 14 / 512 (2.73%)
+First 5 mismatches are at indices:
+ [28]: -34.24217594424954 (ACTUAL), -34.24217594417951 (DESIRED)
+ [36]: -70.46358524507286 (ACTUAL), -70.46358524498146 (DESIRED)
+ [121]: -18.323379568912742 (ACTUAL), -18.323379568857035 (DESIRED)
+ [138]: 123.4661983505207 (ACTUAL), 123.46619835073034 (DESIRED)
+ [167]: -21.93356558705773 (ACTUAL), -21.93356558692085 (DESIRED)
+Max absolute difference among violations: 2.746674e-10
+Max relative difference among violations: 1.5062011e-11
+ ACTUAL: array([ -913.976372, -1437.778332,  -209.171822,   454.641701,
+        -885.953021, -1232.560668, -2054.130509, -2112.546573,
+       -2008.315701, -1170.695638, -1030.209324, -1335.952648,...
+ DESIRED: array([ -913.976372, -1437.778332,  -209.171822,   454.641701,
+        -885.953021, -1232.560668, -2054.130509, -2112.546573,
+       -2008.315701, -1170.695638, -1030.209324, -1335.952648,...

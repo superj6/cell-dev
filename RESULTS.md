@@ -4438,3 +4438,68 @@ An audit-only field-alias reader error was corrected and preserved; no scientifi
 compactly; raw arrays/checkpoints remain under `outputs/flash_ladder_20261017/`. Next measure dependence on the
 initial flash in eight fixed initial/final specialists before choosing broader training. The bounded diagnostic
 removes target signal while retaining background rate; it does not isolate neural memory or mature-body effects.
+
+## 2026-10-18 — Cue dependence increases in three flash lineages; blind behavior also improves
+
+The fixed initial/final dark specialists were measured with target signal removed, reusing the previous
+normal-condition panel. The increase in benefit from target cues is **+0.018 ±0.088 captures** for AO,
+**+1.012 ±0.090** for D90, **+0.303 ±0.070** for s6 and **+0.576 ±0.080** for s8. The latter three exceed
+three paired SE; AO is unresolved. All four also improve without target signal. Thus flash adaptation
+includes both cue-dependent and cue-independent acquisition; it does not establish neural memory.
+
+These are four-way paired contrasts on 512 shared seeds per endpoint, with no endpoint reselection.
+Signal removal can affect development and motion, and the unchanged background rate does not imply
+identical background events. The already-revealed panel is an interpretation follow-up, not fresh confirmation.
+All final zero-light mean fitness values remain negative; clicks/misses increase and bodies shrink.
+
+All **4,096 new lives** complete on the first attempt in **434.72 CPU /64.86 wall seconds**, peak 1.00 GiB
+aggregate owned RSS. Independent saved-data accounting checks 8,192 new/reused rows and all summary
+moments with zero native statuses. An overstrict audit tolerance was corrected with the failed reader
+preserved; no simulations were repeated. [Report and paired measurements](results/flash_cue_probe_20261018/REPORT.md).
+
+The user correctly emphasized that the previous four brightness levels were one selected task family;
+older tasks were report-only. The next study therefore selects on the broader objectives themselves,
+preserves whole pre-flash and adapted populations, and assesses one unchanged genome across all tasks.
+
+## 2026-10-18 — Broader selection across pursuit, memory demands, resources and harmful targets
+
+The authorized next study gives four separate lineages **250 generations each**, with all eight conditions
+affecting breeding: POOL, persistent pursuit, 10%/zero residual flash brightness, delayed shape matching,
+replenishing patches, contact-triggered food and harmful-target avoidance. These cover several related
+demands in the same sensing/action substrate; they are not eight independent capabilities or obstacle navigation.
+Matching uses a shorter 5–10 blank interval during training. Ordinary prices, cellular rules and world laws
+remain unchanged. [Configuration](configs/multitask.yaml), [search and reporting rules](docs/SEARCH.md).
+
+Each lineage imports all 32 pre-flash genomes and all 64 final flash current/archive genomes. Epsilon lexicase
+uses separate task scores for mating and survival; a freshly rechecked archive keeps alternative strengths
+eligible to breed. Each generation evaluates 224 offspring and up to 96 parents on two lives per task, then
+rechecks up to 128 candidates on two more per task before retaining 32 current +64 archived genomes.
+This remains noisy selection; fixed progress panels every 25 generations are descriptive, not confirmation.
+
+At stages 0/125/250, a separate 32-life-per-training-task panel selects one genome per stage by its weakest
+task percentile, then mean percentile, mean ordinary F and ID. Every stage shares the same deduplicated
+genotype reference and tied-score handling. All choices freeze before **512 fresh lives per condition** on
+the eight training conditions and eight reserved variations. One unchanged genome faces all 16 conditions.
+Reserved variations are excluded from this study's training, not necessarily all historical exploration.
+Reports retain captures, costs, both matching classes and the origin of resource harvests, so relative balance,
+cost cutting or a portfolio of specialists cannot stand in for new individual capabilities.
+
+Maximum **7,651,336 lives**: 7,168,000 selection, 90,112 progress, 393,216 development/confirmation and eight
+startup checks. The fixed-cohort benchmark gives **11.62 lives/s at two threads and 38.26 at eight**, with
+bit-identical ledgers. Budget: **600 CPU-hours /96 elapsed hours**, four two-thread workers, nice 10,
+8 GiB owned RSS and at least 4 GiB available host memory. Estimate: **2–3 days**, subject to evolved body
+costs and search overhead. All raw evidence, fixed inputs, configurations and queue receipts remain under
+`outputs/multitask_20261018/`. No paid compute or matched selector/narrow-task control arm is included.
+This tests broader evolution and retention; it cannot isolate the causal benefit of diversity or the selector.
+
+Focused validation covers archive import, actual eligibility, exact six versus 3+resume3 and generation-zero
+resume, legacy checkpoints, unchanged older confirmation behavior and shared-stage endpoint ranking.
+The final wrapper checks source/numerical/native-library identity and refuses silent repetition of an
+interrupted confirmation call. No scientific outcome is claimed by this launch entry; live queue receipts
+are authoritative for execution state.
+
+Validation covers **85 distinct focused tests** and a **330-life short-duration end-to-end smoke**.
+The smoke's second CLI invocation reproduces the saved summary byte-for-byte with simulation/build calls
+forbidden. The benchmark uses 1,536 lives in 328.62 CPU/96.43 monitored wall seconds, peak 347 MiB.
+Original test-fixture, resolved-config and benchmark-reader mistakes are preserved under the study output;
+none changed scientific inputs or repeated the benchmark's already-completed lives.

@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "jobs_sha256": "d7f13b8c8824db5776e26b55a68bde7e3cbf880afe21aed60bb856a70ae2b308",
+  "started_at": 1792340925.0722709,
+  "monitor_cpu": 11.977695022999999,
+  "jobs": [
+    {
+      "spec": {
+        "argv": [
+          "/usr/bin/env",
+          "ATEN_CPU_CAPABILITY=avx2",
+          "CELL_DEV_CACHE=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/build-cache",
+          "TMPDIR=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/tmp",
+          "PYTHONHASHSEED=0",
+          "PYTHONDONTWRITEBYTECODE=1",
+          "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+          "-u",
+          "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/probe.py",
+          "--lineage",
+          "AO_s7"
+        ],
+        "cwd": "/home/jgon/project/ml/cell-dev/outputs/flash_ladder_20261017/checkout",
+        "id": "AO_s7",
+        "output": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/AO_s7"
+      },
+      "status": "complete",
+      "attempts": [
+        {
+          "path": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/AO_s7/queue_attempts/001",
+          "worker": {
+            "pid": 1304262,
+            "pgid": 1304262,
+            "start_ticks": 4892054
+          },
+          "cpu_seconds": 95.73919400000001,
+          "launched_at": 1792340925.1509476,
+          "owned": [
+            {
+              "pid": 1304262,
+              "pgid": 1304262,
+              "start_ticks": 4892054
+            }
+          ],
+          "exit_code": 0,
+          "error": null,
+          "stopped": false,
+          "cleanup_complete": true,
+          "remaining_owned": [],
+          "wall_seconds": 50.303058385849,
+          "finished_at": 1792340975.5673878
+        }
+      ]
+    },
+    {
+      "spec": {
+        "argv": [
+          "/usr/bin/env",
+          "ATEN_CPU_CAPABILITY=avx2",
+          "CELL_DEV_CACHE=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/build-cache",
+          "TMPDIR=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/tmp",
+          "PYTHONHASHSEED=0",
+          "PYTHONDONTWRITEBYTECODE=1",
+          "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+          "-u",
+          "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/probe.py",
+          "--lineage",
+          "D90_Z_s5"
+        ],
+        "cwd": "/home/jgon/project/ml/cell-dev/outputs/flash_ladder_20261017/checkout",
+        "id": "D90_Z_s5",
+        "output": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/D90_Z_s5"
+      },
+      "status": "complete",
+      "attempts": [
+        {
+          "path": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/D90_Z_s5/queue_attempts/001",
+          "worker": {
+            "pid": 1304263,
+            "pgid": 1304263,
+            "start_ticks": 4892059
+          },
+          "cpu_seconds": 113.854639,
+          "launched_at": 1792340925.1888242,
+          "owned": [
+            {
+              "pid": 1304263,
+              "pgid": 1304263,
+              "start_ticks": 4892059
+            }
+          ],
+          "exit_code": 0,
+          "error": null,
+          "stopped": false,
+          "cleanup_complete": true,
+          "remaining_owned": [],
+          "wall_seconds": 59.41964507102966,
+          "finished_at": 1792340984.73549
+        }
+      ]
+    },
+    {
+      "spec": {
+        "argv": [
+          "/usr/bin/env",
+          "ATEN_CPU_CAPABILITY=avx2",
+          "CELL_DEV_CACHE=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/build-cache",
+          "TMPDIR=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/tmp",
+          "PYTHONHASHSEED=0",
+          "PYTHONDONTWRITEBYTECODE=1",
+          "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+          "-u",
+          "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/probe.py",
+          "--lineage",
+          "speck_s6"
+        ],
+        "cwd": "/home/jgon/project/ml/cell-dev/outputs/flash_ladder_20261017/checkout",
+        "id": "speck_s6",
+        "output": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/speck_s6"
+      },
+      "status": "complete",
+      "attempts": [
+        {
+          "path": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/speck_s6/queue_attempts/001",
+          "worker": {
+            "pid": 1304271,
+            "pgid": 1304271,
+            "start_ticks": 4892063
+          },
+          "cpu_seconds": 123.369113,
+          "launched_at": 1792340925.2399487,
+          "owned": [
+            {
+              "pid": 1304294,
+              "pgid": 1304271,
+              "start_ticks": 4892080
+            },
+            {
+              "pid": 1304271,
+              "pgid": 1304271,
+              "start_ticks": 4892063
+            }
+          ],
+          "exit_code": 0,
+          "error": null,
+          "stopped": false,
+          "cleanup_complete": true,
+          "remaining_owned": [],
+          "wall_seconds": 64.49421238899231,
+          "finished_at": 1792340989.8391194
+        }
+      ]
+    },
+    {
+      "spec": {
+        "argv": [
+          "/usr/bin/env",
+          "ATEN_CPU_CAPABILITY=avx2",
+          "CELL_DEV_CACHE=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/build-cache",
+          "TMPDIR=/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/tmp",
+          "PYTHONHASHSEED=0",
+          "PYTHONDONTWRITEBYTECODE=1",
+          "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+          "-u",
+          "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/probe.py",
+          "--lineage",
+          "speck_s8"
+        ],
+        "cwd": "/home/jgon/project/ml/cell-dev/outputs/flash_ladder_20261017/checkout",
+        "id": "speck_s8",
+        "output": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/speck_s8"
+      },
+      "status": "complete",
+      "attempts": [
+        {
+          "path": "/home/jgon/project/ml/cell-dev/outputs/flash_cue_probe_20261018/runs/speck_s8/queue_attempts/001",
+          "worker": {
+            "pid": 1304283,
+            "pgid": 1304283,
+            "start_ticks": 4892068
+          },
+          "cpu_seconds": 89.77961599999999,
+          "launched_at": 1792340925.2866752,
+          "owned": [
+            {
+              "pid": 1304283,
+              "pgid": 1304283,
+              "start_ticks": 4892068
+            }
+          ],
+          "exit_code": 0,
+          "error": null,
+          "stopped": false,
+          "cleanup_complete": true,
+          "remaining_owned": [],
+          "wall_seconds": 47.121835708618164,
+          "finished_at": 1792340972.53187
+        }
+      ]
+    }
+  ],
+  "peak_rss_bytes": 1077293056,
+  "monitor": {
+    "pid": 1304260,
+    "pgid": 1304260,
+    "start_ticks": 4892038
+  },
+  "status": "complete",
+  "stop_reason": null,
+  "limits": {
+    "cpu_seconds": 1800,
+    "max_workers": 4,
+    "minimum_available_bytes": 4294967296,
+    "rss_bytes": 8589934592,
+    "wall_seconds": 900,
+    "threads_per_job": 2,
+    "nice": 10
+  },
+  "cpu_seconds": 434.72025702300004,
+  "wall_seconds": 64.8626275062561,
+  "rss_bytes": 19808256,
+  "available_bytes": 17670479872,
+  "updated_at": 1792340989.9350004
+}

@@ -3,8 +3,13 @@
 **2026-10-18:** shared multiworld search and four ancestral populations ×120 flash generations are complete.
 Three lineages pass the predefined two-condition capture-improvement criterion, with smaller bodies, more
 misses and limited retention in small older-task panels. No memory mechanism is established. See
-[the flash report](../results/flash_ladder_20261017/REPORT.md); current work interprets dependence on the flash
-before broader task training. `docs/HANDOFF.md` holds operating state; older entries are historical evidence.
+[the flash report](../results/flash_ladder_20261017/REPORT.md). The completed
+[cue-removal diagnostic](../results/flash_cue_probe_20261018/REPORT.md) finds added cue benefit in three
+lineages and blind-condition gains in all four. Current authorized work trains four lineages ×250 generations
+across eight conditions covering pursuit, visibility, matching, resources and harmful targets. All influence
+breeding; one unchanged reporting genome faces every task and reserved variations. This tests the user's
+retention/generalization goal more directly. `docs/HANDOFF.md` holds operating state; older entries below
+are historical evidence, including statements that the now-implemented breeding archive is only proposed.
 
 The goal is increasingly sophisticated evolved algorithms, generalization and cumulative capability in the current local asynchronous organism. We have real local computations and repeated capture improvements, but neither larger bodies nor higher fitness establishes algorithmic progress. AO is complete and independently checked: later generations added acquisition in one branch, while task allocation traded older-task retention against further gains elsewhere.
 

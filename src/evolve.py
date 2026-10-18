@@ -465,7 +465,8 @@ def evolve_life(cfg, log=print, out: Path | None = None, *, resume: dict | None 
     and lineage rows then record it (``T``). Fitness is per unit time on those lives. ``evals`` still counts genome
     evaluations, whatever their length. ``life.T`` must be one of the choices: it is the nominal length that valid,
     held-out, clone and final lives use, and a run that overrides it alone would select on other lengths."""
-    if cfg.evolve.get("selection") is not None or cfg.evolve.get("seed_population"):
+    if (cfg.evolve.get("selection") is not None or cfg.evolve.get("seed_population")
+            or cfg.evolve.get("seed_archive")):
         from src.search import evolve_family
 
         return evolve_family(cfg, log=log, out=out, resume=resume, checkpoint=checkpoint, stop_after=stop_after)

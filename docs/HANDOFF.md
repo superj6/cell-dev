@@ -1,4 +1,4 @@
-# Handoff: cell-dev — 2026-10-17
+# Handoff: cell-dev — 2026-10-18
 
 This is the operating summary. Read [SEARCH.md](SEARCH.md), [RESEARCH_STATUS.md](RESEARCH_STATUS.md),
 [TASK_VARIATION_PLAN.md §0](TASK_VARIATION_PLAN.md), and the newest entries at the bottom of
@@ -8,9 +8,26 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
-Shared multiworld search and **four whole ancestral populations for 120 generations each** on the flash
-brightness ladder are complete. Broader task diversity
-still matters: four brightness levels are four settings of one pursuit family, not four distinct capabilities.
+**Current authorized study:** four lineages ×250 generations across eight conditions in
+`configs/multitask.yaml`. All eight influence breeding: POOL, persistent pursuit, two flash levels,
+delayed matching, replenishing patches, contact-triggered food and harmful-target avoidance.
+Each lineage preserves all 96 pre-flash/final-flash current/archive genomes at startup. The archive
+has 64 slots, current population 32, offspring 224; 16 initial +16 recheck lives cover every task.
+Fresh rechecking filters 128 candidates down to 96 breeding slots. Whole checkpointed state resumes exactly.
+Run preparation and durable launch receipts are under `outputs/multitask_20261018/`; its `queue/monitor.json`
+is authoritative for actual running status. See [SEARCH.md](SEARCH.md) for exact selection/reporting rules.
+Budget: at most 7,651,336 lives including startup checks, 600 CPU-hours/96 elapsed hours, four two-thread
+workers, nice 10, 8 GiB owned RSS and 4 GiB host-memory reserve. The fixed eight-condition benchmark
+measured 11.62 lives/s at two threads and 38.26 at eight, with identical ledgers. Estimated elapsed time
+is 2–3 days; evolving bodies and search overhead can change it. Checkpoints every five generations.
+
+One reporting genome per stage (0/125/250) is chosen on training-only development lives, then tested
+unchanged on eight trained conditions plus eight reserved variations, 512 fresh lives per condition.
+Report gains/losses in acquisition and physical costs, both matching classes and contact-origin food.
+Do not substitute task-specific winners or call a specialist portfolio individual generalization.
+
+The earlier **four ancestral populations ×120 generations** on the flash brightness ladder are complete.
+Four brightness levels are four settings of one pursuit family, not four distinct capabilities.
 Obstacle navigation and other qualitatively different demands remain future directions, not prerequisites.
 
 **Completed 2026-10-18:** all four first attempts finished training and fresh confirmation in 6.26 elapsed
@@ -23,9 +40,11 @@ See [the report](../results/flash_ladder_20261017/REPORT.md) and its paired meas
 Raw evidence remains under `outputs/flash_ladder_20261017/`, pinned source `54c5310` in `checkout/`.
 Independent analysis rederived all 24 reporting choices and 2,112 statistics from the 36 raw blocks; all
 131,072 development/confirmation lives have status zero. Preserve the source, inputs and frozen endpoints.
-Next interpret cue dependence with the bounded signal-removal diagnostic under
-`outputs/flash_cue_probe_20261018/`, then reassess broader task training and retention. Do not automatically
-extend all four searches: late progress and tradeoffs differ by lineage. No second large study is launched.
+The signal-removal diagnostic is also complete: D90, s6 and s8 show increased acquisition benefit from
+target cues, while AO's change is unresolved; all four also gain without target signal. This does not
+isolate neural memory. It used 4,096 new lives in 434.72 CPU/64.86 wall seconds; an independent raw audit
+passes. See [the cue report](../results/flash_cue_probe_20261018/REPORT.md). Preserve these frozen endpoints;
+the broader study starts from complete populations and has its own individual-generalization assessment.
 
 The four inputs are complete ordered 32-row populations, not four copies of one champion:
 
@@ -46,7 +65,7 @@ The s6/s8 originals are local artifacts: preserve them and do not silently subst
 ordinary fitness. `src/evolve.py` dispatches opt-in family runs; legacy configurations retain their old loop.
 `src/run.py` and `src/checkpoint.py` handle CLI results, exact continuation and numerical/source pins.
 
-The flash configuration uses epsilon lexicase, 32 current genomes plus up to 32 reproducing archive genomes,
+The completed flash configuration used epsilon lexicase, 32 current genomes plus up to 32 reproducing archive genomes,
 224 offspring, eight initial lives and a 64-genome/eight-life fresh recheck. Every generation contains
 50%, 25%, 10% and zero residual brightness, twice each, in both stages. Parents and archive are freshly
 measured together; task objectives are ordinary production F, including physical and extinction charges.

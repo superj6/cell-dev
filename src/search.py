@@ -34,19 +34,19 @@ SELECT_SEED = 19_171_017
 MODES = ("mean", "pareto", "epsilon_lexicase")
 
 
-def load_population(path, layout, n: int) -> tuple[torch.Tensor, dict]:
+def load_population(path, layout, n: int, *, label="seed_population") -> tuple[torch.Tensor, dict]:
     """Import every row of a saved population, without selecting a champion or making mutants."""
     path = Path(path)
     data = path.read_bytes()
     obj = json.loads(data)
     if obj.get("dims") != layout.dims.__dict__:
-        raise ValueError("seed_population dimensions differ from the configured layout")
+        raise ValueError(f"{label} dimensions differ from the configured layout")
     genomes = obj.get("genomes", [])
     if len(genomes) != n:
-        raise ValueError(f"seed_population must contain exactly mu={n} genomes")
+        raise ValueError(f"{label} must contain exactly {n} genomes")
     pop = torch.stack([layout.from_dict(g) for g in genomes])
     if pop.shape != (n, layout.size) or not torch.isfinite(pop).all():
-        raise ValueError("seed_population contains invalid genomes")
+        raise ValueError(f"{label} contains invalid genomes")
     return pop, {"sampled": 0, "population_file": str(path), "population_sha256": hashlib.sha256(data).hexdigest(),
                  "source_ids": obj.get("ids"), "imported": n}
 
@@ -159,6 +159,8 @@ def evolve_family(cfg, log=print, out=None, *, resume=None, checkpoint=None, sto
         raise ValueError("family search uses capability_panel; set clones.every=0")
     if e.get("seed_population") and e.get("seed_genome"):
         raise ValueError("choose seed_population or seed_genome, not both")
+    if e.get("seed_archive") and (not size or not e.get("seed_population")):
+        raise ValueError("seed_archive requires a positive archive_size and seed_population")
     k_re, l_re, key_re = recheck_plan(e, mu, mu + lam + size)
     if size and (not k_re or k_re <= mu):
         raise ValueError("a breeding archive requires recheck_k > mu and positive recheck_lives")
@@ -200,13 +202,22 @@ def evolve_family(cfg, log=print, out=None, *, resume=None, checkpoint=None, sto
         archive, archive_ids = pop[:0].clone(), ids[:0].clone()
         archive_breeds, archive_origins = breeds[:0].clone(), origins[:0].clone()
         archive_fitness = torch.empty(0, dtype=torch.float64)
-        next_id, next_innov, start = mu, mu * G, 0
+        if e.get("seed_archive"):
+            archive, archive_info = load_population(e.seed_archive, layout, size, label="seed_archive")
+            archive_ids = torch.arange(mu, mu + size)
+            archive_breeds = archive_ids.clone()
+            archive_origins = torch.where(layout.active(archive),
+                                          archive_ids[:, None] * G + torch.arange(G)[None, :], -1)
+            archive_fitness = None  # Imported genomes have not been evaluated on this study's tasks.
+            archive_info["ids"] = archive_ids.tolist()
+            info["seed_archive"] = archive_info
+        next_id, next_innov, start = mu + len(archive), (mu + len(archive)) * G, 0
         curves, fitness, rc_lives, panel_lives = [], None, 0, 0
         info.update(selection=mode, archive_size=size)
         log({"event": "founders", **info})
         lin.write({"event": "founders", **info, "ids": ids.tolist(), "copies": []})
         last_objectives = torch.zeros((mu, max(1, len(ev.training_task_names))), dtype=torch.float64)
-        archive_objectives = last_objectives[:0].clone()
+        archive_objectives = torch.zeros((len(archive), last_objectives.shape[1]), dtype=torch.float64)
     else:
         if resume.get("family_search_version") != 1:
             raise ValueError("checkpoint is not a shared family-search checkpoint")

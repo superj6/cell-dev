@@ -6,19 +6,22 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 
 ## 0. Revision (2026-10-10): admit worlds by what they pay, not by what we can build
 
-**Current priority (2026-10-17).** The user approved consolidating the shared search machinery, then running
-four distinct ancestral populations for 120 generations in a mixed-brightness flash family. Use task-specific
-fitness, specialist-preserving selection and an archive that can breed, repeated progress panels and fresh
-endpoint confirmation. This supersedes the immediate obstacle-first priority below; obstacles remain the next
-broader environment direction. See `docs/SEARCH.md` and the current `docs/HANDOFF.md`. Use measured local
-capacity up to roughly eight threads, lean experiment records and no paid compute. The prior shallow searches
-do not establish absent memory or a substrate limit.
+**Current priority (2026-10-18).** The user requested actual selection across different objectives after
+the flash-only study. Run four lineages ×250 generations with eight task conditions: POOL, persistent
+pursuit, two flash levels, delayed matching, replenishing patches, contact-triggered food and harmful
+decoys. All affect breeding every generation through task-specific fitness and epsilon lexicase, with
+32 current/64 archived genomes and fresh rechecking. Preserve every pre-flash and final-flash population
+row at startup. Test one unchanged development-selected genome per stage across all trained conditions
+and reserved variations. See `docs/SEARCH.md`, `configs/multitask.yaml` and `docs/HANDOFF.md`.
+Use bounded local eight-thread capacity, lean records and no paid compute. Obstacles remain a broader
+environment direction, not a prerequisite or a feature of this study. Task variety is a hypothesis;
+neither a specialist portfolio nor aggregate fitness improvement alone establishes generalization.
 
 **Outcome (2026-10-18).** All four 120-generation runs and fresh confirmation completed; three pass the
 predefined dark-specialist improvement criterion at both 10% and zero residual brightness. Capture gains
 coexist with smaller bodies, more missed attempts and apparent older-task losses in small progress panels.
-First measure the change in dependence on the initial flash using fixed initial/final endpoints, then
-reassess broader task training and retention. Do not equate these gains with memory or generality, or
+The completed cue-removal diagnostic finds increased cue benefit in D90/s6/s8, unresolved change in AO,
+and improved signal-off acquisition in all four. Do not equate these gains with memory or generality, or
 automatically extend every lineage. Report: `results/flash_ladder_20261017/REPORT.md`.
 
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:

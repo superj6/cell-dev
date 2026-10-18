@@ -1,7 +1,7 @@
 # Shared multiworld search
 
 `src/search.py` is the opt-in life search used when `evolve.selection` or
-`evolve.seed_population` is configured. Existing configurations retain the legacy loop.
+`evolve.seed_population` or `evolve.seed_archive` is configured. Existing configurations retain the legacy loop.
 These are training decisions outside the organism; cell rules and world physics do not change.
 
 ## Configuration
@@ -26,6 +26,10 @@ See [La Cava et al.](https://arxiv.org/abs/1709.05394). Its RNG is separate from
 
 `evolve.seed_population` imports exactly `mu` saved genomes in their existing order. It records
 the file hash and source IDs and assigns new local IDs. It does not restart from one winner.
+Optional `evolve.seed_archive` imports exactly `archive_size` additional rows and requires
+`seed_population`. Their local IDs and gene origins follow the current population without collisions.
+Imported fitness is unknown until fresh evaluation; generation-zero snapshots and checkpoints retain
+the complete archive. Neither input file is reread on resume.
 
 ## Reproducing archive
 
@@ -73,6 +77,35 @@ confirmation compares generations 0, 60 and 120 using separately selected balanc
 roles; each role is one unchanged genome across all brightness levels. A dark-phase performance
 gain is evidence of useful adaptation, not by itself proof of memory circuitry. Cue-history and
 mechanism controls follow a promising result. A negative result does not establish a substrate cap.
+
+## Broader application: retained abilities across tasks
+
+`configs/multitask.yaml` trains on POOL, persistent pursuit, two flash visibility levels, delayed
+shape matching, replenishing patches, contact-triggered food and harmful-target avoidance. All eight
+conditions influence mating and survival every generation; they cover several related demands using
+the same sensory/action substrate, not eight orthogonal capabilities. Matching training uses a 5–10
+blank interval to offer a shorter starting challenge. No cells, world laws, prices or behavioral bonuses change.
+
+Four lineages each receive 250 generations. Each imports its whole pre-flash population as 32 current
+genomes and all 64 final flash current/archive genomes as the initial archive. There are 224 offspring,
+16 initial lives (two per task) and 16 fresh recheck lives for up to 128 candidates. Rechecking therefore
+filters the combined 96 breeding slots as well as their current/archive membership. The selection upper
+bound is 7,168 lives per generation per lineage. Noise remains a limitation of two initial lives per task.
+
+Progress panels observe training tasks only. `scripts/confirm_multitask.py` selects one reporting genome
+at generations 0/125/250 using a separate 32-life-per-training-task development panel. Exact genotypes
+are deduplicated across all stages and share one percentile-rank reference, with average ranks for ties.
+Each stage maximizes its weakest task rank, then mean rank, mean ordinary F, then lowest native ID.
+All three choices freeze before 512 fresh lives per task on eight trained conditions and eight reserved
+variations. Each reporting genome remains unchanged across all 16 conditions. Reserved means excluded
+from this study's training, not necessarily never explored anywhere in the project's history.
+
+Reports retain task-specific acquisitions, paired uncertainty, class-conditional matching choices,
+initial/passively replenished/contact-origin food, misses, body size and additive physical costs.
+Ordinary guards and extinction are retained at production scores; invalid capacity/accounting fails.
+This distinguishes a versatile individual from a breeding population of specialists. Four exploratory
+replicates without matched scalar/narrow-training controls cannot establish selection-method superiority
+or the causal benefit of diversity. Inputs and run evidence live under `outputs/multitask_20261018/`.
 
 ## Local execution and artifacts
 

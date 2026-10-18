@@ -185,6 +185,68 @@ def test_imported_population_cannot_be_silently_truncated(imported, monkeypatch)
         evolve(cfg, log=lambda row: None)
 
 
+@pytest.mark.parametrize("mode", ["mean", "pareto", "epsilon_lexicase"])
+def test_seed_archive_preserves_rows_breeds_and_resumes_from_zero(tmp_path, imported, native_calls, mode):
+    path, _, layout = imported
+    cfg = config(mode)
+    cfg.evolve.seed_population = str(path)
+    archive = layout.random(2, torch.Generator().manual_seed(45_000_002))
+    archive_path = tmp_path / "input_archive.json"
+    archive_path.write_text(json.dumps(dict(dims=layout.dims.__dict__, ids=[401, 707],
+        genomes=[layout.to_dict(row) for row in archive])))
+    cfg.evolve.seed_archive = str(archive_path)
+    full, full_states = search(cfg, tmp_path / "full")
+    _, split_states = search(cfg, tmp_path / "split", stop_after=3)
+    _, final_states = search(cfg, tmp_path / "split", resume=split_states[-1])
+    same_state(full_states[-1], final_states[-1])
+    assert read_log(tmp_path / "full/lineage.jsonl") == read_log(tmp_path / "split/lineage.jsonl")
+
+    initial = full_states[0]
+    assert initial["archive"].numpy().tobytes() == archive.numpy().tobytes()
+    assert initial["archive_ids"].tolist() == initial["archive_breeds"].tolist() == [4, 5]
+    assert initial["archive_fitness"] is None
+    assert initial["next_id"] == 6 and initial["next_innov"] == 6 * layout.dims.genes_max
+    assert initial["founders"]["seed_archive"]["source_ids"] == [401, 707]
+    assert initial["founders"]["seed_archive"]["ids"] == [4, 5]
+    native_origins = torch.cat([initial["origins"], initial["archive_origins"]]).flatten()
+    native_origins = native_origins[native_origins >= 0]
+    assert len(torch.unique(native_origins)) == len(native_origins)
+    saved = json.loads((tmp_path / "full/populations/g000000.json").read_text())["archive"]
+    assert saved["fitness"] is None and saved["ids"] == [4, 5]
+    assert torch.stack([layout.from_dict(g) for g in saved["genomes"]]).numpy().tobytes() == archive.numpy().tobytes()
+    first = next(row for row in read_log(tmp_path / "full/lineage.jsonl") if "gen" in row)
+    assert first["parent_ids"] == list(range(6))
+    assert min(child["id"] for child in first["children"]) == 6
+    used = sum(child[parent] in {4, 5} for child in first["children"] for parent in ("pa", "pb"))
+    assert full["curves"][0]["archive_parent_draws"] == used
+    if mode != "epsilon_lexicase":
+        assert used > 0  # This fixed uniform-mating fixture draws from both imported sources.
+
+    # A zero-generation checkpoint contains an unevaluated archive. It is self-contained:
+    # resume must not reread or resample either input file.
+    path.unlink()
+    archive_path.unlink()
+    _, from_zero = search(cfg, tmp_path / "zero_resume", resume=initial)
+    same_state(full_states[-1], from_zero[-1])
+    assert sum(c["lives"] for c in native_calls) == 3 * full["search_lives"]
+
+
+@pytest.mark.parametrize("bad_setting,error", [("disabled", "positive archive_size"),
+                                                ("missing_population", "seed_population"),
+                                                ("too_many", "seed_archive must contain exactly")])
+def test_invalid_seed_archive_fails_before_native_calls(tmp_path, imported, monkeypatch, bad_setting, error):
+    cfg = config()
+    cfg.evolve.seed_population = str(imported[0])
+    cfg.evolve.seed_archive = str(imported[0])  # Four rows; configured archive has two slots.
+    if bad_setting == "disabled":
+        cfg.evolve.archive_size = 0
+    elif bad_setting == "missing_population":
+        cfg.evolve.seed_population = None
+    monkeypatch.setattr(build, "run", lambda *a, **kw: pytest.fail("invalid archive reached native evaluation"))
+    with pytest.raises(ValueError, match=error):
+        evolve(cfg, log=lambda row: None)
+
+
 def test_epsilon_cli_checkpoint_restores_logs_and_final_artifacts(tmp_path, imported):
     cfg = config("epsilon_lexicase")
     cfg.evolve.seed_population = str(imported[0])
