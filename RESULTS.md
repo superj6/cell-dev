@@ -4503,3 +4503,11 @@ The smoke's second CLI invocation reproduces the saved summary byte-for-byte wit
 forbidden. The benchmark uses 1,536 lives in 328.62 CPU/96.43 monitored wall seconds, peak 347 MiB.
 Original test-fixture, resolved-config and benchmark-reader mistakes are preserved under the study output;
 none changed scientific inputs or repeated the benchmark's already-completed lives.
+
+**Launch verified at 2026-10-18 17:42 UTC:** all four background jobs started from pinned source `e69858f`.
+Each passed numerical startup checks and saved all 96 imported genomes byte-for-byte. The frozen launch
+manifest SHA is `b1b4c26ae6c4bae415541752e8520c4f527de40aa06c139c048db6fd9c3de919`;
+40,576 distinct training/measurement seeds were checked for unintended overlap. Measurement seeds are
+intentionally common across stages and lineages. Initial aggregate RSS is about 1.2 GiB, with 12 GiB host
+memory available. Jobs proceed through initial panels, training and frozen fresh confirmation under the
+declared limits. This is a running study, not an evolutionary result.

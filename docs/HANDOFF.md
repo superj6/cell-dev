@@ -21,6 +21,12 @@ workers, nice 10, 8 GiB owned RSS and 4 GiB host-memory reserve. The fixed eight
 measured 11.62 lives/s at two threads and 38.26 at eight, with identical ledgers. Estimated elapsed time
 is 2–3 days; evolving bodies and search overhead can change it. Checkpoints every five generations.
 
+**Launched 2026-10-18 17:42 UTC:** all four workers are running from pinned source `e69858f`.
+`launch_manifest.json` binds actual inputs, resolved configurations and commands; `launch_verified.json`
+checks all 96 imported rows per lineage byte-for-byte and confirms startup numerical identities.
+All eight training objectives are present; initial owned RSS is about 1.2 GiB. No endpoint result exists yet.
+Leave the pinned checkout/configurations unchanged while this study runs.
+
 One reporting genome per stage (0/125/250) is chosen on training-only development lives, then tested
 unchanged on eight trained conditions plus eight reserved variations, 512 fresh lives per condition.
 Report gains/losses in acquisition and physical costs, both matching classes and contact-origin food.
