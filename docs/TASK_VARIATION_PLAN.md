@@ -6,6 +6,14 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 
 ## 0. Revision (2026-10-10): admit worlds by what they pay, not by what we can build
 
+**Current priority (2026-10-17).** The user approved consolidating the shared search machinery, then running
+four distinct ancestral populations for 120 generations in a mixed-brightness flash family. Use task-specific
+fitness, specialist-preserving selection and an archive that can breed, repeated progress panels and fresh
+endpoint confirmation. This supersedes the immediate obstacle-first priority below; obstacles remain the next
+broader environment direction. See `docs/SEARCH.md` and the current `docs/HANDOFF.md`. Use measured local
+capacity up to roughly eight threads, lean experiment records and no paid compute. The prior shallow searches
+do not establish absent memory or a substrate limit.
+
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 

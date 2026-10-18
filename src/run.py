@@ -446,6 +446,18 @@ def main_life(cfg, *, resume: bool = False, stop_after: int | None = None) -> Pa
         return path
     r["layout"].save(r["best"], out / "best_genome.json")
     save_population(r, out / "population.json")
+    if r.get("family_search"):
+        # Multiworld search reports its fixed capability panels separately in lineage.jsonl.
+        # Do not silently assess one selected task as though it summarized the whole family.
+        row = {"name": out.name, "mode": "life", "selection": str(cfg.evolve.get("selection", "mean")), **git,
+               "seed": int(cfg.seed), "generations": len(r["curves"]), "evals": r["evals"],
+               "search_lives": r["search_lives"], "panel_lives": r["panel_lives"],
+               "archive_count": r["archive_count"], "world": str(cfg.life.world),
+               "abi": r["evaluator"].abi.version, "task_names": list(r["evaluator"].training_task_names),
+               "wall_s": round(wall, 1), "confirmation": "separate fresh panel required"}
+        (out / "results.jsonl").write_text(json.dumps(row) + "\n")
+        log_event(event="result", **row)
+        return out / "results.jsonl"
     t1 = time.time()
     fin = final_life(cfg, r)
     lc, e = cfg.life, cfg.evolve

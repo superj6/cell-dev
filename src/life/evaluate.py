@@ -9,6 +9,9 @@ fields (docs/ONE_LIFE_DESIGN.md, EVALUATION PROTOCOL; Code plan, src/evolve.py).
   Seeds are a hash of (run seed, purpose, index, life), so each generation gets fresh lives.
 - Lives are independent in the kernel and each genome's numbers are averaged over its own lives in a fixed order, so
   a genome's evaluation does not depend on the rest of the batch or on the thread count (bitwise).
+- Optional ``life.training_tasks`` cycles labelled task presets in declared integer weights for generation and
+  founder draws. Every genome receives the same allocation and seeds; recheck lengths must contain full cycles.
+  ``task_objectives`` groups production trial scores by task, while ``draw_tasks`` makes explicit equal-size panels.
 - The envelope control draws each life's noise physics uniformly from configured ranges, keyed like the seeds, so
   it is shared within a generation and fresh across generations. It applies to the selection lives only
   (``ENVELOPE_PURPOSES``: generations and founder batches). Valid, held-out, final, clone and size-curve lives use the
@@ -48,7 +51,7 @@ from omegaconf import OmegaConf
 from src.evolve import Eval
 from src.life import build, spec
 
-PURPOSES = dict(gen=1, founders=2, valid=3, heldout=4, final=5, clones=6, sizecurve=7, census=8)
+PURPOSES = dict(gen=1, founders=2, valid=3, heldout=4, final=5, clones=6, sizecurve=7, census=8, panel=9, confirm=10)
 _SEED_STREAM = 0x4C494645  # "LIFE": keeps life seeds apart from every kernel stream
 _ENV_STREAM = 0x454E5631  # "ENV1"
 _T_STREAM = 0x54445257  # "TDRW": the per-generation life length (life.T_choices)
@@ -70,6 +73,7 @@ class LifeDraw:
     """The lives of one evaluation: one seed and one world per life, the same for every genome evaluated on it."""
     seeds: tuple[int, ...]
     worlds: tuple[spec.World, ...]
+    tasks: tuple[str, ...] = ()  # optional observer labels; never packed into the kernel's inputs
 
     @property
     def n(self) -> int:
@@ -110,6 +114,23 @@ def _plain(x) -> dict:
     return dict(OmegaConf.to_container(x, resolve=True)) if OmegaConf.is_config(x) else dict(x)
 
 
+def task_objectives(res: LifeEval, draw: LifeDraw) -> torch.Tensor:
+    """Within-task means of production trial_scores [B, K], in first-label order.
+
+    Labels group whole tasks, never individual seeds. Invalid/extinct penalties already present in trial_scores
+    remain in these means. Ordinary aggregate fitness is unchanged, including declared task weights.
+    """
+    if not draw.tasks or len(draw.tasks) != draw.n or len(draw.worlds) != draw.n:
+        raise ValueError("task objectives require one task label and world per life")
+    if any(not isinstance(name, str) or not name for name in draw.tasks):
+        raise ValueError("task labels must be nonempty strings")
+    scores = res.trial_scores
+    if scores.ndim != 2 or scores.shape[1] != draw.n:
+        raise ValueError("trial_scores must have shape [genomes, draw.n]")
+    return torch.stack([scores[:, [i for i, name in enumerate(draw.tasks) if name == task]].mean(dim=1)
+                        for task in dict.fromkeys(draw.tasks)], dim=1)
+
+
 class LifeEvaluator:
     """Runs genomes of a ``LifeLayout`` in the worlds built from the config (sections life, world, costs_life,
     envelope): BELL-1, or CATCH with an ABI-3 layout. Call it as ``ev(params, draw)``; ``draw(purpose, index)`` makes
@@ -145,6 +166,18 @@ class LifeEvaluator:
         self.T_choices = tuple(float(x) for x in (lc.get("T_choices") or ()))
         for x in self.T_choices:
             self.world(x)  # each length must make a valid world
+        self.training_tasks = self._task_config(lc.get("training_tasks"))
+        self.training_task_names = tuple(task["name"] for task in self.training_tasks)
+        self.task_pattern = tuple(task["name"] for task in self.training_tasks for _ in range(task["weight"]))
+        if self.training_tasks:
+            self._task_lives(lc.lives)
+            if lc.get("founder_lives") is not None:
+                self._task_lives(lc.founder_lives)
+            if int(cfg.evolve.get("recheck_k", 0)) > 0 and int(cfg.evolve.get("recheck_lives", 0)) > 0:
+                self._task_lives(cfg.evolve.recheck_lives)
+            for duration in (self.T, *self.T_choices, float(lc.get("founder_T", self.T))):
+                for task in self.training_tasks:
+                    self._task_world(task, duration)
 
     # ------------------------------------------------------------------------------------------------- worlds
     def world(self, T: float | None = None, **extra) -> spec.World:
@@ -184,19 +217,93 @@ class LifeEvaluator:
                 vals[key] = lo + (hi - lo) * u
         return replace(w, **vals)
 
+    def _task_config(self, tasks) -> tuple[dict, ...]:
+        if tasks is None:
+            return ()
+        raw = OmegaConf.to_container(tasks, resolve=True) if OmegaConf.is_config(tasks) else tasks
+        if not isinstance(raw, (list, tuple)):
+            raise ValueError("training tasks must be a list of {name, world, overrides, weight}")
+        parsed, names = [], set()
+        for entry in raw:
+            if not isinstance(entry, dict) or set(entry) - {"name", "world", "overrides", "weight"}:
+                raise ValueError("unknown task fields; expected name, world, overrides, weight")
+            name, preset, weight = entry.get("name"), entry.get("world"), entry.get("weight", 1)
+            if not isinstance(name, str) or not name.strip() or name in names:
+                raise ValueError("task names must be nonempty and unique")
+            if not isinstance(preset, str) or preset not in spec.PRESETS:
+                raise ValueError(f"unknown task world preset {preset!r}")
+            if isinstance(weight, bool) or not isinstance(weight, int) or weight <= 0:
+                raise ValueError("task weight must be a positive integer")
+            overrides = entry.get("overrides", {})
+            if not isinstance(overrides, dict) or set(overrides) - set(spec.ALL_WORLD_KEYS):
+                raise ValueError("task overrides must contain only known world scalar fields")
+            names.add(name)
+            parsed.append(dict(name=name, world=preset, overrides=dict(overrides), weight=weight))
+        return tuple(parsed)
+
+    def _task_lives(self, lives) -> int:
+        if isinstance(lives, bool) or not isinstance(lives, int) or lives <= 0 or lives % len(self.task_pattern):
+            raise ValueError("training lives must be positive and divisible by the sum of task weights")
+        return lives
+
+    def _task_world(self, task: dict, T: float | None = None) -> spec.World:
+        """Task preset, common world/cost/flag settings, then task overrides (without numeric truncation)."""
+        lc = self.cfg.life
+        duration = self.T if T is None else float(T)
+        values = dict(T=duration, lattice=self.kind,
+                      flags=self.abi.flags(*[str(f) for f in (lc.get("flags") or [])]),
+                      t_open=float(lc.get("t_open", 0.0)), t_fork=0.0, fork_flags=0)
+        if lc.get("freeze_frac") is not None:
+            values.update(t_fork=float(lc.freeze_frac) * duration, fork_flags=spec.FLAGS["freeze"])
+        values.update(_plain(self.cfg.get("world")))
+        values.update(_plain(self.cfg.get("costs_life")))
+        values.update(task["overrides"])
+        world = spec.world(task["world"], **values)
+        self.abi.validate_world(world)
+        if world.world_kind != int(self.catch):
+            raise ValueError("training and panel tasks must share the base world's world_kind")
+        return world
+
+    def draw_tasks(self, purpose: str, index: int, tasks, lives_per_task: int, T: float | None = None) -> LifeDraw:
+        """Explicit task-major fixed panel, equal lives per entry regardless of training weight.
+
+        Accepts the same task-entry schema as life.training_tasks. It never uses training allocation, T_choices
+        or envelope physics; panel/confirm purposes have separate seed streams from selection and each other.
+        """
+        configured = self._task_config(tasks)
+        if (not configured or isinstance(lives_per_task, bool) or not isinstance(lives_per_task, int)
+                or lives_per_task <= 0):
+            raise ValueError("a task panel needs tasks and positive integer lives_per_task")
+        worlds, labels = [], []
+        for task in configured:
+            worlds.extend([self._task_world(task, T)] * lives_per_task)
+            labels.extend([task["name"]] * lives_per_task)
+        seeds = tuple(life_seed(self.seed, purpose, index, life) for life in range(len(worlds)))
+        return LifeDraw(seeds, tuple(worlds), tuple(labels))
+
     def draw(self, purpose: str, index: int, lives: int | None = None, T: float | None = None,
              overrides: list[dict] | None = None, envelope: bool | None = None) -> LifeDraw:
         """Lives for one evaluation. ``overrides`` (a list of world-field dicts) gives every override ``lives`` lives
         of its own (held-out physics, base noise); otherwise every life uses the base world. ``envelope`` picks the
         noise physics of those lives: None (default) applies the envelope to selection purposes when it is enabled;
         True draws envelope physics from the configured ranges even when the envelope is off (the same seeds, so a
-        robustness column pairs with the base one); False never applies it."""
+        robustness column pairs with the base one); False never applies it. With training_tasks, generation and
+        founder draws cycle the configured weighted tasks unless explicit overrides are supplied. Judged purposes
+        keep the legacy base world; use draw_tasks for a labelled, equal-per-task panel."""
         L = self.lives if lives is None else int(lives)
         if T is None and self.T_choices and purpose == "gen":  # GB11's per-generation draw
             u = spec.draw(self.seed, _T_STREAM, int(index))
             T = self.T_choices[min(int(u * len(self.T_choices)), len(self.T_choices) - 1)]
         if envelope is None:
             envelope = bool(self.envelope.get("enabled", False)) and purpose in ENVELOPE_PURPOSES
+        if self.training_tasks and purpose in ENVELOPE_PURPOSES and not overrides:
+            L = self._task_lives(self.lives if lives is None else lives)
+            labels = self.task_pattern * (L // len(self.task_pattern))
+            task_worlds = {task["name"]: self._task_world(task, T) for task in self.training_tasks}
+            seeds = tuple(life_seed(self.seed, purpose, index, life) for life in range(L))
+            worlds = tuple(self._envelope(task_worlds[name], purpose, index, life) if envelope else task_worlds[name]
+                           for life, name in enumerate(labels))
+            return LifeDraw(seeds, worlds, labels)
         base = self.world(T)
         if overrides:
             worlds, seeds = [], []

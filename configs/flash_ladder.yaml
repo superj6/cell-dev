@@ -1,0 +1,66 @@
+# Four brightness levels of ONE task family; no generation calendar or organism input is added.
+# Supply evolve.seed_population and seed per independent lineage; the study uses whole populations.
+extends: life_speck.yaml
+seed: 61017001
+threads: 2
+
+evolve:
+  selection: epsilon_lexicase
+  epsilon_multiplier: 1.0
+  archive_size: 32
+  seed_genome: null
+  seed_population: results/retained_depth_20261015/runs/balanced/population.json
+  mu: 32
+  lam: 224
+  generations: 120
+  recheck_k: 64
+  recheck_lives: 8
+  recheck_key: all
+  dup_rate: 0.0
+  del_rate: 0.0
+
+life:
+  abi: 7
+  control: flash_ladder
+  world: catch_speck_flash5_dim25_l4
+  T: 1024
+  T_choices: null
+  lives: 8
+  founder_lives: 8
+  heldout: []
+  training_tasks:
+    - {name: flash50, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.5}}
+    - {name: flash25, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.25}}
+    - {name: flash10, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.1}}
+    - {name: flash00, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.0}}
+  capability_panel:
+    every: 25
+    at: [60, 120]
+    top: 8
+    lives: 16
+    seed: 61017900
+    tasks:
+      - {name: flash50, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.5}}
+      - {name: flash25, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.25}}
+      - {name: flash10, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.1}}
+      - {name: flash00, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.0}}
+      - name: pool
+        world: catch_speck_l4
+        overrides: {d_min: 0.25, d0: 0.5, sigma: 0.4, lam_s: 4.0}
+      - {name: persistent, world: catch_speck_l4, overrides: {v_t: 0.3, tau_turn: 200.0}}
+      - {name: delayed_match, world: catch_delayed_match_l4}
+      - {name: patches, world: catch_resource_patches_l4}
+      - name: harmful_decoy
+        world: catch_speck_l4
+        overrides: {b2_amp: 1.0, b2_sigma: 1.5, b2_value: -100.0, b2_p: 1.0}
+
+# Match the flash information-payoff measurements. Prices retain their production values.
+world: {d_min: 0.5, d0: 1.0}
+costs_life: {}
+envelope: {enabled: false}
+clones: {every: 0}
+logging:
+  output_dir: outputs/flash_ladder_20261017/ao
+  checkpoint_every: 5
+  lineage: all
+  gif: false

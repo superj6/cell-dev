@@ -1,5 +1,9 @@
 # Project evidence map — cumulative resource experiments
 
+**2026-10-17 direction:** the user approved shared multiworld search followed by four ancestral populations
+×120 generations on the flash brightness ladder. Current operating state is in `docs/HANDOFF.md` and
+`docs/SEARCH.md`; the older entries below are evidence, not a queue of prerequisites.
+
 The goal is increasingly sophisticated evolved algorithms, generalization and cumulative capability in the current local asynchronous organism. We have real local computations and repeated capture improvements, but neither larger bodies nor higher fitness establishes algorithmic progress. AO is complete and independently checked: later generations added acquisition in one branch, while task allocation traded older-task retention against further gains elsewhere.
 
 **Ultimate objective clarified (2026-10-15).** The user wants evolution to move beyond practical handwritten

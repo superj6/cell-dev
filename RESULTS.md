@@ -4372,3 +4372,39 @@ The [engineering archive](results/abi7_contact_resources_20261016/REPORT.md) rec
 source snapshots and compatibility evidence. No contact baseline or evolutionary study was launched.
 Obstacle navigation remains the next substantive direction, with diverse breeding trade-offs across broader
 training tasks preserved as a research priority. These engineering checks establish no new evolved behavior.
+
+## 2026-10-17 — Shared search and a substantially deeper flash study
+
+The short continuation studies did not test whether sustained evolution can discover useful memory.
+Shared production search now supports per-task fitness, epsilon lexicase and Pareto selection, whole-population
+starts, and a bounded archive whose members are freshly evaluated and can breed. Fixed progress panels do not
+affect selection; checkpoints preserve both random streams and the archive. Cell and world laws are unchanged.
+See [SEARCH.md](docs/SEARCH.md) and [the study configuration](configs/flash_ladder.yaml).
+
+The next study gives four distinct ancestral populations (AO/s7, D90 Z/s5, and original SPECK s6/s8)
+120 generations each. Every generation mixes 50%, 25%, 10% and zero residual flash brightness, using the
+original flash conduction and ordinary prices. These are four settings of one task family, not broad task
+diversity. Progress panels also measure older acquisition, matching, patches and decoys. Separate development
+lives select balanced and dark-phase reporting genomes at generations 0/60/120; all six choices are frozen
+before paired fresh confirmation. Each reported genome stays unchanged across brightness levels.
+
+The predeclared primary performance signal is improved low-light captures at both 10% and zero brightness
+for the dark-phase role in at least two of four lineages, with each paired gain exceeding three SE.
+All other gains, losses, physical costs and uncertainty remain reportable. This criterion is a useful
+performance test, not proof of a memory mechanism or of generalization beyond the flash family.
+
+The fixed-cohort benchmark returned identical ledgers at two and eight threads: 13.14 versus 40.00 lives/s,
+2,560 engineering lives, 492.29 CPU seconds, 136.24 wall seconds and 331 MiB peak owned RSS.
+The study permits at most 1,351,680 selection lives, 32,256 progress-panel lives and 131,072 endpoint-selection
+and confirmation lives, plus startup checks. Budget: 120 CPU-hours, 36 elapsed hours, four two-thread workers,
+nice 10, 8 GiB aggregate owned RSS and at least 4 GiB available host memory. Initial elapsed estimate is
+12–18 hours; four-worker throughput and evolved body costs may differ from the benchmark.
+
+Focused integration passed 135 functional cases, including legacy checkpoints, exact six versus 3+resume3
+searches in all three modes, actual archive breeding and panel-independent genetic trajectories.
+Additional process-only launcher and confirmation checks cover ownership, cached outputs and endpoint freezing.
+The final confirmation review caught and fixed boolean subtraction in survival-rate contrasts before launch.
+Raw tests, benchmark, frozen inputs/configurations, queue receipts and scientific outputs stay under
+`outputs/flash_ladder_20261017/`; reusable source and concise records are public. Historical bulk remains in
+Git; no history was rewritten. This entry records the implementation and budget, not an evolutionary result.
+The live `queue/monitor.json` and each run's logs are authoritative for launch and progress.

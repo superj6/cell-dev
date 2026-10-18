@@ -334,7 +334,8 @@ def recheck_draw(ev, g: int, base: int, lives: int):
     (common random numbers), disjoint from the generation's lives and from every founder, valid, held-out, final and
     clone life (other purposes), and under the envelope control they get envelope physics like any selection life."""
     full = ev.draw("gen", g, lives=base + lives)
-    return replace(full, seeds=full.seeds[base:], worlds=full.worlds[base:])
+    extra = {"tasks": full.tasks[base:]} if getattr(full, "tasks", ()) else {}
+    return replace(full, seeds=full.seeds[base:], worlds=full.worlds[base:], **extra)
 
 
 def rows(e: Eval, idx: torch.Tensor) -> Eval:
@@ -464,6 +465,11 @@ def evolve_life(cfg, log=print, out: Path | None = None, *, resume: dict | None 
     and lineage rows then record it (``T``). Fitness is per unit time on those lives. ``evals`` still counts genome
     evaluations, whatever their length. ``life.T`` must be one of the choices: it is the nominal length that valid,
     held-out, clone and final lives use, and a run that overrides it alone would select on other lengths."""
+    if cfg.evolve.get("selection") is not None or cfg.evolve.get("seed_population"):
+        from src.search import evolve_family
+
+        return evolve_family(cfg, log=log, out=out, resume=resume, checkpoint=checkpoint, stop_after=stop_after)
+
     from src.life import clones
 
     torch.set_num_threads(int(cfg.threads))
