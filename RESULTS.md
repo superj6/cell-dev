@@ -4412,3 +4412,29 @@ The live `queue/monitor.json` and each run's logs are authoritative for launch a
 **Launch update:** all four jobs started from pinned source `54c5310`, with exact copied inputs and resolved
 configurations bound by `outputs/flash_ladder_20261017/launch_manifest.json`. Training and the subsequent
 fresh confirmation run in the background under the stated queue limits. No scientific endpoint has completed.
+
+## 2026-10-18 — Deeper flash evolution improves dim acquisition with substantial tradeoffs
+
+All four lineages finish 120 generations and the frozen fresh confirmation. The primary criterion passes
+in **3/4**: AO/s7, D90 Z/s5 and SPECK s8 improve low-light captures at both 10% and zero residual brightness,
+with each paired gain exceeding three SE on 512 fresh lives. SPECK s6's 10% contrast is unresolved.
+All four dark specialists improve zero-brightness captures: **1.69→2.06, 1.24→2.38, 0.72→1.15, 0.72→1.75**
+respectively. These compare development-selected initial and final roles, not historical champions.
+
+There are real acquisition gains, alongside substantial cost savings. Bodies shrink; every final specialist
+makes more misses at every brightness, and all four lose captures at 50% brightness. Every final reporting
+genome still has negative ordinary F in the zero-brightness condition. The small older-task panels suggest
+POOL losses, mixed persistent/patch transfer and generally fewer hidden cells; they do not establish exact
+endpoint losses. Delayed matching remains broadly biased. No memory circuit, conditional matching or new
+anatomy has been demonstrated. The archive supplied 46.70% of parent draws, but its causal benefit was not tested.
+
+**1,513,992 total lives**, including eight startup goldens, finish in **48.48 CPU /6.26 elapsed hours**,
+peak **1.34 GiB** aggregate owned RSS; all four first attempts exit zero. Independent saved-data analysis
+checks all 36 raw blocks/131,072 endpoint-development and confirmation lives, all 24 frozen role choices,
+production costs/F and 2,112 statistics. All statuses are zero; maximum statistic discrepancy is 1.42e-14.
+An audit-only field-alias reader error was corrected and preserved; no scientific calls were repeated.
+
+[Report and figure](results/flash_ladder_20261017/REPORT.md), paired summaries and frozen genomes are published
+compactly; raw arrays/checkpoints remain under `outputs/flash_ladder_20261017/`. Next measure dependence on the
+initial flash in eight fixed initial/final specialists before choosing broader training. The bounded diagnostic
+removes target signal while retaining background rate; it does not isolate neural memory or mature-body effects.

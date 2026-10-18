@@ -1,8 +1,10 @@
 # Project evidence map — cumulative resource experiments
 
-**2026-10-17 direction:** the user approved shared multiworld search followed by four ancestral populations
-×120 generations on the flash brightness ladder. Current operating state is in `docs/HANDOFF.md` and
-`docs/SEARCH.md`; the older entries below are evidence, not a queue of prerequisites.
+**2026-10-18:** shared multiworld search and four ancestral populations ×120 flash generations are complete.
+Three lineages pass the predefined two-condition capture-improvement criterion, with smaller bodies, more
+misses and limited retention in small older-task panels. No memory mechanism is established. See
+[the flash report](../results/flash_ladder_20261017/REPORT.md); current work interprets dependence on the flash
+before broader task training. `docs/HANDOFF.md` holds operating state; older entries are historical evidence.
 
 The goal is increasingly sophisticated evolved algorithms, generalization and cumulative capability in the current local asynchronous organism. We have real local computations and repeated capture improvements, but neither larger bodies nor higher fitness establishes algorithmic progress. AO is complete and independently checked: later generations added acquisition in one branch, while task allocation traded older-task retention against further gains elsewhere.
 

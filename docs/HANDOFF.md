@@ -8,17 +8,24 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
-The user approved implementing shared multiworld search, then continuing **four whole ancestral populations
-for 120 generations each** on the flash brightness ladder. This is the current priority. Broader task diversity
+Shared multiworld search and **four whole ancestral populations for 120 generations each** on the flash
+brightness ladder are complete. Broader task diversity
 still matters: four brightness levels are four settings of one pursuit family, not four distinct capabilities.
 Obstacle navigation and other qualitatively different demands remain future directions, not prerequisites.
 
-**Launched:** all four scientific jobs started under `outputs/flash_ladder_20261017/`, using pinned source
-commit `54c5310` in the sparse `checkout/` worktree. `launch_manifest.json` binds copied founder bytes,
-resolved configurations and seed identities; `jobs.json` fixes the budget. Read `queue/monitor.json` and
-each `runs/<lineage>/curves.jsonl` for actual progress. The jobs have 120 CPU-hours and 36 elapsed hours
-collectively, with four two-thread workers. Fresh confirmation runs automatically after training.
-No endpoint result from these searches is claimed yet. Leave the pinned checkout and inputs unchanged.
+**Completed 2026-10-18:** all four first attempts finished training and fresh confirmation in 6.26 elapsed
+hours /48.48 CPU-hours, peak aggregate RSS 1.34 GiB. The primary dark-specialist improvement criterion passed
+in 3/4 lineages. All four improved dark captures, but every endpoint makes more misses, bodies shrink,
+and all remain negative-F in complete darkness after the flash. These are acquisition gains, not demonstrated
+memory or generality. Small report-only panels suggest older-task losses and generally fewer hidden cells.
+See [the report](../results/flash_ladder_20261017/REPORT.md) and its paired measurements/figure.
+
+Raw evidence remains under `outputs/flash_ladder_20261017/`, pinned source `54c5310` in `checkout/`.
+Independent analysis rederived all 24 reporting choices and 2,112 statistics from the 36 raw blocks; all
+131,072 development/confirmation lives have status zero. Preserve the source, inputs and frozen endpoints.
+Next interpret cue dependence with the bounded signal-removal diagnostic under
+`outputs/flash_cue_probe_20261018/`, then reassess broader task training and retention. Do not automatically
+extend all four searches: late progress and tradeoffs differ by lineage. No second large study is launched.
 
 The four inputs are complete ordered 32-row populations, not four copies of one champion:
 

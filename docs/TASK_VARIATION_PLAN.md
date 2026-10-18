@@ -14,6 +14,13 @@ broader environment direction. See `docs/SEARCH.md` and the current `docs/HANDOF
 capacity up to roughly eight threads, lean experiment records and no paid compute. The prior shallow searches
 do not establish absent memory or a substrate limit.
 
+**Outcome (2026-10-18).** All four 120-generation runs and fresh confirmation completed; three pass the
+predefined dark-specialist improvement criterion at both 10% and zero residual brightness. Capture gains
+coexist with smaller bodies, more missed attempts and apparent older-task losses in small progress panels.
+First measure the change in dependence on the initial flash using fixed initial/final endpoints, then
+reassess broader task training and retention. Do not equate these gains with memory or generality, or
+automatically extend every lineage. Report: `results/flash_ladder_20261017/REPORT.md`.
+
 *This section replaces the hand-built gates below. Where it disagrees with sections 1-6, it wins. Evidence:
 `results/open_headroom/` (harness, controllers, data). Seeds: `fresh_seeds(n, 43,000,000 + 10,000·block)`.*
 
