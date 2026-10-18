@@ -4408,3 +4408,7 @@ Raw tests, benchmark, frozen inputs/configurations, queue receipts and scientifi
 `outputs/flash_ladder_20261017/`; reusable source and concise records are public. Historical bulk remains in
 Git; no history was rewritten. This entry records the implementation and budget, not an evolutionary result.
 The live `queue/monitor.json` and each run's logs are authoritative for launch and progress.
+
+**Launch update:** all four jobs started from pinned source `54c5310`, with exact copied inputs and resolved
+configurations bound by `outputs/flash_ladder_20261017/launch_manifest.json`. Training and the subsequent
+fresh confirmation run in the background under the stated queue limits. No scientific endpoint has completed.

@@ -13,11 +13,12 @@ for 120 generations each** on the flash brightness ladder. This is the current p
 still matters: four brightness levels are four settings of one pursuit family, not four distinct capabilities.
 Obstacle navigation and other qualitatively different demands remain future directions, not prerequisites.
 
-**Snapshot at this edit:** engineering checks and the throughput benchmark have completed under
-`outputs/flash_ladder_20261017/`. The scientific `jobs.json` and `monitor.json` do not yet exist.
-Do not infer that evolution has launched from benchmark lives or this approval. Re-read those live files when
-present: they define exact jobs, budgets, ownership and status. Root is preparing the queue and launch.
-No new result from the four 120-generation searches is claimed here.
+**Launched:** all four scientific jobs started under `outputs/flash_ladder_20261017/`, using pinned source
+commit `54c5310` in the sparse `checkout/` worktree. `launch_manifest.json` binds copied founder bytes,
+resolved configurations and seed identities; `jobs.json` fixes the budget. Read `queue/monitor.json` and
+each `runs/<lineage>/curves.jsonl` for actual progress. The jobs have 120 CPU-hours and 36 elapsed hours
+collectively, with four two-thread workers. Fresh confirmation runs automatically after training.
+No endpoint result from these searches is claimed yet. Leave the pinned checkout and inputs unchanged.
 
 The four inputs are complete ordered 32-row populations, not four copies of one champion:
 
@@ -81,7 +82,9 @@ four-worker throughput or a guaranteed evolution ETA. Final receipt: `benchmark_
 Freeze actual code, configuration, input-population bytes and seed identities before scientific execution.
 Never edit active pinned source/configuration, extend its cap, shrink its panel or replace a reporting endpoint.
 Resume an existing search with its unchanged config and `--resume`; both RNGs, archives and log offsets are
-checkpointed. Set `ATEN_CPU_CAPABILITY=avx2` before importing Torch for the numerical identity/golden check.
+checkpointed. Queue jobs use the explicit `--train --resume-if-present` wrapper, so an authorized retry
+continues training before confirmation. Failed jobs never retry automatically. Set
+`ATEN_CPU_CAPABILITY=avx2` before importing Torch for the numerical identity/golden check.
 Use the queue's durable identity/exit receipts; do not launch duplicate workers or kill by process-name pattern.
 Preserve failures and distinguish an invocation/reader repair from new simulator calls or a scientific retry.
 
