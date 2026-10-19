@@ -1,5 +1,11 @@
 # Project evidence map — cumulative resource experiments
 
+**Mid-run visual examples (2026-10-18):** [interactive replay and report](../results/multitask_examples_20261018/REPORT.md)
+compare original/generation-25/later representatives from AO, D90 and s6. They show substantial body shrinkage,
+partial internal-cell regrowth in s6, and acquisition trade-offs. A 56,000-offspring genetic reconstruction
+verifies mixing of original and flash-derived gene units. These are illustrative training-POOL representatives,
+not direct ancestral chains or confirmed generalists; useful circuitry and memory remain unestablished.
+
 **2026-10-18:** shared multiworld search and four ancestral populations ×120 flash generations are complete.
 Three lineages pass the predefined two-condition capture-improvement criterion, with smaller bodies, more
 misses and limited retention in small older-task panels. No memory mechanism is established. See

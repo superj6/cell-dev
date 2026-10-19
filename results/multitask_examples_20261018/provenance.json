@@ -1,0 +1,761 @@
+{
+  "selection_policy": "First saved progress-panel position; g>0 training POOL champion; g0 first original row. Stage examples are not a direct ancestor chain, and g0 omits flash-trained starting genomes.",
+  "seed_policy": "One fixed illustrative seed per task, identical across nine examples; separate from 16-life reporting panels; fixed before recording.",
+  "source_commit": "e69858f200a53d1ecc6c3a5ed7ba988f95a5dafd",
+  "input_and_source_pins": {
+    "outputs/multitask_20261018/configs/AO_s7.yaml": "52317885d797b8fe28c1de1c6f2102c9516164de4ff8034319584e478319f730",
+    "outputs/multitask_20261018/runs/AO_s7/populations/g000000.json": "78634c7440757947c4eb2914d7017b1c34770d06843d29ae835bdf3d18cf0380",
+    "outputs/multitask_20261018/runs/AO_s7/populations/g000025.json": "d4bcffe147ec9ab4ac5d5aa7ab59e9e427d6a4f15869e08f1af456dc31ff3d5e",
+    "outputs/multitask_20261018/runs/AO_s7/populations/g000100.json": "2286a9ce2e2ece932da9111dba146486325358c13f2937948982de3b7d3e7485",
+    "outputs/multitask_20261018/configs/D90_Z_s5.yaml": "1ba076b06c5e9c610604ea00203265f8cbb2fb4d4fd9c8075288e0dd1621c35c",
+    "outputs/multitask_20261018/runs/D90_Z_s5/populations/g000000.json": "bf9f04625a591495bf7ee81083ea30b482923c08fa07d54bb33c08ca8cbc375e",
+    "outputs/multitask_20261018/runs/D90_Z_s5/populations/g000025.json": "40205605de3f466448b2b75b4d93e82e4a236774db94b505921205c99d48c12c",
+    "outputs/multitask_20261018/runs/D90_Z_s5/populations/g000075.json": "7c6971cc02f81f5c476bcce7a04cfa2c8e3a701889385613d6472be9e6580669",
+    "outputs/multitask_20261018/configs/speck_s6.yaml": "83afa47eb695fd06b9d82f30ff7e305d8798f991146198462164135865d7daff",
+    "outputs/multitask_20261018/runs/speck_s6/populations/g000000.json": "4908b6d08cd5d147b8ea9e2cdec95ff7d39d02b442d3593d7d0bc4c467cc41fc",
+    "outputs/multitask_20261018/runs/speck_s6/populations/g000025.json": "144ea20b7e9d6503d715764fde02ee1680f3502612d6be98ec0ca27c6032bdbe",
+    "outputs/multitask_20261018/runs/speck_s6/populations/g000075.json": "926bbb717c11ca56b303d9b3ae5881ff5747e78580da612486b81d3d04d8f5ce",
+    "src/life/spec.py": "b23110f687e8023f18f7e658097ef231440c5cc4cee0a107d43b343114e36894",
+    "src/life/build.py": "45d5b2a596977f39f23336bf8556e66f6e3f4ece6b00504a0428870d02cb00aa",
+    "src/life/kernel.c": "9d2022c372379c67c1f10c47e7d3fe89e75f0c8a4977896ce19b92399e1938fe",
+    "src/genome.py": "788a3d4465e006ad10e5c67ed2e464cb248066fa5d730e5afb31f4131edfaa4a",
+    "results/atlas/play/lifesim.js": "b81ca41d3ff43271be03293fe4972c20689cb71b8f741fb5482d3acc37058a14"
+  },
+  "case_identities": [
+    {
+      "key": "AO_s7.g000.pool",
+      "lineage": "AO_s7",
+      "generation": 0,
+      "id": 0,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51"
+    },
+    {
+      "key": "AO_s7.g000.contact_food",
+      "lineage": "AO_s7",
+      "generation": 0,
+      "id": 0,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51"
+    },
+    {
+      "key": "AO_s7.g000.matching",
+      "lineage": "AO_s7",
+      "generation": 0,
+      "id": 0,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "65fb9a56fef8e4936f300698115178b2d74bf831c9bcc53a716419646d5aaa51"
+    },
+    {
+      "key": "AO_s7.g025.pool",
+      "lineage": "AO_s7",
+      "generation": 25,
+      "id": 5529,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "b72dfd25523cd0977ec991893caa8542edb44435c9c3685d08779e1d1628500c"
+    },
+    {
+      "key": "AO_s7.g025.contact_food",
+      "lineage": "AO_s7",
+      "generation": 25,
+      "id": 5529,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "b72dfd25523cd0977ec991893caa8542edb44435c9c3685d08779e1d1628500c"
+    },
+    {
+      "key": "AO_s7.g025.matching",
+      "lineage": "AO_s7",
+      "generation": 25,
+      "id": 5529,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "b72dfd25523cd0977ec991893caa8542edb44435c9c3685d08779e1d1628500c"
+    },
+    {
+      "key": "AO_s7.g100.pool",
+      "lineage": "AO_s7",
+      "generation": 100,
+      "id": 22430,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "858352aeffd936276e668404dbacfa09e166529eb8b62994a05df1bd1ca1db55"
+    },
+    {
+      "key": "AO_s7.g100.contact_food",
+      "lineage": "AO_s7",
+      "generation": 100,
+      "id": 22430,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "858352aeffd936276e668404dbacfa09e166529eb8b62994a05df1bd1ca1db55"
+    },
+    {
+      "key": "AO_s7.g100.matching",
+      "lineage": "AO_s7",
+      "generation": 100,
+      "id": 22430,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "858352aeffd936276e668404dbacfa09e166529eb8b62994a05df1bd1ca1db55"
+    },
+    {
+      "key": "D90_Z_s5.g000.pool",
+      "lineage": "D90_Z_s5",
+      "generation": 0,
+      "id": 0,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "29c41913d98602b8022cb5c636714fe7a87b8fc0b4c54888b37af33598626e29"
+    },
+    {
+      "key": "D90_Z_s5.g000.contact_food",
+      "lineage": "D90_Z_s5",
+      "generation": 0,
+      "id": 0,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "29c41913d98602b8022cb5c636714fe7a87b8fc0b4c54888b37af33598626e29"
+    },
+    {
+      "key": "D90_Z_s5.g000.matching",
+      "lineage": "D90_Z_s5",
+      "generation": 0,
+      "id": 0,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "29c41913d98602b8022cb5c636714fe7a87b8fc0b4c54888b37af33598626e29"
+    },
+    {
+      "key": "D90_Z_s5.g025.pool",
+      "lineage": "D90_Z_s5",
+      "generation": 25,
+      "id": 5447,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "531de26774252049cbb72acf11a5fd234bab7243037bd0b7f582514290c3ac83"
+    },
+    {
+      "key": "D90_Z_s5.g025.contact_food",
+      "lineage": "D90_Z_s5",
+      "generation": 25,
+      "id": 5447,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "531de26774252049cbb72acf11a5fd234bab7243037bd0b7f582514290c3ac83"
+    },
+    {
+      "key": "D90_Z_s5.g025.matching",
+      "lineage": "D90_Z_s5",
+      "generation": 25,
+      "id": 5447,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "531de26774252049cbb72acf11a5fd234bab7243037bd0b7f582514290c3ac83"
+    },
+    {
+      "key": "D90_Z_s5.g075.pool",
+      "lineage": "D90_Z_s5",
+      "generation": 75,
+      "id": 16812,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "0449ada9fee1478d1feb9b38e41e49e3bcb7f7104cdfd401fd96b3717a285763"
+    },
+    {
+      "key": "D90_Z_s5.g075.contact_food",
+      "lineage": "D90_Z_s5",
+      "generation": 75,
+      "id": 16812,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "0449ada9fee1478d1feb9b38e41e49e3bcb7f7104cdfd401fd96b3717a285763"
+    },
+    {
+      "key": "D90_Z_s5.g075.matching",
+      "lineage": "D90_Z_s5",
+      "generation": 75,
+      "id": 16812,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "0449ada9fee1478d1feb9b38e41e49e3bcb7f7104cdfd401fd96b3717a285763"
+    },
+    {
+      "key": "speck_s6.g000.pool",
+      "lineage": "speck_s6",
+      "generation": 0,
+      "id": 0,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "4c6eac73680fdee84fd4659a8d2a446120b876d3547b49c5035b6490a7ac1a2e"
+    },
+    {
+      "key": "speck_s6.g000.contact_food",
+      "lineage": "speck_s6",
+      "generation": 0,
+      "id": 0,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "4c6eac73680fdee84fd4659a8d2a446120b876d3547b49c5035b6490a7ac1a2e"
+    },
+    {
+      "key": "speck_s6.g000.matching",
+      "lineage": "speck_s6",
+      "generation": 0,
+      "id": 0,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "4c6eac73680fdee84fd4659a8d2a446120b876d3547b49c5035b6490a7ac1a2e"
+    },
+    {
+      "key": "speck_s6.g025.pool",
+      "lineage": "speck_s6",
+      "generation": 25,
+      "id": 5375,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "d516afc02745d9eeae8036cc1db2f18f1b28c34b2525f715c912142b15ff6efa"
+    },
+    {
+      "key": "speck_s6.g025.contact_food",
+      "lineage": "speck_s6",
+      "generation": 25,
+      "id": 5375,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "d516afc02745d9eeae8036cc1db2f18f1b28c34b2525f715c912142b15ff6efa"
+    },
+    {
+      "key": "speck_s6.g025.matching",
+      "lineage": "speck_s6",
+      "generation": 25,
+      "id": 5375,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "d516afc02745d9eeae8036cc1db2f18f1b28c34b2525f715c912142b15ff6efa"
+    },
+    {
+      "key": "speck_s6.g075.pool",
+      "lineage": "speck_s6",
+      "generation": 75,
+      "id": 16839,
+      "task": "pool",
+      "seed": "61018090",
+      "raw_genome_sha256": "c7a5ce012375d2250d010150cbd1c0490010641118a703b4ae142bfe3e5954fb"
+    },
+    {
+      "key": "speck_s6.g075.contact_food",
+      "lineage": "speck_s6",
+      "generation": 75,
+      "id": 16839,
+      "task": "contact_food",
+      "seed": "61018091",
+      "raw_genome_sha256": "c7a5ce012375d2250d010150cbd1c0490010641118a703b4ae142bfe3e5954fb"
+    },
+    {
+      "key": "speck_s6.g075.matching",
+      "lineage": "speck_s6",
+      "generation": 75,
+      "id": 16839,
+      "task": "matching",
+      "seed": "61018092",
+      "raw_genome_sha256": "c7a5ce012375d2250d010150cbd1c0490010641118a703b4ae142bfe3e5954fb"
+    }
+  ],
+  "replay_execution": {
+    "status": "complete",
+    "commands": [
+      [
+        "/home/jgon/project/ml/cell-dev/.venv/bin/python",
+        "/home/jgon/project/ml/cell-dev/outputs/multitask_examples_20261018/native.py"
+      ],
+      [
+        "node",
+        "--max-old-space-size=1536",
+        "/home/jgon/project/ml/cell-dev/outputs/multitask_examples_20261018/record/record.js",
+        "--fixture",
+        "/home/jgon/project/ml/cell-dev/outputs/multitask_examples_20261018/fixture.json",
+        "--native",
+        "/home/jgon/project/ml/cell-dev/outputs/multitask_examples_20261018/native.json",
+        "--sim",
+        "/home/jgon/project/ml/cell-dev/results/atlas/play/lifesim.js",
+        "--out",
+        "/home/jgon/project/ml/cell-dev/outputs/multitask_examples_20261018/record",
+        "--cpu-seconds",
+        "590",
+        "--wall-seconds",
+        "590"
+      ]
+    ],
+    "calls": [
+      {
+        "index": 0,
+        "exit_code": 0
+      },
+      {
+        "index": 1,
+        "exit_code": 0
+      }
+    ],
+    "cpu_seconds": 95.64684700000001,
+    "wall_seconds": 83.97368021600414,
+    "peak_owned_rss_bytes": 230641664,
+    "minimum_host_available_bytes": 18814230528
+  },
+  "saved_data_audit": {
+    "status": "passed",
+    "simulation_calls": 0,
+    "cases": 27,
+    "unique_cases": 27,
+    "frames": 3483,
+    "execution_complete_once": true,
+    "native_library_sha256": "230eb36f493d556cea7124ea4e5760f4786c06812c37b92224f231b8dddf846a",
+    "native_npz_sha256": "63ca8a0a44e8361041db41d3816f060d2f13bb61fcab8316e47019ec8031ac23",
+    "examples_sha256": "8a954140668fd1b70da91d34e3c1fe5f306a5386d1bff8c6efc112831da0adfe",
+    "binding": {
+      "fixture_sha256": "df0964b7e0a5efdea8aa68c8147e0c49f66470824c54258ccc6197a1f2b19ba0",
+      "native_sha256": "67d036f435642cf09fc621b4b701b0f6dbc68a3606b59143520adfc3256b9dd9",
+      "simulator_sha256": "b81ca41d3ff43271be03293fe4972c20689cb71b8f741fb5482d3acc37058a14",
+      "recorder_sha256": "7e68d834f3c8705f057230003a3f6dea28d1d3fb1f352218574841fc90750610"
+    },
+    "source_pins_checked": 17,
+    "ledger_doubles_checked": 3861,
+    "hashes_checked": 135,
+    "provenance": "refill_harvests includes passive and contact; passive=refill-contact; captures in matching are narrow physical slot hits, while correct choices are separate.",
+    "cases_checked": [
+      {
+        "key": "AO_s7.g000.pool",
+        "frames": 129,
+        "cells": 87,
+        "events": 163,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g000.contact_food",
+        "frames": 129,
+        "cells": 69,
+        "events": 182,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g000.matching",
+        "frames": 129,
+        "cells": 73,
+        "events": 278,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g025.pool",
+        "frames": 129,
+        "cells": 31,
+        "events": 115,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g025.contact_food",
+        "frames": 129,
+        "cells": 43,
+        "events": 126,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g025.matching",
+        "frames": 129,
+        "cells": 31,
+        "events": 254,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g100.pool",
+        "frames": 129,
+        "cells": 34,
+        "events": 109,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g100.contact_food",
+        "frames": 129,
+        "cells": 48,
+        "events": 169,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "AO_s7.g100.matching",
+        "frames": 129,
+        "cells": 42,
+        "events": 234,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g000.pool",
+        "frames": 129,
+        "cells": 91,
+        "events": 145,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g000.contact_food",
+        "frames": 129,
+        "cells": 146,
+        "events": 259,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g000.matching",
+        "frames": 129,
+        "cells": 136,
+        "events": 303,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g025.pool",
+        "frames": 129,
+        "cells": 54,
+        "events": 114,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g025.contact_food",
+        "frames": 129,
+        "cells": 75,
+        "events": 180,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g025.matching",
+        "frames": 129,
+        "cells": 93,
+        "events": 236,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g075.pool",
+        "frames": 129,
+        "cells": 59,
+        "events": 121,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g075.contact_food",
+        "frames": 129,
+        "cells": 57,
+        "events": 164,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "D90_Z_s5.g075.matching",
+        "frames": 129,
+        "cells": 59,
+        "events": 253,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g000.pool",
+        "frames": 129,
+        "cells": 191,
+        "events": 254,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g000.contact_food",
+        "frames": 129,
+        "cells": 169,
+        "events": 252,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g000.matching",
+        "frames": 129,
+        "cells": 144,
+        "events": 337,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g025.pool",
+        "frames": 129,
+        "cells": 50,
+        "events": 111,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g025.contact_food",
+        "frames": 129,
+        "cells": 32,
+        "events": 101,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g025.matching",
+        "frames": 129,
+        "cells": 46,
+        "events": 222,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g075.pool",
+        "frames": 129,
+        "cells": 94,
+        "events": 167,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g075.contact_food",
+        "frames": 129,
+        "cells": 74,
+        "events": 179,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      },
+      {
+        "key": "speck_s6.g075.matching",
+        "frames": 129,
+        "cells": 69,
+        "events": 181,
+        "ledger_columns_bitwise_equal": 143,
+        "event_hashes_equal": 5
+      }
+    ],
+    "speck_s6_one_life_counts": [
+      {
+        "captures": 15,
+        "misses": 14,
+        "income": 7500,
+        "cost": 4101.09810877192,
+        "F": 3.3192401281525443,
+        "n_end": 191,
+        "n_S_end": 66,
+        "n_M_end": 50,
+        "n_H_end": 75,
+        "generation": 0,
+        "task": "pool",
+        "initial_harvests": 0,
+        "passive_harvests": 0,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 0,
+        "wrong_narrow": 0,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 6,
+        "misses": 42,
+        "income": 3000,
+        "cost": 4008.379881441807,
+        "F": -0.9847459779705803,
+        "n_end": 169,
+        "n_S_end": 76,
+        "n_M_end": 55,
+        "n_H_end": 38,
+        "generation": 0,
+        "task": "contact_food",
+        "initial_harvests": 5,
+        "passive_harvests": 1,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 0,
+        "wrong_narrow": 0,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 0,
+        "misses": 79,
+        "income": 5000,
+        "cost": 4239.533700633831,
+        "F": 0.7426428704745947,
+        "n_end": 144,
+        "n_S_end": 62,
+        "n_M_end": 46,
+        "n_H_end": 36,
+        "generation": 0,
+        "task": "matching",
+        "initial_harvests": 0,
+        "passive_harvests": 0,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 10,
+        "wrong_narrow": 7,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 11,
+        "misses": 20,
+        "income": 5500,
+        "cost": 1260.621761121641,
+        "F": 4.140017811404623,
+        "n_end": 50,
+        "n_S_end": 28,
+        "n_M_end": 19,
+        "n_H_end": 3,
+        "generation": 25,
+        "task": "pool",
+        "initial_harvests": 0,
+        "passive_harvests": 0,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 0,
+        "wrong_narrow": 0,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 5,
+        "misses": 25,
+        "income": 2500,
+        "cost": 931.2949609547202,
+        "F": 1.5319385146926607,
+        "n_end": 32,
+        "n_S_end": 22,
+        "n_M_end": 10,
+        "n_H_end": 0,
+        "generation": 25,
+        "task": "contact_food",
+        "initial_harvests": 4,
+        "passive_harvests": 1,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 0,
+        "wrong_narrow": 0,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 1,
+        "misses": 68,
+        "income": 5000,
+        "cost": 2096.05949053137,
+        "F": 2.835879403777411,
+        "n_end": 46,
+        "n_S_end": 29,
+        "n_M_end": 17,
+        "n_H_end": 0,
+        "generation": 25,
+        "task": "matching",
+        "initial_harvests": 0,
+        "passive_harvests": 0,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 10,
+        "wrong_narrow": 6,
+        "wrong_broad": 1
+      },
+      {
+        "captures": 17,
+        "misses": 20,
+        "income": 8500,
+        "cost": 2195.8764547635114,
+        "F": 6.156370649644748,
+        "n_end": 94,
+        "n_S_end": 46,
+        "n_M_end": 29,
+        "n_H_end": 19,
+        "generation": 75,
+        "task": "pool",
+        "initial_harvests": 0,
+        "passive_harvests": 0,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 0,
+        "wrong_narrow": 0,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 18,
+        "misses": 50,
+        "income": 9000,
+        "cost": 2130.8790584549006,
+        "F": 6.708125919477196,
+        "n_end": 74,
+        "n_S_end": 33,
+        "n_M_end": 26,
+        "n_H_end": 15,
+        "generation": 75,
+        "task": "contact_food",
+        "initial_harvests": 6,
+        "passive_harvests": 11,
+        "contact_harvests": 1,
+        "correct_narrow": 0,
+        "correct_broad": 0,
+        "wrong_narrow": 0,
+        "wrong_broad": 0
+      },
+      {
+        "captures": 0,
+        "misses": 34,
+        "income": 1000,
+        "cost": 2127.433612257035,
+        "F": -1.1010093869706492,
+        "n_end": 69,
+        "n_S_end": 39,
+        "n_M_end": 23,
+        "n_H_end": 7,
+        "generation": 75,
+        "task": "matching",
+        "initial_harvests": 0,
+        "passive_harvests": 0,
+        "contact_harvests": 0,
+        "correct_narrow": 0,
+        "correct_broad": 2,
+        "wrong_narrow": 3,
+        "wrong_broad": 0
+      }
+    ]
+  },
+  "local_artifact_pins": {
+    "fixture.json": "df0964b7e0a5efdea8aa68c8147e0c49f66470824c54258ccc6197a1f2b19ba0",
+    "native.npz": "63ca8a0a44e8361041db41d3816f060d2f13bb61fcab8316e47019ec8031ac23",
+    "record/examples.json": "8a954140668fd1b70da91d34e3c1fe5f306a5386d1bff8c6efc112831da0adfe",
+    "ancestry/analyze.py": "c3c2c638fa9fdb99cae178f4da220deb7f10143a2cc84c79d4c7344f66caa40e",
+    "ancestry/plot.py": "7df29a6a9507f76edd16c2e9457b22eec0c8286889b506557ccde1c54978f878",
+    "record/audit.py": "255b6d1e89f9cc9382290af93c16b3020bc481afb6c5eeff8a631d6cd887bdf4"
+  },
+  "published_artifact_pins": {
+    "body_and_acquisition.png": "7028dcccd9459ed7ba72a08b1506a0068c68388bdaef0c39da6dffb18ebc7846",
+    "REPORT.md": "a01df892624680e792f550e00fc4209972f40260319ef7dd9f00a5815d78843d",
+    "gene_origin_mosaic.png": "cd3dd2a31cbc26d77dcede0ee99da985cffa0755f7a89773550193c68bf483f8",
+    "examples.html": "924ce4c9eefd0271d584a880e6b58200e3c7e18b8ed228ae8ad767dc487032dc",
+    "body_and_acquisition.svg": "9b824bcdcb8dadae4b9d334e69746c7b5cf5853b607f126f283157908318c103",
+    "anatomy.png": "e0639bb4f5d2c5afb2ed9c7a3246c920a5958d48ac7da1a2274854f5bf3aca65",
+    "summary.json": "4c38d24c1c3d151e23663f84d3cc1c9614eeda2e61a3e4dc5f507cb2705c67b2",
+    "gene_origin_mosaic.svg": "8000c0daa858e7ae61e349c92e09a6dbe02c1f96bdc8354930742b95c60e92cb",
+    "native_reference.json": "67d036f435642cf09fc621b4b701b0f6dbc68a3606b59143520adfc3256b9dd9",
+    "source/test_viewer.js": "a6bf63068e42d7411f0ca5a5325ffbb9bd8ee5c0cea0c214588d3411194b82bd",
+    "source/build_page.py": "652c53119101ec629be9563d103065d0c00dacdfbf6e637952ce0a809af6b973",
+    "source/template.html": "653dd3d4232da446087a314db9418f5d509319c61984d86676c054492560b647",
+    "source/record.js": "7e68d834f3c8705f057230003a3f6dea28d1d3fb1f352218574841fc90750610",
+    "source/viewer.js": "8bf3aedf84d1103e8ae44b14b151970c6a17ec61f636ef4c80d1c1424edcbd9e",
+    "source/anatomy.py": "8d06587a178126b244c8f0de14136f213826e8888835e53ab0341979ec2f69a4"
+  },
+  "viewer_checks": {
+    "syntax": true,
+    "mocked_actual_data_displays": 108,
+    "browser_rendering_checked": false,
+    "static_figures_visually_inspected": true
+  }
+}

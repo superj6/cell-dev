@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evolution in progress · saved examples</title>
+<style>
+  :root { color-scheme:light; font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:#213346; background:#f3f5f7; font-synthesis:none }
+  * { box-sizing:border-box }
+  body { margin:0; padding:28px 24px 48px; max-width:1540px; margin-inline:auto }
+  h1 { font-size:clamp(26px,3vw,38px); letter-spacing:-.035em; line-height:1.15; margin:0 0 13px }
+  h2 { font-size:19px; margin:0 }
+  p { margin:9px 0; max-width:104ch }
+  .eyebrow { color:#4b6478; text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700 }
+  .muted { color:#647586 }
+  .intro { max-width:1060px; margin-bottom:22px }
+  .toolbar { display:flex; gap:16px; flex-wrap:wrap; align-items:end; background:white; border:1px solid #dce3e9;
+    padding:16px 18px; border-radius:14px; margin-bottom:12px }
+  label { display:block; font-size:12px; font-weight:650; color:#526579 }
+  select,button { color:#20354a; font:inherit; border:1px solid #bdcbd6; border-radius:7px; background:white;
+    padding:8px 11px; min-height:40px }
+  select { margin-top:5px; min-width:172px }
+  button { cursor:pointer }
+  button:hover,select:hover { border-color:#356e90 }
+  button:focus-visible,select:focus-visible,input:focus-visible { outline:3px solid #86bddb; outline-offset:2px }
+  #play { color:white; background:#205f82; border-color:#205f82; min-width:84px }
+  #timeline { flex:1; min-width:180px; accent-color:#205f82 }
+  .timebar { display:flex; gap:14px; align-items:center; width:100%; border-top:1px solid #edf0f3; padding-top:13px }
+  #clock { font-variant-numeric:tabular-nums; min-width:105px; font-size:13px }
+  #task-note { margin:12px 2px 18px; min-height:44px; max-width:110ch }
+  .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
+  .card { background:white; border:1px solid #d8e1e8; border-radius:14px; overflow:hidden; min-width:0 }
+  .card-head { padding:16px 18px 12px; border-bottom:1px solid #e7edf1; min-height:105px }
+  .stage { color:#52768d; font-size:11px; font-weight:750; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px }
+  .identity { font-size:12px; color:#6a7986; margin-top:6px }
+  .world { display:block; width:100%; height:auto; background:#fbfcfd }
+  .metrics { padding:12px 17px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px;
+    border-top:1px solid #e7edf1; border-bottom:1px solid #e7edf1; font-variant-numeric:tabular-nums }
+  .metric strong { display:block; font-size:23px; line-height:1.2; letter-spacing:-.02em }
+  .metric span { display:block; font-size:11px; color:#697988; line-height:1.3; margin-top:3px }
+  .detail { padding:9px 17px 0; font-size:12px; color:#597083; min-height:44px }
+  .tissue-title { padding:10px 17px 0; font-size:12px; font-weight:650 }
+  .tissue { display:block; width:100%; height:auto }
+  .feed { font-size:11px; padding:7px 17px 14px; color:#66798b; min-height:50px }
+  .legend { display:flex; gap:19px; flex-wrap:wrap; font-size:12px; margin:17px 1px 12px; color:#4f6476 }
+  .swatch { width:10px; height:10px; display:inline-block; border-radius:50%; margin-right:5px; border:1px solid #becbd4 }
+  .sense { background:#2d9a79 } .motor { background:#e39b42 } .hidden { background:#9373b6 }
+  .fire { background:#fff; border:2px solid #556b7e } .food { background:#6dbed7 }
+  .method { font-size:12px; color:#607587; border-top:1px solid #d7e0e7; padding-top:14px; margin-top:18px }
+  .warning { padding:11px 14px; border-radius:8px; background:#fff3da; color:#795d22; margin:15px 0 }
+  #error { display:none; padding:16px; border:1px solid #c68181; color:#822a2a; background:#fff1f1; border-radius:8px }
+  .phase { font-size:12px; font-weight:650; margin:7px 0 0; color:#476880; min-height:18px }
+  @media(max-width:1050px) { body { padding:22px 14px } .cards { gap:9px }
+    .card-head,.metrics { padding-left:12px; padding-right:12px } .metric strong { font-size:20px } }
+  @media(max-width:740px) { .cards { grid-template-columns:1fr } .card-head { min-height:0 }
+    .toolbar { gap:11px; padding:12px } select { min-width:142px } .intro { font-size:14px }
+    .world { max-height:390px } .tissue { max-height:190px } }
+</style>
+<header class="intro">
+  <p class="eyebrow">Multitask evolution · October 18</p>
+  <h1>What changed as evolution continued?</h1>
+  <p>Watch three saved organisms from the same population at different generations. Each grows its own tissue,
+    senses nearby signals and moves through the world. The panels share a task and starting seed.</p>
+  <p class="muted">Later examples use the same pursuit-score selection rule; the original is the first imported row.
+    These are not a direct ancestor–descendant chain. One life illustrates behavior; it does not establish
+    an average improvement or a circuit’s mechanism.</p>
+</header>
+<section class="toolbar" aria-label="Example and playback controls">
+  <label>Population<select id="lineage"></select></label>
+  <label>Environment<select id="task"></select></label>
+  <button id="play" type="button">Play</button>
+  <button id="restart" type="button">From birth</button>
+  <label>Playback<select id="speed"><option value="16">16×</option><option value="32" selected>32×</option>
+    <option value="64">64×</option><option value="128">128×</option></select></label>
+  <div class="timebar"><label for="timeline">Life time</label><input id="timeline" type="range" min="0" max="1024" step="1" value="128">
+    <span id="clock" aria-live="off">128 / 1024</span></div>
+</section>
+<p id="task-note"></p>
+<p id="error" role="alert"></p>
+<main id="cards" class="cards"></main>
+<div class="legend">
+  <span><i class="swatch sense"></i>Sensing layer</span><span><i class="swatch motor"></i>Action layer</span>
+  <span><i class="swatch hidden"></i>Internal layers</span><span><i class="swatch fire"></i>Fired during this interval</span>
+  <span><i class="swatch food"></i>Food / visible target</span><span>Line: body’s path · ring: capture distance</span>
+  <span>Green dot: collected · red cross: recent unsuccessful tap</span>
+</div>
+<p class="warning">The original example is the first genome in the pre-flash population. It does not represent
+  the best of all 96 starting genomes. Later examples have the highest training pursuit score and are then
+  measured on separate progress panels. The final cross-task assessment is still pending.</p>
+<footer class="method">
+  <p>Each card shows a saved simulation, with no new evolution or simulation in your browser. Colors mark
+    positional tissue layers, not learned cell categories. Cells communicate only with neighbors.
+    Their changing local rules and growth were evolved.</p>
+  <p>Task phases, patch stock and food origin are labels for us. They are not extra information available to cells.
+    Matching outcomes count correct and wrong choices, rather than treating either physical target as always correct.</p>
+  <p>The charts elsewhere use progress-panel lives. These replays use separate fixed illustration seeds,
+    so their individual catch counts need not equal the chart averages.</p>
+  <p id="validation"></p>
+</footer>
+<script id="example-data" type="application/json">__DATA__</script>
+<script>__VIEWER__</script>
+</html>

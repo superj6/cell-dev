@@ -27,6 +27,16 @@ checks all 96 imported rows per lineage byte-for-byte and confirms startup numer
 All eight training objectives are present; initial owned RSS is about 1.2 GiB. No endpoint result exists yet.
 Leave the pinned checkout/configurations unchanged while this study runs.
 
+Saved mid-run visual examples are available in
+[the interactive comparison](../results/multitask_examples_20261018/examples.html) and
+[its report](../results/multitask_examples_20261018/REPORT.md). These show AO through generation 100 and
+D90/s6 through 75 using the existing training-POOL reporting role, not final generalist endpoints.
+s6 shows early shrinkage, some internal-cell regrowth and improved resource collection relative to its
+first original row, with pursuit still lower. Exact genetic replay verifies crossover and mutation
+inheritance; it does not establish a causal circuit. The 27 fixed illustrative C/JS replay pairs agree
+on all ledger bits and full hashes. Keep these examples separate from progress-panel averages and fresh
+confirmation. The active evolution inputs, policies and budgets were not changed for this visualization.
+
 One reporting genome per stage (0/125/250) is chosen on training-only development lives, then tested
 unchanged on eight trained conditions plus eight reserved variations, 512 fresh lives per condition.
 Report gains/losses in acquisition and physical costs, both matching classes and contact-origin food.

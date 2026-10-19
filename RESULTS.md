@@ -4511,3 +4511,25 @@ manifest SHA is `b1b4c26ae6c4bae415541752e8520c4f527de40aa06c139c048db6fd9c3de91
 intentionally common across stages and lineages. Initial aggregate RSS is about 1.2 GiB, with 12 GiB host
 memory available. Jobs proceed through initial panels, training and frozen fresh confirmation under the
 declared limits. This is a running study, not an evolutionary result.
+
+## 2026-10-18 — Visual examples reveal body trade-offs and verified genetic mixing
+
+[Interactive saved replays, tissue views and measurements](results/multitask_examples_20261018/REPORT.md)
+compare AO generations 0/25/100 and D90/s6 0/25/75. Later examples use the existing training-POOL winner
+role; generation zero is the first original row, omitting the flash-derived starting group. These are
+changing representatives, not a direct ancestral chain or the final generalist assessment.
+
+In 16-life panels, s6 body/internal counts change from 159.44/39.81 to 54.00/4.81 at generation 25 and
+77.19/11.94 at 75. Contact-food captures rise from 10.00 to 18.56, while pursuit drops from 18.19 to 12.81.
+AO becomes almost devoid of internal cells; D90 partially recovers pursuit after early shrinkage. Internal
+regrowth is not evidence of useful hidden computation, and resource totals do not establish farming.
+
+Read-only genetic reconstruction verifies all 56,000 offspring operations and matches 1,248 saved genomes
+across 13 snapshots exactly. The latest examples retain eight active developmental genes, with original /
+flash-derived ancestry of 1/7, 3/5 and 1/7. This establishes recombination and parameter tuning, not retention
+of particular behavioral skills. Gene duplication/deletion are disabled in this study.
+
+The 27 fixed illustrative lives use three predetermined task seeds, independent of the panel seeds. All
+27 full C/JS pairs match every ledger double and all five hashes, with zero native statuses. Recording took
+95.65 CPU /83.97 wall seconds, peak owned RSS 220 MiB. Independent saved-data and supplied-data viewer checks
+pass; no browser rendering check was available. The four main evolution jobs continue unchanged.
