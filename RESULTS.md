@@ -4533,3 +4533,30 @@ The 27 fixed illustrative lives use three predetermined task seeds, independent 
 27 full C/JS pairs match every ledger double and all five hashes, with zero native statuses. Recording took
 95.65 CPU /83.97 wall seconds, peak owned RSS 220 MiB. Independent saved-data and supplied-data viewer checks
 pass; no browser rendering check was available. The four main evolution jobs continue unchanged.
+
+## 2026-10-19 — Multitask evolution completes: broader acquisition and contact-food gains, incomplete retention
+
+All four ×250-generation runs and final evaluations finish on their first attempts in **25.75 elapsed
+/188.77 CPU-hours**, peak owned RSS **1.26 GiB**. Total accounting is 7,651,336 lives. The queue is complete.
+[Report, figure and measurements](results/multitask_20261018/REPORT.md).
+
+One unchanged selected genome per stage faces all 16 trained/reserved conditions. D90 improves pursuit
+**14.920 →17.504 captures (+2.584 ±0.244 paired SE)** despite increased physical cost; patches improve
+17.178 →20.521 and contact-food acquisition 19.828 →23.119. Reserved counterparts improve too. All four
+gain total contact-food acquisition and specifically contact-produced harvest in trained and reserved
+conditions beyond three paired SE. s6's contact-produced harvest nearly doubles, **2.160 →4.186**.
+This is improved realized acquisition from delayed action consequences, without evidence of remembered
+return times or planning. Passive regrowth still supplies most food.
+
+AO reduces harmful taps **56.863 →25.959** while catching more edible food. Retention remains incomplete:
+s6/s8 lose trained dark-flash captures, and AO/s6/s8 lose reserved dim/dark acquisition. Matching remains
+strongly class-biased: final narrow success **3.92–7.78%**, broad **74.25–92.07%** per opportunity. Some
+fitness gains mask acquisition losses through reduced costs. No memory or causal circuit is established.
+
+All four initial reporting genomes come from the complete flash-trained starting group, so this baseline
+differs from the earlier illustrative original-row examples. Independent saved-data auditing reproduces
+all 12 endpoint choices, shared ranks, **27,456 summary +27,456 paired statistics and 1,152 matching ratios**.
+All **393,216 saved development/confirmation rows** have status zero. Training counts are checked through
+logs; individual raw training ledgers were not saved. No new simulations were run for the audit/report.
+Preserve all populations and archives. Next priorities are explaining contact-production dependence,
+testing behavioral retention alongside costs and advancing obstacle navigation; no follow-on run is launched here.

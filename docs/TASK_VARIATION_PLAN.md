@@ -6,7 +6,14 @@ that tested hand-built positive controls on fresh lives, and two critics who re-
 
 ## 0. Revision (2026-10-10): admit worlds by what they pay, not by what we can build
 
-**Current priority (2026-10-18).** The user requested actual selection across different objectives after
+**Completed outcome (2026-10-19).** Four ×250-generation multitask runs and fresh confirmation are complete.
+D90 improves acquisition across several tasks and reserved variants; all four improve contact-produced
+harvest. Dark-flash retention is incomplete and matching remains strongly class-biased. The strongest
+next directions are explaining dependence on delayed resource production, testing selection that preserves
+behavioral abilities alongside costs, and advancing obstacle navigation. No new run is registered here.
+See [the final report](../results/multitask_20261018/REPORT.md); no memory mechanism is established.
+
+**Study design (2026-10-18; now complete).** The user requested actual selection across different objectives after
 the flash-only study. Run four lineages ×250 generations with eight task conditions: POOL, persistent
 pursuit, two flash levels, delayed matching, replenishing patches, contact-triggered food and harmful
 decoys. All affect breeding every generation through task-specific fitness and epsilon lexicase, with

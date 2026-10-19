@@ -1,4 +1,4 @@
-# Handoff: cell-dev — 2026-10-18
+# Handoff: cell-dev — 2026-10-19
 
 This is the operating summary. Read [SEARCH.md](SEARCH.md), [RESEARCH_STATUS.md](RESEARCH_STATUS.md),
 [TASK_VARIATION_PLAN.md §0](TASK_VARIATION_PLAN.md), and the newest entries at the bottom of
@@ -8,7 +8,7 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
-**Current authorized study:** four lineages ×250 generations across eight conditions in
+**Completed study:** four lineages ×250 generations across eight conditions in
 `configs/multitask.yaml`. All eight influence breeding: POOL, persistent pursuit, two flash levels,
 delayed matching, replenishing patches, contact-triggered food and harmful-target avoidance.
 Each lineage preserves all 96 pre-flash/final-flash current/archive genomes at startup. The archive
@@ -19,13 +19,23 @@ is authoritative for actual running status. See [SEARCH.md](SEARCH.md) for exact
 Budget: at most 7,651,336 lives including startup checks, 600 CPU-hours/96 elapsed hours, four two-thread
 workers, nice 10, 8 GiB owned RSS and 4 GiB host-memory reserve. The fixed eight-condition benchmark
 measured 11.62 lives/s at two threads and 38.26 at eight, with identical ledgers. Estimated elapsed time
-is 2–3 days; evolving bodies and search overhead can change it. Checkpoints every five generations.
+was 2–3 days; actual elapsed time was 25.75 hours. Checkpoints were saved every five generations.
 
-**Launched 2026-10-18 17:42 UTC:** all four workers are running from pinned source `e69858f`.
+**Completed 2026-10-19 19:27 UTC:** all four workers finished on their first attempts from pinned source `e69858f`.
 `launch_manifest.json` binds actual inputs, resolved configurations and commands; `launch_verified.json`
 checks all 96 imported rows per lineage byte-for-byte and confirms startup numerical identities.
-All eight training objectives are present; initial owned RSS is about 1.2 GiB. No endpoint result exists yet.
-Leave the pinned checkout/configurations unchanged while this study runs.
+All eight training objectives were present. Final evaluation is complete; no worker remains in this queue.
+Actual use: 188.77 CPU-hours, peak owned RSS 1.26 GiB. Preserve the pinned checkout/configurations and raw data.
+
+[Final report](../results/multitask_20261018/REPORT.md): D90 improves acquisition across pursuit and resources,
+including reserved variants. All four improve contact-produced harvest in both trained and reserved worlds;
+s6 nearly doubles it (2.160 →4.186). AO reduces harmful taps while catching more food. Shape matching remains
+strongly broad-biased; dark-flash captures regress in s6/s8, and cost savings sometimes mask food losses.
+The 12 reporting genomes were selected from full stage cohorts, including all 96 starting rows. All four g0
+choices are flash-trained, unlike the earlier illustrative original-row comparisons. Independent raw auditing
+checks all 393,216 development/confirmation lives and all selected endpoints. No memory mechanism is established.
+Next priorities: explain contact-production dependence, preserve behavioral abilities alongside costs, and
+advance the obstacle-navigation direction. No follow-on experiment has been launched by this completion report.
 
 Saved mid-run visual examples are available in
 [the interactive comparison](../results/multitask_examples_20261018/examples.html) and
@@ -37,7 +47,7 @@ inheritance; it does not establish a causal circuit. The 27 fixed illustrative C
 on all ledger bits and full hashes. Keep these examples separate from progress-panel averages and fresh
 confirmation. The active evolution inputs, policies and budgets were not changed for this visualization.
 
-One reporting genome per stage (0/125/250) is chosen on training-only development lives, then tested
+One reporting genome per stage (0/125/250) was chosen on training-only development lives, then tested
 unchanged on eight trained conditions plus eight reserved variations, 512 fresh lives per condition.
 Report gains/losses in acquisition and physical costs, both matching classes and contact-origin food.
 Do not substitute task-specific winners or call a specialist portfolio individual generalization.

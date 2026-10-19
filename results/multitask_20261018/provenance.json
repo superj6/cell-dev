@@ -1,0 +1,273 @@
+{
+  "source_commit": "e69858f200a53d1ecc6c3a5ed7ba988f95a5dafd",
+  "source_summary_pins": {
+    "outputs/multitask_20261018/runs/AO_s7/confirmation/summary.json": "d8dae5511f99ccd8fd6fa92864eda42645be67d95650e960a0c1c400269f8a7c",
+    "outputs/multitask_20261018/runs/AO_s7/confirmation/selection.json": "3b27a7e1dde23a6ae2d515741d05046da7226d5056948eed80100eec8b911ed1",
+    "outputs/multitask_20261018/runs/AO_s7/confirmation/development.json": "e55e637e24832aa0a5daf39bcdf708200bb4d06d7692d6905b4cee6ea28f0b3f",
+    "outputs/multitask_20261018/runs/D90_Z_s5/confirmation/summary.json": "4b083bddbba6ee152a4dcc576d97da799e6c50fe03d10541d2c40feba82674f5",
+    "outputs/multitask_20261018/runs/D90_Z_s5/confirmation/selection.json": "019cd7ec1d8bc25c990471ee4656590d274ab8bce99093df9addaa06c098bcb7",
+    "outputs/multitask_20261018/runs/D90_Z_s5/confirmation/development.json": "fb89798c10a60942642bec8e4cee4fc71a3f4c9aefe1e1c90f569dfcc09bb476",
+    "outputs/multitask_20261018/runs/speck_s6/confirmation/summary.json": "7c5fdff6563edb716cd0fd85deeb2a05c5d673d28140b90d4e7602affecfeb57",
+    "outputs/multitask_20261018/runs/speck_s6/confirmation/selection.json": "817060df58ab4ba7cd0c322913f0b5e295898d0ccc47ebf9af01c3d65d066353",
+    "outputs/multitask_20261018/runs/speck_s6/confirmation/development.json": "3b2d5b00396042c379100cc0599694e79e87404e0e15d60d46c882d25d5423b3",
+    "outputs/multitask_20261018/runs/speck_s8/confirmation/summary.json": "bddaf1a75a5dcb182acd2f443c202506a1e46fce1dad2a5195e5c82a299a8023",
+    "outputs/multitask_20261018/runs/speck_s8/confirmation/selection.json": "ae860d4975dc680714ae5cf98136a7d777644d469b76e4589ed9399ef98afc1b",
+    "outputs/multitask_20261018/runs/speck_s8/confirmation/development.json": "d820312f5f7539ee7b70b9ed36be17049ff7a4455981d3ab7358e4a60fa2bd97"
+  },
+  "source_launch_manifest_sha256": "b1b4c26ae6c4bae415541752e8520c4f527de40aa06c139c048db6fd9c3de919",
+  "completed_at": 1792438030.309915,
+  "cpu_seconds": 679581.542749811,
+  "wall_seconds": 92705.83771681786,
+  "peak_rss_bytes": 1349734400,
+  "jobs": [
+    {
+      "lineage": "AO_s7",
+      "status": "complete",
+      "attempts": 1,
+      "exit_code": 0
+    },
+    {
+      "lineage": "D90_Z_s5",
+      "status": "complete",
+      "attempts": 1,
+      "exit_code": 0
+    },
+    {
+      "lineage": "speck_s6",
+      "status": "complete",
+      "attempts": 1,
+      "exit_code": 0
+    },
+    {
+      "lineage": "speck_s8",
+      "status": "complete",
+      "attempts": 1,
+      "exit_code": 0
+    }
+  ],
+  "confirmation_and_development_lives": 393216,
+  "scientific_simulations_during_publication": 0,
+  "independent_audit": {
+    "status": "pass",
+    "method": "Audit saved multitask evidence only: no evaluator, native library, or simulations.\n\nIndependent arithmetic for float32 genotype deduplication, pairwise tie ranks,\nendpoint choice, production-F accounting, all summary statistics and paired SEs.\nOnly the pinned ABI tables/hash/world constructors are shared with the run.\n",
+    "simulation_lives_run": 0,
+    "lineages": {
+      "AO_s7": {
+        "status": "pass",
+        "unique_genotypes": 288,
+        "choices": {
+          "0": {
+            "id": 54,
+            "source": "archive",
+            "cohort_index": 54,
+            "genome_sha256": "aec3fb5ba739550841d1a51d8792333e44454bacb2609ea05e373e6859f5a840",
+            "worst_rank": 0.2787456445993031
+          },
+          "125": {
+            "id": 27974,
+            "source": "archive",
+            "cohort_index": 154,
+            "genome_sha256": "478b908e3ad477627b45fa33d402b8c32805c17e1d9a3c1564161ddeeff8b96e",
+            "worst_rank": 0.41114982578397213
+          },
+          "250": {
+            "id": 55924,
+            "source": "current",
+            "cohort_index": 209,
+            "genome_sha256": "bc0ff7c2672ce6ee70e98f282410206f55e0cb993608760bf5f62fc47f85b64b",
+            "worst_rank": 0.6236933797909407
+          }
+        },
+        "raw_rows_checked": 98304,
+        "raw_blocks_checked": 12,
+        "raw_status_counts": {
+          "0": 98304
+        },
+        "summary_statistics_checked": 6864,
+        "paired_statistics_checked": 6864,
+        "matching_ratios_checked": 288,
+        "raw_lives_by_kind": {
+          "development": 73728,
+          "confirmation": 24576
+        },
+        "training_lives": 1792000,
+        "progress_lives": 22528,
+        "source_files_checked": 34,
+        "snapshot_memberships": 288,
+        "no_simulations_run": true,
+        "errors": []
+      },
+      "D90_Z_s5": {
+        "status": "pass",
+        "unique_genotypes": 288,
+        "choices": {
+          "0": {
+            "id": 40,
+            "source": "archive",
+            "cohort_index": 40,
+            "genome_sha256": "e9007ed0e352d78e69a3c9b30b8f0f7a27aaf9d489198fb23843e121ddfd06d4",
+            "worst_rank": 0.34494773519163763
+          },
+          "125": {
+            "id": 27983,
+            "source": "archive",
+            "cohort_index": 153,
+            "genome_sha256": "d76ea82406d0414747e2e8fcac550861265b34a15e181737226d8b3e8164d04e",
+            "worst_rank": 0.5679442508710801
+          },
+          "250": {
+            "id": 55818,
+            "source": "current",
+            "cohort_index": 208,
+            "genome_sha256": "cd46f4ec38047ff875eee5765b34d7166b3d8c0708ed0783b91255a46d4f4042",
+            "worst_rank": 0.627177700348432
+          }
+        },
+        "raw_rows_checked": 98304,
+        "raw_blocks_checked": 12,
+        "raw_status_counts": {
+          "0": 98304
+        },
+        "summary_statistics_checked": 6864,
+        "paired_statistics_checked": 6864,
+        "matching_ratios_checked": 288,
+        "raw_lives_by_kind": {
+          "development": 73728,
+          "confirmation": 24576
+        },
+        "training_lives": 1792000,
+        "progress_lives": 22528,
+        "source_files_checked": 34,
+        "snapshot_memberships": 288,
+        "no_simulations_run": true,
+        "errors": []
+      },
+      "speck_s6": {
+        "status": "pass",
+        "unique_genotypes": 288,
+        "choices": {
+          "0": {
+            "id": 66,
+            "source": "archive",
+            "cohort_index": 66,
+            "genome_sha256": "06f51bf3b548aa1459751498136a34b223478ab711ee4850c6669b047a72dfbb",
+            "worst_rank": 0.21254355400696864
+          },
+          "125": {
+            "id": 28061,
+            "source": "current",
+            "cohort_index": 116,
+            "genome_sha256": "d504b098322f59ff4883f441ef4ea4290d61da4b0f566439e73a0703cb613657",
+            "worst_rank": 0.4738675958188153
+          },
+          "250": {
+            "id": 55777,
+            "source": "archive",
+            "cohort_index": 250,
+            "genome_sha256": "e5362067b1bc998cdefa53362916fb80d5d85bc8b1f5411408cdde7f0ac4a648",
+            "worst_rank": 0.49477351916376305
+          }
+        },
+        "raw_rows_checked": 98304,
+        "raw_blocks_checked": 12,
+        "raw_status_counts": {
+          "0": 98304
+        },
+        "summary_statistics_checked": 6864,
+        "paired_statistics_checked": 6864,
+        "matching_ratios_checked": 288,
+        "raw_lives_by_kind": {
+          "development": 73728,
+          "confirmation": 24576
+        },
+        "training_lives": 1792000,
+        "progress_lives": 22528,
+        "source_files_checked": 34,
+        "snapshot_memberships": 288,
+        "no_simulations_run": true,
+        "errors": []
+      },
+      "speck_s8": {
+        "status": "pass",
+        "unique_genotypes": 288,
+        "choices": {
+          "0": {
+            "id": 74,
+            "source": "archive",
+            "cohort_index": 74,
+            "genome_sha256": "590e508acc0c05536ae6c1ef9c1ee5e63429bb6a9aaa40fe7b8bd03ffe3d523c",
+            "worst_rank": 0.31010452961672474
+          },
+          "125": {
+            "id": 27923,
+            "source": "current",
+            "cohort_index": 113,
+            "genome_sha256": "0562e5936a027f3cfe686d1921c23a7c0bf676f94c19750e0d41d938257c71d3",
+            "worst_rank": 0.4912891986062718
+          },
+          "250": {
+            "id": 56070,
+            "source": "archive",
+            "cohort_index": 279,
+            "genome_sha256": "717c48d173565a2101bba7a7dbf2837a844adeb3b4c4959c0088c2742041fd29",
+            "worst_rank": 0.5261324041811847
+          }
+        },
+        "raw_rows_checked": 98304,
+        "raw_blocks_checked": 12,
+        "raw_status_counts": {
+          "0": 98304
+        },
+        "summary_statistics_checked": 6864,
+        "paired_statistics_checked": 6864,
+        "matching_ratios_checked": 288,
+        "raw_lives_by_kind": {
+          "development": 73728,
+          "confirmation": 24576
+        },
+        "training_lives": 1792000,
+        "progress_lives": 22528,
+        "source_files_checked": 34,
+        "snapshot_memberships": 288,
+        "no_simulations_run": true,
+        "errors": []
+      }
+    },
+    "errors": [],
+    "totals": {
+      "raw_rows_checked": 393216,
+      "raw_blocks_checked": 48,
+      "summary_statistics_checked": 27456,
+      "paired_statistics_checked": 27456,
+      "matching_ratios_checked": 1152,
+      "training_lives": 7168000,
+      "progress_lives": 90112,
+      "startup_golden_lives": 8,
+      "native_lives_in_completed_queue": 7651336
+    },
+    "queue": {
+      "all_first_attempt_success": true,
+      "wall_hours": 25.75162158800496,
+      "cpu_hours": 188.77265076383637,
+      "peak_rss_GiB": 1.2570381164550781,
+      "finished_timestamp": 1792438030.309915
+    },
+    "source_commit": "e69858f200a53d1ecc6c3a5ed7ba988f95a5dafd",
+    "audit_script_sha256": "f31363b78f6f45d7e1a94ded45dba34be25448e4f22f88254807ba24171be00f"
+  },
+  "analysis_source_pins": {
+    "outputs/multitask_20261018/analysis/audit/audit.py": "f31363b78f6f45d7e1a94ded45dba34be25448e4f22f88254807ba24171be00f",
+    "outputs/multitask_20261018/analysis/interpretation/extract.py": "71cdd604940585eaad1c88a40d2b1b610792c69e0225cb7143934d40e20638a2",
+    "outputs/multitask_20261018/analysis/publish.py": "f0c42900512d9081ba5f5b79a196313b760c3aae551e85c171cecee18340d062",
+    "outputs/multitask_20261018/analysis/figure/plotting.py": "d4a44edc61f1dd8b137e0c2da39affbfc594f9c43959d647696d9920ee521361"
+  },
+  "published_artifact_pins": {
+    "plotting.py": "18e59943a4c166971f644f86260ba3e2f6bfefa63b8a426589f24595faa05b98",
+    "REPORT.md": "efeb8e5e0df887158a471faeb0d052494d3e37994b090559e025e3311f2948b1",
+    "food_changes.png": "a7ab2c3e76246261da4b14a9559a0d242b73324beec9ae442c42f4996479a415",
+    "selected_genomes.json": "7ab4c4804db17ca8be3c0a8f5ecf21fa1ea2dad649ebadf8d8943a6b74a9c692",
+    "food_changes.svg": "e0edac2a3d704551a72d2e30ba2b8e6752c0473a32bcac2223ff655137aeb268",
+    "paired_measurements.csv": "eab1f6b0b54fcc6ce86ddda65e31613e4d2280f4a7e6b15dd3261bb68094a790",
+    "summary.json": "44514e4f0770033ae2da4e8487bc9aba8de2113c350c719541356bb64a5191a4"
+  }
+}

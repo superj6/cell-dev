@@ -1,5 +1,13 @@
 # Project evidence map — cumulative resource experiments
 
+**Completed multitask study (2026-10-19):** all four ×250-generation runs and fresh confirmation finished
+in 25.75 elapsed /188.77 CPU-hours. [Final report](../results/multitask_20261018/REPORT.md) finds broader
+acquisition in D90 and increased contact-produced harvest in all four, including reserved variants.
+Matching remains strongly broad-biased; s6/s8 lose dark-flash captures. One unchanged genome per stage
+is selected from complete cohorts, including all 96 initial rows. The independent audit reproduces all
+12 endpoints and 393,216 development/confirmation lives. No memory or causal internal circuit is established.
+The study is complete; subsequent dated entries retain historical context.
+
 **Mid-run visual examples (2026-10-18):** [interactive replay and report](../results/multitask_examples_20261018/REPORT.md)
 compare original/generation-25/later representatives from AO, D90 and s6. They show substantial body shrinkage,
 partial internal-cell regrowth in s6, and acquisition trade-offs. A 56,000-offspring genetic reconstruction
