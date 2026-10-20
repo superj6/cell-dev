@@ -10,7 +10,7 @@ from omegaconf import OmegaConf
 
 from scripts import confirm_multitask as confirm
 from src.life import build, spec
-from src.life.evaluate import LifeDraw
+from src.life.evaluate import LifeDraw, life_seed
 
 
 @pytest.fixture(autouse=True)
@@ -129,10 +129,13 @@ class MockEvaluator:
     def __init__(self, out):
         self.out, self.calls = out, []
 
-    def draw_tasks(self, purpose, index, tasks, lives):
+    def draw_tasks(self, purpose, index, tasks, lives, seed=None):
         names = tuple(task["name"] for task in tasks for _ in range(lives))
         worlds = tuple(spec.world(task["world"]) for task in tasks for _ in range(lives))
-        return LifeDraw(tuple(range(len(names))), worlds, names)
+        # Like LifeEvaluator.draw_tasks: a study seed keys the panel's lives.
+        seeds = (tuple(range(len(names))) if seed is None
+                 else tuple(life_seed(seed, purpose, index, i) for i in range(len(names))))
+        return LifeDraw(seeds, worlds, names)
 
     def run(self, genes, draw):
         if "reserved" in draw.tasks:

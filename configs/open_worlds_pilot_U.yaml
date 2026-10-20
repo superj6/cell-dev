@@ -1,0 +1,9 @@
+# Open-world pilot, arm U: uniform lives per task (the control; OPEN_WORLDS.md 6.6). See open_worlds_base.yaml.
+extends: open_worlds_base.yaml
+
+evolve:
+  allocation:
+    mode: uniform
+
+logging:
+  output_dir: outputs/open_worlds_pilot/U

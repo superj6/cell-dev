@@ -1,0 +1,12 @@
+# Open-world pilot, arm LP+D: learning-progress allocation plus gene duplication and deletion (silent copies;
+# OPEN_WORLDS.md 6.5). Mutation count still scales with active genes (n_mut_scale). See open_worlds_base.yaml.
+extends: open_worlds_base.yaml
+
+evolve:
+  allocation:
+    mode: lp
+  dup_rate: 0.02
+  del_rate: 0.01
+
+logging:
+  output_dir: outputs/open_worlds_pilot/LPD

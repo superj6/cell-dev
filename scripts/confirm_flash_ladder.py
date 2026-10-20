@@ -14,7 +14,7 @@ import hashlib
 import json
 import os
 import sys
-from dataclasses import asdict, replace
+from dataclasses import asdict
 from pathlib import Path
 
 os.environ.setdefault("ATEN_CPU_CAPABILITY", "avx2")
@@ -28,7 +28,6 @@ from src import checkpoint
 from src.common import load_config
 from src.evolve import setup
 from src.life import build
-from src.life.evaluate import life_seed
 from src.selection import unique_genome_indices
 
 STAGES = (0, 60, 120)
@@ -73,8 +72,8 @@ def population(payload, layout):
 
 
 def panel(ev, tasks, index, lives):
-    draw = ev.draw_tasks("confirm", index, tasks, lives)
-    return replace(draw, seeds=tuple(life_seed(STUDY_SEED, "confirm", index, i) for i in range(draw.n)))
+    # The study seed enters draw_tasks itself, so per-life worlds (LifeEvaluator._life_world) see the final seeds.
+    return ev.draw_tasks("confirm", index, tasks, lives, seed=STUDY_SEED)
 
 
 def verify_final_snapshot(payload, layout, state):

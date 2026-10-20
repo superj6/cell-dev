@@ -176,3 +176,27 @@ def test_generator_is_deterministic_and_valid_across_families():
         a, b = ecology.realize(fam, 21), ecology.realize(fam, 21)
         assert a == b and ecology.realize(fam, 22) != a
         V8.validate_world(a)
+
+
+def test_eco_tasks_draw_one_world_per_life_from_its_seed(tmp_path):
+    from src.common import load_config
+    from src.evolve import setup
+
+    cfg = load_config(str(ROOT / "configs/open_worlds_pilot_LP.yaml"), [f"logging.output_dir={tmp_path}", "life.T=64"])
+    _, layout, _, ev = setup(cfg)
+    assert layout.abi is V8 and ev.training_task_names == ("plume", "predator", "home", "prey", "farm")
+    draw = ev.draw_allocated("gen", 3, [2, 1, 1, 1, 3])
+    again = ev.draw_allocated("gen", 3, [2, 1, 1, 1, 3])
+    assert draw.worlds == again.worlds and draw.seeds == again.seeds
+    assert all(isinstance(w, spec.EcoWorld) for w in draw.worlds) and len(set(draw.worlds)) == draw.n
+    farm = [w for w, t in zip(draw.worlds, draw.tasks) if t == "farm"]
+    assert farm == [ecology.realize("farm", s, **_common(w)) for s, w, t in zip(draw.seeds, draw.worlds, draw.tasks)
+                    if t == "farm"]
+    other = ev.draw_allocated("gen", 3, [1, 1, 1, 1, 3])  # one task's count moves no other task's lives
+    assert [w for w, t in zip(other.worlds, other.tasks) if t == "farm"] == farm
+
+
+def _common(w):
+    """The evaluator's common settings in an eco world (everything except the drawn entities)."""
+    return dict(T=w.T, lattice=w.lattice, flags=w.flags, t_open=w.t_open, t_fork=w.t_fork, fork_flags=w.fork_flags,
+                d_min=w.d_min, d0=w.d0)

@@ -12,7 +12,6 @@ import argparse
 import json
 import os
 import sys
-from dataclasses import replace
 from pathlib import Path
 
 os.environ.setdefault("ATEN_CPU_CAPABILITY", "avx2")
@@ -28,7 +27,6 @@ from src import checkpoint
 from src.common import load_config
 from src.evolve import setup
 from src.life import build, spec
-from src.life.evaluate import life_seed
 from src.life.readouts import ratio_of_means
 
 RULE = "training_F_pooled_unique_average_tie_percentile_min_then_mean_then_F_then_ID"
@@ -116,8 +114,8 @@ def choose(scores, ranks, candidates):
 
 
 def panel(ev, tasks, config, index, count):
-    draw = ev.draw_tasks("confirm", index, tasks, count)
-    return replace(draw, seeds=tuple(life_seed(config["seed"], "confirm", index, i) for i in range(draw.n)))
+    # The study seed enters draw_tasks itself, so per-life worlds (LifeEvaluator._life_world) see the final seeds.
+    return ev.draw_tasks("confirm", index, tasks, count, seed=config["seed"])
 
 
 def describe(values):

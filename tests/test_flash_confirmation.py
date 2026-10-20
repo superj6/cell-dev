@@ -1,7 +1,7 @@
 """Pure arrays and mocked lives only; the flash confirmation tail never reaches C here."""
 import json
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import numpy as np
 import pytest
@@ -10,7 +10,7 @@ from omegaconf import OmegaConf
 
 from scripts import confirm_flash_ladder as flash
 from src.life import build, spec
-from src.life.evaluate import LifeDraw
+from src.life.evaluate import LifeDraw, life_seed
 
 
 @pytest.fixture(autouse=True)
@@ -106,8 +106,11 @@ class MockEvaluator:
         self.out, self.calls = out, []
         self.invalid = False
 
-    def draw_tasks(self, purpose, index, tasks, lives):
-        return draw(lives)
+    def draw_tasks(self, purpose, index, tasks, lives, seed=None):
+        # Like LifeEvaluator.draw_tasks: a study seed keys the panel's lives.
+        panel = draw(lives)
+        return panel if seed is None else replace(
+            panel, seeds=tuple(life_seed(seed, purpose, index, i) for i in range(panel.n)))
 
     def run(self, genomes, panel):
         if panel.n == 4 * flash.CONFIRMATION:

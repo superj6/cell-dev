@@ -32,6 +32,7 @@ from src.selection import epsilon_lexicase, pareto_order, unique_genome_indices
 
 SELECT_SEED = 19_171_017
 MODES = ("mean", "pareto", "epsilon_lexicase")
+OPEN_KEYS = ("race_k", "race_lives", "novel_k", "elites")  # open-world settings (src/open_search.py)
 
 
 def load_population(path, layout, n: int, *, label="seed_population") -> tuple[torch.Tensor, dict]:
@@ -92,13 +93,11 @@ def population_payload(layout, genomes, ids, breeds, origins, fitness=None):
             "genomes": [layout.to_dict(g) for g in genomes]}
 
 
-def capability_panel(ev, genomes, ids, generation, panel):
-    """Report-only fixed lives. Their seed does not depend on run or generation, and scores never select parents."""
-    from src.life.evaluate import life_seed
-
-    draw = ev.draw_tasks("panel", 0, panel["tasks"], int(panel.get("lives", 16)))
+def capability_panel(ev, genomes, ids, generation, panel, keyed=False):
+    """Report-only fixed lives. Their seed does not depend on run or generation, and scores never select parents.
+    ``keyed`` keys the panel's life seeds by (task, replicate) (allocation-aware runs)."""
     seed = int(panel.get("seed", 61_017_000))
-    draw = replace(draw, seeds=tuple(life_seed(seed, "panel", 0, i) for i in range(draw.n)))
+    draw = ev.draw_tasks("panel", 0, panel["tasks"], int(panel.get("lives", 16)), seed=seed, keyed=keyed)
     col = ev.columns(ev.run(genomes, draw), len(genomes), draw)
     names = tuple(dict.fromkeys(draw.tasks))
     derived = dict(col, income_rate=col["income"] / col["window"],
@@ -142,7 +141,17 @@ def evolve_family(cfg, log=print, out=None, *, resume=None, checkpoint=None, sto
     Both shortlist and survival use the requested selection mode. The archive uses Pareto
     crowding among unique rechecked leftovers, up to its capacity; lower fronts may fill gaps.
     Selection uses ordinary per-task production F, including physical and extinction charges.
+
+    ``evolve.allocation`` selects the open-world loop (``src.open_search.evolve_open``: allocation-aware lives,
+    racing, behaviour grids); without it this function is unchanged.
     """
+    if cfg.evolve.get("allocation"):
+        from src.open_search import evolve_open
+
+        return evolve_open(cfg, log=log, out=out, resume=resume, checkpoint=checkpoint, stop_after=stop_after)
+    stray = [k for k in OPEN_KEYS if cfg.evolve.get(k)]
+    if stray:
+        raise ValueError(f"evolve.{', evolve.'.join(stray)} need evolve.allocation (the open-world search)")
     torch.set_num_threads(int(cfg.threads))
     _, layout, _, ev = setup(cfg)
     e, lc = cfg.evolve, cfg.life

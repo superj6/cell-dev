@@ -183,6 +183,12 @@ class LifeDims:
     cues: int = 0  # plane-cue inputs (ABI 3: is_S, is_M)
     stim2: int = 0  # ABI 8: receptor modalities whose trace inputs come after the cues (and gain rows after g_r)
 
+    def __post_init__(self):
+        # saved populations compare and hash ``dims.__dict__``: without ABI 8 modalities it stays the earlier payload
+        # (stim2 then reads the class default 0)
+        if self.stim2 == 0:
+            object.__delattr__(self, "stim2")
+
     @property
     def genes(self) -> int:
         return self.genes_max

@@ -1,0 +1,103 @@
+# Open-world search base (docs/OPEN_WORLDS.md 6; docs/SEARCH.md "Open-world search"). The pilot arms extend this:
+# open_worlds_pilot_U.yaml (uniform lives, the control), _LP (learning-progress allocation) and _LPD (LP plus gene
+# duplication). Arms share the run seed, so they are paired by founder population and by every life seed.
+#
+# Tasks are the five open worlds (src/life/ecology.py; each life draws its own world from its seed) on ABI 8 with
+# the gene-tuned senses; the genome gains nine modality inputs and gains (founders are padded and start blind to them).
+extends: multitask.yaml
+seed: 61020001
+threads: 2
+
+evolve:
+  selection: epsilon_lexicase
+  epsilon_multiplier: 1.0
+  mu: 32
+  lam: 224                    # 32 current + 64 archive + 224 children = 320 candidates per generation
+  archive_size: 64            # the Pareto breeding archive stays
+  generations: 100            # pilot (G = 400 for the main run)
+  seed_population: null       # whole lineage population, supplied per lineage
+  seed_archive: null          # its archive rows, supplied per lineage
+  recheck_k: 0                # racing (below) replaces the recheck
+  recheck_lives: 0
+  race_k: 96                  # top 96 by the selection mode ...
+  novel_k: 16                 # ... plus up to 16 behaviourally novel candidates ...
+  race_lives: 24              # ... live 24 more lives on the same allocation, pooled per task
+  dup_rate: 0.0
+  del_rate: 0.0
+  n_mut_scale: true
+  allocation:
+    mode: uniform             # uniform | lp
+    budget: 24                # lives per candidate per generation
+    floor: 2                  # every task, every generation
+    cap: 8
+    mix: 0.2                  # uniform share of the weights
+    period: 5                 # recompute every 5 generations; fixed within the block
+    window: 30                # generations of probe history for the slope
+    probe_top: 4              # top 4 survivors/archive genomes per task ...
+    probe_lives: 8            # ... on 8 fixed-seed lives per task, every period
+    probe_seed: 61020700
+    novelty_weight: 1.0       # nu_t = novelty_weight * min(novelty_cap, confirmed new cells in novelty_window)
+    novelty_window: 10
+    novelty_cap: 3
+  elites:
+    shape: [4, 4]
+    cap: 64                   # running-mean count cap of an elite's own-task lives
+    admit_z: 1.0              # a challenger must beat the incumbent by >= 1 paired SE on shared lives
+    parent_share: 0.25        # children whose parent A comes from a random filled cell
+    confirm_lives: 8          # paired lives that confirm a new ability
+    descriptors:              # per-life ledger columns, or ratios "a/b" (0 where b is 0); OPEN_WORLDS.md 6.4
+      plume: [eco_upflow_path, eco_crossflow_path]                 # moving upstream; casting across the current
+      predator: [eco_shelter_samples/samples, eco_still_samples/eco_threat_samples]   # sheltering; freezing
+      home: [eco_delivered/eco_picked, eco_home_samples/samples]   # bringing food home; staying near home
+      prey: [eco_prey_caught, eco_alarms]                          # catches; how often prey are alarmed
+      farm: [eco_planted, eco_harvested/eco_planted]               # planting; harvesting what was planted
+    bounds:                   # fixed [lo, hi]; outside values fall into the edge cells. Set once from the padded
+                              # founders at T = 1024 (they fill the lowest one or two cells; the rest is room to grow)
+      plume: [[-15, 45], [0, 200]]
+      predator: [[0, 0.4], [0, 0.8]]
+      home: [[0, 1], [0, 0.6]]
+      prey: [[0, 6], [0, 16]]
+      farm: [[0, 12], [0, 1]]
+
+genome:
+  life: {genes_max: 16, genes_init: 8, morph: 2, channels: 2, stim: 1, cues: 2, pheno: 22, stim2: 9}  # ABI 8
+
+life:
+  abi: 8
+  training_tasks:             # all five from generation 0 (no stages); names key the seeds, keep them stable
+    - {name: plume, world: "eco:plume"}
+    - {name: predator, world: "eco:predator"}
+    - {name: home, world: "eco:home"}
+    - {name: prey, world: "eco:prey"}
+    - {name: farm, world: "eco:farm"}
+  lives: 24                   # informational: evolve.allocation.budget sets each generation's lives
+  founder_lives: 16           # from-scratch founder batches: an even keyed split over the tasks
+  capability_panel:
+    every: 25
+    at: [50, 100]
+    top: 16
+    lives: 16
+    seed: 61020800
+    tasks: ${life.training_tasks}
+
+confirmation:
+  stages: [0, 50, 100]
+  seed: 61020900
+  reserved_tasks:             # held-out regions of each world, plus four older conditions (report only)
+    - {name: plume_transfer, world: "eco:plume_transfer"}
+    - {name: predator_transfer, world: "eco:predator_transfer"}
+    - {name: home_transfer, world: "eco:home_transfer"}
+    - {name: prey_transfer, world: "eco:prey_transfer"}
+    - {name: farm_transfer, world: "eco:farm_transfer"}
+    - name: pool
+      world: catch_speck_l4
+      overrides: {d_min: 0.25, d0: 0.5, sigma: 0.4, lam_s: 4.0}
+    - {name: persistent, world: catch_speck_l4, overrides: {v_t: 0.3, tau_turn: 200.0}}
+    - {name: flash10, world: catch_speck_flash5_dim25_l4, overrides: {visibility_low: 0.1}}
+    - {name: patches, world: catch_resource_patches_l4}
+
+logging:
+  output_dir: outputs/open_worlds_pilot/default
+  checkpoint_every: 5
+  lineage: all
+  gif: false

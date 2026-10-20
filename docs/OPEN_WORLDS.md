@@ -663,3 +663,67 @@ All references were verified by search or by opening the source on 2026-10-19. [
 - de Croon, O'Connor, Nicol & Izzo (2013). Evolutionary robotics approach to odor source localization. *Neurocomputing* 121:481–497. [FT]
 - Singh, van Breugel, Rao & Brunton (2023). Emergent behaviour and neural dynamics in artificial agents tracking odour plumes. *Nat Mach Intell*. doi:10.1038/s42256-022-00599-w [FT]
 - Joachimczak, Kowaliw, Doursat & Wróbel (2013). Evolutionary design of soft-bodied animats with decentralized control. *Artif Life Robotics* 18:152–160. [AB]
+
+## 11. As built (2026-10-20)
+
+**Engine:** ABI 8, bitwise in C and Python (contract: `docs/LIFE_ABI.md`, ABI 8 extension). Worlds 3.1–3.5 exist;
+group living (3.6) does not.
+
+**Per-life worlds:** `src/life/ecology.py` draws every life's world from its life seed alone. Task world names
+`eco:<family>` in `life.training_tasks` use it (`LifeEvaluator._life_world`). Families: `plume`, `predator`, `home`,
+`prey`, `farm`, and a held-out region of each (`<family>_transfer`), kept for confirmation.
+
+**Fixed modality bindings (the same in every family):**
+
+| Slot | Sense | Rate law |
+|---|---|---|
+| 1–4 | odours A–D: A food, B richness or prey, C toxin, soil and home, D danger | bg 0.05, s 2, K 0.5 |
+| 5 | flow | K 0.25 |
+| 6 | touch | bg 0.02, s 4, K 0.6 |
+| 7 | vibration | K 3 |
+| 8 | sun | s 1 |
+| 9 | spare | unbound |
+
+What each odour means is a property of the world; the genome only sets per-slot gains. Padded founders start with
+all nine gains at 0, so they sense nothing new until mutation opens a slot.
+
+**Choices made while building:**
+- **Receptor adaptation (4.1) is not implemented.** The receptor traces that reach the genes already low-pass each
+  modality, so a body can compare fast cell activity with slow traces. Revisit if plume search stalls on saturation.
+- **Puffs pass through walls; agents and the body stop at walls.** Walls block light (occlusion).
+- **Predation can end a life (decision 9.1).** Damage accumulates per hit (predator hits cost 800–3,000 each). After
+  `kill_hits` hits (2–4 in the predator family, 3 elsewhere) the life ends at the next integer time with status
+  `killed`, and no guard charge.
+  - F still divides by the whole window, so a killed body stops earning.
+  - The smallest kill costs about 1.6 F per 1,024-unit life, and a silent zygote scores −0.02. An early death
+    therefore never beats staying small.
+- **Weeds (3.5) are not implemented;** pests eat ripe plants instead.
+- **Math:** see the ABI 8 section of `docs/LIFE_ABI.md` for the functions the new code uses.
+
+**Search:** as in §6, in `src/open_search.py`, `src/allocate.py` and `src/elites.py` (`docs/SEARCH.md`,
+"Open-world search").
+- Behaviour descriptors are ABI 8 ledger columns (`configs/open_worlds_base.yaml`):
+
+  | World | Descriptors |
+  |---|---|
+  | Plume | upstream path, crosswind path |
+  | Predator | shelter share, freeze share under threat |
+  | Home-base | deliveries per pick, time at home |
+  | Evasive prey | prey caught, alarms |
+  | Farming | plantings, harvests per planting |
+
+- Bounds were set once from the padded founders at T = 1,024, so founders fill the lowest one or two cells of
+  each axis.
+
+**Founders on the new worlds (D90 and AO populations and archives, T = 1,024):**
+- Every world pays a little: mean F is −1.2 to +0.4 per world, and the best genome reaches +0.8 to +3.3.
+- No founder carries food home.
+- Predators kill 57% of predator-world lives.
+- From-scratch random genomes stay single cells (F ≈ −0.02 on every world).
+
+**Cost:** 70–240 ms of CPU per T = 1,024 life (farm is the most expensive); the old patch world costs 158 ms.
+
+**Pilot (launched 2026-10-20):**
+- 2 lineages (D90, AO) × 3 arms (U, LP, LPD), plus one from-scratch population in arm LP, G = 100 each.
+- On the laptop, 4 workers × 2 threads at nice 10.
+- Study directory: `outputs/open_worlds_pilot/` (launch manifest, frozen checkout, resolved configs, queue).

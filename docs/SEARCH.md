@@ -2,6 +2,8 @@
 
 `src/search.py` is the opt-in life search used when `evolve.selection` or
 `evolve.seed_population` or `evolve.seed_archive` is configured. Existing configurations retain the legacy loop.
+`evolve.allocation` selects the open-world variant (allocation-aware lives, racing, behaviour grids; see
+"Open-world search" below).
 These are training decisions outside the organism; cell rules and world physics do not change.
 
 ## Configuration
@@ -106,6 +108,119 @@ Ordinary guards and extinction are retained at production scores; invalid capaci
 This distinguishes a versatile individual from a breeding population of specialists. Four exploratory
 replicates without matched scalar/narrow-training controls cannot establish selection-method superiority
 or the causal benefit of diversity. Inputs and run evidence live under `outputs/multitask_20261018/`.
+
+## Open-world search (opt-in: `evolve.allocation`)
+
+`src/open_search.py` implements the search of docs/OPEN_WORLDS.md §6. It runs only when `evolve.allocation`
+is set; every configuration without it keeps the loop above unchanged (a test replays the first generation of a
+scaled-down `configs/multitask.yaml` against a golden from the pre-allocation code). `race_k`, `race_lives`,
+`novel_k` and `elites` without `allocation` are refused rather than ignored. All of this is bookkeeping outside
+the organism: no task name, allocation, score or grid cell reaches a life.
+
+**Allocation-aware draws.** `LifeEvaluator.draw_allocated(purpose, index, lives)` takes one life count per training
+task, in the configured order, and builds the draw task-major. Life r of task t has seed
+`task_life_seed(run_seed, purpose, index, name_t, r)` (its own hash stream, keyed by the task's name), so changing one
+task's count never moves another task's seeds, reordering tasks moves no seed, and the purposes `gen`, `race`,
+`probe` and `elite_confirm` never share lives. Task weights must be 1. Objectives are per-task means over the
+explicit task list (a task with no lives is an error, never silently dropped); the scalar `fitness` used by `mean`
+selection, archive fitness and reports is the **mean of the per-task means**, not weighted by the allocation.
+Other row statistics (captures, cells, ...) remain life-weighted means. Unsized `gen`/`founders` draws of an
+allocated run are an even keyed split (at least one life per task), which is what founder sampling uses.
+
+**Per-life worlds.** Every task draw (generation, recheck, founders, race, probe, elite confirmation, capability
+panel and the confirmation scripts) builds each life's world with `LifeEvaluator._life_world(task, T, seed)`, after
+the seed is final and before envelope noise. By default it returns the task's fixed world, so nothing changes; an
+engine whose worlds vary per life overrides it to draw that life's parameters from `seed` alone. `draw_tasks` takes
+`seed=` (a study's fixed panel seed) and `keyed=` so callers no longer replace seeds after the worlds are built.
+
+**Per-life ledger columns.** `LifeEvaluator.request_columns(names)` makes every evaluation also return
+`LifeEval.life_columns` `[B, L, D]`: ledger fields of the ABI or the derived `window`, `invalid`, `mismatch`,
+`extinct`, `guard`, `F_kernel`, `extinct_charge`. The behaviour grids request their descriptor columns this way.
+
+**One generation.**
+
+1. *Allocation* (`src/allocate.py`), recomputed every `period` generations and fixed within the block:
+   `w_t = mix/K + (1 − mix)(a_t + ν_t)/Σ(a + ν)` (uniform if all zero); `a_t = max(0, |β̂_t|/SE(β̂_t) − 1)` with β̂_t
+   the least-squares slope of task t's probe score over the last `window` generations (≥ 3 probe points, else 0);
+   `ν_t = novelty_weight · min(novelty_cap, confirmed new behaviour cells of t in the last novelty_window
+   generations)`; `L_t = floor + ` the Neyman share of the `budget − K·floor` flexible lives ∝ `w_t σ̂_t`, by largest
+   remainder (exact rational arithmetic, ties to the earlier task), capped at `cap` with the excess shared.
+   σ̂_t is the two-way ANOVA (genome × life) residual SD of task t's shared lives over the previous block's
+   generations (1 before any estimate). `mode: uniform` keeps `L_t` equal (largest remainder to earlier tasks).
+2. *Shared lives:* parents (current plus Pareto archive, deduplicated) and children live the generation's
+   allocated lives. Mating is as in the family search.
+3. *Elite parents:* with behaviour grids, `round(parent_share · lam)` children take parent A from a uniformly
+   random filled cell (any task's grid; own RNG stream, checkpointed). Lineage marks them `pa_elite: [task, cell]`.
+4. *Racing* (generalises the recheck, which must be off): the top `race_k` distinct candidates by the selection
+   mode plus up to `novel_k` behaviourally novel ones (the best-scoring candidate of each grid cell that is empty and
+   holds none of the top candidates, ranked by within-task rank) live `race_lives` more lives on the same allocation
+   (the generation's vector when `race_lives == budget`, else apportioned in proportion). Scores are pooled per
+   task. Survivors and the 64-slot Pareto archive come from the raced set exactly as from the recheck shortlist.
+   Without racing (`race_k: 0`, no archive) survival uses the generation's lives of every distinct candidate.
+5. *Behaviour grids* (`src/elites.py`), one per task that declares descriptors: incumbents relive the generation's
+   lives of their task (reused when the genome is also a candidate) and fold them into a running mean whose count is
+   capped at `cap`; per cell the best distinct candidate on those shared lives fills an empty cell or replaces the
+   incumbent if its paired mean gain is positive and ≥ `admit_z` SE (paired on common random numbers; needs ≥ 2
+   shared lives). A newly filled cell whose value is ≥ the median of the cells filled before the generation is a
+   candidate new ability, confirmed if its mean on `confirm_lives` fresh paired lives is ≥ that of the lower-median
+   elite. Confirmed events feed ν_t. Cells are fixed at admission; elites leave only when replaced.
+6. *Probe:* every `period` generations (after generations 4, 9, …), the top `probe_top` distinct survivors/archive
+   genomes of each task (by their pooled task objective) live `probe_lives` lives of that task whose seeds never
+   change (purpose `probe`, index 0, `probe_seed`) at `life.T`. Both modes run and log it, so arms compare.
+
+**Configuration** (`evolve`):
+
+```yaml
+race_k: 96          # raced top candidates (>= mu; > mu with an archive)
+race_lives: 24      # more lives per raced candidate, on the same allocation
+novel_k: 16         # novelty candidates added to the race (needs elites)
+allocation:
+  mode: uniform     # uniform | lp
+  budget: 24        # lives per candidate per generation (K * floor <= budget <= K * cap)
+  floor: 2          # >= 1: no task is ever dropped
+  cap: 8
+  mix: 0.2
+  period: 5
+  window: 30
+  probe_top: 4
+  probe_lives: 8    # 0 disables the probe (not allowed with lp)
+  probe_seed: null  # null: the run seed (own purpose stream either way)
+  novelty_weight: 1.0
+  novelty_window: 10
+  novelty_cap: 3
+elites:
+  shape: [4, 4]
+  descriptors: {pool: [captures, misses], patches: [patch_harvest_0/patch_source_0, patch_geometric_misses]}
+  bounds: {pool: [[0, 32], [0, 64]], patches: [[0, 1], [0, 64]]}   # fixed; outside values go to edge cells
+  cap: 64
+  admit_z: 1.0
+  parent_share: 0.25
+  confirm_lives: 8
+```
+
+Descriptor values are per-life ledger columns or per-life ratios `"a/b"` (0 where `b` is 0), averaged over a
+genome's lives of that task. Duplication (`dup_rate`, `del_rate`, `dup_split`) and `n_mut_scale` act exactly as in
+the family search; children of elite parents inherit the elite's gene origins.
+
+**Logs, accounting and resume.** Curves rows add `allocation`, `race_allocation`, `raced`, `novel_raced`,
+`elite_parent_draws`, `elites_filled`, `elite_admissions`, `elite_events`, an `allocator` record at each block start
+(a, ν, w, σ̂, lives) and `probe` scores when measured. Lineage rows add the allocation, the race's IDs, seeds and
+tasks, and every admission and new-ability check. `lives` counts actual lives by kind (`founders`, `gen`, `race`,
+`elite`, `confirm`, `probe`); `search_lives` is their sum (capability panels stay separate in `panel_lives`).
+Population snapshots add the allocation and every grid's elites. Checkpoints (`family_search_version: 2`) add the
+allocator state, grids, confirmed events, the elite RNG and the life counters; 3 + resume + 3 generations equal 6
+byte for byte, including a stop inside an allocation block.
+
+**Configs.** `configs/open_worlds_base.yaml` (mu 32, archive 64, lam 224 → 320 candidates, budget 24 with floor 2
+and cap 8, racing 96 + 16 on 24 lives, 4×4 grids, parent share 0.25, G 100, checkpoints every 5) and its arms
+`open_worlds_pilot_U.yaml` (uniform), `_LP.yaml` (lp) and `_LPD.yaml` (lp, dup 0.02, del 0.01), which share the run
+seed. Until the ABI-8 worlds exist, the base uses the eight multitask conditions and ABI-7 ledger columns as
+placeholders; the world work replaces `life.training_tasks` and the descriptors together.
+
+**Known limits.** With fixed probe seeds a nearly constant probe series can give a large t-statistic for a tiny
+slope (a_t is a detectability measure, not an effect size); the floor and cap bound what that can cost. Admission
+on 2–8 shared lives is noisy and takes the best challenger per cell, so false replacements of equal elites are
+expected at roughly the one-SE rate; the running mean and re-evaluation every generation limit their effect.
 
 ## Local execution and artifacts
 
