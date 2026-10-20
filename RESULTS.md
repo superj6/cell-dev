@@ -4580,3 +4580,26 @@ sign (broad-choice shift −0.072), abolished by freeze or lateral_off. Single m
 One-step dark-flash improvements (+0.3 to +1.2 catches) exist in every lineage but mostly cost more than they earn.
 Conclusion: the tasks share one reflex and give new abilities little room; see [docs/OPEN_WORLDS.md](docs/OPEN_WORLDS.md)
 for the open-world design that follows (no simulations launched).
+
+## 2026-10-20 — ABI 8 open worlds built; open-world pilot launched
+
+[Design and as-built notes](docs/OPEN_WORLDS.md) (§11).
+
+**Engine.** ABI 8 adds nine gene-tuned modality slots and the eco world: odour puffs in a meandering current, walls,
+predators, prey and pests, carrying food home, planting, and predation that can end a life. It is bitwise in C and
+Python, and older ABIs replay bitwise. `src/life/ecology.py` draws each life's world from its seed, for five
+families (plume, predator, home, prey, farm) and a held-out region of each.
+
+**Padded founders on the new worlds** (132 D90/AO/s6/s8 rows at T = 1,024):
+- every world pays a little: mean F is −1.2 to +0.4, and the best genome reaches +0.8 to +3.3;
+- no genome brings food home;
+- predators kill 57% of predator-world lives;
+- most behaviour descriptors sit in the lowest cell of their axis, which leaves room for new behaviour.
+
+**Cost per life:** 70–240 ms of CPU, against 158 ms for the old patch world.
+
+**Pilot** (`outputs/open_worlds_pilot/`, frozen checkout 52ecab7, a calibration rather than a stage):
+- D90 and AO × arms U / LP / LPD, plus one from-scratch population in LP; G = 100 each.
+- All five worlds in every generation, 24 lives per candidate (floor 2, cap 8), with racing and a 4×4 behaviour grid
+  per world.
+- Generation 0: 10,200 lives in about 10 minutes per run (two threads). The grids hold 4–12 of 16 cells per world.

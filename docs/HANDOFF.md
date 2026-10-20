@@ -1,4 +1,4 @@
-# Handoff: cell-dev — 2026-10-19
+# Handoff: cell-dev — 2026-10-20
 
 This is the operating summary. Read [SEARCH.md](SEARCH.md), [RESEARCH_STATUS.md](RESEARCH_STATUS.md),
 [TASK_VARIATION_PLAN.md §0](TASK_VARIATION_PLAN.md), and the newest entries at the bottom of
@@ -8,10 +8,20 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
-**Next phase (design for review, 2026-10-19):** [OPEN_WORLDS.md](OPEN_WORLDS.md) — five open-ended worlds
-(plume foraging, predator field, home-base foraging, evasive prey, farming) trained concurrently from generation 0,
-shared gene-tuned senses (ABI 8), learning-progress allocation with a floor. Motivated by the
-[behaviour review](../results/behavior_review_20261019/README.md). Nothing is built or launched yet.
+**Running (2026-10-20): the open-world pilot.** [OPEN_WORLDS.md](OPEN_WORLDS.md) (§11 "As built") — five
+open-ended worlds (plume foraging, predator field, home-base foraging, evasive prey, farming), trained together
+from generation 0 on ABI 8 (nine gene-tuned modality slots and the eco world; contract in
+[LIFE_ABI.md](LIFE_ABI.md)). Per-life worlds come from `src/life/ecology.py`; the search is
+`src/open_search.py` (allocation with a floor, racing, behaviour grids; [SEARCH.md](SEARCH.md) "Open-world
+search").
+- **Runs:** D90 and AO lineages (padded to ABI 8) × arms U / LP / LPD, plus one from-scratch population in LP,
+  G = 100 each. Configs `configs/open_worlds_pilot_*.yaml`.
+- **Launch:** `outputs/open_worlds_pilot/`, a frozen checkout at 52ecab7. `queue/monitor.json` there is
+  authoritative for status.
+- **Budget:** four two-thread workers at nice 10, 450 CPU-hours / 120 elapsed hours, 8 GiB RSS cap.
+- **Purpose:** a calibration (cost per life, noise, correlations, allocator behaviour), not a stage.
+- **Background checks:** headroom controllers (OPEN_WORLDS.md §7, simplified) in `outputs/headroom_20261020/`.
+- **Ask the user** before any rented compute; the main run (G = 300–400) may need it.
 
 **Completed study:** four lineages ×250 generations across eight conditions in
 `configs/multitask.yaml`. All eight influence breeding: POOL, persistent pursuit, two flash levels,
