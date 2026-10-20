@@ -154,7 +154,7 @@ def test_walls_keep_the_dot_outside_their_inflated_boxes(monkeypatch):
 
 
 @pytest.mark.parametrize("change", [
-    dict(eco_mode=2), dict(eco_n_src=9), dict(eco_puff_cap=0), dict(eco_n_ag=1, ag0_type=7, ag0_look=1.0,
+    dict(eco_mode=3), dict(eco_n_src=9), dict(eco_puff_cap=0), dict(eco_n_ag=1, ag0_type=7, ag0_look=1.0,
                                                                      ag0_sigma=1.0),
     dict(eco_n_wall=1, wall0_x0=1.0, wall0_x1=0.5, wall0_y0=0.0, wall0_y1=1.0), dict(src3_x=1.0),
     dict(eco_carry_cap=2, eco_carry_digest=0.0), dict(eco_plant_cap=17)])
@@ -200,3 +200,72 @@ def _common(w):
     """The evaluator's common settings in an eco world (everything except the drawn entities)."""
     return dict(T=w.T, lattice=w.lattice, flags=w.flags, t_open=w.t_open, t_fork=w.t_fork, fork_flags=w.fork_flags,
                 d_min=w.d_min, d0=w.d0)
+
+
+def _mode(w, m):
+    e = list(w.eco)
+    e[spec.ECO_INDEX["eco_mode"]] = float(m)
+    return replace(w, eco=tuple(e))
+
+
+def test_eco_mode_1_lives_replay_the_first_abi8_build():
+    """Eco v2 is opt-in (eco_mode 2): mode 1 lives are bitwise those recorded before the v2 rules existed."""
+    gold = json.loads((ROOT / "tests/data/abi8_eco_mode1_golden.json").read_text())
+    worlds = [spec.EcoWorld(**{k: tuple(v) if isinstance(v, list) else v for k, v in d.items()})
+              for d in gold["worlds"]]
+    assert {spec.eco_view(w)["eco_mode"] for w in worlds} == {1.0}
+    gt = V8.pack_genomes(_gated(gold["genome_seed"])[None], worlds[0].lattice)
+    k = build.run(worlds, gold["seeds"], genomes=gt, abi=V8)
+    assert np.array_equal(_bits(k.ledger), _bits(np.array(gold["ledger"])))
+    assert np.array_equal(k.hashes, np.array(gold["hashes"], dtype=np.uint64))
+
+
+PURSUER = dict(eco_n_ag=1, ag0_type=1, ag0_x=3.0, ag0_y=0.0, ag0_v1=0.0, ag0_v2=0.3, ag0_r_sense=50.0, ag0_p=1.0,
+               ag0_r_contact=0.5, ag0_value=100.0, ag0_look=1.0, ag0_t_state=100.0, ag0_t_rest=1.0, ag0_sigma=1.0)
+
+
+def test_v2_pursuers_do_not_see_a_still_body():
+    still = np.zeros(V8.GENOME_SIZE, np.float32)  # a lone zygote that never moves
+    seen = {}
+    for m in (1, 2):
+        k, refs = _both(_mode(_eco(**PURSUER), m), still, [1, 2])
+        for i, r in enumerate(refs):
+            assert np.array_equal(_bits(r.ledger), _bits(k.ledger[i])) and np.array_equal(r.hashes, k.hashes[i])
+        seen[m] = k["eco_detections"]
+    assert np.all(seen[1] > 10) and np.all(seen[2] == 0)
+
+
+def test_v2_shelter_cover_is_felt_by_touch():
+    w = _eco(eco_n_shelter=1, shelter0_x=0.0, shelter0_y=0.0, shelter0_r=3.0)
+    acc = {}
+    for m in (1, 2):
+        k, refs = _both(_mode(w, m), _gated(4), [1, 2])
+        for i, r in enumerate(refs):
+            assert np.array_equal(_bits(r.ledger), _bits(k.ledger[i])) and np.array_equal(r.hashes, k.hashes[i])
+        assert np.all(k["eco_shelter_samples"] > 0)
+        acc[m] = k["mod_accept_6"] / k["mod_cand_6"]
+    assert np.all(acc[2] > 0.5) and np.all(acc[1] < 0.05)
+
+
+def test_v2_a_tap_on_a_growing_plant_destroys_it(monkeypatch):
+    farm = dict(eco_n_fertile=1, fertile0_x=0.0, fertile0_y=0.0, fertile0_r=4.0, eco_plant_cap=8, eco_plant_cost=10.0,
+                eco_ripen_min=40.0, eco_ripen_max=60.0, eco_ripe_window=50.0, eco_plant_value=300.0, eco_plant_b0=0.8)
+    outcomes = []
+    orig = reference._Accountant._fold_world
+
+    def fold(self, words):
+        if words[0] == 43:
+            outcomes.append(words[2])
+        return orig(self, words)
+
+    monkeypatch.setattr(reference._Accountant, "_fold_world", fold)
+    found = {}
+    for m in (1, 2):
+        outcomes.clear()
+        w = replace(_mode(_eco(**farm), m), T=200)
+        k, refs = _both(w, FOUNDER, [1, 2, 3])
+        for i, r in enumerate(refs):
+            assert np.array_equal(_bits(r.ledger), _bits(k.ledger[i])) and np.array_equal(r.hashes, k.hashes[i])
+        found[m] = outcomes.count(8)
+        assert outcomes.count(7) == k["eco_planted"].sum()
+    assert found[1] == 0 and found[2] >= 1

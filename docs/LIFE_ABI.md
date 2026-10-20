@@ -435,14 +435,36 @@ World-event hash words, folded into `world` and `all` in event order (records 30
 | `49, bits(t_end), i, stock` | close, per source |
 | `50, bits(t_end), n_items, planted slots, hit total, killed` | close |
 
+### 9.8.7 Eco v2 rules (`eco_mode = 2`, 2026-10-20)
+
+Mode 2 is mode 1 plus three rules, which a headroom check of the first build showed were missing
+(`outputs/headroom_20261020/README.md`). Mode 1 lives are unchanged bitwise (`tests/data/abi8_eco_mode1_golden.json`).
+No layout, stream or ledger column changes.
+- **A still body is not seen.** A pursuit predator's detection test at a look uses `u0 < p * m` in place of
+  `u0 < p`.
+  - `m = min(1, sqrt(dx^2 + dy^2) / (dt * vib_vref))`, where `(dx, dy)` is the dot's displacement since that agent's
+    previous look and `dt` the time since it (`m = 1` if `dt` is not positive).
+  - Each agent records `(lt, lx, ly)`, the time and dot position at its latest look, at every look. It starts at
+    `(t0, 0, 0)`.
+  - The record is agent state only; it is not folded.
+  - Chasing, giving up, ambush strikes and contact are unchanged, so a frozen body still meets an ambusher.
+- **Shelter cover is felt.** A touch slot's rate is `lam_bg + lam_s` at a sense position inside a shelter disk,
+  checked before the wall and agent tests.
+- **A tap on a growing plant destroys it.** In the planting step (9.8.4 step 5), a click within `rho_c` of a growing
+  plant (state 1) destroys the lowest such slot instead of planting:
+  - state and visibility go to 0, `eco_spoiled` counts it, and there is no miss charge;
+  - click outcome 8 in world-event word 43.
+
+  Blind periodic tapping on soil therefore kills its own plants. A ripe plant is still harvested first (step 2).
+
 ### Validation
 
 `spec.V8.validate_world` and the kernel's `abi8_ok` apply the same rules (raw vectors that break one return -2);
 every earlier world rule still applies. All 416 appended values are finite. `mod{m}_kind`, `mod{m}_arg` and
 `spec.ECO_INT_KEYS` (`eco_mode`, the five counts, `puff_cap`, `kill_hits`, `occlude`, `carry_cap`, `plant_cap`,
-`src{i}_cap`, `ag{i}_type`) are integers, and `eco_mode` is 0 or 1.
+`src{i}_cap`, `ag{i}_type`) are integers, and `eco_mode` is 0, 1 or 2.
 - **Slots.** `kind` in 0..5 (`spec.MOD_KINDS`). An unbound slot (kind 0) has all five fields 0. A bound slot needs
-  `eco_mode = 1`, `lam_bg, lam_s >= 0`, `0 < lam_bg + lam_s <= 1024` and `0 < K <= 2^20`; odour takes `arg` in 0..3,
+  `eco_mode` 1 or 2, `lam_bg, lam_s >= 0`, `0 < lam_bg + lam_s <= 1024` and `0 < K <= 2^20`; odour takes `arg` in 0..3,
   every other kind `arg = 0`.
 - **Neutral eco block.** `eco_mode = 0` requires every other eco key to be 0.
 - **Eco lives.** `world_kind = 1`, `task_mode = visibility_mode = patch_count = 0`, `b2_amp = 0`,

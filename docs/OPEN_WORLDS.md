@@ -701,6 +701,41 @@ all nine gains at 0, so they sense nothing new until mutation opens a slot.
   - The smallest kill costs about 1.6 F per 1,024-unit life, and a silent zygote scores −0.02. An early death
     therefore never beats staying small.
 - **Weeds (3.5) are not implemented;** pests eat ripe plants instead.
+- **The current moves odour, not the body.** Drift would make the body's wall-hit times transcendental, and 4.3 rules
+  that out. Flow still tells a body where odour comes from.
+- **The sun sense carries no information.** The body never rotates, so each cell's sun rate is constant for the life.
+  Slot 8 stays bound (it costs little) until bodies can turn.
+
+**Eco v2 (`eco_mode = 2`, LIFE_ABI.md 9.8.7), from the headroom check below.** The generator draws v2 worlds:
+- pursuit predators detect a body in proportion to how far it moved since their last look (freezing now works;
+  detections of moving founders are unchanged, 0.99 → 0.98 per life);
+- touch fires inside shelter cover (shelters were invisible to every sense);
+- a tap on a growing plant destroys it (a body that sat on soil and tapped every 5 units earned up to 9.9k per life
+  without sensing);
+- shelters and fertile soil are never placed over the start;
+- the puff cap is 256 (128 truncated most plumes; 256 costs the same per life, 512 costs 20–35% more).
+
+**Headroom check** (`outputs/headroom_20261020/`, `scripts/eco_headroom.py`; v1 worlds, 64 paired seeds per world):
+- Controllers drive the body inside the reference accountant itself, so every world rule applies to them.
+- They get the founders' speed cap and click rate, and pay no body running cost.
+
+Eco net per life (income minus toxin, damage and planting costs):
+
+| World | Evolved founders | Light-chaser reflex | Partial-information controller | Privileged controller |
+|---|---:|---:|---:|---:|
+| Plume | 1.2k | 2.6k | 4.2k | 24.8k |
+| Predator | −0.4k | 0.4k | 3.7k | 19.5k |
+| Home | 1.0k | 1.0k | 3.9k | 32.3k |
+| Prey | 1.5k | 2.4k | 3.7k | 20.5k |
+| Farm | −0.1k | 0.2k | 2.9k | 39.0k |
+
+- Every world has large headroom: the partial-information controller earns 3–4× the founders' net, and the
+  privileged one 20–40×.
+- Founders sit near the no-sensing floor.
+- No world yet shows three independently paying information sources with that hand controller. The ablations
+  measure the controller, not the senses.
+- Paying sources found: flow in plume; memory and odour identity in prey; memory in farm.
+- Not measured: receptor-raster decoding, infotaxis and marginal-value baselines, and the transfer families.
 - **Math:** see the ABI 8 section of `docs/LIFE_ABI.md` for the functions the new code uses.
 
 **Search:** as in §6, in `src/open_search.py`, `src/allocate.py` and `src/elites.py` (`docs/SEARCH.md`,
@@ -726,7 +761,7 @@ all nine gains at 0, so they sense nothing new until mutation opens a slot.
 
 **Cost:** 70–240 ms of CPU per T = 1,024 life (farm is the most expensive); the old patch world costs 158 ms.
 
-**Pilot (launched 2026-10-20):**
+**Pilot v1 (launched 2026-10-20 on v1 worlds; stopped after the v2 fix, kept as cost and noise calibration):**
 - 2 lineages (D90, AO) × 3 arms (U, LP, LPD), plus one from-scratch population in arm LP, G = 100 each.
 - On the laptop, 4 workers × 2 threads at nice 10.
 - Study directory: `outputs/open_worlds_pilot/` (launch manifest, frozen checkout, resolved configs, queue).

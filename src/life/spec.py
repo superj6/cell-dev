@@ -1029,8 +1029,8 @@ def _validate_abi8_keys(w: World) -> None:
     if ints:
         raise ValueError(f"integer ABI 8 values expected: {ints[:5]}")
     mode = e["eco_mode"]
-    if mode not in (0, 1):
-        raise ValueError("eco_mode must be 0 or 1")
+    if mode not in (0, 1, 2):
+        raise ValueError("eco_mode must be 0, 1 or 2 (eco v2 rules, LIFE_ABI.md 9.8.7)")
     for m in range(1, S_MAX):
         q = {f: e[f"mod{m}_{f}"] for f in MOD_FIELDS}
         if not 0 <= q["kind"] < len(MOD_KINDS):
@@ -1039,7 +1039,7 @@ def _validate_abi8_keys(w: World) -> None:
             if any(q.values()):
                 raise ValueError(f"unbound modality {m} requires zero fields")
             continue
-        if mode != 1:
+        if mode == 0:
             raise ValueError("modality slots are bound only in eco lives")
         if not (q["lam_bg"] >= 0 and q["lam_s"] >= 0 and 0 < q["lam_bg"] + q["lam_s"] <= RATE_MAX
                 and 0 < q["K"] <= LENGTH_MAX):

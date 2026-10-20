@@ -948,6 +948,7 @@ class _Accountant:
         self.puff_cut, self.puff_cap, self.landmark = e["eco_puff_cut"], int(e["eco_puff_cap"]), e["eco_landmark"]
         self.sun = (math.cos(e["eco_sun_heading"]), math.sin(e["eco_sun_heading"]))
         self.vib_vref, self.r_body, self.arena = e["eco_vib_vref"], e["eco_r_body"], e["eco_arena"]
+        self.eco2 = L.eco_mode == 2
         self.kill_hits, self.occlude = int(e["eco_kill_hits"]), e["eco_occlude"] != 0.0
         self.home = (e["eco_home_x"], e["eco_home_y"], e["eco_home_r"], e["eco_home_sigma"],
                      [e[f"eco_home_b{k}"] for k in range(spec.N_SPEC)])
@@ -983,7 +984,7 @@ class _Accountant:
             q = {f: e[f"ag{i}_{f}"] for f in spec.AG_FIELDS}
             g = dict(q)
             g.update(type=int(q["type"]), state=0, vis=1, t=L.t0, vx=0.0, vy=0.0, speed=0.0, t_stop=_INF, until=L.t0,
-                     b=[q[f"b{k}"] for k in range(spec.N_SPEC)], q=0)
+                     b=[q[f"b{k}"] for k in range(spec.N_SPEC)], q=0, lt=L.t0, lx=0.0, ly=0.0)
             g["next_look"] = L.t0 + q["look"] * spec.draw(L.seed, spec.S_ECO_AG, i, spec.MASK64)
             self.ag.append(g)
         self.walls = [tuple(e[f"wall{i}_{f}"] for f in spec.WALL_FIELDS) for i in range(self.eco_n["n_wall"])]
@@ -1106,6 +1107,14 @@ class _Accountant:
         dt = tt - g["t"]
         return g["x"] + g["vx"] * dt, g["y"] + g["vy"] * dt
 
+    def _look_motion(self, g: dict, t: float, X: float, Y: float) -> float:
+        """Eco v2 (9.8.7): the body's mean speed since agent g's previous look, over vib_vref, at most 1."""
+        dx, dy, dt = X - g["lx"], Y - g["ly"], t - g["lt"]
+        if not dt > 0.0:
+            return 1.0
+        s = math.sqrt(dx * dx + dy * dy) / dt
+        return 1.0 if s >= self.vib_vref else s / self.vib_vref
+
     def _sheltered(self, x: float, y: float) -> bool:
         for sx, sy, r in self.shelters:
             dx, dy = x - sx, y - sy
@@ -1199,6 +1208,8 @@ class _Accountant:
             p = -(ux * nx + uy * ny) / K
             return bg + sc * spec.clip(p, 0.0, 1.0)
         if kind == 3:
+            if self.eco2 and self._sheltered(px, py):  # v2: shelter cover is felt
+                return bg + sc
             r2 = K * K
             for x0, x1, y0, y1 in self.walls:
                 dx = x0 - px if px < x0 else (px - x1 if px > x1 else 0.0)
@@ -1318,10 +1329,12 @@ class _Accountant:
         u0, u1, u2 = (spec.draw(L.seed, spec.S_ECO_AG, i, g["q"], k) for k in range(3))
         hit, plant_hit, tx, ty = False, -1, 0.0, 0.0
         ty_, st = g["type"], g["state"]
+        pd = g["p"] * self._look_motion(g, t, X, Y) if self.eco2 and ty_ == 1 else g["p"]  # v2: still is unseen
+        g["lt"], g["lx"], g["ly"] = t, X, Y
         if ty_ == 1:
             if st == 2 and t >= g["until"]:
                 g["state"] = 0
-            if g["state"] == 0 and not shel and d2 <= rs2 and u0 < g["p"]:
+            if g["state"] == 0 and not shel and d2 <= rs2 and u0 < pd:
                 g["state"], g["until"] = 1, t + g["t_state"]
                 if cnt:
                     led[_LI["eco_detections"]] += 1.0
@@ -1567,7 +1580,7 @@ class _Accountant:
                 self._eco_set_gam()
         if outcome == 0 and self.plant_cap > 0:
             fertile = any((X - fx) * (X - fx) + (Y - fy) * (Y - fy) <= r * r for fx, fy, r in self.fertile)
-            free_slot, near = -1, False
+            free_slot, near, trample = -1, False, -1
             for i in range(self.plant_cap):
                 P = self.plants[i]
                 if P["state"] == 0:
@@ -1577,7 +1590,15 @@ class _Accountant:
                 dx, dy = X - P["x"], Y - P["y"]
                 if dx * dx + dy * dy <= r2:
                     near = True
-            if fertile and not near and free_slot >= 0:
+                    if P["state"] == 1 and trample < 0:
+                        trample = i
+            if self.eco2 and trample >= 0:  # v2: a tap on a growing plant destroys it
+                outcome, idx = 8, trample
+                self.plants[trample]["state"] = 0
+                self.plants[trample]["vis"] = 0
+                if counted:
+                    led[_LI["eco_spoiled"]] += 1.0
+            elif fertile and not near and free_slot >= 0:
                 outcome, idx = 7, free_slot
                 P = self.plants[free_slot]
                 P.update(state=1, vis=0, x=X, y=Y, id=self.plant_ids)
@@ -1999,7 +2020,8 @@ class _Life:
                         self.lam_bg + self.lam_s * (1.0 + self.b2_amp))
         # ABI 8: the eco block and the modality slots, by name
         self.e = {k: wv[wi[k]] for k in (*spec.ECO_KEYS, *spec.MOD_KEYS)}
-        self.eco = self.e["eco_mode"] == 1.0
+        self.eco_mode = int(self.e["eco_mode"])  # 1: eco world; 2: plus the eco v2 rules (9.8.7)
+        self.eco = self.eco_mode >= 1
         if self.eco:
             self.lam_max = self.lam_bg + self.lam_s * spec.eco_light_bound(self.e)
         self.mod_kind, self.mod_arg = [0] * SM, [0] * SM

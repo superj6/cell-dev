@@ -55,11 +55,11 @@ class _Builder:
         self.d, self.e = d, {}
         self.n = dict(src=0, ag=0, wall=0, shelter=0, fertile=0)
         self.arena = arena
-        self.e.update(eco_mode=1, eco_arena=arena, eco_r_body=1.5, eco_kill_hits=3, eco_occlude=1,
+        self.e.update(eco_mode=2, eco_arena=arena, eco_r_body=1.5, eco_kill_hits=3, eco_occlude=1,
                       eco_landmark=0.1, eco_vib_vref=0.2, eco_sun_heading=d.angle(),
                       eco_home_sigma=1.0, eco_plant_sigma=0.8, eco_soil_sigma=1.5,
                       eco_puff_sigma0=d.u(0.3, 0.6), eco_puff_D=d.u(0.005, 0.04), eco_puff_life=d.u(40.0, 100.0),
-                      eco_puff_cut=16.0, eco_puff_cap=128)
+                      eco_puff_cut=16.0, eco_puff_cap=256)
 
     # -- geometry helpers
     def free_point(self, r_lo: float, r_hi: float, clear: float = 0.5, tries: int = 64):
@@ -203,8 +203,9 @@ def _predator(d: _Draw, transfer: bool) -> spec.World:
     b = _Builder(d)
     b.current(0.02, 0.1)
     for _ in range(d.i(1, 3)):
-        x, y = b.free_point(2.0, 8.0)
-        b.disk("shelter", x, y, d.u(1.0, 2.0))
+        r = d.u(1.0, 2.0)
+        x, y = b.free_point(r + 1.0, r + 7.0)  # never over the start: shelter is found, not given
+        b.disk("shelter", x, y, r)
     for _ in range(d.i(3, 6)):
         b.food(3.0, 10.0)
     if d.p(0.4):
@@ -254,8 +255,9 @@ def _farm(d: _Draw, transfer: bool) -> spec.World:
     b = _Builder(d)
     b.current(0.02, 0.1)
     for _ in range(d.i(1, 3)):
-        x, y = b.free_point(2.0, 7.0)
-        b.disk("fertile", x, y, d.u(1.5, 3.0))
+        r = d.u(1.5, 3.0)
+        x, y = b.free_point(r + 1.0, r + 5.0)  # never under the start: soil is found, not given
+        b.disk("fertile", x, y, r)
     lo = d.u(60.0, 120.0)
     b.e.update(eco_plant_cap=d.i(8, 16), eco_plant_cost=d.u(20.0, 100.0), eco_ripen_min=lo,
                eco_ripen_max=lo + d.u(0.0, 80.0), eco_ripe_window=d.u(40.0, 150.0), eco_plant_value=d.u(300.0, 900.0),

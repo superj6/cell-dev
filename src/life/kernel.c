@@ -327,6 +327,7 @@ typedef struct {
   int type, state, vis, pad;
   double t, x, y, vx, vy, speed, t_stop, until, next_look;  // anchor (t, x, y), velocity until t_stop
   uint64_t q;                                              // look counter
+  double lt, lx, ly;                                       // eco v2: time and body position of the previous look
   double v1, v2, r_sense, p, r_contact, value, look, t_state, t_rest, sigma, light, b[N_SPEC], rx, ry;
 } Agent;
 typedef struct { double x0, x1, y0, y1; } Wall;
@@ -1945,6 +1946,13 @@ static inline int in_disk2(double x, double y, const Disk *d) {
   const double dx = x - d->x, dy = y - d->y;
   return dx * dx + dy * dy <= d->r * d->r;
 }
+// eco v2 (9.8.7): the body's mean speed since the agent's previous look, over vib_vref, at most 1
+static double look_motion(const Ctx *c, const Agent *g, double t, double X, double Y) {
+  const double dx = X - g->lx, dy = Y - g->ly, dt = t - g->lt;
+  if (!(dt > 0.0)) return 1.0;
+  const double s = sqrt(dx * dx + dy * dy) / dt;
+  return s >= c->vib_vref ? 1.0 : s / c->vib_vref;
+}
 static int eco_sheltered(const Ctx *c, double x, double y) {
   for (int i = 0; i < c->n_shelter; i++) if (in_disk2(x, y, &c->shelter[i])) return 1;
   return 0;
@@ -2140,6 +2148,7 @@ static double mod_rate(Ctx *c, int m, Site *s, double t, double px, double py) {
       return bg + sc * clipd(p, 0.0, 1.0);
     }
     case MOD_TOUCH: {
+      if (c->eco == 2 && eco_sheltered(c, px, py)) return bg + sc;  // v2: shelter cover is felt
       const double r2 = K * K;
       for (int w = 0; w < c->n_wall; w++) {
         const Wall *W = &c->wall[w];
@@ -2254,10 +2263,12 @@ static void ag_look(Ctx *c, int i) {
   const double u2 = draw3(c->seed, S_ECO_AG, (uint64_t)i, g->q, 2);
   int hit = 0, plant_hit = -1;
   double tx = 0.0, ty = 0.0;  // a target direction for active motion
+  const double pd = c->eco == 2 && g->type == AG_PURSUIT ? g->p * look_motion(c, g, t, X, Y) : g->p;  // v2
+  g->lt = t; g->lx = X; g->ly = Y;
   switch (g->type) {
     case AG_PURSUIT:
       if (g->state == AS_REST && t >= g->until) g->state = AS_WANDER;
-      if (g->state == AS_WANDER && !shel && d2 <= rs2 && u0 < g->p) {
+      if (g->state == AS_WANDER && !shel && d2 <= rs2 && u0 < pd) {
         g->state = AS_ACTIVE; g->until = t + g->t_state;
         if (cnt) c->eco_n[EL_DETECTIONS]++;
       } else if (g->state == AS_ACTIVE && (shel || t >= g->until || d2 > 4.0 * rs2)) {
@@ -2475,15 +2486,19 @@ static void eco_click(Ctx *c, double t) {  // 9.8.4: prey, ripe plant, source, h
     }
   }
   if (outcome == 0 && c->plant_cap > 0) {  // 5. planting in a fertile disk, away from every plant
-    int fertile = 0, free_slot = -1, near = 0;
+    int fertile = 0, free_slot = -1, near = 0, trample = -1;
     for (int i = 0; i < c->n_fertile; i++) fertile |= in_disk2(X, Y, &c->fertile[i]);
     for (int i = 0; i < c->plant_cap; i++) {
       const Plant *P = &c->plant[i];
       if (P->state == 0) { if (free_slot < 0) free_slot = i; continue; }
       const double dx = X - P->x, dy = Y - P->y;
-      if (dx * dx + dy * dy <= r2) near = 1;
+      if (dx * dx + dy * dy <= r2) { near = 1; if (P->state == 1 && trample < 0) trample = i; }
     }
-    if (fertile && !near && free_slot >= 0) {
+    if (c->eco == 2 && trample >= 0) {  // v2: a tap on a growing plant destroys it
+      outcome = 8; idx = trample;
+      c->plant[trample].state = 0; c->plant[trample].vis = 0;
+      if (cnt) c->eco_n[EL_SPOILED]++;
+    } else if (fertile && !near && free_slot >= 0) {
       outcome = 7; idx = free_slot;
       Plant *P = &c->plant[free_slot];
       P->state = 1; P->vis = 0; P->x = X; P->y = Y; P->id = c->plant_ids++;
@@ -2605,6 +2620,7 @@ static void eco_start(Ctx *c) {  // 9.8.1, before the first time group
     for (int k = 0; k < N_SPEC; k++) g->b[k] = q[AK_B + k];
     g->rx = q[AK_RX]; g->ry = q[AK_RY];
     g->q = 0;
+    g->lt = c->t0; g->lx = 0.0; g->ly = 0.0;  // the body starts at the origin
     g->next_look = c->t0 + g->look * draw2(c->seed, S_ECO_AG, (uint64_t)i, ~0ULL);
   }
   for (int i = 0; i < c->n_wall; i++) {
@@ -3601,13 +3617,13 @@ static int all_zero(const double *x, int n) {
 }
 static int abi8_ok(const double *w) {  // the ABI 8 rules of spec.validate_world (modality slots, the eco block)
   const double *e = w + W_ECO;
-  if (!(e[E_MODE] == 0.0 || e[E_MODE] == 1.0)) return 0;
+  if (!(e[E_MODE] == 0.0 || e[E_MODE] == 1.0 || e[E_MODE] == 2.0)) return 0;
   for (int m = 1; m < S_MAX; m++) {
     const double *q = w + W_MOD + N_MODK * (m - 1);
     const double k = q[MK_KIND];
     if (!is_int(k) || k < 0.0 || k >= (double)MOD_KINDS || !is_int(q[MK_ARG])) return 0;
     if (k == 0.0) { if (!all_zero(q, N_MODK)) return 0; continue; }
-    if (e[E_MODE] != 1.0) return 0;
+    if (e[E_MODE] == 0.0) return 0;
     if (!(q[MK_BG] >= 0.0 && q[MK_S] >= 0.0 && q[MK_BG] + q[MK_S] > 0.0 && q[MK_BG] + q[MK_S] <= RATE_MAX &&
           q[MK_K] > 0.0 && q[MK_K] <= LENGTH_MAX)) return 0;
     if (k == (double)MOD_ODOUR) { if (!(q[MK_ARG] >= 0.0 && q[MK_ARG] < (double)N_SPEC)) return 0; }
