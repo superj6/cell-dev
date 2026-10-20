@@ -765,3 +765,8 @@ Eco net per life (income minus toxin, damage and planting costs):
 - 2 lineages (D90, AO) × 3 arms (U, LP, LPD), plus one from-scratch population in arm LP, G = 100 each.
 - On the laptop, 4 workers × 2 threads at nice 10.
 - Study directory: `outputs/open_worlds_pilot/` (launch manifest, frozen checkout, resolved configs, queue).
+
+**Pilot v2 (launched 2026-10-20 on eco v2 worlds):**
+- The same seven runs and seeds, from a frozen checkout at 0dd707e.
+- Study directory: `outputs/open_worlds_pilot_v2/`.
+- At generation 0 the best founder still loses money on the farm (F −0.2 to −0.45): blind tapping no longer pays.
