@@ -1,0 +1,88 @@
+# Open-world search base (docs/OPEN_WORLDS.md 6; docs/SEARCH.md "Open-world search"). The pilot arms extend this:
+# open_worlds_pilot_U.yaml (uniform lives, the control), _LP (learning-progress allocation) and _LPD (LP plus gene
+# duplication). Arms share the run seed, so they are paired by founder population and by every life seed.
+#
+# PLACEHOLDER TASKS. Until the ABI-8 worlds exist, life.training_tasks are the eight multitask conditions inherited
+# from multitask.yaml, and the behaviour descriptors below read ABI-7 ledger columns only to exercise the search.
+# The engine work replaces life.training_tasks (plume, predator, home-base, evasive prey, farming, plus the eight old
+# conditions) and evolve.elites.descriptors/bounds (OPEN_WORLDS.md 6.4's measures) together.
+extends: multitask.yaml
+seed: 61020001
+threads: 2
+
+evolve:
+  selection: epsilon_lexicase
+  epsilon_multiplier: 1.0
+  mu: 32
+  lam: 224                    # 32 current + 64 archive + 224 children = 320 candidates per generation
+  archive_size: 64            # the Pareto breeding archive stays
+  generations: 100            # pilot (G = 400 for the main run)
+  seed_population: null       # whole lineage population, supplied per lineage
+  seed_archive: null          # its archive rows, supplied per lineage
+  recheck_k: 0                # racing (below) replaces the recheck
+  recheck_lives: 0
+  race_k: 96                  # top 96 by the selection mode ...
+  novel_k: 16                 # ... plus up to 16 behaviourally novel candidates ...
+  race_lives: 24              # ... live 24 more lives on the same allocation, pooled per task
+  dup_rate: 0.0
+  del_rate: 0.0
+  n_mut_scale: true
+  allocation:
+    mode: uniform             # uniform | lp
+    budget: 24                # lives per candidate per generation
+    floor: 2                  # every task, every generation
+    cap: 8
+    mix: 0.2                  # uniform share of the weights
+    period: 5                 # recompute every 5 generations; fixed within the block
+    window: 30                # generations of probe history for the slope
+    probe_top: 4              # top 4 survivors/archive genomes per task ...
+    probe_lives: 8            # ... on 8 fixed-seed lives per task, every period
+    probe_seed: 61020700
+    novelty_weight: 1.0       # nu_t = novelty_weight * min(novelty_cap, confirmed new cells in novelty_window)
+    novelty_window: 10
+    novelty_cap: 3
+  elites:
+    shape: [4, 4]
+    cap: 64                   # running-mean count cap of an elite's own-task lives
+    admit_z: 1.0              # a challenger must beat the incumbent by >= 1 paired SE on shared lives
+    parent_share: 0.25        # children whose parent A comes from a random filled cell
+    confirm_lives: 8          # paired lives that confirm a new ability
+    descriptors:              # per-life ledger columns, or ratios "a/b" (0 where b is 0)
+      pool: [captures, misses]
+      persistent: [captures, misses]
+      flash10: [low_light_captures, misses]
+      flash00: [low_light_captures, misses]
+      matching: [correct_choices_narrow/choice_opportunities_narrow, correct_choices_broad/choice_opportunities_broad]
+      patches: [patch_harvest_0/patch_source_0, patch_geometric_misses]
+      contact_food: [patch_contact_harvest_0/patch_contact_supply_0, patch_contact_starts_0]
+      harmful_decoy: [captures, b2_clicks]
+    bounds:                   # fixed [lo, hi] per descriptor; values outside fall into the edge cells
+      pool: [[0, 32], [0, 64]]
+      persistent: [[0, 16], [0, 64]]
+      flash10: [[0, 8], [0, 64]]
+      flash00: [[0, 8], [0, 64]]
+      matching: [[0, 1], [0, 1]]
+      patches: [[0, 1], [0, 64]]
+      contact_food: [[0, 1], [0, 16]]
+      harmful_decoy: [[0, 32], [0, 16]]
+
+life:
+  lives: 24                   # informational: evolve.allocation.budget sets each generation's lives
+  founder_lives: 16           # from-scratch founder batches: an even keyed split over the tasks
+  capability_panel:
+    every: 25
+    at: [50, 100]
+    top: 16
+    lives: 16
+    seed: 61020800
+    tasks: ${life.training_tasks}
+
+confirmation:
+  stages: [0, 50, 100]
+  seed: 61020900
+
+logging:
+  output_dir: outputs/open_worlds_pilot/default
+  checkpoint_every: 5
+  lineage: all
+  gif: false

@@ -346,11 +346,14 @@ def rows(e: Eval, idx: torch.Tensor) -> Eval:
 def pooled(a: Eval, b: Eval) -> Eval:
     """One evaluation of the same genomes on the lives of ``a`` and then those of ``b``: ``trial_scores`` joined,
     fitness the mean of the per-life F (bitwise what a single evaluation on all those lives gives) and every other
-    statistic the lives-weighted mean of the two."""
+    statistic the lives-weighted mean of the two. Per-life fields ``[B, L, D]`` (``life_columns``) are joined like
+    ``trial_scores``."""
     La, Lb = a.trial_scores.shape[1], b.trial_scores.shape[1]
     ts = np.concatenate([a.trial_scores.numpy(), b.trial_scores.numpy()], axis=1)
+    per_life = [f for f in a.__dataclass_fields__ if getattr(a, f).ndim == 3]
     out = {f: (La * getattr(a, f) + Lb * getattr(b, f)) / (La + Lb) for f in a.__dataclass_fields__
-           if f not in ("trial_scores", "fitness")}
+           if f not in ("trial_scores", "fitness", *per_life)}
+    out.update({f: torch.cat([getattr(a, f), getattr(b, f)], dim=1) for f in per_life})
     return type(a)(**out, trial_scores=torch.from_numpy(ts), fitness=torch.from_numpy(ts.mean(axis=1)))
 
 
@@ -466,7 +469,7 @@ def evolve_life(cfg, log=print, out: Path | None = None, *, resume: dict | None 
     evaluations, whatever their length. ``life.T`` must be one of the choices: it is the nominal length that valid,
     held-out, clone and final lives use, and a run that overrides it alone would select on other lengths."""
     if (cfg.evolve.get("selection") is not None or cfg.evolve.get("seed_population")
-            or cfg.evolve.get("seed_archive")):
+            or cfg.evolve.get("seed_archive") or cfg.evolve.get("allocation")):
         from src.search import evolve_family
 
         return evolve_family(cfg, log=log, out=out, resume=resume, checkpoint=checkpoint, stop_after=stop_after)

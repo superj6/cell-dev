@@ -12,6 +12,16 @@ fields (docs/ONE_LIFE_DESIGN.md, EVALUATION PROTOCOL; Code plan, src/evolve.py).
 - Optional ``life.training_tasks`` cycles labelled task presets in declared integer weights for generation and
   founder draws. Every genome receives the same allocation and seeds; recheck lengths must contain full cycles.
   ``task_objectives`` groups production trial scores by task, while ``draw_tasks`` makes explicit equal-size panels.
+- With ``evolve.allocation`` (docs/SEARCH.md, open-world search) training draws are allocation-aware instead:
+  ``draw_allocated`` takes a vector of lives per task, in the configured task order, and keys every life seed by
+  (purpose, index, task name, replicate) (``task_life_seed``), so changing one task's life count never moves another
+  task's seeds, and race, probe, elite and confirmation lives (their own purposes) never collide with generation
+  lives. Task weights must then be 1: objectives are equal-weight per-task means.
+- Every task life's world comes from the hook ``_life_world(task, T, seed)`` (default: the task's fixed world), so an
+  engine can draw per-life world parameters deterministically from the life seed. Generation, recheck, founder,
+  race, probe, elite, panel and confirmation draws all go through it.
+- ``ledger_names`` (set with ``request_columns``) names per-life ledger columns that every evaluation also returns
+  as ``LifeEval.life_columns`` ``[B, L, D]`` (D = 0 by default), e.g. behaviour descriptors.
 - The envelope control draws each life's noise physics uniformly from configured ranges, keyed like the seeds, so
   it is shared within a generation and fresh across generations. It applies to the selection lives only
   (``ENVELOPE_PURPOSES``: generations and founder batches). Valid, held-out, final, clone and size-curve lives use the
@@ -40,6 +50,7 @@ fields (docs/ONE_LIFE_DESIGN.md, EVALUATION PROTOCOL; Code plan, src/evolve.py).
 """
 from __future__ import annotations
 
+import hashlib
 import os
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -51,9 +62,12 @@ from omegaconf import OmegaConf
 from src.evolve import Eval
 from src.life import build, spec
 
-PURPOSES = dict(gen=1, founders=2, valid=3, heldout=4, final=5, clones=6, sizecurve=7, census=8, panel=9, confirm=10)
+PURPOSES = dict(gen=1, founders=2, valid=3, heldout=4, final=5, clones=6, sizecurve=7, census=8, panel=9, confirm=10,
+                race=11, probe=12, elite_confirm=13)
 _SEED_STREAM = 0x4C494645  # "LIFE": keeps life seeds apart from every kernel stream
+_TASK_SEED_STREAM = 0x5441534B  # "TASK": life seeds keyed by (task, replicate) (task_life_seed)
 _ENV_STREAM = 0x454E5631  # "ENV1"
+_ENV_TASK_STREAM = 0x454E5654  # "ENVT": envelope physics of a (task, replicate)-keyed life
 _T_STREAM = 0x54445257  # "TDRW": the per-generation life length (life.T_choices)
 ENVELOPE_KEYS = ("delay_sd", "tau_mis", "jit", "clock_sd", "tick_jit", "drop_p", "noise_rate")
 CAPACITY = spec.STATUS["capacity"]  # an implementation limit was reached: the life must not be used (LIFE_ABI.md 4.12)
@@ -68,6 +82,20 @@ def life_seed(run_seed: int, purpose: str, index: int, life: int) -> int:
     return spec.hash64(int(run_seed), _SEED_STREAM + PURPOSES[purpose], int(index), int(life))
 
 
+def task_key(name: str) -> int:
+    """A stable 63-bit key of a task name (its SHA-256 prefix): seeds follow the name, not the task's position."""
+    return int.from_bytes(hashlib.sha256(str(name).encode()).digest()[:8], "little") >> 1
+
+
+def task_life_seed(run_seed: int, purpose: str, index: int, task: str, replicate: int) -> int:
+    """The seed of replicate ``replicate`` of task ``task`` in draw ``index`` for ``purpose`` (its own stream)."""
+    return spec.hash64(int(run_seed), _TASK_SEED_STREAM + PURPOSES[purpose], int(index), task_key(task),
+                       int(replicate))
+
+
+DERIVED_COLUMNS = ("window", "invalid", "mismatch", "extinct", "guard", "F_kernel", "extinct_charge")
+
+
 @dataclass(frozen=True)
 class LifeDraw:
     """The lives of one evaluation: one seed and one world per life, the same for every genome evaluated on it."""
@@ -78,6 +106,17 @@ class LifeDraw:
     @property
     def n(self) -> int:
         return len(self.seeds)
+
+    def select(self, lives) -> "LifeDraw":
+        """The draw of lives ``lives`` (indices, in that order): the same seeds, worlds and labels."""
+        lives = [int(i) for i in lives]
+        return LifeDraw(tuple(self.seeds[i] for i in lives), tuple(self.worlds[i] for i in lives),
+                        tuple(self.tasks[i] for i in lives) if self.tasks else ())
+
+    def __add__(self, other: "LifeDraw") -> "LifeDraw":
+        if bool(self.tasks) != bool(other.tasks) and self.n and other.n:
+            raise ValueError("cannot join labelled and unlabelled draws")
+        return LifeDraw(self.seeds + other.seeds, self.worlds + other.worlds, self.tasks + other.tasks)
 
 
 @dataclass
@@ -98,6 +137,7 @@ class LifeEval(Eval):
     n_S: torch.Tensor  # CATCH: live cells at the end in the sense plane (z = 0)
     n_M: torch.Tensor  # ... in the act plane (z = 1)
     n_H: torch.Tensor  # ... in the hidden planes (z >= 2)
+    life_columns: torch.Tensor  # [B, L, D] per-life ledger columns ``LifeEvaluator.ledger_names`` (D 0 by default)
 
     KEYS = ("fitness", "score", "energy", "n_cells", "spikes", "divisions", "n_peak", "body", "income_per_cell",
             "contact_events", "extinct", "guard", "invalid", "events", "mismatch")
@@ -114,8 +154,10 @@ def _plain(x) -> dict:
     return dict(OmegaConf.to_container(x, resolve=True)) if OmegaConf.is_config(x) else dict(x)
 
 
-def task_objectives(res: LifeEval, draw: LifeDraw) -> torch.Tensor:
-    """Within-task means of production trial_scores [B, K], in first-label order.
+def task_objectives(res: LifeEval, draw: LifeDraw, tasks=None) -> torch.Tensor:
+    """Within-task means of production trial_scores [B, K], in first-label order, or in the explicit order
+    ``tasks`` (every listed task must have at least one life and every label must be listed: no task is silently
+    dropped or added).
 
     Labels group whole tasks, never individual seeds. Invalid/extinct penalties already present in trial_scores
     remain in these means. Ordinary aggregate fitness is unchanged, including declared task weights.
@@ -127,8 +169,15 @@ def task_objectives(res: LifeEval, draw: LifeDraw) -> torch.Tensor:
     scores = res.trial_scores
     if scores.ndim != 2 or scores.shape[1] != draw.n:
         raise ValueError("trial_scores must have shape [genomes, draw.n]")
+    names = tuple(dict.fromkeys(draw.tasks))
+    if tasks is not None:
+        missing = [t for t in tasks if t not in names]
+        if missing or set(names) - set(tasks):
+            raise ValueError(f"task objectives need at least one life of every task and only listed tasks "
+                             f"(missing {missing})")
+        names = tuple(tasks)
     return torch.stack([scores[:, [i for i, name in enumerate(draw.tasks) if name == task]].mean(dim=1)
-                        for task in dict.fromkeys(draw.tasks)], dim=1)
+                        for task in names], dim=1)
 
 
 class LifeEvaluator:
@@ -169,12 +218,24 @@ class LifeEvaluator:
         self.training_tasks = self._task_config(lc.get("training_tasks"))
         self.training_task_names = tuple(task["name"] for task in self.training_tasks)
         self.task_pattern = tuple(task["name"] for task in self.training_tasks for _ in range(task["weight"]))
-        if self.training_tasks:
-            self._task_lives(lc.lives)
+        self.ledger_names: tuple[str, ...] = ()  # per-life ledger columns every evaluation returns (life_columns)
+        # Allocation-aware training draws (evolve.allocation; src/allocate.py): lives per task come from the search,
+        # seeds are keyed by (task, replicate) and objectives are equal-weight task means.
+        self.allocated = bool(_plain(cfg.evolve.get("allocation")))
+        if self.allocated:
+            if not self.training_tasks:
+                raise ValueError("evolve.allocation needs life.training_tasks")
+            if any(task["weight"] != 1 for task in self.training_tasks):
+                raise ValueError("evolve.allocation sets lives per task itself: task weights must be 1")
             if lc.get("founder_lives") is not None:
-                self._task_lives(lc.founder_lives)
-            if int(cfg.evolve.get("recheck_k", 0)) > 0 and int(cfg.evolve.get("recheck_lives", 0)) > 0:
-                self._task_lives(cfg.evolve.recheck_lives)
+                self._allocated_lives(int(lc.founder_lives))
+        if self.training_tasks:
+            if not self.allocated:
+                self._task_lives(lc.lives)
+                if lc.get("founder_lives") is not None:
+                    self._task_lives(lc.founder_lives)
+                if int(cfg.evolve.get("recheck_k", 0)) > 0 and int(cfg.evolve.get("recheck_lives", 0)) > 0:
+                    self._task_lives(cfg.evolve.recheck_lives)
             for duration in (self.T, *self.T_choices, float(lc.get("founder_T", self.T))):
                 for task in self.training_tasks:
                     self._task_world(task, duration)
@@ -208,14 +269,45 @@ class LifeEvaluator:
         """True if the config gives at least one envelope range (whether or not the envelope is enabled)."""
         return any(k in self.envelope for k in ENVELOPE_KEYS)
 
-    def _envelope(self, w: spec.World, purpose: str, index: int, life: int) -> spec.World:
+    def _envelope(self, w: spec.World, purpose: str, index: int, life: int, task: str | None = None) -> spec.World:
+        """Envelope noise physics of one life, keyed like its seed: (purpose, index, life), or (purpose, index,
+        task, replicate ``life``) for a keyed life."""
         vals = {}
         for j, key in enumerate(ENVELOPE_KEYS):
             if key in self.envelope:
                 lo, hi = (float(x) for x in self.envelope[key])
-                u = spec.draw(self.seed, _ENV_STREAM, PURPOSES[purpose], int(index), int(life), j)
+                if task is None:
+                    u = spec.draw(self.seed, _ENV_STREAM, PURPOSES[purpose], int(index), int(life), j)
+                else:
+                    u = spec.draw(self.seed, _ENV_TASK_STREAM, PURPOSES[purpose], int(index), task_key(task),
+                                  int(life), j)
                 vals[key] = lo + (hi - lo) * u
         return replace(w, **vals)
+
+    def _life_world(self, task: dict, T: float | None, seed: int) -> spec.World:
+        """The world of one task life with life seed ``seed``. Every task draw (generation, recheck, founder, race,
+        probe, elite, panel and confirmation) builds its worlds here, after its seeds and before any envelope noise.
+        By default the task's fixed world (``_task_world``); an engine whose worlds vary per life overrides this to
+        draw the life's world parameters deterministically from ``seed`` (never from the genome or the batch)."""
+        return self._task_world(task, T)
+
+    def generation_T(self, index: int) -> float:
+        """The life length of generation ``index``: one of ``life.T_choices`` (GB11's per-generation draw), else T."""
+        if not self.T_choices:
+            return self.T
+        u = spec.draw(self.seed, _T_STREAM, int(index))
+        return self.T_choices[min(int(u * len(self.T_choices)), len(self.T_choices) - 1)]
+
+    def request_columns(self, names) -> tuple[str, ...]:
+        """Ask every later evaluation for per-life ledger columns ``names`` (``LifeEval.life_columns``, in this
+        order). Names are ledger fields of this ABI or derived columns (``DERIVED_COLUMNS``)."""
+        names = tuple(str(n) for n in names)
+        known = set(self.abi.L) | set(DERIVED_COLUMNS)
+        unknown = [n for n in names if n not in known]
+        if unknown:
+            raise ValueError(f"unknown ledger columns {unknown} for ABI {self.abi.version}")
+        self.ledger_names = names
+        return names
 
     def _task_config(self, tasks) -> tuple[dict, ...]:
         if tasks is None:
@@ -246,6 +338,14 @@ class LifeEvaluator:
             raise ValueError("training lives must be positive and divisible by the sum of task weights")
         return lives
 
+    def _allocated_lives(self, lives) -> list[int]:
+        """An even split of ``lives`` over the training tasks (earlier tasks take the remainder), at least one each:
+        the default allocation of a keyed training draw that is not given a vector."""
+        K = len(self.training_tasks)
+        if isinstance(lives, bool) or not isinstance(lives, int) or lives < K:
+            raise ValueError(f"allocated training lives need at least one life per task ({K} tasks)")
+        return [lives // K + (t < lives % K) for t in range(K)]
+
     def _task_world(self, task: dict, T: float | None = None) -> spec.World:
         """Task preset, common world/cost/flag settings, then task overrides (without numeric truncation)."""
         lc = self.cfg.life
@@ -264,22 +364,57 @@ class LifeEvaluator:
             raise ValueError("training and panel tasks must share the base world's world_kind")
         return world
 
-    def draw_tasks(self, purpose: str, index: int, tasks, lives_per_task: int, T: float | None = None) -> LifeDraw:
+    def draw_tasks(self, purpose: str, index: int, tasks, lives_per_task: int, T: float | None = None,
+                   seed: int | None = None, keyed: bool = False) -> LifeDraw:
         """Explicit task-major fixed panel, equal lives per entry regardless of training weight.
 
         Accepts the same task-entry schema as life.training_tasks. It never uses training allocation, T_choices
         or envelope physics; panel/confirm purposes have separate seed streams from selection and each other.
+        ``seed`` replaces the run seed of the life seeds (a study's own fixed panel seed); ``keyed`` keys them by
+        (task, replicate) instead of position. Worlds come from ``_life_world`` with the final seeds.
         """
         configured = self._task_config(tasks)
         if (not configured or isinstance(lives_per_task, bool) or not isinstance(lives_per_task, int)
                 or lives_per_task <= 0):
             raise ValueError("a task panel needs tasks and positive integer lives_per_task")
-        worlds, labels = [], []
+        base = self.seed if seed is None else int(seed)
+        seeds, worlds, labels = [], [], []
         for task in configured:
-            worlds.extend([self._task_world(task, T)] * lives_per_task)
-            labels.extend([task["name"]] * lives_per_task)
-        seeds = tuple(life_seed(self.seed, purpose, index, life) for life in range(len(worlds)))
-        return LifeDraw(seeds, tuple(worlds), tuple(labels))
+            for r in range(lives_per_task):
+                s = (task_life_seed(base, purpose, index, task["name"], r) if keyed
+                     else life_seed(base, purpose, index, len(seeds)))
+                seeds.append(s)
+                worlds.append(self._life_world(task, T, s))
+                labels.append(task["name"])
+        return LifeDraw(tuple(seeds), tuple(worlds), tuple(labels))
+
+    def draw_allocated(self, purpose: str, index: int, lives, T: float | None = None, envelope: bool | None = None,
+                       seed: int | None = None) -> LifeDraw:
+        """Allocation-aware training lives: ``lives[t]`` lives of training task t, task-major in the configured
+        order. Life r of task t has seed ``task_life_seed(seed, purpose, index, name_t, r)``, so its seed does not
+        depend on any other task's count, and purposes (generation, race, probe, elite, ...) never share lives.
+        ``T`` defaults to the generation's length for purpose gen (``generation_T``), else life.T; ``envelope``
+        follows ``draw`` (None: on for selection purposes when enabled). A task may get zero lives here (a race
+        subset); objectives over a whole generation still require every task (``task_objectives(..., tasks)``)."""
+        if not self.training_tasks:
+            raise ValueError("allocated draws need life.training_tasks")
+        lives = [int(n) for n in lives]
+        if len(lives) != len(self.training_tasks) or any(n < 0 for n in lives) or not sum(lives):
+            raise ValueError("an allocation gives a nonnegative life count to every training task, in task order")
+        if T is None:
+            T = self.generation_T(index) if purpose == "gen" else self.T
+        if envelope is None:
+            envelope = bool(self.envelope.get("enabled", False)) and purpose in ENVELOPE_PURPOSES
+        base = self.seed if seed is None else int(seed)
+        seeds, worlds, labels = [], [], []
+        for task, n in zip(self.training_tasks, lives):
+            for r in range(n):
+                s = task_life_seed(base, purpose, index, task["name"], r)
+                w = self._life_world(task, T, s)
+                seeds.append(s)
+                worlds.append(self._envelope(w, purpose, index, r, task["name"]) if envelope else w)
+                labels.append(task["name"])
+        return LifeDraw(tuple(seeds), tuple(worlds), tuple(labels))
 
     def draw(self, purpose: str, index: int, lives: int | None = None, T: float | None = None,
              overrides: list[dict] | None = None, envelope: bool | None = None) -> LifeDraw:
@@ -292,18 +427,22 @@ class LifeEvaluator:
         keep the legacy base world; use draw_tasks for a labelled, equal-per-task panel."""
         L = self.lives if lives is None else int(lives)
         if T is None and self.T_choices and purpose == "gen":  # GB11's per-generation draw
-            u = spec.draw(self.seed, _T_STREAM, int(index))
-            T = self.T_choices[min(int(u * len(self.T_choices)), len(self.T_choices) - 1)]
+            T = self.generation_T(index)
         if envelope is None:
             envelope = bool(self.envelope.get("enabled", False)) and purpose in ENVELOPE_PURPOSES
         if self.training_tasks and purpose in ENVELOPE_PURPOSES and not overrides:
+            if self.allocated:  # keyed lives, an even split unless the search passes a vector (draw_allocated)
+                split = self._allocated_lives(self.lives if lives is None else lives)
+                return self.draw_allocated(purpose, index, split, T, envelope)
             L = self._task_lives(self.lives if lives is None else lives)
             labels = self.task_pattern * (L // len(self.task_pattern))
-            task_worlds = {task["name"]: self._task_world(task, T) for task in self.training_tasks}
+            tasks = {task["name"]: task for task in self.training_tasks}
             seeds = tuple(life_seed(self.seed, purpose, index, life) for life in range(L))
-            worlds = tuple(self._envelope(task_worlds[name], purpose, index, life) if envelope else task_worlds[name]
-                           for life, name in enumerate(labels))
-            return LifeDraw(seeds, worlds, labels)
+            worlds = []
+            for life, name in enumerate(labels):
+                w = self._life_world(tasks[name], T, seeds[life])
+                worlds.append(self._envelope(w, purpose, index, life) if envelope else w)
+            return LifeDraw(seeds, tuple(worlds), labels)
         base = self.world(T)
         if overrides:
             worlds, seeds = [], []
@@ -381,6 +520,9 @@ class LifeEvaluator:
     def _eval(self, params, draw: LifeDraw) -> LifeEval:
         col = self.columns(self.run(params, draw), params.shape[0], draw)
         window, live = col["window"], np.maximum(col["live_time"], 1e-300)
+        B = params.shape[0]
+        per_life = (np.stack([np.asarray(col[n], dtype=np.float64) for n in self.ledger_names], axis=-1)
+                    if self.ledger_names else np.zeros((B, draw.n, 0), dtype=np.float64))
 
         def mean(x) -> torch.Tensor:
             return torch.from_numpy(np.ascontiguousarray(np.asarray(x, dtype=np.float64).mean(axis=1)))
@@ -397,4 +539,5 @@ class LifeEvaluator:
             trial_scores=torch.from_numpy(np.ascontiguousarray(col["F"])), n_peak=mean(col["n_peak"]),
             body=mean(col["live_time"] / window), income_per_cell=mean(col["income"] / live),
             contact_events=mean(col["contact_events"] / window), extinct=mean(col["extinct"]), guard=mean(col["guard"]),
-            invalid=mean(col["invalid"]), events=mean(col["events"]), mismatch=mean(col["mismatch"]), **catch)
+            invalid=mean(col["invalid"]), events=mean(col["events"]), mismatch=mean(col["mismatch"]), **catch,
+            life_columns=torch.from_numpy(np.ascontiguousarray(per_life)))

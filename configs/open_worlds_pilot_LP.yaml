@@ -1,0 +1,9 @@
+# Open-world pilot, arm LP: learning-progress allocation with a floor (OPEN_WORLDS.md 6.3). See open_worlds_base.yaml.
+extends: open_worlds_base.yaml
+
+evolve:
+  allocation:
+    mode: lp
+
+logging:
+  output_dir: outputs/open_worlds_pilot/LP
