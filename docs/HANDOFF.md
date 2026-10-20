@@ -8,7 +8,7 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
-**Running (2026-10-20): the open-world pilot.** [OPEN_WORLDS.md](OPEN_WORLDS.md) (§11 "As built") — five
+**Running (2026-10-20): the open-world pilot v2** (eco v2 worlds, LIFE_ABI.md 9.8.7). [OPEN_WORLDS.md](OPEN_WORLDS.md) (§11 "As built") — five
 open-ended worlds (plume foraging, predator field, home-base foraging, evasive prey, farming), trained together
 from generation 0 on ABI 8 (nine gene-tuned modality slots and the eco world; contract in
 [LIFE_ABI.md](LIFE_ABI.md)). Per-life worlds come from `src/life/ecology.py`; the search is
@@ -16,11 +16,13 @@ from generation 0 on ABI 8 (nine gene-tuned modality slots and the eco world; co
 search").
 - **Runs:** D90 and AO lineages (padded to ABI 8) × arms U / LP / LPD, plus one from-scratch population in LP,
   G = 100 each. Configs `configs/open_worlds_pilot_*.yaml`.
-- **Launch:** `outputs/open_worlds_pilot/`, a frozen checkout at 52ecab7. `queue/monitor.json` there is
+- **Launch:** `outputs/open_worlds_pilot_v2/`, a frozen checkout at 0dd707e. `queue/monitor.json` there is
   authoritative for status.
+- **Pilot v1** (`outputs/open_worlds_pilot/`, eco v1 worlds) was stopped after 14–16 generations, when the
+  headroom check found world flaws. It is kept as cost and noise calibration: 0.54 CPU-hours per generation per run.
 - **Budget:** four two-thread workers at nice 10, 450 CPU-hours / 120 elapsed hours, 8 GiB RSS cap.
 - **Purpose:** a calibration (cost per life, noise, correlations, allocator behaviour), not a stage.
-- **Background checks:** headroom controllers (OPEN_WORLDS.md §7, simplified) in `outputs/headroom_20261020/`.
+- **Headroom check:** OPEN_WORLDS.md §7, simplified; [results/headroom_20261020](../results/headroom_20261020/README.md).
 - **Ask the user** before any rented compute; the main run (G = 300–400) may need it.
 
 **Completed study:** four lineages ×250 generations across eight conditions in

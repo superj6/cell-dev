@@ -4603,3 +4603,37 @@ families (plume, predator, home, prey, farm) and a held-out region of each.
 - All five worlds in every generation, 24 lives per candidate (floor 2, cap 8), with racing and a 4×4 behaviour grid
   per world.
 - Generation 0: 10,200 lives in about 10 minutes per run (two threads). The grids hold 4–12 of 16 cells per world.
+
+## 2026-10-20 — Headroom check, eco v2 worlds, pilot restarted
+
+[Headroom report](results/headroom_20261020/README.md).
+- **Controllers drive the body inside the reference accountant itself**, so every world rule applies to them, with
+  the founders' speed cap and click rate.
+- **Every world has large headroom.** Eco net per life:
+  - founders: −0.4k to 1.5k;
+  - a light-chasing reflex: 0.2k to 2.6k;
+  - a partial-information controller: 2.9k to 4.2k;
+  - a privileged controller: 19.5k to 39.0k.
+- **Information sources:** none of the five worlds showed three independently paying information sources with that
+  hand controller.
+
+**World flaws found:** freezing had no effect, shelters were invisible to every sense, and a body sitting on soil
+could farm blindly (up to 9.9k per life).
+
+**Eco v2 (`eco_mode = 2`, LIFE_ABI.md 9.8.7)** fixes them, bitwise in C and Python, and mode 1 replays bitwise:
+- pursuers detect a body in proportion to its mean speed since their last look;
+- touch feels shelter cover;
+- a tap on a growing plant destroys it;
+- shelters and soil are kept off the start.
+
+On v2 worlds:
+- blind sit-and-tap farming earns 0;
+- a body that never moves is never killed (v1: 30% of predator lives), but it earns nothing;
+- detections of moving founders are unchanged (0.99 → 0.98 per life).
+
+**Pilot v1** (v1 worlds) was stopped after 14–16 generations and kept as calibration:
+- 10,200–10,400 lives and about 0.54 CPU-hours per generation per run;
+- mean F rose in all five worlds in both the U and LP arms;
+- the allocator moved lives only on new grid cells, since progress slopes were not resolved before generation 15.
+
+**Pilot v2** runs the same seven runs on v2 worlds (`outputs/open_worlds_pilot_v2/`, checkout 0dd707e).
