@@ -172,7 +172,7 @@ class _Patch:
 
 @dataclass
 class LifeResult:
-    """Outputs of one life in the caller's explicit ABI 2–6 layouts (LIFE_ABI.md 4.9-4.11)."""
+    """Outputs of one life in the caller's explicit ABI 2–8 layouts (LIFE_ABI.md 4.9-4.11)."""
     ledger: np.ndarray  # float64 [abi.LEDGER_SIZE], columns abi.LEDGER
     hashes: np.ndarray  # uint64 [abi.HASH_SIZE]: all, spikes, fate, chem (, world)
     raster_t: np.ndarray  # float64 [min(raster_n, cap)]

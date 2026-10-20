@@ -1,4 +1,493 @@
-# One-life kernel ABI and event semantics (ABI 6, with ABI 2/3/4/5 caller compatibility)
+# One-life kernel ABI and event semantics (ABI 8, with ABI 2-7 caller compatibility)
+
+## ABI 8 extension: modality slots and the eco world (2026-10-20)
+
+ABI 8 gives every sense-plane cell nine more receptor modality slots, each read through its own gene-decoded gain.
+It also adds a world mode, the eco world (`eco_mode = 1`), whose entities drive those slots: sources that release
+odour puffs into a meandering current, walls, shelters, rule-based agents, a home that pays for carried food, and
+fertile soil for planting. The kernel implements ABI 8 (`build.KERNEL = spec.V8`). Callers opt in with an explicit
+`spec.V8` (`life.abi: 8` in a configuration); `spec.CURRENT` remains `spec.V2`. The design is
+[OPEN_WORLDS.md](OPEN_WORLDS.md), whose section 11 records what was built; where it differs, this text and the code
+govern. Code comments cite the cell side as 7.10 and the eco world as 9.8; subsections 9.8.1-9.8.6 below carry those
+numbers. `src/life/ecology.py` is a caller-side generator, not part of the ABI: `realize(family, seed)` turns a life
+seed into one `EcoWorld` (families `plume`, `predator`, `home`, `prey`, `farm` and their `_transfer` regions) with
+fixed modality bindings `MOD_BLOCK` (slots 1-4 odour species 0-3, 5 flow, 6 touch, 7 vibration, 8 sun, 9 unbound).
+Nothing in it runs inside a life.
+
+### Layout, sizes and neutral padding
+
+ABI 8 only appends: every ABI 7 index of the knobs, gene inputs, genome, program, world vector, ledger, streams and
+hash words is unchanged.
+
+| Quantity | ABI 7 | ABI 8 | Appended entries |
+| --- | ---: | ---: | --- |
+| knobs `P` | 23 | 32 | 23-31: `g_r1 .. g_r9`, decoded `q8(y)` like `g_r` (signed, 1/8 grid) |
+| gene inputs `NIN` | 25 | 34 | 25-33: `rho1 .. rho9`, after the plane cues `is_S`, `is_M` |
+| genome | 875 | 1172 | W columns 25-33, A rows 23-31, a0 entries 23-31 |
+| program | 129 | 174 | knobs 23-31 in each of the five phenotype rows |
+| world | 83 | 499 | modality block 83-127, eco block 128-498 |
+| ledger | 143 | 212 | modality columns 143-178, eco columns 179-211 |
+
+`life_sizes` reports `8, 1172, 174, 499, 212, 5, 32, 1024, 7, 18`; `life_decode` and `life_readout` use 32 values.
+Genome offsets (`spec.V8.GENOME_SLICES`): W `[16][34]` at 0, b 544, lam 560, s0 576, Q 592, act 608, A `[32][16]`
+at 624, a0 `[32]` at 1136, Dm 1168, km 1170. The program table holds five rows of 32 knobs in `[0, 160)` and the
+14 scalars in `[160, 174)`.
+
+The world vector is ABI 7's 83 keys, then the modality block (`spec.MOD_KEYS`): slot m = 1..9 at `83 + 5 (m - 1)`
+holds `mod{m}_kind, mod{m}_arg, mod{m}_lam_bg, mod{m}_lam_s, mod{m}_K`. The eco block follows (`spec.ECO_KEYS`,
+the order of `kernel.c`'s enums):
+
+| Indices | Block | Keys |
+| --- | --- | --- |
+| 128-178 | head, 51 keys | `eco_<name>` (9.8.1) |
+| 179-282 | 8 sources of 13 | `src{i}_<field>` (9.8.1) |
+| 283-442 | 8 agents of 20 | `ag{i}_<field>` (9.8.1) |
+| 443-474 | 8 walls of 4 | `wall{i}_x0, _x1, _y0, _y1` |
+| 475-486 | 4 shelters of 3 | `shelter{i}_x, _y, _r` |
+| 487-498 | 4 fertile disks of 3 | `fertile{i}_x, _y, _r` |
+
+`spec.EcoWorld` is a frozen `World` plus two value tuples, `mod` (45 values in MOD_KEYS order) and `eco` (371 values
+in ECO_KEYS order); an empty tuple means all zeros. `spec.mod_block({m: dict(kind=..., arg=..., lam_bg=...,
+lam_s=..., K=...)})` (kind by `spec.MOD_KINDS` name or code), `spec.eco_block(**values)` and
+`spec.eco_world(preset, mod, eco, **overrides)` build them; `spec.eco_view(w)` reads both blocks by key.
+`V8.pack_world` writes the 83 ABI 7 keys, then the two blocks.
+
+Six streams are appended (`spec.STREAMS_V8`). `poisson_next(seed, stream, a, k, t, mean)` is
+`t - mean * log(draw(seed, stream, a, k))` (9.7.3).
+
+| Stream | ID | Keys | Draw |
+| --- | ---: | --- | --- |
+| `S_RCAND_M` | 34 | uid, m, j | time of candidate j of slot m (below) |
+| `S_RACC_M` | 35 | uid, m, j | thinning draw of that candidate (9.8.2) |
+| `S_ECO_PUFF` | 36 | i, k | interval from puff k of source i to puff k + 1 (puff 0 is t0); mean `1 / puff` |
+| `S_ECO_CUR` | 37 | 0, k | interval from current turn k to turn k + 1 (turn 0 is t0); mean `cur_turn` |
+| `S_ECO_CUR` | 37 | 1, k | heading change at turn k (k >= 1) |
+| `S_ECO_AG` | 38 | i, 2^64 - 1 | phase of agent i's first look |
+| `S_ECO_AG` | 38 | i, q, n | draw `u_n` (n = 0, 1, 2) of agent i's look q (q from 0) |
+| `S_ECO_PLANT` | 39 | id, 0 | ripening delay of plant id (ids count plantings from 0) |
+
+The records `R_RCANDM(uid, m, j)` and `R_RECEPTM(uid, m, n, g_r{m})` are new (hash words 30 and 31), and the eco
+world folds world-event words 40-50 (9.8.6). All of them fold into the `world` and `all` families; the five
+families are unchanged. At close `all` folds all 212 ledger columns. Status bit 512 is `killed` (9.8.6).
+
+**Neutral padding and older ABIs.** `V8.pad_genomes(rows, src)` (ABI 3-7 rows share one layout; ABI 2 pads as
+before) and `V8.pad_program(row, src)` set every new entry to 0, so a padded organism decodes
+`g_r1 .. g_r9 = q8(0) = 0`, never starts a modality stream and reads the new inputs with weight 0 (each padded term
+adds `+0.0`, as in 4.4). A plain `World` (or an `EcoWorld` with empty tuples) packs both blocks as zeros: every slot
+unbound and `eco_mode = 0`, which emits no ABI 8 record or world event. `build.run` with an ABI 2-7 caller pads the
+inputs, returns the caller's shapes and, in full mode, reverses the extra close folds of `all` (`build.unfold_close`;
+69 for ABI 7); fast-mode hashes keep each older adapter's convention. `validate_world` of ABI 2-7 refuses a world with
+any nonzero modality or eco value (`NotImplementedError`), so older callers never reach the kernel with one.
+
+### Cell side: modality slots (extends 7.10)
+
+Slot 0 is the ABI 3 receptor: its stream, thinning, delivery and charges are unchanged, and in an eco life its rate
+is light (9.8.2). Slot m = 1..9 is bound when `mod{m}_kind != 0`. Its candidate rate is the constant
+`lam_m = mod{m}_lam_bg + mod{m}_lam_s`, and `lam_m = 0` for an unbound slot. Slots belong to sense-plane cells
+(z = 0) of CATCH lives; validation binds slots only in eco lives, so other lives never run a slot stream.
+```
+state per cell and slot m (all 0 at birth): trace rho_m, next candidate index nrec[m], pending flag pend[m]
+mod_activate(cell, t):     # at BIRTH, after the slot-0 stream starts; in TICK step 5, after theta and PREDICT
+    if z != 0: return
+    for m = 1..9:
+        if lam_m > 0 and pend[m] == 0 and theta.g_r{m} != 0:
+            pend[m] = 1
+            schedule RCANDM(uid, m, nrec[m]) at receptor_next_m(seed, uid, m, nrec[m], t, lam_m)
+receptor_next_m(seed, uid, m, j, t_prev, lam) = t_prev - log(draw(seed, S_RCAND_M, uid, m, j)) / lam,
+                                                moved to nextup(t_prev) if it does not exceed t_prev
+RCANDM(uid, m, j) at c (group 3, self; stale unless uid is the live occupant and j == nrec[m]):
+    nrec[m] = j + 1
+    if theta.g_r{m} != 0 and lam_m > 0:
+        emit R_RCANDM(uid, m, j)
+        schedule RCANDM(uid, m, j + 1) at receptor_next_m(seed, uid, m, j + 1, c, lam_m)
+    else:
+        pend[m] = 0             # no record: the stream stops
+RECEPTORM(uid, m, j) at c + d_min (group 3, sent by the world, 9.8.2):
+    delivered iff uid is the live occupant at t-, not F(receptor_off), and theta.g_r{m} != 0
+    (one that is not delivered vanishes: no trace, no input, no record, no charge)
+```
+- **Gating.** A stream runs only while its slot is bound, the cell is at z = 0 and its own gain is nonzero. A
+  candidate that finds the gain 0 consumes its index and stops the stream; the next TICK whose phenotype has a
+  nonzero gain restarts it from that tick's time at index `nrec[m]`. Slot 0's candidate times are a property of the
+  cell's birth alone; a slot's candidate times also depend on the cell's gain history. A cell whose gain stays 0 has
+  no stream, no record and no charge.
+- **Batch order** (group 3): R_RCAND, then R_RCANDM in (m, j) order, then R_RECEPT, then one
+  `R_RECEPTM(uid, m, n_m, theta.g_r{m})` per slot with `n_m > 0` deliveries, in m order, then any R_SPIKE.
+- **Membrane.** If anything arrives or is delivered, the traces advance to t (`rho_m` decays with f, r and rho by
+  `exp(-(t - t_tr) / tau_tr)`) and `rho_m = rho_m + n_m`, refractory or not. Outside refractoriness, after the exact
+  sum of arrivals and kicks, `S = S + g_r * n_rec`, then for m = 1..9 with `n_m > 0` `S = S + g_r{m} * n_m`, one
+  rounding each; the step then continues as in 7.2.
+- **Genes.** TICK step 3 appends `x[24 + m] = rho_m / theta_prev.tau_tr` for m = 1..9. `genes_blind` also zeroes
+  `x[25..33]`; the plane cues `x[23..24]` stay.
+- **Charges.** The accountant books `R_RECEPTM(uid, m, n, g)`: counted `mod_events_m += n`,
+  `ga = abs(g) * (double) n`, `mod_gain_m = mod_gain_m + ga`, `cost = cost + c_rec * ga`; it folds
+  `[31, bits(t), uid, m, n, bits(g)]` whether counted or not.
+
+### 9.8.1 Eco state, start and world events
+
+An eco life is a plain CATCH life (9.7) without blobs: no PLACE or TURN events and no respawns; `sigma`, `R_min`,
+`R_max` and `R_cap` play no part. The dot, strokes, the hotspot key and clicks, the exposed act-plane face
+and the footprint drag of 9.7.2 are unchanged, except for walls and load drag (9.8.3) and click resolution (9.8.4).
+
+Head keys, by world index (names without the `eco_` prefix):
+- 128 `mode`: 0 neutral, 1 eco life. 129-133 `n_src, n_ag, n_wall, n_shelter, n_fertile`: entity counts.
+- 134-137 `cur_speed, cur_heading, cur_turn, cur_turn_max`: current speed, start heading (radians), mean interval
+  between turns (0: it never turns) and largest heading change per turn.
+- 138-142 `puff_sigma0, puff_D, puff_life, puff_cut, puff_cap`: puff start width, diffusivity, lifetime, cutoff in
+  squared widths and capacity of the puff ring.
+- 143 `landmark`: source amplitude at zero stock. 144 `sun_heading`: sun direction (radians). 145 `vib_vref`: the
+  agent speed that gives unit vibration.
+- 146 `r_body`: wall inflation for the dot. 147 `arena`: wandering agents beyond this radius head back to the origin.
+- 148 `kill_hits`: predator hits that kill (0: never). 149 `occlude`: 1 if walls block light.
+- 150-157 `home_x, home_y, home_r, home_sigma, home_b0..b3`: home centre, delivery radius (0: no home), odour width
+  and amounts.
+- 158-161 `carry_cap, carry_mult, carry_digest, carry_drag`: items carried at once (0: food is eaten at once),
+  delivery multiplier, time to digestion in transit, drag per carried item.
+- 162-173 `plant_cap, plant_cost, ripen_min, ripen_max, ripe_window, plant_value, plant_sigma, plant_light,
+  plant_b0..b3`: plant slots (0: no planting), planting cost, ripening delay range, ripe duration, harvest value,
+  emission width, light and odour amounts of a ripe plant.
+- 174-178 `soil_sigma, soil_b0..b3`: odour width and amounts of every fertile disk.
+
+Odour amounts `b0..b3` are per species 0-3 (OPEN_WORLDS.md's A-D). Entity fields:
+- **Source:** `x, y`; `value` (negative: a toxin); `cap` (start and largest stock); `period` (refill interval, 0:
+  none) and `phase` (first refill at `t0 + phase`, or `nextup(t0)` if that is not after t0); `light` and `sigma`
+  (light amount and halo width); `puff` (puff release rate, at most 16); `b0..b3` (odour amounts of each puff).
+- **Agent:** `type` (1 pursuit, 2 ambush, 3 darter, 4 freezer, 5 burrower, 6 pest; `spec.AGENT_TYPES`); start
+  `x, y`; `v1` (wander speed) and `v2` (active speed); `r_sense`; `p` (probability per look); `r_contact`; `value`
+  (predators: damage per hit; prey: income per catch; unused by pests); `look` (interval between looks); `t_state`
+  (active duration); `t_rest` (rest after a hit, or hiding time); `sigma, light, b0..b3` (emission while visible);
+  `rx, ry` (prey: respawn and burrow point).
+- **Wall:** the open box `(x0, x1) x (y0, y1)`. **Shelter, fertile disk:** centre `x, y` and radius `r`; a point is
+  inside if its squared distance to the centre is at most `r * r`.
+
+**State.** Sources: stock. Puffs: one ring of at most `puff_cap` entries `(t_rel, ox, oy, a[4])`, shared by all
+sources, in release order. Current: heading, velocity `(ux, uy)` and the displacement
+`A(t) = A_s + (ux, uy) (t - t_s)` anchored at the last turn. Agents: state (0 wander, 1 active, 2 rest, 3 hidden),
+anchor `(t, x, y)`, velocity until `t_stop`, speed, `until`, look counter q and a visibility bit. Plants: 16 slots
+(0 empty, 1 growing, 2 ripe), position, ripening and spoiling times, id and a visibility bit. Carried items: a FIFO
+of `(value, due, id)`. The dot: blocked axes and the next wall kink (9.8.3). The hit total and the killed flag. None
+of it is a cell input.
+
+**Start** (before the first time group, after 9.7.1's dot state): every stock is `cap`; source i refills at
+`first + n * period` for n = 0, 1, ... when `period > 0`; its first puff comes at
+`poisson_next(seed, S_ECO_PUFF, i, 0, t0, 1 / puff)` when `puff > 0`. The current starts at `A = 0`, velocity
+`cur_speed * (cos(cur_heading), sin(cur_heading))`, first turn at `poisson_next(seed, S_ECO_CUR, 0, 0, t0, cur_turn)`
+when `cur_turn > 0`. Agents start wandering, still and visible, with first look at
+`t0 + look * draw(seed, S_ECO_AG, i, 2^64 - 1)`. Plants are empty and invisible, nothing is carried, `gam0 = 1`.
+Fold `[48, bits(t0), n_src, n_ag, n_wall, bits(ux), bits(uy)]`.
+
+**World events.** `world_to(t)` applies every eco event strictly before t (9.7.1's left-limit rule) in time order.
+Ties go to the earlier entry of this list: refills by source, puff releases by source, the current turn, looks by
+agent, the wall kink (9.8.3), the digestion of the oldest item, then plants by slot (ripening if growing, spoiling
+if ripe).
+- **Refill** at t: `if stock < cap: stock += 1`; fold `[40, bits(t), i, before, after]`; the next refill is
+  `first + n * period` with the incremented n.
+- **Puff** k of source i at t (k from 1): drop puffs older than `puff_life` from the oldest end, then the oldest if
+  `puff_cap` remain; append `(t, (x, y) - A(t), b_k * amp)` with `amp = landmark + (1 - landmark) * stock / cap` (the
+  current stock); counted `eco_puffs += 1`; fold `[41, bits(t), i, k, bits(ox), bits(oy), bits(amp)]`; the next puff
+  is at `poisson_next(seed, S_ECO_PUFF, i, k, t, 1 / puff)`.
+- **Current turn** k at t (k from 1): anchor `A` at t; `cur_heading += cur_turn_max * (2 u - 1)` with
+  `u = draw(seed, S_ECO_CUR, 1, k)`; recompute `(ux, uy)`; fold `[42, bits(t), k, bits(ux), bits(uy)]`; the next turn
+  is at `poisson_next(seed, S_ECO_CUR, 0, k, t, cur_turn)`.
+- **Digestion** at the oldest item's due time: `dot_adv(due)`, remove it, counted `eco_digested += 1`,
+  `eco_digest_income += value`, `income += value`, `captures += 1`; update the drag; fold
+  `[46, bits(t), id, bits(value)]`; search the next kink.
+- **Ripening** at `t_ripe`: state 2, visible, counted `eco_ripened += 1`. **Spoiling** at `t_spoil`: empty, invisible,
+  counted `eco_spoiled += 1`. Both fold `[47, bits(t), slot, id, new state]`.
+- **Look** q of agent i at t (below); the next look is at `t + look`.
+
+Look q of agent i at t: move the anchor to the agent's position at t (frozen after `t_stop`); `(X, Y) = dot_at(t)`;
+`d2` is the squared distance from the agent to the dot; `shel` is whether the dot is inside a shelter;
+`u0, u1, u2 = draw(seed, S_ECO_AG, i, q, 0 | 1 | 2)`. The state rules, in order:
+- **1 pursuit:** rest becomes wander once `t >= until`. Wander becomes active (`until = t + t_state`; counted
+  `eco_detections`) if not `shel`, `d2 <= r_sense^2` and `u0 < p`. Active becomes wander if `shel`, `t >= until` or
+  `d2 > 4 r_sense^2`. Then, if active, `d2 <= r_contact^2` and the body is not killed: a hit, and rest until
+  `t + t_rest`. Active motion: toward the dot at `v2`.
+- **2 ambush:** rest becomes wander once `t >= until`. Wander, not `shel`, `d2 <= r_contact^2`, `u0 < p` and the body
+  not killed: a hit (counted `eco_detections`), and rest until `t + t_rest`. It never moves.
+- **3 darter, 4 freezer, 5 burrower (prey):** hidden becomes wander, placed at `(rx, ry)`, once `t >= until`. A
+  burrower that is active and within 0.25 of `(rx, ry)` hides until `t + t_rest`; otherwise active becomes wander once
+  `t >= until`. Wander becomes active (`until = t + t_state`; counted `eco_alarms`) if `d2 <= r_sense^2` and
+  `u0 < p`. Active motion at `v2`: a darter flees straight away from the dot, a burrower heads for `(rx, ry)`, a
+  freezer stops.
+- **6 pest:** it looks for the nearest ripe plant within `r_sense`. Within `r_contact` it eats it (the plant empties
+  and turns invisible at once; counted `eco_pest_eaten`) and wanders; farther away it turns active and heads for it
+  at `v2`; with none in range it wanders.
+
+Then the velocity: a wandering agent other than an ambusher heads for the origin at `v1` if `x^2 + y^2 > arena^2`;
+otherwise it takes the new heading `TWO_PI * u2` at `v1` if `u1 < 0.3`, its state at the start of the look was not
+wander, a wall stopped it, or its speed is 0; otherwise it keeps its heading at `v1`. Resting, hidden, frozen and
+ambush agents are still. `vis = state != hidden and not (freezer and active)`. The agent's straight segment over one
+look interval stops at its first entry into a wall box (not inflated): `t_stop = t + s * look`. A hit is counted
+`eco_hits += 1`, `eco_damage_cost += value`, `cost += value`; every hit, counted or not, adds 1 to the hit total,
+and the killed flag is set once that total reaches `kill_hits > 0` (9.8.6). Fold
+`[45, bits(t), i, state, bits(vx), bits(vy), hit + 2 * ate, bits(x), bits(y)]`.
+
+### 9.8.2 Receptor rates and thinning
+
+Every rate is read at the left limit at the receptor point `p = dot_at(t) + planar(a, b)` of the candidate's cell:
+world events before t are applied, the light of a source uses its stock at the start of the time group, and clicks of
+the group change the visibility of caught prey and harvested plants only at the group's end (after the deferred
+occupancy updates). `halo(dx, dy, sigma)` is 9.7.5's.
+
+**Slot 0: light.** In an eco life R_RCAND (9.7.5) thins with this rate and bound instead of the blobs':
+```
+rate = lam_bg
+for each source i with light_i != 0, unless occluded:
+    rate = rate + lam_s * ((light_i * amp_i) * halo(p - (x_i, y_i), sigma_i))   # amp_i from the group-start stock
+if plant_light != 0: for each visible plant, unless occluded:
+    rate = rate + lam_s * (plant_light * halo(p - plant, plant_sigma))
+for each visible agent with light_g != 0, unless occluded:
+    rate = rate + lam_s * (light_g * halo(p - agent, sigma_g))
+lambda_max = lam_bg + lam_s * L,  L = (sum of source lights) + plant_cap * plant_light + (sum of agent lights)
+```
+An emitter is occluded iff `occlude = 1` and the segment from it to `p` enters a wall box (not inflated).
+
+**Slots 1-9.** Thinning of `R_RCANDM(uid, m, j)` at t, by the accountant:
+```
+counted: mod_cand_m += 1
+rate = mod_rate(m, cell, t, p)
+accepted = draw(seed, S_RACC_M, uid, m, j) * lam_m < rate
+fold [30, bits(t), uid, m, j, accepted]
+if accepted: counted: mod_accept_m += 1;  send RECEPTORM(uid, m, j) to the cell's site at t + d_min
+```
+With `bg, s, K` the slot's `lam_bg, lam_s, K`:
+```
+odour (1), species k = arg (0..3):  rate = bg + s * (C / (C + K))
+    C = 0
+    for each held puff, oldest first, with age = t - t_rel <= puff_life and a_k != 0:
+        s2 = puff_sigma0^2 + 2 * puff_D * age;  d2 = |p - ((ox, oy) + A(t))|^2
+        if d2 <= puff_cut * s2:  C = C + a_k * (puff_sigma0^2 / s2) * exp(-d2 / (2 * s2))
+    C = C + b_k * halo(p - agent, sigma)                    for each visible agent with b_k != 0
+    C = C + home_b_k * halo(p - home, home_sigma)           if home_r > 0 and home_b_k != 0
+    C = C + soil_b_k * halo(p - disk, soil_sigma)           for each fertile disk, if soil_b_k != 0
+    C = C + plant_b_k * halo(p - plant, plant_sigma)        for each visible plant, if plant_b_k != 0
+flow (2):       rate = bg + s * clip(-((u - v) . n) / K, 0, 1)
+touch (3):      rate = bg + s if p lies within K of a wall box (not inflated) or of a visible agent, else bg
+vibration (4):  V = sum over visible agents with speed > 0 and t < t_stop of (speed / vib_vref) * halo(p - agent, K)
+                rate = bg + s * (V / (V + 1))
+sun (5):        rate = bg + s * max(0, n . (cos(sun_heading), sin(sun_heading)))
+```
+`u = (ux, uy)` is the current, `v = F_eff * exp(-(t - t_x) / tau_z) / gam` the dot's velocity (0 without a footprint),
+and `n` the exposed face of the sense cell: the normalized sum of the unit vectors of its in-plane slots whose
+neighbour holds no sense-plane cell in the left-limit occupancy (0 inside the body). A face is stimulated by flow that
+arrives on it. K is the odour half-saturation, the flow speed of saturation, the touch radius and the vibration
+length; sun ignores K. Every rate lies in `[bg, bg + s]`, so `lam_m` bounds it. The odour of a puff is a 2D Gaussian
+of constant mass whose centre drifts with the current; puffs and all odour halos ignore walls.
+
+### 9.8.3 Body motion and walls
+
+- **Inflated walls.** The dot is a point kept outside every open box `(x0 - r_body, x1 + r_body) x (y0 - r_body,
+  y1 + r_body)`. Cells away from the dot's centre may overlap a wall.
+- **Blocked force.** Each axis has a blocking state (+1, -1 or 0) and a blocking wall. `F_eff` is the force with the
+  component that points into a blocking face set to 0; the force itself keeps every pull and its decay. `dot_at`,
+  `dot_adv` (and so `path`) use `F_eff` in an eco life. An axis unblocks when the force on it points away from the
+  face.
+- **Drag.** `gam = gam0 * (1 + carry_drag * n_items)`, with `gam0 = pow(n_fill, drag_exp)` (9.7.2) updated when the
+  footprint changes.
+- **Kinks.** After every change of force, drag or blocking (a stroke, a birth or death, a pick or delivery, a
+  digestion, a contact change) the next contact change is searched on the free path from the anchor
+  `(X, Y) + s * (F_eff * tau_z / gam)`, `0 <= s < 1`, which the dot reaches at `t_x - tau_z * log(1 - s)`
+  (`nextup(t_x)` if that is not later). Candidates: entry into an inflated box (kind 0: contact on its x face 0 or y
+  face 1), and, for a blocked axis, sliding past the end of the blocking face (kind 1). The smallest s wins; ties go
+  to walls by index, then to sliding off a blocking x face, then off a blocking y face. A change at `s = 0` is
+  applied at once and the search repeated, at most 8 times; otherwise the change is scheduled as the wall-kink
+  event (9.8.1). The search runs only with walls and a footprint.
+- **Contact** (kind 0): `dot_adv` to the time, set X (or Y) to the inflated face and block that axis toward the wall;
+  counted (`t_x >= t_open_abs`) `eco_wall_contacts += 1`. **Slide-off** (kind 1): unblock that axis. Both fold
+  `[44, bits(t_x), kind, wall, face, bits(X), bits(Y)]`.
+
+### 9.8.4 Clicks
+
+A hotspot click (9.7.2) at t resolves in this order; each step runs only if no earlier one matched:
+```
+(X, Y) = dot_at(t);  r2 = rho_c * rho_c;  counted: clicks += 1;  outcome = 0, idx = -1, val = 0.0
+"near" below means a squared distance from (X, Y) of at most r2
+1 prey:   the first agent of type 3-5 that is near and not hidden: outcome 5, idx = agent, val = its value;
+          it stops there and hides until t + t_rest
+          counted: eco_prey_caught += 1, eco_prey_income += val, income += val, captures += 1
+2 plant:  the first ripe slot that is near: outcome 6, idx = slot, val = plant_value; the slot empties
+          counted: eco_harvested += 1, eco_harvest_income += val, income += val, captures += 1
+3 source: the first near source with stock > 0: stock -= 1, idx = i, val = its value
+          val < 0: outcome 2 (toxin); counted: eco_toxin_eaten += 1, eco_toxin_cost += -val, cost += -val
+          else if carry_cap > 0 and n_items < carry_cap: outcome 3 (pick); append (val, t + carry_digest, id);
+               counted: eco_picked += 1; update the drag
+          else: outcome 1 (eat); counted: eco_food_eaten += 1, eco_food_income += val, income += val, captures += 1
+4 home:   carry_cap > 0, an item is carried and |(X, Y) - home|^2 <= home_r^2: outcome 4, idx = n_items;
+          for each item, oldest first: v = value * carry_mult; val = val + v;
+              counted: eco_delivered += 1, eco_deliver_income += v, income += v, captures += 1
+          nothing is carried any more; update the drag
+5 plant:  plant_cap > 0, (X, Y) inside a fertile disk, no nonempty slot below plant_cap is near, and a slot below
+          plant_cap is free: outcome 7, idx = the first free slot; the slot grows at (X, Y) with the next id;
+          t_ripe = t + (ripen_min + (ripen_max - ripen_min) * draw(seed, S_ECO_PLANT, id, 0));
+          t_spoil = t_ripe + ripe_window
+          counted: eco_planted += 1, eco_plant_cost += plant_cost, cost += plant_cost
+otherwise: a miss; counted: misses += 1, cost += c_miss
+fold [43, bits(t), outcome, idx, bits(val), bits(X), bits(Y)], then [11, bits(t), 0 if a miss else 1, bits(X), bits(Y)]
+after a pick or a delivery, search the next kink (9.8.3)
+```
+Stocks change at once, so a second click in the same group cannot take the same packet. A caught prey stops at once
+(it no longer vibrates); it and a harvested plant stay visible to odour, light and touch until the group's end. A
+toxin is never carried. A carried item pays either at its digestion (`value`) or at a delivery (`value * carry_mult`),
+never both.
+
+### 9.8.5 Samples
+
+The eco sample replaces 9.7.6's at every integer time c with `t0 < c < t_end`, after `world_to(c)` and at the left
+limit; it changes no world state that cells or the world read.
+```
+(X, Y) = dot_at(c)
+if c >= t_open_abs:
+    samples += 1
+    q = smallest squared distance to a source with stock > 0 and value > 0 (none: skip the next two lines)
+    dist_sum = dist_sum + sqrt(q);  if q <= rho_c^2: zone_samples += 1
+    if sqrt(q) <= rho_c + 1: eco_near_food_samples += 1
+    if (X, Y) is in a shelter: eco_shelter_samples += 1
+    if an active pursuit agent lies within 6, or an ambush agent that is not resting within 3:
+        eco_threat_samples += 1;  if |v| < 0.02 (v as in 9.8.2): eco_still_samples += 1
+    if home_r > 0 and (X, Y) is within home_r of home: eco_home_samples += 1
+    if an item is carried: eco_loaded_samples += 1
+    if cur_speed > 0:  w = (ux, uy) / cur_speed;  d = (X, Y) - previous sample point;  cr = d.x * w.y - d.y * w.x
+        eco_upflow_path = eco_upflow_path + (-(d . w));  eco_crossflow_path = eco_crossflow_path + abs(cr)
+previous sample point = (X, Y)        # every sample, counted or not; (0, 0) before the first
+```
+
+### 9.8.6 Kill, close, ledger and hashes
+
+**Kill.** When the hit total reaches `kill_hits > 0`, the killed flag is set; no predator hits again, and cells,
+clicks, income and costs carry on. Section 10's guard check at integer time c then tests, after `guard_cells` and
+`guard_events` (which take precedence): if the flag is already set, the life closes at `t_end = c` with status
+`killed` (512) and no guard charge. The accountant sets the flag when it processes the lethal look, and it advances
+the world only before each record time group (events strictly before the group's time) and at each sample (events
+strictly before c, after c's guard check). So a lethal hit at `t_h` ends the life at the first integer `c > t_h` if a
+record time group falls strictly between `t_h` and c, and otherwise at `c + 1`. A lethal hit that the accountant first
+processes after the last guard time `t1 - 1` does not end the life early: the life closes at t1 with
+`eco_killed = 1` and without the status bit. Both implementations follow this rule bitwise.
+
+**Close** (9.5): after `world_to(t_end)` and `dot_adv(t_end)`, fold `[49, bits(t_end), i, stock]` for each source
+(status `ledger_mismatch` if a stock lies outside `[0, cap]`), then
+`[50, bits(t_end), n_items, planted slots, hit total, killed]` (`ledger_mismatch` if `n_items > min(carry_cap, 8)`).
+`eco_killed` is the killed flag. The column cost adds, after 9.5's `c_b2 * wrong` term, `c_rec * mod_gain_m` for
+m = 1..9, then `eco_toxin_cost`, `eco_damage_cost` and `eco_plant_cost`, in that order; `net = income - col - guard`
+and `F = net / (T - t_open)` as before, so a killed body simply stops earning. `spec.V8.column_cost` and
+`spec.V8.fitness` use the same order.
+
+All ABI 8 columns except `eco_killed` count only events at `t >= t0 + t_open`. Slot m's columns are at
+`143 + (m - 1)`, `152 + (m - 1)`, `161 + (m - 1)` and `170 + (m - 1)`.
+
+| # | Column | Meaning |
+| --- | --- | --- |
+| 143-151 | `mod_cand_m` | R_RCANDM candidates of slot m |
+| 152-160 | `mod_accept_m` | accepted candidates (RECEPTORMs sent) |
+| 161-169 | `mod_events_m` | delivered RECEPTORMs |
+| 170-178 | `mod_gain_m` | sum of `abs(g_r{m})` over deliveries (cost `c_rec` each) |
+| 179 | `eco_food_eaten` | outcome-1 clicks |
+| 180 | `eco_food_income` | their values |
+| 181 | `eco_toxin_eaten` | outcome-2 clicks |
+| 182 | `eco_toxin_cost` | minus their values (a cost) |
+| 183 | `eco_prey_caught` | outcome-5 clicks |
+| 184 | `eco_prey_income` | their values |
+| 185 | `eco_planted` | outcome-7 clicks |
+| 186 | `eco_plant_cost` | `plant_cost` per planting (a cost) |
+| 187 | `eco_ripened` | ripening events |
+| 188 | `eco_harvested` | outcome-6 clicks |
+| 189 | `eco_harvest_income` | `plant_value` per harvest |
+| 190 | `eco_spoiled` | spoiling events |
+| 191 | `eco_pest_eaten` | ripe plants eaten by pests |
+| 192 | `eco_picked` | outcome-3 clicks (items picked up) |
+| 193 | `eco_delivered` | items delivered home |
+| 194 | `eco_deliver_income` | `value * carry_mult` per delivered item |
+| 195 | `eco_digested` | items digested in transit |
+| 196 | `eco_digest_income` | their values |
+| 197 | `eco_hits` | predator hits |
+| 198 | `eco_damage_cost` | predator `value` per hit (a cost) |
+| 199 | `eco_killed` | 1 if the killed flag was set during the life (whole life) |
+| 200 | `eco_wall_contacts` | wall contacts of the dot (kind 0) |
+| 201 | `eco_puffs` | puffs released |
+| 202 | `eco_alarms` | prey turning active |
+| 203 | `eco_detections` | pursuit detections and ambush strikes |
+| 204 | `eco_shelter_samples` | samples in a shelter |
+| 205 | `eco_threat_samples` | samples under threat (9.8.5) |
+| 206 | `eco_still_samples` | threat samples with the dot nearly still |
+| 207 | `eco_home_samples` | samples at home |
+| 208 | `eco_loaded_samples` | samples while carrying |
+| 209 | `eco_upflow_path` | dot displacement against the current, summed between samples |
+| 210 | `eco_crossflow_path` | absolute displacement across the current, summed between samples |
+| 211 | `eco_near_food_samples` | samples within `rho_c + 1` of a stocked food source |
+
+`income` (column 0) receives the same additions as the five income columns, in event order; `captures` counts eats,
+catches, harvests, deliveries per item and digestions. `misses`, `clicks`, `samples`, `dist_sum`, `zone_samples`,
+`path`, `X_end`, `Y_end` and the slot-0 `rec_*` columns keep their 9.7 meanings with the eco rules above.
+
+World-event hash words, folded into `world` and `all` in event order (records 30 and 31 are in the cell section):
+
+| Words | Event |
+| --- | --- |
+| `40, bits(t), i, stock before, stock after` | source refill |
+| `41, bits(t), i, k, bits(ox), bits(oy), bits(amp)` | puff k of source i |
+| `42, bits(t), k, bits(ux), bits(uy)` | current turn k |
+| `43, bits(t), outcome, idx, bits(val), bits(X), bits(Y)` | click (9.8.4; idx -1 is `2^64 - 1`), before word 11 |
+| `44, bits(t_x), kind, wall, face, bits(X), bits(Y)` | wall contact (kind 0) or slide-off (kind 1) |
+| `45, bits(t), i, state, bits(vx), bits(vy), hit + 2 * ate, bits(x), bits(y)` | agent look |
+| `46, bits(t), id, bits(value)` | digestion |
+| `47, bits(t), slot, id, state` | ripening (state 2) or spoiling (state 0) |
+| `48, bits(t0), n_src, n_ag, n_wall, bits(ux), bits(uy)` | eco start |
+| `49, bits(t_end), i, stock` | close, per source |
+| `50, bits(t_end), n_items, planted slots, hit total, killed` | close |
+
+### Validation
+
+`spec.V8.validate_world` and the kernel's `abi8_ok` apply the same rules (raw vectors that break one return -2);
+every earlier world rule still applies. All 416 appended values are finite. `mod{m}_kind`, `mod{m}_arg` and
+`spec.ECO_INT_KEYS` (`eco_mode`, the five counts, `puff_cap`, `kill_hits`, `occlude`, `carry_cap`, `plant_cap`,
+`src{i}_cap`, `ag{i}_type`) are integers, and `eco_mode` is 0 or 1.
+- **Slots.** `kind` in 0..5 (`spec.MOD_KINDS`). An unbound slot (kind 0) has all five fields 0. A bound slot needs
+  `eco_mode = 1`, `lam_bg, lam_s >= 0`, `0 < lam_bg + lam_s <= 1024` and `0 < K <= 2^20`; odour takes `arg` in 0..3,
+  every other kind `arg = 0`.
+- **Neutral eco block.** `eco_mode = 0` requires every other eco key to be 0.
+- **Eco lives.** `world_kind = 1`, `task_mode = visibility_mode = patch_count = 0`, `b2_amp = 0`,
+  `v_t = tau_turn = t_resp = 0`, `rho_c > 0`, and `lam_bg + lam_s * L <= 1024` (L of 9.8.2). Counts within the caps
+  `N_SRC = 8`, `N_AG = 8`, `N_WALL = 8`, `N_DISK = 4` (shelters and fertile disks each); every entity slot at or past
+  its count is all zero. `N_PLANT = 16` and `N_ITEM = 8` bound `plant_cap` and `carry_cap`.
+- **Head.** `0 <= cur_speed <= 1024`; `cur_turn` 0 or in `[2^-10, 2^30]`; `0 <= cur_turn_max <= 4`;
+  `|cur_heading|, |sun_heading| <= 64`; `0 < puff_sigma0 <= 2^20`; `0 <= puff_D <= 2^20`; `0 < puff_life <= 2^30`;
+  `0 < puff_cut <= 1024`; `1 <= puff_cap <= 4096`; `0 <= landmark < 1`; `vib_vref > 0`; `0 <= r_body <= 2^20`;
+  `0 < arena <= 2^20`; `0 <= kill_hits <= 2^20`; `occlude` 0 or 1; `home_r >= 0`; `home_sigma`, `plant_sigma`,
+  `soil_sigma > 0`; every odour amount (home, plant, soil, source, agent) `>= 0`; `0 <= carry_cap <= 8`,
+  `carry_mult, carry_drag >= 0` and, if `carry_cap > 0`, `carry_digest` in `[2^-10, 2^30]`; `0 <= plant_cap <= 16`,
+  `plant_cost, plant_value, plant_light >= 0` and, if `plant_cap > 0`, `2^-10 <= ripen_min <= ripen_max <= 2^30` and
+  `ripe_window` in `[2^-10, 2^30]`.
+- **Sources.** `1 <= cap <= 2^20`; `period` 0 or in `[2^-10, 2^30]`; `0 <= phase <= 2^30`; `light >= 0`;
+  `0 < sigma <= 2^20`; `0 <= puff <= 16`; `|x|, |y| <= 2^20`.
+- **Agents.** `type` in 1..6; `0.1 <= look <= 2^30`; `v1, v2` in `[0, 1024]`; `r_sense, r_contact, t_state, t_rest,
+  light >= 0`; `0 <= p <= 1`; `sigma > 0`; `|x|, |y|, |rx|, |ry| <= 2^20`; predators (types 1-2) need `value >= 0`.
+- **Walls and disks.** `x0 < x1`, `y0 < y1` and coordinates within `2^20`; disks need `0 < r <= 2^20` and centres
+  within `2^20`.
+
+### Implementation choices and tests
+
+- **Not implemented:** receptor adaptation (OPEN_WORLDS.md 4.1; the traces `rho_m` are the only temporal filter) and
+  weeds (OPEN_WORLDS.md 3.5; pests eat ripe plants instead).
+- **Walls:** puffs and every odour halo pass through walls; light is occluded only when `occlude = 1`; touch (which
+  measures distance to the walls themselves) and vibration are never occluded. Agents stop at the walls themselves,
+  the dot at the walls inflated by `r_body`.
+- **Kill:** at the first guard time that sees the flag (9.8.6), with no guard charge.
+- **Fixed constants:** re-heading probability 0.3, chase give-up beyond `2 r_sense`, burrow radius 0.25, threat radii
+  6 (pursuit) and 3 (ambush), stillness speed 0.02, near-food margin 1, and at most 8 immediate contact changes per
+  kink search.
+- **Math:** besides the existing `q8` decode, the new simulation code calls only `exp`, `log`, `sin` and `cos` from
+  libm, plus the exact `sqrt` and `nextafter`; the drag keeps ABI 3's `pow(n_fill, drag_exp)`. No `tanh`, `atan2`,
+  `hypot`, `erf` or other libm function appears in it.
+- **Tests** (`tests/test_abi8_eco.py`): the sizes above and kernel ABI 8; ABI 7 lives of `catch_speck_l4` and
+  `catch_contact_resources_l4` through the ABI 7 adapter equal raw ABI 8 lives of the padded genome (ledger prefix and
+  hashes bitwise, new columns zero, `all` after `unfold_close`); kernel against reference, ledgers and hashes bitwise,
+  on every ecology family with gene-dependent gains so that streams start and stop; a padded genome runs no slot
+  candidate while light and puffs run; heap with 1 and 4 threads, the fast build and the window scheduler agree;
+  predator kill (status `killed`, `eco_killed = 1`, `t_end < T`, no guard charge, `V8.fitness` from the columns equals
+  F); the dot never enters an inflated wall (reference instrumented) and the kernel agrees; rejection of invalid eco
+  blocks, of slots outside eco lives and of eco worlds under ABI 7; the generator is deterministic and valid, and the
+  evaluator draws one world per life seed. Replay of older ABIs against pinned outputs rests on the existing golden
+  tests (`tests/test_life_world_bell.py`, `tests/test_life_world_catch.py`, `tests/test_life_abi4_legacy.py`).
 
 ## ABI 6 extension: persistent resource patches
 
@@ -368,7 +857,7 @@ Contents:
 6. Events, batches and the causality contract
 7. Handlers
 8. Phenotype decode and derived quantities
-9. The accountant: records, world, ledger, logs, hashes (9.2 BELL-1, 9.7 CATCH)
+9. The accountant: records, world, ledger, logs, hashes (9.2 BELL-1, 9.7 CATCH, 9.8 eco world of ABI 8)
 10. End of life: T, extinction and guards
 11. Schedulers
 12. Flags and forks
@@ -878,7 +1367,8 @@ life.
 ### 4.12 Status bits (ledger column 19, an integer stored as a double)
 `1` extinct; `2` guard_cells; `4` guard_events; `8` raster_overflow; `16` fate_overflow; `32` chem_clamp (at least
 once); `64` ledger_mismatch (`|cost - colcost| > 1e-9 * max(1, |colcost|)`); `128` capacity (an implementation limit
-was reached; the life is invalid and must not be used); `256` wall (at least one wall reject).
+was reached; the life is invalid and must not be used); `256` wall (at least one wall reject); `512` killed (ABI 8:
+a predator kill ended an eco life at a guard time, 9.8.6).
 
 ## 5. State
 
@@ -1685,6 +2175,11 @@ A sample changes no state and nothing reads it, so, like the guards, cells canno
 target is `dist_sum / samples` and the share of time in the capture zone about `zone_samples / samples`. Extinction
 does not stop the world: the blobs keep moving and samples go on until `t_end`, while the dot rests (`n_foot = 0`).
 
+### 9.8 World kind 1 with eco_mode 1 (ABI 8)
+The eco world is specified in the ABI 8 extension at the top of this document: state, start and world events
+(9.8.1), receptor rates (9.8.2), walls (9.8.3), clicks (9.8.4), samples (9.8.5), and kill, close, ledger and
+hashes (9.8.6).
+
 ## 10. End of life: T, extinction and guards
 
 - **T**: events with `t < t1` are processed, and the life closes at `t_end = t1`.
@@ -1707,6 +2202,8 @@ does not stop the world: the blobs keep moving and samples go on until `t_end`, 
   Implementations must support at least `2 * n_max` live cells (n can at most about double within one unit,
   because a claim round trip takes at least `2 d_min` and claims happen only at ticks). If their capacity is
   exhausted anyway, they set the capacity bit and stop. That is an implementation failure, not a model outcome.
+- **Kill** (ABI 8 eco lives, 9.8.6): at the same integer times, after the two guards (which take precedence), a set
+  killed flag closes the life at `t_end = c` with status `killed` and no guard charge.
 
 ## 11. Schedulers
 
@@ -1779,6 +2276,8 @@ message created before `t_fork` is delivered normally after it.
 Under `lockstep` the kernel ignores `delay_sd`, `jit`, `tau_mis`, `clock_sd` and `tick_jit`. Bits 11-14 are ABI 3's
 (`spec.V2.validate_world` refuses them). Cell-side flags (contacts_off to pheno_fixed, lateral_off, hidden_off,
 receptor_off) are tested at the batch time; motor_off is tested by the accountant at the stroke's record time.
+ABI 8 (extension at the top): `genes_blind` also zeroes the modality traces `x[25..33]`, and `receptor_off` also
+stops the RECEPTORM deliveries of slots 1-9.
 
 Forks are defined by replay: a fork at `t_f` with condition X is the same life (same seeds) run with
 `t_fork = t_f`, `fork_flags = X` and usually `t_open = t_f`. Its unchanged twin is `fork_flags = 0` with the same

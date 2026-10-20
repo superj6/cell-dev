@@ -5,7 +5,7 @@ document; every function here that computes a model quantity (hash draws, knob d
 world's closed forms) uses the same IEEE-754 float64 operations in the same order, so results agree bitwise on the
 same libm.
 
-Six caller ABIs coexist; the C kernel implements ABI 7:
+Seven caller ABIs coexist; the C kernel implements ABI 8:
 - ``V2`` is ABI 2 (BELL-1 on 2D lattices).
 - ``V3`` is ABI 3: BELL-1 plus BODY-1 v1 (the CATCH world, 3D prism lattices,
   receptors, plane cues).
@@ -593,7 +593,7 @@ LATTICE_CODES_V3 = dict(LATTICE_CODES_V2, hexprism=3, square4prism=4, square8pri
 
 # ========================================================================================================= the ABIs
 class Abi:
-    """Every constant, layout and packing function of one kernel ABI (2 through 7) of docs/LIFE_ABI.md.
+    """Every constant, layout and packing function of one kernel ABI (2 through 8) of docs/LIFE_ABI.md.
 
     ABI 3 is ABI 2 with appended entries everywhere: knobs (zeta, g_r), gene inputs (rho, is_S, is_M), world keys,
     ledger columns, a fifth hash family, a z column in the fate log and in initial bodies, and the prism lattices.

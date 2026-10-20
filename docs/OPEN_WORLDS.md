@@ -692,8 +692,11 @@ all nine gains at 0, so they sense nothing new until mutation opens a slot.
   modality, so a body can compare fast cell activity with slow traces. Revisit if plume search stalls on saturation.
 - **Puffs pass through walls; agents and the body stop at walls.** Walls block light (occlusion).
 - **Predation can end a life (decision 9.1).** Damage accumulates per hit (predator hits cost 800–3,000 each). After
-  `kill_hits` hits (2–4 in the predator family, 3 elsewhere) the life ends at the next integer time with status
+  `kill_hits` hits (2–4 in the predator family, 3 elsewhere) the life ends at a guard time (integer) with status
   `killed`, and no guard charge.
+  - The guard time is the next integer, or the one after it when no cell record falls between the hit and that
+    integer (exact rule: LIFE_ABI.md 9.8.6).
+  - A lethal hit in the last unit before T only sets `eco_killed`.
   - F still divides by the whole window, so a killed body stops earning.
   - The smallest kill costs about 1.6 F per 1,024-unit life, and a silent zygote scores −0.02. An early death
     therefore never beats staying small.

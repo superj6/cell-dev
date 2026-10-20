@@ -116,7 +116,7 @@ def _eco(**changes):
                           tau_turn=0.0, t_resp=0.0)
 
 
-def test_kill_ends_the_life_at_the_next_integer_time():
+def test_kill_ends_the_life_at_a_guard_time_without_a_guard_charge():
     pred = dict(eco_n_ag=1, ag0_type=1, ag0_x=0.0, ag0_y=0.0, ag0_v1=0.0, ag0_v2=0.3, ag0_r_sense=50.0, ag0_p=1.0,
                 ag0_r_contact=50.0, ag0_value=700.0, ag0_look=1.0, ag0_t_state=100.0, ag0_t_rest=1.0, ag0_sigma=1.0,
                 eco_kill_hits=2)
