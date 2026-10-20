@@ -8,6 +8,11 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
+**Next phase (design for review, 2026-10-19):** [OPEN_WORLDS.md](OPEN_WORLDS.md) — five open-ended worlds
+(plume foraging, predator field, home-base foraging, evasive prey, farming) trained concurrently from generation 0,
+shared gene-tuned senses (ABI 8), learning-progress allocation with a floor. Motivated by the
+[behaviour review](../results/behavior_review_20261019/README.md). Nothing is built or launched yet.
+
 **Completed study:** four lineages ×250 generations across eight conditions in
 `configs/multitask.yaml`. All eight influence breeding: POOL, persistent pursuit, two flash levels,
 delayed matching, replenishing patches, contact-triggered food and harmful-target avoidance.

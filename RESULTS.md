@@ -4560,3 +4560,23 @@ All **393,216 saved development/confirmation rows** have status zero. Training c
 logs; individual raw training ledgers were not saved. No new simulations were run for the audit/report.
 Preserve all populations and archives. Next priorities are explaining contact-production dependence,
 testing behavioral retention alongside costs and advancing obstacle navigation; no follow-on run is launched here.
+
+## 2026-10-19 — Behaviour review: reflex tuning, an idle hidden layer, and a wrong-signed cue memory in D90
+
+[Review, scripts and summaries](results/behavior_review_20261019/README.md). 480 bitwise-checked reference lives
+(g0 vs g250 × 4 lineages × 8 tasks, paired seeds), kernel forks from t=200 on 128 paired lives, and 192 single
+mutants per g250 genome confirmed on 256 fresh lives.
+
+Gains are reflex tuning: far taps fall 50–65% and food per tap rises (AO 0.22 →0.35, s8 0.19 →0.36); AO/s6/s8 halve
+strokes and slow down with equal or better aim (s8 0.13 →0.33); patch departures happen more often once empty
+(s6 0.50 →0.82); contact-food plantings and presence at maturation rise (AO 0.06 →0.26), the same habit as in plain
+patches. No lineage aims at edible over harmful targets; D90 alone recruits lateral messaging there (lesion
+interaction −1.70 ±0.27). Dark-flash aim at the last-seen spot fades to zero within 5–10 units in all genomes.
+Hidden cells contribute nothing (hidden_off ≈ 0 everywhere). Blinding genes to activity costs 8–12 catches.
+
+In matching the cue decodes from activity during the sample (0.73–0.98) and early blank (0.66–0.82); late-blank
+decoding is at chance for AO/s6 and 0.60–0.63 for D90/s8. D90 g250 carries the cue into its choice with the wrong
+sign (broad-choice shift −0.072), abolished by freeze or lateral_off. Single mutant 178 flips it to +0.028.
+One-step dark-flash improvements (+0.3 to +1.2 catches) exist in every lineage but mostly cost more than they earn.
+Conclusion: the tasks share one reflex and give new abilities little room; see [docs/OPEN_WORLDS.md](docs/OPEN_WORLDS.md)
+for the open-world design that follows (no simulations launched).
