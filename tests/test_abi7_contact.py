@@ -78,7 +78,7 @@ def test_empty_trigger_fifo_repeated_contacts_and_recurrence():
     assert value(a, "misses") == 3 and value(a, "cost") == 30
     a._patch_finish(9)
     assert a.status == 0
-    out = readouts.resource_summary(a.led, w, abi=V)
+    out = readouts.resource_summary(a.led[:V.LEDGER_SIZE], w, abi=V)
     assert out["contact_totals"]["harvest"] == 1 and out["contact_totals"]["pending_end"] == 1
     assert out["passive_harvest_per_life"] == 1
 
@@ -150,7 +150,7 @@ def test_contact_counter_corruption_is_rejected(name):
     a.world_to(5)
     click(a, 5)
     a._patch_finish(6)
-    row = np.array(a.led)
+    row = np.array(a.led[:V.LEDGER_SIZE])
     row[V.L[f"patch_contact_{name}_0"]] += 1
     with pytest.raises(ValueError):
         readouts.resource_summary(row, w, abi=V)
@@ -159,7 +159,7 @@ def test_contact_counter_corruption_is_rejected(name):
 def test_balanced_but_impossible_contact_subsets_are_rejected():
     a, w = account()
     a._patch_finish(1)
-    row = np.array(a.led)
+    row = np.array(a.led[:V.LEDGER_SIZE])
     row[V.L["patch_contact_pending_open_0"]] = 2
     row[V.L["patch_contact_pending_end_0"]] = 2
     with pytest.raises(ValueError):

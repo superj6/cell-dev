@@ -13,6 +13,9 @@ Six caller ABIs coexist; the C kernel implements ABI 7:
 - ``V5`` adds delayed cue matching, retaining the same genome, inputs and local cell rules.
 - ``V6`` adds persistent food patches, with the same cellular interface and physical prices.
 - ``V7`` adds delayed food production initiated by empty patch clicks, without changing cells.
+- ``V8`` adds nine world-bound receptor modality slots (gene-read gains, gene-gated candidate streams, traces that
+  feed the gene network) and the eco world: odour puffs in a meandering current, walls, rule-based agents, carrying
+  food home and planting (docs/OPEN_WORLDS.md, LIFE_ABI.md 9.8).
 ``CURRENT`` remains the legacy caller default, ABI 2. Every module-level layout name (``GENOME_SIZE``,
 ``pack_world``, ``LEDGER``, ...) belongs to that default. Visibility and delayed matching require explicit ``V4``
 and ``V5`` respectively; existing callers retain their earlier shapes and behavior.
@@ -61,6 +64,9 @@ STREAMS_V5 = dict(STREAMS_V4, task_class=S_TASK_CLASS, task_duration=S_TASK_DURA
                   task_geometry=S_TASK_GEOMETRY, task_side=S_TASK_SIDE)
 S_PATCH_LAYOUT, S_PATCH_RATE, S_PATCH_PHASE = 31, 32, 33
 STREAMS_V6 = dict(STREAMS_V5, patch_layout=S_PATCH_LAYOUT, patch_rate=S_PATCH_RATE, patch_phase=S_PATCH_PHASE)
+S_RCAND_M, S_RACC_M, S_ECO_PUFF, S_ECO_CUR, S_ECO_AG, S_ECO_PLANT = 34, 35, 36, 37, 38, 39
+STREAMS_V8 = dict(STREAMS_V6, rcand_m=S_RCAND_M, racc_m=S_RACC_M, eco_puff=S_ECO_PUFF, eco_cur=S_ECO_CUR,
+                  eco_ag=S_ECO_AG, eco_plant=S_ECO_PLANT)
 PATCH_SLOTS = 4
 HASH_INIT = 0x243F6A8885A308D3  # initial value of every log-hash family
 
@@ -152,6 +158,8 @@ def q10(v: float) -> float:
 KNOBS_V2 = ("w0", "w1", "b", "tau_m", "t_ref", "emit0", "emit1", "delta", "kappa", "p_div", "asym", "p_die", "phi",
             "sec0", "sec1", "pol0", "pol1", "tau_tr", "a0", "a1", "chi")
 KNOBS_V3 = KNOBS_V2 + ("zeta", "g_r")  # ABI 3: vertical placement weight, receptor gain (modality 0, signed)
+S_MAX = 10  # ABI 8: receptor modality slots
+KNOBS_V8 = KNOBS_V3 + tuple(f"g_r{m}" for m in range(1, S_MAX))  # ABI 8: gains of modalities 1..9 (signed)
 
 TAU_M = (1.0, 2.0, 4.0, 8.0, 16.0)
 T_REF = tuple(0.5 * k for k in range(1, 9))
@@ -163,12 +171,14 @@ P_FATE = (0.0,) + tuple(2.0 ** (k - 8) for k in range(1, 9))
 Q8_GRID = tuple(k / 8 for k in range(-16, 17))
 GRIDS_V3 = dict(w0=Q8_GRID, w1=Q8_GRID, b=Q8_GRID, tau_m=TAU_M, t_ref=T_REF, emit0=(0.0, 1.0), emit1=(0.0, 1.0),
                 delta=DELTA, kappa=KAPPA, p_div=P_FATE, p_die=P_FATE, phi=PHI, pol0=Q8_GRID, pol1=Q8_GRID,
-                tau_tr=TAU_TR, a0=Q8_GRID, a1=Q8_GRID, chi=Q8_GRID, zeta=Q8_GRID, g_r=Q8_GRID)
+                tau_tr=TAU_TR, a0=Q8_GRID, a1=Q8_GRID, chi=Q8_GRID, zeta=Q8_GRID, g_r=Q8_GRID,
+                **{f"g_r{m}": Q8_GRID for m in range(1, S_MAX)})
 RANGES = dict(asym=(0.0, 1.0), sec0=(0.0, 0.5), sec1=(0.0, 0.5))  # continuous knobs
 
 # gene-network inputs x (LIFE_ABI.md 7.4 step 3); ABI 3 appends the receptor trace and the two plane cues
 INPUTS_V2 = tuple(f"g{k}" for k in range(G_MAX)) + ("m0", "m1", "f", "r0", "r1", "n_view")
 INPUTS_V3 = INPUTS_V2 + ("rho", "is_S", "is_M")
+INPUTS_V8 = INPUTS_V3 + tuple(f"rho{m}" for m in range(1, S_MAX))  # ABI 8 receptor traces, after the plane cues
 
 
 def _level(table, y: float) -> float:  # 4-level knobs: index clip(round(2y), 0, 3)
@@ -369,6 +379,14 @@ class World:
     patch_contact_delay: float = 0.0
 
 
+@dataclass(frozen=True)
+class EcoWorld(World):
+    """An ABI 8 world: ``World`` plus the modality slots and the eco block, as value tuples in MOD_KEYS / ECO_KEYS
+    order (empty = zeros). A plain ``World`` is the neutral case of both, so older worlds keep their fields."""
+    mod: tuple = ()
+    eco: tuple = ()
+
+
 _META = ("name", "stage", "implemented", "lattice", "lives")
 ALL_WORLD_KEYS = tuple(f.name for f in fields(World) if f.name not in _META)
 WORLD_KEYS_V3_NEW = ALL_WORLD_KEYS[ALL_WORLD_KEYS.index("world_kind"):ALL_WORLD_KEYS.index("visibility_mode")]
@@ -378,6 +396,62 @@ WORLD_KEYS_V4 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("task_mode")]
 WORLD_KEYS_V5 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("patch_count")]
 WORLD_KEYS_V6 = ALL_WORLD_KEYS[:ALL_WORLD_KEYS.index("patch_contact_delay")]
 WORLD_KEYS_V7 = ALL_WORLD_KEYS
+# ---- ABI 8 (LIFE_ABI.md 4.7, 9.8): modality slots m = 1..9, then the eco block (the order of kernel.c's enums)
+MOD_FIELDS = ("kind", "arg", "lam_bg", "lam_s", "K")
+MOD_KEYS = tuple(f"mod{m}_{f}" for m in range(1, S_MAX) for f in MOD_FIELDS)
+MOD_KINDS = dict(none=0, odour=1, flow=2, touch=3, vibration=4, sun=5)
+N_SPEC, N_SRC, N_AG, N_WALL, N_DISK, N_PLANT, N_ITEM = 4, 8, 8, 8, 4, 16, 8
+_B = tuple(f"b{k}" for k in range(N_SPEC))
+ECO_HEAD = (("mode", "n_src", "n_ag", "n_wall", "n_shelter", "n_fertile",
+             "cur_speed", "cur_heading", "cur_turn", "cur_turn_max",
+             "puff_sigma0", "puff_D", "puff_life", "puff_cut", "puff_cap", "landmark",
+             "sun_heading", "vib_vref", "r_body", "arena", "kill_hits", "occlude",
+             "home_x", "home_y", "home_r", "home_sigma") + tuple(f"home_{b}" for b in _B)
+            + ("carry_cap", "carry_mult", "carry_digest", "carry_drag",
+               "plant_cap", "plant_cost", "ripen_min", "ripen_max", "ripe_window", "plant_value", "plant_sigma",
+               "plant_light") + tuple(f"plant_{b}" for b in _B) + ("soil_sigma",) + tuple(f"soil_{b}" for b in _B))
+SRC_FIELDS = ("x", "y", "value", "cap", "period", "phase", "light", "sigma", "puff") + _B
+AG_FIELDS = ("type", "x", "y", "v1", "v2", "r_sense", "p", "r_contact", "value", "look", "t_state", "t_rest",
+             "sigma", "light") + _B + ("rx", "ry")
+WALL_FIELDS = ("x0", "x1", "y0", "y1")
+DISK_FIELDS = ("x", "y", "r")
+ECO_KEYS = (tuple(f"eco_{k}" for k in ECO_HEAD)
+            + tuple(f"src{i}_{f}" for i in range(N_SRC) for f in SRC_FIELDS)
+            + tuple(f"ag{i}_{f}" for i in range(N_AG) for f in AG_FIELDS)
+            + tuple(f"wall{i}_{f}" for i in range(N_WALL) for f in WALL_FIELDS)
+            + tuple(f"shelter{i}_{f}" for i in range(N_DISK) for f in DISK_FIELDS)
+            + tuple(f"fertile{i}_{f}" for i in range(N_DISK) for f in DISK_FIELDS))
+ECO_INDEX = {k: i for i, k in enumerate(ECO_KEYS)}
+MOD_INDEX = {k: i for i, k in enumerate(MOD_KEYS)}
+ECO_INT_KEYS = tuple(f"eco_{k}" for k in ("mode", "n_src", "n_ag", "n_wall", "n_shelter", "n_fertile", "puff_cap",
+                                          "kill_hits", "occlude", "carry_cap", "plant_cap"))
+ECO_INT_KEYS += tuple(f"src{i}_cap" for i in range(N_SRC)) + tuple(f"ag{i}_type" for i in range(N_AG))
+AGENT_TYPES = dict(pursuit=1, ambush=2, darter=3, freezer=4, burrower=5, pest=6)
+WORLD_KEYS_V8 = WORLD_KEYS_V7 + MOD_KEYS + ECO_KEYS
+
+
+def mod_block(slots: dict | None = None) -> tuple:
+    """Modality slot values in MOD_KEYS order from ``{m: dict(kind=..., arg=..., lam_bg=..., lam_s=..., K=...)}``
+    (``kind`` a MOD_KINDS name or code); unbound slots are zeros."""
+    out = [0.0] * len(MOD_KEYS)
+    for m, d in (slots or {}).items():
+        if not 1 <= int(m) < S_MAX:
+            raise ValueError(f"modality slot {m} outside 1..{S_MAX - 1}")
+        for f, v in d.items():
+            if f == "kind" and isinstance(v, str):
+                v = MOD_KINDS[v]
+            out[MOD_INDEX[f"mod{int(m)}_{f}"]] = float(v)
+    return tuple(out)
+
+
+def eco_block(**values) -> tuple:
+    """Eco block values in ECO_KEYS order from keyword values named as in ECO_KEYS (missing keys are 0)."""
+    out = [0.0] * len(ECO_KEYS)
+    for k, v in values.items():
+        out[ECO_INDEX[k]] = float(v)
+    return tuple(out)
+
+
 RESERVED_WORLD_KEYS = ("kill_rate", "wound_rate", "drift_tau")
 INT_WORLD_KEYS = ("n_max", "e_max", "fabric_R", "oracle_cap", "stuck_a", "stuck_b", "world_kind", "L_max", "stuck_z",
                   "b2_mode", "visibility_mode", "task_mode", "patch_count", "patch_capacity")
@@ -448,6 +522,12 @@ def world(name: str = "bell_v1", **overrides) -> World:
     return replace(PRESETS[name], **overrides)
 
 
+def eco_world(name: str, mod: tuple = (), eco: tuple = (), **overrides) -> EcoWorld:
+    """An ``EcoWorld`` from preset ``name`` with ABI 8 blocks ``mod`` and ``eco`` and scalar ``overrides``."""
+    base = world(name, **overrides)
+    return EcoWorld(**{f.name: getattr(base, f.name) for f in fields(World)}, mod=tuple(mod), eco=tuple(eco))
+
+
 def _is_window(h: float, d_min: float) -> bool:
     if h == 0.0:
         return True
@@ -472,7 +552,8 @@ LEDGER_V3 = LEDGER_V2 + ("captures", "misses", "clicks", "b2_clicks", "respawns"
                          "X_end", "Y_end", "n_S_end", "n_M_end", "n_H_end", "live_S", "live_M", "live_H")
 
 STATUS = dict(extinct=1 << 0, guard_cells=1 << 1, guard_events=1 << 2, raster_overflow=1 << 3,
-              fate_overflow=1 << 4, chem_clamp=1 << 5, ledger_mismatch=1 << 6, capacity=1 << 7, wall=1 << 8)
+              fate_overflow=1 << 4, chem_clamp=1 << 5, ledger_mismatch=1 << 6, capacity=1 << 7, wall=1 << 8,
+              killed=1 << 9)
 LEDGER_V4 = LEDGER_V3 + ("low_light_captures",)
 TASK_LEDGER = tuple(f"{metric}_{cls}" for metric in (
     "choice_opportunities", "choice_carry_in", "correct_choices", "wrong_choices", "choice_timeouts",
@@ -487,6 +568,14 @@ CONTACT_METRICS = ("starts", "maturities", "supply", "spill", "harvest", "pendin
                    "stock_open", "stock_end")
 CONTACT_LEDGER = tuple(f"patch_contact_{metric}_{i}" for metric in CONTACT_METRICS for i in range(PATCH_SLOTS))
 LEDGER_V7 = LEDGER_V6 + CONTACT_LEDGER
+MOD_LEDGER = tuple(f"mod_{metric}_{m}" for metric in ("cand", "accept", "events", "gain") for m in range(1, S_MAX))
+ECO_LEDGER = tuple(f"eco_{k}" for k in (
+    "food_eaten", "food_income", "toxin_eaten", "toxin_cost", "prey_caught", "prey_income", "planted", "plant_cost",
+    "ripened", "harvested", "harvest_income", "spoiled", "pest_eaten", "picked", "delivered", "deliver_income",
+    "digested", "digest_income", "hits", "damage_cost", "killed", "wall_contacts", "puffs", "alarms", "detections",
+    "shelter_samples", "threat_samples", "still_samples", "home_samples", "loaded_samples", "upflow_path",
+    "crossflow_path", "near_food_samples"))
+LEDGER_V8 = LEDGER_V7 + MOD_LEDGER + ECO_LEDGER
 
 HASHES_V2 = ("all", "spikes", "fate", "chem")
 HASHES_V3 = HASHES_V2 + ("world",)
@@ -512,16 +601,17 @@ class Abi:
     ``pad_program``)."""
 
     def __init__(self, version: int):
-        if version not in (2, 3, 4, 5, 6, 7):
+        if version not in (2, 3, 4, 5, 6, 7, 8):
             raise ValueError(f"unknown ABI {version}")
         v3 = version >= 3
+        v8 = version >= 8
         self.version = version
-        self.S = 1 if v3 else 0  # receptor modalities
-        self.KNOBS = KNOBS_V3 if v3 else KNOBS_V2
+        self.S = S_MAX if v8 else (1 if v3 else 0)  # receptor modalities
+        self.KNOBS = KNOBS_V8 if v8 else (KNOBS_V3 if v3 else KNOBS_V2)
         self.P = len(self.KNOBS)
         self.K = {name: i for i, name in enumerate(self.KNOBS)}
         self.GRIDS = {k: v for k, v in GRIDS_V3.items() if k in self.K}  # knobs on a grid; RANGES: continuous ones
-        self.INPUTS = INPUTS_V3 if v3 else INPUTS_V2
+        self.INPUTS = INPUTS_V8 if v8 else (INPUTS_V3 if v3 else INPUTS_V2)
         self.NIN = len(self.INPUTS)
         self.GENOME_FIELDS = _genome_fields(self.NIN, self.P)
         self.GENOME_SLICES = _slices(self.GENOME_FIELDS)
@@ -535,14 +625,16 @@ class Abi:
         self.FLAGS = FLAGS_V3 if v3 else FLAGS_V2
         self.BASE_ONLY_FLAGS = self.FLAGS["lockstep"] | self.FLAGS["program_mode"] | self.FLAGS["integer_twin"]
         self.UNSUPPORTED_FLAGS = self.FLAGS["integer_twin"]  # reserved (rejected by every ABI so far)
-        self.STREAMS = (STREAMS_V6 if version >= 6 else STREAMS_V5 if version >= 5 else
+        self.STREAMS = (STREAMS_V8 if v8 else STREAMS_V6 if version >= 6 else STREAMS_V5 if version >= 5 else
                         STREAMS_V4 if version >= 4 else STREAMS_V3 if v3 else STREAMS_V2)
-        self.WORLD_KEYS = (WORLD_KEYS_V7 if version >= 7 else WORLD_KEYS_V6 if version >= 6 else
+        self.WORLD_KEYS = (WORLD_KEYS_V8 if v8 else WORLD_KEYS_V7 if version >= 7 else
+                           WORLD_KEYS_V6 if version >= 6 else
                            WORLD_KEYS_V5 if version >= 5 else
                            WORLD_KEYS_V4 if version >= 4 else WORLD_KEYS_V3 if v3 else WORLD_KEYS_V2)
         self.WORLD_SIZE = len(self.WORLD_KEYS)
         self.WORLD_INDEX = {k: i for i, k in enumerate(self.WORLD_KEYS)}
-        self.LEDGER = (LEDGER_V7 if version >= 7 else LEDGER_V6 if version >= 6 else LEDGER_V5 if version >= 5 else
+        self.LEDGER = (LEDGER_V8 if v8 else LEDGER_V7 if version >= 7 else LEDGER_V6 if version >= 6 else
+                       LEDGER_V5 if version >= 5 else
                        LEDGER_V4 if version >= 4 else LEDGER_V3 if v3 else LEDGER_V2)
         self.L = {name: i for i, name in enumerate(self.LEDGER)}
         self.LEDGER_SIZE = len(self.LEDGER)
@@ -565,6 +657,8 @@ class Abi:
         out = _decode21(y)
         if self.version >= 3:
             out += [q8(y[21]), q8(y[22])]  # zeta, g_r
+        if self.version >= 8:
+            out += [q8(y[i]) for i in range(23, 23 + S_MAX - 1)]  # g_r1 .. g_r9
         return out
 
     def readout(self, gt_row, g) -> list[float]:
@@ -589,6 +683,8 @@ class Abi:
                   a0=0.0, a1=0.0, chi=0.0)
         if self.version >= 3:
             th.update(zeta=0.0, g_r=0.0)
+        if self.version >= 8:
+            th.update({f"g_r{m}": 0.0 for m in range(1, S_MAX)})
         bad = set(knobs) - set(th)
         if bad:
             raise KeyError(f"unknown knobs {sorted(bad)}")
@@ -829,15 +925,25 @@ class Abi:
             raise NotImplementedError(f"contact resources need ABI v7; this is ABI v{v}")
         if v < 6 and w.patch_count != 0:
             raise NotImplementedError(f"resource patches need ABI v6; this is ABI v{v}")
+        if v < 8 and (any(_block(getattr(w, "mod", ()), len(MOD_KEYS)))
+                      or any(_block(getattr(w, "eco", ()), len(ECO_KEYS)))):
+            raise NotImplementedError(f"modality slots and the eco world need ABI v8; this is ABI v{v}")
+        _validate_abi8_keys(w)
 
     def pack_world(self, w) -> np.ndarray:
         """World (or a list of worlds, one per life) -> float64 ``[WORLD_SIZE]`` / ``[B, WORLD_SIZE]``."""
         many = isinstance(w, (list, tuple))
         ws = list(w) if many else [w]
         out = np.zeros((len(ws), self.WORLD_SIZE), dtype=np.float64)
+        n7 = len(WORLD_KEYS_V7)
         for i, x in enumerate(ws):
             self.validate_world(x)
-            out[i] = [float(getattr(x, k)) for k in self.WORLD_KEYS]
+            if self.version >= 8:
+                out[i, :n7] = [float(getattr(x, k)) for k in WORLD_KEYS_V7]
+                out[i, n7:n7 + len(MOD_KEYS)] = _block(getattr(x, "mod", ()), len(MOD_KEYS))
+                out[i, n7 + len(MOD_KEYS):] = _block(getattr(x, "eco", ()), len(ECO_KEYS))
+            else:
+                out[i] = [float(getattr(x, k)) for k in self.WORLD_KEYS]
         return out if many else out[0]
 
     # ------------------------------------------------------------------------------------------ ledger
@@ -858,6 +964,12 @@ class Abi:
             wrong = (led[..., L["wrong_choices_narrow"]] + led[..., L["wrong_choices_broad"]]
                      if w.task_mode else led[..., L["b2_clicks"]])
             c = c + b2_cost(w) * wrong
+        if self.version >= 8:
+            for m in range(1, S_MAX):
+                c = c + w.c_rec * led[..., L[f"mod_gain_{m}"]]
+            c = c + led[..., L["eco_toxin_cost"]]
+            c = c + led[..., L["eco_damage_cost"]]
+            c = c + led[..., L["eco_plant_cost"]]
         return c
 
     def guard_charge(self, led, w: World | None = None) -> np.ndarray:
@@ -878,6 +990,146 @@ class Abi:
                   if w.patch_count else led[..., self.L["income"]])
         net = income - self.column_cost(led, w) - self.guard_charge(led, w)
         return net / (w.T - w.t_open)
+
+
+def _block(values, n: int) -> list[float]:
+    """An ABI 8 value tuple (empty means zeros) as n floats."""
+    v = [float(x) for x in (values or ())]
+    if v and len(v) != n:
+        raise ValueError(f"an ABI 8 block holds {n} values, got {len(v)}")
+    return v or [0.0] * n
+
+
+def eco_view(w: World) -> dict:
+    """The eco block of ``w`` by ECO_KEYS name, and the modality slots by MOD_KEYS name."""
+    out = dict(zip(ECO_KEYS, _block(getattr(w, "eco", ()), len(ECO_KEYS))))
+    out.update(zip(MOD_KEYS, _block(getattr(w, "mod", ()), len(MOD_KEYS))))
+    return out
+
+
+def eco_light_bound(e: dict) -> float:
+    """The largest light rate factor of an eco life: sources, plants (every slot) and agents (LIFE_ABI.md 9.8.2)."""
+    L = 0.0
+    for i in range(int(e["eco_n_src"])):
+        L = L + e[f"src{i}_light"]
+    L = L + e["eco_plant_cap"] * e["eco_plant_light"]
+    for i in range(int(e["eco_n_ag"])):
+        L = L + e[f"ag{i}_light"]
+    return L
+
+
+def _validate_abi8_keys(w: World) -> None:
+    """ABI 8 modality slots and the eco block (kernel.c abi8_ok); all zero is the neutral, older-world form."""
+    e = eco_view(w)
+    bad = [k for k in (*MOD_KEYS, *ECO_KEYS) if not math.isfinite(e[k])]
+    if bad:
+        raise ValueError(f"non-finite ABI 8 values: {bad[:5]}")
+    ints = [k for k in (*ECO_INT_KEYS, *(f"mod{m}_{f}" for m in range(1, S_MAX) for f in ("kind", "arg")))
+            if e[k] != int(e[k])]
+    if ints:
+        raise ValueError(f"integer ABI 8 values expected: {ints[:5]}")
+    mode = e["eco_mode"]
+    if mode not in (0, 1):
+        raise ValueError("eco_mode must be 0 or 1")
+    for m in range(1, S_MAX):
+        q = {f: e[f"mod{m}_{f}"] for f in MOD_FIELDS}
+        if not 0 <= q["kind"] < len(MOD_KINDS):
+            raise ValueError(f"modality {m}: unknown kind {q['kind']}")
+        if q["kind"] == 0:
+            if any(q.values()):
+                raise ValueError(f"unbound modality {m} requires zero fields")
+            continue
+        if mode != 1:
+            raise ValueError("modality slots are bound only in eco lives")
+        if not (q["lam_bg"] >= 0 and q["lam_s"] >= 0 and 0 < q["lam_bg"] + q["lam_s"] <= RATE_MAX
+                and 0 < q["K"] <= LENGTH_MAX):
+            raise ValueError(f"modality {m}: need lam_bg, lam_s >= 0 with 0 < sum <= {RATE_MAX} and 0 < K <= 2^20")
+        if q["kind"] == MOD_KINDS["odour"]:
+            if not 0 <= q["arg"] < N_SPEC:
+                raise ValueError(f"modality {m}: odour species must be 0..{N_SPEC - 1}")
+        elif q["arg"] != 0:
+            raise ValueError(f"modality {m}: only odour slots take an argument")
+    if mode == 0:
+        if any(e[k] for k in ECO_KEYS[1:]):
+            raise ValueError("eco_mode 0 requires an all-zero eco block")
+        return
+    if (w.world_kind != 1 or w.task_mode or w.visibility_mode or w.patch_count or w.b2_amp
+            or (w.v_t, w.tau_turn, w.t_resp) != (0, 0, 0)):
+        raise ValueError("the eco world requires plain CATCH: no task, visibility, patches, second blob or blob motion")
+    if not w.rho_c > 0:
+        raise ValueError("the eco world requires a positive capture radius")
+    for k, cap in (("n_src", N_SRC), ("n_ag", N_AG), ("n_wall", N_WALL), ("n_shelter", N_DISK),
+                   ("n_fertile", N_DISK)):
+        if not 0 <= e[f"eco_{k}"] <= cap:
+            raise ValueError(f"eco_{k} must lie in 0..{cap}")
+    if not (0 <= e["eco_cur_speed"] <= SPEED_MAX and 0 <= e["eco_cur_turn"] <= TIME_MAX
+            and (e["eco_cur_turn"] == 0 or e["eco_cur_turn"] >= STEP_MIN) and 0 <= e["eco_cur_turn_max"] <= 4.0
+            and abs(e["eco_cur_heading"]) <= 64.0 and abs(e["eco_sun_heading"]) <= 64.0):
+        raise ValueError("eco current: speed in [0, 1024], turn 0 or >= 2^-10, turn_max in [0, 4], |angles| <= 64")
+    if not (0 < e["eco_puff_sigma0"] <= LENGTH_MAX and 0 <= e["eco_puff_D"] <= LENGTH_MAX
+            and 0 < e["eco_puff_life"] <= TIME_MAX and 0 < e["eco_puff_cut"] <= 1024
+            and 1 <= e["eco_puff_cap"] <= 4096):
+        raise ValueError("eco puffs: sigma0 > 0, D >= 0, life > 0, 0 < cut <= 1024, 1 <= cap <= 4096")
+    if not (0 <= e["eco_landmark"] < 1 and e["eco_vib_vref"] > 0 and 0 <= e["eco_r_body"] <= LENGTH_MAX
+            and 0 < e["eco_arena"] <= LENGTH_MAX and 0 <= e["eco_kill_hits"] <= 2 ** 20 and e["eco_occlude"] in (0, 1)):
+        raise ValueError("eco: landmark in [0, 1), vib_vref > 0, r_body >= 0, arena > 0, kill_hits >= 0, occlude 0/1")
+    if not (e["eco_home_r"] >= 0 and e["eco_home_sigma"] > 0 and e["eco_plant_sigma"] > 0 and e["eco_soil_sigma"] > 0):
+        raise ValueError("eco: home_r >= 0 and positive home, plant and soil sigmas")
+    if any(e[f"{g}_{b}"] < 0 for g in ("eco_home", "eco_plant", "eco_soil") for b in _B):
+        raise ValueError("eco: odour blends must be non-negative")
+    if not (0 <= e["eco_carry_cap"] <= N_ITEM and e["eco_carry_mult"] >= 0 and e["eco_carry_drag"] >= 0
+            and (e["eco_carry_cap"] == 0 or STEP_MIN <= e["eco_carry_digest"] <= TIME_MAX)):
+        raise ValueError(f"eco carry: cap in 0..{N_ITEM}, mult and drag >= 0, digest in [2^-10, 2^30] when enabled")
+    if not (0 <= e["eco_plant_cap"] <= N_PLANT and e["eco_plant_cost"] >= 0 and e["eco_plant_value"] >= 0
+            and e["eco_plant_light"] >= 0):
+        raise ValueError(f"eco plants: cap in 0..{N_PLANT}, non-negative cost, value and light")
+    if e["eco_plant_cap"] > 0 and not (STEP_MIN <= e["eco_ripen_min"] <= e["eco_ripen_max"] <= TIME_MAX
+                                       and STEP_MIN <= e["eco_ripe_window"] <= TIME_MAX):
+        raise ValueError("eco plants: ordered ripening times and a ripe window in [2^-10, 2^30]")
+    for i in range(N_SRC):
+        q = {f: e[f"src{i}_{f}"] for f in SRC_FIELDS}
+        if i >= e["eco_n_src"]:
+            if any(q.values()):
+                raise ValueError(f"unused source {i} requires zero fields")
+            continue
+        if not (1 <= q["cap"] <= 2 ** 20 and 0 <= q["period"] <= TIME_MAX
+                and (q["period"] == 0 or q["period"] >= STEP_MIN)
+                and 0 <= q["phase"] <= TIME_MAX and q["light"] >= 0 and 0 < q["sigma"] <= LENGTH_MAX
+                and 0 <= q["puff"] <= 16 and abs(q["x"]) <= LENGTH_MAX and abs(q["y"]) <= LENGTH_MAX
+                and all(q[b] >= 0 for b in _B)):
+            raise ValueError(f"source {i}: invalid fields {q}")
+    for i in range(N_AG):
+        q = {f: e[f"ag{i}_{f}"] for f in AG_FIELDS}
+        if i >= e["eco_n_ag"]:
+            if any(q.values()):
+                raise ValueError(f"unused agent {i} requires zero fields")
+            continue
+        if not (1 <= q["type"] <= len(AGENT_TYPES) and 0.1 <= q["look"] <= TIME_MAX and 0 <= q["v1"] <= SPEED_MAX
+                and 0 <= q["v2"] <= SPEED_MAX and q["r_sense"] >= 0 and q["r_contact"] >= 0 and 0 <= q["p"] <= 1
+                and q["t_state"] >= 0 and q["t_rest"] >= 0 and q["sigma"] > 0 and q["light"] >= 0
+                and all(abs(q[k]) <= LENGTH_MAX for k in ("x", "y", "rx", "ry")) and all(q[b] >= 0 for b in _B)):
+            raise ValueError(f"agent {i}: invalid fields {q}")
+        if q["type"] <= AGENT_TYPES["ambush"] and not q["value"] >= 0:
+            raise ValueError(f"predator {i}: damage (value) must be non-negative")
+    for i in range(N_WALL):
+        q = [e[f"wall{i}_{f}"] for f in WALL_FIELDS]
+        if i >= e["eco_n_wall"]:
+            if any(q):
+                raise ValueError(f"unused wall {i} requires zero fields")
+            continue
+        if not (q[0] < q[1] and q[2] < q[3] and all(abs(x) <= LENGTH_MAX for x in q)):
+            raise ValueError(f"wall {i}: need x0 < x1 and y0 < y1")
+    for g in ("shelter", "fertile"):
+        for i in range(N_DISK):
+            q = [e[f"{g}{i}_{f}"] for f in DISK_FIELDS]
+            if i >= e[f"eco_n_{g}"]:
+                if any(q):
+                    raise ValueError(f"unused {g} {i} requires zero fields")
+                continue
+            if not (0 < q[2] <= LENGTH_MAX and abs(q[0]) <= LENGTH_MAX and abs(q[1]) <= LENGTH_MAX):
+                raise ValueError(f"{g} {i}: need a positive radius")
+    if not w.lam_bg + w.lam_s * eco_light_bound(e) <= RATE_MAX:
+        raise ValueError(f"the eco light bound lam_bg + lam_s * (sum of lights) must be <= {RATE_MAX}")
 
 
 def _validate_patch_keys(w: World) -> None:
@@ -1182,6 +1434,7 @@ V4 = Abi(4)
 V5 = Abi(5)
 V6 = Abi(6)
 V7 = Abi(7)
+V8 = Abi(8)
 CURRENT = V2  # legacy caller default; explicit newer contracts remain available
 
 ABI_VERSION = CURRENT.version

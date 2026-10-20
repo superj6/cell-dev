@@ -181,21 +181,23 @@ class LifeDims:
     pheno: int = 21  # spec.P (ABI 3: 22 phenotype knobs, then the receptor gain row)
     kind: str = "life"
     cues: int = 0  # plane-cue inputs (ABI 3: is_S, is_M)
+    stim2: int = 0  # ABI 8: receptor modalities whose trace inputs come after the cues (and gain rows after g_r)
 
     @property
     def genes(self) -> int:
         return self.genes_max
 
     @property
-    def grn_inputs(self) -> int:  # g, m/(1+m)[M], own trace, received traces[C], n_view/D, receptors[S], cues
-        return self.genes_max + self.morph + 1 + self.channels + 1 + self.stim + self.cues
+    def grn_inputs(self) -> int:  # g, m/(1+m)[M], own trace, received traces[C], n_view/D, receptors[S], cues, ...
+        return self.genes_max + self.morph + 1 + self.channels + 1 + self.stim + self.cues + self.stim2
 
     @property
     def readout(self) -> int:  # the phenotype knobs, then one receptor gain row per modality
-        return self.pheno + self.stim
+        return self.pheno + self.stim + self.stim2
 
 
 LIFE_DIMS_ABI3 = LifeDims(stim=1, cues=2, pheno=22)  # BODY-1 v1 (LIFE_ABI.md 4.4): W [16][25], A [23][16]
+LIFE_DIMS_ABI8 = LifeDims(stim=1, cues=2, pheno=22, stim2=9)  # ABI 8 (OPEN_WORLDS.md 4.1): W [16][34], A [32][16]
 
 
 def make_dims(d) -> Dims | LifeDims:
@@ -268,24 +270,27 @@ class LifeLayout(Layout):
         self.dims = dims
         self.fields = _life_fields(dims)
         # readout row names: the phenotype knobs, then one receptor gain row per modality
-        self.knob_names = spec.KNOBS_V3[:dims.pheno] + tuple("g_r" if m == 0 else f"g_r{m}" for m in range(dims.stim))
+        self.knob_names = (spec.KNOBS_V3[:dims.pheno] + tuple("g_r" if m == 0 else f"g_r{m}" for m in range(dims.stim))
+                           + tuple(f"g_r{m}" for m in range(dims.stim, dims.stim + dims.stim2)))
         init = {k: (0.0, LIFE_A0_STD, LIFE_A_STD) for k in self.knob_names}
         init.update(LIFE_KNOB_INIT)
         if readout_std is not None:  # (a0 std, A std) of every knob that does not start fixed (config readout_std)
             s0, sa = (float(x) for x in readout_std)
             init = {k: v if v[1:] == (0.0, 0.0) else (v[0], s0, sa) for k, v in init.items()}
         init.update({k: tuple(float(x) for x in v) for k, v in (knob_init or {}).items()})
-        bad = set(init) - set(spec.KNOBS_V3) - set(self.knob_names)
+        bad = set(init) - set(spec.KNOBS_V8) - set(self.knob_names)
         if bad:
             raise KeyError(f"unknown knobs in knob_init: {sorted(bad)}")
         G = dims.genes_max
         view_col = G + dims.morph + 1 + dims.channels  # n_view/D (ABI 2 has no flank_best input)
         recept = slice(view_col + 1, view_col + 1 + dims.stim)  # receptor traces, then the plane cues
+        recept2 = slice(view_col + 1 + dims.stim + dims.cues, view_col + 1 + dims.stim + dims.cues + dims.stim2)
         # non-gene inputs by name (W columns G..), for input_init: founder std of every weight from that input
         cues = ("is_S", "is_M", *(f"cue{c}" for c in range(2, dims.cues)))[:dims.cues]
         self.input_names = (tuple(f"m{i}" for i in range(dims.morph)) + ("f",)
                             + tuple(f"r{c}" for c in range(dims.channels)) + ("n_view",)
-                            + tuple("rho" if m == 0 else f"rho{m}" for m in range(dims.stim)) + cues)
+                            + tuple("rho" if m == 0 else f"rho{m}" for m in range(dims.stim)) + cues
+                            + tuple(f"rho{m}" for m in range(dims.stim, dims.stim + dims.stim2)))
         bad = set(input_init or {}) - set(self.input_names)
         if bad:
             raise KeyError(f"unknown inputs in input_init: {sorted(bad)} (inputs: {self.input_names})")
@@ -315,6 +320,7 @@ class LifeLayout(Layout):
                 src[:, :G] = torch.arange(G)  # entries fed by gene j are mutable only while j is active
                 std[:, view_col] = 0.0  # homogeneous founders: n_view starts with no weight
                 std[:, recept] = 0.0  # receptor-trace inputs start silent; plane cues start random (BODY-1 census)
+                std[:, recept2] = 0.0
                 for name, v in (input_init or {}).items():  # overrides (config genome.input_init)
                     std[:, G + self.input_names.index(name)] = float(v)
             if f.name in ("A", "a0"):
@@ -341,9 +347,10 @@ class LifeLayout(Layout):
         self._src_idx = torch.where(self.src_of >= 0, self.src_of, torch.tensor(G))
         self._field_at = torch.cat([torch.full((math.prod(f.shape),), i) for i, f in enumerate(self.fields)]).tolist()
         # the spec ABI whose genome table these dims are (None for other padded layouts)
-        shape = (dims.stim, dims.cues, dims.pheno)
-        self.abi = next((x for x in (spec.V2, spec.V3) if shape == (x.S, x.NIN - len(spec.INPUTS_V2) - x.S,
-                                                                    x.P - x.S)), None)
+        shape = (dims.stim + dims.stim2, dims.cues, dims.pheno)
+        self.abi = next((x for x in (spec.V2, spec.V3, spec.V8)
+                         if shape == (x.S, x.NIN - len(spec.INPUTS_V2) - x.S, x.P - x.S)
+                         and (dims.stim2 == 0) == (x.version < 8) and (x.version < 8 or dims.stim == 1)), None)
         if self.abi is not None:
             ours = [(f.name, tuple(f.shape), f.block, f.unit) for f in self.fields]
             theirs = [(f.name, tuple(f.shape), f.block, f.unit) for f in self.abi.GENOME_FIELDS]
@@ -533,9 +540,10 @@ class LifeLayout(Layout):
         gain row decodes to 0. Padding to the same dims returns an identical genome.
         """
         a, b = self.dims, target.dims
-        grows = b.stim >= a.stim and b.cues >= a.cues and b.pheno >= a.pheno
+        grows = b.stim >= a.stim and b.cues >= a.cues and b.pheno >= a.pheno and b.stim2 >= a.stim2
         # appending keeps every entry in place only if nothing of the source sits after a part that grows
         in_place = (a.stim == b.stim or a.cues == 0) and (a.pheno == b.pheno or a.stim == 0)
+        in_place = in_place and (a.stim2 == b.stim2 or (a.stim == b.stim and a.cues == b.cues and a.pheno == b.pheno))
         if (a.genes_max, a.morph, a.channels) != (b.genes_max, b.morph, b.channels) or not (grows and in_place):
             raise ValueError(f"cannot pad {a} into {b}")
         lead = params.shape[:-1]

@@ -125,8 +125,8 @@ def _world(org, preset: str, **world) -> spec.World:
 
 
 def _abi(abi):
-    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6, 7):
-        raise ValueError("CATCH probes require spec.V3, spec.V4, spec.V5 spec.V6 or spec.V7")
+    if not isinstance(abi, spec.Abi) or abi.version not in (3, 4, 5, 6, 7, 8):
+        raise ValueError("CATCH probes require spec.V3 through spec.V8")
     return abi
 
 
@@ -535,15 +535,16 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     t_death = np.full(n, np.inf)
     cause = np.zeros(n, dtype=np.int64)
     g_end = np.array([r[9] for r in bl], dtype=np.float64).reshape(n, spec.G_MAX)
-    th_end = np.array([r[10] for r in bl], dtype=np.float64).reshape(n, V3.P)
+    kp = abi.P  # knob columns of the caller's ABI (the reference keeps ABI 8's 32)
+    th_end = np.array([r[10][:kp] for r in bl], dtype=np.float64).reshape(n, kp)
     for uid, t, cs, g, th in life.L_death:
         i = uid2cid[uid]
-        t_death[i], cause[i], g_end[i], th_end[i] = t, cs, g, th
+        t_death[i], cause[i], g_end[i], th_end[i] = t, cs, g, th[:kp]
     for s in life.sites.values():
         c = s.occ
         if c is not None and c.uid in uid2cid:
             i = uid2cid[c.uid]
-            g_end[i], th_end[i] = c.g, c.th
+            g_end[i], th_end[i] = c.g, c.th[:kp]
     a = np.array([r[1] for r in bl], dtype=np.int64)
     b = np.array([r[2] for r in bl], dtype=np.int64)
     z = np.array([r[3] for r in bl], dtype=np.int64)
@@ -556,8 +557,8 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
         mother_cid=np.array([uid2cid.get(r[5], -1) for r in bl], dtype=np.int64),
         initial=np.array([r[6] >= 0 for r in bl]), k=np.array([r[7] for r in bl], dtype=np.int64),
         row=np.array([r[8] for r in bl], dtype=np.int64)))
-    kb = pd.DataFrame(np.array([r[10] for r in bl]).reshape(n, V3.P), columns=list(KNOBS))
-    ke = pd.DataFrame(th_end, columns=list(KNOBS))
+    kb = pd.DataFrame(np.array([r[10][:kp] for r in bl]).reshape(n, kp), columns=list(abi.KNOBS))
+    ke = pd.DataFrame(th_end, columns=list(abi.KNOBS))
     gcols = [f"g{k}" for k in range(spec.G_MAX)]
     gb = pd.DataFrame(np.array([r[9] for r in bl]).reshape(n, spec.G_MAX), columns=gcols)
     ge = pd.DataFrame(g_end, columns=gcols)
@@ -684,7 +685,8 @@ def trace_kernel(org, seeds, preset: str, *, threads: int = 2, raster_cap: int =
                      **world)
     secs = (time.time() - t_start) / max(len(seeds), 1)
     w = _world(org, preset, **world)
-    gt = None if is_program(org) else V3.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
+    kabi = abi if abi.version >= 8 else V3  # the genome table the organism's raw genome belongs to
+    gt = None if is_program(org) else kabi.pack_genomes(np.asarray(org.genome)[None], w.lattice)[0]
     out = []
     for i, s in enumerate(seeds):
         if lv.raster_n[i] > raster_cap or lv.fate_n[i] > fate_cap:
@@ -714,8 +716,8 @@ def trace_kernel(org, seeds, preset: str, *, threads: int = 2, raster_cap: int =
             th = np.array([prog[rowof[(ai, bi, zi)] * V3.P:(rowof[(ai, bi, zi)] + 1) * V3.P]
                            for ai, bi, zi in zip(a, b, z)]).reshape(n, V3.P)
         else:
-            th = np.array([V3.phenotype(gt, r[7]) for r in rows]).reshape(n, V3.P)
-        kb = pd.DataFrame(th, columns=list(KNOBS))
+            th = np.array([kabi.phenotype(gt, r[7]) for r in rows]).reshape(n, kabi.P)
+        kb = pd.DataFrame(th, columns=list(kabi.KNOBS if not is_program(org) else KNOBS))
         rt, ru = lv.spikes(i)
         ru64 = ru.astype(np.uint64).view(np.int64)
         cidx = np.array([uid2cid[int(u)] for u in ru64], dtype=np.int64)

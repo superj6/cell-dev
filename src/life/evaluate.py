@@ -143,9 +143,10 @@ class LifeEvaluator:
         self.abi = getattr(layout, "abi", None) or spec.CURRENT
         lc = cfg.life
         requested_abi = lc.get("abi", self.abi.version)
-        if requested_abi not in (2, 3, 4, 5, 6, 7):
-            raise ValueError("life.abi must be 2, 3, 4, 5, 6 or 7")
-        selected_abi = {2: spec.V2, 3: spec.V3, 4: spec.V4, 5: spec.V5, 6: spec.V6, 7: spec.V7}[int(requested_abi)]
+        if requested_abi not in (2, 3, 4, 5, 6, 7, 8):
+            raise ValueError("life.abi must be 2 through 8")
+        selected_abi = {2: spec.V2, 3: spec.V3, 4: spec.V4, 5: spec.V5, 6: spec.V6, 7: spec.V7,
+                        8: spec.V8}[int(requested_abi)]
         if selected_abi.GENOME_FIELDS != self.abi.GENOME_FIELDS:
             raise ValueError("life.abi must use the configured genome layout")
         self.abi = selected_abi

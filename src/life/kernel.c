@@ -1,4 +1,4 @@
-// One-life event kernel, ABI v7. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
+// One-life event kernel, ABI v8. The contract is docs/LIFE_ABI.md; section numbers below refer to it.
 //
 // One continuous, clockless life per genome (GRN mode) or phenotype program (program mode) on a sparse, unbounded
 // lattice fabric (or a dense disk): 2D lattices, or prisms of stacked planes z = 0 .. L_max - 1 (4.3). Sites process
@@ -16,15 +16,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ABI_VERSION 7
+#define ABI_VERSION 8
 #define NG 16          // gene slots
-#define NIN 25         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, rho/tau_tr, is_S, is_M
-#define NK 23          // phenotype knobs
+#define S_MAX 10       // ABI 8: receptor modality slots (0 = the ABI-3 receptor; 1..9 world-bound, gene-gated)
+#define NIN 34         // regulatory inputs: g[16], m/(1+m)[2], f/tau_tr, r/tau_tr[2], n_view/D, rho/tau_tr, is_S, is_M,
+                       // then ABI 8's rho_m/tau_tr for m = 1..9
+#define NK 32          // phenotype knobs: ABI 3's 23, then ABI 8's gains g_r1..g_r9
 #define DMAX 10        // largest lattice degree (square8prism)
-#define GENOME_SIZE 875
-#define PROGRAM_SIZE 129
-#define WORLD_SIZE 83
-#define LEDGER_SIZE 143
+#define GENOME_SIZE (NG * NIN + 5 * NG + NK * NG + NK + 4)  // 1172
+#define PROGRAM_SIZE (5 * NK + 14)                          // 174
+#define N_MODK 5       // world keys per modality slot m >= 1: kind, arg, lam_bg, lam_s, K
+#define N_SRC 8        // ABI 8 eco world: food/toxin sources
+#define N_AG 8         // agents (predators, prey, pests)
+#define N_WALL 8       // axis-aligned walls
+#define N_DISK 4       // shelters, fertile disks
+#define N_PLANT 16     // plant slots
+#define N_ITEM 8       // carried items
+#define N_SPEC 4       // odour species
+#define SRC_K 13       // world keys per source
+#define AG_K 20        // world keys per agent
+#define ECO_HEAD 51    // eco keys before the per-entity blocks
+#define ECO_SIZE (ECO_HEAD + N_SRC * SRC_K + N_AG * AG_K + N_WALL * 4 + 2 * N_DISK * 3)
+#define WORLD_V7 83
+#define WORLD_SIZE (WORLD_V7 + (S_MAX - 1) * N_MODK + ECO_SIZE)
+#define LEDGER_V7 143
+#define N_ECOL 33      // eco ledger columns
+#define LEDGER_SIZE (LEDGER_V7 + 4 * (S_MAX - 1) + N_ECOL)
 #define HASH_SIZE 5
 #define MAX_INIT 1024
 #define FATE_I 7
@@ -45,11 +62,12 @@
 // knobs (section 8)
 enum { K_W0, K_W1, K_B, K_TAUM, K_TREF, K_EMIT0, K_EMIT1, K_DELTA, K_KAPPA, K_PDIV, K_ASYM, K_PDIE, K_PHI, K_SEC0,
        K_SEC1, K_POL0, K_POL1, K_TAUTR, K_A0, K_A1, K_CHI, K_ZETA, K_GR };
+#define K_GRM(m) (K_GR + (m))  // ABI 8: gain of modality m (m = 0 is g_r)
 // packed genome offsets (4.4)
-enum { GO_W = 0, GO_B = 400, GO_LAM = 416, GO_G0 = 432, GO_Q = 448, GO_ACT = 464, GO_A = 480, GO_A0 = 848,
-       GO_DM = 871, GO_KM = 873 };
+enum { GO_W = 0, GO_B = NG * NIN, GO_LAM = GO_B + NG, GO_G0 = GO_LAM + NG, GO_Q = GO_G0 + NG, GO_ACT = GO_Q + NG,
+       GO_A = GO_ACT + NG, GO_A0 = GO_A + NK * NG, GO_DM = GO_A0 + NK, GO_KM = GO_DM + 2 };
 // program table (4.5)
-enum { PR_JUV = 115, PR_NVRIM, PR_ZYGROW, PR_FLANKGATE, PR_PDIVLO, PR_KGROW, PR_TIMERSTEP, PR_PRUNE, PR_KKEEP,
+enum { PR_JUV = 5 * NK, PR_NVRIM, PR_ZYGROW, PR_FLANKGATE, PR_PDIVLO, PR_KGROW, PR_TIMERSTEP, PR_PRUNE, PR_KKEEP,
        PR_KDIE, PR_DM0, PR_DM1, PR_KM0, PR_KM1 };
 enum { ROW_ALONE, ROW_CONTACT, ROW_JUVENILE, ROW_RIM, ROW_ZYGOTE, N_ROWS };
 // world vector (4.7)
@@ -61,7 +79,29 @@ enum { W_T, W_T0, W_TOPEN, W_TFORK, W_FLAGS, W_FORKFLAGS, W_DMIN, W_D0, W_DELAYS
        W_TAUTURN, W_RMIN, W_RMAX, W_TRESP, W_RCAP, W_CMISS, W_CREC, W_B2AMP, W_B2SIGMA, W_B2VALUE, W_B2RHO, W_B2P,
        W_B2MODE, W_VISMODE, W_VISON, W_VISOFF, W_VISLOW,
        W_TASKMODE, W_SAMPLEMIN, W_SAMPLEMAX, W_BLANKMIN, W_BLANKMAX, W_CHOICET, W_RESETT,
-       W_PATCHCOUNT, W_PATCHCAP, W_PATCHFAST, W_PATCHSLOW, W_PATCHLAND, W_PATCHCONTACT };
+       W_PATCHCOUNT, W_PATCHCAP, W_PATCHFAST, W_PATCHSLOW, W_PATCHLAND, W_PATCHCONTACT,
+       W_MOD = WORLD_V7, W_ECO = WORLD_V7 + (S_MAX - 1) * N_MODK };
+// ABI 8 modality slot keys (relative to W_MOD + N_MODK * (m - 1)) and kinds
+enum { MK_KIND, MK_ARG, MK_BG, MK_S, MK_K };
+enum { MOD_NONE, MOD_ODOUR, MOD_FLOW, MOD_TOUCH, MOD_VIB, MOD_SUN, MOD_KINDS };
+// ABI 8 eco block (relative to W_ECO): the head, then sources, agents, walls, shelters, fertile disks
+enum { E_MODE, E_NSRC, E_NAG, E_NWALL, E_NSHELTER, E_NFERTILE,
+       E_CURSPEED, E_CURHEAD, E_CURTURN, E_CURTURNMAX,
+       E_PUFFSIG0, E_PUFFD, E_PUFFLIFE, E_PUFFCUT, E_PUFFCAP, E_LANDMARK,
+       E_SUNHEAD, E_VIBVREF, E_RBODY, E_ARENA, E_KILLHITS, E_OCCLUDE,
+       E_HOMEX, E_HOMEY, E_HOMER, E_HOMESIG, E_HOMEB, E_CARRYCAP = E_HOMEB + 4, E_CARRYMULT, E_CARRYDIGEST, E_CARRYDRAG,
+       E_PLANTCAP, E_PLANTCOST, E_RIPENMIN, E_RIPENMAX, E_RIPEWIN, E_PLANTVALUE, E_PLANTSIG, E_PLANTLIGHT,
+       E_PLANTB, E_SOILSIG = E_PLANTB + 4, E_SOILB, E_HEAD_END = E_SOILB + 4 };
+enum { SK_X, SK_Y, SK_VALUE, SK_CAP, SK_PERIOD, SK_PHASE, SK_LIGHT, SK_SIGMA, SK_PUFF, SK_B };
+enum { AK_TYPE, AK_X, AK_Y, AK_V1, AK_V2, AK_RSENSE, AK_P, AK_RCONTACT, AK_VALUE, AK_LOOK, AK_TSTATE, AK_TREST,
+       AK_SIGMA, AK_LIGHT, AK_B, AK_RX = AK_B + 4, AK_RY };
+#define E_SRC (ECO_HEAD)
+#define E_AG (E_SRC + N_SRC * SRC_K)
+#define E_WALL (E_AG + N_AG * AG_K)
+#define E_SHELTER (E_WALL + N_WALL * 4)
+#define E_FERTILE (E_SHELTER + N_DISK * 3)
+enum { AG_NONE, AG_PURSUIT, AG_AMBUSH, AG_DARTER, AG_FREEZER, AG_BURROWER, AG_PEST, AG_TYPES };
+enum { AS_WANDER, AS_ACTIVE, AS_REST, AS_HIDDEN };  // active: chase (predators), flee or freeze (prey), seek (pests)
 // ledger columns (4.9)
 enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIRTHS, L_REJECTS, L_REJWALL, L_DEATHS,
        L_KILLS, L_COST, L_GUARD, L_NET, L_F, L_NEND, L_NPEAK, L_TEND, L_STATUS, L_EVENTS, L_BEATS, L_PINT,
@@ -76,7 +116,14 @@ enum { L_INCOME, L_LIVE, L_SECINT, L_SPIKES, L_KAPPA, L_CONTACT, L_CLAIMS, L_BIR
        L_PATCHEMPTY = 90, L_PATCHEND = 94, L_PATCHGEOM = 98, L_PATCHINITIAL = 99, L_PATCHREFILL = 103,
        L_CONTACTSTARTS = 107, L_CONTACTMATURITIES = 111, L_CONTACTSUPPLY = 115, L_CONTACTSPILL = 119,
        L_CONTACTHARVEST = 123, L_CONTACTPENDINGOPEN = 127, L_CONTACTPENDINGEND = 131,
-       L_CONTACTSTOCKOPEN = 135, L_CONTACTSTOCKEND = 139 };
+       L_CONTACTSTOCKOPEN = 135, L_CONTACTSTOCKEND = 139,
+       L_MODCAND = LEDGER_V7, L_MODACCEPT = L_MODCAND + 9, L_MODEVENTS = L_MODACCEPT + 9, L_MODGAIN = L_MODEVENTS + 9,
+       L_ECO = L_MODGAIN + 9 };
+// ABI 8 eco ledger columns (relative to L_ECO)
+enum { EL_FOOD, EL_FOODINC, EL_TOXIN, EL_TOXINCOST, EL_PREY, EL_PREYINC, EL_PLANTED, EL_PLANTCOST, EL_RIPENED,
+       EL_HARVESTED, EL_HARVESTINC, EL_SPOILED, EL_PESTEATEN, EL_PICKED, EL_DELIVERED, EL_DELIVERINC, EL_DIGESTED,
+       EL_DIGESTINC, EL_HITS, EL_DAMAGECOST, EL_KILLED, EL_WALLCONTACTS, EL_PUFFS, EL_ALARMS, EL_DETECTIONS,
+       EL_SHELTER, EL_THREAT, EL_STILL, EL_HOME, EL_LOADED, EL_UPFLOW, EL_CROSSFLOW, EL_NEARFOOD, EL_COUNT };
 // flags (12)
 enum { F_CONTACTS_OFF = 1 << 0, F_CHEM_OFF = 1 << 1, F_APOPTOSIS_OFF = 1 << 2, F_DIVISION_OFF = 1 << 3,
        F_FREEZE = 1 << 4, F_GENES_BLIND = 1 << 5, F_IDENTITY_CLAMP = 1 << 6, F_PHENO_FIXED = 1 << 7,
@@ -86,18 +133,22 @@ enum { F_CONTACTS_OFF = 1 << 0, F_CHEM_OFF = 1 << 1, F_APOPTOSIS_OFF = 1 << 2, F
 #define F_BASE_ONLY (F_LOCKSTEP | F_PROGRAM | F_INTEGER_TWIN)
 // status bits (4.12)
 enum { ST_EXTINCT = 1, ST_GUARD_CELLS = 2, ST_GUARD_EVENTS = 4, ST_RASTER_OVF = 8, ST_FATE_OVF = 16,
-       ST_CHEM_CLAMP = 32, ST_MISMATCH = 64, ST_CAPACITY = 128, ST_WALL = 256 };
+       ST_CHEM_CLAMP = 32, ST_MISMATCH = 64, ST_CAPACITY = 128, ST_WALL = 256, ST_KILLED = 512 };
 // draw streams (3)
 enum { S_ZYG = 1, S_UID, S_TAU, S_CLK, S_PHASE, S_DC, S_JIT, S_DROP, S_TICK, S_DIE, S_DIV, S_PLACE, S_NOISE, S_NSIGN,
        S_KILL, S_TIE, S_ORDER, S_RCAND, S_RACC, S_TURN, S_HEAD, S_RTIME, S_PANG, S_PDIST, S_PPRES, S_VISIBILITY,
-       S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE, S_PATCH_LAYOUT, S_PATCH_RATE, S_PATCH_PHASE };
+       S_TASK_CLASS, S_TASK_DURATION, S_TASK_GEOMETRY, S_TASK_SIDE, S_PATCH_LAYOUT, S_PATCH_RATE, S_PATCH_PHASE,
+       S_RCAND_M, S_RACC_M, S_ECO_PUFF, S_ECO_CUR, S_ECO_AG, S_ECO_PLANT };
 // event groups and kinds (6.1)
 enum { G_CLAIM, G_NOTICE, G_PACKET, G_MEMB, G_TICK, G_EXO };
 enum { N_BORN, N_PRESENT, N_ACK, N_REJECT, N_DIED };
-enum { M_ARRIVAL, M_THRESHOLD, M_NOISE, M_RCAND, M_RECEPT };
+enum { M_ARRIVAL, M_THRESHOLD, M_NOISE, M_RCAND, M_RECEPT, M_RCANDM, M_RECEPTM };  // ABI 8: u2 = m << 56 | j
+#define MJ_SHIFT 56
+#define MJ_MASK ((1ULL << MJ_SHIFT) - 1ULL)
 enum { X_KILL, X_STUCK };
 // records (9.1)
-enum { R_BIRTH, R_SPIKE, R_TICK, R_CHEM, R_PACKET, R_LOST, R_CLAIM, R_RESOLVE, R_DEATH, R_RCAND, R_RECEPT };
+enum { R_BIRTH, R_SPIKE, R_TICK, R_CHEM, R_PACKET, R_LOST, R_CLAIM, R_RESOLVE, R_DEATH, R_RCAND, R_RECEPT,
+       R_RCANDM, R_RECEPTM };
 // hash families (9.6)
 enum { H_ALL, H_SPIKES, H_FATE, H_CHEM, H_WORLD };
 // world kinds (4.7) and the CATCH world's world events (9.7.3) and click outcomes (9.7.4)
@@ -180,6 +231,7 @@ static void decode(const double *y, double *th) {  // section 8
   th[K_TAUTR] = TAU_TR_T[level_index(nearbyint(y[17] + 1.5), 3)];
   th[K_A0] = q8(y[18]); th[K_A1] = q8(y[19]); th[K_CHI] = q8(y[20]);
   th[K_ZETA] = q8(y[21]); th[K_GR] = q8(y[22]);
+  for (int m = 1; m < S_MAX; m++) th[K_GRM(m)] = q8(y[K_GRM(m)]);  // ABI 8 gains
 }
 
 #ifdef LIFE_FAST
@@ -219,6 +271,9 @@ typedef struct {
   uint64_t view[DMAX];
   double dc[DMAX], inc[DMAX][2], sd[DMAX], weff[DMAX][2];
   double g[NG], m[2], th[NK];
+  double rhom[S_MAX];    // ABI 8: receptor traces of modalities 1..9 (index 0 unused: rho is modality 0's)
+  int64_t nrecm[S_MAX];  // ABI 8: next candidate index of modality m
+  int8_t pendm[S_MAX];   // ABI 8: a candidate of modality m is in flight
   Pkt *inbox;
 } Cell;
 
@@ -228,6 +283,7 @@ typedef struct {
   int32_t a, b, z, cell, exists;
   int32_t acc_occ;       // accountant (CATCH): in the act-plane occupancy O at the left limit of its time group (9.7.1)
   int32_t acc_live;      // accountant (CATCH): holds a live cell, as of the records consumed so far (9.7.2)
+  int32_t acc_occ0;      // accountant (ABI 8): in the sense-plane occupancy O0 at the left limit (exposed faces)
   double fx, fy, tf;     // accountant (CATCH): the occupant's own pull, decaying from tf (9.7.2)
   int32_t nbr[DMAX];
 } Site;
@@ -259,6 +315,24 @@ typedef struct {
   int64_t contact_stock, origin_head, origin_n;
   uint8_t *origins;
 } Patch;
+
+// ABI 8 eco world (9.8): sources, puffs, agents, walls, disks, plants and carried items; all world state, never cell input
+typedef struct {
+  double x, y, value, light, sigma, puff_rate, b[N_SPEC], period, first, next, next_puff;
+  int64_t cap, stock;
+  uint64_t arrival_index, puff_k;
+} Src;
+typedef struct { double t, ox, oy, a[N_SPEC]; } Puff;  // release time; centre = (ox, oy) + A(t); amounts per species
+typedef struct {
+  int type, state, vis, pad;
+  double t, x, y, vx, vy, speed, t_stop, until, next_look;  // anchor (t, x, y), velocity until t_stop
+  uint64_t q;                                              // look counter
+  double v1, v2, r_sense, p, r_contact, value, look, t_state, t_rest, sigma, light, b[N_SPEC], rx, ry;
+} Agent;
+typedef struct { double x0, x1, y0, y1; } Wall;
+typedef struct { double x, y, r; } Disk;
+typedef struct { int state, vis; double x, y, t_ripe, t_spoil; uint64_t id; } Plant;  // 0 empty, 1 growing, 2 ripe
+typedef struct { double value, due; uint64_t id; } Item;
 
 typedef struct { double t_send, t_arr; uint64_t tsk, sender; double amt[2]; } Flight;
 typedef struct { int32_t a, b; } Col;  // a column (a, b) of the projected footprint (9.7.2)
@@ -299,6 +373,34 @@ typedef struct {
   double patch_contact_delay;
   int64_t contact_counts[CC_COUNT][4];
   int64_t cap_cells;
+  // ABI 8 modality slots m = 1..9 (lam_m[m] = 0: unbound) and their ledger counts
+  int mod_kind[S_MAX], mod_arg[S_MAX];
+  double mod_bg[S_MAX], mod_s[S_MAX], mod_K[S_MAX], lam_m[S_MAX];
+  int64_t mod_cand[S_MAX], mod_accept[S_MAX], mod_events[S_MAX];
+  double mod_gain[S_MAX];
+  // ABI 8 eco world (9.8)
+  int eco, n_src, n_ag, n_wall, n_shelter, n_fertile, kill_hits, occlude, plant_cap, carry_cap, eco_dead;
+  Src src[N_SRC]; int64_t src_left[N_SRC];
+  Agent ag[N_AG];
+  Wall wall[N_WALL];
+  Disk shelter[N_DISK], fertile[N_DISK];
+  Plant plant[N_PLANT];
+  Item item[N_ITEM]; int n_item;
+  double cur_speed, cur_head, cur_turn, cur_turn_max, cur_ts, cur_Ax, cur_Ay, cur_ux, cur_uy, cur_next;
+  uint64_t cur_k;
+  Puff *puff; int64_t puff_cap, puff_head, puff_n;
+  double puff_sig0, puff_D, puff_life, puff_cut, landmark, sun_x, sun_y, vib_vref, r_body, arena;
+  double home_x, home_y, home_r, home_sig, home_b[N_SPEC], carry_mult, carry_digest, carry_drag, gam0;
+  double plant_cost, ripen_min, ripen_max, ripe_win, plant_value, plant_sig, plant_light, plant_b[N_SPEC];
+  double soil_sig, soil_b[N_SPEC];
+  uint64_t plant_ids, item_ids;
+  int blk_x, blk_y, blk_wx, blk_wy;  // a wall face blocks motion along +x (1) / -x (-1) (and y); the blocking walls
+  double kink_t;
+  int kink_kind, kink_wall, kink_face;
+  int64_t hits_all;
+  double samp_x, samp_y;             // the dot at the previous sample (flow-relative path)
+  int64_t eco_n[EL_COUNT];           // integer eco ledger counts (EL_FOOD, ...)
+  double eco_x[EL_COUNT];            // eco ledger sums (EL_FOODINC, ...)
   // fabric
   Site *sites; int64_t n_sites, cap_sites;
   int32_t *map; int64_t map_cap;
@@ -448,7 +550,7 @@ static int32_t site_get(Ctx *c, int32_t a, int32_t b, int32_t z) {  // only ever
   Site *s = &c->sites[si];
   s->sk = sk; s->tie = hash1(c->tie_seed, S_TIE, sk); s->births = 0; s->a = a; s->b = b; s->z = z; s->cell = -1;
   s->exists = c->fabric_R == 0 || in_disk(c->base, a, b, c->fabric_R);
-  s->acc_occ = 0; s->acc_live = 0; s->fx = s->fy = 0.0; s->tf = 0.0;
+  s->acc_occ = 0; s->acc_live = 0; s->acc_occ0 = 0; s->fx = s->fy = 0.0; s->tf = 0.0;
   for (int d = 0; d < DMAX; d++) s->nbr[d] = -1;
   if (2 * c->n_sites > c->map_cap) {
     if (map_rehash(c, 2 * c->map_cap)) { c->fail |= FAIL_ALLOC; return -1; }
@@ -594,7 +696,9 @@ static inline double vnow(const Cell *X, double t) {  // 7.1
 }
 static inline void traces_to(Cell *X, double t) {
   double e = exp(-(t - X->ttr) / X->th[K_TAUTR]);
-  X->f = X->f * e; X->r[0] = X->r[0] * e; X->r[1] = X->r[1] * e; X->rho = X->rho * e; X->ttr = t;
+  X->f = X->f * e; X->r[0] = X->r[0] * e; X->r[1] = X->r[1] * e; X->rho = X->rho * e;
+  for (int m = 1; m < S_MAX; m++) X->rhom[m] = X->rhom[m] * e;
+  X->ttr = t;
 }
 static void predict(Ctx *c, int32_t si, Cell *X) {
   X->ver += 1;
@@ -788,6 +892,22 @@ static inline double receptor_next(uint64_t seed, uint64_t uid, uint64_t j, doub
   const double t = t_prev - log(draw2(seed, S_RCAND, uid, j)) / lam;
   return t > t_prev ? t : nextafter(t_prev, INFINITY);
 }
+// ABI 8: candidate j of modality m >= 1 (streams S_RCAND_M / S_RACC_M keyed (uid, m, j))
+static inline double receptor_next_m(uint64_t seed, uint64_t uid, int m, uint64_t j, double t_prev, double lam) {
+  const double t = t_prev - log(draw3(seed, S_RCAND_M, uid, (uint64_t)m, j)) / lam;
+  return t > t_prev ? t : nextafter(t_prev, INFINITY);
+}
+// ABI 8 (7.10): a sense cell's stream of modality m runs while the world binds m and the cell's own gain is nonzero; a
+// candidate that finds the gain 0 is dropped and stops the stream, which the next tick with a nonzero gain restarts.
+static void mod_activate(Ctx *c, int32_t si, Cell *X, double t) {
+  if (c->sites[si].z != 0) return;
+  for (int m = 1; m < S_MAX; m++)
+    if (c->lam_m[m] > 0.0 && !X->pendm[m] && X->th[K_GRM(m)] != 0.0) {
+      X->pendm[m] = 1;
+      self_ev(c, si, receptor_next_m(c->seed, X->uid, m, (uint64_t)X->nrecm[m], t, c->lam_m[m]), G_MEMB, M_RCANDM,
+              X->uid, ((uint64_t)m << MJ_SHIFT) | (uint64_t)X->nrecm[m]);
+    }
+}
 
 static void birth(Ctx *c, int32_t si, double t, uint64_t uid, uint64_t mother, int bslot, const double *genes,
                   double timer, int init_index, int fixed_row) {  // 7.6
@@ -840,6 +960,7 @@ static void birth(Ctx *c, int32_t si, double t, uint64_t uid, uint64_t mother, i
     self_ev(c, si, c->t0 + c->stuck_t, G_EXO, X_STUCK, uid, 0);
   if (c->kind == WK_CATCH && S0->z == 0 && c->lam_max > 0.0)  // the receptor's candidate stream (7.10)
     self_ev(c, si, receptor_next(c->seed, uid, 0, t, c->lam_max), G_MEMB, M_RCAND, uid, 0);
+  if (c->kind == WK_CATCH) mod_activate(c, si, X, t);  // ABI 8 gene-gated modality streams
   for (int d = 0; d < c->D; d++)
     if (in_stack(c, si, d)) notice(c, si, d, t + c->d_min, N_BORN, 0, uid, (uint64_t)k);
   if (mother != 0) notice(c, si, bslot, t + c->d_min, N_ACK, mother, uid, (uint64_t)k);
@@ -924,7 +1045,11 @@ static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7
       const int zc = c->sites[si].z;   // plane cues: 0 outside CATCH (15.38)
       x[23] = (c->kind == WK_CATCH && zc == 0) ? 1.0 : 0.0;
       x[24] = (c->kind == WK_CATCH && zc == 1) ? 1.0 : 0.0;
-      if (fl & F_GENES_BLIND) x[18] = x[19] = x[20] = x[21] = x[22] = 0.0;
+      for (int m = 1; m < S_MAX; m++) x[24 + m] = X->rhom[m] / ttr;  // ABI 8 receptor traces (0 when unused)
+      if (fl & F_GENES_BLIND) {
+        x[18] = x[19] = x[20] = x[21] = x[22] = 0.0;
+        for (int m = 1; m < S_MAX; m++) x[24 + m] = 0.0;
+      }
       const double *W = c->gt + GO_W, *bb = c->gt + GO_B, *lam = c->gt + GO_LAM;
       for (int k = 0; k < NG; k++) {
         if (lam[k] == 0.0) { s[k] = 0.0; continue; }  // g + 0 * (s - g) == g exactly: skip the row
@@ -951,6 +1076,7 @@ static void tick(Ctx *c, int32_t si, int32_t ci, double t) {  // 7.4 (GRN) and 7
   if (!(fl & F_FREEZE)) derive(c, X);
   if (X->stuck) stuck_apply(X);
   predict(c, si, X);
+  if (c->kind == WK_CATCH) mod_activate(c, si, X, t);
   // 6. death
   if (!(fl & (F_APOPTOSIS_OFF | F_FREEZE))) {
     if (c->prog && c->pg[PR_PRUNE] != 0.0 && X->timer_birth >= c->pg[PR_KKEEP] && X->timer >= c->pg[PR_KDIE]) {
@@ -1170,8 +1296,26 @@ static void batch(Ctx *c, int32_t si, double t, const int32_t *evs, int64_t n) {
         if (rr) { rr->u1 = X->uid; rr->u2 = j; }
         self_ev(c, si, receptor_next(c->seed, X->uid, j + 1, t, c->lam_max), G_MEMB, M_RCAND, X->uid, j + 1);
       }
+      for (int64_t i = 0; i < c->ngrp[G_MEMB]; i++) {  // ABI 8: modality candidates, in (m, j) order
+        const Ev *e = &c->ev[c->grp[G_MEMB][i]];
+        if (e->sub != M_RCANDM || e->uid != X->uid) continue;
+        const int m = (int)(e->u2 >> MJ_SHIFT);
+        const uint64_t j = e->u2 & MJ_MASK;
+        if (m < 1 || m >= S_MAX || j != (uint64_t)X->nrecm[m]) continue;
+        X->nrecm[m] = (int64_t)j + 1;
+        if (X->th[K_GRM(m)] != 0.0 && c->lam_m[m] > 0.0) {
+          Rec *rr = emit(c, R_RCANDM);
+          if (rr) { rr->u1 = X->uid; rr->u2 = j; rr->i1 = m; }
+          self_ev(c, si, receptor_next_m(c->seed, X->uid, m, j + 1, t, c->lam_m[m]), G_MEMB, M_RCANDM, X->uid,
+                  ((uint64_t)m << MJ_SHIFT) | (j + 1));
+        } else {
+          X->pendm[m] = 0;
+        }
+      }
     }
     const int rec_on = X && !(c->fl & F_RECEPTOR_OFF) && X->th[K_GR] != 0.0;  // g_r = 0: no receptor (15.40)
+    int64_t n_rm[S_MAX] = {0};
+    int any_rm = 0;
     for (int64_t i = 0; i < c->ngrp[G_MEMB]; i++) {
       const Ev *e = &c->ev[c->grp[G_MEMB][i]];
       if (e->sub == M_ARRIVAL) {
@@ -1183,7 +1327,12 @@ static void batch(Ctx *c, int32_t si, double t, const int32_t *evs, int64_t n) {
         }
       } else if (e->sub == M_RECEPT) {
         if (rec_on && e->uid == X->uid) n_rec++;  // a RECEPTOR that is not delivered vanishes
-      } else if (e->sub == M_RCAND) {
+      } else if (e->sub == M_RECEPTM) {
+        const int m = (int)(e->u2 >> MJ_SHIFT);
+        if (X && e->uid == X->uid && m >= 1 && m < S_MAX && !(c->fl & F_RECEPTOR_OFF) && X->th[K_GRM(m)] != 0.0) {
+          n_rm[m]++; any_rm = 1;
+        }
+      } else if (e->sub == M_RCAND || e->sub == M_RCANDM) {
         continue;  // handled above
       } else if (X && e->uid == X->uid) {
         if (e->sub == M_THRESHOLD) {
@@ -1204,16 +1353,25 @@ static void batch(Ctx *c, int32_t si, double t, const int32_t *evs, int64_t n) {
       Rec *rr = emit(c, R_RECEPT);
       if (rr) { rr->u1 = X->uid; rr->i1 = n_rec; rr->x[0] = X->th[K_GR]; }
     }
-    if (X && (n_del > 0 || n_kick > 0 || thr || n_rec > 0)) {
+    if (any_rm)
+      for (int m = 1; m < S_MAX; m++)
+        if (n_rm[m] > 0) {  // ABI 8: one record per delivered modality, in m order
+          Rec *rr = emit(c, R_RECEPTM);
+          if (rr) { rr->u1 = X->uid; rr->u2 = (uint64_t)m; rr->i1 = n_rm[m]; rr->x[0] = X->th[K_GRM(m)]; }
+        }
+    if (X && (n_del > 0 || n_kick > 0 || thr || n_rec > 0 || any_rm)) {
       int go = 1;
-      if (n_del > 0 || n_rec > 0) {
+      if (n_del > 0 || n_rec > 0 || any_rm) {
         traces_to(X, t);
         X->r[0] = X->r[0] + (double)cnt0; X->r[1] = X->r[1] + (double)cnt1;
         X->rho = X->rho + (double)n_rec;
+        for (int m = 1; m < S_MAX; m++) X->rhom[m] = X->rhom[m] + (double)n_rm[m];
       }
       if (t < X->tr) go = 0;  // refractory: input lost, traces already counted
       if (go) {
         if (n_rec > 0) S = S + X->th[K_GR] * (double)n_rec;  // one rounding, after the exact sum
+        if (any_rm)
+          for (int m = 1; m < S_MAX; m++) if (n_rm[m] > 0) S = S + X->th[K_GRM(m)] * (double)n_rm[m];
         double v = (thr ? 1.0 : vnow(X, t)) + S;
         X->va = q10(v); X->ta = t;
         if (X->va >= 1.0) fire(c, si, X, t);
@@ -1346,17 +1504,26 @@ static void blob_place(uint64_t seed, uint64_t b, uint64_t q, double x, double y
   *bx = x + r * cos(th); *by = y + r * sin(th);
 }
 
+// ABI 8 (9.8.3): a wall face blocks the force component that points into it; the force itself keeps every pull
+static inline double eff_fx(const Ctx *c) {
+  return ((c->blk_x > 0 && c->Fx > 0.0) || (c->blk_x < 0 && c->Fx < 0.0)) ? 0.0 : c->Fx;
+}
+static inline double eff_fy(const Ctx *c) {
+  return ((c->blk_y > 0 && c->Fy > 0.0) || (c->blk_y < 0 && c->Fy < 0.0)) ? 0.0 : c->Fy;
+}
 static inline void dot_at(const Ctx *c, double t, double *x, double *y) {  // evaluated; the anchor does not move
   if (c->n_foot == 0 || t == c->t_x) { *x = c->X; *y = c->Y; return; }  // no footprint, no traction (15.44)
   double k, e;
   dot_gain(t - c->t_x, c->tau_z, c->gam, &k, &e);
+  if (c->eco) { *x = c->X + eff_fx(c) * k; *y = c->Y + eff_fy(c) * k; return; }
   *x = c->X + c->Fx * k; *y = c->Y + c->Fy * k;
 }
 static void dot_adv(Ctx *c, double t) {  // moves the anchor to t
   if (t <= c->t_x) return;
   const double e = exp(-(t - c->t_x) / c->tau_z);
   if (c->n_foot > 0) {
-    const double k = c->tau_z * (1.0 - e) / c->gam, dx = c->Fx * k, dy = c->Fy * k;
+    const double fx = c->eco ? eff_fx(c) : c->Fx, fy = c->eco ? eff_fy(c) : c->Fy;
+    const double k = c->tau_z * (1.0 - e) / c->gam, dx = fx * k, dy = fy * k;
     c->X = c->X + dx; c->Y = c->Y + dy;
     c->path = c->path + sqrt(dx * dx + dy * dy);
   }
@@ -1756,7 +1923,744 @@ static void patch_close(Ctx *c, double t) {
   }
 }
 
+// ------------------------------------------------------------------------------------- the eco world (ABI 8, 9.8)
+// Sources release odour puffs that drift with a meandering current and spread as they age; rule-based agents
+// (predators, prey, pests) move in straight segments chosen at their own look events; walls block the dot (the swept
+// body, inflated by r_body) and stop agents; the dot may carry food home, plant in fertile disks and harvest. Every
+// quantity is world state. Cells receive only receptor events of their bound modalities at their own screen point.
+static void send_receptor_m(Ctx *c, int32_t si, double t, uint64_t uid, int m, uint64_t j);
+
+static inline int64_t eco_count(const Ctx *c, double t) { return t >= c->t_open_abs; }
+static inline double eco_amp(const Ctx *c, int i, int64_t stock) {
+  return c->landmark + (1.0 - c->landmark) * ((double)stock / (double)c->src[i].cap);
+}
+static inline void cur_A(const Ctx *c, double t, double *ax, double *ay) {
+  *ax = c->cur_Ax + c->cur_ux * (t - c->cur_ts); *ay = c->cur_Ay + c->cur_uy * (t - c->cur_ts);
+}
+static inline void ag_pos(const Agent *g, double t, double *x, double *y) {
+  const double tt = t < g->t_stop ? t : g->t_stop, dt = tt - g->t;
+  *x = g->x + g->vx * dt; *y = g->y + g->vy * dt;
+}
+static inline int in_disk2(double x, double y, const Disk *d) {
+  const double dx = x - d->x, dy = y - d->y;
+  return dx * dx + dy * dy <= d->r * d->r;
+}
+static int eco_sheltered(const Ctx *c, double x, double y) {
+  for (int i = 0; i < c->n_shelter; i++) if (in_disk2(x, y, &c->shelter[i])) return 1;
+  return 0;
+}
+static void eco_fold(Ctx *c, const uint64_t *w, int n) { fold(c, H_WORLD, w, n); fold(c, H_ALL, w, n); }
+
+// entry parameter s in [0, 1) of the segment P + s E into the open box (x0, x1) x (y0, y1), INFINITY if none; *face is
+// 0 for an x face, 1 for a y face (the slab entered last; x on a tie). A start inside the open box enters at 0.
+static double seg_enter(double X, double Y, double ex, double ey, double x0, double x1, double y0, double y1,
+                        int *face) {
+  double sx0, sx1, sy0, sy1;
+  if (ex == 0.0) {
+    if (!(x0 < X && X < x1)) return INFINITY;
+    sx0 = -INFINITY; sx1 = INFINITY;
+  } else {
+    const double a = (x0 - X) / ex, b = (x1 - X) / ex;
+    sx0 = a < b ? a : b; sx1 = a < b ? b : a;
+  }
+  if (ey == 0.0) {
+    if (!(y0 < Y && Y < y1)) return INFINITY;
+    sy0 = -INFINITY; sy1 = INFINITY;
+  } else {
+    const double a = (y0 - Y) / ey, b = (y1 - Y) / ey;
+    sy0 = a < b ? a : b; sy1 = a < b ? b : a;
+  }
+  const double s_in = sx0 > sy0 ? sx0 : sy0, s_out = sx1 < sy1 ? sx1 : sy1;
+  if (!(s_in < s_out) || !(s_out > 0.0) || !(s_in < 1.0)) return INFINITY;
+  *face = sx0 >= sy0 ? 0 : 1;
+  return s_in < 0.0 ? 0.0 : s_in;
+}
+
+static void eco_set_gam(Ctx *c) {  // drag: the footprint's, times the load factor
+  c->gam = c->gam0 * (1.0 + c->carry_drag * (double)c->n_item);
+}
+
+// the dot's next contact change (9.8.3): a hit of the free path into an inflated wall, or a slide off the end of a
+// blocking face; a change at the current anchor (s = 0) is applied at once
+static void eco_contact(Ctx *c, int kind, int w, int face) {
+  const Wall *W = &c->wall[w];
+  if (kind == 0) {
+    if (face == 0) {
+      const double fx = eff_fx(c);
+      c->X = fx > 0.0 ? W->x0 - c->r_body : W->x1 + c->r_body;
+      c->blk_x = fx > 0.0 ? 1 : -1; c->blk_wx = w;
+    } else {
+      const double fy = eff_fy(c);
+      c->Y = fy > 0.0 ? W->y0 - c->r_body : W->y1 + c->r_body;
+      c->blk_y = fy > 0.0 ? 1 : -1; c->blk_wy = w;
+    }
+    if (eco_count(c, c->t_x)) c->eco_n[EL_WALLCONTACTS]++;
+  } else if (face == 0) {
+    c->blk_x = 0;
+  } else {
+    c->blk_y = 0;
+  }
+  const uint64_t wd[7] = {44, dbits(c->t_x), (uint64_t)kind, (uint64_t)w, (uint64_t)face, dbits(c->X), dbits(c->Y)};
+  eco_fold(c, wd, 7);
+}
+static void eco_kink(Ctx *c) {
+  c->kink_t = INFINITY;
+  if (!c->eco || c->n_wall == 0 || c->n_foot == 0) return;
+  for (int it = 0; it < 8; it++) {
+    if (c->blk_x && c->Fx != 0.0 && !((c->blk_x > 0) == (c->Fx > 0.0))) c->blk_x = 0;  // pulled away from the face
+    if (c->blk_y && c->Fy != 0.0 && !((c->blk_y > 0) == (c->Fy > 0.0))) c->blk_y = 0;
+    const double fx = eff_fx(c), fy = eff_fy(c);
+    if (fx == 0.0 && fy == 0.0) return;
+    const double kinf = c->tau_z / c->gam, ex = fx * kinf, ey = fy * kinf;
+    double best = INFINITY;
+    int bw = -1, bf = 0, bk = 0;
+    for (int w = 0; w < c->n_wall; w++) {
+      const Wall *W = &c->wall[w];
+      int face = 0;
+      const double sv = seg_enter(c->X, c->Y, ex, ey, W->x0 - c->r_body, W->x1 + c->r_body, W->y0 - c->r_body,
+                                  W->y1 + c->r_body, &face);
+      if (sv < best) { best = sv; bw = w; bf = face; bk = 0; }
+    }
+    if (c->blk_x && ey != 0.0) {
+      const Wall *W = &c->wall[c->blk_wx];
+      const double lim = ey > 0.0 ? W->y1 + c->r_body : W->y0 - c->r_body, sv = (lim - c->Y) / ey;
+      if (sv >= 0.0 && sv < 1.0 && sv < best) { best = sv; bw = c->blk_wx; bf = 0; bk = 1; }
+    }
+    if (c->blk_y && ex != 0.0) {
+      const Wall *W = &c->wall[c->blk_wy];
+      const double lim = ex > 0.0 ? W->x1 + c->r_body : W->x0 - c->r_body, sv = (lim - c->X) / ex;
+      if (sv >= 0.0 && sv < 1.0 && sv < best) { best = sv; bw = c->blk_wy; bf = 1; bk = 1; }
+    }
+    if (bw < 0) return;
+    if (best > 0.0) {
+      double tk = c->t_x - c->tau_z * log(1.0 - best);
+      if (!(tk > c->t_x)) tk = nextafter(c->t_x, INFINITY);
+      c->kink_t = tk; c->kink_kind = bk; c->kink_wall = bw; c->kink_face = bf;
+      return;
+    }
+    eco_contact(c, bk, bw, bf);
+  }
+}
+static void eco_kink_event(Ctx *c) {
+  const double t = c->kink_t;
+  dot_adv(c, t);
+  eco_contact(c, c->kink_kind, c->kink_wall, c->kink_face);
+  eco_kink(c);
+}
+
+// --- odour: puffs of every source in release order, then agents, home, soil and ripe plants (9.8.2)
+static double eco_conc(const Ctx *c, int k, double t, double px, double py) {
+  double ax, ay, C = 0.0;
+  cur_A(c, t, &ax, &ay);
+  const double s02 = c->puff_sig0 * c->puff_sig0;
+  for (int64_t q = 0; q < c->puff_n; q++) {
+    const Puff *p = &c->puff[(c->puff_head + q) % c->puff_cap];
+    const double age = t - p->t;
+    if (age > c->puff_life || p->a[k] == 0.0) continue;
+    const double s2 = s02 + 2.0 * c->puff_D * age, dx = px - (p->ox + ax), dy = py - (p->oy + ay);
+    const double d2 = dx * dx + dy * dy;
+    if (d2 > c->puff_cut * s2) continue;
+    C = C + p->a[k] * (s02 / s2) * exp(-d2 / (2.0 * s2));
+  }
+  for (int i = 0; i < c->n_ag; i++) {
+    const Agent *g = &c->ag[i];
+    if (!g->vis || g->b[k] == 0.0) continue;
+    double x, y;
+    ag_pos(g, t, &x, &y);
+    C = C + g->b[k] * halo(px - x, py - y, g->sigma);
+  }
+  if (c->home_r > 0.0 && c->home_b[k] != 0.0) C = C + c->home_b[k] * halo(px - c->home_x, py - c->home_y, c->home_sig);
+  if (c->soil_b[k] != 0.0)
+    for (int i = 0; i < c->n_fertile; i++)
+      C = C + c->soil_b[k] * halo(px - c->fertile[i].x, py - c->fertile[i].y, c->soil_sig);
+  if (c->plant_b[k] != 0.0)
+    for (int i = 0; i < N_PLANT; i++)
+      if (c->plant[i].vis) C = C + c->plant_b[k] * halo(px - c->plant[i].x, py - c->plant[i].y, c->plant_sig);
+  return C;
+}
+static int eco_occluded(const Ctx *c, double sx, double sy, double px, double py) {
+  if (!c->occlude) return 0;
+  for (int w = 0; w < c->n_wall; w++) {
+    const Wall *W = &c->wall[w];
+    int face;
+    if (seg_enter(sx, sy, px - sx, py - sy, W->x0, W->x1, W->y0, W->y1, &face) < 1.0) return 1;
+  }
+  return 0;
+}
+static double eco_light(const Ctx *c, double t, double px, double py) {  // modality 0 in an eco life
+  double rate = c->lam_bg;
+  for (int i = 0; i < c->n_src; i++) {
+    const Src *S = &c->src[i];
+    if (S->light == 0.0 || eco_occluded(c, S->x, S->y, px, py)) continue;
+    rate = rate + c->lam_s * ((S->light * eco_amp(c, i, c->src_left[i])) * halo(px - S->x, py - S->y, S->sigma));
+  }
+  if (c->plant_light != 0.0)
+    for (int i = 0; i < N_PLANT; i++)
+      if (c->plant[i].vis && !eco_occluded(c, c->plant[i].x, c->plant[i].y, px, py))
+        rate = rate + c->lam_s * (c->plant_light * halo(px - c->plant[i].x, py - c->plant[i].y, c->plant_sig));
+  for (int i = 0; i < c->n_ag; i++) {
+    const Agent *g = &c->ag[i];
+    if (!g->vis || g->light == 0.0) continue;
+    double x, y;
+    ag_pos(g, t, &x, &y);
+    if (!eco_occluded(c, x, y, px, py)) rate = rate + c->lam_s * (g->light * halo(px - x, py - y, g->sigma));
+  }
+  return rate;
+}
+// the exposed face of a sense-plane cell (the in-plane neighbour sites outside O0), normalized; 0 inside the body
+static void sense_face(Ctx *c, Site *s, double *nx, double *ny) {
+  double fx = 0.0, fy = 0.0;
+  for (int d = 0; d < c->nplane; d++) {
+    int32_t j = s->nbr[d];
+    if (j < 0) {
+      j = site_find(c, s->a + c->off_a[d], s->b + c->off_b[d], s->z);
+      if (j >= 0) s->nbr[d] = j;
+    }
+    if (j < 0 || !c->sites[j].acc_occ0) { fx = fx + c->unit[3 * d]; fy = fy + c->unit[3 * d + 1]; }
+  }
+  const double n = sqrt(fx * fx + fy * fy);
+  if (n > 0.0) { *nx = fx / n; *ny = fy / n; } else { *nx = 0.0; *ny = 0.0; }
+}
+static double mod_rate(Ctx *c, int m, Site *s, double t, double px, double py) {
+  const double bg = c->mod_bg[m], sc = c->mod_s[m], K = c->mod_K[m];
+  switch (c->mod_kind[m]) {
+    case MOD_ODOUR: {
+      const double C = eco_conc(c, c->mod_arg[m], t, px, py);
+      return bg + sc * (C / (C + K));
+    }
+    case MOD_FLOW: {
+      double nx, ny;
+      sense_face(c, s, &nx, &ny);
+      double vx = 0.0, vy = 0.0;
+      if (c->n_foot > 0) {
+        const double e = exp(-(t - c->t_x) / c->tau_z);
+        vx = eff_fx(c) * e / c->gam; vy = eff_fy(c) * e / c->gam;
+      }
+      const double ux = c->cur_ux - vx, uy = c->cur_uy - vy, p = -(ux * nx + uy * ny) / K;
+      return bg + sc * clipd(p, 0.0, 1.0);
+    }
+    case MOD_TOUCH: {
+      const double r2 = K * K;
+      for (int w = 0; w < c->n_wall; w++) {
+        const Wall *W = &c->wall[w];
+        const double dx = px < W->x0 ? W->x0 - px : (px > W->x1 ? px - W->x1 : 0.0);
+        const double dy = py < W->y0 ? W->y0 - py : (py > W->y1 ? py - W->y1 : 0.0);
+        if (dx * dx + dy * dy <= r2) return bg + sc;
+      }
+      for (int i = 0; i < c->n_ag; i++) {
+        const Agent *g = &c->ag[i];
+        if (!g->vis) continue;
+        double x, y;
+        ag_pos(g, t, &x, &y);
+        const double dx = px - x, dy = py - y;
+        if (dx * dx + dy * dy <= r2) return bg + sc;
+      }
+      return bg;
+    }
+    case MOD_VIB: {
+      double V = 0.0;
+      for (int i = 0; i < c->n_ag; i++) {
+        const Agent *g = &c->ag[i];
+        if (!g->vis || g->speed == 0.0 || !(t < g->t_stop)) continue;
+        double x, y;
+        ag_pos(g, t, &x, &y);
+        V = V + (g->speed / c->vib_vref) * halo(px - x, py - y, K);
+      }
+      return bg + sc * (V / (V + 1.0));
+    }
+    case MOD_SUN: {
+      double nx, ny;
+      sense_face(c, s, &nx, &ny);
+      const double p = nx * c->sun_x + ny * c->sun_y;
+      return bg + sc * (p > 0.0 ? p : 0.0);
+    }
+    default: return bg;
+  }
+}
+
+// --- world events
+static void eco_refill(Ctx *c, int i) {
+  Src *S = &c->src[i];
+  const double t = S->next;
+  const int64_t before = S->stock;
+  if (S->stock < S->cap) S->stock++;
+  const uint64_t w[5] = {40, dbits(t), (uint64_t)i, (uint64_t)before, (uint64_t)S->stock};
+  eco_fold(c, w, 5);
+  S->arrival_index++;
+  S->next = S->first + (double)S->arrival_index * S->period;
+}
+static void eco_puff(Ctx *c, int i) {
+  Src *S = &c->src[i];
+  const double t = S->next_puff;
+  while (c->puff_n > 0 && t - c->puff[c->puff_head].t > c->puff_life) {  // expired, oldest first
+    c->puff_head = (c->puff_head + 1) % c->puff_cap; c->puff_n--;
+  }
+  if (c->puff_n == c->puff_cap) { c->puff_head = (c->puff_head + 1) % c->puff_cap; c->puff_n--; }
+  Puff *p = &c->puff[(c->puff_head + c->puff_n) % c->puff_cap];
+  double ax, ay;
+  cur_A(c, t, &ax, &ay);
+  const double amp = eco_amp(c, i, S->stock);
+  p->t = t; p->ox = S->x - ax; p->oy = S->y - ay;
+  for (int k = 0; k < N_SPEC; k++) p->a[k] = S->b[k] * amp;
+  c->puff_n++;
+  if (eco_count(c, t)) c->eco_n[EL_PUFFS]++;
+  const uint64_t w[7] = {41, dbits(t), (uint64_t)i, S->puff_k, dbits(p->ox), dbits(p->oy), dbits(amp)};
+  eco_fold(c, w, 7);
+  S->next_puff = poisson_next(c->seed, S_ECO_PUFF, (uint64_t)i, S->puff_k, t, 1.0 / S->puff_rate);
+  S->puff_k++;
+}
+static void eco_turn(Ctx *c) {
+  const double t = c->cur_next;
+  double ax, ay;
+  cur_A(c, t, &ax, &ay);
+  c->cur_Ax = ax; c->cur_Ay = ay; c->cur_ts = t;
+  c->cur_head = c->cur_head + c->cur_turn_max * (2.0 * draw2(c->seed, S_ECO_CUR, 1, c->cur_k) - 1.0);
+  c->cur_ux = c->cur_speed * cos(c->cur_head); c->cur_uy = c->cur_speed * sin(c->cur_head);
+  const uint64_t w[5] = {42, dbits(t), c->cur_k, dbits(c->cur_ux), dbits(c->cur_uy)};
+  eco_fold(c, w, 5);
+  c->cur_next = poisson_next(c->seed, S_ECO_CUR, 0, c->cur_k, t, c->cur_turn);
+  c->cur_k++;
+}
+static void ag_stop(const Ctx *c, Agent *g) {  // the agent stops where its segment over one look meets a wall
+  g->t_stop = INFINITY;
+  if (g->vx == 0.0 && g->vy == 0.0) return;
+  double best = INFINITY;
+  for (int w = 0; w < c->n_wall; w++) {
+    const Wall *W = &c->wall[w];
+    int face;
+    const double sv = seg_enter(g->x, g->y, g->vx * g->look, g->vy * g->look, W->x0, W->x1, W->y0, W->y1, &face);
+    if (sv < best) best = sv;
+  }
+  if (best < INFINITY) g->t_stop = g->t + best * g->look;
+}
+static void ag_head(Agent *g, double dx, double dy, double v) {  // velocity v along (dx, dy), 0 for a zero vector
+  const double n = sqrt(dx * dx + dy * dy);
+  if (n > 0.0) { g->vx = v * (dx / n); g->vy = v * (dy / n); g->speed = v; }
+  else { g->vx = g->vy = 0.0; g->speed = 0.0; }
+}
+static void ag_look(Ctx *c, int i) {
+  Agent *g = &c->ag[i];
+  const double t = g->next_look;
+  const int cnt = eco_count(c, t);
+  double x, y, X, Y;
+  ag_pos(g, t, &x, &y);
+  const int stopped = !(t < g->t_stop) && g->speed > 0.0;
+  g->x = x; g->y = y; g->t = t;
+  dot_at(c, t, &X, &Y);
+  const double dx = X - x, dy = Y - y, d2 = dx * dx + dy * dy, rs2 = g->r_sense * g->r_sense;
+  const double rc2 = g->r_contact * g->r_contact;
+  const int shel = eco_sheltered(c, X, Y), st0 = g->state;
+  const double u0 = draw3(c->seed, S_ECO_AG, (uint64_t)i, g->q, 0), u1 = draw3(c->seed, S_ECO_AG, (uint64_t)i, g->q, 1);
+  const double u2 = draw3(c->seed, S_ECO_AG, (uint64_t)i, g->q, 2);
+  int hit = 0, plant_hit = -1;
+  double tx = 0.0, ty = 0.0;  // a target direction for active motion
+  switch (g->type) {
+    case AG_PURSUIT:
+      if (g->state == AS_REST && t >= g->until) g->state = AS_WANDER;
+      if (g->state == AS_WANDER && !shel && d2 <= rs2 && u0 < g->p) {
+        g->state = AS_ACTIVE; g->until = t + g->t_state;
+        if (cnt) c->eco_n[EL_DETECTIONS]++;
+      } else if (g->state == AS_ACTIVE && (shel || t >= g->until || d2 > 4.0 * rs2)) {
+        g->state = AS_WANDER;
+      }
+      if (g->state == AS_ACTIVE && d2 <= rc2 && !c->eco_dead) { hit = 1; g->state = AS_REST; g->until = t + g->t_rest; }
+      tx = dx; ty = dy;
+      break;
+    case AG_AMBUSH:
+      if (g->state == AS_REST && t >= g->until) g->state = AS_WANDER;
+      if (g->state == AS_WANDER && !shel && d2 <= rc2 && u0 < g->p && !c->eco_dead) {
+        hit = 1; g->state = AS_REST; g->until = t + g->t_rest;
+        if (cnt) c->eco_n[EL_DETECTIONS]++;
+      }
+      break;
+    case AG_DARTER: case AG_FREEZER: case AG_BURROWER:
+      if (g->state == AS_HIDDEN) {
+        if (t >= g->until) { g->state = AS_WANDER; g->x = g->rx; g->y = g->ry; }
+      } else if (g->state == AS_ACTIVE) {
+        if (g->type == AG_BURROWER) {
+          const double qx = g->rx - x, qy = g->ry - y;
+          if (qx * qx + qy * qy <= 0.0625) { g->state = AS_HIDDEN; g->until = t + g->t_rest; }
+          else if (t >= g->until) g->state = AS_WANDER;
+        } else if (t >= g->until) {
+          g->state = AS_WANDER;
+        }
+      } else if (d2 <= rs2 && u0 < g->p) {
+        g->state = AS_ACTIVE; g->until = t + g->t_state;
+        if (cnt) c->eco_n[EL_ALARMS]++;
+      }
+      if (g->type == AG_DARTER) { tx = -dx; ty = -dy; }
+      else if (g->type == AG_BURROWER) { tx = g->rx - g->x; ty = g->ry - g->y; }
+      break;
+    case AG_PEST: {
+      double best = INFINITY;
+      int bi = -1;
+      for (int k = 0; k < N_PLANT; k++) {
+        if (c->plant[k].state != 2) continue;
+        const double qx = c->plant[k].x - x, qy = c->plant[k].y - y, q = qx * qx + qy * qy;
+        if (q <= rs2 && q < best) { best = q; bi = k; }
+      }
+      if (bi >= 0 && best <= rc2) {
+        plant_hit = bi; g->state = AS_WANDER;
+      } else if (bi >= 0) {
+        g->state = AS_ACTIVE; tx = c->plant[bi].x - x; ty = c->plant[bi].y - y;
+      } else {
+        g->state = AS_WANDER;
+      }
+      break;
+    }
+    default: break;
+  }
+  // velocity
+  const double r2 = g->x * g->x + g->y * g->y;
+  if (g->state == AS_WANDER && g->type != AG_AMBUSH) {
+    if (r2 > c->arena * c->arena) ag_head(g, -g->x, -g->y, g->v1);
+    else if (u1 < 0.3 || st0 != AS_WANDER || stopped || g->speed == 0.0) {
+      const double h = TWO_PI * u2;
+      ag_head(g, cos(h), sin(h), g->v1);
+    } else {
+      ag_head(g, g->vx, g->vy, g->v1);
+    }
+  } else if (g->state == AS_ACTIVE && g->type != AG_FREEZER && g->type != AG_AMBUSH) {
+    ag_head(g, tx, ty, g->v2);
+  } else {
+    ag_head(g, 0.0, 0.0, 0.0);
+  }
+  g->vis = g->state != AS_HIDDEN && !(g->type == AG_FREEZER && g->state == AS_ACTIVE);
+  ag_stop(c, g);
+  if (hit) {
+    if (cnt) {
+      c->eco_n[EL_HITS]++;
+      c->eco_x[EL_DAMAGECOST] = c->eco_x[EL_DAMAGECOST] + g->value; c->cost = c->cost + g->value;
+    }
+    c->hits_all++;  // every hit counts toward death, counted or not
+    if (c->kill_hits > 0 && c->hits_all >= c->kill_hits) c->eco_dead = 1;
+  }
+  if (plant_hit >= 0) {
+    c->plant[plant_hit].state = 0; c->plant[plant_hit].vis = 0;
+    if (cnt) c->eco_n[EL_PESTEATEN]++;
+  }
+  const uint64_t w[9] = {45, dbits(t), (uint64_t)i, (uint64_t)g->state, dbits(g->vx), dbits(g->vy),
+                         (uint64_t)(hit | (plant_hit >= 0 ? 2 : 0)), dbits(g->x), dbits(g->y)};
+  eco_fold(c, w, 9);
+  g->q++;
+  g->next_look = t + g->look;
+}
+static void eco_digest(Ctx *c) {
+  const Item it = c->item[0];
+  const double t = it.due;
+  dot_adv(c, t);
+  for (int k = 1; k < c->n_item; k++) c->item[k - 1] = c->item[k];
+  c->n_item--;
+  if (eco_count(c, t)) {
+    c->eco_n[EL_DIGESTED]++; c->eco_x[EL_DIGESTINC] = c->eco_x[EL_DIGESTINC] + it.value;
+    c->income = c->income + it.value; c->captures++;
+  }
+  eco_set_gam(c);
+  const uint64_t w[4] = {46, dbits(t), it.id, dbits(it.value)};
+  eco_fold(c, w, 4);
+  eco_kink(c);
+}
+static void eco_plant_event(Ctx *c, int i, int spoil) {
+  Plant *P = &c->plant[i];
+  const double t = spoil ? P->t_spoil : P->t_ripe;
+  if (spoil) { P->state = 0; P->vis = 0; if (eco_count(c, t)) c->eco_n[EL_SPOILED]++; }
+  else { P->state = 2; P->vis = 1; if (eco_count(c, t)) c->eco_n[EL_RIPENED]++; }
+  const uint64_t w[5] = {47, dbits(t), (uint64_t)i, P->id, (uint64_t)P->state};
+  eco_fold(c, w, 5);
+}
+static void eco_world_to(Ctx *c, double t) {  // strictly below t, in (time, kind, index) order
+  for (;;) {
+    double best = INFINITY;
+    int kind = -1, idx = -1;
+#define ECO_CAND(tt, k, ix) do { const double tt_ = (tt); if (tt_ < best) { best = tt_; kind = (k); idx = (ix); } } while (0)
+    for (int i = 0; i < c->n_src; i++) if (c->src[i].period > 0.0) ECO_CAND(c->src[i].next, 0, i);
+    for (int i = 0; i < c->n_src; i++) if (c->src[i].puff_rate > 0.0) ECO_CAND(c->src[i].next_puff, 1, i);
+    ECO_CAND(c->cur_next, 2, 0);
+    for (int i = 0; i < c->n_ag; i++) ECO_CAND(c->ag[i].next_look, 3, i);
+    ECO_CAND(c->kink_t, 4, 0);
+    if (c->n_item > 0) ECO_CAND(c->item[0].due, 5, 0);
+    for (int i = 0; i < N_PLANT; i++) {
+      if (c->plant[i].state == 1) ECO_CAND(c->plant[i].t_ripe, 6, i);
+      else if (c->plant[i].state == 2) ECO_CAND(c->plant[i].t_spoil, 7, i);
+    }
+#undef ECO_CAND
+    if (!(best < t)) return;
+    switch (kind) {
+      case 0: eco_refill(c, idx); break;
+      case 1: eco_puff(c, idx); break;
+      case 2: eco_turn(c); break;
+      case 3: ag_look(c, idx); break;
+      case 4: eco_kink_event(c); break;
+      case 5: eco_digest(c); break;
+      case 6: eco_plant_event(c, idx, 0); break;
+      default: eco_plant_event(c, idx, 1); break;
+    }
+  }
+}
+
+// --- clicks, samples, start and close
+static void eco_click(Ctx *c, double t) {  // 9.8.4: prey, ripe plant, source, home, planting, else a miss
+  double X, Y;
+  dot_at(c, t, &X, &Y);
+  const int cnt = eco_count(c, t);
+  const double r2 = c->rho_c * c->rho_c;
+  int outcome = 0, idx = -1;
+  double val = 0.0;
+  if (cnt) c->clicks++;
+  for (int i = 0; i < c->n_ag && outcome == 0; i++) {  // 1. prey
+    Agent *g = &c->ag[i];
+    if (g->type < AG_DARTER || g->type > AG_BURROWER || g->state == AS_HIDDEN) continue;
+    double x, y;
+    ag_pos(g, t, &x, &y);
+    const double dx = X - x, dy = Y - y;
+    if (dx * dx + dy * dy <= r2) {
+      outcome = 5; idx = i; val = g->value;
+      g->x = x; g->y = y; g->t = t; g->vx = g->vy = 0.0; g->speed = 0.0; g->t_stop = INFINITY;
+      g->state = AS_HIDDEN; g->until = t + g->t_rest;  // its visibility changes at the group's end
+      if (cnt) {
+        c->eco_n[EL_PREY]++; c->eco_x[EL_PREYINC] = c->eco_x[EL_PREYINC] + val;
+        c->income = c->income + val; c->captures++;
+      }
+    }
+  }
+  for (int i = 0; i < N_PLANT && outcome == 0; i++) {  // 2. a ripe plant
+    Plant *P = &c->plant[i];
+    if (P->state != 2) continue;
+    const double dx = X - P->x, dy = Y - P->y;
+    if (dx * dx + dy * dy <= r2) {
+      outcome = 6; idx = i; val = c->plant_value;
+      P->state = 0;  // its visibility changes at the group's end
+      if (cnt) {
+        c->eco_n[EL_HARVESTED]++; c->eco_x[EL_HARVESTINC] = c->eco_x[EL_HARVESTINC] + val;
+        c->income = c->income + val; c->captures++;
+      }
+    }
+  }
+  for (int i = 0; i < c->n_src && outcome == 0; i++) {  // 3. a stocked source
+    Src *S = &c->src[i];
+    const double dx = X - S->x, dy = Y - S->y;
+    if (S->stock <= 0 || dx * dx + dy * dy > r2) continue;
+    S->stock--; idx = i; val = S->value;
+    if (val < 0.0) {
+      outcome = 2;
+      if (cnt) { c->eco_n[EL_TOXIN]++; c->eco_x[EL_TOXINCOST] = c->eco_x[EL_TOXINCOST] + (-val); c->cost = c->cost + (-val); }
+    } else if (c->carry_cap > 0 && c->n_item < c->carry_cap) {
+      outcome = 3;
+      Item *it = &c->item[c->n_item++];
+      it->value = val; it->due = t + c->carry_digest; it->id = c->item_ids++;
+      if (cnt) c->eco_n[EL_PICKED]++;
+      eco_set_gam(c);
+    } else {
+      outcome = 1;
+      if (cnt) {
+        c->eco_n[EL_FOOD]++; c->eco_x[EL_FOODINC] = c->eco_x[EL_FOODINC] + val;
+        c->income = c->income + val; c->captures++;
+      }
+    }
+  }
+  if (outcome == 0 && c->carry_cap > 0 && c->n_item > 0) {  // 4. home
+    const double dx = X - c->home_x, dy = Y - c->home_y;
+    if (dx * dx + dy * dy <= c->home_r * c->home_r) {
+      outcome = 4; idx = c->n_item;
+      for (int k = 0; k < c->n_item; k++) {
+        const double v = c->item[k].value * c->carry_mult;
+        val = val + v;
+        if (cnt) {
+          c->eco_n[EL_DELIVERED]++; c->eco_x[EL_DELIVERINC] = c->eco_x[EL_DELIVERINC] + v;
+          c->income = c->income + v; c->captures++;
+        }
+      }
+      c->n_item = 0;
+      eco_set_gam(c);
+    }
+  }
+  if (outcome == 0 && c->plant_cap > 0) {  // 5. planting in a fertile disk, away from every plant
+    int fertile = 0, free_slot = -1, near = 0;
+    for (int i = 0; i < c->n_fertile; i++) fertile |= in_disk2(X, Y, &c->fertile[i]);
+    for (int i = 0; i < c->plant_cap; i++) {
+      const Plant *P = &c->plant[i];
+      if (P->state == 0) { if (free_slot < 0) free_slot = i; continue; }
+      const double dx = X - P->x, dy = Y - P->y;
+      if (dx * dx + dy * dy <= r2) near = 1;
+    }
+    if (fertile && !near && free_slot >= 0) {
+      outcome = 7; idx = free_slot;
+      Plant *P = &c->plant[free_slot];
+      P->state = 1; P->vis = 0; P->x = X; P->y = Y; P->id = c->plant_ids++;
+      P->t_ripe = t + (c->ripen_min + (c->ripen_max - c->ripen_min) * draw2(c->seed, S_ECO_PLANT, P->id, 0));
+      P->t_spoil = P->t_ripe + c->ripe_win;
+      if (cnt) {
+        c->eco_n[EL_PLANTED]++; c->eco_x[EL_PLANTCOST] = c->eco_x[EL_PLANTCOST] + c->plant_cost;
+        c->cost = c->cost + c->plant_cost;
+      }
+    }
+  }
+  if (outcome == 0 && cnt) { c->misses++; c->cost = c->cost + c->c_miss; }
+  const uint64_t w[7] = {43, dbits(t), (uint64_t)outcome, (uint64_t)(int64_t)idx, dbits(val), dbits(X), dbits(Y)};
+  eco_fold(c, w, 7);
+  const uint64_t click[5] = {11, dbits(t), outcome == 0 ? 0 : 1, dbits(X), dbits(Y)};
+  eco_fold(c, click, 5);
+  if (outcome == 3 || outcome == 4) eco_kink(c);
+}
+static void eco_sample(Ctx *c, double cs) {  // 9.8.5: measurement only, at the left limit of integer time cs
+  double X, Y;
+  dot_at(c, cs, &X, &Y);
+  if (cs >= c->t_open_abs) {
+    c->samples++;
+    double best = INFINITY;
+    for (int i = 0; i < c->n_src; i++) {
+      if (c->src[i].stock <= 0 || c->src[i].value <= 0.0) continue;
+      const double dx = X - c->src[i].x, dy = Y - c->src[i].y, q = dx * dx + dy * dy;
+      if (q < best) best = q;
+    }
+    if (best < INFINITY) {
+      const double d = sqrt(best);
+      c->dist_sum = c->dist_sum + d;
+      if (best <= c->rho_c * c->rho_c) c->zone++;
+      if (d <= c->rho_c + 1.0) c->eco_n[EL_NEARFOOD]++;
+    }
+    if (eco_sheltered(c, X, Y)) c->eco_n[EL_SHELTER]++;
+    int threat = 0;
+    for (int i = 0; i < c->n_ag && !threat; i++) {
+      const Agent *g = &c->ag[i];
+      if (g->type != AG_PURSUIT && g->type != AG_AMBUSH) continue;
+      double x, y;
+      ag_pos(g, cs, &x, &y);
+      const double dx = X - x, dy = Y - y, q = dx * dx + dy * dy;
+      if ((g->type == AG_PURSUIT && g->state == AS_ACTIVE && q <= 36.0) ||
+          (g->type == AG_AMBUSH && g->state != AS_REST && q <= 9.0)) threat = 1;
+    }
+    if (threat) {
+      c->eco_n[EL_THREAT]++;
+      double v = 0.0;
+      if (c->n_foot > 0) {
+        const double e = exp(-(cs - c->t_x) / c->tau_z), fx = eff_fx(c) * e / c->gam, fy = eff_fy(c) * e / c->gam;
+        v = sqrt(fx * fx + fy * fy);
+      }
+      if (v < 0.02) c->eco_n[EL_STILL]++;
+    }
+    if (c->home_r > 0.0) {
+      const double dx = X - c->home_x, dy = Y - c->home_y;
+      if (dx * dx + dy * dy <= c->home_r * c->home_r) c->eco_n[EL_HOME]++;
+    }
+    if (c->n_item > 0) c->eco_n[EL_LOADED]++;
+    if (c->cur_speed > 0.0) {
+      const double ux = c->cur_ux / c->cur_speed, uy = c->cur_uy / c->cur_speed;
+      const double mx = X - c->samp_x, my = Y - c->samp_y, cr = mx * uy - my * ux;
+      c->eco_x[EL_UPFLOW] = c->eco_x[EL_UPFLOW] + (-(mx * ux + my * uy));
+      c->eco_x[EL_CROSSFLOW] = c->eco_x[EL_CROSSFLOW] + (cr < 0.0 ? -cr : cr);
+    }
+  }
+  c->samp_x = X; c->samp_y = Y;
+}
+static void eco_start(Ctx *c) {  // 9.8.1, before the first time group
+  const double *e = c->w + W_ECO;
+  c->n_src = (int)e[E_NSRC]; c->n_ag = (int)e[E_NAG]; c->n_wall = (int)e[E_NWALL];
+  c->n_shelter = (int)e[E_NSHELTER]; c->n_fertile = (int)e[E_NFERTILE];
+  c->cur_speed = e[E_CURSPEED]; c->cur_head = e[E_CURHEAD]; c->cur_turn = e[E_CURTURN];
+  c->cur_turn_max = e[E_CURTURNMAX];
+  c->puff_sig0 = e[E_PUFFSIG0]; c->puff_D = e[E_PUFFD]; c->puff_life = e[E_PUFFLIFE]; c->puff_cut = e[E_PUFFCUT];
+  c->puff_cap = (int64_t)e[E_PUFFCAP]; c->landmark = e[E_LANDMARK];
+  c->sun_x = cos(e[E_SUNHEAD]); c->sun_y = sin(e[E_SUNHEAD]); c->vib_vref = e[E_VIBVREF]; c->r_body = e[E_RBODY];
+  c->arena = e[E_ARENA]; c->kill_hits = (int)e[E_KILLHITS]; c->occlude = e[E_OCCLUDE] != 0.0;
+  c->home_x = e[E_HOMEX]; c->home_y = e[E_HOMEY]; c->home_r = e[E_HOMER]; c->home_sig = e[E_HOMESIG];
+  for (int k = 0; k < N_SPEC; k++) c->home_b[k] = e[E_HOMEB + k];
+  c->carry_cap = (int)e[E_CARRYCAP]; c->carry_mult = e[E_CARRYMULT]; c->carry_digest = e[E_CARRYDIGEST];
+  c->carry_drag = e[E_CARRYDRAG];
+  c->plant_cap = (int)e[E_PLANTCAP]; c->plant_cost = e[E_PLANTCOST]; c->ripen_min = e[E_RIPENMIN];
+  c->ripen_max = e[E_RIPENMAX]; c->ripe_win = e[E_RIPEWIN]; c->plant_value = e[E_PLANTVALUE];
+  c->plant_sig = e[E_PLANTSIG]; c->plant_light = e[E_PLANTLIGHT];
+  for (int k = 0; k < N_SPEC; k++) { c->plant_b[k] = e[E_PLANTB + k]; c->soil_b[k] = e[E_SOILB + k]; }
+  c->soil_sig = e[E_SOILSIG];
+  c->puff = malloc((size_t)(c->puff_cap > 0 ? c->puff_cap : 1) * sizeof(Puff));
+  if (!c->puff) { c->fail |= FAIL_ALLOC; return; }
+  c->puff_head = c->puff_n = 0;
+  c->cur_ts = c->t0; c->cur_Ax = c->cur_Ay = 0.0;
+  c->cur_ux = c->cur_speed * cos(c->cur_head); c->cur_uy = c->cur_speed * sin(c->cur_head);
+  c->cur_next = c->cur_turn > 0.0 ? poisson_next(c->seed, S_ECO_CUR, 0, 0, c->t0, c->cur_turn) : INFINITY;
+  c->cur_k = 1;
+  for (int i = 0; i < c->n_src; i++) {
+    const double *q = e + E_SRC + SRC_K * i;
+    Src *S = &c->src[i];
+    S->x = q[SK_X]; S->y = q[SK_Y]; S->value = q[SK_VALUE]; S->cap = (int64_t)q[SK_CAP]; S->stock = S->cap;
+    S->period = q[SK_PERIOD]; S->light = q[SK_LIGHT]; S->sigma = q[SK_SIGMA]; S->puff_rate = q[SK_PUFF];
+    for (int k = 0; k < N_SPEC; k++) S->b[k] = q[SK_B + k];
+    S->first = c->t0 + q[SK_PHASE];
+    if (!(S->first > c->t0)) S->first = nextafter(c->t0, INFINITY);
+    S->next = S->period > 0.0 ? S->first : INFINITY; S->arrival_index = 0;
+    S->next_puff = S->puff_rate > 0.0 ? poisson_next(c->seed, S_ECO_PUFF, (uint64_t)i, 0, c->t0, 1.0 / S->puff_rate)
+                                      : INFINITY;
+    S->puff_k = 1;
+    c->src_left[i] = S->stock;
+  }
+  for (int i = 0; i < c->n_ag; i++) {
+    const double *q = e + E_AG + AG_K * i;
+    Agent *g = &c->ag[i];
+    g->type = (int)q[AK_TYPE]; g->state = AS_WANDER; g->vis = 1;
+    g->t = c->t0; g->x = q[AK_X]; g->y = q[AK_Y]; g->vx = g->vy = 0.0; g->speed = 0.0; g->t_stop = INFINITY;
+    g->until = c->t0;
+    g->v1 = q[AK_V1]; g->v2 = q[AK_V2]; g->r_sense = q[AK_RSENSE]; g->p = q[AK_P]; g->r_contact = q[AK_RCONTACT];
+    g->value = q[AK_VALUE]; g->look = q[AK_LOOK]; g->t_state = q[AK_TSTATE]; g->t_rest = q[AK_TREST];
+    g->sigma = q[AK_SIGMA]; g->light = q[AK_LIGHT];
+    for (int k = 0; k < N_SPEC; k++) g->b[k] = q[AK_B + k];
+    g->rx = q[AK_RX]; g->ry = q[AK_RY];
+    g->q = 0;
+    g->next_look = c->t0 + g->look * draw2(c->seed, S_ECO_AG, (uint64_t)i, ~0ULL);
+  }
+  for (int i = 0; i < c->n_wall; i++) {
+    const double *q = e + E_WALL + 4 * i;
+    c->wall[i].x0 = q[0]; c->wall[i].x1 = q[1]; c->wall[i].y0 = q[2]; c->wall[i].y1 = q[3];
+  }
+  for (int i = 0; i < c->n_shelter; i++) {
+    const double *q = e + E_SHELTER + 3 * i;
+    c->shelter[i].x = q[0]; c->shelter[i].y = q[1]; c->shelter[i].r = q[2];
+  }
+  for (int i = 0; i < c->n_fertile; i++) {
+    const double *q = e + E_FERTILE + 3 * i;
+    c->fertile[i].x = q[0]; c->fertile[i].y = q[1]; c->fertile[i].r = q[2];
+  }
+  for (int i = 0; i < N_PLANT; i++) { c->plant[i].state = 0; c->plant[i].vis = 0; }
+  c->n_item = 0; c->plant_ids = c->item_ids = 0;
+  c->blk_x = c->blk_y = 0; c->kink_t = INFINITY; c->samp_x = c->samp_y = 0.0; c->gam0 = 1.0;
+  c->hits_all = 0; c->eco_dead = 0;
+  const uint64_t w[7] = {48, dbits(c->t0), (uint64_t)c->n_src, (uint64_t)c->n_ag, (uint64_t)c->n_wall,
+                         dbits(c->cur_ux), dbits(c->cur_uy)};
+  eco_fold(c, w, 7);
+}
+static void eco_close(Ctx *c, double te) {  // 9.8.6: conservation checks and the end-of-life words
+  for (int i = 0; i < c->n_src; i++) {
+    const Src *S = &c->src[i];
+    if (S->stock < 0 || S->stock > S->cap) c->status |= ST_MISMATCH;
+    const uint64_t w[4] = {49, dbits(te), (uint64_t)i, (uint64_t)S->stock};
+    eco_fold(c, w, 4);
+  }
+  if (c->n_item < 0 || c->n_item > c->carry_cap || c->n_item > N_ITEM) c->status |= ST_MISMATCH;
+  int planted = 0;
+  for (int i = 0; i < N_PLANT; i++) planted += c->plant[i].state != 0;
+  const uint64_t w[6] = {50, dbits(te), (uint64_t)c->n_item, (uint64_t)planted, (uint64_t)c->hits_all,
+                         (uint64_t)c->eco_dead};
+  eco_fold(c, w, 6);
+}
+static void catch_candidate_m(Ctx *c, const Rec *r, int cnt) {  // 9.8.2: modality m >= 1, thinning at the left limit
+  const double t = r->t;
+  Site *s = &c->sites[r->site];
+  const int m = (int)r->i1;
+  if (cnt) c->mod_cand[m]++;
+  double X, Y, ox, oy;
+  dot_at(c, t, &X, &Y);
+  planar(c, s->a, s->b, &ox, &oy);
+  const double rate = mod_rate(c, m, s, t, X + ox, Y + oy);
+  const int acc = draw3(c->seed, S_RACC_M, r->u1, (uint64_t)m, r->u2) * c->lam_m[m] < rate;
+  const uint64_t w[6] = {30, dbits(t), r->u1, (uint64_t)m, r->u2, (uint64_t)acc};
+  eco_fold(c, w, 6);
+  if (acc) {
+    if (cnt) c->mod_accept[m]++;
+    send_receptor_m(c, r->site, t + c->d_min, r->u1, m, r->u2);
+  }
+}
+
 static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then visibility; blob breaks earlier ties
+  if (c->eco) { eco_world_to(c, t); return; }
   if (c->patch_count) {
     for (;;) {
       double best = INFINITY;
@@ -1797,6 +2701,7 @@ static void world_to(Ctx *c, double t) {  // strictly below t: timer, turn, then
 }
 static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the left limit; measurement only
   world_to(c, cs);
+  if (c->eco) { eco_sample(c, cs); c->next_sample = cs + 1.0; return; }
   if (c->task_mode && c->task_phase != TASK_CHOICE) { c->next_sample = cs + 1.0; return; }
   double X, Y, x0, y0;
   dot_at(c, cs, &X, &Y);
@@ -1820,6 +2725,7 @@ static void catch_sample(Ctx *c, double cs) {  // 9.7.6: an integer time, at the
 static void catch_start(Ctx *c) {  // 9.7.1, before the first time group
   c->X = c->Y = c->Fx = c->Fy = 0.0; c->t_x = c->t0; c->n_foot = 0; c->n_fill = 0; c->n_col = 0; c->armed = 1; c->gam = 1.0;
   c->bright = 1; c->visibility_k = 0; c->visibility_next = INFINITY;
+  if (c->eco) { eco_start(c); c->next_sample = c->t0 + 1.0; return; }
   if (c->patch_count) { patch_start(c); c->next_sample = c->t0 + 1.0; return; }
   if (c->task_mode) {
     c->task_trial = 0;
@@ -1856,6 +2762,7 @@ static void defer_occ(Ctx *c, int32_t si, int32_t add) {
   c->dO[c->n_dO++] = si; c->dO[c->n_dO++] = add;
 }
 static void catch_click(Ctx *c, double t) {  // 9.7.4: the screen registers a press at the hotspot, the dot itself
+  if (c->eco) { eco_click(c, t); return; }
   if (c->patch_count) { patch_click(c, t); return; }
   double X, Y, x0, y0;
   dot_at(c, t, &X, &Y);
@@ -1940,6 +2847,7 @@ static void catch_stroke(Ctx *c, const Rec *r) {  // 9.7.2: R_SPIKE of an act-pl
     s->fx = s->fx * ei + gdz * nx; s->fy = s->fy * ei + gdz * ny; s->tf = t;
     c->Fx = c->Fx + gdz * nx; c->Fy = c->Fy + gdz * ny;
     if (t >= c->t_open_abs) c->nudges++;
+    if (c->eco) eco_kink(c);
   }
   if (s->a == 0 && s->b == 0) {  // the hotspot (0, 0, 1): the key step with the record's zt and zn
     if (c->armed == 0 && r->x[2] < c->th_rel) c->armed = 1;
@@ -2036,7 +2944,10 @@ static void footprint_change(Ctx *c, const Site *s, int add) {
   const int64_t nf = filled_count(c->col, c->n_col, c->base == 0, &c->fill);
   if (nf < 0) { c->fail |= FAIL_ALLOC; return; }
   c->n_fill = nf;
-  if (nf > 0) c->gam = pow((double)nf, c->drag_exp);
+  if (nf > 0) {
+    if (c->eco) { c->gam0 = pow((double)nf, c->drag_exp); eco_set_gam(c); }
+    else c->gam = pow((double)nf, c->drag_exp);
+  }
 }
 static void catch_birth(Ctx *c, const Rec *r) {  // 9.7.2
   const double t = r->t;
@@ -2044,8 +2955,9 @@ static void catch_birth(Ctx *c, const Rec *r) {  // 9.7.2
   dot_adv(c, t);
   if (!column_live(c, s)) footprint_change(c, s, 1);  // drag: the filled footprint (15.59, 15.61)
   s->acc_live = 1;
-  if (s->z == 0) c->n_foot += 1;
+  if (s->z == 0) { c->n_foot += 1; if (c->eco) defer_occ(c, r->site, 3); }
   if (s->z == 1) { s->fx = 0.0; s->fy = 0.0; s->tf = t; defer_occ(c, r->site, 1); }
+  if (c->eco) eco_kink(c);
 }
 static void catch_death(Ctx *c, const Rec *r) {  // 9.7.2: a dead cell stops pulling (15.43)
   const double t = r->t;
@@ -2053,12 +2965,13 @@ static void catch_death(Ctx *c, const Rec *r) {  // 9.7.2: a dead cell stops pul
   dot_adv(c, t);
   s->acc_live = 0;
   if (!column_live(c, s)) footprint_change(c, s, 0);
-  if (s->z == 0) c->n_foot -= 1;
+  if (s->z == 0) { c->n_foot -= 1; if (c->eco) defer_occ(c, r->site, 2); }
   if (s->z == 1) {
     const double ei = exp(-(t - s->tf) / c->tau_z);
     c->Fx = c->Fx - s->fx * ei; c->Fy = c->Fy - s->fy * ei;
     defer_occ(c, r->site, 0);
   }
+  if (c->eco) eco_kink(c);
 }
 static void send_receptor(Ctx *c, int32_t si, double t, uint64_t uid, uint64_t j) {  // 9.7.5: the world's message
   if (c->window && t < c->wend) c->fail |= FAIL_CAUSAL;  // it must land in a later window (11.2)
@@ -2066,6 +2979,14 @@ static void send_receptor(Ctx *c, int32_t si, double t, uint64_t uid, uint64_t j
   Ev *e = ev_make(c, &ei, t, si, G_MEMB, M_RECEPT);
   if (!e) return;
   e->uid = uid; e->u2 = j;
+  push_ev(c, ei);
+}
+static void send_receptor_m(Ctx *c, int32_t si, double t, uint64_t uid, int m, uint64_t j) {  // ABI 8 (9.8.2)
+  if (c->window && t < c->wend) c->fail |= FAIL_CAUSAL;
+  int32_t ei;
+  Ev *e = ev_make(c, &ei, t, si, G_MEMB, M_RECEPTM);
+  if (!e) return;
+  e->uid = uid; e->u2 = ((uint64_t)m << MJ_SHIFT) | j;
   push_ev(c, ei);
 }
 static void catch_candidate(Ctx *c, const Rec *r, int cnt) {  // 9.7.5: thinning at the left limit
@@ -2077,7 +2998,8 @@ static void catch_candidate(Ctx *c, const Rec *r, int cnt) {  // 9.7.5: thinning
   planar(c, s->a, s->b, &ox, &oy);
   const double px = X + ox, py = Y + oy;
   double rate;
-  if (c->patch_count) rate = patch_rate(c, px, py);
+  if (c->eco) rate = eco_light(c, t, px, py);
+  else if (c->patch_count) rate = patch_rate(c, px, py);
   else {
     blob_at(&c->blob[0], t, &x0, &y0);
     rate = c->task_mode && !c->blob[0].present ? c->lam_bg :
@@ -2223,6 +3145,21 @@ static void acc_record(Ctx *c, const Rec *r) {  // 9.1
     case R_RCAND:  // only CATCH lives have receptor candidates
       if (catch_) catch_candidate(c, r, cnt);
       break;
+    case R_RCANDM:  // ABI 8 modality candidates (bound modalities only)
+      if (catch_) catch_candidate_m(c, r, cnt);
+      break;
+    case R_RECEPTM: {
+      const int m = (int)r->u2;
+      const double gr = r->x[0], ga = fabs(gr) * (double)r->i1;
+      if (cnt) {
+        c->mod_events[m] += r->i1;
+        c->mod_gain[m] = c->mod_gain[m] + ga;
+        c->cost = c->cost + c->c_rec * ga;
+      }
+      w[0] = 31; w[1] = dbits(t); w[2] = r->u1; w[3] = (uint64_t)m; w[4] = (uint64_t)r->i1; w[5] = dbits(gr);
+      fold(c, H_WORLD, w, 6); fold(c, H_ALL, w, 6);
+      break;
+    }
     case R_RECEPT: {
       const double gr = r->x[0], ga = fabs(gr) * (double)r->i1;
       if (cnt) {
@@ -2269,13 +3206,25 @@ static void group_begin(Ctx *c, double t) {  // CATCH: every world event below t
     world_to(c, t);
     if (c->patch_count)
       for (int i = 0; i < c->patch_count; i++) c->patch_left[i] = c->patch[i].stock;
+    if (c->eco)
+      for (int i = 0; i < c->n_src; i++) c->src_left[i] = c->src[i].stock;
   }
 }
 
 static void group_end(Ctx *c, double t) {
   if (c->kind == WK_CATCH) {  // the group's deferred writes: the changes of O, then its click's placements (15.46)
-    for (int64_t i = 0; i < c->n_dO; i += 2) c->sites[c->dO[i]].acc_occ = c->dO[i + 1];
+    for (int64_t i = 0; i < c->n_dO; i += 2) {
+      if (c->dO[i + 1] >= 2) c->sites[c->dO[i]].acc_occ0 = c->dO[i + 1] - 2;  // ABI 8: O0
+      else c->sites[c->dO[i]].acc_occ = c->dO[i + 1];
+    }
     c->n_dO = 0;
+    if (c->eco) {  // clicks change what prey and plants emit only from the group's end (left-limit fields)
+      for (int i = 0; i < c->n_ag; i++) {
+        Agent *g = &c->ag[i];
+        g->vis = g->state != AS_HIDDEN && !(g->type == AG_FREEZER && g->state == AS_ACTIVE);
+      }
+      for (int i = 0; i < N_PLANT; i++) c->plant[i].vis = c->plant[i].state == 2;
+    }
     for (int i = 0; i < c->n_dP; i++) place(c, c->dP[2 * i], c->dP[2 * i + 1], t);
     c->n_dP = 0;
     if (c->task_mode && c->task_defer_gap) task_enter(c, t, TASK_GAP);
@@ -2306,8 +3255,9 @@ static int guard_check(Ctx *c, double cg) {  // section 10
   int trip = 0;
   if ((double)c->n >= c->n_max) { c->status |= ST_GUARD_CELLS; trip = 1; }
   if ((double)c->events > c->e_max) { c->status |= ST_GUARD_EVENTS; trip = 1; }
-  if (trip) { c->guard = 1; c->t_end = cg; }
-  return trip;
+  if (trip) { c->guard = 1; c->t_end = cg; return 1; }
+  if (c->eco_dead) { c->status |= ST_KILLED; c->t_end = cg; return 1; }  // ABI 8: the body was killed before cg
+  return 0;
 }
 
 static int flight_cmp(const void *a, const void *b) {
@@ -2329,6 +3279,7 @@ static void close_life(Ctx *c, double *L) {  // 9.5
     dot_adv(c, te);
     if (c->task_mode) task_close(c, te);
     if (c->patch_count) patch_close(c, te);
+    if (c->eco) eco_close(c, te);
   } else {
     world_adv(c, te);
   }
@@ -2377,6 +3328,10 @@ static void close_life(Ctx *c, double *L) {  // 9.5
   if (c->task_mode)
     col = col + c->c_b2 * (double)(c->task_counts[TC_WRONG][0] + c->task_counts[TC_WRONG][1]);
   else col = col + c->c_b2 * (double)c->b2_clicks;
+  for (int m = 1; m < S_MAX; m++) col = col + c->c_rec * c->mod_gain[m];  // ABI 8 modality receptor costs
+  col = col + c->eco_x[EL_TOXINCOST];
+  col = col + c->eco_x[EL_DAMAGECOST];
+  col = col + c->eco_x[EL_PLANTCOST];
   const double net = c->income - col - guard;
   const double ac = fabs(col);
   if (fabs(c->cost - col) > 1e-9 * (ac < 1.0 ? 1.0 : ac)) c->status |= ST_MISMATCH;
@@ -2411,6 +3366,18 @@ static void close_life(Ctx *c, double *L) {  // 9.5
     for (int k = 0; k < CC_COUNT; k++) L[L_CONTACTSTARTS + 4 * k + i] = (double)c->contact_counts[k][i];
   }
   L[L_PATCHGEOM] = (double)c->patch_geometric_misses;
+  for (int m = 1; m < S_MAX; m++) {
+    L[L_MODCAND + m - 1] = (double)c->mod_cand[m]; L[L_MODACCEPT + m - 1] = (double)c->mod_accept[m];
+    L[L_MODEVENTS + m - 1] = (double)c->mod_events[m]; L[L_MODGAIN + m - 1] = c->mod_gain[m];
+  }
+  c->eco_n[EL_KILLED] = c->eco_dead;
+  {
+    static const int sums[] = {EL_FOODINC, EL_TOXINCOST, EL_PREYINC, EL_PLANTCOST, EL_HARVESTINC, EL_DELIVERINC,
+                               EL_DIGESTINC, EL_DAMAGECOST, EL_UPFLOW, EL_CROSSFLOW};
+    int is_sum[EL_COUNT] = {0};
+    for (size_t k = 0; k < sizeof sums / sizeof sums[0]; k++) is_sum[sums[k]] = 1;
+    for (int k = 0; k < EL_COUNT; k++) L[L_ECO + k] = is_sum[k] ? c->eco_x[k] : (double)c->eco_n[k];
+  }
   for (int i = 0; i < LEDGER_SIZE; i++) { uint64_t wv = dbits(L[i]); fold(c, H_ALL, &wv, 1); }
 }
 
@@ -2518,6 +3485,8 @@ static void run_window(Ctx *c) {  // 11.2
 // ---------------------------------------------------------------------------------------------- validation
 static int is_int(double x) { return isfinite(x) && x == floor(x); }
 
+static int abi8_ok(const double *w);
+static double eco_light_bound(const double *w);
 static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7)
   for (int i = 0; i < WORLD_SIZE; i++) if (!isfinite(w[i])) return 0;
   if (w[W_KILLRATE] != 0.0 || w[W_WOUNDRATE] != 0.0 || w[W_DRIFTTAU] != 0.0) return 0;
@@ -2614,6 +3583,100 @@ static int world_ok(const double *w) {  // the rules of spec.validate_world (4.7
             <= 1048576.0)) return 0;
     }
   }
+  return abi8_ok(w);
+}
+
+// ABI 8: the largest light rate of an eco life (sources, plants, agents), the bound of modality 0's thinning
+static double eco_light_bound(const double *w) {
+  const double *e = w + W_ECO;
+  double L = 0.0;
+  for (int i = 0; i < (int)e[E_NSRC]; i++) L = L + e[E_SRC + SRC_K * i + SK_LIGHT];
+  L = L + e[E_PLANTCAP] * e[E_PLANTLIGHT];
+  for (int i = 0; i < (int)e[E_NAG]; i++) L = L + e[E_AG + AG_K * i + AK_LIGHT];
+  return L;
+}
+static int all_zero(const double *x, int n) {
+  for (int i = 0; i < n; i++) if (x[i] != 0.0) return 0;
+  return 1;
+}
+static int abi8_ok(const double *w) {  // the ABI 8 rules of spec.validate_world (modality slots, the eco block)
+  const double *e = w + W_ECO;
+  if (!(e[E_MODE] == 0.0 || e[E_MODE] == 1.0)) return 0;
+  for (int m = 1; m < S_MAX; m++) {
+    const double *q = w + W_MOD + N_MODK * (m - 1);
+    const double k = q[MK_KIND];
+    if (!is_int(k) || k < 0.0 || k >= (double)MOD_KINDS || !is_int(q[MK_ARG])) return 0;
+    if (k == 0.0) { if (!all_zero(q, N_MODK)) return 0; continue; }
+    if (e[E_MODE] != 1.0) return 0;
+    if (!(q[MK_BG] >= 0.0 && q[MK_S] >= 0.0 && q[MK_BG] + q[MK_S] > 0.0 && q[MK_BG] + q[MK_S] <= RATE_MAX &&
+          q[MK_K] > 0.0 && q[MK_K] <= LENGTH_MAX)) return 0;
+    if (k == (double)MOD_ODOUR) { if (!(q[MK_ARG] >= 0.0 && q[MK_ARG] < (double)N_SPEC)) return 0; }
+    else if (q[MK_ARG] != 0.0) return 0;
+  }
+  if (e[E_MODE] == 0.0) return all_zero(e + 1, ECO_SIZE - 1);
+  if (w[W_WORLDKIND] != WK_CATCH || w[W_TASKMODE] != 0.0 || w[W_VISMODE] != 0.0 || w[W_PATCHCOUNT] != 0.0 ||
+      w[W_B2AMP] != 0.0 || w[W_VT] != 0.0 || w[W_TAUTURN] != 0.0 || w[W_TRESP] != 0.0) return 0;
+  const int counts[5] = {E_NSRC, E_NAG, E_NWALL, E_NSHELTER, E_NFERTILE}, caps[5] = {N_SRC, N_AG, N_WALL, N_DISK, N_DISK};
+  for (int i = 0; i < 5; i++) if (!is_int(e[counts[i]]) || e[counts[i]] < 0.0 || e[counts[i]] > caps[i]) return 0;
+  if (!(e[E_CURSPEED] >= 0.0 && e[E_CURSPEED] <= SPEED_MAX && e[E_CURTURN] >= 0.0 && e[E_CURTURN] <= TIME_MAX &&
+        (e[E_CURTURN] == 0.0 || e[E_CURTURN] >= STEP_MIN) && e[E_CURTURNMAX] >= 0.0 && e[E_CURTURNMAX] <= 4.0 &&
+        fabs(e[E_CURHEAD]) <= 64.0 && fabs(e[E_SUNHEAD]) <= 64.0)) return 0;
+  if (!(e[E_PUFFSIG0] > 0.0 && e[E_PUFFSIG0] <= LENGTH_MAX && e[E_PUFFD] >= 0.0 && e[E_PUFFD] <= LENGTH_MAX &&
+        e[E_PUFFLIFE] > 0.0 && e[E_PUFFLIFE] <= TIME_MAX && e[E_PUFFCUT] > 0.0 && e[E_PUFFCUT] <= 1024.0 &&
+        is_int(e[E_PUFFCAP]) && e[E_PUFFCAP] >= 1.0 && e[E_PUFFCAP] <= 4096.0)) return 0;
+  if (!(e[E_LANDMARK] >= 0.0 && e[E_LANDMARK] < 1.0 && e[E_VIBVREF] > 0.0 && e[E_RBODY] >= 0.0 &&
+        e[E_RBODY] <= LENGTH_MAX && e[E_ARENA] > 0.0 && e[E_ARENA] <= LENGTH_MAX && is_int(e[E_KILLHITS]) &&
+        e[E_KILLHITS] >= 0.0 && e[E_KILLHITS] <= 1048576.0 && (e[E_OCCLUDE] == 0.0 || e[E_OCCLUDE] == 1.0))) return 0;
+  if (!(e[E_HOMER] >= 0.0 && e[E_HOMESIG] > 0.0 && e[E_PLANTSIG] > 0.0 && e[E_SOILSIG] > 0.0)) return 0;
+  for (int k = 0; k < N_SPEC; k++)
+    if (!(e[E_HOMEB + k] >= 0.0 && e[E_PLANTB + k] >= 0.0 && e[E_SOILB + k] >= 0.0)) return 0;
+  if (!(is_int(e[E_CARRYCAP]) && e[E_CARRYCAP] >= 0.0 && e[E_CARRYCAP] <= N_ITEM && e[E_CARRYMULT] >= 0.0 &&
+        e[E_CARRYDRAG] >= 0.0 && (e[E_CARRYCAP] == 0.0 || (e[E_CARRYDIGEST] >= STEP_MIN && e[E_CARRYDIGEST] <= TIME_MAX))))
+    return 0;
+  if (!(is_int(e[E_PLANTCAP]) && e[E_PLANTCAP] >= 0.0 && e[E_PLANTCAP] <= N_PLANT && e[E_PLANTCOST] >= 0.0 &&
+        e[E_PLANTVALUE] >= 0.0 && e[E_PLANTLIGHT] >= 0.0)) return 0;
+  if (e[E_PLANTCAP] > 0.0 && !(e[E_RIPENMIN] >= STEP_MIN && e[E_RIPENMAX] >= e[E_RIPENMIN] &&
+                               e[E_RIPENMAX] <= TIME_MAX && e[E_RIPEWIN] >= STEP_MIN && e[E_RIPEWIN] <= TIME_MAX))
+    return 0;
+  const int ns = (int)e[E_NSRC], na = (int)e[E_NAG], nw = (int)e[E_NWALL];
+  for (int i = 0; i < N_SRC; i++) {
+    const double *q = e + E_SRC + SRC_K * i;
+    if (i >= ns) { if (!all_zero(q, SRC_K)) return 0; continue; }
+    if (!(is_int(q[SK_CAP]) && q[SK_CAP] >= 1.0 && q[SK_CAP] <= 1048576.0 && q[SK_PERIOD] >= 0.0 &&
+          q[SK_PERIOD] <= TIME_MAX && (q[SK_PERIOD] == 0.0 || q[SK_PERIOD] >= STEP_MIN) && q[SK_PHASE] >= 0.0 &&
+          q[SK_PHASE] <= TIME_MAX && q[SK_LIGHT] >= 0.0 && q[SK_SIGMA] > 0.0 && q[SK_SIGMA] <= LENGTH_MAX &&
+          q[SK_PUFF] >= 0.0 && q[SK_PUFF] <= 16.0 && fabs(q[SK_X]) <= LENGTH_MAX && fabs(q[SK_Y]) <= LENGTH_MAX))
+      return 0;
+    for (int k = 0; k < N_SPEC; k++) if (!(q[SK_B + k] >= 0.0)) return 0;
+  }
+  for (int i = 0; i < N_AG; i++) {
+    const double *q = e + E_AG + AG_K * i;
+    if (i >= na) { if (!all_zero(q, AG_K)) return 0; continue; }
+    if (!(is_int(q[AK_TYPE]) && q[AK_TYPE] >= 1.0 && q[AK_TYPE] < (double)AG_TYPES && q[AK_LOOK] >= 0.1 &&
+          q[AK_LOOK] <= TIME_MAX && q[AK_V1] >= 0.0 && q[AK_V1] <= SPEED_MAX && q[AK_V2] >= 0.0 &&
+          q[AK_V2] <= SPEED_MAX && q[AK_RSENSE] >= 0.0 && q[AK_RCONTACT] >= 0.0 && q[AK_P] >= 0.0 && q[AK_P] <= 1.0 &&
+          q[AK_TSTATE] >= 0.0 && q[AK_TREST] >= 0.0 && q[AK_SIGMA] > 0.0 && q[AK_LIGHT] >= 0.0 &&
+          fabs(q[AK_X]) <= LENGTH_MAX && fabs(q[AK_Y]) <= LENGTH_MAX && fabs(q[AK_RX]) <= LENGTH_MAX &&
+          fabs(q[AK_RY]) <= LENGTH_MAX)) return 0;
+    if (q[AK_TYPE] <= (double)AG_AMBUSH && !(q[AK_VALUE] >= 0.0)) return 0;  // damage is a charge
+    for (int k = 0; k < N_SPEC; k++) if (!(q[AK_B + k] >= 0.0)) return 0;
+  }
+  for (int i = 0; i < N_WALL; i++) {
+    const double *q = e + E_WALL + 4 * i;
+    if (i >= nw) { if (!all_zero(q, 4)) return 0; continue; }
+    if (!(q[0] < q[1] && q[2] < q[3] && fabs(q[0]) <= LENGTH_MAX && fabs(q[1]) <= LENGTH_MAX &&
+          fabs(q[2]) <= LENGTH_MAX && fabs(q[3]) <= LENGTH_MAX)) return 0;
+  }
+  for (int g = 0; g < 2; g++) {
+    const int base = g ? E_FERTILE : E_SHELTER, n = (int)e[g ? E_NFERTILE : E_NSHELTER];
+    for (int i = 0; i < N_DISK; i++) {
+      const double *q = e + base + 3 * i;
+      if (i >= n) { if (!all_zero(q, 3)) return 0; continue; }
+      if (!(q[2] > 0.0 && q[2] <= LENGTH_MAX && fabs(q[0]) <= LENGTH_MAX && fabs(q[1]) <= LENGTH_MAX)) return 0;
+    }
+  }
+  if (!(w[W_LAMBG] + w[W_LAMS] * eco_light_bound(w) <= RATE_MAX)) return 0;
+  if (!(w[W_RHOC] > 0.0)) return 0;
   return 1;
 }
 
@@ -2642,6 +3705,7 @@ static void ctx_free(Ctx *c) {
   free(c->heap.a); free(c->local.a); free(c->wbuf); free(c->bbuf); free(c->rec); free(c->gsnap); free(c->ridx);
   free(c->fl_q); free(c->dO); free(c->col); free(c->fill.lo); free(c->fill.hi); free(c->fill.par);
   for (int i = 0; i < 4; i++) free(c->patch[i].origins);
+  free(c->puff);
   for (int g = 0; g < 6; g++) free(c->grp[g]);
 }
 
@@ -2682,6 +3746,14 @@ static int run_one(const int32_t *lat, const double *unit, const double *gt, con
   c->patch_contact_delay = w[W_PATCHCONTACT];
   c->lam_max = c->patch_count ? c->lam_bg + c->lam_s * (double)c->patch_count :
                               c->lam_bg + c->lam_s * (1.0 + c->b2_amp);
+  c->eco = (int)w[W_ECO + E_MODE];
+  if (c->eco) c->lam_max = c->lam_bg + c->lam_s * eco_light_bound(w);
+  for (int m = 1; m < S_MAX; m++) {  // ABI 8 modality slots
+    const double *q = w + W_MOD + N_MODK * (m - 1);
+    c->mod_kind[m] = (int)q[MK_KIND]; c->mod_arg[m] = (int)q[MK_ARG];
+    c->mod_bg[m] = q[MK_BG]; c->mod_s[m] = q[MK_S]; c->mod_K[m] = q[MK_K];
+    c->lam_m[m] = c->mod_kind[m] != MOD_NONE ? c->mod_bg[m] + c->mod_s[m] : 0.0;
+  }
   c->c_b2 = c->b2_value < 0.0 ? -c->b2_value : 0.0;
   c->seed = seeds[0]; c->tie_seed = seeds[1]; c->order_seed = seeds[2]; c->salt = seeds[3];
   c->flags = (int64_t)w[W_FLAGS]; c->fork_flags = (int64_t)w[W_FORKFLAGS];
@@ -2757,9 +3829,9 @@ double life_normal(uint64_t seed, uint64_t stream, int32_t n, const uint64_t *ke
   return normal_n(seed, stream, n, keys);
 }
 
-void life_decode(const double y[23], double theta[23]) { decode(y, theta); }
+void life_decode(const double y[NK], double theta[NK]) { decode(y, theta); }
 
-void life_readout(const double gt[875], const double g[16], double y[23]) { readout(gt, g, y); }
+void life_readout(const double gt[GENOME_SIZE], const double g[16], double y[NK]) { readout(gt, g, y); }
 
 // CATCH closed forms (9.7), each the spec.py function of the same name
 double life_halo(double dx, double dy, double sigma) { return halo(dx, dy, sigma); }

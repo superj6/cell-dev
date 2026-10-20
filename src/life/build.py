@@ -5,7 +5,7 @@ The library is built with ``gcc -O3 -fopenmp -ffp-contract=off -fPIC -shared -st
 under ``~/.cache/cell-dev/life`` (override with ``CELL_DEV_CACHE``) by the SHA-256 of the source plus the flags, and
 loaded with ctypes. ``run`` packs worlds, seeds, genomes or programs and initial bodies into the kernel arrays.
 
-The kernel implements ABI 7 (``KERNEL = spec.V7``). ``run`` speaks an explicit caller ABI, preserving the
+The kernel implements ABI 8 (``KERNEL = spec.V8``). ``run`` speaks an explicit caller ABI, preserving the
 legacy ``spec.CURRENT`` default (ABI 2). ABI 3 keeps its 66 world fields and 57 ledger columns; ABI 4 appends
 four target-visibility fields and one capture readout. Older worlds pad neutrally. ABI 2 genome/program/body
 inputs also retain their earlier neutral padding. Returned arrays use the caller's shapes, and undoing the
@@ -13,6 +13,7 @@ extra close-ledger folds recovers older full-mode ``all`` hashes exactly. Fast m
 adapter's existing hash behavior; its hashes are not replay evidence. ABI 5 appends seven delayed-match world
 fields and twelve opportunity/outcome counters; legacy modes produce no additional world events.
 ABI 6 appends persistent resource fields and conservation counters without changing cellular inputs.
+ABI 8 appends nine modality slots (genome inputs and gains: older genomes pad with zeros) and the eco world block.
 """
 from __future__ import annotations
 
@@ -29,7 +30,7 @@ import numpy as np
 
 from src.life import spec
 
-KERNEL = spec.V7  # the contract kernel.c implements
+KERNEL = spec.V8  # the contract kernel.c implements
 SRC = Path(__file__).with_name("kernel.c")
 CFLAGS = ("-O3", "-fopenmp", "-ffp-contract=off", "-fPIC", "-shared", "-std=c11")
 FAST_FLAGS = ("-DLIFE_FAST",)  # the fast build: same lives and ledger, no hashes (see ``run``'s ``fast``)
@@ -133,7 +134,7 @@ def _ptr(a, t):
 
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3, 4, 5, 6, 7):
+    if abi.version not in (2, 3, 4, 5, 6, 7, 8):
         raise ValueError(f"build.run speaks ABI 2 through {KERNEL.version}, not ABI {abi.version}")
     return abi
 
@@ -152,8 +153,8 @@ def normal(seed: int, stream: int, *keys: int) -> float:
 def decode(y) -> np.ndarray:
     """The kernel's knob decode of readout values ``y``: ABI 2's 21 rows or ABI 3's 23 (rows 0-20 are the same)."""
     y = np.asarray(y, dtype=np.float64)
-    if y.shape not in ((spec.V2.P,), (KERNEL.P,)):
-        raise ValueError(f"decode takes {spec.V2.P} or {KERNEL.P} readout values, got {y.shape}")
+    if y.shape not in ((spec.V2.P,), (spec.V3.P,), (KERNEL.P,)):
+        raise ValueError(f"decode takes {spec.V2.P}, {spec.V3.P} or {KERNEL.P} readout values, got {y.shape}")
     yy = np.zeros(KERNEL.P)
     yy[:len(y)] = y
     out = np.zeros(KERNEL.P)
@@ -162,14 +163,17 @@ def decode(y) -> np.ndarray:
 
 
 def readout(gt_row, g) -> np.ndarray:
-    """The kernel's readout ``a0 + A g`` of a packed genome row of ABI 2 (793, padded) or ABI 3 (875)."""
+    """The kernel's readout ``a0 + A g`` of a packed genome row of ABI 2 (793), ABI 3 (875, both padded) or ABI 8."""
     gt = np.asarray(gt_row, dtype=np.float64)
     if gt.shape == (spec.V2.GENOME_SIZE,):
         gt, n = KERNEL.pad_genomes(gt, spec.V2), spec.V2.P
+    elif gt.shape == (spec.V3.GENOME_SIZE,):
+        gt, n = KERNEL.pad_genomes(gt, spec.V3), spec.V3.P
     elif gt.shape == (KERNEL.GENOME_SIZE,):
         n = KERNEL.P
     else:
-        raise ValueError(f"a packed genome row has {spec.V2.GENOME_SIZE} or {KERNEL.GENOME_SIZE} entries")
+        raise ValueError(f"a packed genome row has {spec.V2.GENOME_SIZE}, {spec.V3.GENOME_SIZE} or "
+                         f"{KERNEL.GENOME_SIZE} entries")
     gt = np.ascontiguousarray(gt)
     g = np.ascontiguousarray(g, dtype=np.float64)
     out = np.zeros(KERNEL.P)

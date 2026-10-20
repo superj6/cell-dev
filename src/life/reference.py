@@ -50,7 +50,7 @@ import numpy as np
 from src import lattice as _lat
 from src.life import spec
 
-V2, V3, V4, V5, V6, V7 = spec.V2, spec.V3, spec.V4, spec.V5, spec.V6, spec.V7
+V2, V3, V4, V5, V6, V7, V8 = spec.V2, spec.V3, spec.V4, spec.V5, spec.V6, spec.V7, spec.V8
 EMPTY = spec.EMPTY
 _KIND_OF = {code: kind for kind, code in V3.LATTICE_CODES.items()}
 _INF = float("inf")
@@ -62,13 +62,14 @@ S32 = 0.8660254037844386  # the double nearest sqrt(3) / 2 (LIFE_ABI.md 2)
 CLAIM = 0
 BORN, PRESENT, ACK, REJECT, DIED = 10, 11, 12, 13, 14
 PACKET = 20
-ARRIVAL, THRESHOLD, NOISE, RCAND, RECEPTOR = 30, 31, 32, 33, 34
+ARRIVAL, THRESHOLD, NOISE, RCAND, RECEPTOR, RCANDM, RECEPTORM = 30, 31, 32, 33, 34, 35, 36
 TICK = 40
 KILL, STUCK = 50, 51
 
 # records; the id is also the first hash word (section 9.6); R_CHEM is not hashed
 R_SPIKE, R_BIRTH, R_DEATH, R_CLAIM, R_RESOLVE, R_PACKET, R_LOST, R_TICK = 1, 2, 3, 4, 5, 6, 7, 8
 R_RCAND, R_RECEPT = 9, 10
+R_RCANDM, R_RECEPTM = 30, 31  # ABI 8 modality records (world family)
 R_CHEM = 100
 W_CLICK, W_PLACE, W_TURN, W_VISIBILITY = 11, 12, 13, 14  # CATCH accountant world-event first hash words
 W_TASK_PHASE, W_TASK_RESOLVE, W_TASK_END = 15, 16, 17
@@ -82,10 +83,11 @@ _FAMILY = {R_SPIKE: H_SPIKES, R_BIRTH: H_FATE, R_DEATH: H_FATE, R_CLAIM: H_FATE,
 (KW0, KW1, KB, KTAU, KREF, KE0, KE1, KDEL, KKAP, KPDIV, KASYM, KPDIE, KPHI, KSEC0, KSEC1, KPOL0, KPOL1, KTTR,
  KA0, KA1, KCHI, KZETA, KGR) = range(V3.P)
 assert [V3.K[n] for n in V3.KNOBS] == list(range(V3.P)) and V3.KNOBS[KZETA] == "zeta" and V3.KNOBS[KGR] == "g_r"
+SM = spec.S_MAX  # ABI 8 modality slots; the gain of modality m is knob KGR + m
 
 _F = V3.FLAGS
 _ST = spec.STATUS
-_LI = V7.L
+_LI = V8.L
 _NROW = len(spec.PROGRAM_ROWS)
 _PS = {name: i - _NROW * V3.P for name, i in V3.PROGRAM_SCALAR.items()}
 _ROW = V3.PROGRAM_ROW
@@ -104,6 +106,7 @@ _V4_DEFAULTS = [float(getattr(spec.World(), k)) for k in V4.WORLD_KEYS[V3.WORLD_
 _V5_DEFAULTS = [float(getattr(spec.World(), k)) for k in V5.WORLD_KEYS[V4.WORLD_SIZE:]]
 _V6_DEFAULTS = [float(getattr(spec.World(), k)) for k in V6.WORLD_KEYS[V5.WORLD_SIZE:]]
 _V7_DEFAULTS = [0.0]
+_V8_DEFAULTS = [0.0] * (V8.WORLD_SIZE - V7.WORLD_SIZE)
 
 
 def bits(x: float) -> int:
@@ -139,7 +142,7 @@ class _Cell:
     __slots__ = ("uid", "mother", "alive", "t_birth", "k", "init", "row", "site", "nspk", "ntick", "ndiv", "nrec",
                  "view", "dc", "inc", "v_a", "t_a", "t_r", "ver", "f", "r0", "r1", "rho", "t_tr", "tw", "t_tw", "g",
                  "m", "inbox", "th", "tau", "w_eff", "s", "taumis", "P_n", "t_prev", "pending", "timer",
-                 "timer_birth", "stuck")
+                 "timer_birth", "stuck", "rhom", "nrecm", "pendm")
 
 
 class _Blob:
@@ -195,12 +198,14 @@ class _Accountant:
     """Section 9: consumes records in canonical order; owns the world, the ledger, the logs and the hashes."""
 
     def __init__(self, life: _Life):
+        if not hasattr(life, "eco"):  # accountant tests drive it with a bare namespace of world keys
+            life.eco = False
         self.life = life
         self.A, self.R, self.t_w, self.above = 0.0, 1.0, life.t0, 0
         self.n = 0
         self.n_plane = [0, 0, 0]  # live cells in the planes S (z = 0), M (z = 1) and H (z >= 2)
         self.inflight = 0
-        self.led = [0.0] * V7.LEDGER_SIZE
+        self.led = [0.0] * V8.LEDGER_SIZE
         self.led[_LI["last_birth"]] = life.t0
         self.led[_LI["t_ext"]] = -1.0
         self.status = 0
@@ -215,6 +220,7 @@ class _Accountant:
         self.flying: list[tuple] = []  # remembered packets (t_arr, target sk, sender, amt0, amt1, t_send)
         self.records = [] if life.keep_records else None
         self.wlog = [] if life.keep_records else None
+        self.eco_dead = False
         if life.catch:
             self._catch_start()
 
@@ -282,6 +288,10 @@ class _Accountant:
             self.visibility_next = spec.poisson_next(L.seed, spec.S_VISIBILITY, 0, 0, L.t0, L.visibility_on)
             self.visibility_k = 1
         self.blobs = []
+        self.eco_dead = False
+        if L.eco:
+            self._eco_start()
+            return
         if L.patch_count:
             self._patch_start()
             return
@@ -632,6 +642,9 @@ class _Accountant:
         if self.n_foot == 0 or t == self.t_x:
             return self.X, self.Y
         k, _e = spec.dot_gain(t - self.t_x, self.life.tau_z, self.gam)
+        if self.life.eco:
+            fx, fy = self._eff()
+            return self.X + fx * k, self.Y + fy * k
         return self.X + self.Fx * k, self.Y + self.Fy * k
 
     def dot_adv(self, t: float) -> None:
@@ -640,9 +653,10 @@ class _Accountant:
         tau_z = self.life.tau_z
         e = math.exp(-(t - self.t_x) / tau_z)
         if self.n_foot > 0:
+            fx, fy = self._eff() if self.life.eco else (self.Fx, self.Fy)
             k = tau_z * (1.0 - e) / self.gam
-            dx = self.Fx * k
-            dy = self.Fy * k
+            dx = fx * k
+            dy = fy * k
             self.X = self.X + dx
             self.Y = self.Y + dy
             self.path = self.path + math.sqrt(dx * dx + dy * dy)
@@ -705,6 +719,9 @@ class _Accountant:
 
     def world_to(self, t: float) -> None:
         """Run world events strictly below t, with timers before turns before visibility at equal times."""
+        if self.life.eco:
+            self._eco_world_to(t)
+            return
         if self.life.patch_count:
             while True:
                 events = [(self.patches[i].next, i, 0) for i in range(self.life.patch_count)]
@@ -747,6 +764,9 @@ class _Accountant:
         """9.7.6: the measurement-only sample at integer time c, at the left limit."""
         L, led = self.life, self.led
         self.world_to(c)
+        if L.eco:
+            self._eco_sample(c)
+            return
         if L.task_mode and self.task_phase != TASK_CHOICE:
             return
         X, Y = self.dot_at(c)
@@ -789,6 +809,9 @@ class _Accountant:
         self._fold_world((W_CLICK, bits(t), slot + 1 if slot < 2 else 0, bits(X), bits(Y)))
 
     def _click(self, t: float, counted: bool) -> None:
+        if self.life.eco:
+            self._eco_click(t, counted)
+            return
         if self.life.patch_count:
             self._patch_click(t, counted)
             return
@@ -858,6 +881,8 @@ class _Accountant:
             self.Fy = self.Fy + gdz * ny
             if counted:
                 self.led[_LI["nudges"]] += 1.0
+            if L.eco:
+                self._eco_kink()
         if a == 0 and b == 0:
             self.armed, click = spec.key_step(self.armed, zt, zn, L.th_click, L.th_rel)
             if click:
@@ -872,7 +897,9 @@ class _Accountant:
         ox, oy = L.planar(site.a, site.b)
         px = X + ox
         py = Y + oy
-        if L.patch_count:
+        if L.eco:
+            rate = self._eco_light(t, px, py)
+        elif L.patch_count:
             rate, _signal = self._patch_rate(px, py)
         else:
             x0, y0 = self.blob_at(0, t)
@@ -893,10 +920,16 @@ class _Accountant:
 
     def _end_group(self, t: float) -> None:
         for add, ab in self.defer_O:
-            if add:
-                self.O.add(ab)
+            target = self.O0 if add >= 2 else self.O  # ABI 8: 2/3 remove/add in the sense plane
+            if add & 1:
+                target.add(ab)
             else:
-                self.O.discard(ab)
+                target.discard(ab)
+        if self.life.eco:
+            for g in self.ag:
+                g["vis"] = 1 if (g["state"] != 3 and not (g["type"] == 4 and g["state"] == 1)) else 0
+            for P in self.plants:
+                P["vis"] = 1 if P["state"] == 2 else 0
         for i, cause in self.defer_place:
             self.place(i, cause, t)
         self.defer_O = []
@@ -904,6 +937,736 @@ class _Accountant:
         if self.life.task_mode and self.task_pending_gap:
             self.task_pending_gap = False
             self._task_enter(TASK_GAP, t)
+
+    # --------------------------------------------------------------------------------------- the eco world (9.8)
+    def _eco_start(self) -> None:
+        L, e = self.life, self.life.e
+        self.eco_n = {k: int(e[f"eco_{k}"]) for k in ("n_src", "n_ag", "n_wall", "n_shelter", "n_fertile")}
+        self.cur_speed, self.cur_head = e["eco_cur_speed"], e["eco_cur_heading"]
+        self.cur_turn, self.cur_turn_max = e["eco_cur_turn"], e["eco_cur_turn_max"]
+        self.puff_sig0, self.puff_D, self.puff_life = e["eco_puff_sigma0"], e["eco_puff_D"], e["eco_puff_life"]
+        self.puff_cut, self.puff_cap, self.landmark = e["eco_puff_cut"], int(e["eco_puff_cap"]), e["eco_landmark"]
+        self.sun = (math.cos(e["eco_sun_heading"]), math.sin(e["eco_sun_heading"]))
+        self.vib_vref, self.r_body, self.arena = e["eco_vib_vref"], e["eco_r_body"], e["eco_arena"]
+        self.kill_hits, self.occlude = int(e["eco_kill_hits"]), e["eco_occlude"] != 0.0
+        self.home = (e["eco_home_x"], e["eco_home_y"], e["eco_home_r"], e["eco_home_sigma"],
+                     [e[f"eco_home_b{k}"] for k in range(spec.N_SPEC)])
+        self.carry_cap, self.carry_mult = int(e["eco_carry_cap"]), e["eco_carry_mult"]
+        self.carry_digest, self.carry_drag = e["eco_carry_digest"], e["eco_carry_drag"]
+        self.plant_cap, self.plant_cost = int(e["eco_plant_cap"]), e["eco_plant_cost"]
+        self.ripen = (e["eco_ripen_min"], e["eco_ripen_max"], e["eco_ripe_window"])
+        self.plant_value, self.plant_sig = e["eco_plant_value"], e["eco_plant_sigma"]
+        self.plant_light = e["eco_plant_light"]
+        self.plant_b = [e[f"eco_plant_b{k}"] for k in range(spec.N_SPEC)]
+        self.soil_sig, self.soil_b = e["eco_soil_sigma"], [e[f"eco_soil_b{k}"] for k in range(spec.N_SPEC)]
+        self.puffs: list = []  # (t, ox, oy, a[4]) in release order, the oldest first
+        self.cur_ts, self.cur_Ax, self.cur_Ay = L.t0, 0.0, 0.0
+        self.cur_ux, self.cur_uy = self.cur_speed * math.cos(self.cur_head), self.cur_speed * math.sin(self.cur_head)
+        self.cur_next = (spec.poisson_next(L.seed, spec.S_ECO_CUR, 0, 0, L.t0, self.cur_turn) if self.cur_turn > 0
+                         else _INF)
+        self.cur_k = 1
+        self.src = []
+        for i in range(self.eco_n["n_src"]):
+            q = {f: e[f"src{i}_{f}"] for f in spec.SRC_FIELDS}
+            S = dict(x=q["x"], y=q["y"], value=q["value"], cap=int(q["cap"]), stock=int(q["cap"]), period=q["period"],
+                     light=q["light"], sigma=q["sigma"], puff_rate=q["puff"],
+                     b=[q[f"b{k}"] for k in range(spec.N_SPEC)], arrival_index=0, puff_k=1)
+            first = L.t0 + q["phase"]
+            S["first"] = first if first > L.t0 else math.nextafter(L.t0, _INF)
+            S["next"] = S["first"] if S["period"] > 0 else _INF
+            S["next_puff"] = (spec.poisson_next(L.seed, spec.S_ECO_PUFF, i, 0, L.t0, 1.0 / S["puff_rate"])
+                              if S["puff_rate"] > 0 else _INF)
+            self.src.append(S)
+        self.src_left = [S["stock"] for S in self.src]
+        self.ag = []
+        for i in range(self.eco_n["n_ag"]):
+            q = {f: e[f"ag{i}_{f}"] for f in spec.AG_FIELDS}
+            g = dict(q)
+            g.update(type=int(q["type"]), state=0, vis=1, t=L.t0, vx=0.0, vy=0.0, speed=0.0, t_stop=_INF, until=L.t0,
+                     b=[q[f"b{k}"] for k in range(spec.N_SPEC)], q=0)
+            g["next_look"] = L.t0 + q["look"] * spec.draw(L.seed, spec.S_ECO_AG, i, spec.MASK64)
+            self.ag.append(g)
+        self.walls = [tuple(e[f"wall{i}_{f}"] for f in spec.WALL_FIELDS) for i in range(self.eco_n["n_wall"])]
+        self.shelters = [tuple(e[f"shelter{i}_{f}"] for f in spec.DISK_FIELDS) for i in range(self.eco_n["n_shelter"])]
+        self.fertile = [tuple(e[f"fertile{i}_{f}"] for f in spec.DISK_FIELDS) for i in range(self.eco_n["n_fertile"])]
+        self.plants = [dict(state=0, vis=0, x=0.0, y=0.0, t_ripe=0.0, t_spoil=0.0, id=0) for _ in range(spec.N_PLANT)]
+        self.items: list = []  # [value, due, id]
+        self.plant_ids = self.item_ids = 0
+        self.blk = [0, 0]  # blocked direction along x, y (+1 / -1 / 0)
+        self.blk_w = [0, 0]
+        self.kink = (_INF, 0, 0, 0)  # (t, kind, wall, face)
+        self.samp = (0.0, 0.0)
+        self.gam0 = 1.0
+        self.hits_all = 0
+        self.eco_dead = False
+        self.O0: set = set()
+        self._fold_world((48, bits(L.t0), self.eco_n["n_src"], self.eco_n["n_ag"], self.eco_n["n_wall"],
+                          bits(self.cur_ux), bits(self.cur_uy)))
+
+    def _eff(self) -> tuple[float, float]:
+        fx = 0.0 if (self.blk[0] > 0 and self.Fx > 0.0) or (self.blk[0] < 0 and self.Fx < 0.0) else self.Fx
+        fy = 0.0 if (self.blk[1] > 0 and self.Fy > 0.0) or (self.blk[1] < 0 and self.Fy < 0.0) else self.Fy
+        return fx, fy
+
+    def _eco_set_gam(self) -> None:
+        self.gam = self.gam0 * (1.0 + self.carry_drag * float(len(self.items)))
+
+    @staticmethod
+    def _seg_enter(X, Y, ex, ey, x0, x1, y0, y1):
+        """(s, face) of the segment P + s E entering the open box, or (inf, 0) (kernel.c seg_enter)."""
+        if ex == 0.0:
+            if not (x0 < X < x1):
+                return _INF, 0
+            sx0, sx1 = -_INF, _INF
+        else:
+            a, b = (x0 - X) / ex, (x1 - X) / ex
+            sx0, sx1 = (a, b) if a < b else (b, a)
+        if ey == 0.0:
+            if not (y0 < Y < y1):
+                return _INF, 0
+            sy0, sy1 = -_INF, _INF
+        else:
+            a, b = (y0 - Y) / ey, (y1 - Y) / ey
+            sy0, sy1 = (a, b) if a < b else (b, a)
+        s_in = sx0 if sx0 > sy0 else sy0
+        s_out = sx1 if sx1 < sy1 else sy1
+        if not (s_in < s_out) or not (s_out > 0.0) or not (s_in < 1.0):
+            return _INF, 0
+        return (0.0 if s_in < 0.0 else s_in), (0 if sx0 >= sy0 else 1)
+
+    def _eco_contact(self, kind: int, w: int, face: int) -> None:
+        x0, x1, y0, y1 = self.walls[w]
+        rb = self.r_body
+        if kind == 0:
+            fx, fy = self._eff()
+            if face == 0:
+                self.X = x0 - rb if fx > 0.0 else x1 + rb
+                self.blk[0], self.blk_w[0] = (1 if fx > 0.0 else -1), w
+            else:
+                self.Y = y0 - rb if fy > 0.0 else y1 + rb
+                self.blk[1], self.blk_w[1] = (1 if fy > 0.0 else -1), w
+            if self.t_x >= self.life.t_open_abs:
+                self.led[_LI["eco_wall_contacts"]] += 1.0
+        else:
+            self.blk[face] = 0
+        self._fold_world((44, bits(self.t_x), kind, w, face, bits(self.X), bits(self.Y)))
+
+    def _eco_kink(self) -> None:
+        L = self.life
+        self.kink = (_INF, 0, 0, 0)
+        if not L.eco or not self.walls or self.n_foot == 0:
+            return
+        rb = self.r_body
+        for _ in range(8):
+            if self.blk[0] and self.Fx != 0.0 and (self.blk[0] > 0) != (self.Fx > 0.0):
+                self.blk[0] = 0
+            if self.blk[1] and self.Fy != 0.0 and (self.blk[1] > 0) != (self.Fy > 0.0):
+                self.blk[1] = 0
+            fx, fy = self._eff()
+            if fx == 0.0 and fy == 0.0:
+                return
+            kinf = L.tau_z / self.gam
+            ex, ey = fx * kinf, fy * kinf
+            best, bw, bf, bk = _INF, -1, 0, 0
+            for w, (x0, x1, y0, y1) in enumerate(self.walls):
+                sv, face = self._seg_enter(self.X, self.Y, ex, ey, x0 - rb, x1 + rb, y0 - rb, y1 + rb)
+                if sv < best:
+                    best, bw, bf, bk = sv, w, face, 0
+            if self.blk[0] and ey != 0.0:
+                x0, x1, y0, y1 = self.walls[self.blk_w[0]]
+                lim = y1 + rb if ey > 0.0 else y0 - rb
+                sv = (lim - self.Y) / ey
+                if 0.0 <= sv < 1.0 and sv < best:
+                    best, bw, bf, bk = sv, self.blk_w[0], 0, 1
+            if self.blk[1] and ex != 0.0:
+                x0, x1, y0, y1 = self.walls[self.blk_w[1]]
+                lim = x1 + rb if ex > 0.0 else x0 - rb
+                sv = (lim - self.X) / ex
+                if 0.0 <= sv < 1.0 and sv < best:
+                    best, bw, bf, bk = sv, self.blk_w[1], 1, 1
+            if bw < 0:
+                return
+            if best > 0.0:
+                tk = self.t_x - L.tau_z * math.log(1.0 - best)
+                if not tk > self.t_x:
+                    tk = math.nextafter(self.t_x, _INF)
+                self.kink = (tk, bk, bw, bf)
+                return
+            self._eco_contact(bk, bw, bf)
+
+    def _eco_amp(self, i: int, stock: int) -> float:
+        return self.landmark + (1.0 - self.landmark) * (float(stock) / float(self.src[i]["cap"]))
+
+    def _cur_A(self, t: float) -> tuple[float, float]:
+        return self.cur_Ax + self.cur_ux * (t - self.cur_ts), self.cur_Ay + self.cur_uy * (t - self.cur_ts)
+
+    @staticmethod
+    def _ag_pos(g: dict, t: float) -> tuple[float, float]:
+        tt = t if t < g["t_stop"] else g["t_stop"]
+        dt = tt - g["t"]
+        return g["x"] + g["vx"] * dt, g["y"] + g["vy"] * dt
+
+    def _sheltered(self, x: float, y: float) -> bool:
+        for sx, sy, r in self.shelters:
+            dx, dy = x - sx, y - sy
+            if dx * dx + dy * dy <= r * r:
+                return True
+        return False
+
+    def _eco_conc(self, k: int, t: float, px: float, py: float) -> float:
+        ax, ay = self._cur_A(t)
+        C = 0.0
+        s02 = self.puff_sig0 * self.puff_sig0
+        for pt, ox, oy, a in self.puffs:
+            age = t - pt
+            if age > self.puff_life or a[k] == 0.0:
+                continue
+            s2 = s02 + 2.0 * self.puff_D * age
+            dx, dy = px - (ox + ax), py - (oy + ay)
+            d2 = dx * dx + dy * dy
+            if d2 > self.puff_cut * s2:
+                continue
+            C = C + a[k] * (s02 / s2) * math.exp(-d2 / (2.0 * s2))
+        for g in self.ag:
+            if not g["vis"] or g["b"][k] == 0.0:
+                continue
+            x, y = self._ag_pos(g, t)
+            C = C + g["b"][k] * spec.halo(px - x, py - y, g["sigma"])
+        hx, hy, hr, hs, hb = self.home
+        if hr > 0.0 and hb[k] != 0.0:
+            C = C + hb[k] * spec.halo(px - hx, py - hy, hs)
+        if self.soil_b[k] != 0.0:
+            for fx, fy, _r in self.fertile:
+                C = C + self.soil_b[k] * spec.halo(px - fx, py - fy, self.soil_sig)
+        if self.plant_b[k] != 0.0:
+            for P in self.plants:
+                if P["vis"]:
+                    C = C + self.plant_b[k] * spec.halo(px - P["x"], py - P["y"], self.plant_sig)
+        return C
+
+    def _occluded(self, sx: float, sy: float, px: float, py: float) -> bool:
+        if not self.occlude:
+            return False
+        for x0, x1, y0, y1 in self.walls:
+            if self._seg_enter(sx, sy, px - sx, py - sy, x0, x1, y0, y1)[0] < 1.0:
+                return True
+        return False
+
+    def _eco_light(self, t: float, px: float, py: float) -> float:
+        L = self.life
+        rate = L.lam_bg
+        for i, S in enumerate(self.src):
+            if S["light"] == 0.0 or self._occluded(S["x"], S["y"], px, py):
+                continue
+            rate = rate + L.lam_s * ((S["light"] * self._eco_amp(i, self.src_left[i]))
+                                     * spec.halo(px - S["x"], py - S["y"], S["sigma"]))
+        if self.plant_light != 0.0:
+            for P in self.plants:
+                if P["vis"] and not self._occluded(P["x"], P["y"], px, py):
+                    rate = rate + L.lam_s * (self.plant_light * spec.halo(px - P["x"], py - P["y"], self.plant_sig))
+        for g in self.ag:
+            if not g["vis"] or g["light"] == 0.0:
+                continue
+            x, y = self._ag_pos(g, t)
+            if not self._occluded(x, y, px, py):
+                rate = rate + L.lam_s * (g["light"] * spec.halo(px - x, py - y, g["sigma"]))
+        return rate
+
+    def _sense_face(self, site: _Site) -> tuple[float, float]:
+        L = self.life
+        fx = fy = 0.0
+        for d in L.planar_slots:
+            if (site.a + L.off_a[d], site.b + L.off_b[d]) not in self.O0:
+                fx = fx + L.ux[d]
+                fy = fy + L.uy[d]
+        n = math.sqrt(fx * fx + fy * fy)
+        return (fx / n, fy / n) if n > 0.0 else (0.0, 0.0)
+
+    def _mod_rate(self, m: int, site: _Site, t: float, px: float, py: float) -> float:
+        L = self.life
+        bg, sc, K, kind = L.mod_bg[m], L.mod_s[m], L.mod_K[m], L.mod_kind[m]
+        if kind == 1:
+            C = self._eco_conc(L.mod_arg[m], t, px, py)
+            return bg + sc * (C / (C + K))
+        if kind == 2:
+            nx, ny = self._sense_face(site)
+            vx = vy = 0.0
+            if self.n_foot > 0:
+                e = math.exp(-(t - self.t_x) / L.tau_z)
+                fx, fy = self._eff()
+                vx, vy = fx * e / self.gam, fy * e / self.gam
+            ux, uy = self.cur_ux - vx, self.cur_uy - vy
+            p = -(ux * nx + uy * ny) / K
+            return bg + sc * spec.clip(p, 0.0, 1.0)
+        if kind == 3:
+            r2 = K * K
+            for x0, x1, y0, y1 in self.walls:
+                dx = x0 - px if px < x0 else (px - x1 if px > x1 else 0.0)
+                dy = y0 - py if py < y0 else (py - y1 if py > y1 else 0.0)
+                if dx * dx + dy * dy <= r2:
+                    return bg + sc
+            for g in self.ag:
+                if not g["vis"]:
+                    continue
+                x, y = self._ag_pos(g, t)
+                dx, dy = px - x, py - y
+                if dx * dx + dy * dy <= r2:
+                    return bg + sc
+            return bg
+        if kind == 4:
+            V = 0.0
+            for g in self.ag:
+                if not g["vis"] or g["speed"] == 0.0 or not t < g["t_stop"]:
+                    continue
+                x, y = self._ag_pos(g, t)
+                V = V + (g["speed"] / self.vib_vref) * spec.halo(px - x, py - y, K)
+            return bg + sc * (V / (V + 1.0))
+        if kind == 5:
+            nx, ny = self._sense_face(site)
+            p = nx * self.sun[0] + ny * self.sun[1]
+            return bg + sc * (p if p > 0.0 else 0.0)
+        return bg
+
+    def _rcand_m(self, t: float, site: _Site, uid: int, m: int, j: int, counted: bool) -> None:
+        L, led = self.life, self.led
+        if counted:
+            led[_LI[f"mod_cand_{m}"]] += 1.0
+        X, Y = self.dot_at(t)
+        ox, oy = L.planar(site.a, site.b)
+        rate = self._mod_rate(m, site, t, X + ox, Y + oy)
+        accepted = spec.draw(L.seed, spec.S_RACC_M, uid, m, j) * L.lam_m[m] < rate
+        self._fold_world((30, bits(t), uid, m, j, 1 if accepted else 0))
+        if accepted:
+            if counted:
+                led[_LI[f"mod_accept_{m}"]] += 1.0
+            L.push_world(t + L.d_min, site, (RECEPTORM, uid, m, j))
+
+    def _eco_refill(self, i: int) -> None:
+        S = self.src[i]
+        t = S["next"]
+        before = S["stock"]
+        if S["stock"] < S["cap"]:
+            S["stock"] += 1
+        self._fold_world((40, bits(t), i, before, S["stock"]))
+        S["arrival_index"] += 1
+        S["next"] = S["first"] + float(S["arrival_index"]) * S["period"]
+
+    def _eco_puff(self, i: int) -> None:
+        L, S = self.life, self.src[i]
+        t = S["next_puff"]
+        while self.puffs and t - self.puffs[0][0] > self.puff_life:
+            self.puffs.pop(0)
+        if len(self.puffs) == self.puff_cap:
+            self.puffs.pop(0)
+        ax, ay = self._cur_A(t)
+        amp = self._eco_amp(i, S["stock"])
+        ox, oy = S["x"] - ax, S["y"] - ay
+        self.puffs.append((t, ox, oy, [b * amp for b in S["b"]]))
+        if t >= L.t_open_abs:
+            self.led[_LI["eco_puffs"]] += 1.0
+        self._fold_world((41, bits(t), i, S["puff_k"], bits(ox), bits(oy), bits(amp)))
+        S["next_puff"] = spec.poisson_next(L.seed, spec.S_ECO_PUFF, i, S["puff_k"], t, 1.0 / S["puff_rate"])
+        S["puff_k"] += 1
+
+    def _eco_turn(self) -> None:
+        L = self.life
+        t = self.cur_next
+        self.cur_Ax, self.cur_Ay = self._cur_A(t)
+        self.cur_ts = t
+        u = spec.draw(L.seed, spec.S_ECO_CUR, 1, self.cur_k)
+        self.cur_head = self.cur_head + self.cur_turn_max * (2.0 * u - 1.0)
+        self.cur_ux = self.cur_speed * math.cos(self.cur_head)
+        self.cur_uy = self.cur_speed * math.sin(self.cur_head)
+        self._fold_world((42, bits(t), self.cur_k, bits(self.cur_ux), bits(self.cur_uy)))
+        self.cur_next = spec.poisson_next(L.seed, spec.S_ECO_CUR, 0, self.cur_k, t, self.cur_turn)
+        self.cur_k += 1
+
+    def _ag_stop(self, g: dict) -> None:
+        g["t_stop"] = _INF
+        if g["vx"] == 0.0 and g["vy"] == 0.0:
+            return
+        best = _INF
+        for x0, x1, y0, y1 in self.walls:
+            sv = self._seg_enter(g["x"], g["y"], g["vx"] * g["look"], g["vy"] * g["look"], x0, x1, y0, y1)[0]
+            if sv < best:
+                best = sv
+        if best < _INF:
+            g["t_stop"] = g["t"] + best * g["look"]
+
+    @staticmethod
+    def _ag_head(g: dict, dx: float, dy: float, v: float) -> None:
+        n = math.sqrt(dx * dx + dy * dy)
+        if n > 0.0:
+            g["vx"], g["vy"], g["speed"] = v * (dx / n), v * (dy / n), v
+        else:
+            g["vx"] = g["vy"] = g["speed"] = 0.0
+
+    def _ag_look(self, i: int) -> None:
+        L, led = self.life, self.led
+        g = self.ag[i]
+        t = g["next_look"]
+        cnt = t >= L.t_open_abs
+        x, y = self._ag_pos(g, t)
+        stopped = not t < g["t_stop"] and g["speed"] > 0.0
+        g["x"], g["y"], g["t"] = x, y, t
+        X, Y = self.dot_at(t)
+        dx, dy = X - x, Y - y
+        d2 = dx * dx + dy * dy
+        rs2 = g["r_sense"] * g["r_sense"]
+        rc2 = g["r_contact"] * g["r_contact"]
+        shel, st0 = self._sheltered(X, Y), g["state"]
+        u0, u1, u2 = (spec.draw(L.seed, spec.S_ECO_AG, i, g["q"], k) for k in range(3))
+        hit, plant_hit, tx, ty = False, -1, 0.0, 0.0
+        ty_, st = g["type"], g["state"]
+        if ty_ == 1:
+            if st == 2 and t >= g["until"]:
+                g["state"] = 0
+            if g["state"] == 0 and not shel and d2 <= rs2 and u0 < g["p"]:
+                g["state"], g["until"] = 1, t + g["t_state"]
+                if cnt:
+                    led[_LI["eco_detections"]] += 1.0
+            elif g["state"] == 1 and (shel or t >= g["until"] or d2 > 4.0 * rs2):
+                g["state"] = 0
+            if g["state"] == 1 and d2 <= rc2 and not self.eco_dead:
+                hit = True
+                g["state"], g["until"] = 2, t + g["t_rest"]
+            tx, ty = dx, dy
+        elif ty_ == 2:
+            if st == 2 and t >= g["until"]:
+                g["state"] = 0
+            if g["state"] == 0 and not shel and d2 <= rc2 and u0 < g["p"] and not self.eco_dead:
+                hit = True
+                g["state"], g["until"] = 2, t + g["t_rest"]
+                if cnt:
+                    led[_LI["eco_detections"]] += 1.0
+        elif ty_ in (3, 4, 5):
+            if st == 3:
+                if t >= g["until"]:
+                    g["state"] = 0
+                    g["x"], g["y"] = g["rx"], g["ry"]
+            elif st == 1:
+                if ty_ == 5:
+                    qx, qy = g["rx"] - x, g["ry"] - y
+                    if qx * qx + qy * qy <= 0.0625:
+                        g["state"], g["until"] = 3, t + g["t_rest"]
+                    elif t >= g["until"]:
+                        g["state"] = 0
+                elif t >= g["until"]:
+                    g["state"] = 0
+            elif d2 <= rs2 and u0 < g["p"]:
+                g["state"], g["until"] = 1, t + g["t_state"]
+                if cnt:
+                    led[_LI["eco_alarms"]] += 1.0
+            if ty_ == 3:
+                tx, ty = -dx, -dy
+            elif ty_ == 5:
+                tx, ty = g["rx"] - g["x"], g["ry"] - g["y"]
+        elif ty_ == 6:
+            best, bi = _INF, -1
+            for k, P in enumerate(self.plants):
+                if P["state"] != 2:
+                    continue
+                qx, qy = P["x"] - x, P["y"] - y
+                q = qx * qx + qy * qy
+                if q <= rs2 and q < best:
+                    best, bi = q, k
+            if bi >= 0 and best <= rc2:
+                plant_hit = bi
+                g["state"] = 0
+            elif bi >= 0:
+                g["state"] = 1
+                tx, ty = self.plants[bi]["x"] - x, self.plants[bi]["y"] - y
+            else:
+                g["state"] = 0
+        r2 = g["x"] * g["x"] + g["y"] * g["y"]
+        if g["state"] == 0 and ty_ != 2:
+            if r2 > self.arena * self.arena:
+                self._ag_head(g, -g["x"], -g["y"], g["v1"])
+            elif u1 < 0.3 or st0 != 0 or stopped or g["speed"] == 0.0:
+                h = spec.TWO_PI * u2
+                self._ag_head(g, math.cos(h), math.sin(h), g["v1"])
+            else:
+                self._ag_head(g, g["vx"], g["vy"], g["v1"])
+        elif g["state"] == 1 and ty_ not in (4, 2):
+            self._ag_head(g, tx, ty, g["v2"])
+        else:
+            self._ag_head(g, 0.0, 0.0, 0.0)
+        g["vis"] = 1 if (g["state"] != 3 and not (ty_ == 4 and g["state"] == 1)) else 0
+        self._ag_stop(g)
+        if hit:
+            if cnt:
+                led[_LI["eco_hits"]] += 1.0
+                led[_LI["eco_damage_cost"]] = led[_LI["eco_damage_cost"]] + g["value"]
+                led[_LI["cost"]] = led[_LI["cost"]] + g["value"]
+            self.hits_all += 1
+            if self.kill_hits > 0 and self.hits_all >= self.kill_hits:
+                self.eco_dead = True
+        if plant_hit >= 0:
+            self.plants[plant_hit]["state"] = 0
+            self.plants[plant_hit]["vis"] = 0
+            if cnt:
+                led[_LI["eco_pest_eaten"]] += 1.0
+        self._fold_world((45, bits(t), i, g["state"], bits(g["vx"]), bits(g["vy"]),
+                          int(hit) | (2 if plant_hit >= 0 else 0), bits(g["x"]), bits(g["y"])))
+        g["q"] += 1
+        g["next_look"] = t + g["look"]
+
+    def _eco_digest(self) -> None:
+        L, led = self.life, self.led
+        value, due, iid = self.items[0]
+        t = due
+        self.dot_adv(t)
+        self.items.pop(0)
+        if t >= L.t_open_abs:
+            led[_LI["eco_digested"]] += 1.0
+            led[_LI["eco_digest_income"]] = led[_LI["eco_digest_income"]] + value
+            led[_LI["income"]] = led[_LI["income"]] + value
+            led[_LI["captures"]] += 1.0
+        self._eco_set_gam()
+        self._fold_world((46, bits(t), iid, bits(value)))
+        self._eco_kink()
+
+    def _eco_plant_event(self, i: int, spoil: bool) -> None:
+        P = self.plants[i]
+        t = P["t_spoil"] if spoil else P["t_ripe"]
+        if spoil:
+            P["state"], P["vis"] = 0, 0
+            if t >= self.life.t_open_abs:
+                self.led[_LI["eco_spoiled"]] += 1.0
+        else:
+            P["state"], P["vis"] = 2, 1
+            if t >= self.life.t_open_abs:
+                self.led[_LI["eco_ripened"]] += 1.0
+        self._fold_world((47, bits(t), i, P["id"], P["state"]))
+
+    def _eco_world_to(self, t: float) -> None:
+        while True:
+            best, kind, idx = _INF, -1, -1
+            cands = []
+            for i, S in enumerate(self.src):
+                if S["period"] > 0:
+                    cands.append((S["next"], 0, i))
+            for i, S in enumerate(self.src):
+                if S["puff_rate"] > 0:
+                    cands.append((S["next_puff"], 1, i))
+            cands.append((self.cur_next, 2, 0))
+            for i, g in enumerate(self.ag):
+                cands.append((g["next_look"], 3, i))
+            cands.append((self.kink[0], 4, 0))
+            if self.items:
+                cands.append((self.items[0][1], 5, 0))
+            for i, P in enumerate(self.plants):
+                if P["state"] == 1:
+                    cands.append((P["t_ripe"], 6, i))
+                elif P["state"] == 2:
+                    cands.append((P["t_spoil"], 7, i))
+            for tt, k, ix in cands:  # strictly smaller times only: ties keep (kind, index) order
+                if tt < best:
+                    best, kind, idx = tt, k, ix
+            if not best < t:
+                return
+            if kind == 0:
+                self._eco_refill(idx)
+            elif kind == 1:
+                self._eco_puff(idx)
+            elif kind == 2:
+                self._eco_turn()
+            elif kind == 3:
+                self._ag_look(idx)
+            elif kind == 4:
+                tk, kk, kw, kf = self.kink
+                self.dot_adv(tk)
+                self._eco_contact(kk, kw, kf)
+                self._eco_kink()
+            elif kind == 5:
+                self._eco_digest()
+            else:
+                self._eco_plant_event(idx, kind == 7)
+
+    def _eco_click(self, t: float, counted: bool) -> None:
+        L, led = self.life, self.led
+        X, Y = self.dot_at(t)
+        r2 = L.rho_c * L.rho_c
+        outcome, idx, val = 0, -1, 0.0
+        if counted:
+            led[_LI["clicks"]] += 1.0
+        for i, g in enumerate(self.ag):
+            if outcome:
+                break
+            if not 3 <= g["type"] <= 5 or g["state"] == 3:
+                continue
+            x, y = self._ag_pos(g, t)
+            dx, dy = X - x, Y - y
+            if dx * dx + dy * dy <= r2:
+                outcome, idx, val = 5, i, g["value"]
+                g["x"], g["y"], g["t"] = x, y, t
+                g["vx"] = g["vy"] = g["speed"] = 0.0
+                g["t_stop"] = _INF
+                g["state"], g["until"] = 3, t + g["t_rest"]
+                if counted:
+                    led[_LI["eco_prey_caught"]] += 1.0
+                    led[_LI["eco_prey_income"]] = led[_LI["eco_prey_income"]] + val
+                    led[_LI["income"]] = led[_LI["income"]] + val
+                    led[_LI["captures"]] += 1.0
+        for i, P in enumerate(self.plants):
+            if outcome:
+                break
+            if P["state"] != 2:
+                continue
+            dx, dy = X - P["x"], Y - P["y"]
+            if dx * dx + dy * dy <= r2:
+                outcome, idx, val = 6, i, self.plant_value
+                P["state"] = 0
+                if counted:
+                    led[_LI["eco_harvested"]] += 1.0
+                    led[_LI["eco_harvest_income"]] = led[_LI["eco_harvest_income"]] + val
+                    led[_LI["income"]] = led[_LI["income"]] + val
+                    led[_LI["captures"]] += 1.0
+        for i, S in enumerate(self.src):
+            if outcome:
+                break
+            dx, dy = X - S["x"], Y - S["y"]
+            if S["stock"] <= 0 or dx * dx + dy * dy > r2:
+                continue
+            S["stock"] -= 1
+            idx, val = i, S["value"]
+            if val < 0.0:
+                outcome = 2
+                if counted:
+                    led[_LI["eco_toxin_eaten"]] += 1.0
+                    led[_LI["eco_toxin_cost"]] = led[_LI["eco_toxin_cost"]] + (-val)
+                    led[_LI["cost"]] = led[_LI["cost"]] + (-val)
+            elif self.carry_cap > 0 and len(self.items) < self.carry_cap:
+                outcome = 3
+                self.items.append((val, t + self.carry_digest, self.item_ids))
+                self.item_ids += 1
+                if counted:
+                    led[_LI["eco_picked"]] += 1.0
+                self._eco_set_gam()
+            else:
+                outcome = 1
+                if counted:
+                    led[_LI["eco_food_eaten"]] += 1.0
+                    led[_LI["eco_food_income"]] = led[_LI["eco_food_income"]] + val
+                    led[_LI["income"]] = led[_LI["income"]] + val
+                    led[_LI["captures"]] += 1.0
+        if outcome == 0 and self.carry_cap > 0 and self.items:
+            hx, hy, hr, _hs, _hb = self.home
+            dx, dy = X - hx, Y - hy
+            if dx * dx + dy * dy <= hr * hr:
+                outcome, idx = 4, len(self.items)
+                for value, _due, _id in self.items:
+                    v = value * self.carry_mult
+                    val = val + v
+                    if counted:
+                        led[_LI["eco_delivered"]] += 1.0
+                        led[_LI["eco_deliver_income"]] = led[_LI["eco_deliver_income"]] + v
+                        led[_LI["income"]] = led[_LI["income"]] + v
+                        led[_LI["captures"]] += 1.0
+                self.items = []
+                self._eco_set_gam()
+        if outcome == 0 and self.plant_cap > 0:
+            fertile = any((X - fx) * (X - fx) + (Y - fy) * (Y - fy) <= r * r for fx, fy, r in self.fertile)
+            free_slot, near = -1, False
+            for i in range(self.plant_cap):
+                P = self.plants[i]
+                if P["state"] == 0:
+                    if free_slot < 0:
+                        free_slot = i
+                    continue
+                dx, dy = X - P["x"], Y - P["y"]
+                if dx * dx + dy * dy <= r2:
+                    near = True
+            if fertile and not near and free_slot >= 0:
+                outcome, idx = 7, free_slot
+                P = self.plants[free_slot]
+                P.update(state=1, vis=0, x=X, y=Y, id=self.plant_ids)
+                self.plant_ids += 1
+                rmin, rmax, win = self.ripen
+                P["t_ripe"] = t + (rmin + (rmax - rmin) * spec.draw(L.seed, spec.S_ECO_PLANT, P["id"], 0))
+                P["t_spoil"] = P["t_ripe"] + win
+                if counted:
+                    led[_LI["eco_planted"]] += 1.0
+                    led[_LI["eco_plant_cost"]] = led[_LI["eco_plant_cost"]] + self.plant_cost
+                    led[_LI["cost"]] = led[_LI["cost"]] + self.plant_cost
+        if outcome == 0 and counted:
+            led[_LI["misses"]] += 1.0
+            led[_LI["cost"]] = led[_LI["cost"]] + L.c_miss
+        self._fold_world((43, bits(t), outcome, idx, bits(val), bits(X), bits(Y)))
+        self._fold_world((W_CLICK, bits(t), 0 if outcome == 0 else 1, bits(X), bits(Y)))
+        if outcome in (3, 4):
+            self._eco_kink()
+
+    def _eco_sample(self, c: float) -> None:
+        L, led = self.life, self.led
+        X, Y = self.dot_at(c)
+        if c >= L.t_open_abs:
+            led[_LI["samples"]] += 1.0
+            best = _INF
+            for S in self.src:
+                if S["stock"] <= 0 or S["value"] <= 0.0:
+                    continue
+                dx, dy = X - S["x"], Y - S["y"]
+                q = dx * dx + dy * dy
+                if q < best:
+                    best = q
+            if best < _INF:
+                d = math.sqrt(best)
+                led[_LI["dist_sum"]] = led[_LI["dist_sum"]] + d
+                if best <= L.rho_c * L.rho_c:
+                    led[_LI["zone_samples"]] += 1.0
+                if d <= L.rho_c + 1.0:
+                    led[_LI["eco_near_food_samples"]] += 1.0
+            if self._sheltered(X, Y):
+                led[_LI["eco_shelter_samples"]] += 1.0
+            threat = False
+            for g in self.ag:
+                if threat:
+                    break
+                if g["type"] not in (1, 2):
+                    continue
+                x, y = self._ag_pos(g, c)
+                dx, dy = X - x, Y - y
+                q = dx * dx + dy * dy
+                if ((g["type"] == 1 and g["state"] == 1 and q <= 36.0)
+                        or (g["type"] == 2 and g["state"] != 2 and q <= 9.0)):
+                    threat = True
+            if threat:
+                led[_LI["eco_threat_samples"]] += 1.0
+                v = 0.0
+                if self.n_foot > 0:
+                    e = math.exp(-(c - self.t_x) / L.tau_z)
+                    fx0, fy0 = self._eff()
+                    fx, fy = fx0 * e / self.gam, fy0 * e / self.gam
+                    v = math.sqrt(fx * fx + fy * fy)
+                if v < 0.02:
+                    led[_LI["eco_still_samples"]] += 1.0
+            hx, hy, hr, _hs, _hb = self.home
+            if hr > 0.0:
+                dx, dy = X - hx, Y - hy
+                if dx * dx + dy * dy <= hr * hr:
+                    led[_LI["eco_home_samples"]] += 1.0
+            if self.items:
+                led[_LI["eco_loaded_samples"]] += 1.0
+            if self.cur_speed > 0.0:
+                ux, uy = self.cur_ux / self.cur_speed, self.cur_uy / self.cur_speed
+                mx, my = X - self.samp[0], Y - self.samp[1]
+                cr = mx * uy - my * ux
+                led[_LI["eco_upflow_path"]] = led[_LI["eco_upflow_path"]] + (-(mx * ux + my * uy))
+                led[_LI["eco_crossflow_path"]] = led[_LI["eco_crossflow_path"]] + (-cr if cr < 0.0 else cr)
+        self.samp = (X, Y)
+
+    def _eco_finish(self, t_end: float) -> None:
+        for i, S in enumerate(self.src):
+            if not 0 <= S["stock"] <= S["cap"]:
+                self.status |= _ST["ledger_mismatch"]
+            self._fold_world((49, bits(t_end), i, S["stock"]))
+        if not 0 <= len(self.items) <= min(self.carry_cap, spec.N_ITEM):
+            self.status |= _ST["ledger_mismatch"]
+        planted = sum(1 for P in self.plants if P["state"] != 0)
+        self._fold_world((50, bits(t_end), len(self.items), planted, self.hits_all, int(self.eco_dead)))
+        self.led[_LI["eco_killed"]] = float(int(self.eco_dead))
+
 
     # ------------------------------------------------------------------------------------------- records (9.1)
     def _fold(self, kind: int, words) -> None:
@@ -947,6 +1710,8 @@ class _Accountant:
             self.world_to(t)
             if L.patch_count:
                 self.patch_left[:] = [p.stock for p in self.patches]
+            if L.eco:
+                self.src_left = [S["stock"] for S in self.src]
         for rec in recs:
             if self.records is not None:
                 self.records.append(rec)
@@ -1028,12 +1793,20 @@ class _Accountant:
                     self.cols[ab] = self.cols.get(ab, 0) + 1
                     if self.cols[ab] == 1:
                         self.n_fill = spec.filled_footprint(self.cols, L.base)
-                        self.gam = spec.drag(self.n_fill, L.drag_exp)
+                        if L.eco:
+                            self.gam0 = spec.drag(self.n_fill, L.drag_exp)
+                            self._eco_set_gam()
+                        else:
+                            self.gam = spec.drag(self.n_fill, L.drag_exp)
                     if site.z == 0:
                         self.n_foot += 1
+                        if L.eco:
+                            self.defer_O.append((3, (site.a, site.b)))
                     elif site.z == 1:
                         self.strokes[(site.a, site.b)] = [0.0, 0.0, t]
                         self.defer_O.append((True, (site.a, site.b)))
+                    if L.eco:
+                        self._eco_kink()
                 else:
                     self.world_adv(t)
                 self.n += 1
@@ -1054,15 +1827,23 @@ class _Accountant:
                         del self.cols[ab]
                         self.n_fill = spec.filled_footprint(self.cols, L.base)
                         if self.n_fill > 0:
-                            self.gam = spec.drag(self.n_fill, L.drag_exp)
+                            if L.eco:
+                                self.gam0 = spec.drag(self.n_fill, L.drag_exp)
+                                self._eco_set_gam()
+                            else:
+                                self.gam = spec.drag(self.n_fill, L.drag_exp)
                     if site.z == 0:
                         self.n_foot -= 1
+                        if L.eco:
+                            self.defer_O.append((2, (site.a, site.b)))
                     elif site.z == 1:
                         st = self.strokes[(site.a, site.b)]
                         e_i = math.exp(-(t - st[2]) / L.tau_z)
                         self.Fx = self.Fx - st[0] * e_i
                         self.Fy = self.Fy - st[1] * e_i
                         self.defer_O.append((False, (site.a, site.b)))
+                    if L.eco:
+                        self._eco_kink()
                     self.n -= 1
                 else:
                     self.world_adv(t)
@@ -1089,6 +1870,18 @@ class _Accountant:
                     led[_LI["rec_gain"]] = led[_LI["rec_gain"]] + ga
                     led[_LI["cost"]] = led[_LI["cost"]] + L.c_rec * ga
                 self._fold_world((10, tb, uid, n_rec, bits(g_r)))
+            elif kind == R_RCANDM:
+                uid, m, j = p
+                if catch:
+                    self._rcand_m(t, site, uid, m, j, counted)
+            elif kind == R_RECEPTM:
+                uid, m, n_rec, g_r = p
+                ga = abs(g_r) * float(n_rec)
+                if counted:
+                    led[_LI[f"mod_events_{m}"]] += float(n_rec)
+                    led[_LI[f"mod_gain_{m}"]] = led[_LI[f"mod_gain_{m}"]] + ga
+                    led[_LI["cost"]] = led[_LI["cost"]] + L.c_rec * ga
+                self._fold_world((31, tb, uid, m, n_rec, bits(g_r)))
             else:  # pragma: no cover
                 raise AssertionError(f"unknown record kind {kind}")
         if catch:
@@ -1112,6 +1905,8 @@ class _Accountant:
                 self._task_finish(t_end)
             if L.patch_count:
                 self._patch_finish(t_end)
+            if L.eco:
+                self._eco_finish(t_end)
             led[_LI["path"]] = self.path
             led[_LI["X_end"]] = self.X
             led[_LI["Y_end"]] = self.Y
@@ -1129,7 +1924,8 @@ class _Accountant:
             s = s + a1
         led[_LI["morph_inflight_end"]] = s
         self.status |= guard_bits
-        gc = L.c_live * float(L.n_max) * (L.t1 - t_end) if guard_bits else 0.0
+        guarded = guard_bits & (_ST["guard_cells"] | _ST["guard_events"])
+        gc = L.c_live * float(L.n_max) * (L.t1 - t_end) if guarded else 0.0
         c_b2 = -L.b2_value if L.b2_value < 0 else 0.0
         col = L.c_live * led[_LI["live_time"]]
         col = col + L.c_spike * led[_LI["spikes"]]
@@ -1142,6 +1938,11 @@ class _Accountant:
         wrong = (led[_LI["wrong_choices_narrow"]] + led[_LI["wrong_choices_broad"]]
                  if L.task_mode else led[_LI["b2_clicks"]])
         col = col + c_b2 * wrong
+        for m in range(1, SM):
+            col = col + L.c_rec * led[_LI[f"mod_gain_{m}"]]
+        col = col + led[_LI["eco_toxin_cost"]]
+        col = col + led[_LI["eco_damage_cost"]]
+        col = col + led[_LI["eco_plant_cost"]]
         net = led[_LI["income"]] - col - gc
         led[_LI["guard_charge"]] = gc
         led[_LI["net"]] = net
@@ -1178,7 +1979,7 @@ class _Life:
 
     def __init__(self, wv, lat: dict, gt, prog, init, seeds, raster_cap: int, fate_cap: int, keep_records: bool,
                  out_abi: spec.Abi = V3):
-        wi = V7.WORLD_INDEX
+        wi = V8.WORLD_INDEX
         wv = [float(x) for x in wv]
         for key in _FLOAT_KEYS:
             setattr(self, key, wv[wi[key]])
@@ -1196,6 +1997,18 @@ class _Life:
         self.catch = self.world_kind == 1
         self.lam_max = (self.lam_bg + self.lam_s * float(self.patch_count) if self.patch_count else
                         self.lam_bg + self.lam_s * (1.0 + self.b2_amp))
+        # ABI 8: the eco block and the modality slots, by name
+        self.e = {k: wv[wi[k]] for k in (*spec.ECO_KEYS, *spec.MOD_KEYS)}
+        self.eco = self.e["eco_mode"] == 1.0
+        if self.eco:
+            self.lam_max = self.lam_bg + self.lam_s * spec.eco_light_bound(self.e)
+        self.mod_kind, self.mod_arg = [0] * SM, [0] * SM
+        self.mod_bg, self.mod_s, self.mod_K, self.lam_m = [0.0] * SM, [0.0] * SM, [0.0] * SM, [0.0] * SM
+        for m in range(1, SM):
+            q = {f: self.e[f"mod{m}_{f}"] for f in spec.MOD_FIELDS}
+            self.mod_kind[m], self.mod_arg[m] = int(q["kind"]), int(q["arg"])
+            self.mod_bg[m], self.mod_s[m], self.mod_K[m] = q["lam_bg"], q["lam_s"], q["K"]
+            self.lam_m[m] = q["lam_bg"] + q["lam_s"] if self.mod_kind[m] != 0 else 0.0
         self.seed, self.tie_seed, self.order_seed, self.salt = (int(s) & spec.MASK64 for s in seeds)
         self.raster_cap, self.fate_cap, self.keep_records = int(raster_cap), int(fate_cap), keep_records
 
@@ -1210,15 +2023,15 @@ class _Life:
 
         if self.program:
             p = [float(x) for x in prog]
-            self.rows = [p[i * V3.P:(i + 1) * V3.P] for i in range(_NROW)]
-            sc = p[_NROW * V3.P:]
+            self.rows = [p[i * V8.P:(i + 1) * V8.P] for i in range(_NROW)]
+            sc = p[_NROW * V8.P:]
             for name, i in _PS.items():
                 setattr(self, "p_" + name, sc[i])
             self.Dm = (self.p_Dm0, self.p_Dm1)
             self.km = (self.p_km0, self.p_km1)
         else:
             g = [float(x) for x in gt]
-            sl = V3.GENOME_SLICES
+            sl = V8.GENOME_SLICES
             self.W = g[sl["W"][0]:sl["W"][1]]
             self.gb = g[sl["b"][0]:sl["b"][1]]
             self.lam = g[sl["lam"][0]:sl["lam"][1]]
@@ -1340,12 +2153,20 @@ class _Life:
         c.r0 = c.r0 * e
         c.r1 = c.r1 * e
         c.rho = c.rho * e
+        rh = c.rhom
+        for m in range(1, SM):
+            rh[m] = rh[m] * e
         c.t_tr = t
 
-    def membrane(self, c: _Cell, t: float, arr: list, kicks: list, thr: bool, n_rec: int = 0) -> None:
+    def membrane(self, c: _Cell, t: float, arr: list, kicks: list, thr: bool, n_rec: int = 0, n_rm=None) -> None:
+        any_rm = bool(n_rm) and any(n_rm)
         if n_rec > 0:
             self.emit(R_RECEPT, (c.uid, n_rec, c.th[KGR]))
-        if arr or n_rec > 0:
+        if any_rm:
+            for m in range(1, SM):
+                if n_rm[m] > 0:
+                    self.emit(R_RECEPTM, (c.uid, m, n_rm[m], c.th[KGR + m]))
+        if arr or n_rec > 0 or any_rm:
             self.traces(c, t)
             n0 = n1 = 0
             for _slot, mask in arr:
@@ -1354,6 +2175,9 @@ class _Life:
             c.r0 = c.r0 + float(n0)
             c.r1 = c.r1 + float(n1)
             c.rho = c.rho + float(n_rec)
+            if any_rm:
+                for m in range(1, SM):
+                    c.rhom[m] = c.rhom[m] + float(n_rm[m])
         if t < c.t_r:
             return
         S = 0.0
@@ -1366,6 +2190,10 @@ class _Life:
             S = S + kick
         if n_rec > 0:
             S = S + c.th[KGR] * float(n_rec)
+        if any_rm:
+            for m in range(1, SM):
+                if n_rm[m] > 0:
+                    S = S + c.th[KGR + m] * float(n_rm[m])
         v = (1.0 if thr else self.vnow(c, t)) + S
         c.v_a = spec.q10(v)
         c.t_a = t
@@ -1429,12 +2257,12 @@ class _Life:
     def decode(self, c: _Cell) -> list[float]:
         g, A, a0 = c.g, self.A, self.a0
         y = []
-        for p in range(V3.P):
+        for p in range(V8.P):
             acc = a0[p]
             for k in range(spec.G_MAX):
                 acc = acc + A[p * spec.G_MAX + k] * g[k]
             y.append(acc)
-        return V3.decode_knobs(y)
+        return V8.decode_knobs(y)
 
     def select(self, c: _Cell, n_view: int) -> list[float]:
         """Program-mode selector of section 7.5 (tick# before its increment); it does not read the plane."""
@@ -1521,14 +2349,15 @@ class _Life:
                 is_m = 1.0 if self.catch and z == 1 else 0.0
                 x = list(c.g) + [c.m[0] / (1.0 + c.m[0]), c.m[1] / (1.0 + c.m[1]), c.f / ttr, c.r0 / ttr,
                                  c.r1 / ttr, n_view / D, c.rho / ttr, is_s, is_m]
+                x += [c.rhom[m] / ttr for m in range(1, SM)]  # ABI 8 receptor traces
                 if self.flag("genes_blind", t):
-                    for j in range(18, 23):  # activity, contact and receptor inputs; the plane cues stay (15.38)
+                    for j in (*range(18, 23), *range(25, 25 + SM - 1)):  # activity, contact, receptors; cues stay
                         x[j] = 0.0
                 s = []
                 for k in range(spec.G_MAX):
                     p = self.gb[k]
-                    row = k * V3.NIN
-                    for j in range(V3.NIN):
+                    row = k * V8.NIN
+                    for j in range(V8.NIN):
                         p = p + self.W[row + j] * x[j]
                     s.append(spec.sigmoid(p))
                 for k in range(spec.G_MAX):
@@ -1544,6 +2373,8 @@ class _Life:
         if c.stuck:
             self.stuck_override(c)
         self.predict(c)
+        if self.catch:
+            self.mod_activate(c, t)
         th = c.th
         # 6. death
         if not (self.flag("apoptosis_off", t) or freeze):
@@ -1663,6 +2494,7 @@ class _Life:
         c.pending = 0
         c.v_a, c.t_a, c.t_r, c.ver = 0.0, t, t, 0
         c.f = c.r0 = c.r1 = c.rho = 0.0
+        c.rhom, c.nrecm, c.pendm = [0.0] * SM, [0] * SM, [0] * SM
         c.t_tr = t
         c.tw, c.t_tw, c.t_prev = 0.0, t, t
         c.stuck = False
@@ -1701,12 +2533,24 @@ class _Life:
             self.push(self.t0 + self.stuck_t, site, (STUCK, uid))
         if self.catch and site.z == 0 and self.lam_max > 0:  # the receptor's candidate stream (7.10)
             self.push(spec.receptor_next(self.seed, uid, 0, t, self.lam_max), site, (RCAND, uid, 0))
+        if self.catch:
+            self.mod_activate(c, t)
         instack = self.instack[site.z]
         for d in range(D):
             if instack[d]:
                 self.send(site, d, t + self.d_min, (BORN, uid, k))
         if mother != 0:
             self.send(site, bslot, t + self.d_min, (ACK, mother, uid, k))
+
+    def mod_activate(self, c: _Cell, t: float) -> None:
+        """ABI 8 (7.10): start each bound modality's stream while the cell's own gain is nonzero (sense plane)."""
+        if c.site.z != 0:
+            return
+        for m in range(1, SM):
+            if self.lam_m[m] > 0 and not c.pendm[m] and c.th[KGR + m] != 0.0:
+                c.pendm[m] = 1
+                self.push(receptor_next_m(self.seed, c.uid, m, c.nrecm[m], t, self.lam_m[m]), c.site,
+                          (RCANDM, c.uid, m, c.nrecm[m]))
 
     def apoptosis(self, c: _Cell, t: float, cause: int) -> None:
         zt = c.tw * math.exp(-(t - c.t_tw) / self.tau_z)
@@ -1734,6 +2578,7 @@ class _Life:
         self.bt, self.bsk, self.seq = t, site.sk, 0
         occ = site.occ  # the live occupant at t-
         claims, notices, packets, arrivals, thrs, noises, rcands, receptors, exo = [], [], [], [], [], [], [], [], []
+        rcandms, receptorms = [], []
         tick = None
         for ev in evs:
             kind = ev[0]
@@ -1754,6 +2599,10 @@ class _Life:
                 rcands.append(ev)
             elif kind == RECEPTOR:
                 receptors.append(ev)
+            elif kind == RCANDM:
+                rcandms.append(ev)
+            elif kind == RECEPTORM:
+                receptorms.append(ev)
             elif kind == TICK:
                 tick = ev
             else:
@@ -1824,9 +2673,24 @@ class _Life:
                 self.emit(R_RCAND, (uid, j))
                 occ.nrec = j + 1
                 self.push(spec.receptor_next(self.seed, uid, j + 1, t, self.lam_max), site, (RCAND, uid, j + 1))
+        for ev in sorted(rcandms, key=lambda e: (e[2], e[3])):  # ABI 8: (m, j) order
+            _, u, m, j = ev
+            if u != uid or j != occ.nrecm[m]:
+                continue
+            occ.nrecm[m] = j + 1
+            if occ.th[KGR + m] != 0.0 and self.lam_m[m] > 0:
+                self.emit(R_RCANDM, (uid, m, j))
+                self.push(receptor_next_m(self.seed, uid, m, j + 1, t, self.lam_m[m]), site, (RCANDM, uid, m, j + 1))
+            else:
+                occ.pendm[m] = 0
         n_rec = 0
         if receptors and occ.th[KGR] != 0.0 and not self.flag("receptor_off", t):
             n_rec = sum(1 for ev in receptors if ev[1] == uid)
+        n_rm = [0] * SM
+        if receptorms and not self.flag("receptor_off", t):
+            for ev in receptorms:
+                if ev[1] == uid and occ.th[KGR + ev[2]] != 0.0:
+                    n_rm[ev[2]] += 1
         kicks = []
         for ev in noises:
             if ev[1] != uid:
@@ -1838,7 +2702,9 @@ class _Life:
                 tn = math.nextafter(t, _INF)
             self.push(tn, site, (NOISE, uid, j + 1))
         thr = any(ev[1] == uid and ev[2] == occ.ver for ev in thrs)
-        if n_rec:
+        if any(n_rm):
+            self.membrane(occ, t, arr, kicks, thr, n_rec, n_rm)
+        elif n_rec:
             self.membrane(occ, t, arr, kicks, thr, n_rec)
         elif arr or kicks or thr:
             self.membrane(occ, t, arr, kicks, thr)  # ABI 2's call, which instrumented tests wrap
@@ -1872,6 +2738,8 @@ class _Life:
                 gb |= _ST["guard_events"]
             if gb:
                 return c, gb
+            if self.acct.eco_dead:  # ABI 8: the body was killed before c
+                return c, _ST["killed"]
             if self.catch:
                 self.acct.sample(c)
             self.next_c = c + 1.0
@@ -1988,6 +2856,12 @@ class _Life:
             fate_n=a.fate_n, records=a.records, world=a.wlog, abi=abi)
 
 
+def receptor_next_m(seed: int, uid: int, m: int, j: int, t_prev: float, lam: float) -> float:
+    """ABI 8: time of candidate j of modality m >= 1 (stream S_RCAND_M keyed (uid, m, j))."""
+    t = t_prev - math.log(spec.draw(seed, spec.S_RCAND_M, uid, m, j)) / lam
+    return t if t > t_prev else math.nextafter(t_prev, _INF)
+
+
 def _i64(u: int) -> int:
     return u - (1 << 64) if u >= 1 << 63 else u
 
@@ -1995,8 +2869,8 @@ def _i64(u: int) -> int:
 # ------------------------------------------------------------------------------------------------------- arguments
 def _abi(abi) -> spec.Abi:
     abi = spec.CURRENT if abi is None else abi
-    if abi.version not in (2, 3, 4, 5, 6, 7):  # pragma: no cover
-        raise ValueError(f"the reference implements ABI 2, 3, 4, 5, 6 and 7, not {abi.version}")
+    if abi.version not in (2, 3, 4, 5, 6, 7, 8):  # pragma: no cover
+        raise ValueError(f"the reference implements ABI 2 through 8, not {abi.version}")
     return abi
 
 
@@ -2041,6 +2915,9 @@ def _check_world(wv, abi=None) -> None:
     if wv.shape != (abi.WORLD_SIZE,) or not np.all(np.isfinite(wv)):
         raise ArgError(-2, f"world vector must hold {abi.WORLD_SIZE} finite numbers")
     vals = {}
+    if abi.version >= 8:  # the ABI 8 blocks
+        vals["mod"] = tuple(float(wv[abi.WORLD_INDEX[k]]) for k in spec.MOD_KEYS)
+        vals["eco"] = tuple(float(wv[abi.WORLD_INDEX[k]]) for k in spec.ECO_KEYS)
     for f_ in fields(spec.World):
         if f_.name not in abi.WORLD_INDEX:
             continue
@@ -2051,7 +2928,7 @@ def _check_world(wv, abi=None) -> None:
             x = int(x)
         vals[f_.name] = x
     try:
-        abi.validate_world(spec.World(**vals))
+        abi.validate_world(spec.EcoWorld(**vals) if "mod" in vals else spec.World(**vals))
     except (ValueError, NotImplementedError) as e:
         raise ArgError(-2, str(e)) from None
 
@@ -2095,6 +2972,9 @@ def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) 
     if not v3:  # neutral padding into ABI 3 (LIFE_ABI.md 4.4, 4.5, 4.7, 15.33)
         wv = wv + _V3_DEFAULTS
         row = V3.pad_program(row, V2) if prog_mode else V3.pad_genomes(row[None], V2)[0]
+    if abi.version < 8:  # ABI 8 genome inputs and gains (zeros: no weight, no gain)
+        src = V3 if abi.version >= 3 or not v3 else V3
+        row = V8.pad_program(row, src) if prog_mode else V8.pad_genomes(np.asarray(row)[None], src)[0]
     if abi.version < 4:
         wv = wv + _V4_DEFAULTS
     if abi.version < 5:
@@ -2103,6 +2983,8 @@ def _prepare(world_vec, latd: dict, genome_table, program, init, abi: spec.Abi) 
         wv = wv + _V6_DEFAULTS
     if abi.version < 7:
         wv = wv + _V7_DEFAULTS
+    if abi.version < 8:
+        wv = wv + _V8_DEFAULTS
     return wv, (None if prog_mode else row), (row if prog_mode else None), cells
 
 

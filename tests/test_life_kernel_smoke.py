@@ -62,7 +62,7 @@ def _conservation_error(res: build.Lives) -> np.ndarray:
 
 def test_kernel_builds_and_its_exports_match_spec_bitwise():
     lib = build.load()
-    assert lib.life_abi_version() == build.KERNEL.version == 7 and build.library_path().exists()
+    assert lib.life_abi_version() == build.KERNEL.version == 8 and build.library_path().exists()
     assert build.hash64(1, 2, 3, 4) == spec.hash64(1, 2, 3, 4) == 0x89F838C6080F2B76
     assert build.hash64(spec.MASK64, 7, -1) == 0x6BEEACB0A480F707
     assert build.normal(42, spec.S_CLK, spec.sitekey(0, 0), 0) == 0.25705196441331246
@@ -168,8 +168,10 @@ def _call(world=(), *, lat=None, n_init=None, init=None, flags: int = PM, genome
     """life_run directly through ctypes with kernel-sized arrays (no build.run checks); returns its code."""
     lat_k, unit = KABI.lattice_tables(kind)
     lat = lat_k if lat is None else lat
-    gt = _kernel_table(genomes, KABI.GENOME_SIZE, lambda r: KABI.pad_genomes(r, spec.V2))
-    pg = _kernel_table(programs, KABI.PROGRAM_SIZE, lambda r: KABI.pad_program(r, spec.V2))
+    src = {x.GENOME_SIZE: x for x in (spec.V2, spec.V3)}  # older rows pad neutrally from their own ABI
+    srcp = {x.PROGRAM_SIZE: x for x in (spec.V2, spec.V3)}
+    gt = _kernel_table(genomes, KABI.GENOME_SIZE, lambda r: KABI.pad_genomes(r, src[len(r)]))
+    pg = _kernel_table(programs, KABI.PROGRAM_SIZE, lambda r: KABI.pad_program(r, srcp[len(r)]))
     P = build._ptr
     wv = _vector(world, flags, KABI)
     led, hs = np.zeros((1, KABI.LEDGER_SIZE)), np.zeros((1, KABI.HASH_SIZE), dtype=np.uint64)
@@ -599,6 +601,10 @@ def _both(world=(), *, lat=None, cells=None, n_init=None, flags: int = CPM, geno
     n = np.array([len(cells) if n_init is None else n_init], dtype=np.int32) if cells is not None or n_init else None
     k = _call(world, lat=lat, n_init=n, init=init, flags=flags, genomes=genomes, programs=programs, kind=kind)
     lat_k, unit = KABI.lattice_tables(kind)
+    src = {x.GENOME_SIZE: x for x in (spec.V2, spec.V3)}  # the same neutral padding as _call
+    srcp = {x.PROGRAM_SIZE: x for x in (spec.V2, spec.V3)}
+    genomes = _kernel_table(genomes, KABI.GENOME_SIZE, lambda row: KABI.pad_genomes(row, src[len(row)]))
+    programs = _kernel_table(programs, KABI.PROGRAM_SIZE, lambda row: KABI.pad_program(row, srcp[len(row)]))
     r = ref.life_run(lat_k if lat is None else lat, unit, genomes, programs, [0], init, n,
                      _vector(world, flags, KABI), np.zeros((1, 4), dtype=np.uint64), abi=KABI)["rc"]
     return k, r
