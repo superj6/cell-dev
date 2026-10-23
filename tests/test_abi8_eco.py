@@ -1,5 +1,6 @@
 """ABI 8: modality slots and the eco world (docs/OPEN_WORLDS.md, LIFE_ABI.md 9.8), kernel against reference."""
 import json
+import math
 from dataclasses import replace
 from pathlib import Path
 
@@ -269,3 +270,47 @@ def test_v2_a_tap_on_a_growing_plant_destroys_it(monkeypatch):
         found[m] = outcomes.count(8)
         assert outcomes.count(7) == k["eco_planted"].sum()
     assert found[1] == 0 and found[2] >= 1
+
+
+def test_v2_generator_is_unchanged():
+    """Bare family names keep drawing pilot v2's worlds (hashes recorded from its frozen checkout, 0dd707e)."""
+    import hashlib
+    gold = json.loads((ROOT / "tests/data/eco_v2_world_hashes.json").read_text())
+    for key, h in gold.items():
+        fam, seed = key.rsplit("/", 1)
+        w = ecology.realize(fam, int(seed))
+        assert hashlib.sha256(np.asarray(V8.pack_world(w), np.float64).tobytes()).hexdigest() == h, key
+
+
+V3_FAMS = [f"v3/{f}{t}" for f in ecology.FAMILIES3 for t in ("", "_transfer")]
+
+
+@pytest.mark.parametrize("family", V3_FAMS)
+def test_v3_worlds_are_deterministic_valid_and_keep_their_palette(family):
+    for s in range(40):
+        w = ecology.realize(family, s)
+        assert w == ecology.realize(family, s) and w != ecology.realize(family, s + 1000)
+        V8.validate_world(w)
+        e = spec.eco_view(w)
+        assert e["eco_mode"] == 2
+        for i in range(int(e["eco_n_src"])):
+            b = [e[f"src{i}_b{k}"] for k in range(4)]
+            if e[f"src{i}_value"] < 0:  # toxins smell of food and of bad, never of places
+                assert b[0] > 0 and b[3] > 0 and b[2] == 0
+            else:
+                assert b[0] == 1.0 and b[2] == 0 and b[3] == 0
+        for i in range(int(e["eco_n_ag"])):
+            assert e[f"ag{i}_b2"] == 0  # no agent smells of a place
+        for kind in ("shelter", "fertile"):  # never over the start
+            for i in range(int(e[f"eco_n_{kind}"])):
+                assert math.hypot(e[f"{kind}{i}_x"], e[f"{kind}{i}_y"]) > e[f"{kind}{i}_r"]
+        if family.startswith("v3/dark"):
+            assert not any(v for k, v in e.items() if k.endswith("_light"))
+
+
+@pytest.mark.parametrize("family", [f"v3/{f}" for f in ecology.FAMILIES3])
+def test_kernel_matches_reference_on_v3_families(family):
+    w = ecology.realize(family, 13, T=48)
+    k, refs = _both(w, _gated(6), [3, 4])
+    for i, r in enumerate(refs):
+        assert np.array_equal(_bits(r.ledger), _bits(k.ledger[i])) and np.array_equal(r.hashes, k.hashes[i])

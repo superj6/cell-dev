@@ -276,14 +276,276 @@ _MAKERS = dict(plume=_plume, predator=_predator, home=_home, prey=_prey, farm=_f
 
 
 def realize(family: str, seed: int, T: float | None = None, **overrides) -> spec.World:
-    """One concrete ABI 8 world of ``family`` (or ``family_transfer``, a held-out region) for life seed ``seed``."""
-    base, transfer = (family[:-len("_transfer")], True) if family.endswith("_transfer") else (family, False)
-    if base not in _MAKERS:
-        raise KeyError(f"unknown eco family {family!r}; families: {FAMILIES}")
-    w = _MAKERS[base](_Draw(seed, _SALT[family]), transfer)
+    """One concrete ABI 8 world of ``family`` (or ``family_transfer``, a held-out region) for life seed ``seed``.
+    ``v3/<family>`` names draw the third generator (below); bare names keep the pilot v2 worlds bitwise."""
+    v3 = family.startswith("v3/")
+    name = family[3:] if v3 else family
+    base, transfer = (name[:-len("_transfer")], True) if name.endswith("_transfer") else (name, False)
+    makers, salts = (_MAKERS3, _SALT3) if v3 else (_MAKERS, _SALT)
+    if base not in makers:
+        raise KeyError(f"unknown eco family {family!r}; families: {FAMILIES}, v3/{{{', '.join(FAMILIES3)}}}")
+    w = makers[base](_Draw(seed, salts[name]), transfer)
     if T is not None:
         w = replace(w, T=float(T))
     if overrides:
         w = replace(w, **overrides)
     spec.V8.validate_world(w)
     return w
+
+
+# ===================================================================================================== generator v3
+# The third generator (2026-10-23), after pilot v2 (RESULTS.md). The engine, senses and cells are unchanged; only the
+# worlds differ:
+# - odour palette without the v2 clash: A food, B value (rich food, prey), C places (home, soil), D bad (predators,
+#   toxins). A toxin still smells of food (A) and must be told apart by D. In v2 toxin, soil and home all smelled of C,
+#   so the toxin-avoidance reflex worked against finding home or soil.
+# - harder-won resources pay more: rich food lies farther out, carrying home multiplies 3-6x, harvests and prey are
+#   worth more.
+# - situations vary per life, so the best strategy depends on what the body senses: still air in some plume lives,
+#   unscented homes, uncued ripe plants, predators present or absent.
+# - four more families with different objectives: mixed (everything at once), maze (walls and occluded light),
+#   seasons (few sources refilling slowly), dark (no light at all).
+FAMILIES3 = ("plume", "predator", "home", "prey", "farm", "mixed", "maze", "seasons", "dark")
+_SALT3 = {name: 300 + i for i, name in enumerate(FAMILIES3)}
+_SALT3.update({f"{name}_transfer": 400 + i for i, name in enumerate(FAMILIES3)})
+
+
+class _Builder3(_Builder):
+    def food(self, r_lo, r_hi, rich_far: bool = False, **kw):
+        """Food smelling of A, plus B for richness. ``rich_far``: richer sources lie farther from the start."""
+        d = self.d
+        rich = d.u(0.0, 1.0)
+        if rich_far:
+            r = r_lo + (r_hi - r_lo) * min(1.0, rich * d.u(0.8, 1.2))
+            x, y = self.free_point(max(r_lo, r - 1.0), min(r_hi, r + 1.0))
+        else:
+            x, y = self.free_point(r_lo, r_hi)
+        self.source(x, y, 250.0 + 1750.0 * rich + d.u(-50.0, 50.0), (1.0, rich, 0.0, 0.0), **kw)
+
+    def toxin(self, r_lo, r_hi, **kw):
+        d = self.d
+        x, y = self.free_point(r_lo, r_hi)
+        self.source(x, y, -d.u(300.0, 1200.0), (d.u(0.6, 1.0), 0.0, 0.0, d.u(0.5, 1.0)), **kw)
+
+    def predator(self, kind: str = "pursuit", fast: tuple = (0.1, 0.35)):
+        d = self.d
+        x, y = self.free_point(5.0, 11.0)
+        if kind == "pursuit":
+            self.agent("pursuit", x=x, y=y, v1=d.u(0.03, 0.08), v2=d.u(*fast), r_sense=d.u(2.0, 6.0), p=d.u(0.3, 0.9),
+                       r_contact=d.u(0.8, 1.3), value=d.u(800.0, 2500.0), look=d.u(1.0, 2.5), t_state=d.u(20.0, 120.0),
+                       t_rest=d.u(40.0, 150.0), b3=1.0)
+        else:
+            self.agent("ambush", x=x, y=y, r_sense=0.0, p=d.u(0.3, 0.9), r_contact=d.u(1.0, 1.8),
+                       value=d.u(1000.0, 3000.0), look=d.u(1.0, 2.5), t_rest=d.u(30.0, 100.0), b3=d.u(0.2, 0.6))
+
+    def prey(self, kind: str, value=(1000.0, 3000.0)):
+        d = self.d
+        x, y = self.free_point(3.0, 10.0)
+        rx, ry = self.free_point(3.0, 10.0)
+        self.agent(kind, x=x, y=y, v1=d.u(0.03, 0.08), v2=d.u(0.15, 0.4), r_sense=d.u(1.5, 4.0), p=d.u(0.3, 0.9),
+                   r_contact=0.0, value=d.u(*value), look=d.u(1.0, 2.0), t_state=d.u(10.0, 40.0),
+                   t_rest=d.u(30.0, 150.0), light=d.u(0.3, 0.8) if d.p(0.4) else 0.0, b1=1.0, rx=rx, ry=ry)
+
+    def any_prey(self, n: int):
+        kinds = ("darter", "freezer", "burrower")
+        for _ in range(n):
+            self.prey(kinds[self.d.i(0, 2)])
+
+    def still_or_current(self, lo: float, hi: float, p_still: float):
+        if self.d.p(p_still):  # still water: puffs only spread, and flow reads the body's own motion
+            self.e.update(eco_cur_speed=0.0, eco_cur_heading=self.d.angle(), eco_cur_turn=0.0, eco_cur_turn_max=0.0)
+        else:
+            self.current(lo, hi)
+
+    def home(self, scented: bool, mult=(3.0, 6.0)):
+        d = self.d
+        self.e.update(eco_home_x=0.0, eco_home_y=0.0, eco_home_r=d.u(1.2, 2.0),
+                      eco_home_b2=0.6 if scented else 0.0, eco_home_b1=0.4 if scented else 0.0,
+                      eco_carry_cap=d.i(1, 3), eco_carry_mult=d.u(*mult), eco_carry_digest=d.u(60.0, 200.0),
+                      eco_carry_drag=d.u(0.1, 0.5))
+
+    def farm(self, n_disks: int, cued: bool):
+        d = self.d
+        for _ in range(n_disks):
+            r = d.u(1.5, 3.0)
+            x, y = self.free_point(r + 1.0, r + 5.0)  # never under the start: soil is found, not given
+            self.disk("fertile", x, y, r)
+        lo = d.u(60.0, 120.0)
+        self.e.update(eco_plant_cap=d.i(8, 16), eco_plant_cost=d.u(20.0, 100.0), eco_ripen_min=lo,
+                      eco_ripen_max=lo + d.u(0.0, 80.0), eco_ripe_window=d.u(40.0, 150.0),
+                      eco_plant_value=d.u(600.0, 1500.0), eco_soil_b2=d.u(0.3, 0.6))
+        if cued:  # ripe plants smell of food and value, and may glow
+            self.e.update(eco_plant_light=d.u(0.3, 0.8) if d.p(0.5) else 0.0, eco_plant_b0=0.8, eco_plant_b1=0.6)
+
+    def shelters(self, n: int):
+        for _ in range(n):
+            r = self.d.u(1.0, 2.0)
+            x, y = self.free_point(r + 1.0, r + 7.0)
+            self.disk("shelter", x, y, r)
+
+    def unlit(self):
+        """No light anywhere: sources, agents and plants are dark (the dark family)."""
+        for k in list(self.e):
+            if k.endswith("_light"):
+                self.e[k] = 0.0
+
+
+def _plume3(d: _Draw, transfer: bool) -> spec.World:
+    b = _Builder3(d)
+    b.still_or_current(*((0.25, 0.4) if transfer else (0.03, 0.25)), p_still=0.0 if transfer else 0.3)
+    if d.p(0.3):
+        b.random_walls(d.i(1, 2))
+    for _ in range(d.i(3, 6)):
+        b.food(3.0, 12.0, rich_far=True, puff=d.u(0.3, 0.8))
+    for _ in range(d.i(0, 2) + (1 if transfer else 0)):
+        b.toxin(3.0, 10.0, puff=d.u(0.3, 0.8))
+    if d.p(0.3):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    return b.world()
+
+
+def _predator3(d: _Draw, transfer: bool) -> spec.World:
+    b = _Builder3(d)
+    b.current(0.02, 0.1)
+    n_shel = d.i(1, 3)
+    b.shelters(n_shel)
+    for i in range(n_shel):  # poor food next to cover, rich food out in the open
+        sx, sy = b.e[f"shelter{i}_x"], b.e[f"shelter{i}_y"]
+        th = d.angle()
+        b.source(sx + 2.5 * math.cos(th), sy + 2.5 * math.sin(th), d.u(250.0, 500.0), (1.0, 0.1, 0.0, 0.0))
+    for _ in range(d.i(2, 4)):
+        b.food(5.0, 12.0, rich_far=True)
+    if d.p(0.4):
+        b.toxin(3.0, 10.0)
+    n_pred = d.i(5, 6) if transfer else d.i(1, 4)
+    for _ in range(n_pred):
+        b.predator("pursuit" if d.p(0.6) else "ambush")
+    if d.p(0.3):
+        b.random_walls(d.i(1, 2))
+    b.e["eco_kill_hits"] = d.i(2, 4)
+    return b.world()
+
+
+def _home3(d: _Draw, transfer: bool) -> spec.World:
+    b = _Builder3(d)
+    b.current(0.02, 0.12)
+    b.home(scented=d.p(0.5))
+    b.random_walls(d.i(5, 8) if transfer else d.i(2, 6), 3.0, 8.0)
+    for _ in range(d.i(3, 6)):
+        b.food(4.0, 12.0, rich_far=True, cap=d.i(2, 4))
+    if d.p(0.3):
+        b.toxin(4.0, 12.0)
+    if d.p(0.3):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    return b.world()
+
+
+def _prey3(d: _Draw, transfer: bool) -> spec.World:
+    b = _Builder3(d)
+    b.current(0.02, 0.1)
+    b.any_prey(d.i(2, 6))
+    if d.p(0.6 if transfer else 0.4):
+        b.random_walls(d.i(1, 4))
+    for _ in range(d.i(0, 2)):
+        b.food(3.0, 10.0, cap=1)
+    if d.p(0.2):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    return b.world()
+
+
+def _farm3(d: _Draw, transfer: bool) -> spec.World:
+    b = _Builder3(d)
+    b.current(0.02, 0.1)
+    b.farm(d.i(1, 3), cued=d.p(0.5))
+    for _ in range(d.i(2, 4) if transfer else d.i(1, 3)):
+        b.pest()
+    for _ in range(d.i(0, 2)):
+        b.food(3.0, 10.0, cap=1, period=0.0)
+    if d.p(0.2):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    return b.world()
+
+
+def _mixed3(d: _Draw, transfer: bool) -> spec.World:
+    """Everything at once, each at a random level: the abilities have to coexist in one body."""
+    b = _Builder3(d)
+    b.still_or_current(0.03, 0.2, p_still=0.3)
+    if d.p(0.5):
+        b.random_walls(d.i(1, 3))
+    if d.p(0.5):
+        b.home(scented=d.p(0.5))
+    if d.p(0.5):
+        b.farm(d.i(1, 2), cued=d.p(0.5))
+        if d.p(0.5):
+            b.pest()
+    b.shelters(d.i(0, 2))
+    for _ in range(d.i(3, 5)):
+        b.food(3.0, 12.0, rich_far=True, puff=d.u(0.3, 0.8))
+    for _ in range(d.i(0, 2)):
+        b.toxin(3.0, 10.0, puff=d.u(0.3, 0.8))
+    b.any_prey(d.i(1, 3) if transfer else d.i(0, 2))
+    for _ in range(d.i(2, 4) if transfer else d.i(0, 3)):
+        b.predator("pursuit" if d.p(0.6) else "ambush")
+    b.e["eco_kill_hits"] = d.i(2, 4)
+    return b.world()
+
+
+def _maze3(d: _Draw, transfer: bool) -> spec.World:
+    """Many long walls between the start and the food; walls block light, so the body must go around."""
+    b = _Builder3(d)
+    b.current(0.02, 0.08)
+    for _ in range(8 if transfer else d.i(6, 8)):
+        r, th = d.u(3.0, 9.0), d.angle()
+        cx, cy = r * math.cos(th), r * math.sin(th)
+        long, thick = d.u(4.0, 9.0), d.u(0.3, 0.8)
+        if d.p(0.5):
+            b.wall(cx - long / 2, cx + long / 2, cy - thick / 2, cy + thick / 2)
+        else:
+            b.wall(cx - thick / 2, cx + thick / 2, cy - long / 2, cy + long / 2)
+    for _ in range(d.i(3, 5)):
+        b.food(6.0, 12.0, rich_far=True, light=d.u(0.3, 1.0) if d.p(0.6) else 0.0)
+    if d.p(0.3):
+        b.toxin(4.0, 10.0)
+    if d.p(0.2):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    return b.world()
+
+
+def _seasons3(d: _Draw, transfer: bool) -> spec.World:
+    """A few valuable sources holding one or two items that refill slowly: when to come back matters."""
+    b = _Builder3(d)
+    b.current(0.02, 0.15)
+    for _ in range(d.i(2, 3) if transfer else d.i(2, 4)):
+        x, y = b.free_point(3.0, 11.0)
+        rich = d.u(0.5, 1.0)
+        b.source(x, y, 800.0 + 1200.0 * rich, (1.0, rich, 0.0, 0.0), cap=d.i(1, 2),
+                 period=d.u(400.0, 700.0) if transfer else d.u(250.0, 600.0))
+    if d.p(0.3):
+        b.toxin(3.0, 10.0)
+    if d.p(0.3):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    if d.p(0.3):
+        b.any_prey(1)
+    return b.world()
+
+
+def _dark3(d: _Draw, transfer: bool) -> spec.World:
+    """No light at all: smell, flow, touch and vibration only."""
+    b = _Builder3(d)
+    b.still_or_current(0.03, 0.25, p_still=0.4 if transfer else 0.2)
+    for _ in range(d.i(3, 6)):
+        b.food(3.0, 12.0, rich_far=True, puff=d.u(0.3, 0.8))
+    for _ in range(d.i(0, 2)):
+        b.toxin(3.0, 10.0, puff=d.u(0.3, 0.8))
+    if d.p(0.5):
+        b.any_prey(d.i(1, 2))
+    if d.p(0.3):
+        b.predator("pursuit", fast=(0.08, 0.2))
+    if d.p(0.3):
+        b.random_walls(d.i(1, 2))
+    b.unlit()
+    return b.world()
+
+
+_MAKERS3 = dict(plume=_plume3, predator=_predator3, home=_home3, prey=_prey3, farm=_farm3, mixed=_mixed3,
+                maze=_maze3, seasons=_seasons3, dark=_dark3)

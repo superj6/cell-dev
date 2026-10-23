@@ -1,0 +1,76 @@
+# Open worlds v3 (after pilot v2; RESULTS.md 2026-10-23). The same engine, senses and cells (ABI 8, eco v2 rules);
+# the worlds come from the third generator (src/life/ecology.py, "generator v3"):
+# - a clean odour palette (A food, B value, C places, D bad);
+# - harder-won resources pay more (rich food farther out, carrying home 3-6x, richer harvests and prey);
+# - situations that vary per life (still water, unscented homes, uncued ripe plants);
+# - nine families with different objectives, all trained from generation 0.
+# Breeding takes half of the children's first parent from the behaviour grids (pilot v2: 25%; specialists stayed in
+# the grids), crossed with a parent chosen from the population. Allocation is uniform (pilot v2: LP did not help).
+extends: open_worlds_base.yaml
+seed: 61023001
+evolve:
+  generations: 60
+  race_lives: 27
+  dup_rate: 0.0
+  del_rate: 0.0
+  allocation:
+    mode: uniform
+    budget: 27                # 3 lives per world per candidate
+    floor: 2
+    cap: 6
+  elites:
+    parent_share: 0.5
+    descriptors:
+      plume: [eco_upflow_path, eco_crossflow_path]
+      predator: [eco_shelter_samples/samples, eco_still_samples/eco_threat_samples]
+      home: [eco_delivered/eco_picked, eco_home_samples/samples]
+      prey: [eco_prey_caught, eco_alarms]
+      farm: [eco_planted, eco_harvested/eco_planted]
+      mixed: [eco_harvested, eco_delivered]
+      maze: [eco_food_eaten, eco_wall_contacts]
+      seasons: [eco_food_eaten, eco_near_food_samples/samples]
+      dark: [eco_food_eaten, eco_prey_caught]
+    bounds:                   # set once from the founders (pilot v2 generation 100) at T = 1024
+      plume: [[-10, 50], [0, 200]]
+      predator: [[0, 0.4], [0, 0.8]]
+      home: [[0, 1], [0, 0.8]]
+      prey: [[0, 8], [0, 32]]
+      farm: [[0, 24], [0, 1]]
+      mixed: [[0, 8], [0, 8]]
+      maze: [[0, 16], [0, 80]]
+      seasons: [[0, 12], [0, 0.5]]
+      dark: [[0, 16], [0, 4]]
+
+life:
+  lives: 27
+  training_tasks:
+    - {name: plume, world: "eco:v3/plume"}
+    - {name: predator, world: "eco:v3/predator"}
+    - {name: home, world: "eco:v3/home"}
+    - {name: prey, world: "eco:v3/prey"}
+    - {name: farm, world: "eco:v3/farm"}
+    - {name: mixed, world: "eco:v3/mixed"}
+    - {name: maze, world: "eco:v3/maze"}
+    - {name: seasons, world: "eco:v3/seasons"}
+    - {name: dark, world: "eco:v3/dark"}
+  capability_panel:
+    at: [30, 60]
+    lives: 9
+    seed: 61023800
+
+confirmation:
+  stages: [0, 30, 60]
+  seed: 61023900
+  reserved_tasks:
+    - {name: plume_transfer, world: "eco:v3/plume_transfer"}
+    - {name: predator_transfer, world: "eco:v3/predator_transfer"}
+    - {name: home_transfer, world: "eco:v3/home_transfer"}
+    - {name: prey_transfer, world: "eco:v3/prey_transfer"}
+    - {name: farm_transfer, world: "eco:v3/farm_transfer"}
+    - {name: mixed_transfer, world: "eco:v3/mixed_transfer"}
+    - {name: maze_transfer, world: "eco:v3/maze_transfer"}
+    - {name: seasons_transfer, world: "eco:v3/seasons_transfer"}
+    - {name: dark_transfer, world: "eco:v3/dark_transfer"}
+
+logging:
+  output_dir: outputs/open_worlds_v3/default

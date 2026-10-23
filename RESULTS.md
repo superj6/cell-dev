@@ -4637,3 +4637,22 @@ On v2 worlds:
 - the allocator moved lives only on new grid cells, since progress slopes were not resolved before generation 15.
 
 **Pilot v2** runs the same seven runs on v2 worlds (`outputs/open_worlds_pilot_v2/`, checkout 0dd707e).
+
+## 2026-10-23 — Open-world pilot v2 complete: senses adopted, generalists win, specialists stay in the grids
+
+[Report](results/open_worlds_pilot_v2/README.md): 7 runs × 100 generations, 439 CPU-hours. Top 8 genomes against
+founders on fresh paired lives.
+- **Gains:** every world improved (+0.5 to +3.4 F), with similar gains on held-out variants.
+- **New senses:** switching them off costs up to 4 F.
+- **Main tool:** a smell discriminator (rich-food odour excites, toxin and danger odours inhibit), reused in four
+  worlds.
+- **Timing:** most of the progress came in the first 25–30 generations.
+- **Specialists stayed in the grids:** upstream swimming (the side that feels the current pulls the body into it),
+  shelter-hiding (touch plus mutual inhibition of the movement cells) and profitable farming (a tap cell inhibited by
+  movement, so it never taps while moving). The populations stayed generalists.
+- **Allocation:** LP did not beat uniform allocation; duplication ended where LP did.
+- **Bodies:** halved in size; hidden cells unused.
+- **From scratch:** multicellular only by generation 99.
+
+The follow-up changes only the worlds (generator v3, OPEN_WORLDS.md §12) and the grid-parent share (25% → 50%), and
+keeps pilot v2 continued as its control.

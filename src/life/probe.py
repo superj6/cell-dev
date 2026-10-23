@@ -324,6 +324,7 @@ class _TLife(_R._Life):
         self.n_blocked = 0
         self.L_birth, self.L_death, self.L_spk, self.L_step, self.L_arr, self.L_rec, self.L_pheno = \
             [], [], [], [], [], [], []
+        self.L_recm = []  # ABI 8 modality deliveries: (t, cid, slot m, count, gain, refractory, membrane step)
         self.cid = {}  # uid -> cell index (birth order)
         self.arr_src = {}  # (receiver sk, t_arrival, receiver slot) -> sender spike id
         self.rec_sig = {}  # (uid, delivery time) -> P(the event came from the target, not the background)
@@ -357,13 +358,20 @@ class _TLife(_R._Life):
         super().fire(c, t)
         self.cur_spk = -1
 
-    def membrane(self, c, t, arr, kicks, thr, n_rec=0) -> None:
+    def membrane(self, c, t, arr, kicks, thr, n_rec=0, n_rm=None) -> None:
         if not self.log:
-            return super().membrane(c, t, arr, kicks, thr, n_rec)
+            return super().membrane(c, t, arr, kicks, thr, n_rec, n_rm)
         refr = t < c.t_r
         sid = len(self.L_step)
         v0 = 0.0 if refr else (1.0 if thr else self.vnow(c, t))
         rin = c.th[_KGR] * float(n_rec) if (n_rec and not refr) else 0.0
+        any_rm = bool(n_rm) and any(n_rm)
+        if any_rm:  # ABI 8 modality slots: their input joins rin, and each delivery is logged in L_recm
+            for m in range(1, spec.S_MAX):
+                if n_rm[m] > 0:
+                    if not refr:
+                        rin = rin + c.th[_KGR + m] * float(n_rm[m])
+                    self.L_recm.append((t, self.cid.get(c.uid, -1), m, n_rm[m], c.th[_KGR + m], refr, sid))
         sk = c.site.sk
         for slot, mask in arr:
             contrib = 0.0
@@ -376,10 +384,10 @@ class _TLife(_R._Life):
         if n_rec:
             self.L_rec.append((t, self.cid.get(c.uid, -1), n_rec, c.th[_KGR], refr, sid,
                                self.rec_sig.pop((c.uid, t), np.nan)))
-        self.cause = 3 if (thr and (arr or n_rec)) else (1 if thr else 0)
+        self.cause = 3 if (thr and (arr or n_rec or any_rm)) else (1 if thr else 0)
         self.cur_step = sid
         n0 = c.nspk
-        super().membrane(c, t, arr, kicks, thr, n_rec)
+        super().membrane(c, t, arr, kicks, thr, n_rec, n_rm)
         s = c.site
         self.L_step.append((t, self.cid.get(c.uid, -1), s.a, s.b, s.z, v0, rin, refr, c.nspk > n0, thr, len(arr)))
         self.cause, self.cur_step = -1, -1
@@ -603,7 +611,9 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     cells["n_rec"] = np.bincount(rc.cid.to_numpy(), weights=rc.n_rec.to_numpy(), minlength=n)[:n] if len(rc) else 0
     # world
     pl = pd.DataFrame(A.t_place, columns=["t", "blob", "cause", "x", "y"])
-    if w.task_mode:
+    if getattr(A.life, "eco", False):
+        samp = [(w.t0, 0.0, 0.0, math.nan, math.nan)] + A.t_samp  # ABI 8 eco: no single target
+    elif w.task_mode:
         samp = A.t_samp  # choice-only nearest-choice samples; no artificial initial placement
     elif w.patch_count:
         x, y = min(((p.x, p.y) for p in A.patches[:w.patch_count]), key=lambda p: p[0] ** 2 + p[1] ** 2)
@@ -626,7 +636,8 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
         click_cols += ["patch", "resource_outcome", "stock_before", "stock_after", "origin"]
     ck = pd.DataFrame(A.t_click, columns=click_cols)
     if len(ck):
-        tg = ([A.t_pos.get(t, (math.nan,) * 4)[2:] for t in ck.t] if w.task_mode or w.patch_count
+        tg = ([A.t_pos.get(t, (math.nan,) * 4)[2:] for t in ck.t]
+              if w.task_mode or w.patch_count or getattr(A.life, "eco", False)
               else [life_blob_at(A, pl, t) for t in ck.t])
         ck["tx"], ck["ty"] = [p[0] for p in tg], [p[1] for p in tg]
     ck["outcome"] = ck.outcome.map(OUTCOMES)
@@ -644,8 +655,11 @@ def trace(org, seed: int, preset: str, *, check: bool = True, lesion: Lesion | N
     motion = pd.DataFrame(A.t_motion, columns=["start", "end", "speed", "tau"])
     task_events = pd.DataFrame(A.t_task) if w.task_mode else None
     patch_events = pd.DataFrame(A.t_patch) if w.patch_count else None
-    return Trace(
+    tr = Trace(
         cells, kb, ke, gb, ge, ph, sp, st, ar, rc, tj, sk, ck, pl, led, meta, motion, task_events, patch_events)
+    if abi.version >= 8:  # modality-slot deliveries (ABI 8): one row per delivery batch at a membrane step
+        tr.recm = pd.DataFrame(life.L_recm, columns=["t", "cid", "m", "n", "gain", "refractory", "step"])
+    return tr
 
 
 def life_blob_at(acct, placements: pd.DataFrame, t: float):

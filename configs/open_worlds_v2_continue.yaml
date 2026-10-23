@@ -1,0 +1,15 @@
+# Control for open worlds v3: pilot v2's U arm continued unchanged (same five v2 worlds, 24 lives, 25% grid parents)
+# for the same number of generations, from the same founders (pilot v2 generation 100).
+extends: open_worlds_pilot_U.yaml
+seed: 61023001
+evolve:
+  generations: 60
+life:
+  capability_panel:
+    at: [30, 60]
+    seed: 61023800
+confirmation:
+  stages: [0, 30, 60]
+  seed: 61023900
+logging:
+  output_dir: outputs/open_worlds_v3/control

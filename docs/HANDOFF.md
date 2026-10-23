@@ -8,22 +8,20 @@ preserves the historical details; its old approval gates and proposed next studi
 
 ## Current direction and status
 
-**Running (2026-10-20): the open-world pilot v2** (eco v2 worlds, LIFE_ABI.md 9.8.7). [OPEN_WORLDS.md](OPEN_WORLDS.md) (§11 "As built") — five
-open-ended worlds (plume foraging, predator field, home-base foraging, evasive prey, farming), trained together
-from generation 0 on ABI 8 (nine gene-tuned modality slots and the eco world; contract in
-[LIFE_ABI.md](LIFE_ABI.md)). Per-life worlds come from `src/life/ecology.py`; the search is
-`src/open_search.py` (allocation with a floor, racing, behaviour grids; [SEARCH.md](SEARCH.md) "Open-world
-search").
-- **Runs:** D90 and AO lineages (padded to ABI 8) × arms U / LP / LPD, plus one from-scratch population in LP,
-  G = 100 each. Configs `configs/open_worlds_pilot_*.yaml`.
-- **Launch:** `outputs/open_worlds_pilot_v2/`, a frozen checkout at 0dd707e. `queue/monitor.json` there is
-  authoritative for status.
-- **Pilot v1** (`outputs/open_worlds_pilot/`, eco v1 worlds) was stopped after 14–16 generations, when the
-  headroom check found world flaws. It is kept as cost and noise calibration: 0.54 CPU-hours per generation per run.
-- **Budget:** four two-thread workers at nice 10, 450 CPU-hours / 120 elapsed hours, 8 GiB RSS cap.
-- **Purpose:** a calibration (cost per life, noise, correlations, allocator behaviour), not a stage.
-- **Headroom check:** OPEN_WORLDS.md §7, simplified; [results/headroom_20261020](../results/headroom_20261020/README.md).
-- **Ask the user** before any rented compute; the main run (G = 300–400) may need it.
+**Running (2026-10-23): open worlds v3** (`configs/open_worlds_v3.yaml`, OPEN_WORLDS.md §12) against its
+control (`configs/open_worlds_v2_continue.yaml`).
+- Two lineages (D90, AO, founded from pilot v2 generation 100) × two arms, G = 60, in `outputs/open_worlds_v3/`.
+  `queue/monitor.json` there is authoritative.
+- Cron resumes registered queues after reboots and memory pauses (`scripts/resume_queues.py`,
+  `outputs/autoresume_queues.txt`, log `outputs/autoresume.log`).
+- **Pilot v2 (done):** [results/open_worlds_pilot_v2](../results/open_worlds_pilot_v2/README.md). Headroom check:
+  [results/headroom_20261020](../results/headroom_20261020/README.md).
+- **User guidance (2026-10-23):**
+  - keep the cell primitives and senses as they are; don't add more;
+  - make complex behaviour pay more;
+  - increase task diversity;
+  - aim for adaptability across situations that would be hard to hand-code.
+- **Ask the user** before any rented compute.
 
 **Completed study:** four lineages ×250 generations across eight conditions in
 `configs/multitask.yaml`. All eight influence breeding: POOL, persistent pursuit, two flash levels,

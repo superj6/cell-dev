@@ -770,3 +770,45 @@ Eco net per life (income minus toxin, damage and planting costs):
 - The same seven runs and seeds, from a frozen checkout at 0dd707e.
 - Study directory: `outputs/open_worlds_pilot_v2/`.
 - At generation 0 the best founder still loses money on the farm (F −0.2 to −0.45): blind tapping no longer pays.
+
+## 12. Generator v3 (2026-10-23)
+
+Pilot v2's results are in [results/open_worlds_pilot_v2](../results/open_worlds_pilot_v2/README.md). Its
+populations converged on one generalist smell-foraging reflex, while specialists (upstream swimmers, shelter-hiders,
+farmers) stayed in the behaviour grids.
+
+Generator v3 (`ecology.realize("v3/<family>", seed)`) changes only the worlds. The engine, the senses and the cells
+are unchanged; the user asked to keep the primitives few and see what they can do.
+
+- **Palette without the clash:**
+  - A is food, B is value (rich food, prey, ripe plants);
+  - C is places (home, soil), D is bad (predators, pests, toxins);
+  - a toxin smells of A and D, so it still has to be told apart from food.
+- **Harder behaviour pays more:**
+  - richer food lies farther out (value 250–2,000);
+  - carrying food home multiplies its value 3–6×;
+  - a harvest pays 600–1,500 and a prey 1,000–3,000;
+  - in the predator world, poor food lies next to cover and rich food out in the open.
+- **Situations vary per life, so the best strategy depends on what the body senses:**
+  - still water in 30% of plume lives;
+  - unscented homes in half of home lives;
+  - uncued ripe plants in half of farm lives;
+  - predators present or absent.
+- **Nine families with different objectives,** all trained from generation 0:
+  - the five pilot worlds;
+  - mixed: everything at once, each at a random level;
+  - maze: long walls and blocked light;
+  - seasons: a few valuable sources that refill slowly;
+  - dark: no light anywhere.
+
+  Each family has a `_transfer` region held out for confirmation.
+- **The v2 worlds still replay bitwise** (`tests/data/eco_v2_world_hashes.json`).
+
+**Search** (`configs/open_worlds_v3.yaml`):
+- uniform allocation, 27 lives per candidate (3 per world);
+- half of the children's first parents come from the behaviour grids, crossed with a parent chosen from the
+  population;
+- founders: pilot v2's U-arm populations and archives at generation 100.
+
+**Control** (`configs/open_worlds_v2_continue.yaml`): pilot v2's U arm continued unchanged from the same founders.
+Two lineages × two arms, G = 60, in `outputs/open_worlds_v3/`.
